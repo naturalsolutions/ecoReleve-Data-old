@@ -22,12 +22,13 @@ The module in ecoReleve are built around these roles with a diffrent module for 
 Contributing
 ------------
 
-Want to contribute? Great! 
-ecoRelevé is an open source project. Please help us by contributing to documentation, reporting bugs, forking the code to add features or make bug fixes or promoting Titanium on twitter, etc.
+Want to contribute? Great!
+
+ecoRelevé is an open source project. Please help us by contributing to documentation, reporting bugs, forking the code to add features or make bug fixes or promoting us on twitter, etc.
 
 Twitter
 ------------
-Please consider following the @Nat_Solutions Twitter team for updates.
+Please consider following the [@Nat_Solutions](https://twitter.com/Nat_Solutions) Twitter team for updates.
 
 Commercial Support
 ------------
