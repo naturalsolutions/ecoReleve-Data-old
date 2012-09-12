@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+
+  <head>
+  <title>Protocoles</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1,maximum-scale=1"/>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+  <link rel="stylesheet" href="Css/jqm-docs.css" />
+  <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+  <script src="js/ProtocolsList.js"></script>
+  <script src="js/loadProtocol2.js"></script>
+	<script src="js/jqm-docs.js"></script>
+  </head>
+  
+  <body>
+	<div data-role="page" id="home" class="type-interior">
+		<div data-role=header>
+			<h1 id="titre">Choix protocole</h1>
+		</div>
+		<div data-role="content" data-theme="b">
+			<div class="content-secondary" id="protocolList">	
+			</div>
+			<div class="content-primary" >
+				<form  id="divform">
+				</form>
+				<a data-role=button id=btnsubmit>Valider</a><br/>
+				<p><span> Resultats:</span>
+				<textarea id="resultat"></textarea></p>
+			</div>
+		</div>
+	</div> 
+  </body>
+   <script src="js/database.js"></script>
+   <script src="js/app.js"></script>
+ </html>
+ 
