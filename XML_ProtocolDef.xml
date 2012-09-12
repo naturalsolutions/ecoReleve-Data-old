@@ -1,0 +1,1644 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Protocol_Form xsi:noNamespaceSchemaLocation="Pocket_XSD_V3-1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <protocol id="1">
+       	  <name>
+            <display_label>Vertebrate-Contact</display_label>
+       	    <label  lang="fr">Vertebrate-Contact</label>
+			<label  lang="en">Vertebrate-Contact</label>
+       	  </name>
+       	  <description>
+       	    <label  lang="en">GUAIMARO</label>
+       	 </description>
+         <!--<multispecies>true</multispecies>-->
+          <multispecies>true</multispecies>
+         <monitoring>false</monitoring>
+     <fields>
+		<field_list id="1">
+         <name>
+           <label lang="en">Heigt</label>
+           <display_label lang="en">Heigt</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">11;1;0-10m|12;2;+10m</itemlist>
+         </items>
+         <default_value id="11"/>
+         </field_list>
+		 <field_list id="2">
+         <name>
+           <label lang="en">Flower production</label>
+           <display_label lang="en">Flower production</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">21;1;Yes|22;2;No|23;3;Unknown</itemlist>
+         </items>
+         <default_value id="21"/>
+         </field_list>
+		 <field_list id="3">
+         <name>
+           <label lang="en">circumference</label>
+           <display_label lang="en">circumference</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">31;1;0-19cm|32;2;20-49cm|33;3;50-99cm|34;4;1m-2m|35;5;+2m</itemlist>
+         </items>
+         <default_value id="31"/>
+         </field_list>
+		 <field_list id="4">
+         <name>
+           <label lang="en">Substratum</label>
+           <display_label lang="en">Substratum</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">41;1;roc|42;2;water|43;3;slope</itemlist>
+         </items>
+         <default_value id="41"/>
+         </field_list>
+		 <field_list id="5">
+         <name>
+           <label lang="en">Proximity River</label>
+           <display_label lang="en">Proximity River</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">51;1; |52;2;Yes|53;3;No</itemlist>
+         </items>
+         <default_value id="51"/>
+         </field_list>
+		 <field_text id ="6">
+         <name>
+           <label lang="en">River name</label>
+           <display_label lang="en">River name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		 <field_list id="7">
+         <name>
+           <label lang="en">Proximity Farm</label>
+           <display_label lang="en">Proximity Farm</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">71;1; |72;2;Yes|73;3;No</itemlist>
+         </items>
+         <default_value id="71"/>
+         </field_list>
+		 <field_text id ="8">
+         <name>
+           <label lang="en">Farm name</label>
+           <display_label lang="en">Farm name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		 <field_list id="9">
+         <name>
+           <label lang="en">Proximity Village</label>
+           <display_label lang="en">Proximity Village</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="en">91;1; |92;2;Yes|93;3;No</itemlist>
+         </items>
+         <default_value id="91"/>
+         </field_list>
+		 <field_text id ="10">
+         <name>
+           <label lang="en">Village name</label>
+           <display_label lang="en">Village name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		 <field_text id ="11">
+         <name>
+           <label lang="en">Comments</label>
+           <display_label lang="en">Comments</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		</fields>
+         <exports>
+     		<export name="CSV" format="csv">
+				<templateCsv>
+					<fields>WHEN;DATE;Date|WHEN;TIME;Heure|WHERE;LAT;latitude|WHERE;LON;longitude|WHATOBS;1;Heigt|WHATOBS;2;Flower production|WHATOBS;3;circumference|WHATOBS;4;Substratum|WHATOBS;5;Proximity River|WHATOBS;6;River name|WHATOBS;7;Proximity Farm|WHATOBS;8;Farm name|WHATOBS;9;Proximity Village|WHATOBS;10;Village name|WHATOBS;11;Comments|WHO;FW1;Observer|WHO;FW2;Project</fields>
+				</templateCsv>
+			</export>   
+      </exports>
+    </protocol>
+	   <protocol id="2">
+       	  <name>
+            <display_label>POPULATION</display_label>
+       	    <label  lang="fr">POPULATION</label>
+			<label  lang="en">POPULATION</label>
+       	  </name>
+       	  <description>
+       	    <label  lang="en">POPULATION</label>
+       	 </description>
+         <!--<multispecies>true</multispecies>-->
+          <multispecies>true</multispecies>
+         <monitoring>false</monitoring>
+     <fields>
+		<field_text id ="1">
+         <name>
+           <label lang="en">Village name</label>
+           <display_label lang="en">Village name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		<field_text id ="2">
+         <name>
+           <label lang="en">Farm name</label>
+           <display_label lang="en">Farm name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+	 	<field_numeric id="3">
+         <name>
+           <label lang="fr">Farm area</label>
+		   <label lang="en">Farm area</label>
+           <display_label lang="fr">Farm area</display_label>
+		   <display_label lang="en">Farm area</display_label>
+         </name>
+         <description>
+           <label lang="fr">Farm area</label>
+         </description>
+         <unit>ha</unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_text id ="4">
+         <name>
+           <label lang="en">Owner name</label>
+           <display_label lang="en">Owner name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		<field_numeric id="5">
+         <name>
+           <label lang="fr">Total number of people</label>
+		   <label lang="en">Total number of people</label>
+           <display_label lang="fr">Tot nb of people</display_label>
+		   <display_label lang="en">Tot nb of people</display_label>
+         </name>
+         <description>
+           <label lang="fr">Total number of people</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_numeric id="6">
+         <name>
+           <label lang="fr">Total number of families</label>
+		   <label lang="en">Total number of families</label>
+           <display_label lang="fr">Tot nb families</display_label>
+		   <display_label lang="en">Tot nb families</display_label>
+         </name>
+         <description>
+           <label lang="fr">Total number of families</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_numeric id="7">
+         <name>
+           <label lang="fr">Number of women (+15 years)</label>
+		   <label lang="en">Number of women (+15 years)</label>
+           <display_label lang="fr">Nb of women</display_label>
+		   <display_label lang="en">Nb of women</display_label>
+         </name>
+         <description>
+           <label lang="fr">Nb of women(+15y)</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_numeric id="8">
+         <name>
+           <label lang="fr">Number of men (+15 years)</label>
+		   <label lang="en">Number of men (+15 years)</label>
+           <display_label lang="fr">Nb of men</display_label>
+		   <display_label lang="en">Nb of men</display_label>
+         </name>
+         <description>
+           <label lang="fr">Nb of men(+15y)</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+	 	<field_numeric id="9">
+         <name>
+           <label lang="fr">Number of childrens(-15 years)</label>
+		   <label lang="en">Number of childrens(-15 years)</label>
+           <display_label lang="fr">Nb of childrens(-15y)</display_label>
+		   <display_label lang="en">Nb of childrens</display_label>
+         </name>
+         <description>
+           <label lang="fr">Nb of childrens (-15y)</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_list id="10">
+         <name>
+           <label lang="en">Proximity of river(walking)</label>
+           <display_label lang="en">Proximity of river(walking)</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">101;1;-15mn|102;2;15-30mn|103;3;30mn-1hr|104;4;1hr-2hr|105;5;+2hr</itemlist>
+         </items>
+         <default_value id="101"/>
+         </field_list>
+		<field_text id ="11">
+         <name>
+           <label lang="en">River name</label>
+           <display_label lang="en">River name</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		<field_list id="12">
+         <name>
+           <label lang="en">Trees knowledge</label>
+           <display_label lang="en">Trees knowledge</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">121;1; |102;2;Yes|103;3;No</itemlist>
+         </items>
+         <default_value id="121"/>
+         </field_list>
+	 	<field_list id="13">
+         <name>
+           <label lang="en">Using-food</label>
+           <display_label lang="en">Using-food</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">131;1; |132;2;Yes|133;3;No</itemlist>
+         </items>
+         <default_value id="131"/>
+         </field_list>
+		 <field_list id="20">
+         <name>
+           <label lang="en">Using-Other</label>
+           <display_label lang="en">Using-Other</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">201;1; |202;2;Yes|203;3;No</itemlist>
+         </items>
+         <default_value id="201"/>
+         </field_list>
+		 <field_text id ="21">
+         <name>
+           <label lang="en">Using-Comments</label>
+           <display_label lang="en">Using-Comments</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		<field_list id="14">
+         <name>
+           <label lang="en">Eat frequency</label>
+           <display_label lang="en">Eat frequency</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">141;1;Daily|142;2;once a week|143;3;weekly|144;4;once a month|145;5;monthly</itemlist>
+         </items>
+         <default_value id="141"/>
+         </field_list>
+		<field_numeric id="15">
+         <name>
+           <label lang="fr">Quantity consumed</label>
+		   <label lang="en">Quantity consumed</label>
+           <display_label lang="fr">Quantity_consumed</display_label>
+		   <display_label lang="en">Quantity_consumed</display_label>
+         </name>
+         <description>
+           <label lang="fr">Quantity consumed</label>
+         </description>
+         <unit>kg</unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+		<field_list id="16">
+         <name>
+           <label lang="en">Proximity of tree exploited (walking)</label>
+           <display_label lang="en">Proximity of tree exploited</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">161;1;-15mn|162;2;15-30mn|163;3;30mn-1hr|164;4;1hr-2hr|165;5;+2hr</itemlist>
+         </items>
+         <default_value id="161"/>
+         </field_list>
+		<field_list id="17">
+         <name>
+           <label lang="en">Kind of consumption</label>
+           <display_label lang="en">Kind of consumption</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>1
+			<itemlist lg="en">171;1; |172;2;grill|173;3;boiled|174;4;dry|175;5;flour</itemlist>
+         </items>
+         <default_value id="171"/>
+         </field_list>
+		<field_text id ="18">
+         <name>
+           <label lang="en">Other use</label>
+           <display_label lang="en">Other use</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+		</field_text>
+		<field_text id ="19">
+         <name>
+           <label lang="en">Comments</label>
+           <display_label lang="en">Comments</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		</fields>
+         <exports>
+     		<export name="CSV" format="csv">
+				<templateCsv>
+					<fields>WHEN;DATE;Date|WHEN;TIME;Heure|WHERE;LAT;latitude|WHERE;LON;longitude|WHATOBS;1;Village name|WHATOBS;2;Farm name|WHATOBS;3;Farm area|WHATOBS;4;Owner name|WHATOBS;5;Total number of people|WHATOBS;6;Total number of families|WHATOBS;7;Number of women (+15 years)|WHATOBS;8;Number of men (+15 years)|WHATOBS;9;Number of childrens(-15 years)|WHATOBS;10;Proximity of river(walking)|WHATOBS;11;River name|WHATOBS;12;Trees knowledge|WHATOBS;13;Using-food|WHATOBS;20;Using-Other|WHATOBS;21;Using-Comments|WHATOBS;14;Eat frequency|WHATOBS;15;Quantity consumed|WHATOBS;16;Proximity of tree exploited (walking)|WHATOBS;17;Kind of consumption|WHATOBS;18;Other use|WHATOBS;19;Comments|WHO;FW1;Observer|WHO;FW2;Project</fields>
+				</templateCsv>
+			</export>   
+      </exports>
+    </protocol>
+	<protocol id="6">
+    <name>
+      <display_label>Rapace</display_label>
+      <label  lang="fr">Rapace</label>
+    </name>
+    <description>
+      <label  lang="fr">Rapace</label>
+    </description>
+    <multispecies>false</multispecies>
+    <monitoring>true</monitoring>
+    <locationsFileName>ListeSitesObsMilan.txt</locationsFileName>
+    <fields>
+      <field_numeric id="10">
+        <name>
+          <label lang="fr">Nombre</label>
+          <display_label lang="fr">Nombre</display_label>
+        </name>
+        <description>
+          <label lang="fr">Nombre</label>
+        </description>
+        <unit></unit>
+        <constraints>
+          <max_bound>500</max_bound>
+          <min_bound>0</min_bound>
+          <precision>1</precision>
+        </constraints>
+        <default_value>0</default_value>
+      </field_numeric>
+      <field_list id="11">
+        <name>
+          <label lang="fr">Sexe</label>
+          <display_label lang="fr">Sexe</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1;Inconnu|152;2;Femelle|153;3;Mâle|154;4;Nid</itemlist>
+        </items>
+        <default_value id ="151"/>
+      </field_list>
+      <field_list id="12">
+        <name>
+          <label lang="fr">Stade_developpement</label>
+          <display_label lang="fr">Age</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>	
+			<itemlist lg="fr">151;1;Indéterminé|152;2;Adulte|153;3;Immature|154;4;Oeuf|155;5;Ponte|156;6;Poussin|157;7;Subadulte</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>
+      <field_list id="13">
+        <name>
+          <label lang="fr">Comportement</label>
+          <display_label lang="fr">Comportement</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1;Indéterminé|152;2;Accouplement|153;3;Alarme|154;4;Cadavre|155;5;Chant|156;6;Construction de nid|157;7;Couple(s) cantonné(s)|158;8;Migration Active|159;9;Nourrissage juvéniles|160;10;Volants|161;11;Nourrissage poussin|162;12;Parades|163;13;Posé sur le nid</itemlist>
+		</items>
+        <default_value id= "151"/>
+      </field_list>
+      <field_list id="14">
+        <name>
+          <label lang="fr">statut_reproduction</label>
+          <display_label lang="fr">Statut repro.</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">150;1; |151;2;possible|152;3;probable|153;4;certain</itemlist>
+        </items>
+        <default_value id="150"/>
+      </field_list>
+      <field_list id="15">
+        <name>
+          <label lang="fr">type_arbre</label>
+          <display_label lang="fr">Type arbre</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">150;0; |151;1;Aulne|152;2;châtaigner|153;3;chêne blanc|154;4;chêne liège|155;5;chêne pubescent|156;6;chêne vert|157;7;eucalyptus|158;8;olivier|159;9;pin</itemlist>
+        </items>
+        <default_value id="150"/>
+      </field_list>
+      <field_list id="16">
+        <name>
+          <label lang="fr">Etat</label>
+          <display_label lang="fr">Etat</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1; |152;2;abandonné|153;3;construction|154;4;couve|155;5;mauvais état|156;6;nid fréquenté|157;7;non occupé|158;8;pas trouvé|159;9;poussin(s)|160;10;tombé/disparu</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>     
+      <field_list id="17">
+          <name>
+            <label lang="fr">Incubation</label>
+            <display_label lang="fr">Incubation</display_label>
+          </name>
+          <description>
+            <label/>
+          </description>
+          <constraints>
+            <required>true</required>
+          </constraints>
+          <items>				
+			<itemlist lg="fr">151;1;oui|152;2;non|153;3; </itemlist>
+          </items>
+          <default_value id ="153"/>
+        </field_list>
+      <field_numeric id="18">
+        <name>
+          <label lang="fr">N_oeufs</label>
+          <display_label lang="fr">Nb oeufs</display_label>
+        </name>
+        <description>
+          <label lang="fr">Nb oeufs</label>
+        </description>
+        <unit></unit>
+        <constraints>
+          <max_bound>4</max_bound>
+           <min_bound>0</min_bound>
+          <precision>1</precision>
+        </constraints>
+        <default_value>0</default_value>
+      </field_numeric>
+      <field_numeric id="19">
+        <name>
+          <label lang="fr">Nb_jeunes_nes</label>
+          <display_label lang="fr">Nb jeunes nés</display_label>
+        </name>
+        <description>
+          <label lang="fr">Nb jeunes nés</label>
+        </description>
+        <unit></unit>
+        <constraints>
+          <max_bound>4</max_bound>
+              <min_bound>0</min_bound>
+          <precision>1</precision>
+        </constraints>
+        <default_value>0</default_value>
+      </field_numeric>
+      <field_numeric id="20">
+        <name>
+          <label lang="fr">N_jeunes_envol</label>
+          <display_label lang="fr">Nb jeunes envol</display_label>
+        </name>
+        <description>
+          <label lang="fr">N_jeunes_envol</label>
+        </description>
+        <unit></unit>
+        <constraints>
+			<max_bound>4</max_bound>
+            <min_bound>0</min_bound>
+			<precision>1</precision>
+        </constraints>
+        <default_value>0</default_value>
+      </field_numeric>
+      <field_numeric id="21">
+        <name>
+          <label lang="fr">N_preleves</label>
+          <display_label lang="fr">Nb oiseaux prelev.</display_label>
+        </name>
+        <description>
+          <label lang="fr">N_oiseaux prelev</label>
+        </description>
+        <unit></unit>
+        <constraints>
+			<max_bound>4</max_bound>
+            <min_bound>0</min_bound>
+			<precision>1</precision>
+        </constraints>
+        <default_value>0</default_value>
+      </field_numeric>
+      <field_text id="22">
+        <name>
+          <label lang="fr">Commentaire</label>
+          <display_label lang="fr">Commentaire</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>false</required>
+          <string_length>50</string_length>
+          <multiline>true</multiline>
+        </constraints>
+        <default_value/>
+      </field_text>
+      <field_list id="23">
+        <name>
+          <label lang="fr">Taxon</label>
+          <display_label lang="fr">taxon</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>	
+			<itemlist lg="fr">1;1;BUTBUT|2;2;CORNIX|3;3;CORRAX|4;4;MILMIL|5;5;CALDIO|6;6;?</itemlist>
+        </items>
+        <default_value id="4"/>
+      </field_list>
+      <field_list id="24">
+        <name>
+          <label lang="fr">Individu_marque_1</label>
+          <display_label lang="fr">Ind. marque 1</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>	
+			<itemlist lg="fr">151;1; |152;2;blanc|153;3;bleu|154;4;jaune|155;5;noir|156;6;rouge|157;7;rose|158;8;vert</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>
+      <field_list id="25">
+        <name>
+          <label lang="fr">Individu marque 2</label>
+          <display_label lang="fr">Ind. marque 2</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1; |152;2;blanc|153;3;bleu|154;4;jaune|155;5;noir|156;6;rouge|157;7;rose|158;8;vert</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>
+      <field_list id="26">
+        <name>
+          <label lang="fr">Individu marque 3</label>
+          <display_label lang="fr">Ind. marque 3</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1; |152;2;blanc|153;3;bleu|154;4;jaune|155;5;noir|156;6;rouge|157;7;rose|158;8;vert</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>
+      <field_list id="27">
+        <name>
+          <label lang="fr">Individu marque 4</label>
+          <display_label lang="fr">Ind. marque 4</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+        <constraints>
+          <required>true</required>
+        </constraints>
+        <items>
+			<itemlist lg="fr">151;1; |152;2;blanc|153;3;bleu|154;4;jaune|155;5;noir|156;6;rouge|157;7;rose|158;8;vert</itemlist>
+        </items>
+        <default_value id="151"/>
+      </field_list>
+    </fields>
+     <exports>
+     		<export name="DB_format" format="csv">
+				<templateCsv>
+					<fields>WHERE;SITE_ID;N°|WHERE;WPTSITE;Nid|WHERE;LAT;X_latitude|WHERE;LON;Y_longitude|WHERE;ELE;Altitude|WHATOBS;23;Espece|WHEN;DATE;Date|WHATOBS;16;Etat|WHATOBS;14;Reproduction|WHATOBS;17;Incubation|WHATOBS;19;N_poussins|WHATOBS;20;N_jeunes_envol|WHATOBS;18;N_oeufs|WHATOBS;21;N_preleves|WHATOBS;0;N_Bagués|WHATOBS;22;Commentaires|WHATOBS;15;Type_arbre|WHATOBS;24;Ind_marque1|WHATOBS;25;Ind_marque2|WHATOBS;26;Ind_marque3|WHATOBS;27;Ind_marque4</fields>
+				</templateCsv>
+			</export>
+            <export name="All field" format="csv">
+				<templateCsv>
+					<fields>WHERE;SITE_ID;N°|WHERE;WPTSITE;Nid|WHERE;LAT;X_latitude|WHERE;LON;Y_longitude|WHERE;ELE;Altitude|WHERE;ACCURACY;Precision|WHEN;DATE;Date|WHEN;TIME;Heure|WHATOBS;23;Espece|WHATOBS;10;Nombre|WHATOBS;11;Sexe|WHATOBS;12;Age|WHATOBS;13;Comportement|WHATOBS;14;Reproduction|WHATOBS;15;Type_arbre|WHATOBS;16;Etat|WHATOBS;17;Incubation|WHATOBS;18;nb œuf|WHATOBS;19;nb jeunes nés|WHATOBS;20;nb jeunes à l'envol|WHATOBS;21;nb d'oiseaux prélevé|WHATOBS;22;Commentaires|WHATOBS;24;Ind_marque1|WHATOBS;25;Ind_marque2|WHATOBS;26;Ind_marque3|WHATOBS;27;Ind_marque4|WHO;FW1;Observateur 1|WHO;FW2;Observateur 2</fields>
+				</templateCsv>
+			</export>               
+      </exports>
+  </protocol>
+	<protocol id="11">
+       	  <name>
+            <display_label>Individu-groupe</display_label>
+       	    <label  lang="fr">Individu-groupe</label>
+			 <label  lang="en">Individu-groupe</label>
+       	  </name>
+       	  <description>
+       	    <label  lang="fr">Individu</label>
+       	 </description>
+         <!--<multispecies>true</multispecies>-->
+          <multispecies>true</multispecies>
+         <monitoring>false</monitoring>
+         <taxonomyFileName>ListeTaxaObsInterne.txt</taxonomyFileName>
+     <fields>
+	    <field_list id="1">
+         <name>
+           <label lang="fr">Comportement</label>
+           <display_label lang="fr">Comportement</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">11;1;non renseigné|12;2;reproduction|13;3;stationnement|14;4;migration à|15;5;prédation|16;6;mort</itemlist>
+         </items>
+         <default_value id="11"  lastvalue="true" />
+         </field_list>
+		<field_list id="4">
+         <name>
+           <label lang="fr">Contact</label>
+           <display_label lang="fr">Contact</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">41;1;capture|42;2;visuel|43;3;indices</itemlist>
+         </items>
+         <default_value id="41"/>
+         </field_list>
+		 <field_list id="5">
+         <name>
+           <label lang="fr">Stade</label>
+           <display_label lang="fr">Stade</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">51;1; |52;2;œuf|53;3;juvénile|54;4;immature|55;5;adulte|56;6;embryon|57;7;lavre|58;8;chrysalide|59;9;imago|53;3;graine|53;3;plante|53;3;floraison|53;3;fructification</itemlist>
+         </items>
+         <default_value  id="51"  lastvalue="false"/>
+         </field_list>
+		 <field_list id="6">
+         <name>
+           <label lang="fr">Sexe</label>
+           <display_label lang="fr">Sexe</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">61;1;indéfini|62;2;mâle|63;3;femelle|64;4;hermaphrodite</itemlist>
+         </items>
+         <default_value id="61"/>
+         </field_list>
+		 <field_numeric id="7">
+         <name>
+           <label lang="fr">Effectif</label>
+           <display_label lang="fr">Effectif</display_label>
+         </name>
+         <description>
+           <label lang="fr">Effectif</label>
+         </description>
+         <unit></unit>
+         <constraints>
+           <max_bound>10000</max_bound>
+              <min_bound>0</min_bound>
+           <precision>1</precision>
+         </constraints>
+         <default_value lastvalue="false" >0</default_value>
+       </field_numeric>
+	    <field_list id="8">
+         <name>
+           <label lang="fr">Précision</label>
+           <display_label lang="fr">Précision</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">81;1; |82;2;1|83;3;2</itemlist>
+         </items>
+         <default_value id="81"/>
+         </field_list>
+	    <field_list id="10">
+         <name>
+           <label lang="fr">Distance</label>
+           <display_label lang="fr">Distance</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">100;0;0|101;1;1|102;2;2|103;3;3|105;5;5|110;10;10|115;15;15|120;20;20|130;30;30|150;50;50|200;200;200|300;300;300|500;500;500|750;750;750|1000;1000;1000</itemlist>
+         </items>
+         <default_value lastvalue="true"  id="100"/>
+         </field_list>
+	   <field_list id="11">
+         <name>
+           <label lang="fr">Emprise</label>
+           <display_label lang="fr">Emprise</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">110;0;0|101;1;1|102;2;2|103;3;3|105;5;5|111;10;10|115;15;15|120;20;20|130;30;30|150;50;50|200;200;200|300;300;300|500;500;500|750;750;750|1000;1000;1000</itemlist>
+         </items>
+         <default_value lastvalue="true"  id="110"/>
+         </field_list>
+	   	 <field_list id="12">
+         <name>
+           <label lang="fr">Altitude</label>
+           <display_label lang="fr">Altitude</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">100;0;0|101;1;1|102;2;2|103;3;3|105;5;5|110;10;10|115;15;15|120;20;20|130;30;30|150;50;50|200;200;200|300;300;300|500;500;500|750;750;750|1000;1000;1000</itemlist>
+         </items>
+         <default_value lastvalue="true" id="100"/>
+         </field_list>
+        <field_list id="13">
+         <name>
+           <label lang="fr">Azimut</label>
+           <display_label lang="fr">Azimut</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>true</required>
+         </constraints>
+         <items>
+			<itemlist lg="fr">110;0; |111;1;N|112;2;NNE|113;3;NE|111;1;ENE|114;4;E|115;5;ESE|116;6;SE|117;7;SSE|118;8;S|119;9;SSO|120;10;SO|121;11;OSO|122;12;O|123;13;ONO|124;14;NO|125;15;NNO</itemlist>
+         </items>
+         <default_value lastvalue="true"  id="110"/>
+         </field_list>
+		<field_text id ="9">
+         <name>
+           <label lang="fr">Remarque</label>
+           <display_label lang="fr">Remarque</display_label>
+           <label lang="en">Remarque</label>
+           <display_label lang="en">Remarque</display_label>
+         </name>
+         <description>
+           <label/>
+         </description>
+         <constraints>
+           <required>false</required>
+           <string_length>50</string_length>
+           <multiline>true</multiline>
+         </constraints>
+         <default_value />
+       </field_text>
+		</fields>
+         <exports>
+     		<export name="CSV" format="csv">
+				<templateCsv>
+					<fields>WHEN;DATE;Date|WHEN;TIME;Heure|WHERE;LAT;latitude|WHERE;LON;longitude|WHATTAX;TAXON_ID;Id_taxon|WHATTAX;TAXON;Nom_taxon|WHATOBS;1;Comportement|WHATOBS;4;Contact|WHATOBS;5;Stade|WHATOBS;6;Sexe|WHATOBS;7;Effectif|WHATOBS;8;Précision|WHATOBS;10;Distance|WHATOBS;11;Emprise|WHATOBS;12;Altitude|WHATOBS;13;Azimut|WHATOBS;9;Remarque|WHO;FW1;Observateur|WHO;FW2;Projet</fields>
+				</templateCsv>
+			</export>   
+      </exports>
+    </protocol>
+	<protocol id="12">
+       	  <name>
+            <display_label>Hermann</display_label>
+       	    <label lang="fr">Tortue d'Hermann</label>
+			 <label lang="en">Tortue d'Hermann</label>
+       	  </name>
+       	  <description>
+       	    <label lang="fr">Tortue d'Hermann</label>
+       	 </description>
+         <multispecies>false</multispecies>
+         <monitoring>false</monitoring>
+        <fields>
+		<field_boolean id="1">
+                <name>
+                    <label lang="fr">prosp_nulle</label>
+                    <display_label lang="fr">Prospection nulle</display_label>
+                </name>
+                <description>
+                    <label/>
+                </description>
+                <constraints>
+                    <required>true</required>
+                </constraints>
+                <default_value>false</default_value>
+           </field_boolean>
+          <field_date id="12">
+				 <name>
+					<label lang="fr">H_rencontre</label>
+					 <display_label lang="fr">H. rencontre</display_label>
+				 </name>
+			</field_date>
+          <field_list id="15">
+            <name>
+              <label lang="fr">sexe</label>
+              <display_label lang="fr">Sexe</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <constraints>
+              <required>true</required>
+            </constraints>
+            <items>
+				<itemlist lg="fr">150;0; |151;1;male|152;2;femelle|153;3;juvenile|154;4;inconnu</itemlist>
+            </items>
+            <default_value id="150" />
+          </field_list>
+          <field_numeric id="10">
+            <name>
+              <label lang="fr">taille</label>
+              <display_label lang="fr">Taille</display_label>
+            </name>
+            <description>
+              <label lang="fr">Taille</label>
+            </description>
+            <unit>mm</unit>
+            <constraints>
+              <max_bound>300</max_bound>
+              <min_bound>0</min_bound>
+              <precision>1</precision>
+            </constraints>
+            <default_value>0</default_value>
+          </field_numeric>
+          <field_list id="16">
+            <name>
+              <label lang="fr">activite</label>
+              <display_label lang="fr">Activité</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <constraints>
+              <required>true</required>
+            </constraints>
+            <items>
+				<itemlist lg="fr">160;0;indéterminé|161;1;déplacement|162;2;solarium|163;3;Immobile à l’ombre,repos|164;4;cachée,inactive|165;5;parades,accouplement|166;6;rivalités entre mâles|167;7;alimentation|168;8;ponte prédatée|169;9;cadavre</itemlist>
+            </items>
+            <default_value id="160"/>
+          </field_list>
+          <field_list id="17">
+            <name>
+              <label lang="fr">age</label>
+              <display_label lang="fr">Age</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <constraints>
+              <required>true</required>
+            </constraints>
+            <items>
+				<itemlist lg="fr">170;0;indéterminé|171;1;immature|172;2;adulte|173;3;juvénile</itemlist>
+            </items>
+            <default_value id="170"/>
+          </field_list>
+          <field_list id="18">
+            <name>
+              <label lang="fr">mode_decouverte</label>
+              <display_label lang="fr">Mode découverte</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <constraints>
+              <required>true</required>
+            </constraints>
+            <items>
+				<itemlist lg="fr">180;0; |181;1;V|182;2;O</itemlist>
+            </items>
+            <default_value id="180"/>
+          </field_list>
+          <field_numeric id="19">
+            <name>
+              <label lang="fr">distance_perpendiculaire</label>
+              <display_label lang="fr">Dist. perp.</display_label>
+            </name>
+            <description>
+              <label  lang="fr">Distance perp</label>
+            </description>
+            <unit>m</unit>
+            <constraints>
+              <max_bound>20</max_bound>
+              <min_bound>0</min_bound>
+              <precision>1</precision>
+            </constraints>
+            <default_value>0</default_value>
+          </field_numeric>
+          <field_numeric id="20">
+            <name>
+              <label lang="fr">distance_angulaire</label>
+              <display_label lang="fr">Dist. ang.</display_label>
+            </name>
+            <description>
+              <label  lang="fr">distance ang</label>
+            </description>
+            <unit>m</unit>
+            <constraints>
+              <max_bound>20</max_bound>
+              <min_bound>0</min_bound>
+              <precision>1</precision>
+            </constraints>
+            <default_value>0</default_value>
+          </field_numeric>
+          <field_group id="22">
+            <name>
+              <label lang="fr">numero_marque</label>
+              <display_label lang="fr">N° marque</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <fields>
+              <field_list id="221">
+                <name>
+                  <label lang="fr">numero_ecaille</label>
+                  <display_label lang="fr">N° écaille</display_label>
+                </name>
+                <description>
+                  <label/>
+                </description>
+                <constraints>
+                  <required>true</required>
+                </constraints>
+                <items>
+					<itemlist lg="fr">21;21; |1;1;1|2;2;2|3;3;3|4;4;4|5;5;5|6;6;6|7;7;7|8;8;8|9;9;9|10;10;10|11;11;11|12;12;12|13;13;13|14;14;14|15;15;15|16;16;16|17;17;17|18;18;18|19;19;19|20;20;20</itemlist>
+                </items>
+                <default_value id="21"/>
+              </field_list>
+              <field_list id="222">
+                <name>
+                  <label lang="fr">couleur</label>
+                  <display_label lang="fr">couleur</display_label>
+                </name>
+                <description>
+                  <label/>
+                </description>
+                <constraints>
+                  <required>true</required>
+                </constraints>
+                <items>
+					<itemlist lg="fr">0;0; |1;1;Rouge|2;2;Vert|3;3;Bleu|4;4;Gris|5;5;Noir|6;6;Orange</itemlist>
+				</items>
+                <default_value id="0"/>
+              </field_list>
+            </fields>
+          </field_group>
+          <field_list id="21">
+            <name>
+              <label lang="fr">blessure</label>
+              <display_label lang="fr">Blessure</display_label>
+            </name>
+            <description>
+              <label/>
+            </description>
+            <constraints>
+              <required>true</required>
+            </constraints>
+            <items>
+				<itemlist lg="fr">211;1;RAS|212;2;crocs|213;3;feu|214;4;chocs</itemlist>
+            </items>
+            <default_value id="211"/>
+          </field_list>
+          <field_text id="13">
+        <name>
+          <label lang="fr">Commentaire</label>
+          <display_label lang="fr">Commentaire</display_label>
+        </name>          
+       <description>
+	<label/>
+          </description>
+          <constraints>
+          <required>false</required>
+          <string_length>50</string_length>
+          <multiline>true</multiline>
+          </constraints>
+	<default_value/>
+	</field_text>
+	      <field_date id="14">
+				 <name>
+					<label lang="fr">heure_reprise</label>
+					 <display_label lang="fr">Heure de reprise</display_label>
+				 </name>
+	      </field_date>
+		</fields>
+      <exports>
+	          <export name="Standard" format="csv">
+				<templateCsv>
+					<fields>VALUE;4;code région|WHERE;WPT;code site|WHEN;DATE;DATE|WHERE;COMMUNE;commune|WHERE;LAT;latitude|WHERE;LON;longitude|WHERE;ELE;altitude|WHO;FW1;observateur|OBSCOUNT;ID;Rang tortue|WHATOBSCONV;1;prosp_nulle|WHATOBS;12;H_rencontre|WHATOBS;15;Sexe|WHATOBS;10;Taille|WHATOBS;16;type activité|WHATOBS;17;classe age|WHATOBS;18;mode découverte|WHATOBS;19;distance_perpendiculaire|WHATOBS;20;distance_angulaire|WHATOBS;21;trace blessure|WHATOBS;22;Ind. Marqué|WHATOBS;13;Commentaire|WHATOBS;14;heure_reprise</fields>
+				<conversions>
+						<conversion id="1">False;0|True;1</conversion>
+				</conversions>
+				</templateCsv>
+		</export>
+        <export name="Individus" format="csv">
+				<templateCsv>
+					<fields>VALUE;4;code région|WHERE;WPT;code site|WHEN;DATE;DATE|WHERE;COMMUNE;commune|WHERE;LAT;latitude|WHERE;LON;longitude|WHERE;ELE;altitude|WHO;FW1;observateur|OBSCOUNT;ID;Rang tortue|WHATOBS;15;Sexe|WHATOBS;10;Taille|WHATOBS;16;type activité|WHATOBS;17;classe age|WHATOBS;18;mode découverte|WHATOBS;19;distance à l'observateur|WHATOBS;20;distance à l'observateur|WHATOBS;21;trace blessure|WHATOBS;22;Ind. Marqué</fields>
+				<conversions>
+						<conversion id="1">False;0|True;1</conversion>
+				</conversions>
+				</templateCsv>
+		</export>
+		<export name="fNat" format="csv">
+				<templateCsv>
+					<fields>WHEN;DATE;Date|WHEN;TIME;Heure|WHEN;DURATION;Durée|WHERE;COMMUNE;Commune|WHERE;PLACE;Lieudit|VALUE;Degrés;Type de coordonnées|WHERE;LAT;latitude|WHERE;LON;longitude|WHERE;ELE;altitude|VALUE;Tortue d'Hermann;Nom|VALUE;1;nombre|OBSCOUNT;ID;Rang tortue|WHATOBSCONV;1;prosp_nulle|WHATOBS;15;sexe|WHATOBSCONV;16;comportement|WHATOBS;16;comportement_|WHATOBSCONV;17;âge|WHATOBS;17;âge_|VALUE;exact;précision nombre|VALUE;;statut reproduction|WHO;FW1;observateur|WHO;FW2;observateurs associés|WHATOBS;13;commentaire</fields>
+					<conversions>
+						<conversion id="1">False;0|True;1</conversion>
+						<conversion id="17">indéterminé;I|immature;JA|adulte;VA|juvénile;J</conversion>
+						<conversion id="16">déplacement;D|solarium;S|Immobile à l’ombre,repos;O|cachée,inactive;C|parades,accouplement;P|rivalités entre mâles;R|alimentation;A|indéterminé;I|ponte prédatée;PP|cadavre;CD</conversion>
+					</conversions>
+				</templateCsv>
+			</export> 		
+      </exports>
+    </protocol>
+ <protocol id="16">
+    <name>
+      <display_label>Photo</display_label>
+      <label lang="fr">Photo géoréférencée</label>
+      <label lang="en">Photo géoréférencée</label>
+    </name>
+    <description>
+      <label lang="fr">Photo géoréférencée</label>
+    </description>
+    <multispecies>false</multispecies>
+    <monitoring>false</monitoring>
+    <fields>
+      <field_photo id="13">
+        <name>
+          <label lang="fr">Photo géoréferencée</label>
+          <display_label lang="fr">Photo géoréferencée</display_label>
+          <label lang="en">Photo géoréferencée</label>
+          <display_label lang="en">Photo géoréferencée</display_label>
+        </name>
+        <description>
+          <label/>
+        </description>
+      </field_photo>
+    </fields>
+  </protocol>
+	 <protocol id="17">
+      <name>
+         <display_label>Vertebrate-Group</display_label>
+         <label lang="fr">Vertebrate-Group</label>
+         <label lang="en">Vertebrate-Group</label>
+      </name>
+      <description>
+            <label lang="fr">Vertebrate-Group</label>
+      </description>
+      <multispecies>true</multispecies>
+      <monitoring>false</monitoring>
+      <taxonomyFileName>ListeHoubara.txt</taxonomyFileName>
+      <fields>
+            <field_numeric id="1">
+               <name>
+                  <label lang="fr">Nb_Adult_Male</label>
+                  <display_label lang="en">Adultes Mâles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="2">
+               <name>
+                  <label lang="en">Nb_Adult_Female</label>
+                  <display_label lang="en">Adultes Femelles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="3">
+               <name>
+                  <label lang="en">Nb_Adult_Indeterminate</label>
+                  <display_label lang="en">Adultes Indéterminés</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="4">
+               <name>
+                  <label lang="en">Nb_Indeterminate</label>
+                  <display_label lang="en">Indéterminés (age et sexe)</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="5">
+               <name>
+                  <label lang="en">Nb_Juvenile_Indeterminate</label>
+                  <display_label lang="en">Juvéniles Indéterminés</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="6">
+               <name>
+                  <label lang="en">Nb_NewBorn_Indeterminate</label>
+                  <display_label lang="en">Nvx Nés Indéterminés</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="7">
+               <name>
+                  <label lang="en">Nb_Juvenile_Male</label>
+                  <display_label lang="en">Juvéniles Mâles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="8">
+               <name>
+                  <label lang="en">Nb_Juvenile_Female</label>
+                  <display_label lang="en">Juvéniles Femelles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="9">
+               <name>
+                  <label lang="en">Nb_NewBorn_Male</label>
+                  <display_label lang="en">Nvx Nés Mâles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_numeric id="10">
+               <name>
+                  <label lang="en">Nb_NewBorn_Female</label>
+                  <display_label lang="en">Nvx Nés Femelles</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>80</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+      </fields>
+      <exports>
+            <export name="Standard" format="csv">
+               <templateCsv>
+                  <fields>WHERE;WptName;Name|WHERE;lat;lat|WHERE;lon;lon|WHERE;ele;ele|WHERE;accuracy;precision|WHEN;DATE;Date|WHEN;TIME;Heure|WHO;FW1;FieldWorker1|WHO;FW2;FieldWorker2|WHATTAX;TAXON_ID;Id_Taxon|WHATTAX;TAXON;Name_Taxon|WHATOBS;1;Nb_Adult_Male|WHATOBS;2;Nb_Adult_Female|WHATOBS;3;Nb_Adult_Indeterminate|WHATOBS;4;Nb_Indeterminate|WHATOBS;5;Nb_Juvenile_Indeterminate|WHATOBS;6;Nb_NewBorn_Indeterminate|WHATOBS;7;Nb_Juvenile_Male|WHATOBS;8;Nb_Juvenile_Female|WHATOBS;9;Nb_NewBorn_Male|WHATOBS;10;Nb_NewBorn_Female</fields>
+               </templateCsv>
+            </export>
+      </exports>
+   </protocol>
+   <protocol id="18">
+      <name>
+         <display_label>Vertebrate-Individual</display_label>
+         <label lang="en">Vertebrate-Individual</label>
+      </name>
+      <description>
+            <label lang="en">Vertebrate-Individual</label>
+      </description>
+      <multispecies>true</multispecies>
+      <monitoring>false</monitoring>
+      <taxonomyFileName>ListeIndividus.txt</taxonomyFileName>
+      <fields>
+			 <field_list id="4">
+				 <name>
+				   <label lang="en">Sub</label>
+				   <display_label lang="en">Sub</display_label>
+				 </name>
+				 <description>
+				   <label/>
+				 </description>
+				 <constraints>
+				   <required>true</required>
+				 </constraints>
+				 <items>
+					<itemlist lg="en">41;1;roc|42;2;water|43;3;slope</itemlist>
+				 </items>
+				 <default_value id="41"/>
+			</field_list>
+			<field_text id ="8">
+				 <name>
+				   <label lang="en">Farm</label>
+				   <display_label lang="en">Farm</display_label>
+				 </name>
+				 <description>
+				   <label/>
+				 </description>
+				 <constraints>
+				   <required>false</required>
+				   <string_length>50</string_length>
+				   <multiline>true</multiline>
+				 </constraints>
+				 <default_value />
+			</field_text>
+			<field_boolean id="1">
+                <name>
+                    <display_label lang="fr">Prospection</display_label>
+                </name>
+                <description>
+                    <label/>
+                </description>
+                <constraints>
+                    <required>true</required>
+                </constraints>
+                <default_value>false</default_value>
+            </field_boolean>
+            <field_numeric id="1">
+               <name>
+                  <label lang="en">frequency</label>
+                  <display_label lang="en">Frequence</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <unit></unit>
+               <constraints>
+                  <required>true</required>
+                  <max_bound>50000</max_bound>
+                  <min_bound>0</min_bound>
+                  <precision>1</precision>
+               </constraints>
+               <default_value>0</default_value>
+            </field_numeric>
+            <field_list id="2">
+               <name>
+                  <label lang="en">ID_signal_type</label>
+                  <display_label lang="en">Qualite</display_label>
+               </name>
+               <description>
+                  <label/>
+               </description>
+               <constraints>
+                  <required>true</required>
+               </constraints>
+               <items>
+                  <itemlist lg="en">1;18675;normal|2;18676;faible|3;18677;intermittent</itemlist>
+               </items>
+               <default_value id="1"/>
+            </field_list>
+      </fields>
+      <exports>
+         <export name="Standard" format="csv">
+            <templateCsv>
+               <fields>WHERE;WptName;Name|WHERE;lat;lat|WHERE;lon;lon|WHERE;ele;ele|WHERE;accuracy;precision|WHEN;DATE;Date|WHEN;TIME;Heure|WHO;FW1;FieldWorker1|WHO;FW2;FieldWorker2|WHATTAX;TAXON_ID;FK_TIND_ID|WHATOBS;1;frequency|WHATOBS;2;Id_signal_type</fields>
+            </templateCsv>
+         </export>
+      </exports>
+   </protocol>
+	<form/> 
+</Protocol_Form>
+

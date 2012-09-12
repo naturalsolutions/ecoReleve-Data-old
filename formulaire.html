@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+
+  <head>
+  <title>Protocoles</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1,maximum-scale=1"/>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
+  <link rel="stylesheet" href="Css/jqm-docs.css" />
+  <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+  <script src="Js/jquery.mobile.js"></script>
+  <script src="Js/datagenerate.js"></script>
+ 
+  </head>
+  
+  <body>
+	<div data-role="page" id="home" class="type-interior">
+		<div data-role=header>
+			<h1 id="titre">Choix protocole</h1>
+		</div>
+		<div data-role="content" data-theme="b">
+			<div class="content-secondary" id="protocolList">	
+			</div>
+			<div class="content-primary" >
+				<form  id="divform">
+				</form>
+				<a data-role=button id=btnsubmit>Valider</a><br/>
+				<p><span> Resultats:</span>
+				<textarea id="resultat"></textarea></p>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-id="nav" >
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" data-icon="back">Retour</a></li>
+					<li><a href="#" data-icon="home" data-theme="a">Accueil</a></li>
+					<li><a href="#Map" data-icon="search">Map</a></li>
+					<li><a href="#Test"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Test</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="page" id="Map">
+		<div data-role=header>
+			<h1 id="titre">Map</h1>
+		</div>
+		<div data-role="content" data-theme="b">
+			<div id="map"  style="width:1000px; height:700px;"></div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-id="nav" >
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" data-icon="back">Retour</a></li>
+					<li><a href="#home" data-icon="home" data-theme="a">Accueil</a></li>
+					<li><a href="#" data-icon="search">Espèces</a></li>
+					<li><a href="#"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+	
+	<div data-role="page" id="Test">
+		<div data-role=header>
+			<h1 id="titre">Test</h1>
+		</div>
+		<div data-role="content" data-theme="b">
+			<div id="test"></div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-id="nav" >
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" data-icon="back">Retour</a></li>
+					<li><a href="#home" data-icon="home" data-theme="a">Accueil</a></li>
+					<li><a href="#" data-icon="search">Espèces</a></li>
+					<li><a href="#"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
+				</ul>
+			</div>
+	</div>
+  </body>
+   <script src="Js/database.js"></script>
+   <script src="Js/app.js"></script>
+   <script src="Js/ProtocolsList.js"></script>
+   <script src="Js/loadProtocol2.js"></script>
+ </html>
+ 
