@@ -15,7 +15,7 @@ The module in ecoReleve are built around these roles with a diffrent module for 
 
 * ecoRelevé Mobile : designed for field data entry and field workers
 * ecoRelevé Explorer : designed for data exploration and scientist
-* ecoRelevé Concepts : designedfor data admin
+* ecoRelevé Concepts : designed for data admin thesaurus and protocoles
 * ecoReleve Core: the backend database management system
 
 
