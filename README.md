@@ -24,53 +24,23 @@ The module in ecoReleve are built around these roles with a diffrent module for 
   comes with Perl >= 5.10. Lower versions should install Pod::Simple from CPAN.
 
 
-
 Contributing
 ------------
 
 Want to contribute? Great! 
+ecoRelevé is an open source project. Please help us by contributing to documentation, reporting bugs, forking the code to add features or make bug fixes or promoting Titanium on twitter, etc.
 
 
-1. Fork it.
-2. Create a branch (`git checkout -b my_markup`)
-3. Commit your changes (`git commit -am "Added Snarkdown"`)
-4. Push to the branch (`git push origin my_markup`)
-5. Open a [Pull Request][1]
-6. Enjoy a refreshing Diet Coke and wait
-7. Send us an email contact at natural-solutions.eu
+Commercial Support, Licensing
+------------
+
+We give our software away for FREE! In order to do that, we have programs for companies that require additional level of assistance through training or commercial support, need special licensing or want additional levels of capabilities. Please visit the Appcelerator Website for more information about Appcelerator or email info@appcelerator.com.
 
 
-Installation
------------
+Sponsor
+------------
 
-    gem install github-markup
-
-
-Usage
------
-
-    require 'github/markup'
-    GitHub::Markup.render('README.markdown', "* One\n* Two")
-
-Or, more realistically:
-
-    require 'github/markup'
-    GitHub::Markup.render(file, File.read(file))
-
-
-Testing
--------
-
-To run the tests:
-
-    $ rake
-
-To add tests see the `Commands` section earlier in this
-README.
-
-
-
-
+We are grateful to H.H. Sheikh Mohamed bin Zayed Al Nahyan, Crown Prince of Abu Dhabi and Chairman of the International Fund for Houbara Conservation (IFHC) and  H.E. Mohammed Al Bowardi Deputy Chairman of IFHC for their support
 
 
 
