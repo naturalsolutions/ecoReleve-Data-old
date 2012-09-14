@@ -5,11 +5,11 @@
   <title>Protocoles</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1,maximum-scale=1"/>
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+  <link rel="stylesheet" href="Css/jquery.mobile-1.1.1.min.css" />
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
   <link rel="stylesheet" href="Css/jqm-docs.css" />
   <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-  <script src="Js/jquery.mobile.js"></script>
+  <script src="Js/jquery.mobile-1.1.1.min.js"></script>
   <script src="Js/datagenerate.js"></script>
  
   </head>
@@ -19,7 +19,7 @@
 		<div data-role=header>
 			<h1 id="titre">Choix protocole</h1>
 		</div>
-		<div data-role="content" data-theme="b">
+		<div data-role="content" data-theme="d">
 			<div class="content-secondary" id="protocolList">	
 			</div>
 			<div class="content-primary" >
@@ -33,51 +33,52 @@
 		<div data-role="footer" data-position="fixed" data-id="nav" >
 			<div data-role="navbar">
 				<ul>
-					<li><a href="#" data-icon="back">Retour</a></li>
-					<li><a href="#" data-icon="home" data-theme="a">Accueil</a></li>
-					<li><a href="#Map" data-icon="search">Map</a></li>
-					<li><a href="#Test"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Test</a></li>
+					<li><a href="#" id="btnSearch">Search</a></li>
+					<li><a href="#" data-theme="a">New Data</a></li>
+					<li><a href="#">Birds</a></li>
+					<li><a href="#"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Export</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	
-	<div data-role="page" id="Map">
+	<div data-role="page" id="Search">
 		<div data-role=header>
-			<h1 id="titre">Map</h1>
+			<h1 id="titre">Recherche</h1>
 		</div>
 		<div data-role="content" data-theme="b">
-			<div id="map"  style="width:1000px; height:700px;"></div>
+		 <ul>
+			<li data-role="fieldcontain">
+			    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				
+			         	<input type="radio" name="radio-choice-b" id="id" checked="checked" />
+			         	<label for="id">id</label>
+			         	<input type="radio" name="radio-choice-b" id="Status" />
+			         	<label for="Status">Status Precision</label>
+			         	<input type="radio" name="radio-choice-b" id="Frequency" />
+			         	<label for="Frequency">Frequency</label>
+			    </fieldset>
+			</li>
+			<li data-role="fieldcontain">
+				<input type="text" name="txtSearch" id="txtSearch" value="" data-inline="true" data-theme="b"  data-mini="true"/>
+				<button type="button" data-role="button" id="btnRecherche" data-inline="true" data-theme="b" data-mini="true" data-icon="search">search</button><span id="total" ></span>
+			</li>
+			<li data-role="fieldcontain"><ul id="listValeur" data-role="listview" data-inset="true"></ul></li>
+		 </ul>
+		 
 		</div>
 		<div data-role="footer" data-position="fixed" data-id="nav" >
 			<div data-role="navbar">
 				<ul>
-					<li><a href="#" data-icon="back">Retour</a></li>
-					<li><a href="#home" data-icon="home" data-theme="a">Accueil</a></li>
-					<li><a href="#" data-icon="search">Espèces</a></li>
-					<li><a href="#"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
+					<li><a href="#">Retour</a></li>
+					<li><a href="#home" id="btnhome">Accueil</a></li>
+					<li><a href="#">Espèces</a></li>
+					<li><a href="#"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
 				</ul>
 			</div>
 		</div>	
 	</div>
 	
-	<div data-role="page" id="Test">
-		<div data-role=header>
-			<h1 id="titre">Test</h1>
-		</div>
-		<div data-role="content" data-theme="b">
-			<div id="test"></div>
-		</div>
-		<div data-role="footer" data-position="fixed" data-id="nav" >
-			<div data-role="navbar">
-				<ul>
-					<li><a href="#" data-icon="back">Retour</a></li>
-					<li><a href="#home" data-icon="home" data-theme="a">Accueil</a></li>
-					<li><a href="#" data-icon="search">Espèces</a></li>
-					<li><a href="#"  data-icon="user"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
-				</ul>
-			</div>
-	</div>
   </body>
    <script src="Js/database.js"></script>
    <script src="Js/app.js"></script>

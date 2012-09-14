@@ -9,7 +9,7 @@ function generateProtocolPage(){
                        success: function(xml) 
                      {
 
-	$('#divform').html('<ul id="listform" data-role="listview" data-inset="true" data-filter="true" data-split-icon="gear" data-split-theme="d"></ul>');
+	$('#divform').html('<ul id="listform" data-role="listview" data-inset="true" data-filter="true" data-split-icon="gear"></ul>');
 	$("#listform").listview();
 	//$("#protocolName").text() = localStorage.protoName;
 	

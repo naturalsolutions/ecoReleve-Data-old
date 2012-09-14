@@ -5,6 +5,20 @@ $().ready(function() {
 //$(document).ready(function () {
 		init();
 }) ;
+//*********************** change page
+
+$("#home").bind("pageshow", function(){
+				genererListProto();
+	 
+	});
+	
+$("#home").bind("pagecreate", function(){
+	$("#btnSearch").bind("click", function(){
+			$.mobile.changePage ($("#Search"));	
+	});
+});
+
+
 //************************************* Fonctions
 function init (){
 	var dbCreated = localStorage.getItem('dbCreated');
@@ -48,17 +62,58 @@ function TestQuery(criteres){
 		TestQuery(str);
 	});
 	
-	function initCarte(){
-		// création de la carte
-		var oMap = new google.maps.Map( document.getElementById( 'map'),{
-			'center' : new google.maps.LatLng( 46.80, 1.70),
-			'zoom' : 6,
-			'mapTypeId' : google.maps.MapTypeId.ROADMAP
-			});
+	$("#btnRecherche").click(function(){
+		if(document.getElementById('id').checked) {
+		var val = "Ttax_PK_Id = "+ document.getElementById('txtSearch').value;
+		}else if(document.getElementById('Status').checked) {
+		var val = "Thes_Status_Precision ='"+ document.getElementById('txtSearch').value+"'";
+		} else if(document.getElementById('Frequency').checked) {
+		var val = "TCarac_Transmitter_Frequency = '"+ document.getElementById('txtSearch').value+"'";
 		}
-// init lorsque la page est chargée
-google.maps.event.addDomListener( window, 'load', initCarte); 
+
+
+
+		Search(db,val);
+	});
 	
+	
+	function Search(db, val) {
+
+	var query = "SELECT * FROM Ttaxon WHERE "+val;
+	
+		db.transaction(function (trxn) {
+        trxn.executeSql(
+			query, //requete à executer
+			[], 
+		dataSelectItem, 			// parametres de la requete
+			function (transaction, error) {  //error callback
+			    console.log('error');
+			}
+		);
+	});
+}
+
+	function dataSelectItem (transaction, resultSet) {
+  //success callback
+	var obsTab = new Array();
+				$("#listValeur").listview();
+			    var len = resultSet.rows.length;
+				$('#listValeur').children().remove('li');
+			    for (i = 0; i < len; i++) {
+				//for (j in resultSet.rows.item(i)){ alert(j);}
+				//alert(resultSet.rows.item(i).Thes_Status_Precision);  
+				var spn = '<li data-role="list-divider">  Thes_Status_Precision : '+resultSet.rows.item(i).Thes_Status_Precision+'</li>'
+				spn =spn + '<li data-theme="B">  TCarac_Transmitter_Frequency : '+resultSet.rows.item(i).TCarac_Transmitter_Frequency+'</li>'
+				spn =spn + '<li data-theme="B">  TCarac_Breeding_Ring_Code : '+resultSet.rows.item(i).TCarac_Breeding_Ring_Code+'</li>'
+				spn =spn + '<li data-theme="B">  TCarac_Chip_Code  : '+resultSet.rows.item(i).TCarac_Chip_Code+'</li>'
+				
+				
+				$('#listValeur').append(spn);
+				$('#listValeur').listview("refresh");
+			}
+			$('#total').html('nombre de lignes : '+ i);
+			document.body.style.cursor = 'default';
+}
 
 /*
 function onDeviceReady(){

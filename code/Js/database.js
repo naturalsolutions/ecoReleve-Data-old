@@ -5,15 +5,20 @@ function initializeDB(){
 							if (window.openDatabase) {
 								 window.db = openDatabase("ecoReleve", "1.0", "db ecoreleve", 20*1024*1024); // espace accordé à la BD: 20 MO
 								
-								/*requete = 'DROP TABLE IF EXISTS ecoReleve';
-								clearTable(requete);*/
-								
+								requete = 'DROP TABLE IF EXISTS ecoReleve';
+								clearTable(requete);
+								requete = 'DROP TABLE IF EXISTS Ttaxon';
+								clearTable(requete);
 								
 								// creer la table taxons
-								var requete = 'CREATE TABLE IF NOT EXISTS ecoReleve (Ttax_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Sub NVARCHAR(100), '
+								var requete = 'CREATE TABLE IF NOT EXISTS ecoReleve (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Sub NVARCHAR(100), '
 												+ 'Farm NVARCHAR(100),Prospection BOOLEAN, Frequence INTEGER, Qualite NVARCHAR(100))';
 								createTable(requete);
 								
+								var requete = 'CREATE TABLE IF NOT EXISTS Ttaxon (Ttax_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Thes_Status_Precision NVARCHAR(100), TCarac_Transmitter_Frequency NVARCHAR(100), '
+												+ 'TCarac_Release_Ring_Code NVARCHAR(100), TCarac_Breeding_Ring_Code NVARCHAR(100), TCarac_Chip_Code NVARCHAR(100) )';
+								createTable(requete);
+							
 								localStorage.setItem('dbCreated', true);
 								// netoyer la BD
 								if (!db)
@@ -67,4 +72,24 @@ function insertNewRow(requete, parametres){
 			parametres
 		);
     });
+}
+function insertRow(requete){
+  //  var query = requete;
+    db.transaction(function (transaction) {
+        transaction.executeSql(requete);
+    });
+}
+
+function selectItems(req){
+db.transaction(function (tx) {
+   tx.executeSql(req, [], function (tx, results) {
+   return results;
+   /*var len = results.rows.length, i;
+   msg = "<p>Found rows: " + len + "</p>";
+   document.querySelector('#status').innerHTML +=  msg;
+   for (i = 0; i < len; i++){
+      alert(results.rows.item(i).log );
+   }*/
+ }, null);
+});
 }

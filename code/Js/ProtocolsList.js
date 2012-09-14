@@ -1,5 +1,9 @@
 $(document).ready(function()
  {
+ genererListProto();
+ });
+ 
+function genererListProto(){
    $.ajax( {
             type: "GET",
             url: "XML_ProtocolDef.xml",
@@ -34,8 +38,7 @@ $(document).ready(function()
 		
 		
  }
-  
-  );
+ 
   
   $(".protList").live ("click", function ()
     {
