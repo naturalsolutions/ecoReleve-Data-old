@@ -9,12 +9,11 @@ $().ready(function() {
 
 $("#home").bind("pageshow", function(){
 				genererListProto();
-	 
 	});
 	
 $("#home").bind("pagecreate", function(){
 	$("#btnSearch").bind("click", function(){
-			$.mobile.changePage ($("#Search"));	
+	$.mobile.changePage ($("#Search"));	
 	});
 });
 
@@ -24,9 +23,7 @@ function init (){
 	var dbCreated = localStorage.getItem('dbCreated');
 	initializeDB();
 	if (dbCreated != "true"){
-	
 	}
-	
 }
 
 function TestQuery(criteres){

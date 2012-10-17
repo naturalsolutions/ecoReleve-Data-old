@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Protocol_Form xsi:noNamespaceSchemaLocation="Pocket_XSD_V3-1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <protocol id="1">
+    <protocol id="1">
        	  <name>
             <display_label>Vertebrate-Contact</display_label>
        	    <label  lang="fr">Vertebrate-Contact</label>
@@ -194,7 +194,7 @@
 			</export>   
       </exports>
     </protocol>
-	   <protocol id="2">
+	<protocol id="2">
        	  <name>
             <display_label>POPULATION</display_label>
        	    <label  lang="fr">POPULATION</label>
@@ -1325,7 +1325,7 @@
 			</export> 		
       </exports>
     </protocol>
- <protocol id="16">
+	<protocol id="16">
     <name>
       <display_label>Photo</display_label>
       <label lang="fr">Photo géoréférencée</label>
@@ -1350,7 +1350,7 @@
       </field_photo>
     </fields>
   </protocol>
-	 <protocol id="17">
+	<protocol id="17">
       <name>
          <display_label>Vertebrate-Group</display_label>
          <label lang="fr">Vertebrate-Group</label>

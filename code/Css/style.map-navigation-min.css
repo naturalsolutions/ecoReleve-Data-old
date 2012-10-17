@@ -1,0 +1,4 @@
+﻿#navigation{position:absolute;top:90px;left:15px;z-index:1000;}#navigation.ui-btn-icon-notext{display:block;padding:10px 9px 10px 11px;}
+div.MapOption{position:absolute;top:15px;left:-15px;z-index:1000;}
+div.MapOption.ui-btn-icon-notext{display:block;padding:10px 9px 10px 11px;}
+div.option{position:absolute;top:-8px;left:30px;width:200px;z-index:1001;}.splash{align:center;}
