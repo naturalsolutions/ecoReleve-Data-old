@@ -1,13 +1,23 @@
 ﻿// ******************************* Gestion des évènements sur les  pages
 // rajouter une barre de navigation
-var navBar = "<div data-role='footer' data-position='fixed' data-id='nav'><div data-role='navbar'>"
-			+ "<ul><li><a href='#data-entry' data-theme='a' data-icon='star'>Data entry</a></li>"
-			+		"<li><a href='#birds' data-icon='info'>Birds</a></li>"
-			+		"<li><a href='#taxons' data-icon='info'>Taxons</a></li>"
-			+		"<li><a href='#my-map' data-icon='gear'>Map</a></li>"
-			+		"<li><a href='#data-sync' data-icon='gear'>Data sync</a></li>"
-			+   "</ul></div>"
-			+	"</div>";
+var navBar = ""//"<div data-role='footer' data-position='fixed' data-id='nav'>"
+			+ "<div data-role='app-bar' >"
+			//+ "<ul><li>"
+			+" <a href='#home' data-icon='home' data-iconpos='top'>Home</a>"
+			//+"</li><li>"
+			+ "<a href='#data-entry' data-icon='grid'>Data entry</a>"
+			//+ "</li><li>"
+			+ "<a href='#birds' data-icon='search'>Birds</a>"
+			//+ "</li><li>"
+			//+ "<ul><li>"
+			+"<a href='#taxons' data-icon='search'>Taxons</a>"
+			//+"</li><li>"
+			+"<a href='#my-map' data-icon='grid'>Map</a>"
+			//+ "</li><li>"
+			+"<a href='#data-sync' data-icon='grid'>Data sync</a>"
+			//+"</li></ul>"
+			//+"</div>"
+			+"</div>";
 //Metro style
 /*var navBar = "<div class='appbar'>"
 			+ "<ul id='menu' class='appbar-buttons'>"
@@ -29,7 +39,7 @@ $("#splash").bind("pagecreate", function(){
 	});
 
 	function hideSplash() {
-	  $.mobile.changePage("#birds", "fade");
+	  $.mobile.changePage("#home", "fade");
 	}
 });
 			
@@ -59,6 +69,8 @@ $("#taxons").bind("pagecreate", function(){
 $("#my-map").bind("pagecreate", function(){
 	initMap(); // initialiser la carte openstreetmap
 	$("#my-map").append(navBar);
+/*	var query = "SELECT * FROM Ttracks " ;
+	getItems(db, query, successLoadingTracks);*/
 });
 
 $("#data-sync").bind("pagecreate", function(){
@@ -146,7 +158,7 @@ $("#exit").bind("pagecreate", function(){
 		navigator.app.exitApp(); 
 	});	
 	$("#btnResetExit").bind("click", function(){
-		$.mobile.changePage ($('#taxons'), {transition : "pop"});
+		$.mobile.changePage ($('#home'), {transition : "pop"});
 	});
 });
 //click bouton afficher carte
@@ -180,4 +192,42 @@ $("#plus").live('click', function(){
 		
 $("#minus").live('click', function(){
 		map.zoomOut();
+});
+$("#centerMap").live('click', function(){
+		/*	if (marker != null){
+				markers.removeMarker(marker);
+				addMarker(flLong,flLat);
+				}*/
+		$("#option").attr('style', 'display:none;');
+		$("#maximize").attr('style', 'display:inherit;');
+		$("#minimize").attr('style', 'display:none;');
+		// activer le centrage de la carte sur la position de l'utilisateur
+		showMyLocation = 1;
+});
+
+$("#btnMapTracks").live('click', function(){
+	addTracks();
+	$("#option").attr('style', 'display:none;');
+	$("#maximize").attr('style', 'display:inherit;');
+	$("#minimize").attr('style', 'display:none;');
+});
+
+$("#MaskerTracks").bind("click", function(){
+	$("#option").attr('style', 'display:none;');
+	$("#maximize").attr('style', 'display:inherit;');
+	$("#minimize").attr('style', 'display:none;');
+	kmlLayer.removeAllFeatures();	
+	map.removeLayer(kmlLayer); 
+	trackLoaded = false;
+});
+$("#maximize").live('click', function(){
+		$("#maximize").attr('style', 'display:none;');
+		$("#minimize").attr('style', 'display:inherit;');
+		$("#option").attr('style', 'display:inherit;');
+});
+
+$("#minimize").live('click', function(){
+		$("#minimize").attr('style', 'display:none;');
+		$("#maximize").attr('style', 'display:inherit;');
+		$("#option").attr('style', 'display:none;');
 });

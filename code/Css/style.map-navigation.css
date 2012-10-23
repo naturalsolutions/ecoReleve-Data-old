@@ -1,6 +1,6 @@
 #navigation {
     position: absolute;
-    top: 90px;
+    bottom: 140px;
     left: 15px;
     z-index: 1000;
 }
@@ -12,4 +12,22 @@
                 width    : 100%;
                 position : relative;
                 height   : 90%;
-            }
+ }
+
+div.MapOption {
+    position: absolute;
+    top: 160px;
+    left: -15px;
+    z-index: 1000;
+}
+div.MapOption .ui-btn-icon-notext {
+    display: block;
+    padding: 10px 9px 10px 11px;
+}
+div.option {
+	position: absolute;
+    top: 140px;
+    left: 30px;
+	width:250px;
+	z-index: 1001;
+}

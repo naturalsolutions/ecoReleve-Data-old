@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="Css/style.map-navigation.css" />
 	<!--<link rel="stylesheet" href="Css/jquery-mobile.css" />-->
 	<link rel="stylesheet" href="theme/metro/jquery.mobile.metro.theme.css" />
+	<link rel="stylesheet" href="theme/metro/app-bar.css" />
 	<!--<link rel="stylesheet" href="Css/themes/custom.css" />-->
 	<link rel="stylesheet" href="Css/jqm-docs2.css" />
 	<!--<link href="MetroJs.css" rel="stylesheet" type="text/css" />-->
@@ -15,6 +16,8 @@
 	<script src="Js/libs/jquery.mobile-1.0.min.js"></script>
 	<script src="Js/libs/cordova-2.1.0.js"></script>
 	<script src="Js/libs/openlayers.min.js"></script>
+	<script src="Js/libs/app-bar.js" type="text/javascript"></script>
+	<!--<script src="Js/libs/Openlayers2.js"></script>-->
 	
   </head>
   <body>
@@ -22,7 +25,7 @@
 		<div data-role="content">
 			<div class="splash">
 				<p id="splashMessages"></p>
-				<img src="images/pocket-logo.jpg" alt="splash" />
+				<img src="images/splash_screen.png" alt="splash" />
 			</div>
 			<div>
 				<!-- <p id="spalshP" style="display:none;" onblur="pBlurEvent();">0</p>-->
@@ -30,30 +33,39 @@
 		</div>
 	</div>
 	<div data-role="page" data-theme="a" id="home" >
+		<img src="images/home.png" width="1280" height="800" border="0" usemap="#map" />
+			<map name="map">
+				<area shape="rect" coords="59,235,260,387" href="#birds" />
+				<area shape="rect" coords="59,412,261,564" href="#taxons" />
+				<area shape="rect" coords="62,582,488,734" href="#data-entry" />
+				<area shape="rect" coords="808,576,1224,730" href="#my-map" />
+				<area shape="rect" coords="808,406,1225,560" href="#data-sync" />
+				<area shape="circle" coords="1178,324,33" href="#exit" />
+			</map>
+	<!--
 		<div class="tiles">
 			<div class="live-tile">
 				<div style="background-color:Red;"><a href="#birds"><img src="MetroStyle/birds1.png" alt="home" /></a></div>
 			</div>
 			<div class="live-tile" data-mode="flip">
-				<div style="background-color:green;"><a href="#taxons">Thesaurus</a></div>
+				<div style="background-color:green;"><a href="#my-map">map</a></div>
 				<div style="background-color:blue;"><a href="#taxons">taxons</a></div>
 			</div>
-			<!-- Green Static Tile -->
 			<div class="live-tile exclude">
 				<a href="#birds"><img src="MetroStyle/birds1.png" /></a>
 			</div>
 		</div>
+	-->
 	</div>
   	<div data-role="page" id="birds" data-theme="a">
 		<div data-role="header" role="banner">
-		<!--	<a href="#exit" data-role="button" data-icon="delete" title="Quitter">Quitter</a> -->
 			<h1 tabindex="0" role="heading" aria-level="1" id="birdsHeader">Birds</h1>
 		</div>
 		<div data-role="content">
 			<div class="split-wrapper">
 				<div class="content-secondary">
 					<div>
-						<div><p><h2>Search</h2></p></div>
+						<div><h3>Bird search</h3><br/></div>
 						<div>
 							<fieldset data-role="controlgroup" data-type="horizontal">
 								<a href="" data-role="button"  val="1" id="birdsbtnSimpleSearch">Simple</a>
@@ -63,17 +75,17 @@
 					</div>
 					<fieldset data-role="controlgroup" data-type="horizontal" data-inline="true">
 						<span>Frequency</span>
-						<input name="frequency" id="birdstxtSearch" placeholder="" type="search" value=""><br/>
-						<a data-role="button" href="" id="btnSimpleSearch">Go</a>
+						<input name="frequency" id="birdstxtSearch" placeholder="" type="search" value=""/><br/>
+						<a data-role="button" href="" id="btnSimpleSearch" data-icon="search" data-iconpos="left">Go</a>
 					</fieldset>
 					<ul data-role="listview" data-divider-theme="b" data-inset="true" id="birdsListValeurs">
 					</ul>
 				</div>
 				<div class="content-primary" >
 					<div>
-							<p><b>Last position  : </b><a href="#" id="birds-showLastLocation"><img src="images/map.png"></a></p>
-							<p><b>Bird details :</b></p>
-							<ul data-role="listview" data-divider-theme="b" data-inset="true" id="birdsDetailsIndiv">
+						<p><h3>Last position   </h3><a href="#" id="birds-showLastLocation" data-role="button" data-icon="search" data-iconpos="left">Map</a></p><!--<img src="images/map.png">-->
+						<p><h3>Bird details </h3></p>
+						<ul data-role="listview" data-divider-theme="b" data-inset="true" id="birdsDetailsIndiv">
 							</ul>		
 					</div>
 				</div>
@@ -91,13 +103,15 @@
 		<div data-role=header>
 			<h1 id="titre">Choix protocole</h1>
 		</div>
-		<div data-role="content" data-theme="d">
-			<div class="content-secondary" id="protocolList">	
-				<ul id="listProt" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-split-theme="d"></ul>
+		<div data-role="content" ><!--data-theme="d" -> fond clair -->
+			<div class="content-secondary" id="protocolList"  data-role="fieldcontain">	
+				<ul id="listProt" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-theme="c" data-dividertheme="d" >
+					
+				</ul>
 			</div>
 			<div class="content-primary" >
 				<form  id="divform">
-					<ul id="listform" data-role="listview" data-inset="true" data-filter="true" data-split-icon="gear"></ul>
+					<ul id="listform" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear"></ul>
 				</form>
 				<a data-role=button id=btnsubmit>Valider</a><br/>
 				<p><span> Resultats:</span>
@@ -150,18 +164,18 @@
 			<div class="split-wrapper">
 				<div class="content-secondary">
 					<div>
-						<div><p><h2>Search</h2></p></div>
+						<div><h3>Taxa search</h3><br/></div>
 						<div>
 							<fieldset data-role="controlgroup" data-type="horizontal">
 								<a href="" data-role="button"  val="1" id="taxonsBtnPlants">Plants</a>
 								<a href="" data-role="button"  val="2" id="taxonsBtnBirds">Birds</a>
 							</fieldset>
 						</div>
-					</div>
+					</div><br/>
 					<fieldset data-role="controlgroup" data-type="horizontal" data-inline="true">
 						<span>Search</span>
 						<input name="Search" id="taxonsTxtSearch" placeholder="" type="search" value=""><br/>
-						<a data-role="button" href="" id="taxons-btnSimpleSearch">Go</a>
+						<a data-role="button" href="" id="taxons-btnSimpleSearch" data-icon="search" data-iconpos="left">Go</a>
 					</fieldset>
 					<ul data-role="listview" data-divider-theme="b" data-inset="true" id="taxonsListValeurs">
 					</ul>
@@ -169,7 +183,7 @@
 				<div class="content-primary">
 					<div>
 							<p>
-								<b>Taxa details :</b>
+								<h3>Taxa details </h3>
 							</p>
 							<ul data-role="listview" data-divider-theme="b" data-inset="true" id="taxonsDetailsIndiv">
 							</ul>		
@@ -191,12 +205,24 @@
 		</div>
 		<div data-role="content" style="padding:0;">
 			<div id="map">
-
+					<div class="MapOption">
+						<a href="#" data-role="button" data-icon="arrow-r" id="maximize" data-iconpos="notext" style="display:inherit;"></a>
+						<a href="#" data-role="button" data-icon="arrow-l" id="minimize" data-iconpos="notext" style="display:none;"></a>
+					</div>
+					<div data-role="controlgroup" id="option"  class="option" style="display:none;">
+						<ul data-role="listview" data-inset="true">
+							<li data-role="list-divider">Map Options</li>
+							<li data-icon="false"><a href="#" id="centerMap" >Center map</a></li>
+							<li data-icon="false"><a href="#" id="btnMapTracks" >Show tracks</a></li>
+							<li data-icon="false"><a href="#" id="MaskerTracks" >Hide tracks</a></li>
+						</ul>	
+					</div>
 			</div>
 			<div id="navigation" data-role="controlgroup" data-type="vertical">
 				<a href="#" data-role="button" data-icon="plus" id="plus" data-iconpos="notext"></a>
 				<a href="#" data-role="button" data-icon="minus" id="minus" data-iconpos="notext"></a>
 			</div>
+			<div id="waitLoadingTracks" style="display:none;" ><img src="Css/loader.gif" /></div>
 		</div>
 	</div>
 	<div data-role="page" id="data-sync">
@@ -280,7 +306,7 @@
 	<script src="Js/datagenerate.js"></script>
 	<script src="Js/map.js"></script>
 	<script src="Js/ProtocolsList.js"></script>
-	<script src="MetroJs.js" type="text/javascript"></script>
-
+	<!--<script src="MetroJs.js" type="text/javascript"></script>
+	<script src="Js/loadXmlTracks.js"></script>-->
  </html>
  

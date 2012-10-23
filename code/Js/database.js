@@ -11,7 +11,8 @@ function initializeDB(){
 			requete = 'DROP TABLE IF EXISTS TIndividus';
 			clearTable(requete);
 			*/
-
+			requete = 'DROP TABLE IF EXISTS Ttracks';
+			clearTable(requete);
 			/*var requete = 'CREATE TABLE IF NOT EXISTS ecoReleve (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Sub NVARCHAR(100), '
 							+ 'Farm NVARCHAR(100),Prospection BOOLEAN, Frequence INTEGER, Qualite NVARCHAR(100))';
 			createTable(requete);*/
@@ -28,6 +29,10 @@ function initializeDB(){
 							+ 'ereleveId VARCHAR ,Id_Type VARCHAR, Id_Parent VARCHAR, hierarchy VARCHAR, topic_fr VARCHAR, topic_en VARCHAR, definition_fr VARCHAR,'
 							+ 'definition_en VARCHAR, Reference VARCHAR, available_EAU VARCHAR, available_Morocco VARCHAR )';
 			createTable(requete);
+			// table tracks
+			/*var requete = 'CREATE TABLE IF NOT EXISTS Ttracks (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Ttra_coords VARCHAR)';
+			createTable(requete);*/
+			
 			localStorage.setItem('mydbCreated', true);
 			// netoyer la BD
 			if (!db)

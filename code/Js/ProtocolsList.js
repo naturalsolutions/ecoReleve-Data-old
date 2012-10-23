@@ -15,14 +15,16 @@ function genererListProto(){
 							//$('#protocolList').html('<ul id="listProt" data-role="listview" data-inset="true" data-filter="true" data-split-icon="gear" data-split-theme="d"></ul>');
 							//$("#listProt").listview();
 						xmlNode = $(xml);
+						var ln = '<li data-role="list-divider">Protocols</li>';
+						$('#listProt').append(ln);
+						 $("#listProt").listview('refresh');  	
 					   $(xml).find('protocol').each(   
                          function()
                          {
-						 
 						var protName = $(this).find('display_label:first').text();
 						var protId = $(this).attr('id');
 						// pour chaque protocole, rajouter 1 ligne à la listeview
-						 var ligne = '<li idPr=' + protId + ' class="protList"><br/> '+ protName + '</li>';
+						 var ligne = '<li idPr=' + protId + ' class="protList"><a href="#"> '+ protName + '</a></li>';
 						 $('#listProt').append(ligne);
 						 $("#listProt").listview('refresh');  			
                           });
@@ -40,7 +42,7 @@ function genererListProto(){
 		localStorage.protId = idProtocol;
 		localStorage.protoName = nomProtocol;
 	//	alert(this.getAttribute('idPr'));
-		$("#titre").html(nomProtocol);
+		$("#titre").html("Protocol : " + nomProtocol);
 		generateProtocolPage();
     });
 //var i = 0;

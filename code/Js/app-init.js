@@ -1,13 +1,14 @@
 ﻿
 $().ready(function() {
 		init();
-		$(".live-tile,.flip-list").liveTile();
+	//	$(".live-tile,.flip-list").liveTile();
 }) ;
 
 //************************************* Fonctions
 function init (){
 	window.w_screen = screen.width;
 	window.h_screen = screen.height;
+	window.trackLoaded = false;
 	window.flLat = 43.29;
 	window.flLong = 5.37;
 	document.addEventListener("deviceready", onDeviceReady, false);
@@ -17,6 +18,7 @@ function init (){
 	});
 
 	var dbCreated = localStorage.getItem('mydbCreated');
+	var xmlTrackLoaded = localStorage.getItem('xmlTrackLoaded'); 
 	initializeDB();
 	var fileIndivLoaded = localStorage.getItem('fileIndivLoaded');
 	var fileThesaurusLoaded = localStorage.getItem('fileThesaurusLoaded');
@@ -26,6 +28,11 @@ function init (){
 	if (fileThesaurusLoaded != "true"){
 		loadFileThesaurus(db);
 	}
+	// charger la table tracks 
+	/*if (xmlTrackLoaded != "true"){
+		loadXmlTrack(db);
+	}*/
+
 	// initialiser le groupe de taxa sélectionné pour la page taxa
 	localStorage.setItem('taxaSelectedGroup', "");
 	//initMap(); // initialiser la carte openstreetmap
@@ -84,6 +91,15 @@ function successIndivDetails(transaction, rs) {
 	localStorage.setItem('lastLatitude', currentRow['Tind_LAT']);
 	localStorage.setItem('lastLongitude', currentRow['Tind_LON']);
 } 
+function successLoadingTracks(transaction, rs) { 
+
+	var len = rs.rows.length;
+	for (var i = 0; i < 1000; i++) {
+		debugger;
+		var chaineWKT = "LINESTRING (" + rs.rows.item(i).Ttra_coords	+ ")";
+		ShowTrack(chaineWKT);
+	} 
+}
 function successQueryTaxaList (transaction, resultSet){
 var len = resultSet.rows.length;
 				var lenBoucle;
@@ -94,7 +110,7 @@ var len = resultSet.rows.length;
 					lenBoucle = 50;
 					alert (" + de 50 ligne! ");
 				}
-					for (i = 0; i < lenBoucle; i++) {
+					for (var i = 0; i < lenBoucle; i++) {
 					//for (j in resultSet.rows.item(i)){ alert(j);}
 					//alert(resultSet.rows.item(i).Thes_Status_Precision);  
 

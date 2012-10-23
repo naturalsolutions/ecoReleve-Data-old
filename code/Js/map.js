@@ -8,7 +8,7 @@ $("#map").attr('style', 'width:'+w_screen+'px;height:'+(h_screen * 0.9)+'px;');
             units: 'm',
           //  projection: "EPSG:900913",
             controls: [
-			  //new OpenLayers.Control.LayerSwitcher({roundedCornerColor: "#575757"}),
+			//  new OpenLayers.Control.LayerSwitcher({roundedCornerColor: "#575757"}),
               new OpenLayers.Control.TouchNavigation({
 							dragPanOptions: {
 							enableKinetic: true
@@ -50,10 +50,28 @@ $("#map").attr('style', 'width:'+w_screen+'px;height:'+(h_screen * 0.9)+'px;');
 				'default': sty,
 				'select': {strokeColor: "bleu", fillColor: "blue"}
 		});
-		/*vectorBalade = new OpenLayers.Layer.Vector("Balade",{
+		/*vectorTrack = new OpenLayers.Layer.Vector("Track",{
 				 styleMap: sm
 		});		 
-		map.addLayer(vectorBalade); */
+		map.addLayer(vectorTrack); */
+		// couche kml
+		
+		/*var kmlLayer = new OpenLayers.Layer.Vector("KML", {
+            strategies: [new OpenLayers.Strategy.Fixed()],
+            protocol: new OpenLayers.Protocol.HTTP({
+                url: "ressources/tracks.kml",
+                format: new OpenLayers.Format.KML({
+                    extractStyles: true, 
+                    extractAttributes: true,
+                    maxDepth: 2
+                })
+            })
+        });
+		map.addLayer(kmlLayer); */
+		
+		
+		
+		
 		
 		markers = new OpenLayers.Layer.Markers( "Markers");
 		map.addLayer(markers);
@@ -75,6 +93,28 @@ $("#map").attr('style', 'width:'+w_screen+'px;height:'+(h_screen * 0.9)+'px;');
 	
 } // fin initMap 
 
+function addTracks(){
+	if (trackLoaded == false){
+	debugger;
+	$("#waitLoadingTracks").attr('style', 'display:inherit; position:absolute; left:'+((w_screen*0.5)-50)+'px; top:'+((h_screen*0.5)-50)+'px; width:100px;height:100px; z-index:5;');	
+	kmlLayer = new OpenLayers.Layer.Vector("KML", {
+            strategies: [new OpenLayers.Strategy.Fixed()],
+            protocol: new OpenLayers.Protocol.HTTP({
+                url: "ressources/tracks_3.kml",
+                format: new OpenLayers.Format.KML({
+                    extractStyles: true, 
+                    extractAttributes: true,
+                    maxDepth: 2
+                })
+            })
+    });
+	map.addLayer(kmlLayer); 
+	setTimeout(hideWaitLoadingTrack, 10000);
+	trackLoaded = true;
+	}
+	
+}
+
 function addMarker(point){
 				var size = new OpenLayers.Size(23,27);
 				var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
@@ -86,24 +126,25 @@ function addMarker(point){
 				//var centre =  new OpenLayers.LonLat(x,y);
 				//map.setCenter(centre);
 }
-/*		
-function ShowBalade(wktVal){			
-				vectorBalade.removeAllFeatures();
+		
+function ShowTrack(wktVal){	
+				debugger;
+				//vectorBalade.removeAllFeatures();
 				var wkt =  new OpenLayers.Format.WKT({
 								internalProjection: new OpenLayers.Projection("EPSG:900913"),
 								externalProjection: new OpenLayers.Projection("EPSG:4326")
 								});			
 				var feature = wkt.read(wktVal);
-				var bounds;
+				/*var bounds;
                     if (!bounds) {
                         bounds = feature.geometry.getBounds();
                     } else {
                         bounds.extend(feature.geometry.getBounds());
-                    }
-				vectorBalade.addFeatures(feature);
-				map.zoomToExtent(bounds);
+                    }*/
+				vectorTrack.addFeatures(feature);
+				//map.zoomToExtent(bounds);
 }
-
+/*
 function updateStatus(evt) {
         if (window.localStorage) {
 		var i, nbTuiles = 0;
@@ -129,6 +170,9 @@ var lon = ll.lon * 20037508.34 / 180;
 var lat = Math.log(Math.tan((90 + ll.lat) * Math.PI / 360)) / (Math.PI / 180);
 lat = lat * 20037508.34 / 180;
 return new OpenLayers.LonLat(lon, lat);
+}
+function hideWaitLoadingTrack(){
+$("#waitLoadingTracks").attr("style","display:none;");
 }
 /*
 function onOnline() {
