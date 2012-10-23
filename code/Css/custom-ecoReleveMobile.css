@@ -1,0 +1,62 @@
+﻿.type-interior  .content-secondary .ui-li-divider {
+		margin: 0;
+}
+a.ui-link-inherit:hover,a.ui-link-inherit:active{
+	color:black;
+	background:white;
+}
+.active a{
+	border:2px solid white;
+}
+/***********************************/
+.ui-icon-shadow{
+moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+
+.ui-app-bar .ui-app-bar-btn-panel .ui-btn .ui-icon {
+left: 6px;
+}
+.ui-app-bar .ui-app-bar-btn-panel .ui-btn-down-a, .ui-app-bar .ui-app-bar-btn-panel .ui-btn-hover-a {
+	background:#1BA1E2;
+}
+
+.ui-app-bar .ui-app-bar-btn-panel .ui-btn-inner{
+	overflow:visible;
+}
+.ui-app-bar .ui-app-bar-btn-panel .ui-btn-text {
+margin-left: -25px;
+font-size: 10pt;
+text-align: center;
+width: 60px;
+float: left;
+}
+
+.ui-app-bar .ui-app-bar-btn-panel .ui-btn {
+margin: 5px 25px;
+}
+
+@media all and (max-width: 400px){
+	.ui-app-bar .ui-app-bar-btn-panel .ui-btn {
+	margin: 5px;
+	}
+	.ui-app-bar .ui-app-bar-btn-panel .ui-btn-text {
+	display:none;
+	}
+}
+
+/**********dialog********************/
+.ui-dialog .ui-listview li{
+	font-size:15px !important;
+}
+.ui-dialog .ui-header{
+	padding-right:15px;
+}
+
+.ui-body-c, .ui-dialog.ui-overlay-c ,.ui-btn-hover-c,.ui-btn-up-c{
+text-shadow: none !important;
+}
+.ui-btn-hover-c{
+	color:#1BA1E2;
+}
