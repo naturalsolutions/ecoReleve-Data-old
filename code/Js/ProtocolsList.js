@@ -1,8 +1,3 @@
-/*$(document).ready(function()
- {
- genererListProto();
- });
- */
 function genererListProto(){
    $.ajax( {
             type: "GET",
@@ -51,31 +46,32 @@ function generateProtocolPage(){
             type: "GET",
             url: "ressources/XML_ProtocolDef.xml",
             dataType: "xml",
-                       success: function(xml) 
-                     {
-	$('#listform').empty();
-	var nodeProt = $(xml).find('protocol[id=' + localStorage.protId +']');
-	 $(nodeProt).find('fields').children().each(function()
-     {			 
-		var node = $(this);
-		var fieldtype = $(this).get(0).nodeName;		 
-		switch (fieldtype)
-		{	
-			case ("field_list"):
-				generateListField(node);
-				break;
-			case ("field_numeric"):	 
-				generateNumericField(node);
-				break;
-			case ("field_text"):
-				generateTextField(node);
-				break;
-			case ("field_boolean"):	
-				generateBooleanField(node);
-				break;			
-		}				 						
-     });
-	 }
+             success: function(xml) 
+               {
+					$('#listform').empty();
+					var nodeProt = $(xml).find('protocol[id=' + localStorage.protId +']');
+					$(nodeProt).find('fields').children().each(function()
+					{			 
+						var node = $(this);
+						var fieldtype = $(this).get(0).nodeName;		 
+						switch (fieldtype)
+						{	
+							case ("field_list"):
+								generateListField(node);
+								break;
+							case ("field_numeric"):	 
+								generateNumericField(node);
+								break;
+							case ("field_text"):
+								generateTextField(node);
+								break;
+							case ("field_boolean"):	
+								generateBooleanField(node);
+								break;			
+						}				 						
+					});
+					$("#protocolFormValidation").attr("style","");
+				}
         });
 }
 function generateListField(node){					 
@@ -130,18 +126,8 @@ function generateBooleanField(node){
 	 $('#listform').append(spn);
 	 $("#listform").listview('refresh');  
 }
-
-
-/*$().ready(function() {		
-		$("#champ1").after('<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"></span>');
-		$("#champ1").live('change', function(){
-		var valof = $(this).val();
-		$('span').text(valof);
-		});
-}); */
-
 function changeFieldNum(field, name){
-		var valof = $(field).val();
-		document.getElementById(name).innerHTML = valof;		
+	var valof = $(field).val();
+	document.getElementById(name).innerHTML = valof;		
 }
   

@@ -37,16 +37,13 @@ $("#splash").bind("pagecreate", function(){
 	$(function() {
 	  setTimeout(hideSplash, 2000);
 	});
-
 	function hideSplash() {
 	  $.mobile.changePage("#home", "fade");
 	}
-});
-			
+});		
 $("#data-entry").bind("pagecreate", function(){
 	genererListProto();
 	$("#data-entry").append(navBar);
-	//genererListProto();
 });
 	
 $("#birds").bind("pagecreate", function(){
@@ -58,19 +55,14 @@ $("#birdsListValeurs li").live("click", function(){
 	// requete details indiv
 	var query = "SELECT * FROM TIndividus WHERE Tind_PK_Id=" + idIndiv ;
 	getItems(db, query, successIndivDetails);
-	
 });
-
 
 $("#taxons").bind("pagecreate", function(){
 	$("#taxons").append(navBar);
 });
 
 $("#my-map").bind("pagecreate", function(){
-	initMap(); // initialiser la carte openstreetmap
 	$("#my-map").append(navBar);
-/*	var query = "SELECT * FROM Ttracks " ;
-	getItems(db, query, successLoadingTracks);*/
 });
 
 $("#data-sync").bind("pagecreate", function(){
@@ -78,18 +70,16 @@ $("#data-sync").bind("pagecreate", function(){
 });
 
 $("#btnsubmit").click(function(){
-
-		var str = decodeURIComponent($("#divform").serialize());
-		$("#resultat").text(str);
-		TestQuery(str);
+	var str = decodeURIComponent($("#divform").serialize());
+	$("#resultat").text(str);
+	TestQuery(str);
 });	
 $("#advancedSearchSubmit").click(function(){
-		var str = $("#advancedSearchDivform").serialize();
-		criteriasQuery(str);
-		$.mobile.changePage ($('#birds'));	 
-		
+	var str = $("#advancedSearchDivform").serialize();
+	criteriasQuery(str);
+	$.mobile.changePage ($('#birds'));	 	
 });	
-$("#btnRecherche").click(function(){
+/*$("#btnRecherche").click(function(){
 		if(document.getElementById('id').checked) {
 		var val = "Ttax_PK_Id = "+ document.getElementById('txtSearch').value;
 		}else if(document.getElementById('Status').checked) {
@@ -98,13 +88,12 @@ $("#btnRecherche").click(function(){
 		var val = "TCarac_Transmitter_Frequency = '"+ document.getElementById('txtSearch').value+"'";
 		}
 		Search(db,val);
-});
+});*/
 $("#btnSimpleSearch").click(function(){
 	var valFrequency = $("#birdstxtSearch").val();
 	var val = "Tind_Frequency = '"+ valFrequency + "'";
-	//var query = "SELECT * FROM TIndividus WHERE " + val ;
-	//getItems(db, query, successIndivDetails);
-	Search(db,val);
+	var query = "SELECT * FROM TIndividus WHERE " + val;
+	getItems(db, query, successSelectionIndiv);
 });
 $("#birdsbtnSimpleSearch").click(function(){
 	$("#birdstxtSearch").attr("value","");
@@ -117,7 +106,6 @@ $("#birdsbtnAdvSearch").click(function(){
 	$("#birdsListValeurs").empty();
 	$("#birdsDetailsIndiv").empty();
 	$.mobile.changePage ($('#advancedSearch'));	 
-
 });
 
 $("#taxonsBtnPlants").click(function(){
@@ -143,7 +131,6 @@ $("#taxons-btnSimpleSearch").click(function(){
 		getItems (db, query, successQueryTaxaList);
 	} else {
 		alert("Please select a group of taxa");
-	
 	}
 });
 $("#taxonsListValeurs li").live("click", function(){
@@ -163,6 +150,9 @@ $("#exit").bind("pagecreate", function(){
 });
 //click bouton afficher carte
 $("#birds-showLastLocation").click(function(){
+	// désactiver l'affichage de la position utilisateur
+	showMyLocation = 0 ;
+	watchID = null;
 	var latitude = localStorage.getItem('lastLatitude');
 	latitude = convertToFloat(latitude);
 	var longitude = localStorage.getItem('lastLongitude');
@@ -170,62 +160,64 @@ $("#birds-showLastLocation").click(function(){
 	if ((latitude != "") && (longitude != "")){
 		 $.mobile.changePage("#my-map", "fade");
 		 markers.removeMarker(marker);
-		 var point = new OpenLayers.LonLat(longitude,latitude);
+		point = new OpenLayers.LonLat(longitude,latitude);
 		point = point.transform(
 							new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
 							new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
 		);
 		 addMarker(point);
 		 map.setCenter(point,12);
+		 map.panTo(point);
 	}
 });
-function convertToFloat(string){
-var n=string.lastIndexOf(",");
-var val = string.substr(0,n);
-var str = val + "." + string.substr(n+1, string.length);
-return parseFloat(str);
-}
+
 // controles carte	
 $("#plus").live('click', function(){
 		map.zoomIn();
-});
-		
+});	
 $("#minus").live('click', function(){
 		map.zoomOut();
 });
 $("#centerMap").live('click', function(){
-		/*	if (marker != null){
-				markers.removeMarker(marker);
-				addMarker(flLong,flLat);
-				}*/
-		$("#option").attr('style', 'display:none;');
-		$("#maximize").attr('style', 'display:inherit;');
-		$("#minimize").attr('style', 'display:none;');
-		// activer le centrage de la carte sur la position de l'utilisateur
-		showMyLocation = 1;
-});
+	$("#option").attr('style', 'display:none;');
+	$("#maximize").attr('style', 'display:inherit;');
+	$("#minimize").attr('style', 'display:none;');
+	 map.setCenter(point);
 
+});
 $("#btnMapTracks").live('click', function(){
 	addTracks();
 	$("#option").attr('style', 'display:none;');
 	$("#maximize").attr('style', 'display:inherit;');
 	$("#minimize").attr('style', 'display:none;');
 });
-
 $("#MaskerTracks").bind("click", function(){
+	if (trackLoaded == true){
 	$("#option").attr('style', 'display:none;');
 	$("#maximize").attr('style', 'display:inherit;');
 	$("#minimize").attr('style', 'display:none;');
 	kmlLayer.removeAllFeatures();	
 	map.removeLayer(kmlLayer); 
 	trackLoaded = false;
+	}
+});
+$("#MyPosition").bind("click", function(){
+	$("#option").attr('style', 'display:none;');
+	$("#maximize").attr('style', 'display:inherit;');
+	$("#minimize").attr('style', 'display:none;');
+	if (showMyLocation != 1){
+		showMyLocation = 1 ;
+		myPosition();
+	}
+	else{
+		map.setCenter(point);
+	}
 });
 $("#maximize").live('click', function(){
 		$("#maximize").attr('style', 'display:none;');
 		$("#minimize").attr('style', 'display:inherit;');
 		$("#option").attr('style', 'display:inherit;');
 });
-
 $("#minimize").live('click', function(){
 		$("#minimize").attr('style', 'display:none;');
 		$("#maximize").attr('style', 'display:inherit;');

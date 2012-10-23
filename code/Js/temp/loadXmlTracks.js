@@ -1,4 +1,4 @@
-﻿//************************************** Alimenter la base de données par le contenu des  XML taxons et criteres d'identification
+﻿
 function loadXmlTrack(db){				
 	$.ajax( {
             type: "GET",
@@ -10,7 +10,6 @@ function loadXmlTrack(db){
 					   $(xml).find('coordinates').each(   
                          function()
                          {	
-
 							var valCoords = $(this).text();
 							var requete = "INSERT INTO Ttracks (Ttra_coords) VALUES (?)";
 							var param = [valCoords];

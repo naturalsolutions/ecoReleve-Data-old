@@ -1,16 +1,19 @@
 ﻿
 $().ready(function() {
 		init();
-	//	$(".live-tile,.flip-list").liveTile();
 }) ;
-
 //************************************* Fonctions
 function init (){
 	window.w_screen = screen.width;
 	window.h_screen = screen.height;
 	window.trackLoaded = false;
-	window.flLat = 43.29;
-	window.flLong = 5.37;
+	window.showMyLocation = 1;
+	window.watchID = null;
+	//window.markers = new OpenLayers.Layer.Markers( "Markers");
+	//window.marker = null;
+	//window.flLat = 43.29;
+	//window.flLong = 5.37;
+	window.point = new OpenLayers.LonLat(5.37,43.29);
 	document.addEventListener("deviceready", onDeviceReady, false);
 	$(document).bind( "mobileinit", function(){
     $.support.cors = true; 
@@ -35,7 +38,8 @@ function init (){
 
 	// initialiser le groupe de taxa sélectionné pour la page taxa
 	localStorage.setItem('taxaSelectedGroup', "");
-	//initMap(); // initialiser la carte openstreetmap
+	initMap(); // initialiser la carte openstreetmap
+	myPosition();
 }
 function criteriasQuery(criteres){
 	var conditionQuery ="";
@@ -53,7 +57,9 @@ function criteriasQuery(criteres){
 	}
 	// enlever le dernier AND
 	conditionQuery = conditionQuery.substring(0, conditionQuery.length - 4);
-	Search(db, conditionQuery);
+	var query = "SELECT * FROM TIndividus WHERE " + conditionQuery;
+	getItems(db, query, successSelectionIndiv);
+	//Search(db, conditionQuery);
 }
 function successIndivDetails(transaction, rs) { 
 	$("#birdsDetailsIndiv").empty();
@@ -104,7 +110,13 @@ function successQueryTaxaList (transaction, resultSet){
 var len = resultSet.rows.length;
 				var lenBoucle;
 				$('#taxonsListValeurs').empty();
-				if (len < 50 ){
+				if ( len == 0 ){
+					$.mobile.changePage ($('#alerteJQM'));
+					$("#alerteJQM-Content").text("No taxa for the selected criterias");
+					$("#btnOk-alerteJQM").attr("href","#taxons"); 
+					$("#alerteJQMheader").html("<h3>Query results</h3>");
+				}
+				else if (len < 50 ){
 					lenBoucle = len;
 				} else {
 					lenBoucle = 50;
@@ -133,7 +145,7 @@ function successTaxaDetails(transaction, rs){
 	$("#taxonsDetailsIndiv").listview('refresh');
 
 }
-
+/*
 function TestQuery(criteres){
 	var Sub, Farm, Prospection, Frequence, Qualite;
 	var criteresListe = new Array();
@@ -173,49 +185,48 @@ function Search(db, val) {
 			}
 		);
 	});
-}
-
-function dataSelectItem (transaction, resultSet) {
+}*/
+function successSelectionIndiv (transaction, resultSet) {
   //success callback
 	var obsTab = new Array();
-				//$("#birdsListValeurs").listview();
-			    var len = resultSet.rows.length;
-				var lenBoucle;
-				$('#birdsListValeurs').empty();
-				if (len < 50 ){
-					lenBoucle = len;
-				} else {
-					lenBoucle = 50;
-					alert (" + de 50 ligne! ");
-				}
-					for (i = 0; i < lenBoucle; i++) {
-					//for (j in resultSet.rows.item(i)){ alert(j);}
-					//alert(resultSet.rows.item(i).Thes_Status_Precision);  
-
-					var spn = '<li indiv_id=' + resultSet.rows.item(i).Tind_PK_Id + '><a href=#>Frequency : '+resultSet.rows.item(i).Tind_Frequency +'</a></li>';
-					//spn =spn + '<li data-theme="B">  TCarac_Breeding_Ring_Code : '+resultSet.rows.item(i).TCarac_Breeding_Ring_Code+'</li>'
-					//spn =spn + '<li data-theme="B">  TCarac_Chip_Code  : '+resultSet.rows.item(i).TCarac_Chip_Code+'</li>'
-
-					$('#birdsListValeurs').append(spn);
-					$('#birdsListValeurs').listview("refresh");
-					}
-				
-			//$('#total').html('nombre de lignes : '+ i);
-			//document.body.style.cursor = 'default';
+	var len = resultSet.rows.length;
+	var lenBoucle;
+	$('#birdsListValeurs').empty();
+	if ( len == 0 ){
+		$.mobile.changePage ($('#alerteJQM'));
+		$("#alerteJQM-Content").text("No birds for the selected criterias");
+		$("#btnOk-alerteJQM").attr("href","#birds"); 
+		$("#alerteJQMheader").html("<h3>Query results</h3>");
+	}
+	else if (len < 50 ){
+		lenBoucle = len;
+	} else {
+		lenBoucle = 50;
+		alert (" + de 50 ligne! ");
+	}
+	for (i = 0; i < lenBoucle; i++) {
+		var spn = '<li indiv_id=' + resultSet.rows.item(i).Tind_PK_Id + '><a href=#>Frequency : '+resultSet.rows.item(i).Tind_Frequency +'</a></li>';
+		//spn =spn + '<li data-theme="B">  TCarac_Breeding_Ring_Code : '+resultSet.rows.item(i).TCarac_Breeding_Ring_Code+'</li>'
+		//spn =spn + '<li data-theme="B">  TCarac_Chip_Code  : '+resultSet.rows.item(i).TCarac_Chip_Code+'</li>'
+		$('#birdsListValeurs').append(spn);
+		$('#birdsListValeurs').listview("refresh");
+	}
 }
-function onDeviceReady(){
-		//alert("device ready: chargement phonegap");
-        
+function onDeviceReady(){  
 		document.addEventListener("menubutton", onMenuKeyDown, false);
     }
 function confirmCallbackQuitter(){
 	 navigator.app.exitApp(); 
 }
 function onMenuKeyDown(){
- //navigator.notification.confirm("Quitter l'application?", confirmCallbackQuitter, 'Arrêt de l application', 'Oui,Annuler');
   $.mobile.changePage($("#exit"), {transition: "pop"});
 }
-
+function convertToFloat(string){
+var n=string.lastIndexOf(",");
+var val = string.substr(0,n);
+var str = val + "." + string.substr(n+1, string.length);
+return parseFloat(str);
+}
 
 
 
