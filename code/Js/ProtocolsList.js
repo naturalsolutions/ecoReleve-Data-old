@@ -37,7 +37,9 @@ function genererListProto(){
 		localStorage.protId = idProtocol;
 		localStorage.protoName = nomProtocol;
 	//	alert(this.getAttribute('idPr'));
-		$("#titre").html("Protocol : " + nomProtocol);
+		$("#titre").html("Protocol : <strong>" + nomProtocol+"</strong>");
+		$(this).parent('ul').children('li').removeClass('active');
+        $(this).addClass('active');
 		generateProtocolPage();
     });
 //var i = 0;
