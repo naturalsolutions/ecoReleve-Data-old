@@ -1,4 +1,4 @@
-ecoRelevé
+ecoRelevé Mobile
 =========
 A free and open source biodiversity data management software.
 
