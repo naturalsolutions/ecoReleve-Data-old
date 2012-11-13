@@ -1,22 +1,10 @@
 ecoRelevé Mobile
 =========
-A free and open source biodiversity data management software.
+A free and open source biodiversity data entry software
 
 ![ecoReleve](http://ecoreleve.googlecode.com/files/ecoreleve%20logo%20small.jpg)
 
-We provide Software for these people:
-
-* Field Worker: that actually run the data collection and data entries
-* Data administrator: that maanage the database and decide upon thesaurus and  taxonomy 
-* Scientist: Formalize ecological questions and data gathering processes
-
-The module in ecoReleve are built around these roles with a diffrent module for each use cases:
-
-
-* ecoRelevé Mobile : designed for field data entry and field workers
-* ecoRelevé Explorer : designed for data exploration and scientist
-* ecoRelevé Concepts : designed for data admin thesaurus and protocoles
-* ecoReleve Core: the backend database management system
+We provide Software for Field Worker: that actually run the data collection and data entries
 
 
 Contributing
