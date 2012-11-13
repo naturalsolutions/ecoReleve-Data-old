@@ -2,7 +2,7 @@ ecoRelevé Mobile
 =========
 A free and open source biodiversity data entry software
 
-![ecoReleve](http://ecoreleve.googlecode.com/files/ecoreleve%20logo%20small.jpg)
+![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Mobile/master/Logo/logo-LABS_Mobile.jpg)
 
 We provide Software for Field Worker: that actually run the data collection and data entries
 
