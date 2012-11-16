@@ -1,4 +1,4 @@
-ecoRelevé Mobile
+![ecoReleve](http://naturalsolutions.github.com/ecoReleve/) / ecoRelevé Mobile
 =========
 A free and open source biodiversity data entry software
 
