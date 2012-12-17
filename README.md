@@ -1,4 +1,4 @@
-[ecoReleve](http://naturalsolutions.github.com/ecoReleve/) / ecoRelevé Mobile
+[ecoReleve](http://naturalsolutions.github.com/ecoReleve/) / ecoRelevé Data
 =========
 A free and open source biodiversity data entry software
 
@@ -16,7 +16,7 @@ Screen shots
 Functionalities
 ------------
 
-ecoRelevé mobile is design to allow field data entry on tablet (IPad, Android and Window8).
+ecoRelevé data is design to allow field data entry on tablet (IPad, Android and Window8).
 It stores data local and let you upload it to the Core module when ready.
 
 The data entry forms are fully customizable to allow users to design their own protocols.
