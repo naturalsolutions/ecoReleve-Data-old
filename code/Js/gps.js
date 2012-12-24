@@ -1,5 +1,22 @@
 ﻿//*************************************** GPS
-function myPosition(){
+function getPosition(){
+	var latitude, longitude;
+	var myPosition = new Object(); ;
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position){
+			latitude = position.coords.latitude;
+			longitude = position.coords.longitude;
+			//alert ("latitude :" + latitude  + " longitude : " + longitude );
+			localStorage.setItem("latitude", latitude);
+			localStorage.setItem("longitude", longitude);
+			//myPosition.longitude = longitude;
+			//return myPosition;
+		},erreurPosition,{timeout:10000});
+	}
+	//return (latitude + ";" + longitude);	
+//	return myPosition;
+}
+function myPositionOnMap(){
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){
 			var latitude = position.coords.latitude;
@@ -17,11 +34,9 @@ function myPosition(){
 				map.setCenter(point);
 				map.panTo(point);
 			}
-			
 		},erreurPosition,{timeout:10000});
 	}
 }
-
 /*
 function ecouteGps (){
 	if (navigator.geolocation) {
@@ -60,21 +75,22 @@ function surveillePosition(position){
 	}
 }*/
 function erreurPosition(error){
-				var info = "Erreur lors de la geolocalisation : ";
-				switch(error.code) {
-				case error.TIMEOUT:
-					info += "Timeout !";
-				break;
-				case error.PERMISSION_DENIED:
-					info += "Vous n’avez pas donne la permission";
-				break;
-				case error.POSITION_UNAVAILABLE:
-					info += "La position n’a pu etre determinee, verifiez l'etat du GPS";
-				break;
-				case error.UNKNOWN_ERROR:
-					info += "Erreur inconnue";
-				break;
-				}
-					/*localStorage.setItem( "latitude", "");
-					 localStorage.setItem( "longitude", "" );*/
+	var info = "Erreur lors de la geolocalisation : ";
+	switch(error.code) {
+	case error.TIMEOUT:
+		info += "Timeout !";
+	break;
+	case error.PERMISSION_DENIED:
+		info += "Vous n’avez pas donne la permission";
+	break;
+	case error.POSITION_UNAVAILABLE:
+		info += "La position n’a pu etre determinee, verifiez l'etat du GPS";
+	break;
+	case error.UNKNOWN_ERROR:
+		info += "Erreur inconnue";
+	break;
+	}
+	alert (info);
+	localStorage.setItem( "latitude", "");
+	localStorage.setItem( "longitude", "" );
 }

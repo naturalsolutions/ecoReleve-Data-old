@@ -3,16 +3,20 @@ function initializeDB(){
 // initialise la base si elle n'existe pas
 	try {
 		if (window.openDatabase) {
-			 window.db = openDatabase("ecoReleveMobile", "1.0", "db ecoreleve", 20*1024*1024); // espace accordé à la BD: 20 MO
+			 window.db = openDatabase("ecoReleve-mobile", "1.0", "db ecoreleve", 20*1024*1024); // espace accordé à la BD: 20 MO
 		
-			/*
-			requete = 'DROP TABLE IF EXISTS thesaurus';
+			
+			/*requete = 'DROP TABLE IF EXISTS thesaurus';
 			clearTable(requete);
 			requete = 'DROP TABLE IF EXISTS TIndividus';
 			clearTable(requete);
-			*/
-			requete = 'DROP TABLE IF EXISTS Ttracks';
+			requete = 'DROP TABLE IF EXISTS Tobservations';
 			clearTable(requete);
+			requete = 'DROP TABLE IF EXISTS Tpositions';
+			clearTable(requete);
+			requete = 'DROP TABLE IF EXISTS Tprotocols';
+			clearTable(requete);*/
+			
 			/*var requete = 'CREATE TABLE IF NOT EXISTS ecoReleve (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Sub NVARCHAR(100), '
 							+ 'Farm NVARCHAR(100),Prospection BOOLEAN, Frequence INTEGER, Qualite NVARCHAR(100))';
 			createTable(requete);*/
@@ -25,9 +29,19 @@ function initializeDB(){
 			+'Tind_NumBagRel VARCHAR, Tind_Fk_TInd_ID VARCHAR, Tind_FreqOpti VARCHAR)';
 			createTable(requete);
 			// table taxons (thesaurus)
-			var requete = 'CREATE TABLE IF NOT EXISTS thesaurus (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
+			requete = 'CREATE TABLE IF NOT EXISTS thesaurus (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
 							+ 'ereleveId VARCHAR ,Id_Type VARCHAR, Id_Parent VARCHAR, hierarchy VARCHAR, topic_fr VARCHAR, topic_en VARCHAR, definition_fr VARCHAR,'
 							+ 'definition_en VARCHAR, Reference VARCHAR, available_EAU VARCHAR, available_Morocco VARCHAR )';
+			createTable(requete);
+			// Table protocoles
+			requete = 'CREATE TABLE IF NOT EXISTS Tprotocols (Tprot_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, prot_id VARCHAR, prot_name VARCHAR)';
+			createTable(requete);
+			// Table observations
+			requete = 'CREATE TABLE IF NOT EXISTS Tobservations (Tobs_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, dateNow VARCHAR, prot_name VARCHAR, protValues VARCHAR)';
+			createTable(requete);
+			// table positions
+			requete = 'CREATE TABLE IF NOT EXISTS Tpositions (Tpos_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, pos_name VARCHAR, pos_latitude VARCHAR,'
+					+ 'pos_longitude VARCHAR, pos_date VARCHAR , pos_time VARCHAR)';
 			createTable(requete);
 			// table tracks
 			/*var requete = 'CREATE TABLE IF NOT EXISTS Ttracks (PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Ttra_coords VARCHAR)';
@@ -73,7 +87,7 @@ function clearTable(requete){
 		);
 });								 
  } 
- function getItems(db, query, queryCallback){
+function getItems(db, query, queryCallback){
 	db.transaction(function(tx){
 				tx.executeSql(query,[], queryCallback);
 	});
@@ -99,4 +113,10 @@ db.transaction(function (tx) {
    return results;
  }, null);
 });
+}
+function updateTable(requete){
+  //  var query = requete;
+    db.transaction(function (transaction) {
+        transaction.executeSql(requete);
+    });
 }

@@ -1,46 +1,72 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-	<title>ecoRelevé Mobile</title>
+	<title>ecoRelev&eacute; data</title>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, user-scalable=no" />
-	<link rel="stylesheet" href="Css/jquery.mobile-1.0.min.css" />
+	<!--<link rel="stylesheet" href="Css/jquery.mobile-1.0.min.css" />-->
+	<!--
+	<link rel="stylesheet" href="Css/jquery.mobile-1.2.0.min.css" />
+	-->
 	<link rel="stylesheet" href="Css/style.map-navigation.css" />
-	<!--<link rel="stylesheet" href="Css/jquery-mobile.css" />-->
-	<link rel="stylesheet" href="theme/metro/jquery.mobile.metro.theme.css" />
+	<!--<link rel="stylesheet" href="Css/jquery-dataTables.css" />-->
+	<!--<link rel="stylesheet" href="Css/jquery-mobile.css" />
+	<link rel="stylesheet" href="theme/metro/jquery.mobile.metro.theme.css" /> -->
 	<link rel="stylesheet" href="theme/metro/app-bar.css" />
 	<!--<link rel="stylesheet" href="Css/themes/custom.css" />-->
 	<link rel="stylesheet" href="Css/jqm-docs2.css" />
 	<link rel="stylesheet" href="Css/custom-ecoReleveMobile.css" />
-	<!--<link href="MetroJs.css" rel="stylesheet" type="text/css" />-->
+	<!--<link href="MetroJs.css" rel="stylesheet" type="text/css" />
 	<script src="Js/libs/jquery-1.7.1.min.js"></script>
-	<script src="Js/libs/jquery.mobile-1.0.min.js"></script>
+	<script src="Js/libs/jquery.mobile-1.0.min.js"></script>-->
+	
+	<!--<script type="text/javascript" data-main="Js/main" src="Js/libs/require.js"></script>-->
+	
+	<script type="text/javascript" src="Js/libs/head.js"></script>
+	<script type="text/javascript" src="Js/includes.js"></script>
+	<!--
+	<script src="Js/libs/jquery-1.8.2.min.js"></script>
+	<script src="Js/libs/jquery.mobile-1.2.min.js"></script>
 	<script src="Js/libs/cordova-2.1.0.js"></script>
 	<script src="Js/libs/openlayers.min.js"></script>
 	<script src="Js/libs/app-bar.js" type="text/javascript"></script>
+	<script src="Js/libs/jquery.dataTables.min.js" type="text/javascript"></script>
+	-->
+	
+	
+	<!--<script src="Js/libs/jqm.autoComplete-1.4.3-min.js" type="text/javascript"></script>-->
+	
+	
+	<!--
+	
+	<script src="Js/libs/jqm.autoComplete-1.4.3-perso-min.js" type="text/javascript"></script>
+	
+	-->
+	
 	<!--<script src="Js/libs/Openlayers2.js"></script>-->
 	
   </head>
   <body>
-	<div data-role="page" data-theme="a" id="splash" >
+	<!--<div data-role="page" data-theme="a" id="splash" >
 		<div data-role="content">
 			<div class="splash">
 				<p id="splashMessages"></p>
 				<img src="images/splash_screen.png" alt="splash" />
 			</div>
 			<div>
-				<!-- <p id="spalshP" style="display:none;" onblur="pBlurEvent();">0</p>-->
+				
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<div data-role="page" data-theme="a" id="home" >
-		<img src="images/home.png" width="1280" height="800" border="0" usemap="#map" />
+		<img src="images/home2.png" width="1280" height="800" border="0" usemap="#map" />
 			<map name="map">
 				<area shape="rect" coords="59,235,260,387" href="#birds" />
 				<area shape="rect" coords="59,412,261,564" href="#taxons" />
 				<area shape="rect" coords="62,582,488,734" href="#data-entry" />
 				<area shape="rect" coords="808,576,1224,730" href="#my-map" />
 				<area shape="rect" coords="808,406,1225,560" href="#data-sync" />
+				<area shape="rect" coords="285,412,487,563" href="#my-data" />
 				<area shape="circle" coords="1178,324,33" href="#exit" />
 			</map>
 	<!--
@@ -57,6 +83,8 @@
 			</div>
 		</div>
 	-->
+		<div id="homeHorloge"></div>
+		<div id="dateToday"></div>
 	</div>
   	<div data-role="page" id="birds" data-theme="a">
 		<div data-role="header" role="banner">
@@ -102,68 +130,86 @@
 	</div>
 	<div data-role="page" id="data-entry" class="type-interior">
 		<div data-role=header>
-			<h1 id="titre">Protocol choice</h1>
+			<h1 id="titre">Data entry</h1>
 		</div>
 		<div data-role="content" ><!--data-theme="d" -> fond clair -->
 			<div class="content-secondary" id="protocolList"  data-role="fieldcontain">	
-				<ul id="listProt" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-theme="c" data-dividertheme="d" >
+				<!--<ul id="listStations" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-theme="c" data-dividertheme="d" >	
+					<li data-role="list-divider">Position g&eacute;ographique</li>
+					<li><a href="#newLocation">Nouvelle position</a></li>
+					<li><a href="#storedLocations">Charger une position</a></li>
 					
+				</ul>-->
+				<div>
+					<ul id="listStations" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-theme="c" data-dividertheme="d" >	
+						<li data-role="list-divider">Station</li>
+						<li><a href="#" id="data-entry-New-pos">New position</a></li>
+						<li><a href="">New track</a></li>
+					</ul>
+				</div>
+				<ul id="listProt" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear" data-theme="c" data-dividertheme="d" >	
 				</ul>
 			</div>
 			<div class="content-primary" >
-				<form  id="divform">
-					<ul id="listform" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear"></ul>
-				</form>
-				<div id="protocolFormValidation" style="display:none;">
-					<a data-role=button id=btnsubmit>Validate</a><br/>
-					<p><span> Results:</span>
-					<textarea id="resultat"></textarea></p>
+				
+				<div id="data-entry-info-position" style="display:none;">
+					<ul id="listform-Info-Pos" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear">
+						<li>
+							<h2>Station informations</h2>
+							<p><span><b>Name : </b></span><span id="stat-name"></span><span><b> Latitude : </b>
+							</span><span id="stat-lat"></span><span><b> Longitude : </b>
+							</span><span id="stat-long"></span><span><b> Time : </b></span><span id="stat-time"></span>
+							</p>
+						</li>
+					</ul>
+					
 				</div>
+				<div id="data-entry-new-pos-form" style="display:none;">
+					<form id="newLocationDivform">
+						<ul id='newLocationColumnsList' data-role='listview' data-inset='true' data-split-icon='gear' data-split-theme='d'>
+							<li><span>Name</span><input  name ='newPosName' value="Saisir le nom du lieu" id ='newPosName'/></li>
+							<li><span>Longitude</span><input name ='newPosLon' id ='newPosLon' value="0.00"/></li>
+							<li><span>Latitude</span><input name ='newPosLat' id ='newPosLat' value="0.00"/></li>
+							<li><span>Date</span><input name ='newPosDate' id ='newPosDate' /></li>
+							<li><span>Time</span><input name ='newPosTime' id ='newPosTime' /></li>	
+						</ul>
+					</form> 
+					<div data-role="controlgroup" data-type="horizontal" >
+						<a href="" data-role=button  data-icon="check" id="newLocationBtnSubmit" >Ok</a>
+						<a href="" data-role=button  data-icon="check" id="newLocationBtnRefrech" >Refrech</a>
+						<a href="" data-role=button  data-icon="delete" id="newLocationBtnReset" >Reset</a>
+					</div>
+				</div>
+				<div id="data-entry-form-protos" style="display:none;" >
+					<div>
+						<ul data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear">
+							<li>
+								<h2>Data input</h2>
+							</li>
+						</ul>
+					</div>
+					<div style="display:none;" id="data-entry-select-taxa-div">
+						<a href="#taxaSelection" id="data-entry-select-taxa-btn" data-role="button" data-inline="true" data-icon="check">Select a taxa</a>
+					</div>
+					<form  id="divformProto">
+						<ul id="listform" data-role="listview" data-inset="true" data-filter="false" data-split-icon="gear"></ul>
+					</form>
+					<div id="protocolFormValidation" >
+						<a data-role=button id="btnsubmitProto" data-inline="true" data-icon="check">Validate</a><br/>
+						<p><span></span>
+						<textarea id="data-entry-infos" style="display:none;"></textarea></p>
+					</div>
+				</div>
+				<div id="data-entry-infos-messages" style="display:none;"></div>
 			</div>
 		</div>
 	</div>
-	<!--<div data-role="page" id="Search">
-		<div data-role=header>
-			<h1 id="titre">Recherche</h1>
-		</div>
-		<div data-role="content" data-theme="b">
-		 <ul>
-			<li data-role="fieldcontain">
-			    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-				
-			         	<input type="radio" name="radio-choice-b" id="id" checked="checked" />
-			         	<label for="id">id</label>
-			         	<input type="radio" name="radio-choice-b" id="Status" />
-			         	<label for="Status">Status Precision</label>
-			         	<input type="radio" name="radio-choice-b" id="Frequency" />
-			         	<label for="Frequency">Frequency</label>
-			    </fieldset>
-			</li>
-			<li data-role="fieldcontain">
-				<input type="text" name="txtSearch" id="txtSearch" value="" data-inline="true" data-theme="b"  data-mini="true"/>
-				<button type="button" data-role="button" id="btnRecherche" data-inline="true" data-theme="b" data-mini="true" data-icon="search">search</button><span id="total" ></span>
-			</li>
-			<li data-role="fieldcontain"><ul id="listValeur" data-role="listview" data-inset="true"></ul></li>
-		 </ul>
-		 
-		</div>
-		<div data-role="footer" data-position="fixed" data-id="nav" >
-			<div data-role="navbar">
-				<ul>
-					<li><a href="#">Retour</a></li>
-					<li><a href="#home" id="btnhome">Accueil</a></li>
-					<li><a href="#birds">birds</a></li>
-					<li><a href="#"><span class="nbstoredobservations box-count ui-li-count ui-btn-up-c ui-btn-corner-all"  ></span>Mon profil</a></li>
-				</ul>
-			</div>
-		</div>	
-	</div>-->
 	<div data-role="page" id="taxons">
 		<div data-role="header" role="banner">
 			<!--<a href="#exit" data-role="button" data-icon="delete" title="Quitter">Quitter</a>-->
 			<h1 tabindex="0" role="heading" aria-level="1" id="taxonsHeader">Taxons</h1>
 		</div>
-			<div data-role="content">
+		<div data-role="content">
 			<div class="split-wrapper">
 				<div class="content-secondary">
 					<div>
@@ -215,7 +261,7 @@
 					<div data-role="controlgroup" id="option"  class="option" style="display:none;">
 						<ul data-role="listview" data-inset="true">
 							<li data-role="list-divider">Map Options</li>
-							<li data-icon="false"><a href="#" id="centerMap">Center map</a></li>
+							<li data-icon="false"><a href="#" id="centerMap">Center the map</a></li>
 							<li data-icon="false"><a href="#" id="btnMapTracks">Show tracks</a></li>
 							<li data-icon="false"><a href="#" id="MaskerTracks">Hide tracks</a></li>
 							<li data-icon="false"><a href="#" id="MyPosition">My position</a></li>
@@ -227,6 +273,29 @@
 				<a href="#" data-role="button" data-icon="minus" id="minus" data-iconpos="notext"></a>
 			</div>
 			<div id="waitLoadingTracks" style="display:none;" ><img src="Css/loader.gif" /></div>
+		</div>
+	</div>	
+	<div data-role="page" id="my-data">
+		<div data-theme="a" data-role="header">
+			<h3>My stored data</h3>
+		</div>
+		<div data-role="content">
+			<div class="split-wrapper">
+				<div class="content-secondary">
+						<ul data-role="listview" data-divider-theme="b" data-inset="true" id="protListObs">
+						</ul>
+				</div>
+				<div class="content-primary">
+						<div>
+							<p>
+								<h2 id="myDataListForSelectedProtocol"style="display:none;">Observations list</h2>
+							</p>
+							<ul data-role="listview" data-divider-theme="b" data-inset="true" id="selectedProtObsDetails">
+							</ul>		
+						</div>
+
+				</div>
+			</div>
 		</div>
 	</div>
 	<div data-role="page" id="data-sync">
@@ -291,35 +360,103 @@
 				</div>
 		</div>
 	</div>
-	<div data-role=dialog id="exit">
+	<div data-role=dialog id="taxaSelection">
 		<div data-role=header>
-			<h2>Quitter...</h2>
+			<h2>Taxa selection</h2>
 		</div>
 		<div data-role="content" class="ui-content">
-				<p>Voulez-vous arreter l'application?</p>
+			<span>Input taxa name</span>
+			<!--<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+						<input type="text" id="taxaSelection-input" class="target" value=""/>
+				</div>
+				<div class="ui-block-b">
+					<a href="" data-role=button  data-icon="check" id="taxaSelection-btn-submit" data-inline="true" >Ok</a>
+				</div>
+			</fieldset>-->
+			<div>
+				<input type="text" id="taxaSelection-input" class="target" value=""/>
+				<a href="" data-role=button  data-icon="check" id="taxaSelection-btn-submit" data-inline="true" >validate your choice</a>
+			</div>
+			<ul id='taxaSelection-taxa-list' data-role='listview' data-inset='true' data-split-icon='gear' data-split-theme='d'>
+			</ul>
+		</div>
+	</div>
+	<div data-role=dialog id="newLocation">
+		<div data-role=header>
+			<h2>New position</h2>
+		</div>
+		<div data-role="content" class="ui-content">
+				<form id="newLocationDivform">
+				<ul id='newLocationColumnsList' data-role='listview' data-inset='true' data-split-icon='gear' data-split-theme='d'>
+					<li><span>Name</span><input  name ='newPosName' value="Saisir le nom du lieu" id ='newPosName'/></li>
+					<li><span>Longitude</span><input name ='newPosLon' id ='newPosLon' value="0.00"/></li>
+					<li><span>Latitude</span><input name ='newPosLat' id ='newPosLat' value="0.00"/></li>
+					<li><span>Date</span><input name ='newPosDate' id ='newPosDate' /></li>
+					<li><span>Time</span><input name ='newPosTime' id ='newPosTime' /></li>	
+				</ul>
+				</form> 
 				<div data-role="controlgroup" data-type="horizontal" >
-				<a href=# data-role=button id="btnExit" data-icon="check" >Oui</a>
-				<a href=# data-role=button id="btnResetExit" data-icon="delete">Annuler</a>
+				<a href="" data-role=button  data-icon="check" id="newLocationBtnSubmit" >Ok</a>
+				
+				<a href="" data-role=button  data-icon="delete" id="newLocationBtnReset" >Reset</a>
+				</div>
+		</div>
+	</div>
+	<div data-role=dialog id="storedLocations">
+		<div data-role=header>
+			<h2>Positions sauvegard&eacute;es</h2>
+		</div>
+		<div data-role="content" class="ui-content">
+			<div data-role="controlgroup" data-type="horizontal" >
+				<a href="" data-role=button  data-icon="check" id="storedLocationsBtnSubmit" >Ok</a>
+				<a href="" data-role=button  data-icon="delete" id="storedLocationsBtnReset" >Reset</a>
+			</div>
+			<div id="storedLocationsContent" >
+			</div>
+		</div>
+	</div>
+	<div data-role=dialog id="exit">
+		<div data-role=header>
+			<h2>Exit...</h2>
+		</div>
+		<div data-role="content" class="ui-content">
+				<p>Do you want to stop the application?</p>
+				<div data-role="controlgroup" data-type="horizontal" >
+				<a href=# data-role=button id="btnExit" data-icon="check" >Yes</a>
+				<a href=# data-role=button id="btnResetExit" data-icon="delete">Cancel</a>
 				</div>
 		</div>
 	</div>
 	<div data-role=dialog id="alerteJQM">
-		<div data-role=header>
-			<h2 id="alerteJQMheader" ></h2>
+		<div data-role=header id="alerteJQMheader" >
 		</div>
 		<div data-role="content" class="ui-content">
 				<p id="alerteJQM-Content"></p>
-				<a data-role="button" id="btnOk-alerteJQM" data-inline="true" class="ui-btn-right" data-icon="back"> Back </a><br/>
-				
+				<div data-role="controlgroup" data-type="horizontal" >
+					<a data-role="button" id="btnOk-alerteJQM" data-inline="true"  data-icon="delete"> OK </a>
+					<a data-role="button" id="btnReset-alerteJQM" data-inline="true"  data-icon="back" style="display:none;"> Reset </a>
+				</div>
+		</div>
+	</div>
+	<div data-role=dialog id="delObs">
+		<div data-role=header id="delObs-header" >
+		</div>
+		<div data-role="content" class="ui-content">
+				<p id="delObs-Content"></p>
+				<div data-role="controlgroup" data-type="horizontal" >
+					<a data-role="button" id="delObs-btnOk" data-inline="true"  data-icon="delete"> Yes </a>
+					<a data-role="button" id="delObs-btnReset" data-inline="true"  data-icon="back"> Reset </a>
+				</div>
 		</div>
 	</div>
   </body>
-	<script src="Js/database.js"></script>
+	<!--<script src="Js/database.js"></script>
 	<script src="Js/app-init.js"></script>
 	<script src="Js/viewsEvents.js"></script>
 	<script src="Js/datagenerate.js"></script>
 	<script src="Js/map.js"></script>
 	<script src="Js/gps.js"></script>
-	<script src="Js/ProtocolsList.js"></script>
+	<script src="Js/ProtocolsList.js"></script>-->
  </html>
  

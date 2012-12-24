@@ -60,3 +60,18 @@ text-shadow: none !important;
 .ui-btn-hover-c{
 	color:#1BA1E2;
 }
+/*********horloge home page**********/
+#homeHorloge{
+	font-size:120px;
+	text-align: center;
+	position: absolute;
+	left: 900px;
+	top: 0px;
+}
+#dateToday{
+	font-size:40px;
+	text-align: center;
+	position: absolute;
+	left: 880px;
+	top: 150px;
+}

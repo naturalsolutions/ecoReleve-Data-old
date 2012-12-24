@@ -51,7 +51,7 @@ function loadFileThesaurus (db){
 				$("#taxonsHeader").html("Chargement de la ligne " + j + " /" + data.length + "...");
 				var dataFields = data[j].split(';');
 				var  values = ""
-				for(var k = 0; k < dataFields.length; k += 1) {
+				for(var k = 0; k < dataFields.length; k += 1){
 				values = values +"'"+dataFields[k]+"',";
 				}
 				var n=values.lastIndexOf(",");
@@ -64,5 +64,26 @@ function loadFileThesaurus (db){
 		   $("#taxonsHeader").html("Taxons");
 		   $("#waitControlTaxa").attr('style', 'display:none;');
        }
+    });
+}
+function loadFileProtocols (db){	
+    $.ajax({
+       type: 'GET',
+       url: 'ressources/XML_ProtocolDef.xml',
+      dataType: "xml",
+       success: function(xml) {
+			xmlNode = $(xml);	
+			$(xml).find('protocol').each(   
+                         function()
+                         {
+						var protName = $(this).find('display_label:first').text();
+						protName = trim(protName);
+						var protId = $(this).attr('id');
+						// pour chaque protocole, rajouter 1 enregistrement dans la table Tprotocoles
+						var req = "INSERT INTO Tprotocols (prot_id, prot_name)" + " VALUES ('"+ protId + "','" + protName + "')";
+						insertRow(req);
+						});
+		   localStorage.setItem('fileProtocolsLoaded', "true");
+		   }
     });
 }
