@@ -12,10 +12,16 @@ Screen shots
 ------------
 ![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Screen/Screen.png)
 
-Demo
+Demo (SAFARI)
 ------------
 
-[ecoReleve data](https://github.com/NaturalSolutions/ecoReleve-Data/blob/master/index.html)
+[ecoReleve data](http://www.natural-solutions.eu/ecoreleve-mobile/)
+
+Technologie used
+------------
+[PhoneGap ]( http://phonegap.com/)
+[JQuery Mobile](http://jquerymobile.com/)
+[Backbonejs]( http://backbonejs.org/
 
 Functionalities
 ------------
