@@ -2,7 +2,7 @@
 =========
 A free and open source biodiversity data entry software
 
-![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Logo/logo-LABS_Mobile.jpg)
+![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Logo/logo-LABS_Data.jpg)
 
 We provide Software for Field Worker: that actually run the data collection and data entries
 
