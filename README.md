@@ -19,9 +19,9 @@ Demo (SAFARI)
 
 Technologie used
 ------------
-[PhoneGap ]( http://phonegap.com/)
-[JQuery Mobile](http://jquerymobile.com/)
-[Backbonejs]( http://backbonejs.org/
+*[PhoneGap] (http://phonegap.com/)
+*[JQuery Mobile](http://jquerymobile.com/)
+*[Backbonejs](http://backbonejs.org/
 
 Functionalities
 ------------
