@@ -1,0 +1,36 @@
+﻿.ftColr-white{
+	color: white;
+}
+.ftColr-black{
+	color: black;
+}
+.ftColr-blue{
+	color: blue;
+}
+.ftBold {
+	font-weight: bold;
+}
+.pading-min {
+	padding-top:2px;
+}
+
+.nav-bar .nav-bar-inner .element a, .nav-bar .nav-bar-inner a .element a {
+height: 48px;
+}
+.nav-bar .nav-bar-inner > .divider, .nav-bar .nav-bar-inner > ul.menu > li.divider {
+height: 48px;
+line-height: 48px;
+}
+.span8 {
+width: 100%;
+}
+.olMapViewport {
+width: 100%;
+}
+#rowMap{
+	height: 500px;
+}
+#spanMap{
+	height: 100%;
+}
+

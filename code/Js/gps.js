@@ -21,19 +21,24 @@ function myPositionOnMap(){
 		navigator.geolocation.getCurrentPosition(function(position){
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
-			point = new OpenLayers.LonLat(longitude, latitude);
-			if (showMyLocation == 1 ){
+			app.point = new OpenLayers.LonLat(longitude, latitude);
+			//if (showMyLocation == 1 ){
 				 if (markers && marker){
 				markers.removeMarker(marker);
 				}
-				point = point.transform(
+				app.point = app.point.transform(
 									new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
 									new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
 									);
-				addMarker(point);
-				map.setCenter(point);
-				map.panTo(point);
-			}
+				addMarker(app.point);
+				app.map.setCenter(app.point);
+				app.map.panTo(app.point);
+			//}
+		// renseigner les coordonnées dans la zone dédiée
+		$("#sation-position-latitude").val(latitude);
+		$("#sation-position-longitude").val(longitude);
+		
+		
 		},erreurPosition,{timeout:10000});
 	}
 }
