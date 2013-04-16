@@ -15,7 +15,7 @@ Screen shots
 Demo (SAFARI)
 ------------
 
-[ecoReleve data](http://www.natural-solutions.eu/ecoreleve-mobile/)
+[ecoReleve data](http://82.96.149.133/html/ecoReleve/ecoReleve-data/)
 
 Technologie used
 ------------
