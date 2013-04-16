@@ -15,17 +15,17 @@
 }
 
 .nav-bar .nav-bar-inner .element a, .nav-bar .nav-bar-inner a .element a {
-height: 48px;
+	height: 48px;
 }
 .nav-bar .nav-bar-inner > .divider, .nav-bar .nav-bar-inner > ul.menu > li.divider {
-height: 48px;
-line-height: 48px;
+	height: 48px;
+	line-height: 48px;
 }
 .span8 {
-width: 100%;
+	width: 100%;
 }
 .olMapViewport {
-width: 100%;
+	width: 100%;
 }
 #rowMap{
 	height: 500px;
@@ -33,4 +33,41 @@ width: 100%;
 #spanMap{
 	height: 100%;
 }
+#content{
+	height:100%;
+	width: 100%;
+}
+#homeContent{
+	height:100%;
+	width: 100%;
+}
 
+#homeContent div.style{
+	height:100%;
+	width: 100%;
+}
+
+div#content div.style{
+	height:100%;
+	width: 100%;
+}
+#index-page{
+	height:100%;
+	width: 100%;
+}
+
+body{
+	height:100%;
+	width: 100%;
+}
+div#content:first-child{
+	height:100%;
+	width: 100%;
+}
+.obsStoredAlertBox{
+	background-color:rgb(0,0,0);
+}
+
+.updateDataAlert{
+	background-color:rgb(0,0,0);
+}

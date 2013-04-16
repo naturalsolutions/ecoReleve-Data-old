@@ -3,7 +3,7 @@
 	window.location.reload();
 });
 
- $("#sation-infos-submit").live("click",function(){
+ /*$("#sation-infos-submit").live("click",function(){
 		var val = validateFields();
 		if (val == 1 ){
 			var str = $("#sation-infos-form").serialize();
@@ -17,7 +17,7 @@
 		}
 		return false;
 		
-});
+});*/
 
 /*
  $("#sation-position-submit").live("click",function(){

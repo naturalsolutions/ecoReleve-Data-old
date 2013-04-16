@@ -53,6 +53,7 @@ function generateStation(formValues){
 	app.collections.stations.add(app.models.station);
 }
 function addStationInfos(formValues){
+	console.log("MAJ champs");
 	var maReg =/[+]/g; // sert à remplcer le caractère '+' 
 	var maReg2 =/%3A/g; // :
 	var maReg3 =/%2F/g;// '/'
@@ -85,13 +86,28 @@ function addStationInfos(formValues){
 			var fldDisplay = fieldValToDisplay.substring(0,1) + fld.replace(maReg2, ":");
 			app.models.station.set("time_now", fldDisplay);
 			break;
-		case "observer":
-			app.models.station.set("observer", fieldValToDisplay);
+		case "observer1":
+			app.models.station.set("observer1", fieldValToDisplay);
+		break;
+		case "observer2":
+			app.models.station.set("observer2", fieldValToDisplay);
+		break;
+		case "observer3":
+			app.models.station.set("observer3", fieldValToDisplay);
+		break;
+		case "observer4":
+			app.models.station.set("observer4", fieldValToDisplay);
+		break;
+		case "observer5":
+			app.models.station.set("observer5", fieldValToDisplay);
 		break;
 		}
 	}
 	// ajouter la station à la liste de stations initialisée lors du lancement de l'appli
 	app.collections.stations.add(app.models.station);
+	// save the collection of stations in the localstorage
+	app.models.station.save();	
+	console.log(" station sauvegardée");
 }
 function getTime(){
 	var currentDate = new Date();  
@@ -114,3 +130,57 @@ function validateFields(){
 	});
 	return valRetour ; 
 }
+function insertObserverField(id){
+	app.global.nbObs =  id;
+	if(id < 6){																		
+		var fieldHtml = '<div class="border-color-red" id="stat-infos-Obs-' + id + '">'
+					  + 	'<div class="input-control select">'
+					  +			'<fieldset><span><h2>Observer' + id + '</h2></span>'
+					  +				'<select name="observer' + id +'">'
+					  + 				'<option value="Observer 1">Observer 1 </option>'
+					  + 				'<option value="Observer 2">Observer 2 </option>'
+					  + 				'<option value="Observer 3">Observer 3 </option>'
+					  + 				'<option value="Observer 4">Observer 4 </option>'
+					  + 				'<option value="Observer 5">Observer 5 </option>'
+					  + 			'</select></fieldset></div></div>'  ;
+					  
+		$("#stat-infos-obsList").append(fieldHtml);
+		var newId = parseInt(id) + 1;
+		$("#station-info-add-obs").attr("idObs",newId);
+	}
+}
+
+function removeObserverField(id){
+	debugger;
+	if (id > 1){
+		var idField = '#stat-infos-Obs-' + id ;		
+		$(idField).remove();
+		//var newId = parseInt(id) - 1;
+		//$("#station-info-add-obs").attr("idObs",newId);
+		$("#station-info-add-obs").attr("idObs", id);
+		app.global.nbObs =  id;
+	}
+	
+}
+function updateNbObservers(nb){
+	var limite = parseInt(nb) +1;
+	if (nb > 1){
+		for (var i= 2; i< limite ; i++){
+			insertObserverField(i);
+		}
+	}
+}
+$("#station-info-add-obs").live("click", function(){
+	var idObs = $("#station-info-add-obs").attr("idObs");
+	//alert ("idobs a ajouter : " + idObs);
+	insertObserverField(idObs);
+	
+});
+$("#station-info-rem-obs").live("click", function(){
+	var idObs = $("#station-info-add-obs").attr("idObs");
+	var newId = parseInt(idObs) - 1;
+	//alert ("idobs a suppr : " + newId);
+	removeObserverField(newId);
+
+});
+

@@ -1,11 +1,12 @@
 ﻿var ecoReleveData = (function(app) {
     "use strict";
-app.Views.StationPositionView = Backbone.View.extend({
+
+app.Views.MapStationsView = Backbone.View.extend({
 	templateLoader: app.utils.templateLoader,
 	//el : $('#content'),
         initialize : function() {
-           this.template = _.template($('#sation-position-template').html());
-			//this.template = _.template(this.templateLoader.get('sation-position'));
+           this.template = _.template($('#map-stations-template').html());
+			//this.template = _.template(this.templateLoader.get('map-stations'));
         },
 
         render : function() {
@@ -22,8 +23,18 @@ app.Views.StationPositionView = Backbone.View.extend({
 		onShow: function(){
 			$(this.el).show(500);
 		},
-
+				events: {
+			"click a#plus": "zoomIn",
+			"click a#minus": "zoomOut",
+		},
+		zoomIn: function(e){
+			app.map.zoomIn();
+		},
+		zoomOut: function(e){
+			app.map.zoomOut();
+		}
+		
+		
 });
-
  return app;
 })(ecoReleveData);

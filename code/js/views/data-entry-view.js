@@ -1,8 +1,11 @@
-﻿
+﻿var ecoReleveData = (function(app) {
+    "use strict";
+
 app.Views.DataEntryView = Backbone.View.extend({
-	//model: app.Models.Station,
+	//templateLoader: app.utils.templateLoader,
 	initialize : function(model) {
 		this.template = _.template($('#data-entry-template').html());
+		//this.template = _.template(this.templateLoader.get('data-entry'));
 		//this.model = model;
 	},
 
@@ -22,3 +25,11 @@ app.Views.DataEntryView = Backbone.View.extend({
 		$(this.el).show(500);
 	}
 });
+ return app;
+})(ecoReleveData);
+/*
+app.Views.DataEntryView = Backbone.LayoutView.extend({
+  template: "#data-entry-template"
+});
+
+*/

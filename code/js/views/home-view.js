@@ -1,9 +1,11 @@
-﻿
-app.Views.HomeView = Backbone.View.extend({
+﻿var ecoReleveData = (function(app) {
+    "use strict";
 	
-	//el : $('#content'),
+	app.Views.HomeView = Backbone.View.extend({
+	templateLoader: app.utils.templateLoader,
         initialize : function() {
             this.template = _.template($('#home-template').html());
+		   //this.template = _.template(this.templateLoader.get('home'));
         },
 
         render : function() {
@@ -38,7 +40,8 @@ app.Views.HomeView = Backbone.View.extend({
 		return this;
 	}*/
 });
-
+ return app;
+})(ecoReleveData);
 /*
 MyView = Backbone.View.extend({
 	render: function(){

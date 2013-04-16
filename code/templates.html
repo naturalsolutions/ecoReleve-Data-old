@@ -1,8 +1,42 @@
-﻿<script type="text/template" id="home-template">
+﻿<script type="text/template" id="msgBox-template">
+	<div class="message-dialog bg-color-red" >
+		<p><h2 class="ftColr-white ">Passage &agrave; l&acute;&eacute;tape suivante !</h2></p>
+		 <a class="button big " href="#proto-choice" >Return</a>
+		 <a class="button big" href="#" >Home</a>
+	</div>
+</script>
+
+<script type="text/template" id="map-stations-template">
+	<div class="page secondary">
+		<div class="nav-bar" >
+			<div class="nav-bar-inner padding10 bg-color-red ">
+				  <span class="element">
+				<a href="#" class="back-button big page-back"></a>
+				</span>
+				<span class="divider"></span>
+				<span>
+					<h2 class="ftColr-white ftBold">Stations </h2>
+				</span>
+			</div>
+		</div>
+		<div class="page-region">
+			<div class="page-region-content">
+				<div class="border-color-red" id="map" style="height:300px, width:600px;"></div>
+				<div id="navigation" >
+					<a class="button big" id="plus" > + </a>
+					<a class="button big" id="minus" > - </a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</script> 
+
+<script type="text/template" id="home-template">
 	<div class="page secondary">
 		<div class="page-header">
 			<div class="page-header-content">
-				<h1>ecoRelev&eacute; data</h1>
+				<h1>ecoReleve data</h1>
 			</div>
 		</div>
 		<div class="page-region">
@@ -17,62 +51,66 @@
 						<div class="span6">
 							<div class="tile  icon bg-color-orangeDark">
 								<div class="tile-content">
-										<img src="images/birds.png">
+										<img src="images/birds.png"/>
 								</div>
 								<div class="brand">
 									<span class="name">Identify individual</span>
 								</div>
 							</div>
-							<div class="tile  icon bg-color-yellow">
-								<div class="tile-content">
-										<img src="images/my-data.png">
+							<a href="#mydata" >
+								<div class="tile  icon bg-color-yellow">
+									<div class="tile-content">
+											<img src="images/my-data.png"/>
+									</div>
+									<div class="brand">
+										<span class="name">My data</span>
+										<span class="badge" id="badgeMyData">0</span>
+									</div>
 								</div>
-								<div class="brand">
-									<span class="name">My data</span>
-								</div>
-							</div>
+							</a>
 							<a href="#entryStation" >
 								<div class="tile double bg-color-red icon">
 									<b class="check"></b>
 									<div class="tile-content">
-										<img src="images/new-data.png">
+										<img src="images/new-data.png"/>
 									</div>
 									<div class="brand">
 										<span class="name">Data entry</span>
-										<span class="badge">0</span>
 									</div>
 								</div>
 							</a>
-							
 						</div>
 						
 						<div class="span6">
-							<div class="tile  icon bg-color-orange">
-								<div class="tile-content">
-										<img src="images/download.png">
+							<a href="#updateData">
+								<div class="tile  icon bg-color-orange">
+									<div class="tile-content">
+											<img src="images/download.png"/>
+									</div>
+									<div class="brand">
+										<span class="name">Update</span>
+									</div>
 								</div>
-								<div class="brand">
-									<span class="name">Download</span>
-								</div>
-							</div>
+							</a>
 							<div class="tile  icon bg-color-greenLight">
 								<div class="tile-content">
-										<img src="images/upload.png">
+										<img src="images/upload.png"/>
 								</div>
 								<div class="brand">
 									<span class="name">Upload</span>
 								</div>
 							</div>
+							<a href="#map-stations" >
+								<div class="tile double icon bg-color-blue">
 
-							<div class="tile double icon bg-color-blue">
-
-								<div class="tile-content">
-										<img src="images/maps.png">
+									<div class="tile-content">
+											<img src="images/maps.png"/>
+									</div>
+									<div class="brand">
+										<span class="name">Map</span>
+									</div>
 								</div>
-								<div class="brand">
-									<span class="name">Map</span>
-								</div>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -80,6 +118,7 @@
 		</div>
 	</div>
 </script>
+
  <script type="text/template" id="sation-position-template">
 	 <div class="page secondary">
 		<div class="nav-bar" >
@@ -141,8 +180,7 @@
 										<div class="border-color-red pading-min">
 											<div class="input-control text" >
 												<fieldset>
-													<!--<h2>Station Name</h2>
-													<input type="text" />-->
+											
 													<span><h2>Latitude</h2></span>
 													<input type="text" name="latitude" id="sation-position-latitude"/>
 													<span><h2>Longitude</h2></span>
@@ -151,7 +189,7 @@
 											</div>	
 										</div>
 										<div class="border-color-red" id="map" >
-												<!--<img src="images/map.png" />-->
+											
 										</div>
 									</form>
 								</div>
@@ -198,8 +236,7 @@
 										<div class="border-color-red">
 											<div class="input-control text" >
 												<fieldset>
-													<!--<h2>Station Name</h2>
-													<input type="text" />-->
+											
 													<span><h2>Station Name</h2></span>
 													<input type="text" name="station_name" class ="required"/>
 													<span><h2>Field activity</h2></span>
@@ -233,7 +270,7 @@
 										</div><br/>
 										<div>
 											 <a class="button big" href="#entryStation" >Cancel</a>
-											 <a class="button big bg-color-blue fg-color-white"  type="submit" name="g" value="Submit" id="sation-infos-submit" >Next</a>
+											 <a class="button big bg-color-blue fg-color-white"   name="g"  href="#proto-choice" >Next</a>
 										</div>
 									</form>
 								</div>
@@ -244,46 +281,7 @@
 		</div>
 	</div>
 </script>
-<script type="text/template" id="msgBox-template">
-	<div class="message-dialog bg-color-red" >
-	<p><h2 class="ftColr-white ">Passage &agrave; l&acute;&eacute;tape suivante !</h2></p>
-	 <a class="button big " href="#proto-choice" >Return</a>
-	 <a class="button big" href="#" >Home</a>
-	
-	</div>
-</script>
-<script type="text/template" id="msgBox-protocols-choice-template">
-<div class="message-dialog border-color-red" >
-	<div class="page secondary">
-		<div class="page-header">
-		</div>
-		<div class="page-region">
-			<div class="page-region-content">
-				<div class="grid">
-					<div class="row">
-						<div class="span5">
-							<p><h1>Choose a data protocol</h1></p>
-						</div>
-						<div class="span6">
-							<a href="#data-entry"><button class="command-button  bg-color-red ">
-								<h2 class="ftColr-white">Vertebrate contact</h2>
-							</button></a>
-							<a href="#data-entry"><button class="command-button bg-color-red ">
-								<h2 class="ftColr-white">Simplified habitat</h2>
-							</button></a>
-							<a href="#data-entry"><button class="command-button bg-color-red ">
-								<h2 class="ftColr-white">Nest description</h2>
-							</button></a>
-							 <a class="button big" href="#msgBox">Cancel</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-</script>
-<script type="text/template" id="data-entry-template">
+<script type="layout" id="data-entry-layout">
 	<div class="page secondary">
 		<div class="nav-bar" >
 			<div class="nav-bar-inner padding10 bg-color-red ">
@@ -299,20 +297,182 @@
 		<div class="page-region">
 			<div class="grid">
 				<div class="row" class="border-color-red">
-					<div class="span6 border-color-red">
-						<p><h1>Station</h1></p>
-						<br/>
-						<h2>Name:</h2>	<h3><%= station_name %></h3> 
-						<h2>Longitude:</h2>	<h3><%= longitude %></h3>
-						<h2>Latitude:</h2>	<h3><%= latitude %></h3>
-						<h2>Date:</h2>	<h3><%= date_day %></h3>
-						<h2>Time:</h2>	<h3><%= time_now %></h3>
+					<div class="span4 border-color-red">
+						<div class="station"></div>
+						<!--
+
+						-->
 					</div>
-					<div class="span6" class="border-color-red">
-						<p><h1>Form content</h1></p>
+					<div class="span7" class="border-color-red">
+						<div class="protocol"></div>
+					</div>
+				</div>
+				<div class="row" class="border-color-red">
+					<div class="span8" class="border-color-red">
+						<div class="obsStoredAlertBox"></div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="data-entry-station" type="template">
+	<p><h1>Station</h1></p>
+	<br/>
+	<h2>Name:</h2>	<h3><%= station_name %></h3> 
+	<h2>Longitude:</h2>	<h3><%= longitude %></h3>
+	<h2>Latitude:</h2>	<h3><%= latitude %></h3>
+	<h2>Date:</h2>	<h3><%= date_day %></h3>
+	<h2>Time:</h2>	<h3><%= time_now %></h3>
+</script>
+
+<script id="data-entry-protocol" type="template">
+	<p><h1><%= name %></h1></p>
+	<div id="frm"></div><br/>
+	<a class="button big bg-color-blue fg-color-white submit" >Validate</a>
+</script>
+<script type="layout" id="main-layout">
+	<div class="layoutContent"></div>
+</script>
+<script id="#item-template" type="template">
+  	<a>
+		<button class="command-button  bg-color-red " idProt=<%= id %>>
+			<h2 class="ftColr-white" idProt=<%= id %>><%= name %></h2>
+		</button>
+	</a>
+</script>
+<script type="layout" id="msgBox-protocols-choice">
+	<div class="message-dialog border-color-red" >
+		<div class="page secondary">
+			<div class="page-header">
+			</div>
+			<div class="page-region">
+				<div class="page-region-content">
+					<div class="grid">
+						<div class="row">
+							<div class="span5">
+								<p><h1>Choose a data protocol</h1></p>
+							</div>
+							<div class="span6">
+								<div class="listview">
+								</div>
+
+								 <a class="button big" href="#">Cancel</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </script>
+<script  id="data-entry-end-template" type="template">
+	<br/>
+	<div class="span5">
+			<p><h2><span id="data-entry-end-proto-name"></span> saved</h2></p>
+	</div>
+	<div class="span6">
+		<a href="#proto-choice"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >New data (different protocol)</h2></button></a>
+		<a class="btnSameProt"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >New data (same protocol)</h2></button></a>
+		<a href="#"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >Finish</h2></button></a>
+	</div>
+	<br/>
+</script>
+<!-- layout view my data   -->	
+<script type="layout" id="my-data-layout">
+	<div class="page secondary">
+		<div class="nav-bar" >
+			<div class="nav-bar-inner padding10 bg-color-red ">
+				  <span class="element">
+				<a href="#" class="back-button big page-back"></a>
+				</span>
+				<span class="divider"></span>
+				<span>
+					<h2 class="ftColr-white ftBold">My data</h2>
+				</span>
+			</div>
+		</div>
+		<div class="page-region ">
+			<div class="page-region-content">
+					<div class="grid gridview">
+			
+					</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- layout view my data / template view datagrid  -->	
+<script  id="my-data-gridview-template" type="template">
+	<div>
+		<table class="striped bordered hovered">
+			<thead><tr><th></th>
+			
+			<% for(var title in titles) { %>
+			<th><%= titles[title] %></th>
+			<% } %>
+			
+			</tr></thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</script>
+<!-- layout view my data   -->	
+<script type="layout" id="update-data-layout">
+	<div class="page secondary">
+		<div class="nav-bar" >
+			<div class="nav-bar-inner padding10 bg-color-red ">
+				  <span class="element">
+				<a href="#" class="back-button big page-back"></a>
+				</span>
+				<span class="divider"></span>
+				<span>
+					<h2 class="ftColr-white ftBold">Update</h2>
+				</span>
+			</div>
+		</div>
+		<div class="page-region ">
+			<div class="page-region-content">
+					<div class="grid ">
+						<div class="row updateDataGridView" >
+						</div>
+						<div class="row" class="border-color-red">
+							<div class="span8" class="border-color-red">
+								<div class="updateDataAlert"></div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- update data main view -->
+<script  id="update-data-template" type="template">
+		<div class='span5 updateProtos'>
+			<img src='images/update_protos.jpg'/>
+		</div>
+		<div class='span5 updateUsers'>
+			<img src='images/update_users.jpg'/>
+		</div>
+</script>
+<!-- update data alert view -->
+<script  id="update-data-alert-template" type="template">
+	<br/>
+	<div class="span5">
+			<p><h2>Are you sure you want to update your data?</h2><br/><h3>This action will delete all your local data</h3></p>
+	</div>
+	<div class="span6">
+		<div class="listviewProtocols"></div>
+		<a class="button big cancel" >Cancel</a>
+		<a class="button big validate" >Ok</a>
+	</div>
+	<br/>
+</script>
+
+
+
+
+
+	

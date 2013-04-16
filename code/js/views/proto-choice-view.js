@@ -1,23 +1,31 @@
-﻿
-app.Views.ProtocolChoiceView = Backbone.View.extend({
-	
-	//el : $('#content'),
-        initialize : function() {
-            this.template = _.template($('#msgBox-protocols-choice-template').html());
-        },
+﻿var ecoReleveData = (function(app) {
+    "use strict";
 
-        render : function() {
-            var renderedContent = this.template();
-            $(this.el).html(renderedContent);
-          //  return this;
-		     $(this.el).hide();
-        },
-		close: function(){
+app.Views.ProtocolChoiceView = Backbone.View.extend({
+  initialize : function() {
+	this.template = _.template($('#msgBox-protocols-choice-template').html());
+  },
+  render : function() {
+	var renderedContent = this.template();
+	$(this.el).html(renderedContent);
+	$(this.el).hide();
+  },
+  close: function(){
 			this.remove();
 			this.unbind();
-		},
-		 
-		onShow: function(){
+	}, 
+	onShow: function(){
 			$(this.el).show(100);
-		}
+	},
+	events : {
+            'click button' : 'msgAlert'
+        },
+	msgAlert : function(e){ 
+		 e.preventDefault();
+		 alert($(e.target).attr("idProt"));
+		// var idSelectedProto = this.$('button').attr('id');
+		//alert ("click ! : " + idSelectedProto);
+	}
 });
+ return app;
+})(ecoReleveData);

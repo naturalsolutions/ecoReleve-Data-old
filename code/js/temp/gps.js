@@ -1,5 +1,8 @@
 ﻿//*************************************** GPS
-function getPosition(){
+var ecoReleveData = (function(app) {
+    "use strict";
+
+app.utils.getPosition = function (){
 	var latitude, longitude;
 	var myPosition = new Object(); ;
 	if (navigator.geolocation) {
@@ -16,23 +19,24 @@ function getPosition(){
 	//return (latitude + ";" + longitude);	
 //	return myPosition;
 }
-function myPositionOnMap(){
+app.utils.myPositionOnMap = function (){
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
 			app.point = new OpenLayers.LonLat(longitude, latitude);
 			//if (showMyLocation == 1 ){
-				 if (markers && marker){
-				markers.removeMarker(marker);
+				 if (app.utils.markers && app.utils.marker){
+				app.utils.markers.removeMarker(app.utils.marker);
 				}
 				app.point = app.point.transform(
 									new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
 									new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
 									);
-				addMarker(app.point);
+				app.utils.addMarker(app.point);
 				app.map.setCenter(app.point);
 				app.map.panTo(app.point);
+				app.map.updateSize();
 			//}
 		// renseigner les coordonnées dans la zone dédiée
 		$("#sation-position-latitude").val(latitude);
@@ -79,6 +83,7 @@ function surveillePosition(position){
 		 }
 	}
 }*/
+
 function erreurPosition(error){
 	var info = "Erreur lors de la geolocalisation : ";
 	switch(error.code) {
@@ -99,3 +104,5 @@ function erreurPosition(error){
 	localStorage.setItem( "latitude", "");
 	localStorage.setItem( "longitude", "" );
 }
+ return app;
+})(ecoReleveData);
