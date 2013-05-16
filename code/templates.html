@@ -101,7 +101,7 @@
 								</div>
 							</div>
 							<a href="#map-stations" >
-								<div class="tile double icon bg-color-blue">
+								<div class="tile icon bg-color-greenDark">
 
 									<div class="tile-content">
 											<img src="images/maps.png"/>
@@ -111,6 +111,17 @@
 									</div>
 								</div>
 							</a>
+								<a href="#conf" >
+									<div class="tile icon bg-color-blue">
+
+										<div class="tile-content">
+												<img src="images/configuration.png"/>
+										</div>
+										<div class="brand">
+											<span class="name">Configuration</span>
+										</div>
+									</div>
+								</a>
 						</div>
 					</div>
 				</div>
@@ -151,7 +162,7 @@
 			<div class="page-region-content">
 				<div class="grid">
 					<div class="row" id="rowMap">
-						<div class="span2">
+						<!--<div class="span2">
 							<div class="row">
 								<div class="span2">
 									<img src="images/current_position.png" />
@@ -172,9 +183,11 @@
 									<img src="images/enter_coordinate.png" height="111px" width="131px"/>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="span10" class="border-color-red" id="#spanMap">
-							<div class="row">
+							<div id="locationForm"></div>
+							<div class="border-color-red" id="map" >
+							<!--<div class="row">
 								<div class="span8">
 									<form id="sation-position-form">
 										<div class="border-color-red pading-min">
@@ -193,14 +206,14 @@
 										</div>
 									</form>
 								</div>
-							</div>
+							</div>  -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="span10">
 							<div>
 								 <a class="button big" href="#">Cancel</a>
-								 <a class="button big bg-color-blue fg-color-white"  type="submit" name="g" value="Submit"  href="#stationInfos">Next</a>
+								 <a class="button big bg-color-blue fg-color-white"  type="submit"  href="#stationInfos" id="locationSubmit">Next</a>
 							</div>
 						</div>
 					</div>
@@ -232,7 +245,12 @@
 
 							<div class="span10">
 								<div class="row" class="border-color-red">
-									<form id="sation-infos-form">
+									<div id="stationForm"></div><br/>
+									<div>
+										<a class="button big" href="#entryStation" >Cancel</a>
+										<a class="button big bg-color-blue fg-color-white"   id="stationInfoSubmit">Next</a>
+									</div>
+									<!--<form id="sation-infos-form">
 										<div class="border-color-red">
 											<div class="input-control text" >
 												<fieldset>
@@ -272,7 +290,7 @@
 											 <a class="button big" href="#entryStation" >Cancel</a>
 											 <a class="button big bg-color-blue fg-color-white"   name="g"  href="#proto-choice" >Next</a>
 										</div>
-									</form>
+									</form> -->
 								</div>
 							</div>
 					</div>
@@ -332,7 +350,8 @@
 <script id="data-entry-protocol" type="template">
 	<p><h1><%= name %></h1></p>
 	<div id="frm"></div><br/>
-	<a class="button big bg-color-blue fg-color-white submit" >Validate</a>
+	<a class="button big bg-color-blue fg-color-white submit" >Validate</a><br/>
+	<div ><img src="" id="image"  /></div>
 </script>
 <script type="layout" id="main-layout">
 	<div class="layoutContent"></div>
@@ -397,6 +416,7 @@
 		</div>
 		<div class="page-region ">
 			<div class="page-region-content">
+
 					<div class="grid gridview">
 			
 					</div>
@@ -404,22 +424,16 @@
 		</div>
 	</div>
 </script>
-<!-- layout view my data / template view datagrid  -->	
-<script  id="my-data-gridview-template" type="template">
+<!-- layout view my data / template view filter  -->	
+<script  id="my-data-filter-template" type="template">
 	<div>
-		<table class="striped bordered hovered">
-			<thead><tr><th></th>
-			
-			<% for(var title in titles) { %>
-			<th><%= titles[title] %></th>
-			<% } %>
-			
-			</tr></thead>
-			<tbody></tbody>
-		</table>
+		<span><h2>Date</h2></span>
+		<input type="text" name="date_day" class="datepicker"/>
+		<a class="button big bg-color-blue fg-color-white go">Go</a>
 	</div>
+	<div class="observationslist"></div>
 </script>
-<!-- layout view my data   -->	
+<!-- layout view update data   -->	
 <script type="layout" id="update-data-layout">
 	<div class="page secondary">
 		<div class="nav-bar" >
@@ -470,8 +484,79 @@
 	</div>
 	<br/>
 </script>
+<!-- layout view update data   -->	
+<script type="layout" id="config-data-layout">
+	<div class="page secondary">
+		<div class="nav-bar" >
+			<div class="nav-bar-inner padding10 bg-color-red ">
+				  <span class="element">
+				<a href="#" class="back-button big page-back"></a>
+				</span>
+				<span class="divider"></span>
+				<span>
+					<h2 class="ftColr-white ftBold">Configuration</h2>
+				</span>
+			</div>
+		</div>
+		<div class="page-region ">
+			<div class="page-region-content">
+					<div class="grid ">
+						<div class="row configList"></div>
+						<div class="row configDetails"></div>
+						<div class="configNewUserAlertBox"></div>
+					</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="config-list-template">
+		<a  class="button big users" style="float:left;margin-top:5px;" >Users</a>
+</script>
+<script type="text/template" id="users-template">
+		<a class="button big icon add" style="float:right;margin-top:5px;">Add</a>
+		<h2>Users list</h2>
+		<div id="users" style="margin-top:10px;border-top:1px #CCC solid;padding-top:5px;">
+			
+		</div>
+</script>
+
+<script type="text/template" id="viewUser-template">
+		<h2 class="ftColr-white"><%= name %></h2>
+		<a  class="button primary icon edit" style="float:right;">Delete user</a>
+</script>
+
+<script  id="data-config-newUser-template" type="template">
+	<br/>
+	<div>
+		<h2>New user</h2>
+	</div><br/>
+	<div id="frmUser"><span class="ftColr-white ftBold">User name : </span><input type="text" required id="userName"/></div><br/>
+	<a class="button big bg-color-blue fg-color-white submit" >Validate</a><br/>
+	<a class="button big  fg-color-white cancel" >Cancel</a><br/>
+	<br/>
+</script>
 
 
+
+<script type="text/template" id="viewUserEntry-template">
+		<div class="user" id="user<%= user.cid %>">
+			<div class="affSupp">
+				<div class="button-group" style="float:right;padding-top:4px;padding-right:5px;">
+					<button class="button closeAffSupp icon arrowup">Reset</button><button class="button primary danger icon trash deleteEntry">Delete</button>
+				</div>
+				<h5 style="color:white;padding-left:10px;">Delete <%= user.name %> ?</h5>
+			</div>
+			<div style="padding:5px;padding-left:10px;">
+				<div class="button-group" style="float:right;">
+					<a href="#edit/<%= user.cid %>" class="button icon edit just-icon"></a>
+					<a class="button icon danger remove just-icon btnSupp"></a>
+				</div>
+				<a href="#<%= user.cid %>" title="Voir l'article">
+					<h3><%= user.name %></h3>
+				</a>
+			</div>
+		</div>
+	</script>
 
 
 

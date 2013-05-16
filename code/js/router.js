@@ -11,7 +11,8 @@
 		"map-stations": "mapStations",
 		"mydata":"mydata",
 		"msgBox" : "alert",
-		"updateData" : "updateData"
+		"updateData" : "updateData",
+		"conf": "configuration"
 	},
 	initialize: function(options){
 	//	this.appView = options.appView;
@@ -60,13 +61,33 @@
 			$('body').css({'height':height, 'width': width });
 			$('div#content').css({'height':height, 'width': width });
 		$('div#content').css({'background-image':'url(images/home_imgFond.jpg)','background-repeat':'no-repeat','background-position':'center center', 'background-size':'100% 100%'});
+		$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '80px'});
+	
 	},
 	entryStation: function(){
-		try {
-		
-			app.views.main.setView(".layoutContent", new app.Views.StationPositionView());
+		//try {
+			debugger;
+				// set users list
+			app.global.usersTab = new Array();
+			app.collections.users.each(function(user){
+				var userName = user.get('name');
+				app.global.usersTab.push(userName);
+			});
+			
+			
+			app.views.main = new Backbone.Layout({
+				template: "#main-layout"
+			});
+			$("#content").empty().append(app.views.main.el);
+			app.views.main.setView(".layoutContent", new app.Views.StationPositionView({usersTab : app.global.usersTab}));
 			app.views.main.render();
 			
+			app.models.location = new app.Models.Location();
+			app.locationForm = new Backbone.Form({
+				model: app.models.location
+			}).render();
+			$('#locationForm').append(app.locationForm.el);
+
 			/*
 			app.views.stationPositionView = new app.Views.StationPositionView();
 			app.utils.RegionManager.show(app.views.stationPositionView);
@@ -76,53 +97,56 @@
 			$('#map').css('width', '780px');
 			$('#map').css('height', '250px');
 			app.utils.myPositionOnMap();
-			app.global.lastView = "entryStation";
+			//app.global.lastView = "entryStation";
 			$('div#content').css({'background-image':''});
+			//$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '5px'});
 		
-		}catch (e) {
-			app.router.navigate("");
-			location.reload(); 
-		}
+		/*}catch (e) {
+			app.router.navigate('', {trigger: true});
+		}*/
 	
 	},
 	stationInfos : function(){
-		try {
-		// check fields content
-			var val = app.utils.validateFields();
-			if (val == 1 ){
-					// default date
-				//var currentDate = new Date();  
-				 var str = $("#sation-position-form").serialize();
-				app.utils.generateStation(str);
-				/*
-				app.views.stationInfosView = new app.Views.StationInfosView();
-				app.utils.RegionManager.show(app.views.stationInfosView);
+	/*	try {
+
 				*/
-				
+				app.views.main = new Backbone.Layout({
+					template: "#main-layout"
+				});
+				$("#content").empty().append(app.views.main.el);
 				app.views.main.setView(".layoutContent", new app.Views.StationInfosView());
 				app.views.main.render();
 				
-				app.global.lastView = "stationInfos";
-				//set the date
-				$(".datepicker").datepicker();
-				$(".datepicker").css('clip', 'auto'); 
+				//app.views.main.render();
+			debugger;
+				// Station info form 
+				app.stationForm = new Backbone.Form({
+						model: app.models.station
+				}).render();
+
+				$('#stationForm').append(app.stationForm.el);
+				//app.global.lastView = "stationInfos";
+				//set the default date
+				var inputDate = $('input[name*="date_day"]');
+				$(inputDate).datepicker();
+				$(inputDate).css('clip', 'auto'); 
 				var currentDate = new Date();
-				$(".datepicker").datepicker("setDate",currentDate);
-				// set the time
-				app.utils.getTime();
-			}
+				$(inputDate).datepicker("setDate",currentDate);
+				// set the default time
+				app.utils.getTime('time_now');
+
+			/*}
 			else {
 				alert ("Please wait to have coordiantes or check GPS if is not activated !");
 			}
 			// si le nombre d'observateurs est parametré > 1, il faut mettre à jour le formulaire
 			var nbObservers = app.global.nbObs ; 
 			//alert(" nb Obs : " + nbObservers);
-			app.utils.updateNbObservers(nbObservers);
-		}catch (e) {
+			app.utils.updateNbObservers(nbObservers);  */
+		/*}catch (e) {
 			
-			app.router.navigate("");
-			location.reload(); 
-		}
+			app.router.navigate('', {trigger: true});
+		}*/
 	},
 	protoChoice : function(){
 		try {
@@ -134,11 +158,10 @@
 			
 			
 			if (app.global.lastView == "stationInfos"){
-				var val = app.utils.validateFields();
-				if (val == 1 ){
-					var str = $("#sation-infos-form").serialize();
+
+					//var str = $("#sation-infos-form").serialize();
 					//alert(str);
-					app.utils.addStationInfos(str);
+					//app.utils.addStationInfos(str);
 					//app.utils.myObservationsOnMap(app.collections.stations);
 					/*
 					app.views.main.setView(".layoutContent", new app.Views.ProtocolChoiceView({collection:app.collections.protocolsList}));
@@ -162,10 +185,7 @@
 					app.utils.RegionManager.show(app.views.protocolChoiceView);
 					*/
 					app.global.lastView = "proto-choice";
-				}
-				else {
-					alert ("Please enter data in the empty fields ");
-				}
+
 			} 
 			else {
 				
@@ -185,12 +205,12 @@
 				app.global.lastView = "proto-choice";
 			}
 		}catch (e) {
-			app.router.navigate("#");
-			location.reload(); 
+			app.router.navigate('#', {trigger: true});
 		}
 	},
 	dataEntry : function(id){
-		try {
+	//	try {
+			debugger;
 			app.views.dataEntryLayout= new Backbone.Layout({
 			template: "#data-entry-layout"
 			});
@@ -200,21 +220,29 @@
 			var tplProtoForm = _.template($('#data-entry-protocol').html());
 			app.views.dataEntryLayout.setView(".station", new app.Views.DataEntryStationView({template:tplStation, model: app.models.station}));
 
-			app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: app.collections.protocolsList.get(id)}));
+			app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: app.collections.protocolsList.get(id), pictureSource: app.global.pictureSource, destinationType : app.global.destinationType}));
 
 			
 			app.views.dataEntryLayout.render();	
 			// formulaire de saisie
+			var currentModel = app.collections.protocolsList.get(id);
 			app.form = new Backbone.Form({
-						model: app.collections.protocolsList.get(id)
-
+						model: currentModel
+						
 			}).render();
-
 			$('#frm').append(app.form.el);
-		}catch (e) {
-			app.router.navigate("#");
-			location.reload(); 
-		}
+			// set default values in form fields
+			debugger;
+			var schema = currentModel.schema;
+			for(var prop in schema){
+				if ( typeof  schema[prop]["value"] !=="undefined"){
+					var defaultValue = schema[prop]["value"];
+					$( "[name='" + prop + "']" ).val(defaultValue);
+				}
+			}
+	/*	}catch (e) {
+			app.router.navigate('#', {trigger: true}); 
+		}*/
 		
 	},
 	mapStations : function(){
@@ -235,18 +263,29 @@
 
 			app.utils.myObservationsOnMap(app.collections.stations);
 		}catch (e) {
-			app.router.navigate("#");
-			location.reload(); 
+			app.router.navigate('#', {trigger: true});
 		}
 	},
 	mydata : function(){
 		//try {
 			$('div#content').css({'background-image':''});
-			app.views.myDataLayout= new Backbone.Layout({
+			/*app.views.myDataLayout= new Backbone.Layout({
 			template: "#my-data-layout"
-			});
+			});*/
+			/*
+			app.views.myDataLayout = new Backbone.Layout({
+				template: "#my-data-layout"
+			});*/
+			//app.views.myDataLayout = new app.Views.MyDataLayout({collection: app.collections.observations});
 			$("#content").empty().append(app.views.myDataLayout.el);
-			// gridview
+				
+			// filter view
+			
+			/*
+			var tplFilterView = _.template($('#my-data-filter-template').html()); 
+			app.views.myDataLayout.setView(".filter", new app.Views.MyDataFilterView({template:tplFilterView}));
+			app.views.myDataLayout.render();
+			*/
 			
 			// sort observations collection by protocol id & create an array of protocols id
 		
@@ -273,14 +312,28 @@
 			});
 			*/
 
-			
+			debugger;
+			//var tplFilterView = _.template($('#my-data-filter-template').html()); 
 
 			app.views.myDataLayout.setView(".gridview", new app.Views.MyDataGridView({ collection: app.collections.observations, protoIdList : protoIdList}));
-			app.views.myDataLayout.render();	
+			//app.views.myDataLayout.render();	
+			debugger;
+			//app.views.myDataLayout.setView(".filterView", new app.Views.MyDataFilterView({}));
+			
+			app.views.myDataLayout.render();
+			
+			//set the date
+			
+			$(".datepicker").datepicker();
+			$(".datepicker").css('clip', 'auto'); 
+			var currentDate = new Date();
+			$(".datepicker").datepicker("setDate",currentDate);
+			
+		
+
 		
 		/*}catch (e) {
-			app.router.navigate("#");
-			location.reload(); 
+			app.router.navigate('#', {trigger: true});
 		}*/
 	},
 	alert: function(){
@@ -301,10 +354,39 @@
 			app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));
 			app.views.dataUpdateLayout.render();
 		}catch (e) {
-			app.router.navigate("#");
-			location.reload(); 
+			app.router.navigate('#', {trigger: true});
+		}
+	},
+	configuration : function(){
+		try {
+			debugger;
+			$('div#content').css({'background-image':''});
+			app.views.configdataLayout= new Backbone.Layout({
+				template: "#config-data-layout"
+			});
+			$("#content").empty().append(app.views.configdataLayout.el);
+			
+			var tplview = _.template($('#config-list-template').html()); 
+			app.views.configdataLayout.setView(".configList", new app.Views.ConfigListView ({template:tplview}));
+			
+			/*
+			var tplview = _.template($('#users-template').html()); 
+			this.articlesView = new app.Views.Users({ template : tplview, collection: app.collections.users });
+			app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));
+			//var tplview = _.template($('#update-data-template').html()); 
+			//app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));*/
+			app.views.configdataLayout.render();
+		}catch (e) {
+			app.router.navigate('#', {trigger: true});
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
  });
  
  return app;

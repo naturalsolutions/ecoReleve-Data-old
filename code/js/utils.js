@@ -44,7 +44,7 @@ app.utils.loadProtocols = function (url){
 									schema[name].type = "Select";
 									schema[name].title = field.get("display_label");
 									schema[name].options = field.get("items");
-
+									schema[name].value = field.get("defaultValue");
 								}); 
 								break;
 							case ("field_numeric"):	 
@@ -54,6 +54,7 @@ app.utils.loadProtocols = function (url){
 									schema[name] = {}; 
 									schema[name].type = "Number";
 									schema[name].title = field.get("display_label");
+									schema[name].value = field.get("defaultValue");
 									var minBound = field.get("min_bound");
 									var maxBound = field.get("max_bound");
 									// validator for min value & max value
@@ -73,32 +74,7 @@ app.utils.loadProtocols = function (url){
 										max.maxval = parseInt(maxBound);
 										validatorslist.push(max);
 									}
-									
 									schema[name].validators = validatorslist;
-									/*
-									schema[name].validators= [
-										function checkbounds(value, minBound,maxBound) {
-											if ( minBound != "") {
-												var err = {
-													type: 'minvalue',
-													message: 'min value  must be >' + minBound
-												 };
-												if (value < minBound) return err;
-											
-											}
-											
-											if ( maxBound != "") {
-												var err = {
-													type: 'maxvalue',
-													message: 'max value  must be < ' + maxBound
-												 };
-												if (value > maxBound) return err;
-											
-											}
-										}
-									];
-									
-									*/
 								});  
 								break;
 							case ("field_text"):
@@ -109,6 +85,7 @@ app.utils.loadProtocols = function (url){
 									schema[name] = {}; 
 									schema[name].type = "Text";
 									schema[name].title = field.get("display_label");
+									schema[name].value = field.get("defaultValue");
 									// validation
 									if (field.get("required") =="true" ){
 										schema[name].validators = ['required'];
@@ -129,7 +106,32 @@ app.utils.loadProtocols = function (url){
 									}*/
 								//schema[name].model = field ;
 								});  
-								break;			
+								break;
+										
+							case ("field_photo"):	
+								generatePhotoField(node,function(field) { 
+									var name = field.get("name");
+									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
+									schema[name] = {}; 
+									schema[name].type = "Photo";
+									schema[name].title = field.get("display_label");
+									schema[name].template = "photo";
+									// add hidden field to store file url
+									schema["photo_url"] = {}; 
+									schema["photo_url"].title = "photo file path";
+									schema["photo_url"].type = "Hidden";
+									schema["photo_url"].validators = ['required'];
+									
+									
+									
+									
+									// validation
+									/*if (field.get("required") =="true" ){
+										schema[name].validators = "['required']";
+									}*/
+								//schema[name].model = field ;
+								});  
+								break;					
 						}				 						 
 					});
 
@@ -139,14 +141,6 @@ app.utils.loadProtocols = function (url){
 					app.models.protocol.schema = schema;
 					// for localstorage => toJson
 					app.models.protocol.attributes.schema = schema;
-					//var value2 = JSON.stringify(app.models.protocol.schema);
-					//var schem = JSON.parse(value2);
-					//var value = JSON.stringify(app.models.protocol);
-					// rajouter le modele à la collection de protocoles
-					//app.models.protocol.schem = value2;
-					//var val = '{"id":"1","name":"Tortue dHermann","data.multispecies":"false","schema":{"Commentaire":{"type":"Text","title":"Commentaire"},"remarque":{"type":"Text","title":"remarque"},"sexe":{"type":"Select","title":"Sexe","options":["femelle","male","0"]}}}';
-					//var obj = JSON.parse(val);
-					//var value3 = JSON.stringify(app.models.protocol);
 					app.collections.protocolsList.add(app.models.protocol);
 					// save the collection of protocols in the localstorage
 					app.models.protocol.save();	
@@ -172,7 +166,8 @@ function generateListField(node, callback){
 	var name = $(node).find('label').text();
 	var label = $(node).find('display_label').text(); 
 	var itemlist = $(node).find('itemlist').text();
-	var defaultValueId = $(node).find('default_value').attr("id");
+	//var defaultValueId = $(node).find('default_value').attr("id");
+	var defaultValueId = $(node).find('default_value').text();
 	
 
 	var defaultvalueposition;
@@ -266,6 +261,18 @@ function generateBooleanField(node, callback){
 		});
 	callback(boolField);
 }
+function generatePhotoField(node, callback){
+	var fieldId = $(node).attr("id");
+	var name = $(node).find('label').text();
+	var label = $(node).find('display_label').text();
+	
+	var photoField = new app.Models.PhotoField({
+		id: fieldId,
+		name : name,
+		display_label:label
+		});
+	callback(photoField);
+}
 		
 /************************************************** GPS ***********************************************************/
 app.utils.getPosition = function (){
@@ -305,8 +312,11 @@ app.utils.myPositionOnMap = function (){
 				app.map.updateSize();
 			//}
 		// renseigner les coordonnées dans la zone dédiée
-		$("#sation-position-latitude").val(latitude);
-		$("#sation-position-longitude").val(longitude);
+		//$("#sation-position-latitude").val(latitude);
+		$('input[name*="latitude"]').val(latitude);
+		$('input[name*="longitude"]').val(longitude);
+
+		//$("#sation-position-longitude").val(longitude);
 		
 		
 		},erreurPosition,{timeout:10000});
@@ -597,14 +607,15 @@ app.utils.addStationInfos = function (formValues){
 	app.models.station.save();	
 	console.log(" station sauvegardée");
 }
-app.utils.getTime =  function (){
+app.utils.getTime =  function (fieldName){
 	var currentDate = new Date();  
 	var Heure = currentDate.getHours();
 	var Min = currentDate.getMinutes();
 	if (Min < 10){
 			Min = "0" + Min ; 
 	}
-	$("#mytime").val(Heure + ":" + Min);
+	$('input[name*="' +  fieldName + '"]').val(Heure + ":" + Min);
+	//$("#mytime").val(Heure + ":" + Min);
 	//setTimeout("app.utils.getTime()",1000);
  }
 app.utils.validateFields = function (){
@@ -656,5 +667,49 @@ app.utils.updateNbObservers = function (nb){
 		}
 	}
 }
+// get the date format in MM/DD/YYYY
+Date.prototype.defaultView=function(){
+	var dd=this.getDate();
+	if(dd<10)dd='0'+dd;
+	var mm=this.getMonth()+1;
+	if(mm<10)mm='0'+mm;
+	var yyyy=this.getFullYear();
+	return String(mm+"\/"+dd+"\/"+yyyy)
+}
+/******************************************************* photo capture *****************************************/
+app.utils.onPhotoDataSuccess = function (imageData){
+/*     $("#smallImage").attr("style","display:block");
+var source = "data:image/jpeg;base64," + imageData;
+$("#smallImage").attr("src", source);
+localStorage.setItem("myphoto",source);
+var myImage = localStorage.getItem("myphoto");
+$("#smallImage").attr("src", myImage);
+*/
+}
+app.utils.onPhotoFileSuccess = function (imageData) {
+    //$("#smallImage").attr("style","display:block");
+    //$("#smallImage").attr("src", imageData);
+	//alert (imageData);
+	//$('#capture').attr("value", imageData);
+
+	app.form.fields.photo_url.setValue(imageData);
+	$("#image").attr("src",imageData);
+	$("#image").attr("height","200");
+	$("#image").attr("width","200");
+}
+
+app.utils.onFail = function(message) {
+      alert('Failed because: ' + message);
+}
+/******************************************************************************************************************/
+
+
+
+
+
+
+
+
+
  return app;
 })(ecoReleveData);

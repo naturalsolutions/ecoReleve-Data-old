@@ -73,11 +73,22 @@ app.Models.BooleanField = Backbone.Model.extend({
 		required : Text
 	}
 });
+app.Models.PhotoField= Backbone.Model.extend({
+	schema: {
+		id: 'Number',
+		name : Text,
+		display_label:Text
+	}
+});
 /************************************************************
 Station Model & collection
 ************************************************************/	
 app.Models.Station = Backbone.Model.extend({
-    defaults: {
+	/*initialize: function(attributes, options) {
+		debugger;
+        this.usersList = options.usersTab;
+    },*/
+    /*defaults: {
         id:null,
         station_name:"",
         field_activity:"",
@@ -90,7 +101,15 @@ app.Models.Station = Backbone.Model.extend({
 		observer5:"",
 		latitude:"",
 		longitude:""
-		}
+		},*/
+	/*schema: {
+		station_name:  { type: 'Text', title:'Station name'},  //,validators: ['required']
+		field_activity: { type: 'Text', title:'Field activity'}, //,validators: ['required']
+		date_day: { type: 'Text', title:'Date'},
+		time_now: { type: 'Text', title:'Time'},
+		//Observer: { type: 'Select' , title:'Observer', options: ['Observer 1', 'Observer 2', 'Observer 3','Observer 4', 'Observer 5'] },
+		Observer: { type: 'Select' , title:'Observer', options: this.usersList }			
+	}*/
 });
  
 app.Collections.Stations = Backbone.Collection.extend({
@@ -100,6 +119,13 @@ app.Collections.Stations = Backbone.Collection.extend({
 					console.log('Stations list Constructor');
 		}
 });	
+app.Models.Location  = Backbone.Model.extend({
+	schema: {
+		latitude:{ type: 'Text', title:'Latitude'},  //,validators: ['required']
+		longitude: { type: 'Text', title:'Longitude'}  //,validators: ['required']
+	}
+});
+
 /*************************************************************
 Observation Model & collection
 **************************************************************/	
@@ -114,6 +140,21 @@ app.Collections.Observations = Backbone.Collection.extend({
 
 app.TableField = Backbone.Model.extend({
 
+});
+/*************************************************************
+User Model & collection
+**************************************************************/	
+// MODELS
+app.Models.User = Backbone.Model.extend({
+	/*schema: {
+		name:{ type: 'Text', title:'Name',validators: ['required']}  
+	}*/
+});
+
+// COLLECTIONS
+app.Collections.Users = Backbone.Collection.extend({
+  model:  app.Models.User,
+  localStorage : new Store('usersList')
 });
 
 

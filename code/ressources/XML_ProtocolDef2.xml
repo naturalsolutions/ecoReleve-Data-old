@@ -99,11 +99,11 @@
               <min_bound>1</min_bound>
            <precision>1</precision>
          </constraints>
-         <default_value>0</default_value>
+         <default_value>2</default_value>
        </field_numeric>
        <field_list id="15">
          <name>
-           <label lang="fr">Précision</label>
+           <label lang="fr">Precision</label>
            <display_label lang="fr">Précision</display_label>
          </name>
          <description>
@@ -116,7 +116,7 @@
          <items>
 			<itemlist lg="fr">151;1;nombre exact|152;2;au moins|153;3;environ|154;4;inférieur à|155;5;nombreux|156;6;noté|157;7;plusieurs|158;8;supérieur à|159;9;vol(s)</itemlist>
          </items>
-         <default_value id="151"/>
+         <default_value id="151">environ</default_value>
          </field_list>
        <field_list id="16">
          <name>
@@ -208,8 +208,6 @@
          <name>
            <label lang="fr">Commentaire</label>
            <display_label lang="fr">Commentaire</display_label>
-           <label lang="en">Commentaire</label>
-           <display_label lang="en">Commentaire</display_label>
          </name>
          <description>
            <label/>
@@ -220,7 +218,7 @@
            <multiline>true</multiline>
          </constraints>
 
-         <default_value/>
+         <default_value>your comment...</default_value>
        </field_text>
         </fields>
          <exports>
@@ -775,6 +773,15 @@
                 </constraints>
                 <default_value/>
             </field_text>
+			<field_photo id="13">
+				<name>
+				  <label lang="en">Photo</label>
+				  <display_label lang="en">Photo</display_label>
+				</name>
+				<description>
+				  <label/>
+				</description>
+			</field_photo>
        </fields>
     </protocol>
 	<form/> 

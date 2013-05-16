@@ -711,6 +711,7 @@
     font-size: 8pt;
   }
 }
+
 /*
  * Metro UI CSS
  * Copyright 2012 Sergey Pimenov
@@ -719,6 +720,8 @@
  * responsive.less
  */
 /* Landscape phones and down */
+/*/
+
 @media (max-width: 480px) {
   .page.secondary .page-back {
     width: 24px;
@@ -832,3 +835,4 @@
     float: none;
   }
 }
+*/

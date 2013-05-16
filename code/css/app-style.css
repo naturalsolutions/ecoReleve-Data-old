@@ -71,3 +71,39 @@ div#content:first-child{
 .updateDataAlert{
 	background-color:rgb(0,0,0);
 }
+.configNewUserAlertBox{
+	background-color:rgb(0,0,0);
+}
+@media screen and (max-width: 640px) {
+  .station {
+    display:none;
+  }
+  .page.secondary .page-back {
+	width: 48px;
+	height: 48px;
+	left: 0px !important;
+  }
+  h2.ftColr-white.ftBold {
+	margin: 0px 0;
+	padding: 0px 70px 0;
+   }
+}
+@media (max-width: 480px) {
+	.tile {
+		width: 150px;
+		height: 150px;
+	}
+	.tile.double {
+		width: 310px;
+	}
+	.page.secondary .page-header .page-header-content h1{
+		left: 80px;
+	}
+	.page.secondary .page-region .page-region-content {
+		padding-left: 5px;
+	}
+}
+
+
+
+
