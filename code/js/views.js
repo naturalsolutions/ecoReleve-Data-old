@@ -42,12 +42,7 @@ app.Views.StationPositionView = Backbone.View.extend({
 					Observer: { type: 'Select' , title:'Observer', options: this.usersList }			
 			}
 			app.models.station.schema = schema ;
-			
-			
-			
-			
-			
-			
+
 			// set station id
 			var nbStoredStations = app.collections.stations.length;
 			// identifiant de la station 
@@ -81,6 +76,7 @@ app.Views.StationInfosView = Backbone.View.extend({
 			app.models.station.set("latitude", app.models.location.get("latitude"));
 			app.models.station.set("longitude", app.models.location.get("longitude"));
 			app.collections.stations.add(app.models.station);
+			app.models.station.save();
 			app.router.navigate('proto-choice', {trigger: true});
 		}
 	}
@@ -90,10 +86,7 @@ app.Views.StationInfosView = Backbone.View.extend({
 MapStationsView --> route "map-stations"
 ******************************************************/
 app.Views.MapStationsView = Backbone.View.extend({
-	//templateLoader: app.utils.templateLoader,
-	//el : $('#content'),
         manage: true ,
-
 		initialize : function() {
            this.template = _.template($('#map-stations-template').html());
 			//this.template = _.template(this.templateLoader.get('map-stations'));
@@ -121,32 +114,6 @@ app.Views.AlertView = Backbone.View.extend({
 	}
 });
 
-
-/*****************************************************
-DataEntryLayout --> route "data-entry"
-******************************************************/
-/*
-app.Views.DataEntryLayout = new Backbone.Layout({
-  //template: "#data-entry-layout",
-
-  render : function() {
-  debugger;
-		this.template = _.template($('#data-entry-layout').html());
-		var renderedContent = this.template();
-		$(this.el).html(renderedContent);
-	  //  return this;
-		 $(this.el).hide();
-	},
-	close: function(){
-		this.remove();
-		this.unbind();
-	},
-	 
-	onShow: function(){
-		$(this.el).show(100);
-	}
-});
-*/
 /*****************************************************
 View station :DataEntryLayout  --> route "data-entry"
 ******************************************************/
@@ -167,10 +134,8 @@ View protocole :DataEntryLayout  --> route "data-entry"
 app.Views.DataEntryProtocolView = Backbone.View.extend({
 	 manage: true,
 	
-	initialize : function(model) {
-		//this.template = _.template($('#data-entry-protocol').html());
-		//this.template = _.template(this.templateLoader.get('msgbox'));
-
+	initialize : function(options) {
+		this.obsId = this.options.obsId ; 
 	},
  
 	serialize: function() {
@@ -195,7 +160,6 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 			photo_url = app.form.fields.photo_url.getValue();
 		}
 		if ( errors === null){
-
 			var myObs =  new app.Models.Observation();
 			var data = app.form.getValue();
 			
@@ -214,13 +178,38 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 			// add the model to observations collection
 			app.collections.observations.add(myObs);
 			// save the model in local storage
-			var attr = myObs.attributes;
+			//var attr = myObs.attributes;
+			
+						// if we modify an obs we need to delete it and generate a new obs model (new id)
+			var editObsId = this.obsId;
+			if (typeof  editObsId != 'undefined'){
+				
+				
+				var obsToEdit = app.collections.observations.get(editObsId);
+				//myObs.attributes.protoId = obsToEdit.get("protoId");
+				//myObs.attributes.protoName = app.global.selectedProtocolName;
+				myObs.attributes.stationId = obsToEdit.get("stationId");
+				myObs.attributes.date = obsToEdit.get("date");
+				obsToEdit.destroy();
+				
+			}
 			myObs.save();
+			if (typeof  editObsId != 'undefined'){
+				app.router.navigate('##mydata', {trigger: true});
+			}
+
 			var tplmsgBox = _.template($('#data-entry-end-template').html());
+			//$("#obsStoredAlertBox").css({"background-color":"#FFF;"});
+			//$(".obsStoredAlertBox").css({"background-color":"#FFF;"});
 			app.views.dataEntryLayout.setView(".obsStoredAlertBox", new app.Views.DataEntryEndView({template: tplmsgBox }));
 			app.views.dataEntryLayout.render();	
+			$("#dataEntryRow").addClass("masqued");
+			//$(".obsStoredAlertBox").css("background-color","#FFFFFF;");
 			$("#data-entry-end-proto-name").html(app.global.selectedProtocolName) ;
-			$(".obsStoredAlertBox").addClass("message-dialog border-color-red");
+			//$(".obsStoredAlertBox").addClass("message-dialog border-color-red");
+			$("#obsStoredAlertBox").parent().addClass('alertRow');
+			
+			
 		} else if (typeof photo != 'undefined'){
 			 if (photo_url =="" ){ alert ('Please take a photo before submitting');}
 		}
@@ -237,21 +226,20 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 app.Views.ListView = Backbone.View.extend({
 	manage: true,
 	tagName: "ul",
+	className: "nav nav-pills nav-stacked" ,
   // Insert all subViews prior to rendering the View.
 	beforeRender: function() {
     // Iterate over the passed collection and create a view for each item.
 		var listView = $(this.el);  
 		this.collection.each(function(mymodel){
-			var li = '<a> <button class="command-button  bg-color-red " idProt=' + mymodel.get('id') + '>'
-					+ '<h2 class="ftColr-white" idProt=' + mymodel.get('id') +'>' + mymodel.get('name') + '</h2></button></a>';
-			  //this.insertView(li);
-			  listView.append(li);
-			//	serialize:  this.model.toJSON
-			//}));
+
+			var li = '<li> <a id="btn" class="btnChoice" idProt=' + mymodel.get('id') + '><span  idProt=' + mymodel.get('id') +'>' + mymodel.get('name') + '</span></a></li>';
+			listView.append(li);
+
 		});
 	},
 	events : {
-            'click button' : 'navigation'
+            'click #btn' : 'navigation'
         },
 	navigation : function(e){ 
 
@@ -263,11 +251,6 @@ app.Views.ListView = Backbone.View.extend({
 		app.router.navigate(route, {trigger: true});
 		app.global.selectedProtocolId = idSelectedProto;
 		app.global.selectedProtocolName = $(e.target).html();
-		/*app.router.navigate(route);  /* , {
-			trigger: true
-		});*/
-		// var idSelectedProto = this.$('button').attr('id');
-		//alert ("click ! : " + idSelectedProto);
 	}
 });
 
@@ -289,8 +272,7 @@ app.Views.DataEntryEndView = Backbone.View.extend({
 
 		$('#frm').append(app.form.el);
 		$('.obsStoredAlertBox').html('');
-		$(".obsStoredAlertBox").removeClass("message-dialog border-color-red");
-		$(".obsStoredAlertBox").css("background-color","");
+		$("#dataEntryRow").removeClass("masqued");
 	}
 
 });
@@ -301,15 +283,8 @@ View mydata :layout
 app.Views.MyDataFilterView= new Backbone.View.extend({
 	manage: true,
 	initialize : function() {
-	debugger;
 		this.template = _.template($('#my-data-filter-template').html());
 	}
-	/*events : {
-            'click .go' : 'filterDate'
-    },
-	filterDate :function(){ 
-		$(".gridview").html("filter data");	
-	}*/
 });
 
 
@@ -322,84 +297,29 @@ View mydata :gridView
 
 app.Views.MyDataGridView = Backbone.View.extend({
 	mycollection : "",
+	filtredCollection:"",
 	manage: true,
 	initialize : function(options) {
-		//var filterTemplate = _.template($('#my-data-filter-template').html());
-		//var renderedContent = filterTemplate;
-		var htmlToRender = "<div><span><h2>Date</h2></span><input type='text' name='date_day' class='datepicker'/> <a class='button big bg-color-blue fg-color-white go'>Go</a></div><div class='obsList'>";
-	
-		// generate a table model and a table instance for each collection => protocol
-		var protList = this.options.protoIdList;
-		for ( var j=0; j < protList.length; j++){
-			var mycollection = this.options.collection;
-			var collectionForProtocolType = new app.Collections.Protocols();
-			mycollection.each(function(model) {
 
-				  if(model.attributes.protoId == protList[j]) {
-				
-					 collectionForProtocolType.add(model);
-				  }
-			});
-
-
+		var htmlToRender = "<div><span><h2>Date</h2></span><input type='text' name='date_day' class='datepicker'/> <a class='btn primary icon go'>Go</a></div><br/>";
+			htmlToRender += "<div class=obsContainer>";
 			
-			// this new collection contains all observations corresponding to a protocol type
-			// generate a table 
-			// each collection " " contains a list of models (observations) of a same protocol: we create a table for this collection
-			
-			//collectionForProtocolType.each(function(model) {
-				var template = _.template('<th class="ftColr-white"><%= name %></th>');
-				var templateData = _.template('<td class="ftColr-white"><%= value %></td>');
-			
-				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
-				
-				var html = '<div class="row"><div class="span6">';
-				html += '<h2>'+ protocolName + '</h2><table class="bordered hovered"><thead><tr>';
-				// insert table litles from first collection = first observation
-				//var newCollection = collectionForProtocolType[j];
-				var attr = collectionForProtocolType.at(0).attributes;
-				for (var prop in attr) {
-					if (( prop !="id" ) && (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
-						var fieldName = new app.TableField({name: prop});
-						//fieldName.name = prop ;
-						html += template(fieldName.toJSON());
-					}
-				}
-				html += "</tr></thead><tbody>";
-				// insert data from each collection (each observation) in a new line of the table
-				var len = collectionForProtocolType.length ; 
-				for (var i=0; i < len ; i++){
-				//this.collection.each(function(model) {	
-					html += "<tr>";
-					var attr = collectionForProtocolType.at(i).attributes;
-					for (var prop in attr) {
-						if (( prop !="id" ) && (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
-							var fieldName = new app.TableField({value: attr[prop]});
-							html += templateData(fieldName.toJSON());
-						}
-					}
-					html += "</tr>";
-				}
-					html += "</tbody></table></div></div><br/>";
-					htmlToRender += html ;
-			//});
-			
-			//$(this.el).html(htmlToRender);
-			//$(".observationslist").html(htmlToRender);
-		}
-
 		htmlToRender += "</div>";
 		
 		$(this.el).html(htmlToRender);
+	
 	},
 	events : {
             'click .go' : 'filterDate',
-			'click li' : 'elementvisibility'
+			'click .tabControl' : 'displayTab',
+			'click .accordion-toggle': 'elementVisibility',
+			'click tr' : 'selectTableElement',
+			'click .delObservation' : 'deleteObservation',
+			'click .editObservation' : 'editObservation'
     },
-	filterDate :function(){ 
-		debugger;
+	filterDate : function(){ 
 		// initialize view
-		$(".obsList").html("");	
+		$(".obsContainer").html("<div id='myDataDelObs' class='masqued btn-group'><a class='btn primary icon delObservation' style='float:left;'>Delete</a><a class='btn primary icon editObservation'>Edit</a></div><br/><br/><ul class='nav nav-tabs'><li class='active'><a class='tabControl'>table</a><div class='obsList content tabElement'></div></li><li><a class='tabControl'>map</a><div id='map' class='masqued tabElement'></div></li></ul></div>");	
 		var obsCollection = this.options.collection;
 		var selectedDate = $(".datepicker").val();
 		// filter observations collection with selected data
@@ -409,12 +329,18 @@ app.Views.MyDataGridView = Backbone.View.extend({
 				filteredCollection.add(model);
 			}
 		});
-		debugger;
+		this.filtredCollection = filteredCollection ;
 		var protocolsList = this.options.protoIdList;
-		var html = '<ul class="accordion" data-role="accordion"> ';
+		
+		$(".obsList").html('<div class="accordion"></div>' );
+		//var html = '<div class="accordion"> ';
 		
 		for ( var j=0; j < protocolsList.length; j++){
-			
+			//$('.dataTable').dataTable();
+			var html ="";
+			var columns = new Array();
+			var data = new Array();
+			var elementId ;
 			var collectionForProtocolType = new app.Collections.Protocols();
 			filteredCollection.each(function(model) {
 
@@ -430,64 +356,227 @@ app.Views.MyDataGridView = Backbone.View.extend({
 			// each collection " " contains a list of models (observations) of a same protocol: we create a table for this collection
 			
 			//collectionForProtocolType.each(function(model) {
-				var template = _.template('<th class="ftColr-white"><%= name %></th>');
-				var templateData = _.template('<td class="ftColr-white"><%= value %></td>');
-				
-				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
+				//var template = _.template('<th class="ftColr-white"><%= name %></th>');
+				//var templateData = _.template('<td class="ftColr-white"><%= value %></td>');
 				debugger;
+				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
+				var protocolid = collectionForProtocolType.at(0).attributes.protoId;
+				elementId = "accordionElement" + protocolid ;
+				html += '<div class="accordion-group">' + '<div class="accordion-heading"><span class="accordion-toggle collapsed protocolTitle">'+ protocolName + '</span></div><div class="accordion-body collapse"  id="'+ elementId + '">';
+				//******html += '<table class="bordered hovered"><thead><tr>';
 				
-           
-				html += '<li  class="active accordeonLi">' + '<a class="ftColr-black">'+ protocolName + '</a><div style="display: none; "><table class="bordered hovered"><thead><tr>';
-			
 				// insert table litles from first collection = first observation
 				//var newCollection = collectionForProtocolType[j];
 				var attr = collectionForProtocolType.at(0).attributes;
 				for (var prop in attr) {
-					if (( prop !="id" ) && (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
+					if ( (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
+						var field = {};
+						field.sTitle = prop;
 						var fieldName = new app.TableField({name: prop});
 						//fieldName.name = prop ;
-						html += template(fieldName.toJSON());
+						//********html += template(fieldName.toJSON());
+						// hide id field
+						
+						if (prop =="id"){
+							field.bVisible = false ;
+						}
+						
+						columns.push(field);
 					}
 				}
-				html += "</tr></thead><tbody>";
+				debugger;
+				//********html += "</tr></thead><tbody>";
 				// insert data from each collection (each observation) in a new line of the table
 				var len = collectionForProtocolType.length ; 
 				for (var i=0; i < len ; i++){
 				//this.collection.each(function(model) {	
-					html += "<tr>";
+					//*********html += "<tr>";
 					var attr = collectionForProtocolType.at(i).attributes;
+					var listVals = new Array();
 					for (var prop in attr) {
-						if (( prop !="id" ) && (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
+						if ((prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
 							var fieldName = new app.TableField({value: attr[prop]});
-							html += templateData(fieldName.toJSON());
+							//*********html += templateData(fieldName.toJSON());
+							var field = {};
+							listVals.push (attr[prop]);
 						}
 					}
-					html += "</tr>";
+					data.push(listVals);
+					//*********html += "</tr>";
 				}
-					html += "</tbody></table></div></li>";
-					//renderContent += html ;
+				// create dataTable for the protocol
+				/*
+				var tableId = elementId + "DataTable";
+				$(elementId).html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="' + tableId + '"></table>');	
+				$(tableId).dataTable( {
+					"aaData":data,
+					"aoColumns": columns
+				});			
+				*/	
+					
+				//********html += "</tbody></table>";
+				html += "</div></div>";
+				$(".accordion").append(html);
+			debugger;
+			// create dataTable for the protocol	
+			var tableId = elementId + "DataTable";
+			//$(elementId).html('');
+			$("#" + elementId).html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="' + tableId + '"></table>');	
+			//$("#" + tableId).dataTable();
+			var oTable;
+			
+			$("#" + tableId).dataTable( {
+				"aaData":data,
+				"aoColumns": columns
+			});
+			// activate row selection
+			/*
+			$("#" + tableId  + "tbody tr").click( function( e ) {
+				if ( $(this).hasClass('row_selected') ) {
+					$(this).removeClass('row_selected');
+				}
+				else {
+					oTable.$('tr.row_selected').removeClass('row_selected');
+					$(this).addClass('row_selected');
+				}
+			});
+			*/
+			oTable = $("#" + tableId).dataTable();
+			
+			}
+			
+				
+					
+		}
+		// init map div
+		$('#map').html();
+		app.point = new OpenLayers.LonLat(5.37,43.29);
+
+	},
+	displayTab : function(e){ 
+
+		var targetElement = $(e.target).parent();
+		var classAttrs  = $(e.target).parent().attr("class");
+		var elementTab = $(targetElement).find('a').eq(0).html();
+
+		if (elementTab == "map") {
+			// check if the map is initialized
+			var content = $('#map').html();
+			if (content ==""){
+			$('#map').css('width', '800px');
+			$('#map').css('height', '600px');
+
+			debugger;
+			var collection = this.filtredCollection ;
+			var len = collection.length ;
+			if (len > 0){
+					app.utils.initMap();
+					app.utils.myObservationsOnMap(collection);
+				} else {
+					$("#map").html("No data to display");
+				}
 			}
 		}
-		html += "</ul><<br/>";
 		
-		$(".obsList").html(html);	
-		return false;
-	
+		if ((typeof classAttrs == 'undefined') || (classAttrs =="")){
+			debugger;
+			$(targetElement).addClass("active");
+			$(targetElement).next().removeClass("active");
+			$(targetElement).prev().removeClass("active");
+
+			$(targetElement).find('div').eq(0).addClass("visible");
+			$(targetElement).find('div').eq(0).removeClass("masqued");
+			$(targetElement).next().find('div').eq(0).addClass("masqued");
+			$(targetElement).next().find('div').eq(0).removeClass("visible");
+			$(targetElement).prev().find('div').eq(0).addClass("masqued");
+			$(targetElement).prev().find('div').eq(0).removeClass("visible");
+			
+		}
+		else if (typeof classAttrs != 'undefined'){
+			// activ element
+			debugger;
+			$(targetElement).next().removeClass("active");
+			$(targetElement).prev().removeClass("active");
+			$(targetElement).find('div').eq(0).addClass("visible");
+			$(targetElement).find('div').eq(0).removeClass("masqued");
+			$(targetElement).next().find('div').eq(0).addClass("masqued");
+			$(targetElement).prev().find('div').eq(0).addClass("masqued");
+		}
 	},
-	elementvisibility : function(e){ 
-		debugger;
-		var ele  = $(e.target).parent().find('div');
-		var style = $(ele).attr('style');
-		//var display = $(".accordeonContent").css('display');
-		if ( style == "display: none; "){
-			//$(".accordeonContent").css('display', 'block');
-			$(ele).css('display', 'block');
+	elementVisibility : function(e){ 
+		// find the div witch contains details to show it
+		var targetElement = $(e.target).parent().parent().children('div').eq(1);
+		var classAttrs = $(targetElement).attr("class");
+		if (typeof classAttrs != 'undefined'){
+			var str = classAttrs.split(" ");
+			var collaspeVal = str[1];
+			//$(elem).css('display', 'block');
+			//alert (collaspeVal);
+			switch (collaspeVal)
+			{
+			case "collapse":
+				$(targetElement).removeClass("collapse");
+				$(targetElement).addClass("collapsed");
+			break;
+			case "collapsed": 
+				$(targetElement).removeClass("collapsed");
+				$(targetElement).addClass("collapse");	
+			break;
+			}
 		}
-		else {
-			//$(".accordeonContent").css('display', 'none');
-			$(ele).css('display', 'none');
+	},
+	selectTableElement : function(e){ 
+		var ele  = $(e.target).get(0).nodeName;
+		//alert (ele);
+		if (ele =="TD"){
+			// find table id
+			var table = $(e.target).parent().parent().parent().get(0).attributes["id"].nodeValue;
+			// initialize datatable
+			app.utils.oTable = $('#' + table);
+			var oTab = $('#' + table).dataTable();
+			// selected tr element
+			var trElement = $(e.target).parent().get(0);
+			//var ele2  = $(trElement).nodeName;
+			if ( $(trElement).hasClass('row_selected')) {
+				$(trElement).removeClass('row_selected');
+				$('#myDataDelObs').addClass("masqued");
+			}
+			else {
+				oTab.$('tr.row_selected').removeClass('row_selected');
+				$(trElement).addClass('row_selected');
+				$('#myDataDelObs').removeClass("masqued");
+            //$(this).addClass('row_selected');
+			}
 		}
-	
+	},
+	deleteObservation : function(e){ 
+		var oTable = $(app.utils.oTable).dataTable();
+		var ele  = $(e.target).get(0).nodeName;
+		 var anSelected = app.utils.fnGetSelected( oTable );
+        if ( anSelected.length !== 0 ) {
+			var data = oTable.fnGetData( anSelected[0] );
+			var idObservation = data[data.length - 1];
+			oTable.fnDeleteRow( anSelected[0] );
+			//var myCollection = app.collections.observations ;
+			//myCollection.remove(myCollection.get(idObservation));
+			var myObsModel = new app.Models.Observation();
+			myObsModel = app.collections.observations.get(idObservation);
+			myObsModel.destroy();
+			$('#myDataDelObs').addClass("masqued");
+		}
+	},
+	editObservation : function(e){
+		var oTable = $(app.utils.oTable).dataTable();
+		var ele  = $(e.target).get(0).nodeName;
+		 var anSelected = app.utils.fnGetSelected( oTable );
+        if ( anSelected.length !== 0 ) {
+			var data = oTable.fnGetData( anSelected[0] );
+			var idObservation = data[data.length - 1];
+			$('#myDataDelObs').addClass("masqued");
+			var route = '#dataEdit/' + idObservation ;
+			app.router.navigate(route, {trigger: true});
+		}
+
 	}
 
 });
@@ -506,6 +595,7 @@ app.Views.UpdateDataView= Backbone.View.extend({
 		app.views.dataUpdateLayout.setView(".updateDataAlert", new app.Views.UpdateDataAlertView({template: tplAlert , collection:app.collections.protocolsList }));
 		app.views.dataUpdateLayout.render();	
 		$(".updateDataAlert").addClass("message-dialog border-color-red");
+		$("#updateDataGridView").addClass("masqued");
 	}
 }); 
 /*****************************************************
@@ -515,26 +605,22 @@ update layout : alert view
 app.Views.UpdateDataAlertView = Backbone.View.extend({
 	 manage: true,
 	 initialize: function(options){
-	 debugger;
 		var protocolsCollection = this.options.collection ; 
 		var listview = new app.Views.ProtosListView({collection:protocolsCollection});
 		this.setView(".listviewProtocols", listview);
-					//protoSelectionLayout.render();
-	 
-	 
 	 },
-	 /* serialize: function() {
-		return this.model.toJSON();
-	},*/
+
 	events : {
             'click .validate' : 'validate', 
 			'click .cancel' : 'cancel'
     },
 	validate :function(){ 
+
 		// hide alert
 		this.remove();
 		$(".updateDataAlert").removeClass("message-dialog border-color-red");
 		$(".updateDataAlert").css({"background-color" : ""});
+		$("#updateDataGridView").removeClass("masqued");
 		// delete stored data
 		// protocols
 		//app.collections.protocolsList.reset();
@@ -550,13 +636,14 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 		//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
 		$.when.apply($, initalizers).done(function() {
 			alert ("Protocols loaded !");
-		
 		});
 	},
 	cancel : function(){ 
+	
 		this.remove();
 		$(".updateDataAlert").removeClass("message-dialog border-color-red");
 		$(".updateDataAlert").css({"background-color" : ""});
+		$("#updateDataGridView").removeClass("masqued");
 	}
 
 });
@@ -566,16 +653,18 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 app.Views.ProtosListView = Backbone.View.extend({
 	manage: true,
 	tagName: "ul",
+	className: "nav nav-pills nav-stacked" ,
   // Insert all subViews prior to rendering the View.
 	beforeRender: function() {
     // Iterate over the passed collection and create a view for each item.
 		var listView = $(this.el);  
 		this.collection.each(function(mymodel){
-			var li = '<button class="command-button  bg-color-red " >'
-					+ '<h2 class="ftColr-white">' + mymodel.get('name') + '</h2></button></a>';
-			  listView.append(li);
+			var li = '<li class="active"><a id="btn"><span>' + mymodel.get('name') + '</span></a></li>';
+			listView.append(li);
 		});
+		
 	}
+	
 });
 /**********************************************************
  config Layout, config list view 
@@ -635,8 +724,10 @@ app.Views.Users = Backbone.View.extend({
 	newUser : function() {
 		var tplmsgBox = _.template($('#data-config-newUser-template').html());
 		app.views.configdataLayout.setView(".configNewUserAlertBox", new app.views.NewUser({template: tplmsgBox }));
-		app.views.configdataLayout.render();	
-		$(".configNewUserAlertBox").addClass("message-dialog border-color-red");
+		app.views.configdataLayout.render();
+		$("#configConfigList").addClass("masqued");
+		$("#configConfigDetails").addClass("masqued");
+		//$(".configNewUserAlertBox").addClass("message-dialog border-color-red");
 		return false;
 	}
 });
@@ -657,7 +748,6 @@ app.views.User = Backbone.View.extend({
 	events : {
             'click .edit' : 'destroy'
     },
-	
 	destroy : function () {
 		this.model.destroy();
 	},
@@ -673,14 +763,10 @@ app.views.NewUser = Backbone.View.extend({
 			'click #userName' :  'clearField'
 	},
 	cancel : function () {
-		debugger;
-		/*$('.configNewUserAlertBox').html('');
-		$(".configNewUserAlertBox").removeClass("message-dialog border-color-red");
-		$(".configNewUserAlertBox").css("background-color","");*/
+
 		app.views.configdataLayout.removeView(".configNewUserAlertBox");
-		$(".configNewUserAlertBox").removeClass("message-dialog border-color-red");
-		$(".configNewUserAlertBox").css("background-color","")
-		//return false;
+		$("#configConfigList").removeClass("masqued");
+		$("#configConfigDetails").removeClass("masqued");
 	},
 	addNewUser : function () {
 		var userName = $('#userName').val();
@@ -692,8 +778,8 @@ app.views.NewUser = Backbone.View.extend({
 			app.collections.users.add(newUser);
 			newUser.save();
 			app.views.configdataLayout.removeView(".configNewUserAlertBox");
-			$(".configNewUserAlertBox").removeClass("message-dialog border-color-red");
-			$(".configNewUserAlertBox").css("background-color","");
+			$("#configConfigList").removeClass("masqued");
+			$("#configConfigDetails").removeClass("masqued");
 		} else {
 			$('#userName').val("Please put new user !");
 		

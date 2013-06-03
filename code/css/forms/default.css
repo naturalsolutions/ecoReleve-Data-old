@@ -8,7 +8,7 @@
 
 /* Field */
 .bbf-field {
-  margin: 1em 0;
+  margin: 2em 1em;
   list-style-type: none;
   position: relative;
   clear: both;
@@ -25,7 +25,7 @@
   }
       
     .bbf-field input, .bbf-field textarea, .bbf-field select {
-      width: 100%;
+      width: 80%;
     }
   
   .bbf-field .bbf-help {

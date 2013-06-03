@@ -8,11 +8,12 @@
 		"stationInfos": "stationInfos",
 		"proto-choice": "protoChoice",
 		"data-entry/:id": "dataEntry",
-		"map-stations": "mapStations",
+		"map": "mapMyPosition",
 		"mydata":"mydata",
 		"msgBox" : "alert",
 		"updateData" : "updateData",
-		"conf": "configuration"
+		"conf": "configuration",
+		"dataEdit/:id" : "dataEdit"
 	},
 	initialize: function(options){
 	//	this.appView = options.appView;
@@ -59,8 +60,8 @@
 			var height = screen.height;
 			var width = screen.width;
 			$('body').css({'height':height, 'width': width });
-			$('div#content').css({'height':height, 'width': width });
-		$('div#content').css({'background-image':'url(images/home_imgFond.jpg)','background-repeat':'no-repeat','background-position':'center center', 'background-size':'100% 100%'});
+			$('body').css({'height':height, 'width': width });
+		$('body').css({'background-image':'url(images/home_imgFond.jpg)','background-repeat':'no-repeat','background-position':'center center', 'background-size':'100% 100%'});
 		$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '80px'});
 	
 	},
@@ -94,11 +95,11 @@
 			*/
 			//initMap();
 			app.utils.initMap();
-			$('#map').css('width', '780px');
-			$('#map').css('height', '250px');
+			//$('#map').css('width', '780px');
+			$('#map').css('height', '350px');
 			app.utils.myPositionOnMap();
 			//app.global.lastView = "entryStation";
-			$('div#content').css({'background-image':''});
+			$('body').css({'background-image':''});
 			//$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '5px'});
 		
 		/*}catch (e) {
@@ -245,30 +246,34 @@
 		}*/
 		
 	},
-	mapStations : function(){
-		try {
-			/*
-			app.views.mapStationsView = new app.Views.MapStationsView();
-			app.utils.RegionManager.show(app.views.mapStationsView);
-			*/
+	mapMyPosition : function(){
+		//try {
+			$('body').css({'background-image':''});
 			app.views.main.setView(".layoutContent", new app.Views.MapStationsView());
 			app.views.main.render();
 			
 			$('div#content').css({'background-image':''});
 			
-			$('#map').css('width', '800px');
+			//$('#map').css('width', '800px');
 			$('#map').css('height', '600px');
 
 			app.utils.initMap();
-
-			app.utils.myObservationsOnMap(app.collections.stations);
-		}catch (e) {
-			app.router.navigate('#', {trigger: true});
-		}
+			app.utils.myPositionOnMap();
+			/*var len = app.collections.stations.length ;
+			if (len > 0){
+				app.utils.myObservationsOnMap(app.collections.stations);
+			} else {
+				$("#map").html("No data to display");
+			}
+		*/
+		//}catch (e) {
+		//	app.router.navigate('#', {trigger: true});
+		//}
 	},
 	mydata : function(){
 		//try {
-			$('div#content').css({'background-image':''});
+			$('body').css({'background-image':''});
+			//$('div#content').css({'background-image':''});
 			/*app.views.myDataLayout= new Backbone.Layout({
 			template: "#my-data-layout"
 			});*/
@@ -345,7 +350,8 @@
 	},
 	updateData : function(){
 		try {
-			$('div#content').css({'background-image':''});
+			$('body').css({'background-image':''});
+			//$('div#content').css({'background-image':''});
 			app.views.dataUpdateLayout= new Backbone.Layout({
 				template: "#update-data-layout"
 			});
@@ -359,8 +365,8 @@
 	},
 	configuration : function(){
 		try {
-			debugger;
-			$('div#content').css({'background-image':''});
+			$('body').css({'background-image':''});
+			//$('div#content').css({'background-image':''});
 			app.views.configdataLayout= new Backbone.Layout({
 				template: "#config-data-layout"
 			});
@@ -379,14 +385,64 @@
 		}catch (e) {
 			app.router.navigate('#', {trigger: true});
 		}
-	}
+	},
+	dataEdit : function(id){
+		debugger;
+		
+		// id correspond to obs id: find proto id and station id
+		var protoId, stationId;
+		var obsToEdit = new app.Models.Observation();
+		obsToEdit = app.collections.observations.get(id);
+		//obsToEdit.destroy();
+		protoId = obsToEdit.get("protoId");
+		stationId = obsToEdit.get("stationId");
+		//alert (" obs id : " + id + " proto id : " + protoId + " station id : " + stationId );
+		var station = new app.Models.Station();
+		station = app.collections.stations.get(stationId);
+		var protocol = new app.Models.Protocol();
+		protocol = app.collections.protocolsList.get(protoId);
+		
+		app.global.selectedProtocolId = protocol.get("id");
+		app.global.selectedProtocolName = protocol.get("name");
+			
+		app.views.dataEntryLayout= new Backbone.Layout({
+		template: "#data-entry-layout"
+		});
+		$("#content").empty().append(app.views.dataEntryLayout.el);
+
+		var tplStation = _.template($('#data-entry-station').html());
+		var tplProtoForm = _.template($('#data-entry-protocol').html());
+		app.views.dataEntryLayout.setView(".station", new app.Views.DataEntryStationView({template:tplStation, model: station }));
+		app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: protocol, obsId : id, pictureSource: app.global.pictureSource, destinationType : app.global.destinationType}));
+		app.views.dataEntryLayout.render(); 
+		// formulaire de saisie
+
+		app.form = new Backbone.Form({
+					model: protocol
+		}).render();
+		$('#frm').append(app.form.el);
+		// set default values in form fields
+		var schema = protocol.schema;
+		// in protocol schema, for each prop, set default value to value of corresponded prop stored in observation model
+		var attr = obsToEdit.attributes;
+		debugger;
+		for(var prop in schema){
+			for (var propObs in attr) {
+				if (prop == propObs){ schema[prop]["value"] = attr[prop] }
+			
+			}
+
+		} 
+
+		for(var prop in schema){
+			if ( typeof  schema[prop]["value"] !=="undefined"){
+				var defaultValue = schema[prop]["value"];
+				$( "[name='" + prop + "']" ).val(defaultValue);
+			}
+		}     
+    }
 	
-	
-	
-	
-	
-	
-	
+
  });
  
  return app;

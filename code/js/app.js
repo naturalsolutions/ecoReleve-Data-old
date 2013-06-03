@@ -87,28 +87,14 @@
 		app.collections.users = new app.Collections.Users();
 		initalizers.push(app.collections.users.fetch({async: false}));
 		$.when.apply($, initalizers).done(function() {
-		
+
 			app.router = new app.Router();
-				// On précise à Backbone JS de commencer à écouter les changement de l'url afin d’appeler notre routeur
 			Backbone.history.start();
-			/*Backbone.LayoutManager.configure({
-			  manage: true
-			});	*/
 			Backbone.Form.setTemplates(templates);
 			// personnaliser le message d'erreur de forms
 			Backbone.Form.validators.errMessages.required = 'Please enter a value for this field.';
-			/*var user = new app.Models.User();
-			user.name = "khaled";*/
-			
-			
-			//app.collections.users.reset();
-			//app.collections.users.each(function(model) { model.destroy(); } )
-			/*app.collections.users.add(user);
-			user.save();
-			user = new app.Models.User();
-			user.name = "Olivier";
-			app.collections.users.add(user);
-			user.save();*/
+			// init dataTables in mydata
+			//$('.dataTable').dataTable();
 			
 			// photo capture
 			/*app.global.pictureSource = navigator.camera.PictureSourceType;

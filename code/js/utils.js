@@ -339,7 +339,7 @@ function erreurPosition(error){
 		info += "Erreur inconnue";
 	break;
 	}
-	alert (info);
+	//alert (info);
 	localStorage.setItem( "latitude", "");
 	localStorage.setItem( "longitude", "" );
 }
@@ -480,30 +480,32 @@ app.utils.myObservationsOnMap =  function (collection){
 	}); 
 	
 	collection.each(function(o) {
-		var lon = o.get('longitude');
-		var lat = o.get('latitude');
-		 var lonlat = new OpenLayers.LonLat(lon, lat);
+		debugger;
+		var stationId = o.get('stationId');
+		var myStationModel = app.collections.stations.get(stationId);
+		var lon = myStationModel.get('longitude');
+		var lat = myStationModel.get('latitude');
+		var lonlat = new OpenLayers.LonLat(lon, lat);
 		lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 		var f = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));
 		features.push(f);
 		lastpoint = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
 	});
 	
-		var vector = new OpenLayers.Layer.Vector("Features", {
-			renderers: ['Canvas','SVG'],
-			strategies: [
-				new OpenLayers.Strategy.AnimatedCluster({
-					distance: 10,
-					animationMethod: OpenLayers.Easing.Expo.easeOut,
-					animationDuration: 20
-				})
-			],
-			styleMap:  new OpenLayers.StyleMap(style)
+	var vector = new OpenLayers.Layer.Vector("Features", {
+		renderers: ['Canvas','SVG'],
+		strategies:[
+			new OpenLayers.Strategy.AnimatedCluster({
+				distance: 10,
+				animationMethod: OpenLayers.Easing.Expo.easeOut,
+				animationDuration: 20
+			})
+		],
+		styleMap:  new OpenLayers.StyleMap(style)
 	});
 	app.map.addLayer(vector);
 	vector.addFeatures(features);
-		//****************************************** fin strategy 
-
+	//****************************************** fin strategy 
 	app.map.setCenter(lastpoint,12);
 	app.map.panTo(lastpoint);	
 	//app.map.updateSize();
@@ -701,9 +703,11 @@ app.utils.onPhotoFileSuccess = function (imageData) {
 app.utils.onFail = function(message) {
       alert('Failed because: ' + message);
 }
-/******************************************************************************************************************/
+/********************************************************plugin jquery Datatables *****************************************/
 
-
+app.utils.fnGetSelected =  function ( oTableLocal ){
+    return oTableLocal.$('tr.row_selected');
+}
 
 
 
