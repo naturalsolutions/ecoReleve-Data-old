@@ -5,7 +5,8 @@
 table.dataTable {
 	margin: 0 auto;
 	clear: both;
-	width: 100%;
+	/*width: 100%;*/
+
 }
 
 table.dataTable thead th {

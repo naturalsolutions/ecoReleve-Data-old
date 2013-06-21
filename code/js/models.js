@@ -1,5 +1,5 @@
 ﻿var ecoReleveData = (function(app) {
-    "use strict";
+    //"use strict";
 	
 /*************************************************************
 Protocol Model & collection

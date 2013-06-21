@@ -1,5 +1,5 @@
 ﻿ var ecoReleveData = (function(app) {
-    "use strict";
+    //"use strict";
  
  app.Router = Backbone.Router.extend({
 	routes: {
@@ -12,8 +12,10 @@
 		"mydata":"mydata",
 		"msgBox" : "alert",
 		"updateData" : "updateData",
+		"uploadData" :"uploadData",
 		"conf": "configuration",
-		"dataEdit/:id" : "dataEdit"
+		"dataEdit/:id" : "dataEdit",
+		"indiv" : "indiv"
 	},
 	initialize: function(options){
 	//	this.appView = options.appView;
@@ -21,20 +23,6 @@
 	home: function(){
 		// initialiser point openlayers
 		app.point = new OpenLayers.LonLat(5.37,43.29);
-		
-		
-		/*
-		app.views.dataEntryLayout= new Backbone.Layout({
-		template: "#data-entry-layout"
-		});
-		$("#content").empty().append(app.views.dataEntryLayout.el);
-		//app.views.dataEntryLayout.render();
-		//app.utils.RegionManager.show(app.views.dataEntryLayout);
-
-		app.views.dataEntryLayout.setView(".station", new app.Views.HomeView());
-		app.views.dataEntryLayout.render();	
-		
-		*/
 		
 		// Create the Layout.
 		app.views.main = new Backbone.Layout({
@@ -45,14 +33,7 @@
 		//var homeTemplate = _.template($('#home-template').html());
 		app.views.main.setView(".layoutContent", new app.Views.HomeView());
 		app.views.main.render();
-			
-		
-		
-		/*
-		app.views.homeView = new app.Views.HomeView();
-		app.utils.RegionManager.show(app.views.homeView); 
-		*/
-		
+
 		// calculate number of stored stations
 		var ln = app.collections.observations.length;
 		$('#badgeMyData').text(ln);
@@ -74,8 +55,7 @@
 				var userName = user.get('name');
 				app.global.usersTab.push(userName);
 			});
-			
-			
+				
 			app.views.main = new Backbone.Layout({
 				template: "#main-layout"
 			});
@@ -89,11 +69,6 @@
 			}).render();
 			$('#locationForm').append(app.locationForm.el);
 
-			/*
-			app.views.stationPositionView = new app.Views.StationPositionView();
-			app.utils.RegionManager.show(app.views.stationPositionView);
-			*/
-			//initMap();
 			app.utils.initMap();
 			//$('#map').css('width', '780px');
 			$('#map').css('height', '350px');
@@ -160,15 +135,6 @@
 			
 			if (app.global.lastView == "stationInfos"){
 
-					//var str = $("#sation-infos-form").serialize();
-					//alert(str);
-					//app.utils.addStationInfos(str);
-					//app.utils.myObservationsOnMap(app.collections.stations);
-					/*
-					app.views.main.setView(".layoutContent", new app.Views.ProtocolChoiceView({collection:app.collections.protocolsList}));
-					app.views.main.render();
-					*/
-					
 					$("#content").empty().append(protoSelectionLayout.el);
 					//var homeTemplate = _.template($('#home-template').html());
 					//protoSelectionLayout.setView(".listview", app.Views.ListView({collection:app.collections.protocolsList}));
@@ -176,17 +142,7 @@
 					var listview = new app.Views.ListView({collection:app.collections.protocolsList});
 					protoSelectionLayout.setView(".listview", listview);
 					protoSelectionLayout.render();
-					
-					
-					
-					
-					
-					/*
-					app.views.protocolChoiceView = new app.Views.ProtocolChoiceView({collection:app.collections.protocolsList});
-					app.utils.RegionManager.show(app.views.protocolChoiceView);
-					*/
 					app.global.lastView = "proto-choice";
-
 			} 
 			else {
 				
@@ -195,14 +151,6 @@
 				var listview = new app.Views.ListView({collection:app.collections.protocolsList});
 				protoSelectionLayout.setView(".listview", listview);
 				protoSelectionLayout.render();
-				
-				/*
-				app.views.main.setView(".layoutContent", new app.Views.ProtocolChoiceView({collection:app.collections.protocolsList}));
-				app.views.main.render();
-					
-				app.views.protocolChoiceView = new app.Views.ProtocolChoiceView({collection:app.collections.protocolsList});
-				app.utils.RegionManager.show(app.views.protocolChoiceView);
-				*/
 				app.global.lastView = "proto-choice";
 			}
 		}catch (e) {
@@ -211,7 +159,7 @@
 	},
 	dataEntry : function(id){
 	//	try {
-			debugger;
+
 			app.views.dataEntryLayout= new Backbone.Layout({
 			template: "#data-entry-layout"
 			});
@@ -223,24 +171,62 @@
 
 			app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: app.collections.protocolsList.get(id), pictureSource: app.global.pictureSource, destinationType : app.global.destinationType}));
 
-			
 			app.views.dataEntryLayout.render();	
 			// formulaire de saisie
 			var currentModel = app.collections.protocolsList.get(id);
-			app.form = new Backbone.Form({
-						model: currentModel
-						
-			}).render();
-			$('#frm').append(app.form.el);
-			// set default values in form fields
 			debugger;
+			var currentModelName = currentModel.attributes.name ;
+			$('#data-entry-protocol').html('<a>Station > data entry > ' + currentModelName + '</a>');
+			// set default values in form fields & generate fielset list for the current protocol to enhance UI
+			var fieldsetList = new Array();
 			var schema = currentModel.schema;
+			
 			for(var prop in schema){
 				if ( typeof  schema[prop]["value"] !=="undefined"){
 					var defaultValue = schema[prop]["value"];
 					$( "[name='" + prop + "']" ).val(defaultValue);
 				}
+				// add fieldset to fieldsetList
+				var myfieldSet = schema[prop]["fieldset"];
+				fieldsetList.push(myfieldSet);
 			}
+			
+			var distinctFieldsetList = new Array();
+			distinctFieldsetList = fieldsetList.distinct();
+			// array to be used to generate fielsets list
+			var fieldsets = new Array();
+			var ln = distinctFieldsetList.length;
+			var  ul = $('<ul/>');
+			for (var i = 0; i< ln; i++){
+				var fieldSetObject = {};
+				var fields = new Array();
+				var fieldSetName = distinctFieldsetList[i];
+				fieldSetObject.legend = fieldSetName;
+				for(var prop in schema){
+					if ( schema[prop]["fieldset"] ==fieldSetName){
+						//var fieldName  = schema[prop]["name"];
+						var fieldName  = prop ;
+						fields.push(fieldName);
+					}
+					fieldSetObject.fields = fields;
+				}
+				fieldsets.push(fieldSetObject);
+			//
+			ul.append('<li><a >' + fieldSetName +'</a></li>');
+			
+			}
+			$("#navigation").append(ul);
+			currentModel.fieldsets = fieldsets;
+			app.form = new Backbone.Form({
+						model: currentModel
+						
+			}).render();
+			$('#steps').append(app.form.el);
+			// execute plugin slideform
+			// create controls to slide the form
+			
+			slideForm ();
+			
 	/*	}catch (e) {
 			app.router.navigate('#', {trigger: true}); 
 		}*/
@@ -273,27 +259,9 @@
 	mydata : function(){
 		//try {
 			$('body').css({'background-image':''});
-			//$('div#content').css({'background-image':''});
-			/*app.views.myDataLayout= new Backbone.Layout({
-			template: "#my-data-layout"
-			});*/
-			/*
-			app.views.myDataLayout = new Backbone.Layout({
-				template: "#my-data-layout"
-			});*/
-			//app.views.myDataLayout = new app.Views.MyDataLayout({collection: app.collections.observations});
 			$("#content").empty().append(app.views.myDataLayout.el);
-				
-			// filter view
-			
-			/*
-			var tplFilterView = _.template($('#my-data-filter-template').html()); 
-			app.views.myDataLayout.setView(".filter", new app.Views.MyDataFilterView({template:tplFilterView}));
-			app.views.myDataLayout.render();
-			*/
 			
 			// sort observations collection by protocol id & create an array of protocols id
-		
 			
 			//var protocolsIdList = new Array();
 			var sortedCollection = app.collections.observations.sortBy(function(obs){
@@ -319,8 +287,8 @@
 
 			debugger;
 			//var tplFilterView = _.template($('#my-data-filter-template').html()); 
-
-			app.views.myDataLayout.setView(".gridview", new app.Views.MyDataGridView({ collection: app.collections.observations, protoIdList : protoIdList}));
+			var tplFilterView = _.template($('#my-data-filter-template').html()); 
+			app.views.myDataLayout.setView(".gridview", new app.Views.MyDataGridView({template :tplFilterView,  collection: app.collections.observations, protoIdList : protoIdList}));
 			//app.views.myDataLayout.render();	
 			debugger;
 			//app.views.myDataLayout.setView(".filterView", new app.Views.MyDataFilterView({}));
@@ -359,6 +327,32 @@
 			var tplview = _.template($('#update-data-template').html()); 
 			app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));
 			app.views.dataUpdateLayout.render();
+		}catch (e) {
+			app.router.navigate('#', {trigger: true});
+		}
+	},
+	uploadData : function(){
+		try {
+			$('body').css({'background-image':''});
+			//$('div#content').css({'background-image':''});
+			app.views.dataUploadLayout= new Backbone.Layout({
+				template: "#upload-data-layout"
+			});
+			// sort observations collection by protocol id & create an array of protocols id
+			var sortedCollection = app.collections.observations.sortBy(function(obs){
+				return obs.get("protoId"); ;
+			});
+			// get uniq values of protocols id
+			var protoIdList  = app.collections.observations.map(function(model){
+			  return model.get('protoId');
+			});
+			// uniq values
+			protoIdList = _.uniq(protoIdList);
+			
+			$("#content").empty().append(app.views.dataUploadLayout.el);
+			var tplview = _.template($('#upload-data-template').html()); 
+			app.views.dataUploadLayout.setView(".uploadDataGridView", new app.Views.UploadDataView({template:tplview, fileSystem : app.global.fileSystem, collection: app.collections.observations, protoIdList : protoIdList, stations : app.collections.stations}));
+			app.views.dataUploadLayout.render();
 		}catch (e) {
 			app.router.navigate('#', {trigger: true});
 		}
@@ -440,10 +434,28 @@
 				$( "[name='" + prop + "']" ).val(defaultValue);
 			}
 		}     
-    }
-	
+    },
+	indiv : function(){
+		$('body').css({'background-image':''});
+		
+		var myLayout= new Backbone.Layout({
+		template: "#indiv-layout"
+		});
+		$("#content").empty().append(myLayout.el);
+		app.utils.findAll(function (data){
+			var tplIndividus = _.template($('#indiv-template').html());
+			myLayout.setView("#dataTableRow", new app.Views.Individus({template:tplIndividus, data: data }));
+			myLayout.render(); 
+		});
+		
+		
+	}
 
  });
- 
+ function successGetProtocolId (tr,rs){
+	//var protId = rs.rows.item(0).prot_id ;
+	//localStorage.setItem('selectedProtocol', protId);
+	alert (rs.rows.length);
+}
  return app;
 })(ecoReleveData);

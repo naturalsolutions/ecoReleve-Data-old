@@ -565,7 +565,7 @@ Form.helpers = (function() {
    */
   helpers.createEditor = function(schemaType, options) {
     var constructorFn;
-	debugger;
+
     if (_.isString(schemaType)) {
       constructorFn = Form.editors[schemaType];
     } else {
@@ -592,7 +592,7 @@ Form.helpers = (function() {
     
     //Use a built-in validator if given a string
     if (_.isString(validator)) {
-      if (!validators[validator]) throw new Error('Validator "' + validator + '" not found');
+      if (!validators[validator]) throw new Error('Validator "'+validator+'" not found');
       
       return validators[validator]();
     }
@@ -785,6 +785,7 @@ Form.validators = (function() {
     };
   };
   
+  
   return validators;
 
 })();
@@ -890,7 +891,6 @@ Form.Field = (function() {
       }
 
       //Decide on the editor to use
-
       var editor = this.editor = helpers.createEditor(schema.type, options);
 
       //Create the element
@@ -2436,11 +2436,11 @@ Form.editors = (function() {
     
     //HTML
     form: '\
-      <form class="bbf-form" id="formElem" name="formElem">{{fieldsets}}</form>\
+      <form class="bbf-form">{{fieldsets}}</form>\
     ',
     
     fieldset: '\
-      <fieldset class="step">\
+      <fieldset>\
         <legend>{{legend}}</legend>\
         <ul>{{fields}}</ul>\
       </fieldset>\

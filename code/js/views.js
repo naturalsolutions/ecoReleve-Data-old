@@ -1,5 +1,5 @@
 ﻿var ecoReleveData = (function(app) {
-    "use strict";
+   // "use strict";
 /*****************************************************
 HomeView
 ******************************************************/	
@@ -39,11 +39,38 @@ app.Views.StationPositionView = Backbone.View.extend({
 					date_day: { type: 'Text', title:'Date'},
 					time_now: { type: 'Text', title:'Time'},
 					//Observer: { type: 'Select' , title:'Observer', options: ['Observer 1', 'Observer 2', 'Observer 3','Observer 4', 'Observer 5'] },
-					Observer: { type: 'Select' , title:'Observer', options: this.usersList }			
-			}
+					Observer: { type: 'Select' , title:'Observer', options: this.usersList },
+					TestHierarchy : { type: 'Select',
+						  options: [
+							{
+							  group: "Standart",
+							  options: ["A", "AAAA", "CNAME", "MX", "SPF", "TXT"]
+							},
+							{
+							  group: "Advanced",
+							  options:  ["NAPTR", "SRV", "PTR", "NS"]
+							},
+							{
+							  group: "Special",
+							  options: ["Redirect"]
+							}
+						  ]}/*,
+					errands: {type: 'List'}*/
+			} ;
 			app.models.station.schema = schema ;
-
+			/*
+			// add fieldsets
+			
+			var fieldsets =[{ legend: 'Title', fields: ['station_name', 'field_activity'] },
+							{ legend: 'Time', fields: ['date_day', 'time_now'] },
+							{ legend: 'Observer', fields: ['Observer'] }
+							];
+			app.models.station.fieldsets = fieldsets;
+			*/
 			// set station id
+			/*app.models.station.set("errands", [
+				'milk','chocolate','jus'            
+			]);*/
 			var nbStoredStations = app.collections.stations.length;
 			// identifiant de la station 
 			var idStation = nbStoredStations + 1 ; 
@@ -76,6 +103,7 @@ app.Views.StationInfosView = Backbone.View.extend({
 			app.models.station.set("latitude", app.models.location.get("latitude"));
 			app.models.station.set("longitude", app.models.location.get("longitude"));
 			app.collections.stations.add(app.models.station);
+			debugger;
 			app.models.station.save();
 			app.router.navigate('proto-choice', {trigger: true});
 		}
@@ -195,6 +223,12 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 			}
 			myObs.save();
 			if (typeof  editObsId != 'undefined'){
+				debugger;
+				var actualProtocol = app.global.selectedProtocolId;
+				// set default values from stored protocol
+				/*app.collections.protocolsList = new app.Collections.Protocols();
+				app.collections.protocolsList.fetch({async: false});*/
+				app.utils.reloadProtocols();
 				app.router.navigate('##mydata', {trigger: true});
 			}
 
@@ -270,7 +304,7 @@ app.Views.DataEntryEndView = Backbone.View.extend({
 						model: app.collections.protocolsList.get(selectedProtocol)
 		}).render();
 
-		$('#frm').append(app.form.el);
+		$('#steps').append(app.form.el);
 		$('.obsStoredAlertBox').html('');
 		$("#dataEntryRow").removeClass("masqued");
 	}
@@ -301,16 +335,11 @@ app.Views.MyDataGridView = Backbone.View.extend({
 	manage: true,
 	initialize : function(options) {
 
-		var htmlToRender = "<div><span><h2>Date</h2></span><input type='text' name='date_day' class='datepicker'/> <a class='btn primary icon go'>Go</a></div><br/>";
-			htmlToRender += "<div class=obsContainer>";
-			
-		htmlToRender += "</div>";
-		
-		$(this.el).html(htmlToRender);
-	
 	},
 	events : {
             'click .go' : 'filterDate',
+			'click .prevDate': 'prevDate',
+			'click .nextDate':'nextDate',
 			'click .tabControl' : 'displayTab',
 			'click .accordion-toggle': 'elementVisibility',
 			'click tr' : 'selectTableElement',
@@ -319,6 +348,9 @@ app.Views.MyDataGridView = Backbone.View.extend({
     },
 	filterDate : function(){ 
 		// initialize view
+		/*var tplTabControlView = _.template($('#my-data-tabControl-template').html()); 
+		app.views.myDataLayout.setView(".obsContainer", new app.Views.TabControlView({template :tplTabControlView, collection: app.collections.observations, protoIdList : protoIdList}));
+		app.views.myDataLayout.render();*/
 		$(".obsContainer").html("<div id='myDataDelObs' class='masqued btn-group'><a class='btn primary icon delObservation' style='float:left;'>Delete</a><a class='btn primary icon editObservation'>Edit</a></div><br/><br/><ul class='nav nav-tabs'><li class='active'><a class='tabControl'>table</a><div class='obsList content tabElement'></div></li><li><a class='tabControl'>map</a><div id='map' class='masqued tabElement'></div></li></ul></div>");	
 		var obsCollection = this.options.collection;
 		var selectedDate = $(".datepicker").val();
@@ -334,7 +366,19 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		
 		$(".obsList").html('<div class="accordion"></div>' );
 		//var html = '<div class="accordion"> ';
-		
+		debugger;
+		// get stations number for selected date
+		var tabStationsList = new Array();
+		var distinctStationsId = new Array();
+		filteredCollection.each(function(model) {
+			var stationId = model.attributes.stationId;
+			tabStationsList.push(stationId);
+		});
+		distinctStationsId = tabStationsList.distinct();
+		var nbStations = distinctStationsId.length;
+		// display number of stations 
+		$("#mydataNbStations").html(nbStations);
+
 		for ( var j=0; j < protocolsList.length; j++){
 			//$('.dataTable').dataTable();
 			var html ="";
@@ -351,14 +395,7 @@ app.Views.MyDataGridView = Backbone.View.extend({
 			});
 			var nbmodels = collectionForProtocolType.length ; 
 			if (nbmodels > 0 ){
-			// this new collection contains all observations corresponding to a protocol type
-			// generate a table 
-			// each collection " " contains a list of models (observations) of a same protocol: we create a table for this collection
-			
-			//collectionForProtocolType.each(function(model) {
-				//var template = _.template('<th class="ftColr-white"><%= name %></th>');
-				//var templateData = _.template('<td class="ftColr-white"><%= value %></td>');
-				debugger;
+
 				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
 				var protocolid = collectionForProtocolType.at(0).attributes.protoId;
 				elementId = "accordionElement" + protocolid ;
@@ -402,19 +439,8 @@ app.Views.MyDataGridView = Backbone.View.extend({
 						}
 					}
 					data.push(listVals);
-					//*********html += "</tr>";
 				}
-				// create dataTable for the protocol
-				/*
-				var tableId = elementId + "DataTable";
-				$(elementId).html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="' + tableId + '"></table>');	
-				$(tableId).dataTable( {
-					"aaData":data,
-					"aoColumns": columns
-				});			
-				*/	
-					
-				//********html += "</tbody></table>";
+
 				html += "</div></div>";
 				$(".accordion").append(html);
 			debugger;
@@ -429,29 +455,62 @@ app.Views.MyDataGridView = Backbone.View.extend({
 				"aaData":data,
 				"aoColumns": columns
 			});
-			// activate row selection
-			/*
-			$("#" + tableId  + "tbody tr").click( function( e ) {
-				if ( $(this).hasClass('row_selected') ) {
-					$(this).removeClass('row_selected');
-				}
-				else {
-					oTable.$('tr.row_selected').removeClass('row_selected');
-					$(this).addClass('row_selected');
-				}
-			});
-			*/
+
 			oTable = $("#" + tableId).dataTable();
+			$("#" + tableId).attr("style","");
 			
 			}
-			
-				
-					
+		
 		}
 		// init map div
 		$('#map').html();
 		app.point = new OpenLayers.LonLat(5.37,43.29);
 
+	},
+	prevDate : function(e){ 
+		var selectedDate = $('input[name*="date_day"]').val();
+		var tabDate = selectedDate.split('/');
+		var d = new Date(); 
+		var d2 = new Date(); 
+		var MM = parseInt(tabDate[0]);
+		var DD = parseInt(tabDate[1]);
+		var YYYY = parseInt(tabDate[2]);	
+		// set MM/DD/YYYY   MM ( january -> 0)
+		d.setMonth(MM - 1);
+		d.setDate(DD);
+		d.setFullYear(YYYY);
+		var j = d.getDate(); 
+		d = d.setDate(j- 1);  
+		d = new Date(d);     
+		// reformat date in MM/DD/YYYY
+		var newDate = d.defaultView();
+		$('input[name*="date_day"]').val(newDate);	
+		$('a.nextDate').attr('style','display:;');
+	},
+	nextDate : function(e){ 
+		debugger;
+		var selectedDate = $('input[name*="date_day"]').val();
+		var tabDate = selectedDate.split('/');
+		var d = new Date();  
+		var d2 = new Date(); 
+		var MM = parseInt(tabDate[0],10);
+		var DD = parseInt(tabDate[1],10);
+		var YYYY = parseInt(tabDate[2]);	
+		// set MM/DD/YYYY   MM ( january -> 0)
+		d.setMonth(MM - 1);
+		d.setDate(DD);
+		d.setFullYear(YYYY);
+		var j = d.getDate(); 
+		d = d.setDate(j + 1);  
+		d = new Date(d);     
+		// reformat date in MM/DD/YYYY
+		var newDate = d.defaultView();
+		$('input[name*="date_day"]').val(newDate);	
+		// deable button if new date = date now
+		var dateNow = d2.defaultView();
+		if (dateNow == newDate ){
+			$('a.nextDate').attr('style','display:none;');
+		}
 	},
 	displayTab : function(e){ 
 
@@ -581,18 +640,35 @@ app.Views.MyDataGridView = Backbone.View.extend({
 
 });
 /*****************************************************
+View mydata :TabControlView  
+******************************************************/
+/*
+app.Views.TabControlView = Backbone.View.extend({
+	manage: true
+	}
+});
+
+*/
+
+/*****************************************************
 update layout : main view  
 ******************************************************/
 app.Views.UpdateDataView= Backbone.View.extend({
-	 manage: true,
-	 events : {
-          'click .updateProtos' : 'updateProtocols'
-     },
-	 updateProtocols : function(e){ 
-		//alert("MAJ protos");
-		
+	manage: true,
+	events : {
+          'click .updateProtos' : 'updateProtocols',
+		  'click .updateProtosFromFile' : 'updateProtocolsFromFile'
+    },
+	updateProtocols : function(e){ 
 		var tplAlert = _.template($('#update-data-alert-template').html()); 
-		app.views.dataUpdateLayout.setView(".updateDataAlert", new app.Views.UpdateDataAlertView({template: tplAlert , collection:app.collections.protocolsList }));
+		app.views.dataUpdateLayout.setView(".updateDataAlert", new app.Views.UpdateDataAlertView({template: tplAlert , collection:app.collections.protocolsList, source:"server" }));
+		app.views.dataUpdateLayout.render();	
+		$(".updateDataAlert").addClass("message-dialog border-color-red");
+		$("#updateDataGridView").addClass("masqued");
+	},
+	updateProtocolsFromFile : function(e){ 
+		var tplAlert = _.template($('#update-data-alert-template').html()); 
+		app.views.dataUpdateLayout.setView(".updateDataAlert", new app.Views.UpdateDataAlertView({template: tplAlert , collection:app.collections.protocolsList, source:"file", fileSystem : app.global.fileSystem }));
 		app.views.dataUpdateLayout.render();	
 		$(".updateDataAlert").addClass("message-dialog border-color-red");
 		$("#updateDataGridView").addClass("masqued");
@@ -615,7 +691,7 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 			'click .cancel' : 'cancel'
     },
 	validate :function(){ 
-
+		var source = this.options.source;
 		// hide alert
 		this.remove();
 		$(".updateDataAlert").removeClass("message-dialog border-color-red");
@@ -630,13 +706,21 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 		//observations
 		//app.collections.observations.reset();
 		app.collections.observations.each(function(model) { model.destroy(); } );
-		// load data
-		var initalizers = [];
-		initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef2.xml"));
-		//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
-		$.when.apply($, initalizers).done(function() {
-			alert ("Protocols loaded !");
-		});
+		if (source =="server"){
+			// load data
+			var initalizers = [];
+			initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml"));
+			//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
+			$.when.apply($, initalizers).done(function() {
+				alert ("Protocols updated !");
+			});
+		} else {
+			var fileSystem = this.options.fileSystem;
+			alert("chargement fichier xml !");
+			// xml file access
+			fileSystem.root.getFile("XML_ProtocolDef_eReleve.xml", null, app.utils.gotFileEntry, app.utils.onError);
+
+		}
 	},
 	cancel : function(){ 
 	
@@ -659,7 +743,7 @@ app.Views.ProtosListView = Backbone.View.extend({
     // Iterate over the passed collection and create a view for each item.
 		var listView = $(this.el);  
 		this.collection.each(function(mymodel){
-			var li = '<li class="active"><a id="btn"><span>' + mymodel.get('name') + '</span></a></li>';
+			var li = '<li><a id="btn"><span>' + mymodel.get('name') + '</span></a></li>';
 			listView.append(li);
 		});
 		
@@ -680,7 +764,96 @@ app.Views.ConfigListView = Backbone.View.extend({
 		app.views.configdataLayout.render();
 	}
 });
+/*****************************************************
+upload data   
+******************************************************/
+app.Views.UploadDataView= Backbone.View.extend({
+	manage: true,
+	events : {
+		  'click .saveInLocalFile' : 'doAppendFile'
+    },
+	doAppendFile : function(e){
+	
+		var protocolsList = this.options.protoIdList;
+		var obsCollection = this.options.collection;
+		var stations = this.options.stations;
+		var ln = protocolsList.length;
+		var fileSystem = this.options.fileSystem;
+		// export observations to file
+		for ( var j=0; j < ln; j++){
+			var collectionForProtocolType = new app.Collections.Protocols();
+			obsCollection.each(function(model) {
 
+				  if(model.attributes.protoId == protocolsList[j]) {
+				
+					 collectionForProtocolType.add(model);
+				  }
+			});
+			var nbmodels = collectionForProtocolType.length ; 
+			if (nbmodels > 0 ){
+
+				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
+				var protocolid = collectionForProtocolType.at(0).attributes.protoId;
+				// create a file per protocol
+				
+				//app.global.dataToSave = data;
+				//fileSystem.root.getFile(protocolName + ".csv", {create:true}, app.utils.appendFile, app.utils.onError);
+				var textToWrite ="";
+				//var newCollection = collectionForProtocolType[j];
+				var attr = collectionForProtocolType.at(0).attributes;
+				for (var prop in attr) {
+					if (prop !="Photo"){
+						textToWrite += prop;
+						textToWrite += ";";
+					}
+				}
+				textToWrite += "\n";
+				// insert data from each collection (each observation) in a new line of the file
+				var len = collectionForProtocolType.length ; 
+				for (var i=0; i < len ; i++){
+					var attr = collectionForProtocolType.at(i).attributes;
+					for (var prop in attr) {
+						if (prop !="Photo"){
+							textToWrite += attr[prop];
+							textToWrite += ";";
+						}
+					}
+					textToWrite += "\n";
+				}
+				// text to put in file
+				app.utils.appendFile.textToWrite = textToWrite;
+				// create the file
+				fileSystem.root.getFile(protocolName + ".csv", {create:true}, app.utils.appendFile, app.utils.onError);
+			}
+		}
+		// export stations to file
+		var lnStations = stations.length;
+		for ( var j=0; j < lnStations; j++){
+			var textToWrite ="";
+				// generate header of file (columns names)
+				var attr = stations.at(0).attributes;
+				for (var prop in attr) {
+					textToWrite += prop;
+					textToWrite += ";";
+				}
+				textToWrite += "\n";
+				// insert data from each station  in a new line of the file
+				for (var i=0; i < lnStations ; i++){
+					var attr = stations.at(i).attributes;
+					for (var prop in attr) {
+							textToWrite += attr[prop];
+							textToWrite += ";";
+					}
+					textToWrite += "\n";
+				}
+				// text to put in file
+				app.utils.appendFile.textToWrite = textToWrite;
+				// create the file
+				fileSystem.root.getFile("stations.csv", {create:true}, app.utils.appendFile, app.utils.onError);
+		}
+	}
+
+}); 
 /** users view    ***************/
 app.Views.Users = Backbone.View.extend({
 	manage: true,
@@ -695,7 +868,6 @@ app.Views.Users = Backbone.View.extend({
 	afterRender: function(options) { 
 		var users = this.options.collection.models,
     		model;
-			debugger;
 		if (users && users.length > 0) {
 			$("#users").html("");
 			for (var i = users.length - 1; i >= 0; i--) {
@@ -707,12 +879,10 @@ app.Views.Users = Backbone.View.extend({
 		} else if (users && users.length === 0) {
 			var html = '<div style="margin-top:10px;" class="ftColr-white">There are no users currently.</div>';
 			$("#users").append(html);
-		 
 		}
 		return false;
 	},
 	addUser: function(model) {
-		debugger;
 		var view = new app.views.User({model: model});
 		//$("#users").append(view.render().$el);
 		var callback = $.proxy(function() {
@@ -740,7 +910,6 @@ app.views.User = Backbone.View.extend({
 		this.model.on('destroy', this.remove, this);
 	},
     serialize: function() {
-	debugger;
 		var name = this.model.attributes.name;
 		var cid = this.model.cid;
 		return { name :name, cid :cid };
@@ -790,16 +959,161 @@ app.views.NewUser = Backbone.View.extend({
 	}
 
 });
+/**  individus view ****************/
+app.Views.Individus = Backbone.View.extend({
+	manage: true,
+	afterRender: function(options){
+		var dataTable = this.options.data;
+		var columns = new Array();
+		var data = new Array();
+		// read columns names
+		var attr = dataTable[0];
+		var columnList ="";
+		for (var prop in attr) {
+			var field = {};
+				field.sTitle = prop;
+				//field.bVisible = false ;
+				
+				
+				//var fieldName = new app.TableField({name: prop});
+				//fieldName.name = prop ;
+				//********html += template(fieldName.toJSON());
+				// hide id field
+				
+				columns.push(field);
+		}
+		this.columns = columns;
+		// buid an array for columns labels
+		var colLabel = new Array();
+		var len = columns.length;
+		for (var i=0; i<len; i++){
+			var label = columns[i].sTitle;
+			colLabel.push(label);
+		
+		}
 
+		// content of tavle
+		var len = dataTable.length ; 
+		for (var i=0; i < len ; i++){
+		//this.collection.each(function(model) {	
+			//*********html += "<tr>";
+			var attr = dataTable[i];
+			var listVals = new Array();
+			for (var prop in attr) {
+				var fieldName = new app.TableField({value: attr[prop]});
+				//*********html += templateData(fieldName.toJSON());
+				var field = {};
+				listVals.push (attr[prop]);
+			}
+			data.push(listVals);
+		}
+		this.data = data;
+		// generate a "dataTable" to display loaded data in a table
+		var oTable;	
 
+			//$("#indivDataTable").dataTable({"bRetrieve":"true"});
+			$("#indivDataTable").dataTable( {
+				"aaData":data,
+				"aoColumns": columns,
+				"bDestroy": true
+			});
 
+			oTable = $("#indivDataTable").dataTable();
+		// generate a form to have a possibility to mask some columns
+			/*
+		    var Model = Backbone.Model.extend({
+				schema: {
+					Fields: { type: 'Checkboxes', options: colLabel }
+				}
+			});
+			
+			var model = new Model;
 
+			app.form = new Backbone.Form({
+				model: model
+			}).render();
 
+			$('#dataFilterRow').append(app.form.el);
+			*/	
+	},
+	events : {
+			'click tr' : 'selectTableElement',
+			'click .submit' : 'displaySelectedRows'
+	},
+	selectTableElement : function(e){ 
+	var ele  = $(e.target).get(0).nodeName;
+	//alert (ele);
+		if (ele =="TD"){
+			// find table id
+			var table = $(e.target).parent().parent().parent().get(0).attributes["id"].nodeValue;
+			// initialize datatable
+			app.utils.oTable = $('#indivDataTable');
+			var oTab = $('#indivDataTable').dataTable();
+			// selected tr element
+			var trElement = $(e.target).parent().get(0);
+			//var ele2  = $(trElement).nodeName;
+			if ( $(trElement).hasClass('row_selected')) {
+				$(trElement).removeClass('row_selected');
+			}
+			else {
+				oTab.$('tr.row_selected').removeClass('row_selected');
+				$(trElement).addClass('row_selected');
+			}
+		}
+	},
+	displaySelectedRows: function(e){
+		var errors = app.form.validate();
+		var selectedFieldsList = new Array();
+		if ( errors === null){
+			var data = app.form.getValue();
+			
+			for (var prop in data) {
+				 selectedFieldsList.push(data[prop]);
+				//  myObs.attributes[prop] = data[prop];
+			}
+		}
+		// initialize fields -> display: none
 
+		var tabLen = selectedFieldsList[0].length;
+		var len = this.columns.length ; 
+		for (var j=0; j < len ; j++){
+			var attr = this.columns[j];
+			//var listVals = new Array();
+			for (var prop in attr) {
+				attr["bVisible"] = false ;
+			} 
+		}
+		
+		// selected fields -> display: yes
+		for (var i=0; i< tabLen; i++){
+			var colName = selectedFieldsList[0][i];
+			
+			for (var j=0; j < len ; j++){
+			//this.collection.each(function(model) {	
+				//*********html += "<tr>";
+				var attr = this.columns[j];
+				//var listVals = new Array();
+				for (var prop in attr) {
+				//debugger;
+					if ( attr[prop] == colName ){
+						attr["bVisible"] = true ;
+					}
+				}
+			}
+		}
+		var oTable;	
+		$("#indivDataTable").dataTable( {
+			"aaData":this.data,
+			"aoColumns": this.columns,
+			"bDestroy": true
+		});
 
+		oTable = $("#indivDataTable").dataTable();
+		$("#indivDataTable").attr("style","");
+		
 
-
-
+	}
+});
 
  return app;
 })(ecoReleveData);

@@ -107,9 +107,9 @@ div.container{
 	left: 60px;
 }
 .whiteBorder{
-	border-width:2px;
+	/*border-width:2px;
 	border-style:solid;
-	border-color:#FFFFFF;
+	border-color:#FFFFFF;*/
 }
 .bbf-field input, .bbf-field textarea, .bbf-field select {
 	width: 80%;
@@ -264,6 +264,34 @@ div.updateDataGridView {
 .btn-group > .btn + .btn {
 	margin-left: 10px;
 }
+a.btn.perso {
+	background-color:orange;
+}
+#stationPanel {
+		display: none;
+	}
+/* form look */
+#wrapper {
+	background-color: #AAA;
+}
+#steps form li {
+	background-color: #AAA;
+}
+#steps form li label {
+	color: black;
+}
+a#btn, a#btn:hover {
+	line-height: 40px;
+}
+a.btnChoice.btn, a.btnChoice.btn:hover, a#btnInputObs, a#btnInputObs:hover  {
+	line-height: 40px;
+}
+
+navbar.navbar-fixed-bottom > .navbar-inner {
+min-height: 70px;
+}
+
+
 @media screen and (max-width: 640px) {
 
 }

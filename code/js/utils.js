@@ -1,5 +1,5 @@
 ﻿var ecoReleveData = (function(app) {
-    "use strict";
+    //"use strict";
 
 /*********************************************  Protocols  ************************************************/
 app.utils.loadProtocols = function (url){
@@ -12,7 +12,6 @@ app.utils.loadProtocols = function (url){
 				//xmlNode = $(xml);	
 				// creer la collection de protocoles
 				app.collections.protocolsList = new app.Collections.Protocols();
-
 			   $(xml).find('protocol').each(   
 				function()
 				{
@@ -32,112 +31,124 @@ app.utils.loadProtocols = function (url){
 					
 					$(this).find('fields').children().each(function()
 					{			 
-						var node = $(this);
-						var fieldtype = $(this).get(0).nodeName;		 
-						switch (fieldtype)
-						{	
-							case ("field_list"):
-								generateListField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type liste) et le rajouter au schema du protocole
-									schema[name] = {}; 
-									schema[name].type = "Select";
-									schema[name].title = field.get("display_label");
-									schema[name].options = field.get("items");
-									schema[name].value = field.get("defaultValue");
-								}); 
-								break;
-							case ("field_numeric"):	 
-								generateNumericField(node,function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type numerique) et le rajouter au schema du protocole
-									schema[name] = {}; 
-									schema[name].type = "Number";
-									schema[name].title = field.get("display_label");
-									schema[name].value = field.get("defaultValue");
-									var minBound = field.get("min_bound");
-									var maxBound = field.get("max_bound");
-									// validator for min value & max value
-									var validatorslist =  new Array();
+						var myFieldSet = $(this);
+						var fieldsetName = $(this).attr("name");
+						
+						$(this).children().each(function(){
+							var node = $(this);
+							var fieldtype = $(this).get(0).nodeName;		 
+							switch (fieldtype)
+							{	
+								case ("field_list"):
+									generateListField(node, function(field) {
+										var name = field.get("name");
+										// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type liste) et le rajouter au schema du protocole
+										schema[name] = {}; 
+										schema[name].type = "Select";
+										schema[name].title = field.get("display_label");
+										schema[name].options = field.get("items");
+										schema[name].value = field.get("defaultValue");
+										schema[name].fieldset = fieldsetName ;
+									}); 
+									break;
+								case ("field_numeric"):	 
+									generateNumericField(node,function(field) {
+										var name = field.get("name");
+										// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type numerique) et le rajouter au schema du protocole
+										schema[name] = {}; 
+										schema[name].type = "Number";
+										schema[name].title = field.get("display_label");
+										schema[name].value = field.get("defaultValue");
+										schema[name].fieldset = fieldsetName ;
+										var minBound = field.get("min_bound");
+										var maxBound = field.get("max_bound");
+										// validator for min value & max value
+										var validatorslist =  new Array();
 
-									if ( minBound != "") {
-										debugger;
-										var min = {};
-										min.type = "minval";
-										min.minval = parseInt(minBound);
-										validatorslist.push(min);
-									}
-									
-									if ( maxBound != "") {
-										var max = {};
-										max.type = "maxval";
-										max.maxval = parseInt(maxBound);
-										validatorslist.push(max);
-									}
-									schema[name].validators = validatorslist;
-								});  
-								break;
-							case ("field_text"):
-								// appeler la méthode qui va générer un modele de type texte et utiliser son callback pour rajouter 1 champ de meme type au modele "protocole"
-								generateTextField(node,function(field) { 
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {}; 
-									schema[name].type = "Text";
-									schema[name].title = field.get("display_label");
-									schema[name].value = field.get("defaultValue");
-									// validation
-									if (field.get("required") =="true" ){
-										schema[name].validators = ['required'];
-									}
-								//schema[label].model = field ;
-								});  
-								break;
-							case ("field_boolean"):	
-								generateBooleanField(node,function(field) { 
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {}; 
-									schema[name].type = "Text";
-									schema[name].title = field.get("display_label");
-									// validation
-									/*if (field.get("required") =="true" ){
-										schema[name].validators = "['required']";
-									}*/
-								//schema[name].model = field ;
-								});  
-								break;
+										if ( minBound != "") {
+											debugger;
+											var min = {};
+											min.type = "minval";
+											min.minval = parseInt(minBound);
+											validatorslist.push(min);
+										}
 										
-							case ("field_photo"):	
-								generatePhotoField(node,function(field) { 
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {}; 
-									schema[name].type = "Photo";
-									schema[name].title = field.get("display_label");
-									schema[name].template = "photo";
-									// add hidden field to store file url
-									schema["photo_url"] = {}; 
-									schema["photo_url"].title = "photo file path";
-									schema["photo_url"].type = "Hidden";
-									schema["photo_url"].validators = ['required'];
-									
-									
-									
-									
-									// validation
-									/*if (field.get("required") =="true" ){
-										schema[name].validators = "['required']";
-									}*/
-								//schema[name].model = field ;
-								});  
-								break;					
-						}				 						 
+										if ( maxBound != "") {
+											var max = {};
+											max.type = "maxval";
+											max.maxval = parseInt(maxBound);
+											validatorslist.push(max);
+										}
+										schema[name].validators = validatorslist;
+									});  
+									break;
+								case ("field_text"):
+									// appeler la méthode qui va générer un modele de type texte et utiliser son callback pour rajouter 1 champ de meme type au modele "protocole"
+									generateTextField(node,function(field) { 
+										var name = field.get("name");
+										// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
+										schema[name] = {}; 
+										schema[name].type = "Text";
+										schema[name].title = field.get("display_label");
+										schema[name].value = field.get("defaultValue");
+										schema[name].fieldset = fieldsetName ;
+										// validation
+										if (field.get("required") =="true" ){
+											schema[name].validators = ['required'];
+										}
+									//schema[label].model = field ;
+									});  
+									break;
+								case ("field_boolean"):	
+									generateBooleanField(node,function(field) { 
+										var name = field.get("name");
+										// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
+										schema[name] = {}; 
+										schema[name].type = "Text";
+										schema[name].title = field.get("display_label");
+										schema[name].fieldset = fieldsetName ;
+										// validation
+										/*if (field.get("required") =="true" ){
+											schema[name].validators = "['required']";
+										}*/
+									//schema[name].model = field ;
+									});  
+									break;
+											
+								case ("field_photo"):	
+									generatePhotoField(node,function(field) { 
+										var name = field.get("name");
+										// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
+										schema[name] = {}; 
+										schema[name].type = "Photo";
+										schema[name].name = name;
+										schema[name].title = field.get("display_label");
+										schema[name].template = "photo";
+										schema[name].fieldset = fieldsetName ;
+										// add hidden field to store file url
+										schema["photo_url"] = {}; 
+										schema["photo_url"].title = "photo file path";
+										schema["photo_url"].type = "Hidden";
+										schema["photo_url"].validators = ['required'];
+										
+										
+										
+										
+										// validation
+										/*if (field.get("required") =="true" ){
+											schema[name].validators = "['required']";
+										}*/
+									//schema[name].model = field ;
+									});  
+									break;					
+							}
+						});
 					});
 
 					//app.Models[protName] = Backbone.Models.extend({schema: schema});
 					//new app.Models['Hermann']()
 					// for backbone forms
+					debugger;
 					app.models.protocol.schema = schema;
 					// for localstorage => toJson
 					app.models.protocol.attributes.schema = schema;
@@ -148,6 +159,7 @@ app.utils.loadProtocols = function (url){
 					//localStorage.setItem("0myProtocol",JSON.stringify(app.models.protocol));
 				}); 
 				localStorage.setItem("xmlProtocolsIsloaded","true");
+				alert("Success in loading file");
 				/*
 				app.form = new Backbone.Form({
 					model: app.models.protocol
@@ -156,7 +168,8 @@ app.utils.loadProtocols = function (url){
 				$('#frm').append(app.form.el);
 				*/
 				
-            }
+            }, error : function(xml) 
+            { alert ("error in loading file !");}
         });
 }
  
@@ -406,7 +419,7 @@ app.utils.myObservationsOnMap =  function (collection){
 	var features = [];
 	// style
 	var colors = {
-		low: "rgb(181, 226, 140)", 
+		low: "rgb(52, 98, 224)", 
 		middle: "rgb(241, 211, 87)", 
 		high: "rgb(253, 156, 115)"
 	};
@@ -678,6 +691,18 @@ Date.prototype.defaultView=function(){
 	var yyyy=this.getFullYear();
 	return String(mm+"\/"+dd+"\/"+yyyy)
 }
+// get distinct values from an array
+Array.prototype.distinct = function(){
+   var map = {}, out = [];
+	debugger;
+   for(var i=0, l=this.length; i<l; i++){
+      if(map[this[i]]){ continue; }
+
+      out.push(this[i]);
+      map[this[i]] = 1;
+   }
+   return out;
+}
 /******************************************************* photo capture *****************************************/
 app.utils.onPhotoDataSuccess = function (imageData){
 /*     $("#smallImage").attr("style","display:block");
@@ -708,6 +733,175 @@ app.utils.onFail = function(message) {
 app.utils.fnGetSelected =  function ( oTableLocal ){
     return oTableLocal.$('tr.row_selected');
 }
+app.utils.reloadProtocols =  function ( oTableLocal ){
+	app.collections.protocolsList = new app.Collections.Protocols();
+	app.collections.protocolsList.fetch({async: false});
+
+	if (app.collections.protocolsList.length == 0 ){
+			//load protocols file
+			initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml"));
+			//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
+	} 
+		// check if "schema" object exists to genegate form UI
+	app.collections.protocolsList.each(function(protocol) {
+			protocol.schema = protocol.attributes.schema ;
+	});
+}
+/***********************************************************  Phonegap File API *************************************************/
+app.utils.onFSSuccess =  function (fs){ 
+	app.global.fileSystem = fs;
+}
+app.utils.onError =  function(e){ 
+	var HTML = "<h2>Error</h2>"+e.toString();
+	alert (HTML);
+}
+app.utils.appendFile =  function (f){ 
+	//var data = app.global.dataToSave ;
+	f.createWriter(function(writerOb) {
+        writerOb.onwrite=function() {
+            //logit("Done writing to file.<p/>");
+        }
+        //go to the end of the file...
+       // writerOb.seek(writerOb.length);
+        writerOb.write(app.utils.appendFile.textToWrite);
+    })
+}
+// file access (read)
+app.utils.gotFileEntry=  function (fileEntry) {
+		//alert(fileEntry.root.fullPath);
+        //fileEntry.file(app.utils.gotFile, app.utils.onError);
+		var fileUrl = fileEntry.fullPath;
+		// load xml protocols file
+		app.utils.loadProtocols(fileUrl);
+}
+/*
+app.utils.gotFile = function (file){
+        //readDataUrl(file);
+        app.utils.readAsText(file);
+}
+app.utils.readAsText = function (file) {
+        var reader = new FileReader();
+        reader.onloadend = function(evt) {
+            alert("Read as text");
+            //alert(evt.target.result);
+        };
+        reader.readAsText(file);
+		//app.utils.loadProtocols("file:///XML_ProtocolDef_eReleve.xml");
+}
+*/
+// ----------------------------------------------- Database Initialisation ------------------------------------------ //
+app.utils.initializeDB = function(db){
+  try {
+    if (db) {
+      // creer la table TIndividus
+      		var query = 'CREATE TABLE IF NOT EXISTS TIndividus(Tind_PK_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,Tind_FieldWorker1 VARCHAR,'
+			+'Tind_FieldWorker2 VARCHAR, Tind_FieldActivity_Name VARCHAR, Tind_Name VARCHAR, Tind_Region VARCHAR, Tind_Place VARCHAR, Tind_DATE VARCHAR,'
+			+'Tind_LAT VARCHAR, Tind_LON VARCHAR, Tind_Site_name VARCHAR,Tind_MonitoredSite_type VARCHAR, Tind_label VARCHAR, Tind_Sex VARCHAR,'
+			+'Tind_Origin VARCHAR, Tind_Species VARCHAR, Tind_Status VARCHAR, Tind_Tr_Shape VARCHAR, Tind_Tr_Model VARCHAR, Tind_Tr_Number VARCHAR,' 
+			+ 'Tind_NumBagBre VARCHAR, Tind_Chip VARCHAR, Tind_TCaracThes_Mark_Color_1_Precision VARCHAR, Tind_PTT VARCHAR, Tind_Frequency VARCHAR,'
+			+'Tind_NumBagRel VARCHAR, Tind_Fk_TInd_ID VARCHAR, Tind_FreqOpti VARCHAR)';
+      deferreds.push(app.utils.runQuery(query , []));
+
+    }
+  } 
+  catch (err) { 
+   console.log(err);
+  }
+}
+// ----------------------------------------------- Utilitaire de requêtes------------------------------------------ //
+
+
+app.utils.runQuery = function (query , param) {
+    return $.Deferred(function (d) {
+        app.global.db.transaction(function (tx) {
+            tx.executeSql(query, param, 
+            successWrapper(d), failureWrapper(d));
+        });
+    });
+};
+
+function successWrapper(d) {
+    return (function (tx, data) {
+        d.resolve(data)
+    })
+};
+
+function failureWrapper(d) {
+    return (function (tx, error) {
+       console.log('failureWrapper');
+       console.log(error);
+        d.reject(error)
+    })
+}
+app.utils.findAll = function(callback) {
+        app.global.db.transaction(
+            function(tx) {
+                var sql = "SELECT * FROM TIndividus LIMIT 50";
+             
+                tx.executeSql(sql,[], function(tx, results) {
+                    var len = results.rows.length,
+                        listIndiv = [],
+                        i = 0;
+                    for (; i < len; i = i + 1) {
+                        listIndiv[i] = results.rows.item(i);
+                    }
+					callback(listIndiv);
+                });
+            },
+            function(tx, error) {
+                console.log(tx);
+            }
+        );
+}
+
+app.utils.loadFileIndiv = function (db){	
+	var dfd = $.Deferred();
+	var arr = [];
+    $.ajax({
+       type: 'GET',
+       url: 'ressources/Indiv_LastPositions.csv',
+       data: null,
+       success: function(text) {
+			//$("#birdsHeader").html("Chargement du fichier indiv...");
+			console.log("generation de la table individus");
+			//$("#waitControlIndiv").attr('style', 'display:inherit; position:absolute; left:'+((w_screen*0.5)-50)+'px; top:'+((h_screen*0.5)-50)+'px; width:100px;height:100px; z-index:5;');
+           var fields = text.split(/\n/);
+           var data = fields.slice(1,fields.length);
+           for(var j = 0; j < data.length; j += 1) {
+				// suivre l'état d'avancement de generation de la table dans la BD
+				//$("#birdsHeader").html("Chargement de la ligne " + j + " /" + data.length + "...");
+				var dataFields = data[j].split(';');
+				var  values = ""
+				for(var k = 0; k < dataFields.length; k += 1) {
+				values = values +"'"+dataFields[k]+"',";
+				}
+				var n=values.lastIndexOf(",");
+				var val = values.substr(0,n);
+				var query = "INSERT INTO TIndividus (Tind_FieldWorker1 ,"
+				+"Tind_FieldWorker2 , Tind_FieldActivity_Name , Tind_Name , Tind_Region , Tind_Place , Tind_DATE ,"
+				+"Tind_LAT , Tind_LON , Tind_Site_name ,Tind_MonitoredSite_type , Tind_label , Tind_Sex ,"
+				+"Tind_Origin , Tind_Species , Tind_Status , Tind_Tr_Shape , Tind_Tr_Model , Tind_Tr_Number ," 
+				+ "Tind_NumBagBre , Tind_Chip , Tind_TCaracThes_Mark_Color_1_Precision , Tind_PTT , Tind_Frequency ,"
+				+"Tind_NumBagRel , Tind_Fk_TInd_ID , Tind_FreqOpti ) VALUES ("+ val +")";
+				//insertRow(req);
+				arr.push(app.utils.runQuery(query , []) ); 
+           }
+		   /*localStorage.setItem('fileIndivLoaded', "true");
+		   $("#birdsHeader").html("Birds");
+		   $("#waitControlIndiv").attr('style', 'display:none;');*/
+		    $.when.apply(this, arr).then(function () {
+				return  dfd.resolve();
+				
+			});
+       }
+    });
+}
+
+
+
+
+
+
 
 
 
