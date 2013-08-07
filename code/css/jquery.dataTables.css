@@ -29,7 +29,7 @@ table.dataTable td {
 
 table.dataTable td.center,
 table.dataTable td.dataTables_empty {
-	text-align: center;
+	text-align: left;
 }
 
 table.dataTable tr.odd { background-color: #E2E4FF; }
@@ -42,7 +42,6 @@ table.dataTable tr.even td.sorting_1 { background-color: #EAEBFF; }
 table.dataTable tr.even td.sorting_2 { background-color: #F2F3FF; }
 table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 
-
 /*
  * Table wrapper
  */
@@ -52,14 +51,13 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 	*zoom: 1;
 }
 
-
 /*
  * Page length menu
  */
 .dataTables_length {
 	float: left;
+	/*display : none; /*masquer filtre*/
 }
-
 
 /*
  * Filter
@@ -67,6 +65,7 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 .dataTables_filter {
 	float: right;
 	text-align: right;
+	/*display : none;  /*masquer search*/
 }
 
 
@@ -171,7 +170,6 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 	background-color: #99B3FF;
 }
 
-
 /*
  * Processing indicator
  */
@@ -190,8 +188,6 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 	font-size: 14px;
 	background-color: white;
 }
-
-
 /*
  * Sorting
  */
@@ -206,7 +202,6 @@ table.dataTable thead th:active,
 table.dataTable thead td:active {
 	outline: none;
 }
-
 
 /*
  * Scrolling

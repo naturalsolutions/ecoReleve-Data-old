@@ -88,9 +88,10 @@ app.Models.Station = Backbone.Model.extend({
 		debugger;
         this.usersList = options.usersTab;
     },*/
-    /*defaults: {
-        id:null,
-        station_name:"",
+    defaults: {
+
+        station_name:""
+		/*,
         field_activity:"",
         date_day:"",
 		time_now:"",
@@ -100,8 +101,8 @@ app.Models.Station = Backbone.Model.extend({
 		observer4:"",
 		observer5:"",
 		latitude:"",
-		longitude:""
-		},*/
+		longitude:""*/
+		}
 	/*schema: {
 		station_name:  { type: 'Text', title:'Station name'},  //,validators: ['required']
 		field_activity: { type: 'Text', title:'Field activity'}, //,validators: ['required']
@@ -110,6 +111,8 @@ app.Models.Station = Backbone.Model.extend({
 		//Observer: { type: 'Select' , title:'Observer', options: ['Observer 1', 'Observer 2', 'Observer 3','Observer 4', 'Observer 5'] },
 		Observer: { type: 'Select' , title:'Observer', options: this.usersList }			
 	}*/
+}, {
+	verboseName : "station"
 });
  
 app.Collections.Stations = Backbone.Collection.extend({
@@ -121,9 +124,10 @@ app.Collections.Stations = Backbone.Collection.extend({
 });	
 app.Models.Location  = Backbone.Model.extend({
 	schema: {
-		latitude:{ type: 'Text', title:'Latitude'},  //,validators: ['required']
-		longitude: { type: 'Text', title:'Longitude'}  //,validators: ['required']
-	}
+		latitude:{ type: 'Text', title:'Latitude'/*, inline : 'true'*/},  //,validators: ['required']
+		longitude: { type: 'Text', title:'Longitude'/* , inline : 'true'*/}  //,validators: ['required']
+	},
+	verboseName: 'Location'
 });
 
 /*************************************************************
@@ -156,7 +160,16 @@ app.Collections.Users = Backbone.Collection.extend({
   model:  app.Models.User,
   localStorage : new Store('usersList')
 });
+/*************************************************************
+Waypoints Model & collection
+**************************************************************/	
+app.Models.Waypoint = Backbone.Model.extend({
 
+});
+app.Collections.Waypoints = Backbone.Collection.extend({
+  model:  app.Models.Waypoint,
+  localStorage : new Store('waypointList')
+});
 
 
  return app;

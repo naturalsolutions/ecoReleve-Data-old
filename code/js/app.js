@@ -19,64 +19,57 @@
 		},
 		form:{}
 	};
-	
-	
 	/** only mobile version **/
 	if ( (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/Android/i) ) ) {
-			if(window.PhoneGap){
-				document.addEventListener("deviceready",onDeviceReady,false);
-			}else {
-			  $(document).ready(function(){
-				onDeviceReady();
-			  });
-			}
-			function onDeviceReady() {
-				app.init();
-			}
+		if(window.PhoneGap){
+			document.addEventListener("deviceready",onDeviceReady,false);
+		}else {
+		  $(document).ready(function(){
+			onDeviceReady();
+		  });
+		}
+		function onDeviceReady() {
+			app.init();
+		}
 	} else {
 	/** only desktop version **/
 		$(document).ready(function(){
 			app.init();
 		});
 	}
-
 	/*************************/
 	app.init = function () {
 
 		var initalizers = [];
-		
-		var templates = {
-		//field is the default template used
-		field: '\
-		<li class="ftColr-white bbf-field field-{{key}}">\
-		<label for="{{id}}">{{title}}</label>\
-		<div class="bbf-editor">{{editor}}</div>\
-		<div class="bbf-help">{{help}}</div>\
-		<div class="bbf-error">{{error}}</div>\
-		</li>\
-		'
-		};
-		//initalizers.push($("#templates").load("templates.html"));
+		// loading templates
 		initalizers.push(
 			$.ajax({
 				url: 'templates.html',
-				dataType: 'text'//,
-				//context: {key: key}
+				dataType: 'text'
 			}).done(function(contents) {
 				$("#templates").append(contents);
 			})
         );
-		debugger;
+
 		// load stored protocols
 		app.collections.protocolsList = new app.Collections.Protocols();
 		initalizers.push(app.collections.protocolsList.fetch({async: false}));
 
 		if (app.collections.protocolsList.length == 0 ){
 			//load protocols file
+			//app.utils.clearCollection (app.collections.protocolsList);
 			initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml"));
 			//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
 		} 
-
+		// loading waypoints
+		app.collections.waypointsList = new app.Collections.Waypoints();
+		initalizers.push(app.collections.waypointsList.fetch({async: false}));
+		if ( app.collections.waypointsList.length == 0 ){
+			/*app.collections.waypointsList.each(function(element){
+				element.destroy();
+			});*/
+			initalizers.push(app.utils.loadWaypoints("ressources/exemple_wpt.gpx"));
+		}
 		// Load stored stations
 		app.collections.stations = new app.Collections.Stations();
 		initalizers.push(app.collections.stations.fetch({async: false}));
@@ -88,6 +81,13 @@
 		// load stored users
 		app.collections.users = new app.Collections.Users();
 		initalizers.push(app.collections.users.fetch({async: false}));
+		// add user test
+		if (app.collections.users.length == 0 ){
+			var newUser = new app.Models.User();
+			newUser.name = "user_1";
+			newUser.attributes.name = "user_1";
+			app.collections.users.add(newUser);
+		} 
 		// init database	
 		 initDB();
 		
@@ -96,11 +96,6 @@
 
 			app.router = new app.Router();
 			Backbone.history.start();
-			Backbone.Form.setTemplates(templates);
-			// personnaliser le message d'erreur de forms
-			Backbone.Form.validators.errMessages.required = 'Please enter a value for this field.';
-			// init dataTables in mydata
-			//$('.dataTable').dataTable();
 			// check if "schema" object exists to genegate form UI
 			app.collections.protocolsList.each(function(protocol) {
 				protocol.schema = protocol.attributes.schema ;
@@ -113,7 +108,6 @@
 				app.global.destinationType = navigator.camera.DestinationType;
 				/** olocal file access **/
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, app.utils.onFSSuccess, app.utils.onError);
-			
 			}
         });
   };
@@ -140,7 +134,6 @@
 	  });
 	}
 	
-
 
  return app;
 })(ecoReleveData);

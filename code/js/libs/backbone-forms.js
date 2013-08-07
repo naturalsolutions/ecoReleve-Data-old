@@ -77,7 +77,7 @@ var Form = (function() {
 	  // persoAdd fieldset 
 		options.fieldsets = options.model.fieldsets;
       //Determine fieldsets
-	  debugger;
+	 
       if (!options.fieldsets) {
         var fields = options.fields  || _.keys(this.schema) ;
 		/*
@@ -114,7 +114,7 @@ var Form = (function() {
 
       //Render fieldsets
       var $fieldsetContainer = $('.bbf-tmp', $form);
-	debugger;
+	
       _.each(options.fieldsets, function(fieldset) {
         $fieldsetContainer.append(self.renderFieldset(fieldset));
       });
@@ -565,7 +565,7 @@ Form.helpers = (function() {
    */
   helpers.createEditor = function(schemaType, options) {
     var constructorFn;
-	debugger;
+	
     if (_.isString(schemaType)) {
       constructorFn = Form.editors[schemaType];
     } else {
@@ -736,7 +736,7 @@ Form.validators = (function() {
 
  // minval implementation
    validators.minval = function(options) {
-	debugger;
+	
     //if (options.minval =="") throw new Error('Missing required "minval" options for "minval" validator');
 	// if (!options.minval) throw new Error('Missing required "minval" options for "minval" validator');
     
@@ -1316,7 +1316,7 @@ Form.editors = (function() {
      * Check value is numeric
      */
     onKeyPress: function(event) {
-	debugger;
+	
       var self = this,
           delayedDetermineChange = function() {
             setTimeout(function() {
@@ -1644,7 +1644,7 @@ Form.editors = (function() {
      */
     _arrayToHtml: function(array) {
       var html = [];
-		debugger;
+		
       //Generate HTML
       _.each(array, function(option) {
         if (_.isObject(option)) {
@@ -2340,20 +2340,19 @@ Form.editors = (function() {
 
     events: {
         'change': function() {
-		debugger;
+		
             // The 'change' event should be triggered whenever something happens
             // that affects the result of `this.getValue()`.
             this.trigger('change', this);
         },
         'focus': function() {
-		debugger;
+		
             // The 'focus' event should be triggered whenever an input within
             // this editor becomes the `document.activeElement`.
             this.trigger('focus', this);
             // This call automatically sets `this.hasFocus` to `true`.
         },
         'blur': function() {
-		debugger;
             // The 'blur' event should be triggered whenever an input within
             // this editor stops being the `document.activeElement`.
             this.trigger('blur', this);

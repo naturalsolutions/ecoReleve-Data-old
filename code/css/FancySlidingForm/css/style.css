@@ -26,17 +26,17 @@ body{
     border-radius:10px;
     border:2px solid #fff;
     background-color:#f9f9f9;
-    width:600px;
+    width:1000px;
     overflow:hidden;
 }
 #steps{
-    width:600px;
+    width:1000px;  /* modif 600 */
 	/*height:320px;*/
     overflow:hidden;
 }
 .step{
     float:left;
-    width:600px;
+    width:1000px; /* modif 600 */
 	/*height:320px;*/
 }
 #navigation{
@@ -52,7 +52,7 @@ body{
 #navigation ul{
     list-style:none;
 	float:left;
-	margin-left:22px;
+	margin-left:2px;
 }
 #navigation ul li{
 	float:left;
@@ -125,7 +125,7 @@ span.error{
     text-shadow:1px 1px 1px #fff;
     font-weight:bold;
     float:left;
-    width:590px;
+    width:1000px; /*modifié */
     padding:5px 0px 5px 10px;
     margin:10px 0px;
     border-bottom:1px solid #fff;

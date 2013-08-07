@@ -43,10 +43,11 @@ li.tile.tile-double.tile-red {
 .span6 {
 	width: 460px;
 }
-/*  Navigation bars */
+
+/*  Navigation bars 
 .navbar.navbar-fixed-top>div>.navBarPerso{
 	background-color: #66AD23
-}
+} */
 .navbar.navbar-fixed-bottom>div>.navBarPerso {
 	background-color: #000000
 }
@@ -164,6 +165,8 @@ body{
 	height:100%;
 	width: 100%;
 	font-size: 15px;
+	margin-bottom: 70px;
+
 }
 div#content:first-child{
 	height:100%;
@@ -267,6 +270,13 @@ div.updateDataGridView {
 a.btn.perso {
 	background-color:orange;
 }
+a.btn.fromStation{
+	background-color:#66AD23;
+	height: 65px;
+	width: 65px;
+	right: 0px;
+	color: white;
+}
 #stationPanel {
 		display: none;
 	}
@@ -290,8 +300,53 @@ a.btnChoice.btn, a.btnChoice.btn:hover, a#btnInputObs, a#btnInputObs:hover  {
 navbar.navbar-fixed-bottom > .navbar-inner {
 min-height: 70px;
 }
+#mapColumn, #dataTableRow {
+	width: 40%;
+}
+/* bug zone cliquable */
+.thumbnails > li.tile { padding: 0; width: auto; cursor: auto;}
+.thumbnails > li.tile.tile-double {width: auto;}
+.thumbnails > li.tile a {height: 200px; padding: 5px; width: 200px;
+display: block;}
+.thumbnails > li.tile.tile-double a {width: 420px;}
+/*  align text in left in tile */
 
-
+.thumbnails > li.tile span {
+	font-size: 1.5em;
+	margin-top: 120px;
+	text-transform: lowercase;
+	/*line-height: 280px;  /* 50px */
+	font-family: Segoe UI Light, Helvetica Neue, Segoe UI, Segoe WP, sans-serif;
+	color : white;
+	/*margin-left: 0px;*/
+}
+.alignRight {
+	float: right;
+	line-height: 40px; 
+	margin-right: 5px;
+}
+.alignLeft {
+		line-height: 280px; 
+		margin-left: 5px;
+}
+#submitForm {
+	/*position: fixe;
+	top : 40px;
+	left : 40px;*/
+}
+/*  center tiles in config view */
+.tilesGrid {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
+/* backbone forms field & label */
+.bbf-checkboxes label {
+	display: inline;
+}
+.bbf-field label {
+	width: 25%;
+}
 @media screen and (max-width: 640px) {
 
 }

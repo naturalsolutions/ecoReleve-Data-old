@@ -4,12 +4,221 @@
 HomeView
 ******************************************************/	
 app.Views.HomeView = Backbone.View.extend({
-	//templateLoader: app.utils.templateLoader,
-         manage: true ,
-		initialize : function() {
+    manage: true ,
+	initialize : function() {
             this.template = _.template($('#home-template').html());
-		   //this.template = _.template(this.templateLoader.get('home'));
-        }
+    },
+	events : {
+		'click #alldata' : 'alldata'
+	},
+	
+	alldata: function(e){
+		if (navigator.onLine == true){
+			var serverUrl = localStorage.getItem( "serverUrl");
+			if ((serverUrl === undefined) || (serverUrl ==null)){
+					alert ("Please configurate the server url ");
+			}
+			else {
+				app.router.navigate('#allData', {trigger: true});
+			}
+		} else {
+			alert("you are not connected ! Please check your connexion ");
+		}
+	}
+});
+
+/*****************************************************
+StationTypeView --> route "stationType"
+******************************************************/	
+app.Views.StationTypeView = Backbone.View.extend({
+	manage: true ,
+	initialize : function() {
+		this.template = _.template($('#sation-type-template').html());
+	}
+});
+/*****************************************************
+StationFromFile --> route "stationFromGpx"
+******************************************************/	
+app.Views.StationFromFile = Backbone.View.extend({
+	manage: true ,
+	initialize : function() {
+		this.template = _.template($('#sation-file-template').html());
+		waypointsCollection = this.options.collection;
+		this.usersList = this.options.usersTab;
+	},
+	afterRender: function (){
+		debugger;
+		var columns = new Array();
+		var data = new Array();
+		var attr = waypointsCollection.at(0).attributes;
+		for (var prop in attr) {
+			if ( prop != "used") {
+				var field = {};
+				field.sTitle = prop;
+				columns.push(field);
+			}
+		}
+		
+		var len = waypointsCollection.length ; 
+		for (var i=0; i < len ; i++){
+			var attr = waypointsCollection.at(i).attributes;
+			var listVals = new Array();
+			for (var prop in attr) {
+				if (( attr["used"]!= true ) && ( prop != "used" )){
+					listVals.push (attr[prop]);
+				}
+			}
+			if (listVals.length > 0){
+				data.push(listVals);
+			}
+		}
+		var oTable;
+		$("#waypointsDataTable").dataTable( {
+				"aaData":data,
+				"aoColumns": columns,
+				 "bFilter": true
+		});
+
+		oTable = $("#waypointsDataTable").dataTable();
+		$("#waypointsDataTable").attr("style","");
+		
+	},
+	events : {
+		'click tr' : 'selectTableElement',
+		'click #locationSubmit' : 'nextStep',
+		"click a#plus": "zoomIn",
+		"click a#minus": "zoomOut",
+		"click a#displayTracks" : 'displayTracks',
+		"click a#StationFromFile" : 'selectStation'
+	},
+	
+	zoomIn: function(e){
+		app.map.zoomIn();
+	},
+	zoomOut: function(e){
+		app.map.zoomOut();
+	},	
+	selectTableElement : function(e){
+		var ele  = $(e.target).get(0).nodeName;
+		//alert (ele);
+		if (ele =="TD"){
+			// find table id
+			var table = $(e.target).parent().parent().parent().get(0).attributes["id"].nodeValue;
+			// initialize datatable
+			app.utils.oTable = $('#waypointsDataTable');
+			var oTab = $('#waypointsDataTable').dataTable();
+			// selected tr element
+			var trElement = $(e.target).parent().get(0);
+			//var ele2  = $(trElement).nodeName;
+			if ( $(trElement).hasClass('row_selected')) {
+				$(trElement).removeClass('row_selected');
+				$("#locationSubmit").attr("style","display:none ;");
+			}
+			else {
+				oTab.$('tr.row_selected').removeClass('row_selected');
+				$(trElement).addClass('row_selected');
+				$("#locationSubmit").attr("style","display: ;");
+			}
+			// get coordinates for selected station
+			var anSelected = app.utils.fnGetSelected( oTab );
+            if (anSelected.length !== 0) {
+				var data = oTab.fnGetData(anSelected[0]);
+				var wptLatitude = data[2];
+				var wptLongitude = data[3];
+				// pan to selected point on map
+				var selectedWpt = new OpenLayers.LonLat(wptLongitude, wptLatitude);
+				selectedWpt = selectedWpt.transform(
+							new OpenLayers.Projection("EPSG:4326"), 
+							new OpenLayers.Projection("EPSG:900913") 
+				);
+				app.map.setCenter(selectedWpt,10);
+				app.map.panTo(selectedWpt);	
+				app.map.updateSize();
+				debugger;
+				var nbMarkers = app.utils.markers.markers.length;
+				// clear markers
+				for(var x in app.utils.markers.markers){
+						//Remove from layer.
+						app.utils.markers.removeMarker(app.utils.markers.markers[x]); 
+						//Remove from array.
+				}
+				/*
+				for (var i=0;i< nbMarkers; i++){
+					app.utils.markers.markers[i].removeMarker;
+				}
+				*/
+				app.utils.addMarker(selectedWpt);		
+			}
+
+		}
+	},
+	nextStep : function(e){
+		var oTable = $('#waypointsDataTable').dataTable();
+		//var ele  = $(e.target).get(0).nodeName;
+		 var anSelected = app.utils.fnGetSelected( oTable );
+
+        if (anSelected.length !== 0) {
+
+			var data = oTable.fnGetData(anSelected[0]);
+			var idwpt = data[0];
+			var wptName = data[1];
+			var wptLatitude = data[2];
+			var wptLongitude = data[3];
+			var wptTime = data[4];
+			
+			app.models.station = new app.Models.Station();
+			var schema = {
+				station_name:  { type: 'Text', title:'Station name'},  
+				field_activity: { type: 'Text', title:'Field activity'}, 
+				date_day: { type: 'Text', title:'Date'},
+				time_now: { type: 'Text', title:'Time'},
+				Observer_1: { type: 'Select' , title:'Observer 1', options: this.usersList, required : true },
+				Observer_2: { type: 'Select' , title:'Observer 2', options: this.usersList, validators: [] },
+				Observer_3: { type: 'Select' , title:'Observer 3', options: this.usersList },
+				Observer_4: { type: 'Select' , title:'Observer 4', options: this.usersList },
+				Observer_5: { type: 'Select' , title:'Observer 5', options: this.usersList }
+			} ;
+			app.models.station.constructor.schema = schema ;
+			app.models.station.schema = schema ;
+			debugger;
+			app.models.station.set("station_name",wptName);
+			app.models.station.set("id",idwpt);
+			var nbStoredStations = app.collections.stations.length;
+			// store coordinates in location model
+			app.models.location = new app.Models.Location();
+			app.models.location.id ="2";
+			app.models.location.constructor.schema = app.models.location.schema;
+			app.models.location.set("latitude",wptLatitude);
+			app.models.location.set("longitude",wptLongitude);
+			// identifiant de la station 
+			//var idStation = nbStoredStations + 1 ; 
+			//app.models.station.set("latitude",wptLatitude );
+			//app.models.station.set("longitude",wptLongitude );
+			// update station : used = true
+			var waypointModel = app.collections.waypointsList.get(idwpt);
+			waypointModel.set("used", true);
+			waypointModel.save();
+			
+			
+			app.global.selectedStationId = idwpt;
+			app.router.navigate('stationInfos', {trigger: true});
+		}
+	},
+	displayTracks : function(e){
+		if (app.global.traksLoaded != true){
+			
+			app.utils.addTracks("ressources/tracks.kml");
+		}
+		else {
+			app.global.kmlLayer.removeAllFeatures();	
+			app.map.removeLayer(app.global.kmlLayer); 
+			$('a#displayTracks').text('show tracks');
+			app.global.traksLoaded = false ; 
+		}
+	},
+	selectStation : function(e){
+		alert ("selection station !");
+	}
 });
 /*****************************************************
 StationPositionView --> route "entryStation"
@@ -18,11 +227,11 @@ app.Views.StationPositionView = Backbone.View.extend({
     manage: true,
 		initialize : function(options) {
            this.template = _.template($('#sation-position-template').html());
-		   this.usersList = options.usersTab ; 
+		   //this.usersList = options.usersTab ; 
 			//this.template = _.template(this.templateLoader.get('sation-position'));
-    },	
+    }/*,	
 	events: {
-			"click a#locationSubmit": "commitForm"
+		//	"click a#locationSubmit": "commitForm"
 	},
 	commitForm :  function(){
 		var errors = app.locationForm.validate();
@@ -55,22 +264,9 @@ app.Views.StationPositionView = Backbone.View.extend({
 							  options: ["Redirect"]
 							}
 						  ]}/*,
-					errands: {type: 'List'}*/
+					errands: {type: 'List'}
 			} ;
 			app.models.station.schema = schema ;
-			/*
-			// add fieldsets
-			
-			var fieldsets =[{ legend: 'Title', fields: ['station_name', 'field_activity'] },
-							{ legend: 'Time', fields: ['date_day', 'time_now'] },
-							{ legend: 'Observer', fields: ['Observer'] }
-							];
-			app.models.station.fieldsets = fieldsets;
-			*/
-			// set station id
-			/*app.models.station.set("errands", [
-				'milk','chocolate','jus'            
-			]);*/
 			var nbStoredStations = app.collections.stations.length;
 			// identifiant de la station 
 			var idStation = nbStoredStations + 1 ; 
@@ -78,7 +274,9 @@ app.Views.StationPositionView = Backbone.View.extend({
 			app.global.selectedStationId = idStation;
 			app.router.navigate('stationInfos', {trigger: true});
 		}
-	}	
+		// NS.UI.Form
+		
+	}	*/
 		
 });
 /*****************************************************
@@ -90,9 +288,9 @@ app.Views.StationInfosView = Backbone.View.extend({
 	initialize : function() {
 		this.template = _.template($('#sation-infos-template').html());
 		//this.template = _.template(this.templateLoader.get('sation-infos'));
-	},
+	}/*,
 	events: {
-			"click a#stationInfoSubmit": "commitForm"
+		//	"click a#stationInfoSubmit": "commitForm"
 	},
 	commitForm :  function(){
 		var errors = app.stationForm.validate();
@@ -107,7 +305,7 @@ app.Views.StationInfosView = Backbone.View.extend({
 			app.models.station.save();
 			app.router.navigate('proto-choice', {trigger: true});
 		}
-	}
+	}*/
 });
 
 /*****************************************************
@@ -158,7 +356,6 @@ app.Views.DataEntryStationView = Backbone.View.extend({
 View protocole :DataEntryLayout  --> route "data-entry"
 ******************************************************/
 
-
 app.Views.DataEntryProtocolView = Backbone.View.extend({
 	 manage: true,
 	
@@ -202,7 +399,15 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 			var today = new Date(); 
 			myObs.attributes.date = today.defaultView();
 			// save the station id
-			myObs.attributes.stationId = app.global.selectedStationId;
+			debugger;
+			var idSelectedStation = app.global.selectedStationId ;
+			var selectedStation = app.collections.stations.get(idSelectedStation);
+			
+			myObs.attributes.stationId = idSelectedStation;
+			myObs.attributes.stationName = selectedStation.get("station_name");
+			myObs.attributes.latitude = selectedStation.get("latitude");
+			myObs.attributes.longitude = selectedStation.get("longitude");
+			myObs.attributes.observer_1 = selectedStation.get("Observer_1");
 			// add the model to observations collection
 			app.collections.observations.add(myObs);
 			// save the model in local storage
@@ -219,7 +424,6 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 				myObs.attributes.stationId = obsToEdit.get("stationId");
 				myObs.attributes.date = obsToEdit.get("date");
 				obsToEdit.destroy();
-				
 			}
 			myObs.save();
 			if (typeof  editObsId != 'undefined'){
@@ -243,7 +447,6 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 			//$(".obsStoredAlertBox").addClass("message-dialog border-color-red");
 			$("#obsStoredAlertBox").parent().addClass('alertRow');
 			
-			
 		} else if (typeof photo != 'undefined'){
 			 if (photo_url =="" ){ alert ('Please take a photo before submitting');}
 		}
@@ -254,7 +457,6 @@ app.Views.DataEntryProtocolView = Backbone.View.extend({
 		var destination = this.options.destinationType.FILE_URI;
 		navigator.camera.getPicture(app.utils.onPhotoFileSuccess, app.utils.onFail, { quality: 50, destinationType: destination });
 	}
-
 });
 
 app.Views.ListView = Backbone.View.extend({
@@ -269,7 +471,6 @@ app.Views.ListView = Backbone.View.extend({
 
 			var li = '<li> <a id="btn" class="btnChoice" idProt=' + mymodel.get('id') + '><span  idProt=' + mymodel.get('id') +'>' + mymodel.get('name') + '</span></a></li>';
 			listView.append(li);
-
 		});
 	},
 	events : {
@@ -293,22 +494,38 @@ View obs saved :DataEntryLayout
 ******************************************************/
 
 app.Views.DataEntryEndView = Backbone.View.extend({
-	
 	 manage: true,
 	 events : {
             'click .btnSameProt' : 'reloadForm'
         },
 	reloadForm : function(){
-		var selectedProtocol = app.global.selectedProtocolId;
+		/*
+		
 		app.form = new Backbone.Form({
 						model: app.collections.protocolsList.get(selectedProtocol)
 		}).render();
 
 		$('#steps').append(app.form.el);
 		$('.obsStoredAlertBox').html('');
+		$("#dataEntryRow").removeClass("masqued");*/
+			// formulaire de saisie
+		
+		var selectedProtocol = app.global.selectedProtocolId;
+		var currentModel = app.collections.protocolsList.get(selectedProtocol);
+		currentModel.constructor.schema = currentModel.schema;
+		currentModel.constructor.verboseName  = currentModel.attributes.name;
+		var myView = new app.Views.ProtocolFormView({initialData:currentModel});
+		app.views.dataEntryLayout.setView(".protocol",myView );
+		app.views.dataEntryLayout.render();
+			
+		$("#protocolSubmit").on("click", $.proxy(myView.onSubmit, myView));
+		$("div .form-actions").css("display","none"); 
+		
+		var currentModelName = currentModel.attributes.name ;
+		$('#data-entry-protocol').html('<a>Station > data entry > ' + currentModelName + '</a>');
+		$('.obsStoredAlertBox').html('');
 		$("#dataEntryRow").removeClass("masqued");
 	}
-
 });
 
 /*****************************************************
@@ -321,20 +538,17 @@ app.Views.MyDataFilterView= new Backbone.View.extend({
 	}
 });
 
-
 app.views.myDataLayout = new Backbone.Layout({
 	template: "#my-data-layout"
 });
 /*****************************************************
 View mydata :gridView  
 ******************************************************/
-
 app.Views.MyDataGridView = Backbone.View.extend({
 	mycollection : "",
 	filtredCollection:"",
 	manage: true,
 	initialize : function(options) {
-
 	},
 	events : {
             'click .go' : 'filterDate',
@@ -351,7 +565,9 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		/*var tplTabControlView = _.template($('#my-data-tabControl-template').html()); 
 		app.views.myDataLayout.setView(".obsContainer", new app.Views.TabControlView({template :tplTabControlView, collection: app.collections.observations, protoIdList : protoIdList}));
 		app.views.myDataLayout.render();*/
-		$(".obsContainer").html("<div id='myDataDelObs' class='masqued btn-group'><a class='btn primary icon delObservation' style='float:left;'>Delete</a><a class='btn primary icon editObservation'>Edit</a></div><br/><br/><ul class='nav nav-tabs'><li class='active'><a class='tabControl'>table</a><div class='obsList content tabElement'></div></li><li><a class='tabControl'>map</a><div id='map' class='masqued tabElement'></div></li></ul></div>");	
+		$(".obsContainer").html("<div id='myDataDelObs' class='masqued btn-group'><a class='btn primary icon delObservation' style='float:left;'>Delete</a><a class='btn primary icon editObservation'>Edit</a></div><br/><br/><ul class='nav nav-tabs'><li class='active'><a class='tabControl'>list</a><div class='obsList content tabElement'></div></li>"
+								+" <li><a class='tabControl'>map</a>"
+								+ "<div id='map' class='masqued tabElement'></div><div id='navigation' class='masqued' ><a class='button btn' id='plus' > + </a><a class='button btn' id='minus' > - </a> </div></li></ul></div>");	
 		var obsCollection = this.options.collection;
 		var selectedDate = $(".datepicker").val();
 		// filter observations collection with selected data
@@ -365,8 +581,7 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		var protocolsList = this.options.protoIdList;
 		
 		$(".obsList").html('<div class="accordion"></div>' );
-		//var html = '<div class="accordion"> ';
-		debugger;
+
 		// get stations number for selected date
 		var tabStationsList = new Array();
 		var distinctStationsId = new Array();
@@ -378,7 +593,6 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		var nbStations = distinctStationsId.length;
 		// display number of stations 
 		$("#mydataNbStations").html(nbStations);
-
 		for ( var j=0; j < protocolsList.length; j++){
 			//$('.dataTable').dataTable();
 			var html ="";
@@ -387,7 +601,6 @@ app.Views.MyDataGridView = Backbone.View.extend({
 			var elementId ;
 			var collectionForProtocolType = new app.Collections.Protocols();
 			filteredCollection.each(function(model) {
-
 				  if(model.attributes.protoId == protocolsList[j]) {
 				
 					 collectionForProtocolType.add(model);
@@ -395,86 +608,91 @@ app.Views.MyDataGridView = Backbone.View.extend({
 			});
 			var nbmodels = collectionForProtocolType.length ; 
 			if (nbmodels > 0 ){
-
+			
 				var protocolName = collectionForProtocolType.at(0).attributes.protoName;
 				var protocolid = collectionForProtocolType.at(0).attributes.protoId;
 				elementId = "accordionElement" + protocolid ;
 				html += '<div class="accordion-group">' + '<div class="accordion-heading"><span class="accordion-toggle collapsed protocolTitle">'+ protocolName + '</span></div><div class="accordion-body collapse"  id="'+ elementId + '">';
 				//******html += '<table class="bordered hovered"><thead><tr>';
-				
-				// insert table litles from first collection = first observation
-				//var newCollection = collectionForProtocolType[j];
+					debugger;
 				var attr = collectionForProtocolType.at(0).attributes;
-				for (var prop in attr) {
-					if ( (prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
+				for (var prop in attr) {	
+					if ( (prop !="data.multispecies") && (prop !="name") && (prop !="protoId") && (prop !="protoName")  && (prop !="Photo") && (prop !="schema") && (prop !="id") && (prop !="keywords")){
 						var field = {};
 						field.sTitle = prop;
-						var fieldName = new app.TableField({name: prop});
-						//fieldName.name = prop ;
-						//********html += template(fieldName.toJSON());
-						// hide id field
-						
-						if (prop =="id"){
-							field.bVisible = false ;
-						}
-						
 						columns.push(field);
 					}
 				}
-				debugger;
-				//********html += "</tr></thead><tbody>";
-				// insert data from each collection (each observation) in a new line of the table
+				// id column in the last position
+				var field2 = {};
+				field2.bVisible = false ;
+				field2.sTitle = "id";
+				columns.push(field2);
+		   
 				var len = collectionForProtocolType.length ; 
+				
+				var listVals = new Array();
+				debugger;
 				for (var i=0; i < len ; i++){
-				//this.collection.each(function(model) {	
-					//*********html += "<tr>";
 					var attr = collectionForProtocolType.at(i).attributes;
-					var listVals = new Array();
-					for (var prop in attr) {
-						if ((prop !="protoId") && (prop !="protoName") && (prop !="date") && (prop !="Photo")){
-							var fieldName = new app.TableField({value: attr[prop]});
-							//*********html += templateData(fieldName.toJSON());
-							var field = {};
-							listVals.push (attr[prop]);
-						}
+					listVals = new Array();
+				//	debugger;
+
+					// parcourir la table des noms de colonnes et pour chaque champ chercher la valeur de l'enregistrement 
+					
+					var nbChamps = columns.length;
+					
+					for (var k=0; k< nbChamps; k++){
+						var fieldName = columns[k].sTitle;
+						// parcourir le model d'observation et chercher la propriete qui correspond à celle selectionnée
+						for (var prop in attr) {
+							if ( prop ==fieldName){
+								var value = attr[prop];
+								//if (value == 'undefined'){value ='null';}
+								listVals.push(value);
+							}
+						}	
 					}
-					data.push(listVals);
+					debugger;
+					if (listVals.length > 0){
+						data.push(listVals);
+					}
 				}
 
 				html += "</div></div>";
 				$(".accordion").append(html);
-			debugger;
-			// create dataTable for the protocol	
-			var tableId = elementId + "DataTable";
-			//$(elementId).html('');
-			$("#" + elementId).html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="' + tableId + '"></table>');	
-			//$("#" + tableId).dataTable();
-			var oTable;
-			
-			$("#" + tableId).dataTable( {
-				"aaData":data,
-				"aoColumns": columns
-			});
 
-			oTable = $("#" + tableId).dataTable();
-			$("#" + tableId).attr("style","");
-			
+				// create dataTable for the protocol	
+				var tableId = elementId + "DataTable";
+				//$(elementId).html('');
+				$("#" + elementId).html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="' + tableId + '"></table>');	
+				//$("#" + tableId).dataTable();
+				var oTable;
+				
+				$("#" + tableId).dataTable( {
+					"aaData":data,
+					"aoColumns": columns,
+					"bAutoWidth": false,
+				});
+
+				oTable = $("#" + tableId).dataTable();
+				$("#" + tableId).attr("style","");
 			}
 		
 		}
 		// init map div
 		$('#map').html();
 		app.point = new OpenLayers.LonLat(5.37,43.29);
-
 	},
 	prevDate : function(e){ 
+		debugger;
 		var selectedDate = $('input[name*="date_day"]').val();
 		var tabDate = selectedDate.split('/');
 		var d = new Date(); 
 		var d2 = new Date(); 
-		var MM = parseInt(tabDate[0]);
-		var DD = parseInt(tabDate[1]);
-		var YYYY = parseInt(tabDate[2]);	
+		var MM = parseInt(tabDate[0],10);    
+		var DD = parseInt(tabDate[1], 10);
+		var YYYY = parseInt(tabDate[2], 10);	
 		// set MM/DD/YYYY   MM ( january -> 0)
 		d.setMonth(MM - 1);
 		d.setDate(DD);
@@ -488,7 +706,7 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		$('a.nextDate').attr('style','display:;');
 	},
 	nextDate : function(e){ 
-		debugger;
+
 		var selectedDate = $('input[name*="date_day"]').val();
 		var tabDate = selectedDate.split('/');
 		var d = new Date();  
@@ -517,28 +735,37 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		var targetElement = $(e.target).parent();
 		var classAttrs  = $(e.target).parent().attr("class");
 		var elementTab = $(targetElement).find('a').eq(0).html();
-
+		var collection = this.filtredCollection ;
+		var len = collection.length ;
+			
 		if (elementTab == "map") {
 			// check if the map is initialized
 			var content = $('#map').html();
 			if (content ==""){
 			$('#map').css('width', '800px');
 			$('#map').css('height', '600px');
+			$('#navigation').removeClass("masqued");
 
-			debugger;
-			var collection = this.filtredCollection ;
-			var len = collection.length ;
+
+			
 			if (len > 0){
 					app.utils.initMap();
 					app.utils.myObservationsOnMap(collection);
 				} else {
-					$("#map").html("No data to display");
+					$("#map").html("<br/>No data to display");
 				}
 			}
 		}
+		else {
+			$('#navigation').addClass("masqued");
+			if (len == 0){
+				$(".obsList").html("<br/>No data to display");
+			}
+			
+		}
 		
 		if ((typeof classAttrs == 'undefined') || (classAttrs =="")){
-			debugger;
+
 			$(targetElement).addClass("active");
 			$(targetElement).next().removeClass("active");
 			$(targetElement).prev().removeClass("active");
@@ -553,13 +780,14 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		}
 		else if (typeof classAttrs != 'undefined'){
 			// activ element
-			debugger;
+
 			$(targetElement).next().removeClass("active");
 			$(targetElement).prev().removeClass("active");
 			$(targetElement).find('div').eq(0).addClass("visible");
 			$(targetElement).find('div').eq(0).removeClass("masqued");
 			$(targetElement).next().find('div').eq(0).addClass("masqued");
 			$(targetElement).prev().find('div').eq(0).addClass("masqued");
+			
 		}
 	},
 	elementVisibility : function(e){ 
@@ -609,19 +837,22 @@ app.Views.MyDataGridView = Backbone.View.extend({
 		}
 	},
 	deleteObservation : function(e){ 
-		var oTable = $(app.utils.oTable).dataTable();
-		var ele  = $(e.target).get(0).nodeName;
-		 var anSelected = app.utils.fnGetSelected( oTable );
-        if ( anSelected.length !== 0 ) {
-			var data = oTable.fnGetData( anSelected[0] );
-			var idObservation = data[data.length - 1];
-			oTable.fnDeleteRow( anSelected[0] );
-			//var myCollection = app.collections.observations ;
-			//myCollection.remove(myCollection.get(idObservation));
-			var myObsModel = new app.Models.Observation();
-			myObsModel = app.collections.observations.get(idObservation);
-			myObsModel.destroy();
-			$('#myDataDelObs').addClass("masqued");
+		var r=confirm("Are you sure you want to delete this observation ?");
+		if (r==true) {
+			var oTable = $(app.utils.oTable).dataTable();
+			var ele  = $(e.target).get(0).nodeName;
+			 var anSelected = app.utils.fnGetSelected( oTable );
+			if ( anSelected.length !== 0 ) {
+				var data = oTable.fnGetData( anSelected[0] );
+				var idObservation = data[data.length - 1];
+				oTable.fnDeleteRow( anSelected[0] );
+				//var myCollection = app.collections.observations ;
+				//myCollection.remove(myCollection.get(idObservation));
+				var myObsModel = new app.Models.Observation();
+				myObsModel = app.collections.observations.get(idObservation);
+				myObsModel.destroy();
+				$('#myDataDelObs').addClass("masqued");
+			}
 		}
 	},
 	editObservation : function(e){
@@ -635,9 +866,7 @@ app.Views.MyDataGridView = Backbone.View.extend({
 			var route = '#dataEdit/' + idObservation ;
 			app.router.navigate(route, {trigger: true});
 		}
-
 	}
-
 });
 /*****************************************************
 View mydata :TabControlView  
@@ -649,15 +878,16 @@ app.Views.TabControlView = Backbone.View.extend({
 });
 
 */
-
 /*****************************************************
 update layout : main view  
 ******************************************************/
 app.Views.UpdateDataView= Backbone.View.extend({
 	manage: true,
 	events : {
-          'click .updateProtos' : 'updateProtocols',
-		  'click .updateProtosFromFile' : 'updateProtocolsFromFile'
+			'click .gpxLoading' : 'gpxLoading',
+			'click .updateProtos' : 'updateProtocols',
+			'click .updateProtosFromFile' : 'updateProtocolsFromFile',
+			'click #btnFileSelection' : 'gpxFileSelection'
     },
 	updateProtocols : function(e){ 
 		var tplAlert = _.template($('#update-data-alert-template').html()); 
@@ -666,14 +896,67 @@ app.Views.UpdateDataView= Backbone.View.extend({
 		$(".updateDataAlert").addClass("message-dialog border-color-red");
 		$("#updateDataGridView").addClass("masqued");
 	},
-	updateProtocolsFromFile : function(e){ 
+	updateProtocolsFromFile : function(){ 
 		var tplAlert = _.template($('#update-data-alert-template').html()); 
 		app.views.dataUpdateLayout.setView(".updateDataAlert", new app.Views.UpdateDataAlertView({template: tplAlert , collection:app.collections.protocolsList, source:"file", fileSystem : app.global.fileSystem }));
 		app.views.dataUpdateLayout.render();	
 		$(".updateDataAlert").addClass("message-dialog border-color-red");
 		$("#updateDataGridView").addClass("masqued");
-	}
-}); 
+	},
+	gpxLoading : function(){ 
+		$("#btnSelection").attr("style","display:none;");
+		$("#btnFileSelection").attr("style","display: ;");
+	},
+	gpxFileSelection  : function(){ 
+
+		var selected_file = document.querySelector('#file');
+		//var selected_file = $('#file').get(0).files[0];
+		selected_file.onchange = function() {
+			try{
+				debugger;
+				var reader = new FileReader();
+				var xml;
+				var fileName = this.files[0].name;
+				var tab = fileName.split(".");
+				var fileType = tab[1];
+				fileType = fileType.toUpperCase();
+				if (fileType != "GPX"){
+					alert ("File type is not supported. Please select a 'gpx' file" );
+					
+				}
+				else {
+						debugger;
+						var lastUpdate = this.files[0].lastModifiedDate ;
+						var gpxFileName = localStorage.getItem("gpxFileName"); 
+						var gpxLastModif = localStorage.getItem("gpxLastModif"); 
+
+						if ((gpxFileName != "null") && (gpxFileName == fileName) && (gpxLastModif == lastUpdate )){
+						 alert ("this file correspond to last loaded version !");
+						}
+						else if (gpxLastModif != lastUpdate ){
+							
+							reader.onload = function(e, fileName) {
+								debugger;
+									//alert('Contenu du fichier "' + selected_file.files[0].name + '" :\n\n' + reader.result);
+								xml = e.target.result;
+								app.utils.loadWaypointsFromFile(xml);
+								//var fileName = this.files[0].name;
+								// check if it is a gpx file
+							};
+							localStorage.setItem("gpxFileName", fileName);
+							localStorage.setItem("gpxLastModif",lastUpdate);
+						}
+					}
+				
+				
+				reader.readAsText(selected_file.files[0]);
+				
+			} catch (e) {
+				alert ("File API is not supported by this version of browser. Please update your browser and check again, or use another browser"); 
+			}
+		}
+	} 
+});
 /*****************************************************
 update layout : alert view  
 ******************************************************/	 
@@ -700,12 +983,15 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 		// delete stored data
 		// protocols
 		//app.collections.protocolsList.reset();
-		app.collections.protocolsList.each(function(model) { model.destroy(); } );
+		app.utils.clearCollection(app.collections.protocolsList);
+		//app.collections.protocolsList.each(function(model) { model.destroy(); } );
 		//stations
-		app.collections.stations.each(function(model) { model.destroy(); } );
+		app.utils.clearCollection(app.collections.stations);
+		//app.collections.stations.each(function(model) { model.destroy(); } );
 		//observations
 		//app.collections.observations.reset();
-		app.collections.observations.each(function(model) { model.destroy(); } );
+		app.utils.clearCollection(app.collections.observations);
+		//app.collections.observations.each(function(model) { model.destroy(); } );
 		if (source =="server"){
 			// load data
 			var initalizers = [];
@@ -716,7 +1002,7 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 			});
 		} else {
 			var fileSystem = this.options.fileSystem;
-			alert("chargement fichier xml !");
+			//alert("chargement fichier xml !");
 			// xml file access
 			fileSystem.root.getFile("XML_ProtocolDef_eReleve.xml", null, app.utils.gotFileEntry, app.utils.onError);
 
@@ -731,7 +1017,7 @@ app.Views.UpdateDataAlertView = Backbone.View.extend({
 	}
 
 });
-/**********************************************************
+/*****************************************************
  update view, listview of Protocols in alert message
 **********************************************************/
 app.Views.ProtosListView = Backbone.View.extend({
@@ -750,23 +1036,175 @@ app.Views.ProtosListView = Backbone.View.extend({
 	}
 	
 });
-/**********************************************************
+/**************************************************
  config Layout, config list view 
 **********************************************************/
 app.Views.ConfigListView = Backbone.View.extend({
 	manage: true,
 	events : {
-            'click .users' : 'showUsersList'
+            'click .users' : 'showUsersList',
+			'click #configUsers' : 'configUsers',
+			'click #serverUrl' : 'displayServerUrl',
+			'click #configProtos' : 'configProtos'
+			//'click #editServerUrl': 'editServerUrl',
+			
     },
 	showUsersList :function(){ 
 		var tplview = _.template($('#users-template').html()); 
 		app.views.configdataLayout.setView(".configDetails", new app.Views.Users({ template : tplview, collection: app.collections.users }));
 		app.views.configdataLayout.render();
+	},
+	configUsers :function(){
+		// check internet connexion
+		if (navigator.onLine == true){
+			// check if server url is configurated
+			var serverUrl = localStorage.getItem( "serverUrl");
+			if ((serverUrl === undefined) || (serverUrl ==null)){
+				alert ("Please configurate the server url");
+			} else {
+				var r=confirm("Are you sure you want to update users?");
+				if (r==true) {
+					
+					
+						// call WS users
+						var serverUrl = localStorage.getItem("serverUrl");
+						var link = serverUrl + "cake/user/listv";
+						$.ajax({
+							type: "GET",
+							url: link,
+							dataType: "text",
+							success: function(data) { 
+								var myObject = JSON.parse(data);
+								// init users collection
+								app.utils.clearCollection(app.collections.users);
+								//alert ("j'ai " + app.collections.users.length.toString() + " élements dans ma collection netoyée");
+								//app.collections.users.each(function(model) { model.destroy(); } ); 
+								for (var i=0; i < myObject.length ; i++){
+									var name = myObject[i].Nom ; 
+									var firstName = myObject[i].Prenom ; 
+									name = name + ' ' + firstName ;
+									var newUser = new app.Models.User();
+									newUser.name = name;
+									newUser.attributes.name = name;
+									app.collections.users.add(newUser);
+									newUser.save();	
+								}
+								alert (" users list is updated !");
+							}, error : function (xhr, ajaxOptions, thrownError) {
+							alert(xhr.status);
+							alert(thrownError);
+						  }
+						}); 
+				} else {
+					x="You pressed Cancel!";
+				} 
+			}
+		} else {
+		alert("you are not connected ! Please check your connexion ");
+		}
+	},
+	displayServerUrl :function(){
+		$(".tilesGrid").addClass("masqued");
+		$(".popup").removeClass("masqued");
+		var serverUrl = localStorage.getItem("serverUrl");
+		if ( serverUrl =="null" ){
+			$("#spanServerUrl").text("nothing");
+		} else {
+			$("#spanServerUrl").text(serverUrl);
+		}
+	},
+	configProtos :function(){
+		var r=confirm("Are you sure you want to update protocols?");
+		if (r==true) {
+			app.router.navigate('#configProtos', {trigger: true});
+		} 
+	}
+});
+/****************************************************
+	config Layout, config protocols 
+******************************************************/
+app.Views.ConfigProtocols = Backbone.View.extend({
+	manage: true,
+	afterRender: function() {
+		// check internet connexion
+		if (navigator.onLine == true){
+			// check if server url is configurated
+			var serverUrl = localStorage.getItem( "serverUrl");
+			if ((serverUrl === undefined) || (serverUrl ==null)){
+				alert ("Please configurate the server url");
+			} else {
+		// call WS protocols
+				var serverUrl = localStorage.getItem("serverUrl");
+				var link = serverUrl + "cake/proto/proto_list";
+				$.ajax({
+					type: "GET",
+					url: link,
+					dataType: "xml",
+					success: function(xml) {
+						var procolsList = new Array();
+						var listColumns = new Array();
+						$(xml).find('protocole').each( function()
+						{
+							var protocol = {};
+							protocol.id = $(this).attr('id');
+							protocol.protName = $(this).text();
+							// delete spaces in the begin and the end of string
+							protocol.protName = app.utils.trim(protocol.protName);
+							procolsList.push(protocol);
+							listColumns.push(protocol.protName);
+						
+						}); 
+						// display form with 1 field (checkboxes ) values -> procolsList	
+						// model used by backbone forms to make the form UI
+						var MyModel = Backbone.Model.extend({
+							schema: {
+								protocols: { type: 'Checkboxes', options: listColumns }
+							},
+							
+						});
+
+						var myModel = new MyModel({
+						});
+						app.form = new Backbone.Form({
+										model: myModel
+									
+						}).render();
+						$('#configProtocols').append(app.form.el);
+						$('#submitForm').attr("style", "display:''");
+					}
+					, error : function (xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				  }
+				}); 
+			}
+		} else {
+			alert("you are not connected ! Please check your connexion ");
+		}
+	},
+	events : {
+		"click #configChooseProtocols" : "submitForm"
+	},
+	submitForm : function(e){
+		var errors = app.form.validate();
+		if ( errors === null){
+			var data = app.form.getValue();
+			var listeProtocols = new Array();
+			var valForm  = data["protocols"];
+			var len = valForm.length;
+			for (var i=0; i<len; i++){
+				app.utils.getProtocolDetails(valForm[i]);
+			}
+			//app.router.navigate('#config', {trigger: true});
+		}
 	}
 });
 /*****************************************************
 upload data   
 ******************************************************/
+app.Views.ConfigUrlView = Backbone.View.extend({
+	manage: true,
+}); 
 app.Views.UploadDataView= Backbone.View.extend({
 	manage: true,
 	events : {
@@ -969,11 +1407,15 @@ app.Views.Individus = Backbone.View.extend({
 		// read columns names
 		var attr = dataTable[0];
 		var columnList ="";
+		var j=0;
 		for (var prop in attr) {
 			var field = {};
 				field.sTitle = prop;
+				j+=1;
 				//field.bVisible = false ;
-				
+			if (j>5) {
+				field.bVisible = false ;
+			}	
 				
 				//var fieldName = new app.TableField({name: prop});
 				//fieldName.name = prop ;
@@ -984,6 +1426,7 @@ app.Views.Individus = Backbone.View.extend({
 		}
 		this.columns = columns;
 		// buid an array for columns labels
+		
 		var colLabel = new Array();
 		var len = columns.length;
 		for (var i=0; i<len; i++){
@@ -991,8 +1434,8 @@ app.Views.Individus = Backbone.View.extend({
 			colLabel.push(label);
 		
 		}
-
-		// content of tavle
+		debugger;
+		// content of table
 		var len = dataTable.length ; 
 		for (var i=0; i < len ; i++){
 		//this.collection.each(function(model) {	
@@ -1005,7 +1448,9 @@ app.Views.Individus = Backbone.View.extend({
 				var field = {};
 				listVals.push (attr[prop]);
 			}
-			data.push(listVals);
+			if (listVals.length > 0){
+				data.push(listVals);
+			}
 		}
 		this.data = data;
 		// generate a "dataTable" to display loaded data in a table
@@ -1038,7 +1483,8 @@ app.Views.Individus = Backbone.View.extend({
 	},
 	events : {
 			'click tr' : 'selectTableElement',
-			'click .submit' : 'displaySelectedRows'
+			'click .submit' : 'filterColumns',
+			'click a#submitForm' : 'displaySelectedRows'
 	},
 	selectTableElement : function(e){ 
 	var ele  = $(e.target).get(0).nodeName;
@@ -1061,7 +1507,38 @@ app.Views.Individus = Backbone.View.extend({
 			}
 		}
 	},
-	displaySelectedRows: function(e){
+	filterColumns: function(e){ 
+		$('#dataFilterRow').html('');
+		$('#msgColumnsModif').attr('style','display:none;');
+		// get view columns to make the form (1 field checkbox)
+		var columns = this.columns;
+		var listColumns = new Array();
+		var len = this.columns.length ;
+		for (var j=0; j < len ; j++){	
+			var attr = this.columns[j];
+			listColumns.push(attr.sTitle);
+		}
+
+		// model used by backbone forms to make the form UI
+		var MyModel = Backbone.Model.extend({
+			schema: {
+				fields: { type: 'Checkboxes', options: listColumns }
+			},
+			
+		});
+		//var schema = {};
+		//schema.type = 'Checkboxes';
+		//schema.options = listColumns;
+		var myModel = new MyModel({
+			//fields : listColumns   // if we like select all
+		});
+		app.form = new Backbone.Form({
+						model: myModel
+						
+		}).render();
+		$('#dataFilterRow').append(app.form.el);
+		$('#submitForm').attr("style", "display:''");
+		/*
 		var errors = app.form.validate();
 		var selectedFieldsList = new Array();
 		if ( errors === null){
@@ -1110,8 +1587,272 @@ app.Views.Individus = Backbone.View.extend({
 
 		oTable = $("#indivDataTable").dataTable();
 		$("#indivDataTable").attr("style","");
+	*/
+	},
+	displaySelectedRows : function(e){
+		$('#dataFilterRow').html('');
+		$('#msgColumnsModif').attr('style','display:"";');
+		$('#submitForm').attr('style','display:none;');
+		var errors = app.form.validate();
+		var selectedFieldsList = new Array();
+		if ( errors === null){
+			var data = app.form.getValue();
+			
+			for (var prop in data) {
+				selectedFieldsList.push(data[prop]);
+			}
+		}
+		debugger;
+		// initialize fields -> display: none
+		var lnSelected = selectedFieldsList[0].length;
+		var len = this.columns.length ; 
+		for (var j=0; j < len ; j++){
+			var attr = this.columns[j];
+			for (var prop in attr) {
+				attr["bVisible"] = false ;
+			} 
+		}
+		debugger;
+		// selected fields -> display: yes
+		for (var k=0; k< lnSelected; k++){
+		
+			var colName = selectedFieldsList[0][k];
+			
+			for (var j=0; j < len ; j++){
+				var attr = this.columns[j];
+				for (var prop in attr) {
+					if ( attr[prop] == colName ){
+						attr["bVisible"] = true ;
+					}
+				}
+			}
+		}
+		debugger;
+		
+		var oTable;	
+		
+		$("#indivDataTable").dataTable( {
+			"aaData":this.data,
+			"aoColumns": this.columns,
+			"bDestroy": true
+		});
+
+		oTable = $("#indivDataTable").dataTable();
+		//$("#indivDataTable").attr("style","");
 		
 
+		
+		/*
+		var ln = selectedFieldsList.length;
+		var columns = this.columns;
+		var listColumns = new Array();
+		var len = this.columns.length ;
+		for (var j=0; j < len ; j++){	
+			var attr = this.columns[j];
+			for(var i=0; i< ln; i++){
+				if (selectedFieldsList[i] == attr) {
+				
+				}
+			
+			}
+			
+			
+			listColumns.push(attr.sTitle);
+		}  */
+	}
+	
+});
+app.Views.AllData = Backbone.View.extend({
+	manage: true,
+	afterRender: function(options){
+		var serverUrl = localStorage.getItem("serverUrl");
+		var link = serverUrl + 'cake/proto/station_get';
+		$('#allDataTable').dataTable({
+			"bServerSide": true,
+			"bProcessing": true,
+			"iDisplayLength": 10,
+			"fnServerData": function ( sSource, aoData, fnCallback ) {
+				debugger;
+				/* Add some extra data to the sender */
+				aoData.push( { "name": "more_data", "value": "my_value" } );
+				$.getJSON( sSource, aoData, function (json) { 
+					fnCallback(json)
+				} );
+			},
+			"sAjaxSource": link
+		});
+
+	}
+});
+app.Views.LocationFormView = NS.UI.Form.extend({
+    initialize: function(options) {
+		this.usersList = options.usersTab ; 
+		NS.UI.Form.prototype.initialize.apply(this, arguments);
+		this.on('submit:valid', function(instance) {
+
+			app.models.station = new app.Models.Station();
+			var schema = {
+				station_name:  { type: 'Text', title:'Station name'},  //,validators: ['required']
+				field_activity: { type: 'Text', title:'Field activity'}, //,validators: ['required']
+				date_day: { type: 'Text', title:'Date'},
+				time_now: { type: 'Text', title:'Time'},
+				//Observer: { type: 'Select' , title:'Observer', options: ['Observer 1', 'Observer 2', 'Observer 3','Observer 4', 'Observer 5'] },
+
+				/*Observers: { type: 'List' , title:'Observers', required: true, model: Backbone.Model.extend({}, {
+					schema: {
+						name: {type: 'Select', title: "Name", options: this.usersList}
+					}
+				})},*/
+
+				Observer_1: { type: 'Select' , title:'Observer 1', options: this.usersList, required : true },
+				Observer_2: { type: 'Select' , title:'Observer 2', options: this.usersList, validators: [] },
+				Observer_3: { type: 'Select' , title:'Observer 3', options: this.usersList },
+				Observer_4: { type: 'Select' , title:'Observer 4', options: this.usersList },
+				Observer_5: { type: 'Select' , title:'Observer 5', options: this.usersList }/*,
+				TestHierarchy : { type: 'Select',
+					  options: [
+						{
+						  group: "Standart",
+						  options: ["A", "AAAA", "CNAME", "MX", "SPF", "TXT"]
+						},
+						{
+						  group: "Advanced",
+						  options:  ["NAPTR", "SRV", "PTR", "NS"]
+						},
+						{
+						  group: "Special",
+						  options: ["Redirect"]
+						}
+					  ]}/*,
+				errands: {type: 'List'}*/
+				} ;
+				app.models.station.constructor.schema = schema ;
+				app.models.station.schema = schema ;
+				var nbStoredStations = app.collections.stations.length;
+				// identifiant de la station 
+				var idStation = nbStoredStations + 1 ; 
+				app.models.station.set("id",idStation );
+				app.global.selectedStationId = idStation;
+				app.router.navigate('stationInfos', {trigger: true});
+		});
+    },
+
+	afterRender: function () {
+		$('h3', this.$el).attr('style', 'display:none');
+	}
+
+});
+app.Views.StationFormView = NS.UI.Form.extend({
+	
+    initialize: function(options) {
+		debugger;
+		//this.usersList = options.usersTab ; 
+		NS.UI.Form.prototype.initialize.apply(this, arguments);
+		this.on('submit:valid', function(instance) {
+			var attr = instance.attributes;
+			for (var prop in attr) {
+				app.models.station.set(prop, attr[prop]);
+			}
+			
+			app.models.station.set("latitude", app.models.location.get("latitude"));
+			app.models.station.set("longitude", app.models.location.get("longitude"));
+			
+			app.collections.stations.add(app.models.station);
+			app.models.station.save();
+			app.router.navigate('proto-choice', {trigger: true});	
+		});
+    },
+
+	afterRender: function () {
+		$('h3', this.$el).attr('style', 'display:none');
+	}
+
+});
+app.Views.ServerFormView = NS.UI.Form.extend({	
+    initialize: function(options) {
+		NS.UI.Form.prototype.initialize.apply(this, arguments);
+		this.on('submit:valid', function(instance) {
+			var attr = instance.attributes;
+			if (app.utils.checkURL(attr.url)) {
+				localStorage.setItem( "serverUrl" , attr.url);
+				alert("url updated !");
+				app.router.navigate('#config', {trigger: true});
+			} else {
+				alert("Please input a validate url");
+			}
+ 
+		});
+    },
+	afterRender: function () {
+		$('h3', this.$el).attr('style', 'display:none');
+	}
+
+});
+app.Views.ProtocolFormView = NS.UI.Form.extend({
+    initialize: function(options) {
+		NS.UI.Form.prototype.initialize.apply(this, arguments);
+		this.on('submit:valid', function(instance) {
+			var attr = instance.attributes;
+			var myObs =  new app.Models.Observation();
+			for (var prop in attr) {
+				myObs.attributes[prop] = attr[prop];	
+			}
+			// save the protocol id
+			myObs.attributes.protoId = app.global.selectedProtocolId;
+			myObs.attributes.protoName = app.global.selectedProtocolName;
+			// set date
+			var today = new Date(); 
+			myObs.attributes.date = today.defaultView();
+			// save the station id
+			debugger;
+			var idSelectedStation = app.global.selectedStationId ;
+			var selectedStation = app.collections.stations.get(idSelectedStation);
+			
+			myObs.attributes.stationId = idSelectedStation;
+			myObs.attributes.stationName = selectedStation.get("station_name");
+			myObs.attributes.latitude = selectedStation.get("latitude");
+			myObs.attributes.longitude = selectedStation.get("longitude");
+			myObs.attributes.observer_1 = selectedStation.get("Observer_1");
+			myObs.attributes.observer_2 = selectedStation.get("Observer_2");
+			myObs.attributes.observer_3 = selectedStation.get("Observer_3");
+			myObs.attributes.observer_4 = selectedStation.get("Observer_4");
+			myObs.attributes.observer_5 = selectedStation.get("Observer_5");
+			// add the model to observations collection
+			app.collections.observations.add(myObs);
+			// save the model in local storage
+			//var attr = myObs.attributes;
+			debugger;
+			// if we modify an obs we need to delete it and generate a new obs model (new id)
+			var editObsId = this.options.obsId;
+			if (typeof  editObsId != 'undefined'){
+				var obsToEdit = app.collections.observations.get(editObsId);
+				myObs.attributes.stationId = obsToEdit.get("stationId");
+				myObs.attributes.date = obsToEdit.get("date");
+				obsToEdit.destroy();
+			}
+			myObs.save();
+			if (typeof  editObsId != 'undefined'){
+				debugger;
+				var actualProtocol = app.global.selectedProtocolId;
+				app.utils.reloadProtocols();
+				app.router.navigate('##mydata', {trigger: true});
+			}
+
+			var tplmsgBox = _.template($('#data-entry-end-template').html());
+			//$("#obsStoredAlertBox").css({"background-color":"#FFF;"});
+			//$(".obsStoredAlertBox").css({"background-color":"#FFF;"});
+			app.views.dataEntryLayout.setView(".obsStoredAlertBox", new app.Views.DataEntryEndView({template: tplmsgBox }));
+			app.views.dataEntryLayout.render();	
+			$("#dataEntryRow").addClass("masqued");
+			//$(".obsStoredAlertBox").css("background-color","#FFFFFF;");
+			$("#data-entry-end-proto-name").html(app.global.selectedProtocolName) ;
+			//$(".obsStoredAlertBox").addClass("message-dialog border-color-red");
+			$("#obsStoredAlertBox").parent().addClass('alertRow');
+		});
+    },
+
+	afterRender: function () {
+		$('h3', this.$el).attr('style', 'display:none');
 	}
 });
 

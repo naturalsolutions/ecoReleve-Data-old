@@ -47,16 +47,22 @@
 					</li>
 					<li class="span3 tile tile-yellow icon">
 						<a href="#mydata" >
-							<img src="images/my-data.png">
+							<img src="images/my-data2.png">
 							<h2>My data</h2>
 						</a>
 					</li>
 				</ul>
 				<ul class="thumbnails">
-					<li class="span3 tile tile-double tile-red icon">
+					<li class="span3 tile  tile-green icon">  <!--  tile-double  -->
 						<a href="#entryStation" >
 							<img src="images/new-data.png">
 							<h2>New data</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-red icon">
+						<a id="alldata" >
+							<img src="images/all-data.png">
+							<h2>All data</h2>
 						</a>
 					</li>
 				</ul>
@@ -70,7 +76,7 @@
 								<h2>Update</h2>
 							</a>
 					</li>
-					<li class="span3 tile tile-green icon">
+					<li class="span3 tile tile-red icon">
 						<a href="#uploadData" >
 							<img src="images/upload.png">
 							<h2>Upload</h2>
@@ -85,17 +91,118 @@
 						</a>
 					</li>
 					<li class="span3 tile tile-blue icon">
-						<a href="#conf" >
+						<a href="#config" >
 							<img src="images/configuration.png">
 							<h2>Configuration</h2>
 						</a>
 					</li>
 				</ul>
 			</div>
+
 		</div>
 	</div>
 </script>
+ <script type="text/template" id="sation-type-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: coordinates</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+			<br/><br/>
+			<section id="grid">
+				<div class="row-fluid" >
+					<div>
+						<div class="span4">
+							<a href="#entryStation"><img src="images/station_from_gps.jpg"/></a>
+						</div>
+						<div class="span4">
+							<a href="#stationFromGpx"><img src="images/station_from_gpx_file.jpg"/></a>
+						</div>
+						<!--<a class="btn" href="#entryStation">From GPS</a>
+						<a class="btn" href="#">From GPX file</a> -->
+					</div><br/>
+				</div>
+				
+			</section>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li class="active">
+									<a href="#" >Home</a>
+								</li>
+								<!--<li class="active">
+									<a id="locationSubmit" type="submit">Next</a>
+								</li>-->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 
+	</div>
+ </script>
+  <script type="text/template" id="sation-file-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#entryStation"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: gpx data</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+			<br/><br/>
+			<section id="grid">
+				<div class="row-fluid" >
+					<div class="span6" id="dataTableRow">
+						<table cellpadding="0" cellspacing="0" border="0" class="display" id="waypointsDataTable"></table>
+					</div>
+					<div class="span6" id="mapColumn">
+						<div id="navigation" >
+							<a class="button btn " id="plus" > + </a>
+							<a class="button btn " id="minus" > - </a>
+							<a class="button btn " id="displayTracks" > show tracks  </a>
+							<a class="button btn " id="waitLoadingTracks"></a>
+						</div>
+						<div id="map"></div>
+					</div>
+					
+				</div>
+					<br/><br/><br/>					
+			</section>
+			<br/>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li>
+									<a href="#" >Home</a>
+								</li>
+								<li class="active">
+									<a id="locationSubmit" type="submit" style="display:none;">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+ </script>
  <script type="text/template" id="sation-position-template">
 	<div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
@@ -124,31 +231,27 @@
 			</ul>
 		  </div>
 		</header>
-			<section id="grid">
-				
-				<div class="row-fluid" id="rowMap">
-					<div class="span10"  id="#spanMap">
+			<section id="grid">			
+				<div class="row-fluid" >
+					<div class="span8" >
 						<div id="locationForm" class="whiteBorder"></div>
-						<div id="map" >
-
-						</div>
-					</div><br/>
-					<!--<div class="row-fluid">
-						<div class="span10">
-							<ul class="nav nav-pills">
-							  <li >
-								<a href="#" class="whiteBackground">Cancel</a>
-							  </li>
-							   <li class="active">
-								<a href="#stationInfos" id="locationSubmit">Next</a>
-							  </li>
-							</ul>
-
-						</div>
-					</div>  -->
-
+					</div>
+					<div class="span2">
+						<ul class="infos">
+							<li class="span2">
+								<a class="btn fromStation" href="#stationFromGpx" >
+									<span>from existing<br/>station</span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				
+				<div class="row-fluid" id="rowMap">
+					<div class="span10"  id="spanMap">
+						<div id="map" >
+						</div>
+					</div>
+				</div>
 			</section>
 			<div class="navbar navbar-fixed-bottom">
 				<div class="navbar-inner">
@@ -159,14 +262,13 @@
 									<a href="#" >Cancel</a>
 								</li>
 								<li class="active">
-									<a href="#stationInfos" id="locationSubmit">Next</a>
+									<a id="locationSubmit" type="submit">Next</a>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-
 	</div>
  </script>
 <script type="text/template" id="sation-infos-template">
@@ -187,16 +289,6 @@
 		<section id="grid">
 			<div class="row-fluid" >
 				<div id="stationForm" class="whiteBorder"></div><br/>
-				<!-- <div>
-					<ul class="nav nav-pills">
-					  <li >
-						<a href="#entryStation" class="whiteBackground">Cancel</a>
-					  </li>
-					   <li class="active">
-						<a id="stationInfoSubmit">Next</a>
-					  </li>
-					</ul>
-				</div> -->
 			</div>
 			 <div id="navigation" style="display:none;">
                     <ul>
@@ -255,6 +347,22 @@
 					<div class="obsStoredAlertBox alert alert-block" id="obsStoredAlertBox"></div>
 				</div>
 			</section>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li >
+									<a href="#proto-choice" >Cancel</a>
+								</li>
+								<li class="active">
+									<a id="protocolSubmit">Submit</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 </script>
 
@@ -276,24 +384,18 @@
 			
         </div>
 	</div>
-	
-	
-	<!--<div id="frm"></div><br/>-->
-	<!--<div>
-		<ul class="nav nav-pills">
-		   <li class="active">
-			<a class="button submit">Validate</a>
-		  </li>
-		</ul>
-	</div> -->
 	<div class="navbar navbar-fixed-bottom">
 		<div class="navbar-inner">
 			<div class="navBarPerso">
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
+						<li>
+							<a href="#" >Cancel</a>
+						</li>
 						<li class="active">
 							<a class="button submit">Validate</a>
 						</li>
+						
 					</ul>
 				</div>
 			</div>
@@ -312,50 +414,51 @@
 	</a>
 </script>
 <script type="layout" id="msgBox-protocols-choice">
-	<div class="message-dialog border-color-red" >
-		<div class="page secondary">
-			<div class="page-header">
-			</div>
-			<div class="page-region">
-				<div class="page-region-content">
-					<div class="grid">
-						<div class="row alertRow">
-							<div class="span5">
-								<p><h1>Choose a data protocol</h1></p>
-							</div>
-							<div class="span6">
-								<div class="listview">
-								</div>
-								<div>
-									<!--<ul class="nav nav-pills">
-									  <li >-->
-										<a href="#" class="whiteBackground btn">Cancel</a>
-									  <!--</li>
-									</ul>-->	
-								</div>
-							</div>
-						</div>
+	<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navBarPerso">
+					</a><a class="back-button" href="#stationInfos"></a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li id="data-entry-protocol"><a>Protocol choice </a> </li>                      
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<div class="container">
+			<br/>
+			<section id="grid">
+				<div class="row alertRow">
+					<div class="span5">
+						<p><h1>Choose a data protocol</h1></p>
+					</div>
+					<div class="span6">
+						<div class="listview">
+						</div>
+						<div>
+							<!--<ul class="nav nav-pills">
+							  <li >-->
+								<a href="#" class="whiteBackground btn">Cancel</a>
+							  <!--</li>
+							</ul>-->	
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
 </script>
 <script  id="data-entry-end-template" type="template">
 	<br/>
 	<div class="span5">
-			<p><h2 id="alertTitle"><span id="data-entry-end-proto-name"></span> saved</h2></p>
+			<p><h2 id="alertTitle"><span id="data-entry-end-proto-name"></span> saved</h2><h3 id="alertTitle">Do you want to continue data entry on the same station ?</h3></p>
 	</div>
 	<div class="span6">
 		<ul class="nav nav-pills nav-stacked">
-			<li><a href="#proto-choice" class="btnChoice btn">New data (different protocol)</a></li>
-			<li><a id="btnInputObs" class="btnChoice btn btnSameProt">New data (same protocol)</a></li>
-			<li><a href="#entryStation" class="btnChoice btn">New station</a></li>	
+			<li><a href="#proto-choice" class="btnChoice btn">Yes</a></li>
+			<li><a href="#entryStation" class="btnChoice btn">No</a></li>	
 			<li><a  href="#"  class="btnChoice btn">Finish</a></li>
 		</ul>
-		<!--<a href="#proto-choice"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >New data (different protocol)</h2></button></a>
-		<a class="btnSameProt"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >New data (same protocol)</h2></button></a>
-		<a href="#"><button class="command-button  bg-color-red "><h2 class="ftColr-white" >Finish</h2></button></a> -->
 	</div>
 	<br/>
 </script>
@@ -412,13 +515,8 @@
 		</div>
 	</div><br/>
 	<div class="obsContainer"></div>	
-	
-	
-	
-	
-	
-	
 </script>
+
 <script  id="my-data-tabControl-template" type="template">
 	<div id="myDataDelObs" class="masqued btn-group">
 	<a class="btn primary icon delObservation" style="float:left;">Delete</a>
@@ -427,7 +525,13 @@
 	<a class="btn icon" style="float:right;margin-top:5px;">nb stations</a>
 	<ul class="nav nav-tabs">
 		<li class="active"><a class="tabControl">list</a><div class="obsList content tabElement"></div></li>
-		<li><a class="tabControl">map</a><div id="map" class="masqued tabElement"></div></li>
+		<li><a class="tabControl">map</a>
+			<div id="navigation" >
+				<a class="button btn " id="plus" > + </a>
+				<a class="button btn " id="minus" > - </a>
+			</div>
+			<div id="map" class="masqued tabElement"></div>
+		</li>
 	</ul>
 </script>
 <!-- layout view update data   -->	
@@ -445,6 +549,40 @@
         </div>
     </div>
 	<div class="container">
+
+	</div>
+</script>
+<script  id="update-data-template" type="template">
+		<br/><br/>
+		<div class="row-fluid " id="btnSelection" style="display: ;">
+			<div class="span tilesGrid" >
+					<ul class="thumbnails">
+						<li class="span3 tile tile-double tile-orange icon textLeft">
+							<a href="#" >
+								<img src="images/birds.png">
+								<span class="alignLeft">birds</span>
+								<span class="alignRight" id="birdsImportDate">last update:</span>
+							</a>
+						</li>
+						<li class="span3 tile tile-double tile-orange icon textLeft ">
+							<a class="gpxLoading" >
+								<img src="images/GPS-Tracking.png">
+								<!--<h2>GPX</h2>-->
+								<span class="alignLeft">GPX</span>
+								<span class="alignRight" id="gpxImportDate"></span>
+							</a>
+						</li>
+					</ul>
+					<!--<ul class="thumbnails">
+									
+					</ul>-->
+			</div>
+		</div>
+		<div class="row-fluid" id="btnFileSelection" style="display:none ;">
+			<div><input id="file" type="file" /></div>
+		</div>
+</script>
+	<!--<div class="container">
 		<br/>
 		<section id="grid">
 			<div class="row-fluid updateDataGridView" id="updateDataGridView" ></div>
@@ -457,6 +595,7 @@
 	</div>
 </script>
 <!-- update data main view -->
+<!--
 <script  id="update-data-template" type="template">
 	<div class="row-fluid">	
 		<div class="span4 updateProtos">
@@ -470,6 +609,7 @@
 		</div>
 	</div>
 </script>
+-->
 <!-- update data alert view -->
 <script  id="update-data-alert-template" type="template">
 	<br/>
@@ -519,7 +659,7 @@
 <!-- layout view config data   -->	
 <script type="layout" id="config-data-layout">
 	<div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
+        <div class="navbar-inner" id="navConfig">
             <div class="navBarPerso">
                 </a><a class="back-button" href="#"></a>
                 <div class="nav-collapse collapse">
@@ -531,67 +671,89 @@
         </div>
     </div>
 	<div class="container">
+		
+	</div>
+		<!--
 		<br/>
 		<section id="grid">
 			<div class="row-fluid configList" id="configConfigList"></div>
 			<div class="row-fluid configDetails" id="configConfigDetails"></div>
 			<div class="configNewUserAlertBox"></div>
-		</section>
-	</div>
+		</section>  -->
+
 </script>
 <script type="text/template" id="config-list-template">
-		<a  class="btn  users" style="float:left;margin-top:5px;" >Users</a>
+		<!--<a  class="btn  users" style="float:left;margin-top:5px;" >Users</a> -->
+		<br/><br/>
+		<div class="span tilesGrid" >
+				<ul class="thumbnails">
+					<li class="span3 tile tile-blue icon">
+						<a id="configUsers" >
+							<img src="images/User-Add.png">
+							<span class="alignLeft">users</span>
+							<span class="alignRight"></span>
+						</a>
+					</li>
+					<li class="span3 tile tile-blue icon">
+						<a id="configProtos">
+							<img src="images/protocols-edit.png">
+							<h2>protocols</h2>
+						</a>
+					</li>
+					
+					<li class="span3 tile tile-blue icon">
+						<a id="serverUrl">
+							<img src="images/link.png">
+							<h2>server url<h2>
+						</a>
+					</li>
+
+					<li class="span3 tile tile-blue icon">
+						<a>
+							<img src="images/taxa.png">
+							<h2>taxons<h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-blue icon">
+						<a >
+							<img src="images/Layers.png">
+							<h2>layers<h2>
+						</a>
+					</li>
+				</ul>
+		</div>
+		<div class="popup masqued">
+			<div class="span6 editServerUrl" >
+				<p><h3>Actual server Url: </h3><span id="spanServerUrl"></span><br/></p>
+				<a class="btn" id="editServerUrl" href="#configurl">edit</a>
+			</div>
+			<div class= "inputUrl masqued" id="serverForm">
+				<!--<form>
+				<h3>Input server url: </h3><input type="text" name="inputUrl"></form>  -->
+				<!--<a class="btn submit" id="saveServerUrl">save</a>-->
+				
+			</div>
+		</div>
 </script>
-<script type="text/template" id="users-template">
-		<a class="btn  icon add" style="float:right;margin-top:5px;">Add</a>
-		<h2>Users list</h2>
-		<div id="users" style="margin-top:10px;border-top:1px #CCC solid;padding-top:5px;">
+<script type="text/template" id="config-url-template">
+	<br/><br/>
+	<div id="fromUrlServer"></div><br/>
+	<div>
+		<a class="btn" href="#config">cancel</a>
+		<a class="btn" id="saveServerUrl">Save</a>
+	</div>
+</script>
+<script type="text/template" id="config-protos-template">
+		<br/><br/>
+		<div class="span" >
+			<div><h3>Choose protocol(s) to download or to update</h3></div>
+			<div id="configProtocols"></div>
+			<div>
+				<a class="btn" href="#config">cancel</a>
+				<a class="btn" id="configChooseProtocols">next</a>
+			</div>
 			
 		</div>
-</script>
-
-<script type="text/template" id="viewUser-template">
-		<h2 class="ftColr-white"><%= name %></h2>
-		<a  class="btn primary icon edit" style="float:right;">Delete user</a>
-</script>
-
-<script  id="data-config-newUser-template" type="template">
-	<br/>
-	<div>
-		<h2>New user</h2>
-	</div><br/>
-	<div id="frmUser"><span >User name : </span><input type="text" required id="userName"/></div><br/>
-	<div>
-		<ul class="nav nav-pills">
-		  <li >
-			<a class="cancel whiteBackground">Cancel</a>
-		  </li>
-		   <li class="active">
-			<a class="submit">Validate</a>
-		  </li>
-		</ul>
-	</div>
-	<br/>
-</script>
-
-<script type="text/template" id="viewUserEntry-template">
-	<div class="user" id="user<%= user.cid %>">
-		<div class="affSupp">
-			<div class="button-group" style="float:right;padding-top:4px;padding-right:5px;">
-				<button class="button closeAffSupp icon arrowup">Reset</button><button class="button primary danger icon trash deleteEntry">Delete</button>
-			</div>
-			<h5 style="color:white;padding-left:10px;">Delete <%= user.name %> ?</h5>
-		</div>
-		<div style="padding:5px;padding-left:10px;">
-			<div class="button-group" style="float:right;">
-				<a href="#edit/<%= user.cid %>" class="button icon edit just-icon"></a>
-				<a class="button icon danger remove just-icon btnSupp"></a>
-			</div>
-			<a href="#<%= user.cid %>" title="Voir l'article">
-				<h3><%= user.name %></h3>
-			</a>
-		</div>
-	</div>
 </script>
 <!-- layout "identify individuals  -->
 <script type="layout" id="indiv-layout">
@@ -609,25 +771,73 @@
 		</div>
 		<div class="container">
 			<br/>
+
 			<section id="dataTableRow">
 
 			</section>
 		</div>
 </script>
 <script type="text/template" id="indiv-template">
-	<!-- <div class="row-fluid">
-		<div  class="span6"><h3>Select columns to be displayed</h3></div> 
-		<div class="span12" id="dataFilterRow">
-		</div>
+	<div class="row-fluid" id="msgColumnsModif" style="display: '';">
+		<div  class="span10"><h3>modify the list of displayed columns</h3>
+		</div> 
 		<div class="span2">
 			<a  class="btn primary icon submit" style="float:right;">GO</a>	
 		</div>
-	</div> -->
+	</div>
+	<div class="row-fluid">
+		<div class="span12" id="dataFilterRow"></div>
+		<div><a class="btn" id="submitForm" style="display: none;">Submit</a></div>
+	</div>
 	<div class="row-fluid" >
-		<div class="span10" id="dataTableRow">
+		<div class="span12" id="dataTableRow">
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="indivDataTable"></table>
+		</div>
+
+	</div>
+	<div class="row-fluid alertRow ">
+		<div class="span8 alert alert-block">
+			<div class="selectFields"></div>
 		</div>
 	</div>
 	
 </script>
-	
+
+<!-- layout "all data  -->
+<script type="layout" id="allData-layout">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navBarPerso">
+					</a><a class="back-button" href="#"></a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a>All data</a> </li>                      
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<br/>
+			<section id="dataTableRow">
+
+			</section>
+		</div>
+</script>
+<script type="text/template" id="allData-template">
+	<div class="row-fluid" >
+		<div class="span12" id="dataTableRow">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="allDataTable" >  
+				<thead>
+				<tr>
+				  <th>TSta_PK_ID</th>
+				  <th>FieldActivity_Name</th>
+				  <th>Name</th>
+				  <th>DATE</th>
+				</tr>
+			    </thead>
+			    <tbody></tbody>
+			</table>
+		</div>
+	</div>
+</script>
