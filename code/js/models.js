@@ -10,35 +10,28 @@ app.Models.Protocol = Backbone.Model.extend({
 		name:""
 	},
 	schema: {
-     /*   
-        champ1:    { type: 'NestedModel', model: NumericField },
-        notes:      { type: 'List', listType: 'Text' }
-	*/
     },
 	getId : function() {
             return this.get('id');
-    }/*,
-	nameStore : function() {
-            return "protocol" + this.get('id');
-    },
-	localStorage: new Store("proto")*/
+    }
+
 });
  
 app.Collections.Protocols = Backbone.Collection.extend({
     model: app.Models.Protocol,
 	localStorage: new Store("protocolsList"),
 		 initialize : function Stations() {
-					console.log('Protocols list Constructor');
+				//	console.log('Protocols list Constructor');
 		}
 });
 
 // fields
 app.Models.ListField = Backbone.Model.extend({
 	schema: {
-    id: 'Number',
-	name : 'Text',
-	display_label:'Text',
-	items : 'Object'
+		id: 'Number',
+		name : 'Text',
+		display_label:'Text',
+		items : 'Object'
     }
 });
  
@@ -84,33 +77,9 @@ app.Models.PhotoField= Backbone.Model.extend({
 Station Model & collection
 ************************************************************/	
 app.Models.Station = Backbone.Model.extend({
-	/*initialize: function(attributes, options) {
-		debugger;
-        this.usersList = options.usersTab;
-    },*/
     defaults: {
-
         station_name:""
-		/*,
-        field_activity:"",
-        date_day:"",
-		time_now:"",
-		observer1:"",
-		observer2:"",
-		observer3:"",
-		observer4:"",
-		observer5:"",
-		latitude:"",
-		longitude:""*/
 		}
-	/*schema: {
-		station_name:  { type: 'Text', title:'Station name'},  //,validators: ['required']
-		field_activity: { type: 'Text', title:'Field activity'}, //,validators: ['required']
-		date_day: { type: 'Text', title:'Date'},
-		time_now: { type: 'Text', title:'Time'},
-		//Observer: { type: 'Select' , title:'Observer', options: ['Observer 1', 'Observer 2', 'Observer 3','Observer 4', 'Observer 5'] },
-		Observer: { type: 'Select' , title:'Observer', options: this.usersList }			
-	}*/
 }, {
 	verboseName : "station"
 });
@@ -119,7 +88,7 @@ app.Collections.Stations = Backbone.Collection.extend({
     model: app.Models.Station,
 	localStorage: new Store("stationsList"),
 		 initialize : function Stations() {
-					console.log('Stations list Constructor');
+					//console.log('Stations list Constructor');
 		}
 });	
 app.Models.Location  = Backbone.Model.extend({
@@ -170,7 +139,17 @@ app.Collections.Waypoints = Backbone.Collection.extend({
   model:  app.Models.Waypoint,
   localStorage : new Store('waypointList')
 });
-
-
+/*************************************************************
+protocols updating form Model
+**************************************************************/	
+app.Models.ProtoModel = Backbone.Model.extend({
+	verboseName: 'Protocols'
+});
+/*************************************************************
+Individus list columns form Model
+**************************************************************/	
+app.Models.IndivColumnsModel = Backbone.Model.extend({
+	verboseName: 'Columns'
+});
  return app;
 })(ecoReleveData);

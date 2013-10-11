@@ -15,7 +15,9 @@
 			fileSystem :"",
 			dataToSave:"",
 			//stocker le nombre d'observateurs
-			nbObs:1
+			nbObs:1,
+			style: "",
+			zoom : ""
 		},
 		form:{}
 	};
@@ -90,8 +92,6 @@
 		} 
 		// init database	
 		 initDB();
-		
-		
 		$.when.apply($, initalizers).done(function() {
 
 			app.router = new app.Router();

@@ -28,9 +28,6 @@
 	//	this.appView = options.appView;
 	},
 	home: function(){
-		// initialiser point openlayers
-		//app.point = new OpenLayers.LonLat(5.37,43.29);
-		
 		// Create the Layout.
 		app.views.main = new Backbone.Layout({
 			template: "#main-layout"
@@ -57,6 +54,7 @@
 			$('body').css({'height':height, 'width': width });
 		$('body').css({'background-image':'url(images/home_imgFond.jpg)','background-repeat':'no-repeat','background-position':'center center', 'background-size':'100% 100%'});
 		$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '80px'});
+		$(window).unbind( "resize" );
 	
 	},
 	stationType : function(){
@@ -77,110 +75,67 @@
 	},
 	entryStation: function(){
 		//try {
-		// initialiser point openlayers
-		app.point = new OpenLayers.LonLat(5.37,43.29);			
-				
-			app.views.main = new Backbone.Layout({
-				template: "#main-layout"
-			});
-			$("#content").empty().append(app.views.main.el);
-			app.views.main.setView(".layoutContent", new app.Views.StationPositionView());
-			
-			
-			app.models.location = new app.Models.Location();
-			app.models.location.id ="1";
-			app.models.location.constructor.schema = app.models.location.schema;	
-			var myView = new app.Views.LocationFormView({initialData:app.models.location, usersTab : app.global.usersTab});
-			app.views.main.setView("#locationForm",myView );
-			app.views.main.render();
-			$("#locationSubmit").on("click", $.proxy(myView.onSubmit, myView));
-			$("div .form-actions").css("display","none");
-			/*
-				app.views.main = new Backbone.Layout({
-					template: "#main-layout"
-				});
-				// Attach Layout to the DOM.
-				$("#content").empty().append(app.views.main.el);
-				//var homeTemplate = _.template($('#home-template').html());
-				//app.views.main.setView(".layoutContent", new app.Views.HomeView());
-				app.views.main.setView("#obs-form", new app.views.FormView({initialData:app.models.station}));
-				app.views.main.render();
-			
-
-			app.locationForm = new Backbone.Form({
-				model: app.models.location
-			}).render();
-			$('#locationForm').append(app.locationForm.el);
-
-			*/
-			
-
-			app.utils.initMap();
-			//$('#map').css('width', '780px');
-			$('#map').css('height', '350px');
-			app.utils.myPositionOnMap();
-			//app.global.lastView = "entryStation";
-			$('body').css({'background-image':''});
-			//$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '5px'});
-		
-		/*}catch (e) {
-			app.router.navigate('', {trigger: true});
-		}*/
-	
-	},
-	stationFromGpx : function(){
-		// initialiser point openlayers
-		app.point = new OpenLayers.LonLat(5.37,43.29);
+		$('body').css({'background-image':''});	
 		app.views.main = new Backbone.Layout({
-				template: "#main-layout"
+			template: "#main-layout"
 		});
 		$("#content").empty().append(app.views.main.el);
-		debugger;
-		app.views.main.setView(".layoutContent", new app.Views.StationFromFile({collection : app.collections.waypointsList , usersTab : app.global.usersTab}));
+		app.views.main.setView(".layoutContent", new app.Views.StationPositionView());
+		
+		
+		app.models.location = new app.Models.Location();
+		app.models.location.id ="1";
+		app.models.location.constructor.schema = app.models.location.schema;	
+		var myView = new app.Views.LocationFormView({initialData:app.models.location, usersTab : app.global.usersTab});
+		app.views.main.setView("#locationForm",myView );
 		app.views.main.render();
-		// init map
-		$('#map').css('height', '600px');
-		$('.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container').css('width','100%');
-
-		var initalizers = [];
-		initalizers.push(app.utils.initMap());
-		// load waypoints in map
-		$.when.apply($, initalizers).done(function() {
-			app.utils.addWaypoints(app.collections.waypointsList);
+		$("#locationSubmit").on("click", $.proxy(myView.onSubmit, myView));
+		$("div .form-actions").css("display","none");
+		app.utils.myPositionOnMap(function(){  
+			var map_view = app.utils.initMap();
+			var myposition = new NS.UI.Point({ latitude : app.point.latitude, longitude: app.point.longitude, label:"my position"});
+			map_view.addLayer({point : myposition , layerName : "my position"});
 		});
+	},
+	stationFromGpx : function(){
+		// check if the is stored waypoints
+		var len = app.collections.waypointsList.length;
+		if (len == 0 ) {
+			alert("There is not stored stations! Please load them from a gpx file (update data / gpx) ");
+			app.router.navigate('#entryStation', {trigger: true});
+		}
+		else {
+			// initialiser point openlayers
+			//app.point = new OpenLayers.LonLat(5.37,43.29);
+			app.views.main = new Backbone.Layout({
+					template: "#main-layout"
+			});
+			$("#content").empty().append(app.views.main.el);
+
+			app.views.main.setView(".layoutContent", new app.Views.StationFromFile({collection : app.collections.waypointsList , usersTab : app.global.usersTab}));
+			app.views.main.render();
+			// init map
+			$('#map').css('height', '600px');
+			$('.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container').css('width','100%');
+			app.mapView = app.utils.initMap();
+			// add waypoints layer based on the waypoints collection 
+			app.mapView.addLayer({collection : app.collections.waypointsList , layerName : "Waypoints"});
+		}
 	},
 	stationInfos : function(){
 	/*	try {
-
 				*/
 				app.views.main = new Backbone.Layout({
 					template: "#main-layout"
 				});
 				$("#content").empty().append(app.views.main.el);
 				app.views.main.setView(".layoutContent", new app.Views.StationInfosView());
-				
-				
-				//app.views.main.render();
-			debugger;
 				// Station info form 
 				var myView = new app.Views.StationFormView({initialData:app.models.station});
 				app.views.main.setView("#stationForm",myView );
 				app.views.main.render();
-				
 				$("#stationInfoSubmit").on("click", $.proxy(myView.onSubmit, myView));
 				$("div .form-actions").css("display","none");
-				
-				/*
-				app.stationForm = new Backbone.Form({
-						model: app.models.station
-				}).render();
-
-				$('#stationForm').append(app.stationForm.el);
-				//app.global.lastView = "stationInfos";
-				//set the default date
-				*/
-				
-				
 				var inputDate = $('input[name*="date_day"]');
 				$(inputDate).datepicker();
 				$(inputDate).css('clip', 'auto'); 
@@ -188,33 +143,20 @@
 				$(inputDate).datepicker("setDate",currentDate);
 				// set the default time
 				app.utils.getTime('time_now');
-
-			/*}
-			else {
-				alert ("Please wait to have coordiantes or check GPS if is not activated !");
-			}
-			// si le nombre d'observateurs est parametré > 1, il faut mettre à jour le formulaire
-			var nbObservers = app.global.nbObs ; 
-			//alert(" nb Obs : " + nbObservers);
-			app.utils.updateNbObservers(nbObservers);  */
 		/*}catch (e) {
 			
 			app.router.navigate('', {trigger: true});
 		}*/
 	},
 	monitoredStation : function(id){
-		//alert("id station : "+ id);
-		//collection : app.collections.waypointsList , usersTab : app.global.usersTab
-		debugger;
 		var usersList = app.global.usersTab ; 
 		var selectedStation = app.collections.waypointsList.get(id);
 		var wptName = selectedStation.get("name");
 		var wptLatitude = selectedStation.get("latitude");
 		var wptLongitude = selectedStation.get("longitude");
 		var wptTime = selectedStation.get("waypointTime");
-			
-			app.models.station = new app.Models.Station();
-			var schema = {
+		app.models.station = new app.Models.Station();
+		var schema = {
 				station_name:  { type: 'Text', title:'Station name'},  
 				field_activity: { type: 'Text', title:'Field activity'}, 
 				date_day: { type: 'Text', title:'Date'},
@@ -224,32 +166,24 @@
 				Observer_3: { type: 'Select' , title:'Observer 3', options: usersList },
 				Observer_4: { type: 'Select' , title:'Observer 4', options: usersList },
 				Observer_5: { type: 'Select' , title:'Observer 5', options: usersList }
-			} ;
-			app.models.station.constructor.schema = schema ;
-			app.models.station.schema = schema ;
-			debugger;
-			app.models.station.set("station_name",wptName);
-			app.models.station.set("id",id);
-			var nbStoredStations = app.collections.stations.length;
-			// store coordinates in location model
-			app.models.location = new app.Models.Location();
-			app.models.location.id ="2";
-			app.models.location.constructor.schema = app.models.location.schema;
-			app.models.location.set("latitude",wptLatitude);
-			app.models.location.set("longitude",wptLongitude);
-			// identifiant de la station 
-			//var idStation = nbStoredStations + 1 ; 
-			//app.models.station.set("latitude",wptLatitude );
-			//app.models.station.set("longitude",wptLongitude );
-			// update station : used = true
-			var waypointModel = app.collections.waypointsList.get(id);
-			waypointModel.set("used", true);
-			waypointModel.save();
-			
-			
-			app.global.selectedStationId = id;
-			app.router.navigate('stationInfos', {trigger: true});
-		
+		} ;
+		app.models.station.constructor.schema = schema ;
+		app.models.station.schema = schema ;
+		app.models.station.set("station_name",wptName);
+		app.models.station.set("id",id);
+		var nbStoredStations = app.collections.stations.length;
+		// store coordinates in location model
+		app.models.location = new app.Models.Location();
+		app.models.location.id ="2";
+		app.models.location.constructor.schema = app.models.location.schema;
+		app.models.location.set("latitude",wptLatitude);
+		app.models.location.set("longitude",wptLongitude);
+		// update station : used = true
+		var waypointModel = app.collections.waypointsList.get(id);
+		waypointModel.set("used", true);
+		waypointModel.save();
+		app.global.selectedStationId = id;
+		app.router.navigate('stationInfos', {trigger: true});
 		
 	}, 
 	protoChoice : function(){
@@ -258,14 +192,9 @@
 				template: "#msgBox-protocols-choice",
 				collection:app.collections.protocolsList
 			});
-			// Attach Layout to the DOM.
-			
-			
 			if (app.global.lastView == "stationInfos"){
 
 					$("#content").empty().append(protoSelectionLayout.el);
-					//var homeTemplate = _.template($('#home-template').html());
-					//protoSelectionLayout.setView(".listview", app.Views.ListView({collection:app.collections.protocolsList}));
 					protoSelectionLayout.render();
 					var listview = new app.Views.ListView({collection:app.collections.protocolsList});
 					protoSelectionLayout.setView(".listview", listview);
@@ -273,7 +202,6 @@
 					app.global.lastView = "proto-choice";
 			} 
 			else {
-				
 				$("#content").empty().append(protoSelectionLayout.el);
 				protoSelectionLayout.render();
 				var listview = new app.Views.ListView({collection:app.collections.protocolsList});
@@ -287,7 +215,6 @@
 	},
 	dataEntry : function(id){
 	//	try {
-			debugger;
 			app.views.dataEntryLayout= new Backbone.Layout({
 			template: "#data-entry-layout"
 			});
@@ -296,10 +223,6 @@
 			var tplStation = _.template($('#data-entry-station').html());
 			//var tplProtoForm = _.template($('#data-entry-protocol').html());
 			app.views.dataEntryLayout.setView(".station", new app.Views.DataEntryStationView({template:tplStation, model: app.models.station}));
-
-			//app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: app.collections.protocolsList.get(id), pictureSource: app.global.pictureSource, destinationType : app.global.destinationType}));
-
-			debugger;
 			// formulaire de saisie
 			var currentModel = app.collections.protocolsList.get(id);
 			currentModel.constructor.schema = currentModel.schema;
@@ -316,57 +239,6 @@
 			// set default values in form fields & generate fielset list for the current protocol to enhance UI
 			var fieldsetList = new Array();
 			var schema = currentModel.schema;
-			/*
-			for(var prop in schema){
-				if ( typeof  schema[prop]["value"] !=="undefined"){
-					var defaultValue = schema[prop]["value"];
-					$( "[name='" + prop + "']" ).val(defaultValue);
-				}
-				// add fieldset to fieldsetList
-				var myfieldSet = schema[prop]["fieldset"];
-				fieldsetList.push(myfieldSet);
-			}
-			
-			var distinctFieldsetList = new Array();
-			distinctFieldsetList = fieldsetList.distinct();
-			// array to be used to generate fielsets list
-			var fieldsets = new Array();
-			var ln = distinctFieldsetList.length;
-			var  ul = $('<ul/>');
-			for (var i = 0; i< ln; i++){
-				var fieldSetObject = {};
-				var fields = new Array();
-				var fieldSetName = distinctFieldsetList[i];
-				fieldSetObject.legend = fieldSetName;
-				for(var prop in schema){
-					if ( schema[prop]["fieldset"] ==fieldSetName){
-						//var fieldName  = schema[prop]["name"];
-						var fieldName  = prop ;
-						fields.push(fieldName);
-					}
-					fieldSetObject.fields = fields;
-				}
-				fieldsets.push(fieldSetObject);
-			//
-			ul.append('<li><a >' + fieldSetName +'</a></li>');
-			
-			}
-			$("#navigation").append(ul);
-			currentModel.fieldsets = fieldsets;
-			app.form = new Backbone.Form({
-						model: currentModel
-						
-			}).render();
-			$('#steps').append(app.form.el);
-			// execute plugin slideform
-			// create controls to slide the form
-			
-			slideForm ();
-			
-			// step width
-			$(".step").attr("width","1000px");
-			
-			*/
 
 	/*	}catch (e) {
 			app.router.navigate('#', {trigger: true}); 
@@ -374,63 +246,39 @@
 		
 	},
 	mapMyPosition : function(){
-		// initialiser point openlayers
-		app.point = new OpenLayers.LonLat(5.37,43.29);
 		$('body').css({'background-image':''});
 		app.views.main.setView(".layoutContent", new app.Views.MapStationsView());
 		app.views.main.render();
-		
 		$('div#content').css({'background-image':''});
-		
-		//$('#map').css('width', '800px');
 		$('#map').css('height', '600px');
-
-		app.utils.initMap();
-		app.utils.myPositionOnMap();
+		var myposition = new NS.UI.Point({ latitude : 43.29, longitude: 5.37, label:"bureau"});
+		var mapCenter = new NS.UI.Point({ latitude : 43.29, longitude: 5.37});
+		var mapZoom = 12;
+		var map_view = new NS.UI.MapView({ el: $("#map"), center: mapCenter, zoom: mapZoom});
+		map_view.addLayer({point : myposition , layerName : "bureau"});
 	},
 	mydata : function(){
 		//try {
-			// initialiser point openlayers
-			app.point = new OpenLayers.LonLat(5.37,43.29);
 			$('body').css({'background-image':''});
 			$("#content").empty().append(app.views.myDataLayout.el);
 			
 			// sort observations collection by protocol id & create an array of protocols id
-			
-			//var protocolsIdList = new Array();
 			var sortedCollection = app.collections.observations.sortBy(function(obs){
 				//var protoId = obs.get("protoId");
 				//protocolsIdList.push(protoId);
 				return obs.get("protoId"); ;
 			});
 			// get uniq values of protocols id
-			//_.uniq(protocolsIdList);
-			// filter obs collection with proto id ="1"
-			// get list of protocols Id
 			var protoIdList  = app.collections.observations.map(function(model){
 			  return model.get('protoId');
 			});
 			// uniq values
 			protoIdList = _.uniq(protoIdList);
-
-			/*
-			var newColl = _.filter(sortedCollection, function (obs) {
-				return obs.attributes.protoId === "1";
-			});
-			*/
-
-			debugger;
 			//var tplFilterView = _.template($('#my-data-filter-template').html()); 
 			var tplFilterView = _.template($('#my-data-filter-template').html()); 
 			app.views.myDataLayout.setView(".gridview", new app.Views.MyDataGridView({template :tplFilterView,  collection: app.collections.observations, protoIdList : protoIdList}));
-			//app.views.myDataLayout.render();	
-			debugger;
-			//app.views.myDataLayout.setView(".filterView", new app.Views.MyDataFilterView({}));
-			
 			app.views.myDataLayout.render();
-			
 			//set the date
-			
 			$(".datepicker").datepicker();
 			$(".datepicker").css('clip', 'auto'); 
 			var currentDate = new Date();
@@ -438,9 +286,6 @@
 			
 			$('.navbar-inner').css({ 'background-image': '#ffc40d'});
 			$('.navbar-inner').css({ 'background': '#ffc40d'});
-		
-			
-		
 		/*}catch (e) {
 			app.router.navigate('#', {trigger: true});
 		}*/
@@ -448,9 +293,6 @@
 	alert: function(){
 		app.views.main.setView(".layoutContent",new app.Views.AlertView());
 		app.views.main.render();
-		/*
-		app.views.alertView = new app.Views.AlertView();
-		app.utils.RegionManager.show(app.views.alertView);*/
 	},
 	updateData : function(){
 		try {
@@ -511,11 +353,7 @@
 	},
 	configuration : function(){
 		try {
-			debugger;
 			$('body').css({'background-image':''});
-			
-
-			//$('div#content').css({'background-image':''});
 			app.views.configdataLayout= new Backbone.Layout({
 				template: "#config-data-layout"
 			});
@@ -523,13 +361,6 @@
 			
 			var tplview = _.template($('#config-list-template').html()); 
 			app.views.configdataLayout.setView(".container", new app.Views.ConfigListView ({template:tplview}));
-			
-			/*
-			var tplview = _.template($('#users-template').html()); 
-			this.articlesView = new app.Views.Users({ template : tplview, collection: app.collections.users });
-			app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));
-			//var tplview = _.template($('#update-data-template').html()); 
-			//app.views.dataUpdateLayout.setView(".updateDataGridView", new app.Views.UpdateDataView({template:tplview}));*/
 			app.views.configdataLayout.render();
 			$('.navbar-inner').css({ 'background-image': '#2E8BCC'});
 			$('.navbar-inner').css({ 'background': '#2E8BCC'});
@@ -569,28 +400,25 @@
 		$("div .form-actions").css("display","none");
 	},
 	configProtos : function(id){
-		try {
-			$('body').css({'background-image':''});
-			app.views.configdataLayout= new Backbone.Layout({
-				template: "#config-data-layout"
-			});
-			$("#content").empty().append(app.views.configdataLayout.el);
-			
-			var tplview = _.template($('#config-protos-template').html()); 
-			app.views.configdataLayout.setView(".container", new app.Views.ConfigProtocols ({template:tplview}));
-			app.views.configdataLayout.render();
-			$('.navbar-inner').css({ 'background-image': '#2E8BCC'});
-			$('.navbar-inner').css({ 'background': '#2E8BCC'});
-		
+		$("#configInfos").text("Checking server access ...");
+		if (navigator.onLine == true){
+			// check if server url is configurated
 			var serverUrl = localStorage.getItem( "serverUrl");
 			if ((serverUrl === undefined) || (serverUrl ==null)){
 				alert ("Please configurate the server url");
+				app.router.navigate('#config', {trigger: true});
+				$("#configInfos").text("");
+			} else {
+		// call WS protocols
+				var serverUrl = localStorage.getItem("serverUrl");
+				var link = serverUrl + "/proto/proto_list";
+				app.utils.getProtocolsFromServer(link);
 			}
-		}catch (e) {
-			app.router.navigate('#', {trigger: true});
+		} else {
+			alert("you are not connected ! Please check your connexion ");
+			$("#configInfos").text("");
+			app.router.navigate('#config', {trigger: true});
 		}
-	
-	
 	},
 	dataEdit : function(id){
 		// id correspond to obs id: find proto id and station id
@@ -600,7 +428,6 @@
 		//obsToEdit.destroy();
 		protoId = obsToEdit.get("protoId");
 		stationId = obsToEdit.get("stationId");
-		//alert (" obs id : " + id + " proto id : " + protoId + " station id : " + stationId );
 		var station = new app.Models.Station();
 		station = app.collections.stations.get(stationId);
 		var protocol = new app.Models.Protocol();
@@ -619,39 +446,23 @@
 		app.views.dataEntryLayout.setView(".station", new app.Views.DataEntryStationView({template:tplStation, model: station }));
 		app.views.dataEntryLayout.setView(".protocol", new app.Views.DataEntryProtocolView({template:tplProtoForm , model: protocol, obsId : id, pictureSource: app.global.pictureSource, destinationType : app.global.destinationType}));
 		app.views.dataEntryLayout.render(); 
-		
-		
-		// formulaire de saisie
-			//var currentModel = app.collections.protocolsList.get(id);
-			protocol.constructor.schema = protocol.schema;
-			protocol.constructor.verboseName  = protocol.attributes.name;
-			var myView = new app.Views.ProtocolFormView({initialData:protocol, obsId : id});
-			app.views.dataEntryLayout.setView(".protocol",myView );
-			app.views.dataEntryLayout.render();
-				
-			$("#protocolSubmit").on("click", $.proxy(myView.onSubmit, myView));
-			$("div .form-actions").css("display","none"); 
+		protocol.constructor.schema = protocol.schema;
+		protocol.constructor.verboseName  = protocol.attributes.name;
+		var myView = new app.Views.ProtocolFormView({initialData:protocol, obsId : id});
+		app.views.dataEntryLayout.setView(".protocol",myView );
+		app.views.dataEntryLayout.render();
 			
-			var currentModelName = protocol.attributes.name ;
-			$('#data-entry-protocol').html('<a>Station > data entry > ' + currentModelName + '</a>');
-			// set default values in form fields & generate fielset list for the current protocol to enhance UI
-			var fieldsetList = new Array();
-			var schema = protocol.schema;
+		$("#protocolSubmit").on("click", $.proxy(myView.onSubmit, myView));
+		$("div .form-actions").css("display","none"); 
 		
-		// formulaire de saisie
-/*
-		app.form = new Backbone.Form({
-					model: protocol
-		}).render();
-		$('#frm').append(app.form.el);
-		
-		*/
-		
-		// set default values in form fields
+		var currentModelName = protocol.attributes.name ;
+		$('#data-entry-protocol').html('<a>Station > data entry > ' + currentModelName + '</a>');
+		// set default values in form fields & generate fielset list for the current protocol to enhance UI
+		var fieldsetList = new Array();
+		var schema = protocol.schema;
 		var schema = protocol.schema;
 		// in protocol schema, for each prop, set default value to value of corresponded prop stored in observation model
 		var attr = obsToEdit.attributes;
-		debugger;
 		for(var prop in schema){
 			for (var propObs in attr) {
 				if (prop == propObs){ schema[prop]["value"] = attr[prop] }
@@ -666,14 +477,14 @@
     },
 	indiv : function(){
 		$('body').css({'background-image':''});
-		var myLayout= new Backbone.Layout({
+		app.views.indivLayout= new Backbone.Layout({
 		template: "#indiv-layout"
 		});
-		$("#content").empty().append(myLayout.el);
+		$("#content").empty().append(app.views.indivLayout.el);
 		app.utils.findAll(function (data){
 			var tplIndividus = _.template($('#indiv-template').html());
-			myLayout.setView("#dataTableRow", new app.Views.Individus({template:tplIndividus, data: data }));
-			myLayout.render(); 
+			app.views.indivLayout.setView("#dataTableRow", new app.Views.Individus({template:tplIndividus, data: data }));
+			app.views.indivLayout.render(); 
 			$('.navbar-inner').css({ 'background-image': '#f09609'});
 			$('.navbar-inner').css({ 'background': '#f09609'});
 			$('table.dataTable tr.odd').css({'background-color': '#FFEB9C'});
@@ -684,28 +495,31 @@
 		});
 	},
 	allData : function(){
-		
-		$('body').css({'background-image':''});
-		var myLayout= new Backbone.Layout({
-		template: "#allData-layout"
-		});
-		$("#content").empty().append(myLayout.el);
-		var tplAllData = _.template($('#allData-template').html());
-		myLayout.setView("#dataTableRow", new app.Views.AllData({template:tplAllData}));
-		myLayout.render(); 
-		/*
-		app.utils.findAll(function (data){
-			var tplIndividus = _.template($('#allData-template').html());
-			myLayout.setView("#dataTableRow", new app.Views.Individus({template:tplIndividus, data: data }));
-			
-			$('.navbar-inner').css({ 'background-image': '#f09609'});
-			$('.navbar-inner').css({ 'background': '#f09609'});
-			$('table.dataTable tr.odd').css({'background-color': '#FFEB9C'});
-			$('table.dataTable tr.odd td.sorting_1').css({'background-color': '#FFEB9C'});
-			$('table.dataTable tr.odd td.sorting_2').css({'background-color': '#FFEB9C'});
-			$('table.dataTable tr.odd td.sorting_3').css({'background-color': '#FFEB9C'});
-			$('table.dataTable tr.even td.sorting_1').css({'background-color': '#FFEB9C'});
-		});*/
+		if (navigator.onLine == true){
+			// check if server url is configurated
+			var serverUrl = localStorage.getItem( "serverUrl");
+			if ((serverUrl === undefined) || (serverUrl ==null)){
+				alert ("Please configurate the server url");
+				app.router.navigate('#config', {trigger: true});
+				$("#configInfos").text("");
+			} else {
+				$('body').css({'background-image':''});
+				var myLayout= new Backbone.Layout({
+				template: "#allData-layout"
+				});
+				$("#content").empty().append(myLayout.el);
+				//var tplAllData = _.template($('#allData-template').html());
+				var tplAllData = _.template($('#allData-temp').html());
+				myLayout.setView("#myDataTable", new app.Views.AllData({template:tplAllData}));
+				myLayout.render(); 
+				// modify div alignement
+				$("div.container").css({"left":"0px"});
+			}
+		} else {
+			alert("you are not connected ! Please check your connexion ");
+			$("#configInfos").text("");
+			app.router.navigate('#config', {trigger: true});
+		}
 	}
 	
  });

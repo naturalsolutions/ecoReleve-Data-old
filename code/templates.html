@@ -23,10 +23,6 @@
 		<br/>
 		<section id="grid">
 			<div class="border-color-red" id="map" style="height:300px, width:600px;"></div>
-				<div id="navigation" >
-					<a class="button btn " id="plus" > + </a>
-					<a class="button btn " id="minus" > - </a>
-				</div>
 		</section>
 	</div>
 </script> 
@@ -126,8 +122,6 @@
 						<div class="span4">
 							<a href="#stationFromGpx"><img src="images/station_from_gpx_file.jpg"/></a>
 						</div>
-						<!--<a class="btn" href="#entryStation">From GPS</a>
-						<a class="btn" href="#">From GPX file</a> -->
 					</div><br/>
 				</div>
 				
@@ -140,15 +134,11 @@
 								<li class="active">
 									<a href="#" >Home</a>
 								</li>
-								<!--<li class="active">
-									<a id="locationSubmit" type="submit">Next</a>
-								</li>-->
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-
 	</div>
  </script>
   <script type="text/template" id="sation-file-template">
@@ -173,8 +163,6 @@
 					</div>
 					<div class="span6" id="mapColumn">
 						<div id="navigation" >
-							<a class="button btn " id="plus" > + </a>
-							<a class="button btn " id="minus" > - </a>
 							<a class="button btn " id="displayTracks" > show tracks  </a>
 							<a class="button btn " id="waitLoadingTracks"></a>
 						</div>
@@ -248,7 +236,7 @@
 				</div>
 				<div class="row-fluid" id="rowMap">
 					<div class="span10"  id="spanMap">
-						<div id="map" >
+						<div id="map" style="height : 400px" >
 						</div>
 					</div>
 				</div>
@@ -377,7 +365,6 @@
 </script>
 
 <script id="data-entry-protocol" type="template">
-	<!--<p><h1><%= name %></h1></p><br/>-->
 	<div id="wrapper">
 		<div id="steps" style="width: 3000px; margin-left: 0px; "></div>
 		<div id="navigation" style="display:none;">
@@ -395,7 +382,6 @@
 						<li class="active">
 							<a class="button submit">Validate</a>
 						</li>
-						
 					</ul>
 				</div>
 			</div>
@@ -437,11 +423,7 @@
 						<div class="listview">
 						</div>
 						<div>
-							<!--<ul class="nav nav-pills">
-							  <li >-->
-								<a href="#" class="whiteBackground btn">Cancel</a>
-							  <!--</li>
-							</ul>-->	
+							<a href="#" class="whiteBackground btn">Cancel</a>	
 						</div>
 					</div>
 				</div>
@@ -486,8 +468,6 @@
 </script>
 <!-- layout view my data / template view filter  -->	
 <script  id="my-data-filter-template" type="template">
-
-	
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span10">
@@ -526,10 +506,6 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a class="tabControl">list</a><div class="obsList content tabElement"></div></li>
 		<li><a class="tabControl">map</a>
-			<div id="navigation" >
-				<a class="button btn " id="plus" > + </a>
-				<a class="button btn " id="minus" > - </a>
-			</div>
 			<div id="map" class="masqued tabElement"></div>
 		</li>
 	</ul>
@@ -549,7 +525,6 @@
         </div>
     </div>
 	<div class="container">
-
 	</div>
 </script>
 <script  id="update-data-template" type="template">
@@ -573,43 +548,12 @@
 							</a>
 						</li>
 					</ul>
-					<!--<ul class="thumbnails">
-									
-					</ul>-->
 			</div>
 		</div>
 		<div class="row-fluid" id="btnFileSelection" style="display:none ;">
 			<div><input id="file" type="file" /></div>
 		</div>
 </script>
-	<!--<div class="container">
-		<br/>
-		<section id="grid">
-			<div class="row-fluid updateDataGridView" id="updateDataGridView" ></div>
-			<div class="row-fluid alertRow">
-				<div class="span8">
-					<div class="updateDataAlert"></div>
-				</div>
-			</div>
-		</section>
-	</div>
-</script>
-<!-- update data main view -->
-<!--
-<script  id="update-data-template" type="template">
-	<div class="row-fluid">	
-		<div class="span4 updateProtos">
-			<img src="images/update_protos_server.jpg"/>
-		</div>
-		<div class="span4 updateProtosFromFile">
-			<img src="images/update_protos_from_file.jpg"/>
-		</div>
-		<div class="span4 updateUsers">
-			<img src="images/update_users.jpg"/>
-		</div>
-	</div>
-</script>
--->
 <!-- update data alert view -->
 <script  id="update-data-alert-template" type="template">
 	<br/>
@@ -670,116 +614,105 @@
             </div>
         </div>
     </div>
-	<div class="container">
-		
+	<div class="container">		
 	</div>
-		<!--
-		<br/>
-		<section id="grid">
-			<div class="row-fluid configList" id="configConfigList"></div>
-			<div class="row-fluid configDetails" id="configConfigDetails"></div>
-			<div class="configNewUserAlertBox"></div>
-		</section>  -->
-
 </script>
 <script type="text/template" id="config-list-template">
-		<!--<a  class="btn  users" style="float:left;margin-top:5px;" >Users</a> -->
-		<br/><br/>
-		<div class="span tilesGrid" >
-				<ul class="thumbnails">
-					<li class="span3 tile tile-blue icon">
-						<a id="configUsers" >
-							<img src="images/User-Add.png">
-							<span class="alignLeft">users</span>
-							<span class="alignRight"></span>
-						</a>
-					</li>
-					<li class="span3 tile tile-blue icon">
-						<a id="configProtos">
-							<img src="images/protocols-edit.png">
-							<h2>protocols</h2>
-						</a>
-					</li>
-					
-					<li class="span3 tile tile-blue icon">
-						<a id="serverUrl">
-							<img src="images/link.png">
-							<h2>server url<h2>
-						</a>
-					</li>
-
-					<li class="span3 tile tile-blue icon">
-						<a>
-							<img src="images/taxa.png">
-							<h2>taxons<h2>
-						</a>
-					</li>
-					<li class="span3 tile tile-blue icon">
-						<a >
-							<img src="images/Layers.png">
-							<h2>layers<h2>
-						</a>
-					</li>
-				</ul>
-		</div>
-		<div class="popup masqued">
-			<div class="span6 editServerUrl" >
-				<p><h3>Actual server Url: </h3><span id="spanServerUrl"></span><br/></p>
-				<a class="btn" id="editServerUrl" href="#configurl">edit</a>
-			</div>
-			<div class= "inputUrl masqued" id="serverForm">
-				<!--<form>
-				<h3>Input server url: </h3><input type="text" name="inputUrl"></form>  -->
-				<!--<a class="btn submit" id="saveServerUrl">save</a>-->
+	<!--<a  class="btn  users" style="float:left;margin-top:5px;" >Users</a> -->
+	<br/><br/>
+	<div class="span tilesGrid" >
+			<ul class="thumbnails">
+				<li class="span3 tile tile-blue icon">
+					<a id="configUsers" >
+						<img src="images/User-Add.png">
+						<span class="alignLeft">users</span>
+						<span class="alignRight"></span>
+					</a>
+				</li>
+				<li class="span3 tile tile-blue icon">
+					<a id="configProtos">
+						<img src="images/protocols-edit.png">
+						<h2>protocols</h2>
+					</a>
+				</li>
 				
-			</div>
+				<li class="span3 tile tile-blue icon">
+					<a id="serverUrl">
+						<img src="images/link.png">
+						<h2>server url<h2>
+					</a>
+				</li>
+
+				<li class="span3 tile tile-blue icon">
+					<a>
+						<img src="images/taxa.png">
+						<h2>taxons<h2>
+					</a>
+				</li>
+				<li class="span3 tile tile-blue icon">
+					<a >
+						<img src="images/Layers.png">
+						<h2>layers<h2>
+					</a>
+				</li>
+			</ul>
+			<div id= "configInfos"></div>
+			
+	</div>
+	<div class="popup masqued">
+		<div class="span6 editServerUrl" >
+			<p><h3>Actual server Url: </h3><span id="spanServerUrl"></span><br/></p>
+			<a class="btn" id="editServerUrl" href="#configurl">edit</a>
 		</div>
+		<div class= "inputUrl masqued" id="serverForm">	
+		</div>
+	</div>
 </script>
 <script type="text/template" id="config-url-template">
 	<br/><br/>
 	<div id="fromUrlServer"></div><br/>
+	<div id="serverUrlInfo"></div><br/>
 	<div>
 		<a class="btn" href="#config">cancel</a>
 		<a class="btn" id="saveServerUrl">Save</a>
 	</div>
 </script>
 <script type="text/template" id="config-protos-template">
-		<br/><br/>
-		<div class="span" >
-			<div><h3>Choose protocol(s) to download or to update</h3></div>
-			<div id="configProtocols"></div>
-			<div>
-				<a class="btn" href="#config">cancel</a>
-				<a class="btn" id="configChooseProtocols">next</a>
-			</div>
-			
+	<br/><br/>
+	<div class="span" >
+		<div><h3>Choose protocol(s) to download or to update</h3></div>
+		<div id="configProtocolsForm"></div>
+		<div>
+			<a class="btn" href="#config">cancel</a>
+			<a class="btn" id="configChooseProtocols">next</a>
 		</div>
+		
+	</div>
 </script>
 <!-- layout "identify individuals  -->
 <script type="layout" id="indiv-layout">
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="navBarPerso">
-					</a><a class="back-button" href="#"></a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li><a>Birds</a> </li>                      
-						</ul>
-					</div>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="navBarPerso">
+				</a><a class="back-button" href="#"></a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a>Birds</a> </li>                      
+					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="container">
-			<br/>
-
-			<section id="dataTableRow">
-
-			</section>
-		</div>
+	</div>
+	<div class="container">
+		<br/>
+		<section id="dataTableRow">
+		</section>
+	</div>
 </script>
 <script type="text/template" id="indiv-template">
+	<div id="go_top" ></div>
 	<div class="row-fluid" id="msgColumnsModif" style="display: '';">
-		<div  class="span10"><h3>modify the list of displayed columns</h3>
+		<div  class="span10" ><h3>modify the list of displayed columns</h3>
 		</div> 
 		<div class="span2">
 			<a  class="btn primary icon submit" style="float:right;">GO</a>	
@@ -793,7 +726,10 @@
 		<div class="span12" id="dataTableRow">
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="indivDataTable"></table>
 		</div>
-
+	</div>
+	<br/>
+	<div>
+		<a class="btn" href="#go_top"><img src="images/go_top.png"/></a>
 	</div>
 	<div class="row-fluid alertRow ">
 		<div class="span8 alert alert-block">
@@ -802,31 +738,26 @@
 	</div>
 	
 </script>
-
 <!-- layout "all data  -->
 <script type="layout" id="allData-layout">
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="navBarPerso">
-					</a><a class="back-button" href="#"></a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li><a>All data</a> </li>                      
-						</ul>
-					</div>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="navBarPerso">
+				</a><a class="back-button" href="#"></a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a>All data</a> </li>                      
+					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="container">
-			<br/>
-			<section id="dataTableRow">
-
-			</section>
-		</div>
+	</div>
+	<div class="container" id="myDataTable">
+	</div>
 </script>
 <script type="text/template" id="allData-template">
 	<div class="row-fluid" >
-		<div class="span12" id="dataTableRow">
+		<div class="span12 " >
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="allDataTable" >  
 				<thead>
 				<tr>
@@ -841,3 +772,77 @@
 		</div>
 	</div>
 </script>
+<script type="text/template" id="allData-temp">
+	<div id="allDataInfosPanel">
+		<div id="allDataInfosPanelClose"><img src="images/close.png" /></div>
+		<div id="allDataInfosPanelContent"></div>
+	</div>
+	<div class="allDataFilterPanel" >
+	
+		<fieldset>
+			<legend class="critLegend">what</legend>
+			protocol: <br/><input type='text' value='28' id="id_proto">
+			<select id="select_id_proto"/><br/>	
+			taxon: <br/><input list="lTaxon" type="text" id="iTaxon" />
+			<datalist id="lTaxon"/>
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">where</legend>
+			place: <br/><input type='text' id="place"/><br/>	
+			region: <br/><input type='text' id="region"/><br/>	
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">when</legend>
+			date:<br/>
+			<div class="allData-btn-group">
+				  <a class="allData-criteriaBtn btn" id="btnD-1" style="font-size: 12px; ">day-1</a>
+				  <a class="allData-criteriaBtn btn " id="btnY-1" style="font-size: 12px; ">year-1</a>
+				  <a class="allData-criteriaBtn btn" id="btnY-2" style="font-size: 12px; ">year-2</a>
+				  <a class="allData-criteriaBtn btn" id="btnReset" style="font-size: 12px; ">Reset</a>
+			</div>
+
+			interval of time <br/>
+			start date:<br/> <input type="text" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
+			end date:<br/>  <input type="text" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">search</legend>
+			<ul id="allData-searchId"><li><a id="searchBtn"><img src="images/Find-Replace.png" style="height:60px; width:60px;"/></a></li></ul> 
+			
+		</fieldset>
+		<br/>	
+	</div>
+	<div  id="allDataContent">	
+		<div id="allDataMap">
+			<div id="allDataCluster">
+				cluster : 
+				<select id="select_cluster">
+					<option value="yes">yes</option>
+					<option value="no">no</option>
+				</select>
+			</div>
+			<div style="width:700px; height:650px" id="map"></div>
+			<div id="allDataMapDataInfos"></div>
+		</div>
+		<div  id="allDataList">
+			<br/>
+			<table id='allDataBoxList' class='display' >
+			  <thead>
+				<tr>
+				  <th> id </th>
+				  <th> activity </th>
+				  <th> name </th>
+				  <th> date </th>
+				  <th> region </th>
+				  <th> place </th>
+				   <th> lat </th>
+				   <th> lon </th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table><br/><br/>
+		</div>
+
+	</div>
+</script>	

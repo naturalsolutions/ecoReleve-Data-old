@@ -303,6 +303,13 @@ min-height: 70px;
 #mapColumn, #dataTableRow {
 	width: 40%;
 }
+/* view allData  */
+#myDataTable {
+	width: 100%;
+}
+select[name="companyBoxList_length"] {
+	width: 75px;
+}
 /* bug zone cliquable */
 .thumbnails > li.tile { padding: 0; width: auto; cursor: auto;}
 .thumbnails > li.tile.tile-double {width: auto;}
@@ -310,7 +317,6 @@ min-height: 70px;
 display: block;}
 .thumbnails > li.tile.tile-double a {width: 420px;}
 /*  align text in left in tile */
-
 .thumbnails > li.tile span {
 	font-size: 1.5em;
 	margin-top: 120px;
@@ -347,8 +353,119 @@ display: block;}
 .bbf-field label {
 	width: 25%;
 }
-@media screen and (max-width: 640px) {
+/* view allData filter div background */
+.allDataFilterPanel {
+	background : grey;
+	padding: 1em;
+	/*width:280px;*/
+	position : fixed;
+	left:0px;
+}
+/* view allaData btn group criterias 
+.allData-btn-group {
+	font-size: 12px;
+}*/
+button.allData-criteriaBtn{
+	padding: 5px;
+	font-size: 12px;
+}
+#searchBtn>img{
+	border-style:solid;
+	border-width:1px;
+	border-color: black;
+}
+#allData-searchId {
+	margin: 0;
+	padding-top: 5px;
+}
+.allDataFilterPanel>h3 {
+	margin-bottom: 1px;
+	padding-bottom: 1px;
+	margin-top: 2px;
 
+}
+.critLegend {
+padding: 0;
+margin-bottom: 12px;
+line-height: 30px;
+}
+#allDataBoxList_filter{
+	display : none;
+}
+#allDataBoxList_length{
+	/*display : inline-block;*/
+	display : none;
+}
+/*#allDataBoxList_length>label{
+	font-size: 12px;
+} */
+#allDataBoxList{
+	margin: 0;
+	/*width: 400px;*/
+	max-width : 100%;
+}
+#allDataBoxList_wrapper{
+	float: left;
+}
+#allDataMap, #allDataList{
+	margin: 1%;
+	/*max-width : 100%;*/
+}
+#allDataList{
+    /*width:65%;*/
+	float:left;
+}
+#allDataMap {
+	float: left;
+	padding-left: 5px;
+}
+#allDataInfosPanel{
+	/*float: right; 
+	width : 15%;
+	padding-left : 10px;
+	*/
+	display : none;
+	background-color : black;
+	z-index: 1000;
+	opacity:0.82;
+	position : fixed;
+	width : 220px;
+	right : 0px;
+	padding: 20px;
+}
+#allDataInfosPanelClose{
+	float: right;
+	padding-top: 0px;
+	width : 40px;
+	height : 50px;
+	padding-left: 40px;
+	padding-top: 12px;
+}
+#allDataContent{
+	/*width : 70%;*/
+	padding-left: 260px;
+	/*padding-right: 300px;*/
+}
+#allDataList {
+	/* position:fixed;
+    left:20px;
+    top:60px;*/
+   /* width:390px;*/
+}
+#map {
+	max-width : 100%;
+}
+.allDataInfosTitles {
+margin-top: 15px;
+margin-bottom: 0px;
+padding-bottom: 0px;
+text-transform: lowercase;
+}
+.allDataInfosTitles>span{
+	font-size: 1.5em;
+}
+@media screen and (max-width: 640px) {
+	
 }
 @media (max-width: 480px) {
 	div.container{
