@@ -1362,7 +1362,8 @@ app.Views.AllData = Backbone.View.extend({
 		'click #searchBtn ' : 'search',
 		'click tr' : 'selectTableElement',
 		'click #allDataInfosPanelClose' : 'closeInfosPanel',
-		'change input#updateSelection' : 'updateTableForSelecedFeatures'
+		//'change input#updateSelection' : 'updateTableForSelecedFeatures'
+		'click #refreshTable' : 'updateTableForSelecedFeatures'
 	},
 	updateTable: function(){
 		//this.updateControls();
@@ -1418,7 +1419,8 @@ app.Views.AllData = Backbone.View.extend({
 		var datearr=$("#datearr").attr('value');
 		$('#idate').text(datedep+";"+ datearr);
 		app.utils.updateLayer(this.map_view);
-		app.utils.filldatable();
+		var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
+		app.utils.filldatable(params);
 		
 	},
 	updateZoom : function(){ 
@@ -1437,20 +1439,11 @@ app.Views.AllData = Backbone.View.extend({
 		var myDataTable = $("#myDataTable")[0];
 		var widthmyDataTable = myDataTable.clientWidth;
 		var	widthallDataContent = widthmyDataTable - 260 ; 
-		console.log(widthallDataContent);
 		if (widthallDataContent < 850 ){widthallDataContent = widthallDataContent - 20 ;} 
 		$('#map').css('width', (widthallDataContent * 0.60) +'px'); //$('#map').css('width', '700px');
 		//console.log ("widthallDataContent : " + widthallDataContent );
 		$('#allDataMap').css('width', (widthallDataContent * 0.62) +'px'); //$('#map').css('width', '700px');
 		$('#allDataList').css('width', (widthallDataContent * 0.3) +'px'); //$('#map').css('width', '700px');
-	/*	$('#map').css('width', (width - 10) +'px'); //$('#map').css('width', '700px');
-		$('#map').css('height', (width - 10) +'px');*/
-		// fix width of dataTable
-		//$("#allDataBoxList").css("style", "width: 380px;");
-		/*app.utils.fnShowHide(0);
-		app.utils.fnShowHide(2);
-		app.utils.fnShowHide(4); */
-
 	},	
 	selectTableElement : function(e){
 		var ele  = $(e.target).get(0).nodeName;
@@ -1497,8 +1490,10 @@ app.Views.AllData = Backbone.View.extend({
 		$('#allDataInfosPanel').hide();
 	},
 	updateTableForSelecedFeatures : function(evt){
-		var param = $("#updateSelection").val();
-		app.utils.filldatable(param);
+		//debugger;
+		var bbox = "bbox=" + $("#updateSelection").val();
+		var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
+		app.utils.filldatable(params, bbox);
 	}
 });
 app.Views.LocationFormView = NS.UI.Form.extend({

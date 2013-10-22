@@ -60,13 +60,15 @@ NS.UI.MapView = Backbone.View.extend({
 						}
 					}),
 					 new OpenLayers.Control.Zoom()
-				]
-
+				]//,
+				//renderers : ['SVG']
 			}); 
 			// add masked element to store selected elements id
 			$(this.el).append('<input id="updateSelection"  type="hidden" value="" />');
-	
-			//this.this.map = map;
+			// tables to store latitude and longitudes values for selected points in vector layers
+			this.map.latitudes = new Array();
+			this.map.longitudes = new Array();
+			
 			/*** center *******************************************************************************/
 			
 			var centerPoint =  this.options.center || new NS.UI.Point({ latitude : 0, longitude: 0, label:"center"});
@@ -82,25 +84,6 @@ NS.UI.MapView = Backbone.View.extend({
 			/*********** zoom *********/
 			var mapZoom =  this.options.zoom || 0 ;
 			this.map.setCenter(center, mapZoom);
-			/**** enhanced controls *******************************************************************/
-			var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
-			var zoomBox = new OpenLayers.Control.ZoomBox();
-			var navigation = new OpenLayers.Control.Navigation();
-			var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
-				eventListeners: {
-				   'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
-				   'deactivate': function(){zoomBox.deactivate()}
-				}
-			});
-			var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
-				eventListeners: {
-				   'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
-				   'deactivate': function(){navigation.deactivate()}
-				}
-			});		
-			panel.addControls([zoomBoxBtn, navigationBtn]);
-			this.map.addControls([panel,zoomBox,navigation]);
-			
 		},
 		/******************** Methods *****************************************/
 		addLayer : function(options){
@@ -124,7 +107,6 @@ NS.UI.MapView = Backbone.View.extend({
 					// if station not used, display it
 					var used = o.attributes.used;
 					var undef = ( used == "undefined" );
-					
 					if (( used == false ) || ( used == undefined )){
 						var waypointId = o.attributes.id;
 						//var myStationModel = app.collections.stations.get(stationId);
@@ -141,6 +123,7 @@ NS.UI.MapView = Backbone.View.extend({
 						);
 						//lastpoint = new OpenLayers.LonLat(lon, lat);
 						vector.addFeatures(f);
+						vector.popup = true;
 					}
 				});
 			}
@@ -168,6 +151,7 @@ NS.UI.MapView = Backbone.View.extend({
 				var dataFormat;
 				var cluster = options.protocol.attributes.cluster;
 				var fixedStrategy = false;
+				var popup = options.protocol.attributes.popup;
 				
 				switch (format)
 				{
@@ -233,7 +217,7 @@ NS.UI.MapView = Backbone.View.extend({
 				}
 				vector.protocol = protocol;
 				vector.strategies = layerStrategies;
-				
+				vector.popup = popup ;
 				// cluster style
 				if (cluster){
 					var layerStyle;
@@ -255,24 +239,79 @@ NS.UI.MapView = Backbone.View.extend({
 				this.map.zoomToExtent(vector.getDataExtent());
 			}
 			else {
-			/////////////////////////////////////////////////	this.map.panTo(bounds.getCenterLonLat());
+				//	this.map.panTo(bounds.getCenterLonLat());
 			}
 			vector.events.register("featuresadded", vector, zoomToData);
-			this.map.events.register('zoomend', this, function (event) {
+			vector.events.on({
+                'featureselected': function(feature) {
+					var displayPopup = feature.feature.layer.popup;
+					// add coordinates of selected feature to arrays
+					if (!displayPopup){
+						var lon = feature.feature.geometry.x;
+						var lat = feature.feature.geometry.y;
+						this.map.latitudes.push(lat);
+						this.map.longitudes.push(lon); 
+						updateBBOX(this.map.longitudes,this.map.latitudes );
+					} else {
+						createPopup(feature);
+					}
+                },
+                'featureunselected': function(feature) {
+					var displayPopup = feature.feature.layer.popup;
+					// add coordinates of selected feature to arrays
+					if (!displayPopup){
+						var lon = feature.feature.geometry.x;
+						var lat = feature.feature.geometry.y;
+						// remove values if exists
+						removeItem(this.map.latitudes, lat);
+						removeItem(this.map.longitudes, lon);
+						// update selecting BBOX
+						updateBBOX(this.map.longitudes,this.map.latitudes );
+					} else {
+						destroyPopup();
+					}
+                }
+            });
+
+			//this.map.events.register('zoomend', this, function (event) {
+			this.map.events.register('moveend', this, function (event) {
 				var vector_layer ;
 				for(var i = 0; i < this.map.layers.length; i++ ){
 					if(((this.map.layers[i].name) !="OpenStreetMap") && ( ((this.map.layers[i].name) !="Imagery") ) && (((this.map.layers[i].name) !="OpenCycleMap") )) {
 						vector_layer = this.map.layers[i] ;
 						if (!vector_layer.fixedStrategy){
-							vector_layer.refresh({force: true}); 
+							var bounds = this.map.getExtent(); 
+							var minLat = bounds.bottom;
+							var maxLat= bounds.top;
+							var minlong = bounds.left;
+							var maxLong = bounds.right;
+
+							var minPoint=new OpenLayers.LonLat(minlong,minLat);
+							minPoint=minPoint.transform(
+								new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+								//new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection  900913
+								new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+							);
+							var maxPoint = new OpenLayers.LonLat(maxLong,maxLat);
+							maxPoint=maxPoint.transform(
+								new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+								new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+							);
+							var minLatWGS = minPoint.lat;
+							var minLonWGS = minPoint.lon;
+							var maxLatWGS = maxPoint.lat;
+							var maxLonWGS = maxPoint.lon;
+
+							var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
+							$("#updateSelection").val(bbox);   
 						}
 					}
 				};
 			});
-			this.map.selectedFeatureOrder = 0;
+
 			var panelControls = [
 			 new OpenLayers.Control.Navigation(),
-			 new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true,onSelect:selectionnerEntite,onUnselect:deselectionnerEntite})
+			  new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true})  
 			];
 			var toolbar = new OpenLayers.Control.Panel({
 			   displayClass: 'olControlEditingToolbar',
@@ -281,35 +320,27 @@ NS.UI.MapView = Backbone.View.extend({
 			toolbar.addControls(panelControls);
 			this.map.addControl(toolbar);
 			
-			function selectionnerEntite(feature) {
-
-			}
-			function deselectionnerEntite(feature) {
-			
-				$("#updateSelection").val("");
-			}
-			vector.events.register("featuresselected",this, function(e) {
-			
-				console.log ("selection features !");
-				console.log(e);
-			});
 			function createPopup(feature) {
-			  feature.popup = new OpenLayers.Popup.FramedCloud("pop",
-				  feature.geometry.getBounds().getCenterLonLat(),
+				var map = feature.feature.layer.map;
+				feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+				  feature.feature.geometry.getBounds().getCenterLonLat(),
 				  null,
-				  '<div class="markerContent">'+feature.attributes.description+'</div>',
+				  '<div class="markerContent">'+ feature.feature.attributes.description +'</div>',
 				  null,
-				  true,
-				  function() {controls['selector'].unselectAll(); }
+				  true, 
+				  function() { 
+					 // destroy popups
+					var popupsList = map.popups;
+					for (var i=0; i< popupsList.length ; i++){popupsList[i].destroy();}
+					popupsList.splice(0, popupsList.length);
+				  }
 			  );
-			  //feature.popup.closeOnMove = true;
-			    this.map.addPopup(feature.popup);
-			   var texte = feature.attributes.description;
+			    map.addPopup(feature.popup, true);
 			}
 
 			function destroyPopup(feature) {
-			  feature.popup.destroy();
-			  feature.popup = null;
+			 /* feature.popup.destroy();
+			  feature.popup = null;*/
 			}
 			function zoomToData(){
 				var bounds = this.getDataExtent();
@@ -336,18 +367,22 @@ NS.UI.MapView = Backbone.View.extend({
 		},
 		enlarge: function(){
 			var mapDiv = this.el;
+			//console.log("Current size: "+mapDiv.style.width+ " / "+mapDiv.style.height);
 			var width = mapDiv.clientWidth;
 			var height = mapDiv.clientHeight;
 			mapDiv.style.width = (4* width )  + "px";
 			mapDiv.style.height = (3 * height) + "px";
+			//console.log("New size: "+mapDiv.style.width+ " / "+mapDiv.style.height);
 			this.map.updateSize();
 		},
 		reduce: function(){
 			var mapDiv = this.el;
 			var width = mapDiv.clientWidth;
 			var height = mapDiv.clientHeight;
+			//console.log("Current size: "+mapDiv.style.width+ " / "+mapDiv.style.height);
 			mapDiv.style.width = (width / 4) + "px";
 			mapDiv.style.height = (height/3 ) + "px";
+			//console.log("New size: "+mapDiv.style.width+ " / "+mapDiv.style.height);
 			map.updateSize();
 		},
 		updateLayer: function(layerName, params){
@@ -374,11 +409,11 @@ NS.UI.MapView = Backbone.View.extend({
 			vector_layer.refresh({force: true}); 
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
 			function zoomData(){
-				var bounds = this.getDataExtent();
+				/*var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
 					this.map.zoomToExtent(bounds); 
-				}
+				}  */
 				this.events.unregister("featuresadded", this, zoomData);
 				$("#waitControl").remove(); 
 			}
@@ -441,7 +476,8 @@ function clusterMapRules (){
 		low: "rgb(140, 204, 226)", // green : rgb(181, 226, 140)
 		middle: "rgb(241, 211, 87)", 
 		high: "rgb(253, 156, 115)"
-	};	
+	};
+	
 	// Define three rules to style the cluster features.
 	var lowRule = new OpenLayers.Rule({
 		filter: new OpenLayers.Filter.Comparison({
@@ -541,60 +577,44 @@ function checkLayer(layerName, map){
 		map.removeLayer(layer);
 	} 
 }
-// extend SelectFeature to have possibility to get selected features list (not implemented in openlayers). Source : http://jsfiddle.net/_DR_/9dcuk/
-OpenLayers.Control.SelectFeature.prototype.selectBox = function(position) {
-    if (position instanceof OpenLayers.Bounds) {
-        var minXY = this.map.getLonLatFromPixel(
-            new OpenLayers.Pixel(position.left, position.bottom)
-        );
-        var maxXY = this.map.getLonLatFromPixel(
-            new OpenLayers.Pixel(position.right, position.top)
-        );
-        var bounds = new OpenLayers.Bounds(
-            minXY.lon, minXY.lat, maxXY.lon, maxXY.lat
-        );
-            
-        // if multiple is false, first deselect currently selected features
-        if (!this.multipleSelect()) {
-            this.unselectAll();
-        }
-            
-        // because we're using a box, we consider we want multiple selection
-        var prevMultiple = this.multiple;
-        this.multiple = true;
-        var layers = this.layers || [this.layer];
-        var layer;
-        var selectedFeatures = []; // <-- Modification of original function (1/3)
-        for(var l=0; l<layers.length; ++l) {
-            layer = layers[l];
-            for(var i=0, len = layer.features.length; i<len; ++i) {
-                var feature = layer.features[i];
-                // check if the feature is displayed
-                if (!feature.getVisibility()) {
-                    continue;
-                }
 
-                if (this.geometryTypes == null || OpenLayers.Util.indexOf(
-                    this.geometryTypes, feature.geometry.CLASS_NAME) > -1) {
-                        if (bounds.toGeometry().intersects(feature.geometry)) {
-                            if (OpenLayers.Util.indexOf(layer.selectedFeatures, feature) == -1) {
-                                this.select(feature);
-                                selectedFeatures.push(feature); // <-- Modification of original function (2/3)
-                            }
-                        }
-                    }
-                }
-        }
-        onFeatureSelect(selectedFeatures); // <-- Modification of original function (3/3)
-        this.multiple = prevMultiple;
+function onPopupClose(evt) {
+    this.map.controls.selectControl.unselect(this.feature);
+}
+function onFeatureSelect(bounds) {
+	var bbox = bounds.left +',' +  bounds.bottom +',' + bounds.right +',' + bounds.top ;
+	$("#updateSelection").val(bbox).trigger('change');
+} 
+function updateBBOX(tabLon, tabLat){
+	if (tabLon.length > 0 ){
+		var minLat = Math.min.apply({},tabLat);
+		var maxLat = Math.max.apply({},tabLat);
+		var minLon = Math.min.apply({},tabLon);
+		var maxLon = Math.max.apply({},tabLon);
+
+		var minLonLat = new OpenLayers.Geometry.Point(minLon,minLat);
+		minLonLat =minLonLat.transform(
+			   new OpenLayers.Projection("EPSG:3857"), // to Spherical Mercator Projection
+			   new OpenLayers.Projection("EPSG:4326") // transform from WGS 1984
+		);
+		var maxLonLat = new OpenLayers.Geometry.Point(maxLon,maxLat);
+		maxLonLat =maxLonLat.transform(
+			   new OpenLayers.Projection("EPSG:3857"), // to Spherical Mercator Projection
+			   new OpenLayers.Projection("EPSG:4326") // transform from WGS 1984
+		);
+		
+		var bbox = ( minLonLat.x - 0.0001) +',' +  ( minLonLat.y - 0.0001) +',' + (maxLonLat.x + 0.0001) +',' + (maxLonLat.y + 0.0001) ;
+		$("#updateSelection").val(bbox).trigger('change');
+	} else {
+		var bbox = "";
+		$("#updateSelection").val(bbox).trigger('change');
+	}
+}
+function removeItem(array, item){
+    for(var i in array){
+        if(array[i]==item){
+            array.splice(i,1);
+            break;
+            }
     }
 }
-function onFeatureSelect(f) {
-	var params = 'id_station=';
-	for (var i=0; i < f.length ; i++){
-		params += f[i].attributes.id + "," ;
-	}
-	var ln = params.length - 2;
-	var params2 = params.substring (0, ln);
-	$("#updateSelection").val(params2).trigger('change');
-} 

@@ -503,10 +503,8 @@ app.utils.initMap = function (point, zoom) {
 }
 
 app.utils.addTracks = function (urlFile, layerName){
-	var protocol = new NS.UI.Protocol({ url : urlFile , format: "KML", strategies:["Fixed"]});
+	var protocol = new NS.UI.Protocol({ url : urlFile , format: "KML", strategies:["Fixed"], popup: true});
 	app.mapView.addLayer({protocol : protocol , layerName : layerName });	
-	
-	
 	app.global.traksLoaded = true ;	
 	$("#waitLoadingTracks").html(" <img src='images/loader.gif'/>");
 	$('a#displayTracks').text('Hide tracks');
@@ -808,15 +806,16 @@ app.utils.trim = function (myString)
 {
 	return myString.replace(/^\s+/g,'').replace(/\s+$/g,'');
 } 
-app.utils.filldatable = function(params){	
+app.utils.filldatable = function(params, bbox){
+	//debugger;
 	$("#allDataInfosPanel").hide();
 	var serverUrl = localStorage.getItem("serverUrl");
 	var cluster = $("#select_cluster option:selected").attr('value');
 	var ajaxSource
-	if (params){
-		ajaxSource = serverUrl + '/proto/station_get?' + params;
+	if (bbox){
+		ajaxSource = serverUrl + '/proto/station_get?' + params + '&' + bbox;
 	}else{
-		ajaxSource = serverUrl + '/proto/station_get?id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value")
+		ajaxSource = serverUrl + '/proto/station_get?' + params;
 
 	}
 	
@@ -828,7 +827,8 @@ app.utils.filldatable = function(params){
 		"fnServerData": function ( sSource, aoData, fnCallback ) {
 			/* Add some extra data to the sender */
 			aoData.push( { "name": "more_data", "value": "my_value" } );
-			$.getJSON( sSource, aoData, function (json) { 			
+			$.getJSON( sSource, aoData, function (json) { 
+				
 				fnCallback(json);
 			} );
 		},
@@ -836,11 +836,11 @@ app.utils.filldatable = function(params){
 		,"fnDrawCallback": fnStyleTable
 	}
 	);
-		app.utils.fnShowHide(0);
+	/*	app.utils.fnShowHide(0);
 		app.utils.fnShowHide(2);
 		app.utils.fnShowHide(4);
 		app.utils.fnShowHide(6);
-		app.utils.fnShowHide(7);
+		app.utils.fnShowHide(7);*/
 }
 fnStyleTable = function(){
 	//console.log( 'DataTables has redrawn the table' );
@@ -918,7 +918,7 @@ app.utils.updateLayer = function(mapView){
 	if (!exists){
 		var serverUrl = localStorage.getItem("serverUrl");
 		var url = serverUrl + "/carto/station_get?";
-		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true});
+		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
 		mapView.addLayer({protocol : protocol , layerName : "Observations", });
 	} 
 	else {

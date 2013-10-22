@@ -1,1 +1,0 @@
-﻿$("#templates").load("templates.html");

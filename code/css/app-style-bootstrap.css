@@ -464,6 +464,9 @@ text-transform: lowercase;
 .allDataInfosTitles>span{
 	font-size: 1.5em;
 }
+div.olControlMousePosition {
+	color: black;
+}
 @media screen and (max-width: 640px) {
 	
 }
