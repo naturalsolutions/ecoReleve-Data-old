@@ -121,7 +121,8 @@ app.Views.StationFromFile = Backbone.View.extend({
 				// if marker of selected position is not displayed, we need to add it
 				var markerLayer = "null";	
 				var selectedWaypoint = new NS.UI.Point({ latitude : wptLatitude, longitude: wptLongitude, label:pointName});
-				app.mapView.addLayer({point : selectedWaypoint , layerName : "selected point", marker : 'img/marker2.png'});	
+				app.mapView.addLayer({point : selectedWaypoint , layerName : "selected point", marker : 'img/marker2.png'});
+				$("#waitControl").remove(); 
 			}
 
 		}

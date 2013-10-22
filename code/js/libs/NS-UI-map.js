@@ -129,6 +129,7 @@ NS.UI.MapView = Backbone.View.extend({
 			}
 			// if provided data is a model point (latitude, longitude, label)
 			if (options.point){
+				debugger;
 				var lon = options.point.attributes.longitude;
 				var lat = options.point.attributes.latitude;
 				var label = options.point.attributes.label; 
@@ -343,6 +344,7 @@ NS.UI.MapView = Backbone.View.extend({
 			  feature.popup = null;*/
 			}
 			function zoomToData(){
+				debugger;
 				var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
@@ -408,6 +410,7 @@ NS.UI.MapView = Backbone.View.extend({
 			}
 			vector_layer.refresh({force: true}); 
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
+			$("#waitControl").remove(); 
 			function zoomData(){
 				/*var bounds = this.getDataExtent();
 				if(bounds){ 
@@ -447,7 +450,11 @@ NS.UI.MapView = Backbone.View.extend({
 			var width =  (screen.width)/2;
 			var height = (screen.height)/2;
 			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
-			$(mapDiv).append(ele);
+			debugger;
+			var st = $("#waitControl").html();
+			if ($("#waitControl").length == 0) {
+				$(mapDiv).append(ele);
+			}
 		}
 });
 /******************************* Models **********************************************************/

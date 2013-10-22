@@ -91,10 +91,11 @@
 		app.views.main.render();
 		$("#locationSubmit").on("click", $.proxy(myView.onSubmit, myView));
 		$("div .form-actions").css("display","none");
-		app.utils.myPositionOnMap(function(){  
+		app.utils.myPositionOnMap(function(){
 			var map_view = app.utils.initMap();
 			var myposition = new NS.UI.Point({ latitude : app.point.latitude, longitude: app.point.longitude, label:"my position"});
 			map_view.addLayer({point : myposition , layerName : "my position"});
+			$("#waitControl").remove(); 
 		});
 	},
 	stationFromGpx : function(){
@@ -120,6 +121,7 @@
 			app.mapView = app.utils.initMap();
 			// add waypoints layer based on the waypoints collection 
 			app.mapView.addLayer({collection : app.collections.waypointsList , layerName : "Waypoints"});
+			$("#waitControl").remove(); 
 		}
 	},
 	stationInfos : function(){
