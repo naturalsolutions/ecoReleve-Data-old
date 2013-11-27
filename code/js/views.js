@@ -121,7 +121,7 @@ app.Views.StationFromFile = Backbone.View.extend({
 				// if marker of selected position is not displayed, we need to add it
 				var markerLayer = "null";	
 				var selectedWaypoint = new NS.UI.Point({ latitude : wptLatitude, longitude: wptLongitude, label:pointName});
-				app.mapView.addLayer({point : selectedWaypoint , layerName : "selected point", marker : 'img/marker2.png'});
+				app.mapView.addLayer({point : selectedWaypoint , layerName : "selected point", marker : 'img/marker2.png', popup:true});
 				$("#waitControl").remove(); 
 			}
 
@@ -1345,7 +1345,7 @@ app.Views.AllData = Backbone.View.extend({
 
 		$("#allDataList").hide();
 
-		var  point = new NS.UI.Point({ latitude : 0, longitude: 0, label:""});
+		var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
 		this.map_view = app.utils.initMap(point, 3);
 
 		$( "label, input,button, select " ).css( "font-size", "15px" );
@@ -1354,6 +1354,7 @@ app.Views.AllData = Backbone.View.extend({
 
 	},events : {
 		'change #select_id_proto' : 'updateTable',
+		'change input.cluster' : 'search',
 		'click #btnY-1' :'updateDate1an',
 		'click #btnReset' : 'resetdate',
 		'click #btnY-2' : 'updateDate2ans',
@@ -1491,10 +1492,19 @@ app.Views.AllData = Backbone.View.extend({
 		$('#allDataInfosPanel').hide();
 	},
 	updateTableForSelecedFeatures : function(evt){
-		//debugger;
-		var bbox = "bbox=" + $("#updateSelection").val();
+		// check if you need to use selected features id ( else : use BBOX)
 		var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
-		app.utils.filldatable(params, bbox);
+		var paramsMap = "";
+		var idSelected = $("#featuresId").val();
+		if (idSelected ==""){
+			paramsMap = "bbox=" + $("#updateSelection").val();
+			
+		}
+		else {
+			// get all id station from string  (id1,id2 ...)
+			paramsMap = "id_station=" + idSelected;
+		}
+		app.utils.filldatable(params, paramsMap);
 	}
 });
 app.Views.LocationFormView = NS.UI.Form.extend({
@@ -1699,6 +1709,575 @@ app.Views.IndivListColForm = NS.UI.Form.extend({
 				
 			});
     }
-});			
+});
+app.utils.BaseModalView = Backbone.View.extend({
+
+    id: 'base-modal',
+    className: 'modal fade hide',
+	el : '#content',
+	
+	//,
+    //template: 'modals/BaseModal',
+
+    events: {
+      'hidden': 'teardown'
+    },
+
+    initialize: function(options) {
+      _(this).bindAll();
+      
+	  this.template = options.template;
+	  this.render();
+    },
+
+    show: function() {
+      this.$el.modal('show');
+    },
+
+    teardown: function() {
+      this.$el.data('modal', null);
+      this.remove();
+    },
+/*
+    render: function() {
+      this.getTemplate(this.template, this.renderView);
+      return this;
+    },*/
+	 render: function() {
+            this.$el.html(this.template);
+            return this;
+    },	
+    renderView: function(template) {
+      this.$el.html(template());
+      this.$el.modal({show:false}); // dont show modal on instantiation
+    }
+ });
+
+app.Views.ExportView = Backbone.View.extend({
+	manage: true ,
+	initialize : function() {
+		this.template = _.template($('#export-template').html());
+	},
+	afterRender: function() {
+		$(".modal-content").css({"width": "600px", "min-height": "500px","margin": "5%"});
+		$(".modal-header").css({"background": "red"});
+		$(".modal-body").css({"background": "white","color":"black"});
+		app.utils.getThemesList();
+	},
+	events :{
+		'change #export-themes' : 'updateViewsList',
+		'click .exportViewsList': 'selectCurrentView'
+	},
+	updateViewsList : function(e){
+		var viewID = $("#export-themes option:selected").attr('value');
+		app.utils.getViewsList(viewID);
+	},
+	selectCurrentView : function(e){
+		var viewName =$(e.target).get(0).attributes["value"].nodeValue;
+		//app.utils.generateFilter(viewName);
+		//app.router.navigate('#exportFilter', {trigger: true});
+		app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: viewName}));
+		app.views.main.render();
+	}
+	
+});
+app.Views.ExportFilterView= Backbone.View.extend({
+	manage: true ,
+	initialize : function() {
+		this.template = _.template($('#export-filter-template').html());
+	},
+	afterRender: function(options) {
+		var viewName = options.options.viewName;
+		this.viewName =viewName;
+		$("#filterViewName").text(viewName);
+		$(".modal-content").css({"min-width": "600px","max-width": "1000px", "min-height": "500px","margin": "5%"});
+		/*$(".modal-header").css({"background": "red"});
+		$(".modal-body").css({"background": "white","color":"black"});
+		$(".blackText").css({"color":"black"});*/
+		app.utils.generateFilter(viewName);
+	},
+	events :{
+		'click #exportPrevBtn' : 'exportview',
+		'click #export-add-filter' : 'addFilter',
+		'click #export-field-select-btn' :'selectField',
+		'click .btnDelFilterField' : 'deleteFilterItem',
+		'click #filter-query-btn' : 'filterQuery',
+		'click #exportMap' : 'selectExtend'
+		
+	},
+	exportview : function(){
+		app.views.main.setView(".layoutContent", new app.Views.ExportView());
+		app.views.main.render();
+	},
+	addFilter : function(){
+		$("#export-field-selection").removeClass("masqued");
+		$("#filter-btn").addClass("masqued");
+		$('#export-view-fields').css({"display": "inline-block","height": "40px","width": "350px"});
+	
+	},
+	selectField : function(){
+		var fieldName = $("#export-view-fields option:selected").text();
+		var fieldType = $("#export-view-fields option:selected").attr('type');
+		var fieldId = fieldName.replace("@", "-");
+		/*$("#export-field-selection").removeClass("masqued");
+		$("#filter-btn").addClass("masqued");*/
+		// generate operator
+		var operatorDiv = this.generateOperator(fieldType);
+		var inputDiv = this.generateInputField(fieldType);
+		var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-"  + fieldId +"'><div class='span4 name' >" + fieldName + "</div><div class='span2 operator'>"+ operatorDiv +"</div><div class='span5'>";
+			fieldFilterElement += inputDiv + "</div><div class='span1'><a cible='div-"  + fieldId +"' class='btnDelFilterField'><img src='img/delete.png'/></a></div></div>";
+		$("#export-filter-list").append(fieldFilterElement);
+		$("#export-filter-list").removeClass("masqued");
+		$('#filter-query').removeClass("masqued");
+	},
+	deleteFilterItem: function(e){
+		var elementId = $(e.target).parent().get(0).attributes["cible"].nodeValue;
+		elementId ="#" + elementId;
+		$(elementId).remove();
+	},
+	filterQuery: function(){
+		var query="";
+		var self = this;
+		$(".filterElement").each(function() {
+			
+			var fieldName =$(this).find("div.name").text();
+			/*var operator = $(this).find("div.operator").text();
+			if (operator !="LIKE"){*/
+				var operator = $(this).find("select.filter-select-operator option:selected").text();
+			/*} else {
+				operator = " LIKE ";
+			}	*/
+			
+			if (operator =="LIKE"){operator=" LIKE ";}
+			
+			var condition = $(this).find("input.fieldval").val(); 
+			query += fieldName + operator + condition +",";
+		});
+		// delete last character "&"
+		query = query.substring(0,query.length - 1);
+		var selectedView = this.viewName ;
+		$("#filterForView").val(query);
+		app.utils.getFiltredResult(query,selectedView);
+		
+	
+	},
+	selectExtend : function(){
+		var selectedView = this.viewName;
+		var filterValue = $("#filterForView").val();
+		app.views.main.setView(".layoutContent", new app.Views.ExportMapView({view: selectedView ,filter:filterValue}));
+		app.views.main.render();
+	},
+	generateOperator: function(type){
+		var operatorDiv;
+		switch(type)
+		{
+		case "string":
+		  operatorDiv = "<select class='filter-select-operator'><option>LIKE</option><option>=</option></select>";  //"LIKE";
+		  break;
+		case "integer":
+		  operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
+		  break;
+		/*case "datetime":
+		operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option></select>";
+		  break;*/
+		default:
+		 operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
+		}
+		return operatorDiv;
+	},
+	generateInputField: function(type){
+		var inputDiv ="";
+		switch(type)
+		{
+		case "datetime":
+		inputDiv = "<input type='date' placeholder='YYYY-MM-DD' class='fieldval'/>";
+		  break;
+		default:
+		 inputDiv = "<input type='text' class='fieldval'/>";
+		}
+		return inputDiv;
+	
+	}
+	
+});
+
+app.Views.ExportMapView = Backbone.View.extend({
+	manage: true ,
+	initialize : function(options) {
+		this.template = _.template($('#export-map-template').html());
+		this.currentView =  options.view;
+		this.filterValue = options.filter;
+		//$("input#updateSelection").trigger('change');
+	},
+	afterRender: function(options) {
+		$(".modal-content").css({"height":"700px"});
+		$('#map').css({"width":"700px","height":"400px"});
+		$(".modal-body").css({"max-height":"600px"});
+		var  point = new NS.UI.Point({ latitude : 31, longitude: 61, label:""});
+		this.map_view = app.utils.initMap(point, 2);
+		var style = new OpenLayers.Style({
+			  pointRadius:0.2,strokeWidth:0.2,fillColor:'#edb759',strokeColor:'white',cursor:'pointer'
+		});
+		this.map_view.addLayer({point : point , layerName : "", style : style});
+		//masquer certains controles
+		 var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
+		this.map_view.map.removeControl(controls[0]);
+		controls = this.map_view.map.getControlsByClass("OpenLayers.Control.Panel");
+		this.map_view.map.removeControl(controls[0]);
+		// add zoom controls to map
+		this.addControlsToMap();
+		// check bbox coordinates stored in hidden input "#updateSelection"
+		this.timer = setInterval(function(){
+			var bboxVals = $("input#updateSelection").val();
+			var tab = bboxVals.split(",");
+			var minLon = tab[0] || "";
+			var minLat = tab[1] || "";
+			var maxLon = tab[2] || "";
+			var maxLat = tab[3] || "";
+			if (bboxVals!=""){	
+				minLon = parseFloat(minLon);
+				minLon = minLon.toFixed(2);
+				minLat = parseFloat(minLat);
+				minLat = minLat.toFixed(2);
+				maxLon = parseFloat(maxLon);
+				maxLon = maxLon.toFixed(2);
+				maxLat = parseFloat(maxLat);
+				maxLat = maxLat.toFixed(2);
+			}
+			$("#minLon").text(minLon);
+			$("#minLat").text(minLat);
+			$("#maxLon").text(maxLon);
+			$("#maxLat").text(maxLat);
+	    }, 2000);
+	},
+	events : {
+	'click #export-back-filter' : 'backToFilter',
+	'click #geo-query' : 'getqueryresult',
+	'click #export-result' : 'getResult',
+	'click #export-first-step' : 'backToFistStep'
+
+	},
+	backToFilter : function (){
+		var currentView = this.currentView;
+		window.clearInterval(this.timer);
+		app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: currentView}));
+		app.views.main.render();
+	},
+	addControlsToMap : function(){
+		var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
+		var zoomBox = new OpenLayers.Control.ZoomBox();
+		var navigation = new OpenLayers.Control.Navigation();
+		var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
+			eventListeners: {
+			   'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
+			   'deactivate': function(){zoomBox.deactivate()}
+			}
+		});
+		var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
+			eventListeners: {
+			   'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
+			   'deactivate': function(){navigation.deactivate()}
+			}
+		});		
+		panel.addControls([zoomBoxBtn, navigationBtn]);
+		this.map_view.map.addControls([panel,zoomBox,navigation]);
+	},
+	getqueryresult: function (){
+		var selectedview = this.currentView;
+		var bboxVal  = $("input#updateSelection").val();
+		var filterVal = this.filterValue;
+		var query = "filters=" + filterVal +"&bbox="+ bboxVal;
+		app.utils.getResultForGeoFilter(query,selectedview); 
+	},
+	getResult : function (){
+		window.clearInterval(this.timer);
+		var selectedview = this.currentView;
+		var bboxVal  = $("input#updateSelection").val() || "";
+		var filterVal = this.filterValue;
+		//var query = "filters=" + filterVal +"&bbox="+ bboxVal;
+		//app.views.main.setView(".layoutContent", new app.Views.ExportResult({view: selectedview ,filter:filterVal, bbox: bboxVal}));
+		app.views.main.setView(".layoutContent", new app.Views.ExportColumnsSelection({view: selectedview ,filter:filterVal, bbox: bboxVal}));
+		app.views.main.render();
+	},
+	backToFistStep : function (){
+		app.views.main.setView(".layoutContent", new app.Views.ExportView());
+		app.views.main.render();
+	}
+});
+app.Views.ExportColumnsSelection = Backbone.View.extend({
+	manage: true ,
+	initialize : function(options) {
+		this.template = _.template($('#export-coldisplay-template').html());
+		this.currentView =  options.view;
+		this.filterValue = options.filter;
+		this.bbox = options.bbox;
+	},
+	afterRender: function(options) {
+		$(".modal-content").css({"height":"700px", "max-width": "900px"});
+		$('#map').css({"width":"700px","height":"400px"});
+		$(".modal-body").css({"max-height":"600px"});
+		var fieldsList = app.utils.exportFieldsList;
+		var fieldsListforFom = [];
+		// parcourir la liste de champs, afficher celles qui ne correspondent pas aux champs a afficher par défaut (lat, lon, date, station ou site_name)
+		var ln = fieldsList.length;
+		// columns to display on grid
+		app.utils.exportSelectedFieldsList = [];
+		for (var i=0; i< ln;i++){
+			var field = fieldsList[i];
+			var fieldUpper = field.toUpperCase(); 
+			var stationAdded = false;
+			if (fieldUpper == "STATION"){
+				app.utils.exportSelectedFieldsList.push(field);
+				stationAdded = true;
+			} else if ((fieldUpper == "LAT") || (fieldUpper == "LON")||(fieldUpper == "DATE") ){
+				app.utils.exportSelectedFieldsList.push(field);
+			} else if (fieldUpper == "SITE_NAME"){
+				// si champ station exite, il ne faut pas rajouter ce champ à la liste de champs a afficher
+				if (stationAdded == false){app.utils.exportSelectedFieldsList.push(field);}
+				else {fieldsListforFom.push(field);}
+			} else if (fieldUpper == "PTT"){
+				app.utils.exportSelectedFieldsList.push(field);
+			} else {
+				fieldsListforFom.push(field);
+			}
+		}
+		
+		
+		/*var ln = fieldsList.length;
+		//generate datatable structure
+		for (var i=0; i< ln ; i++){
+			var fieldName = fieldsList[i];
+			var fieldHtml = "<th>" + fieldName + "</th>";
+			$("#exportResultList-head").append(fieldHtml);
+			
+		}*/
+		var columnsModel = new app.Models.ProtoModel();
+		var schema = {
+			Columns:{ type: 'CheckBox', title:'', options : fieldsListforFom /*, inline : 'true'*/}  //,validators: ['required']
+		};
+		columnsModel.schema = schema ;
+		columnsModel.constructor.schema = columnsModel.schema;
+		columnsModel.constructor.verboseName  = "Columns";			
+		setTimeout(function(){
+			var myView = new app.Views.ExportColumnsListFormView({initialData:columnsModel});
+			myView.render();
+			$("#formcolumns").append(myView.el);
+			$("#exportResult").on("click", $.proxy(myView.onSubmit, myView));
+			$(".form-actions").addClass("masqued");
+		},2000);
+		
+		
+		// this.$el.append(myView.render().el);
+		
+		
+	},
+	events : {
+	 'click #exportPrevBtn' : 'backToMap',
+	 'click #exportResult' : 'getResult',
+	 'click #export-first-step' : 'backToFistStep'
+	},
+	backToMap : function (){
+		//app.views.main.removeView("#formcolumns");
+		var currentView = this.currentView;
+		var filterValue = this.filterValue;
+		app.views.main.setView(".layoutContent", new app.Views.ExportMapView({view : currentView, filter: filterValue}));
+		app.views.main.render();
+	},
+	getResult : function (){
+		var displayedColumns = app.utils.exportSelectedFieldsList || [] ;
+		if (displayedColumns.length > 0){
+		var selectedview = this.currentView;
+		var bboxVal  = this.bbox;
+		var filterVal = this.filterValue;
+		app.views.main.setView(".layoutContent", new app.Views.ExportResult({view: selectedview ,filter:filterVal, bbox: bboxVal}));
+		app.views.main.render();
+		} else {
+			alert("please select columns to display");
+		}
+		
+	},
+	backToFistStep : function (){
+		app.views.main.setView(".layoutContent", new app.Views.ExportView());
+		app.views.main.render();
+	}
+	
+});
+app.Views.ExportResult = Backbone.View.extend({
+	manage: true ,
+	initialize : function(options) {
+		this.template = _.template($('#export-result-template').html());
+		this.currentView =  options.view;
+		this.filterValue = options.filter;
+		this.bbox = options.bbox;
+	},
+	afterRender: function(options) {
+		$(".modal-content").css({"height":"700px", "max-width": "900px"});
+		$('#map').css({"width":"700px","height":"400px"});
+		$(".modal-body").css({"max-height":"600px"});
+		var fieldsList = app.utils.exportSelectedFieldsList;
+		var ln = fieldsList.length;
+		//generate datatable structure
+		for (var i=0; i< ln ; i++){
+			var fieldName = fieldsList[i];
+			var fieldHtml = "<th>" + fieldName + "</th>";
+			$("#exportResultList-head").append(fieldHtml);
+			
+		}
+		app.utils.getExportList(this.currentView, this.filterValue, this.bbox, this);
+		$("#exportResultList-head").css({"color":"black"});
+	},
+	events : {
+	'click #exportPrevBtn' : 'backToMap',
+	//'click #export-getGpx' : 'getGpx',
+	'click #export-first-step' : 'backToFistStep',
+	'click #exportDataMap' : 'dataOnMap'
+	},
+	backToMap : function (){
+		var currentView = this.currentView;
+		var filterValue = this.filterValue;
+		var bboxVal = this.bbox;
+		app.views.main.setView(".layoutContent", new app.Views.ExportColumnsSelection({view: currentView ,filter:filterValue, bbox: bboxVal}));
+		app.views.main.render();
+	},
+	getGpx : function (){
+		/*var url = this.url;
+		app.utils.getGpxFile(url);	*/
+	},
+	backToFistStep : function (){
+		app.views.main.setView(".layoutContent", new app.Views.ExportView());
+		app.views.main.render();
+	},
+	dataOnMap : function (){
+		app.views.main.setView(".layoutContent", new app.Views.ExportResultOnMapView({url: this.url}));
+		app.views.main.render();
+	}
+	
+});
+
+app.Views.ExportColumnsListFormView = NS.UI.Form.extend({
+    initialize: function(options) {
+		//this.protocolsList = options.protocols ; 
+		NS.UI.Form.prototype.initialize.apply(this, arguments);
+		this.on('submit:valid', function(instance) {
+			var ln; 
+			var attr = instance.attributes.Columns;
+			if (typeof attr !== "undefined") {
+				ln = attr.length;
+			} else {
+				ln = 0;
+			}
+			if (ln > 5){
+				alert(" please select max 5 columns ");
+			} else {
+				// add all selected fields to displayed fields list
+				for (var i= 0;i< ln ; i++){
+					app.utils.exportSelectedFieldsList.push(attr[i]);
+				}
+			}
+		});
+    }
+});
+
+app.Views.ExportResultOnMapView = Backbone.View.extend({
+	manage: true ,
+	initialize : function(options) {
+		this.template = _.template($('#export-data-on-map-template').html());
+		this.url = options.url ;
+		//$("input#updateSelection").trigger('change');
+	},
+	afterRender: function(options) {
+		$(".modal-content").css({"height":"700px"});
+		$('#map').css({"width":"700px","height":"400px"});
+		$(".modal-body").css({"max-height":"600px"});
+		var  point = new NS.UI.Point({ latitude : 31, longitude: 61, label:""});
+		this.map_view = app.utils.initMap(point, 2);
+		var url = this.url + "&format=geojson";
+		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], popup : false});
+		this.map_view.addLayer({protocol : protocol , layerName : "Observations", });
+		
+
+		/*var style = new OpenLayers.Style({
+			  pointRadius:0.2,strokeWidth:0.2,fillColor:'#edb759',strokeColor:'white',cursor:'pointer'
+		});*/
+		/*
+		this.map_view.addLayer({point : point , layerName : "", style : style});
+		//masquer certains controles
+		 var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
+		this.map_view.map.removeControl(controls[0]);
+		controls = this.map_view.map.getControlsByClass("OpenLayers.Control.Panel");
+		this.map_view.map.removeControl(controls[0]);  */
+		// add zoom controls to map
+		this.addControlsToMap();
+		// check bbox coordinates stored in hidden input "#updateSelection"
+
+	},
+	events : {
+	'click #export-first-step' : 'backToFistStep'
+
+	},
+	backToFilter : function (){
+		var currentView = this.currentView;
+		window.clearInterval(this.timer);
+		app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: currentView}));
+		app.views.main.render();
+	},
+	addControlsToMap : function(){
+		var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
+		var zoomBox = new OpenLayers.Control.ZoomBox();
+		var navigation = new OpenLayers.Control.Navigation();
+		var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
+			eventListeners: {
+			   'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
+			   'deactivate': function(){zoomBox.deactivate()}
+			}
+		});
+		var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
+			eventListeners: {
+			   'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
+			   'deactivate': function(){navigation.deactivate()}
+			}
+		});		
+		panel.addControls([zoomBoxBtn, navigationBtn]);
+		this.map_view.map.addControls([panel,zoomBox,navigation]);
+	},
+	getqueryresult: function (){
+		var selectedview = this.currentView;
+		var bboxVal  = $("input#updateSelection").val();
+		var filterVal = this.filterValue;
+		var query = "filters=" + filterVal +"&bbox="+ bboxVal;
+		app.utils.getResultForGeoFilter(query,selectedview); 
+	},
+	getResult : function (){
+		window.clearInterval(this.timer);
+		var selectedview = this.currentView;
+		var bboxVal  = $("input#updateSelection").val() || "";
+		var filterVal = this.filterValue;
+		//var query = "filters=" + filterVal +"&bbox="+ bboxVal;
+		//app.views.main.setView(".layoutContent", new app.Views.ExportResult({view: selectedview ,filter:filterVal, bbox: bboxVal}));
+		app.views.main.setView(".layoutContent", new app.Views.ExportColumnsSelection({view: selectedview ,filter:filterVal, bbox: bboxVal}));
+		app.views.main.render();
+	},
+	backToFistStep : function (){
+		app.views.main.setView(".layoutContent", new app.Views.ExportView());
+		app.views.main.render();
+	}
+});
+
+
+
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+			
  return app;
 })(ecoReleveData);

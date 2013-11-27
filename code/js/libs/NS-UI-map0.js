@@ -64,7 +64,7 @@ NS.UI.MapView = Backbone.View.extend({
 				//renderers : ['SVG']
 			}); 
 			// add masked element to store selected elements id
-			$(this.el).append('<input id="updateSelection" type="hidden" value="" />');
+			$(this.el).append('<input id="updateSelection"  type="hidden" value="" />');
 			$(this.el).append('<input id="featuresId"  type="hidden" value="" />');
 			//this.map.featuresId ="";
 			// tables to store latitude and longitudes values for selected points in vector layers
@@ -90,8 +90,6 @@ NS.UI.MapView = Backbone.View.extend({
 		},
 		/******************** Methods *****************************************/
 		addLayer : function(options){
-			
-			this.displayWaitControl();
 			var layerName = options.layerName || "Features";
 			// style
 			// if layer exists, remove it
@@ -101,14 +99,8 @@ NS.UI.MapView = Backbone.View.extend({
 			  'pointRadius': 10,
 			  'externalGraphic': '${thumbnail}'
 			});*/
-			var s = options.style || new OpenLayers.Style({
-			 /* 'pointRadius': 10,
-			  'externalGraphic': '${thumbnail}'*/
-			  pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'
-			});
 			
-			var defaultStyle = s;
-			//var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
+			var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
 			var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
 			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});
 						
@@ -117,8 +109,7 @@ NS.UI.MapView = Backbone.View.extend({
 				projection: 'EPSG:4326'
 			});					
 			// if provided data is a backbone collection
-			// check if we can display popup
-			vector.popup = (options.popup) || (false);
+			
 			if (options.collection){
 				options.collection.each(function(o) {
 					// if station not used, display it
@@ -135,14 +126,13 @@ NS.UI.MapView = Backbone.View.extend({
 						var featureDescription = '<p><b>Station name :' + name + '<br/> Longitude : ' + lon + '<br/> Latitude : ' + lat  + '<br/> id : <span>' + waypointId ; // + '<br/><a href="#stationInfos">Select this point</a>
 						var lonlat = new OpenLayers.LonLat(lon, lat);
 						lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:3857"));
-						var f = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat), {id:waypointId, description:featureDescription}// ,
+						var f = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat), {description:featureDescription}// ,
 						//{externalGraphic: 'img/marker.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
 						);
 						//lastpoint = new OpenLayers.LonLat(lon, lat);
 						vector.styleMap = styleMap;
 						vector.addFeatures(f);
-						//vector.popup = true;
-						//$("#waitControl").remove(); 
+						vector.popup = true;
 					}
 				});
 			}
@@ -160,7 +150,6 @@ NS.UI.MapView = Backbone.View.extend({
 				);
 				vector.styleMap = styleMap;
 				vector.addFeatures(f);
-				$("#waitControl").remove(); 
 			}
 			// if provided data is from a file (kml) or a server  --> a protocol + a strategy
 			if (options.protocol){
@@ -220,8 +209,8 @@ NS.UI.MapView = Backbone.View.extend({
 				}
 				var protocol= new OpenLayers.Protocol.HTTP({
 					url: url,
-					format: dataFormat//,
-					//params : params
+					format: dataFormat,
+					params : params
 				});
 				// zoom modif : reload data if strategy "fixed" is not activated
 				vector.fixedStrategy = true;
@@ -253,10 +242,9 @@ NS.UI.MapView = Backbone.View.extend({
 					var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});*/
 					vector.styleMap = styleMap;
 				}
-				//$("#waitControl").remove(); 
 			}		
 			this.map.addLayer(vector);
-			
+			this.displayWaitControl();
 			if (! options.point){
 				this.map.zoomToExtent(vector.getDataExtent());
 			}
@@ -334,9 +322,7 @@ NS.UI.MapView = Backbone.View.extend({
 							var maxLonWGS = maxPoint.lon;
 
 							var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
-							$("#updateSelection").val(bbox);  
-							$(".updateSelection").val(bbox);  
-							
+							$("#updateSelection").val(bbox);   
 						}
 					}
 				};
@@ -376,7 +362,6 @@ NS.UI.MapView = Backbone.View.extend({
 			  feature.popup = null;*/
 			}
 			function zoomToData(){
-				
 				var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
@@ -384,7 +369,6 @@ NS.UI.MapView = Backbone.View.extend({
 				}
 				this.events.unregister("featuresadded", this, zoomToData);
 				$("#waitControl").remove(); 
-				
 			}
 		
 		},
@@ -443,7 +427,7 @@ NS.UI.MapView = Backbone.View.extend({
 			}
 			vector_layer.refresh({force: true}); 
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
-			//$("#waitControl").remove(); 
+			$("#waitControl").remove(); 
 			function zoomData(){
 				/*var bounds = this.getDataExtent();
 				if(bounds){ 
@@ -643,11 +627,11 @@ function updateBBOX(tabLon, tabLat){
 		);
 		
 		var bbox = ( minLonLat.x - 0.0001) +',' +  ( minLonLat.y - 0.0001) +',' + (maxLonLat.x + 0.0001) +',' + (maxLonLat.y + 0.0001) ;
+		$("#updateSelection").val(bbox).trigger('change');
 	} else {
 		var bbox = "";
+		$("#updateSelection").val(bbox).trigger('change');
 	}
-	$("#updateSelection").val(bbox).trigger('change');
-
 }
 function updateSelectedFeatures(listId){
 	debugger;

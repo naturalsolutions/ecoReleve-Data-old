@@ -2,7 +2,7 @@
 
     .panel .olControlNavigationItemInactive {
         background:url(img/pan.png) no-repeat;
-        opacity: 0.2;
+        opacity: 0.5;
         width: 24px;
         height: 24px;
     }
@@ -15,7 +15,7 @@
     
     .panel .olControlZoomBoxItemInactive {
         background:url(img/zoom-in.png) no-repeat;
-        opacity: 0.2;
+        opacity: 0.5;
         width: 24px;
         height: 24px;
     }

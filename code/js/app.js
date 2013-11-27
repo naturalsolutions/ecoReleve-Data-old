@@ -70,7 +70,7 @@
 			/*app.collections.waypointsList.each(function(element){
 				element.destroy();
 			});*/
-			initalizers.push(app.utils.loadWaypoints("ressources/exemple_wpt.gpx"));
+			//initalizers.push(app.utils.loadWaypoints("ressources/exemple_wpt.gpx"));
 		}
 		// Load stored stations
 		app.collections.stations = new app.Collections.Stations();
@@ -100,7 +100,11 @@
 			app.collections.protocolsList.each(function(protocol) {
 				protocol.schema = protocol.attributes.schema ;
 			});
-
+			// default url server:
+			var actualServerUrl = localStorage.getItem("serverUrl");
+			if ((actualServerUrl ==null)  ||( typeof(actualServerUrl) =="undefined") || (actualServerUrl =="")){
+				localStorage.setItem( "serverUrl","http://ns24422.ovh.net/ecoReleve-core");
+			}
 			/** only mobile version **/
 			if ( (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/Android/i) ) ) {
 				// photo capture

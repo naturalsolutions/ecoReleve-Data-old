@@ -11,7 +11,7 @@ app.utils.loadProtocols = function (url){
             {
 				app.utils.generateProtocolFromXml(xml);
             }, error : function(xml) 
-            { alert ("error in loading file !");}
+            { alert ("error in loading xml file !");}
         });
 }
 app.utils.generateProtocolFromXml  = function (xml){			   
@@ -165,7 +165,7 @@ app.utils.generateProtocolFromXml  = function (xml){
 							app.collections.protocolsList.add(app.models.protocol);	
 							app.models.protocol.save();	
 						}
-						alert ("protocol '" + protName + "' successfully updated.");
+						//alert ("protocol '" + protName + "' successfully updated.");
 						
 					} else {
 						alert("Protocol '" + protName + "' non updated ! check fields list and type.");	
@@ -806,19 +806,19 @@ app.utils.trim = function (myString)
 {
 	return myString.replace(/^\s+/g,'').replace(/\s+$/g,'');
 } 
-app.utils.filldatable = function(params, bbox){
-	//debugger;
+app.utils.filldatable = function(params, paramsMap){
+	//debugger;	
 	$("#allDataInfosPanel").hide();
 	var serverUrl = localStorage.getItem("serverUrl");
-	var cluster = $("#select_cluster option:selected").attr('value');
+	//var cluster = $("#select_cluster option:selected").attr('value');
+	var cluster = $('.cluster:checked').val();
 	var ajaxSource
-	if (bbox){
-		ajaxSource = serverUrl + '/proto/station_get?' + params + '&' + bbox;
+	if (paramsMap){
+		ajaxSource = serverUrl + '/proto/station_get?' + params + '&' + paramsMap;
 	}else{
 		ajaxSource = serverUrl + '/proto/station_get?' + params;
 
 	}
-	
 	$('#allDataBoxList').dataTable( {
 		"bServerSide": true,
 		"bProcessing": true,
@@ -836,11 +836,11 @@ app.utils.filldatable = function(params, bbox){
 		,"fnDrawCallback": fnStyleTable
 	}
 	);
-	/*	app.utils.fnShowHide(0);
+		app.utils.fnShowHide(0);
 		app.utils.fnShowHide(2);
 		app.utils.fnShowHide(4);
 		app.utils.fnShowHide(6);
-		app.utils.fnShowHide(7);*/
+		app.utils.fnShowHide(7);
 }
 fnStyleTable = function(){
 	//console.log( 'DataTables has redrawn the table' );
@@ -902,7 +902,8 @@ app.utils.updateLayer = function(mapView){
 		place:$("#place").attr("value"),
 		region : $("#region").attr("value"),
 		idate : $('#idate').text(),
-		cluster:$("#select_cluster option:selected").attr('value'),
+		//cluster:$("#select_cluster option:selected").attr('value'),
+		cluster : $('.cluster:checked').val(),
 		taxonsearch:$("#iTaxon").attr("value") 
 	};
 	// check if layer exists
@@ -927,6 +928,181 @@ app.utils.updateLayer = function(mapView){
 	}
 	//$("#allDataMapDataInfos").html("");
 }
+app.utils.getThemesList = function(){
+	$('#export-themes').empty();
+	$('<option value=""></option>').appendTo("#export-themes");
+	$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
+	var serverUrl = localStorage.getItem("serverUrl");
+	$.ajax({
+		url: serverUrl + "/views/themes_list",
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var label = data[i].MapSelectionManager.Caption;
+				var value = data[i].MapSelectionManager.TProt_PK_ID;
+				$('<option value=\"'+ value +'\">'+ label + "</option>").appendTo('#export-themes');
+			}
+		},
+		error: function() {
+				alert("error loading themes, please check your webservice");
+		}
+	});
+
+}
+app.utils.getViewsList  = function(id){
+	$('#export-views').empty();
+	if (id!=""){
+		var serverUrl = localStorage.getItem("serverUrl");
+		var viewsUrl = serverUrl + "/views/views_list?id_theme="+ id ;
+		$.ajax({
+			url: viewsUrl,
+			dataType: "json",
+			success: function(data) {
+				debugger;
+				var len = data.length;
+				for (var i=0; i<len; i++){
+					var value = data[i].MapSelectionManager.TSMan_sp_name;
+					var label = data[i].MapSelectionManager.TSMan_Layer_Name;
+					$('<li class="exportViewsList" value=\"'+ value +'\">'+ label + "</li>").appendTo('#export-views');
+				}
+				$('.exportViewsList').css({"display":"inline-block","width":"450px","height": "35px","background": "grey","padding-top": "10px",
+				                          "margin-top": "2px","margin-bottom": "2px","padding-left": "10px","font-size": "18px","color": "white"});
+
+			},error: function() {
+				alert("error loading views, please check your webservice");
+			}
+		});
+	}
+}
+app.utils.generateFilter  = function(viewName){
+	// count nb rows
+	var serverUrl = localStorage.getItem("serverUrl");
+	var viewUrl = serverUrl + "/views/get/" + viewName + "/count" ;
+	$.ajax({
+			url: viewUrl,
+			dataType: "json",
+			success: function(data) {
+				debugger;
+				var count = data[0].count;
+				count += " records";
+				$("#countViewRows").text(count);
+				getFieldsListForSelectedView(viewName);
+			},
+			error: function() {
+				$("#countViewRows").text("error !");
+			}
+	});
+
+}
+
+getFieldsListForSelectedView = function(viewName){
+	var serverUrl = localStorage.getItem("serverUrl");
+	var viewUrl = serverUrl + "/views/detail/" + viewName ;  
+	$.ajax({
+			url: viewUrl,
+			dataType: "json",
+			success: function(data) {
+				var fieldsList = [];
+				app.utils.exportFieldsList = [];
+				for (var prop in data){
+					var optionItem = "<option type='"+ data[prop].type +"'>" + prop + "</option>"
+					//fieldsList.push(field);
+					$("#export-view-fields").append(optionItem);
+					app.utils.exportFieldsList.push(prop);
+				}
+				$("#filter-btn").removeClass("masqued");
+			}
+	});
+
+}
+app.utils.getFiltredResult = function(query, view){
+	$("#filter-query-result").html();
+	$("#filter-query-result").html('<img src="images/ajax-loader-linear.gif" />');
+	var serverUrl = localStorage.getItem("serverUrl");
+	var viewUrl = serverUrl + "/views/get/" + view + "/count?filters=" + query ;
+	$.ajax({
+			url: viewUrl,
+			dataType: "json",
+			success: function(data) {
+				var count = data[0].count;
+				$("#filter-query-result").html(' <br/><h4 class="blackText">filtred count : ' + count + '</h4>');
+			},
+			error : function(){
+				$("#filter-query-result").html(' <h4>error</h4>');
+			}
+	});
+
+}
+app.utils.getResultForGeoFilter= function(query, view){
+	$("#geo-query-result").html();
+	$("#geo-query-result").html('<img src="images/ajax-loader-linear.gif" />');
+	var serverUrl = localStorage.getItem("serverUrl");
+	var viewUrl = serverUrl + "/views/get/" + view + "/count?" + query ;
+	$.ajax({
+		url: viewUrl,
+		dataType: "json",
+		success: function(data) {
+			var count = data[0].count;
+			$("#geo-query-result").html(' <br/><h4 class="blackText">filtred count : ' + count + '</h4>');
+		},
+		error : function(){
+			$("#geo-query-result").html(' <h4>error</h4>');
+		}
+
+	});
+
+}
+app.utils.getExportList = function(view, filter, bbox, BBview){
+	var serverUrl = localStorage.getItem("serverUrl");
+	var displayedColumns = app.utils.exportSelectedFieldsList;
+	var columnsParam = "";
+	var ln = displayedColumns.length;
+	for (var i=0; i< ln;i++){
+		columnsParam += displayedColumns[i] + "," ;
+	}
+	// remove last caracter ","
+	columnsParam = columnsParam.substring(0, ln-1);
+	var ajaxSource = serverUrl +  "/views/get/" + view + "?filters=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns ; 
+	var url = ajaxSource;
+	BBview.url = ajaxSource;
+	ajaxSource = ajaxSource + "&format=datatablejs" ;
+	$('#exportResultList').dataTable( {
+		"bServerSide": true,
+		"bProcessing": true,
+		"bDestroy" : true,
+		"iDisplayLength": 10,
+		"fnServerData": function ( sSource, aoData, fnCallback ) {
+			/* Add some extra data to the sender */
+			//aoData.push( { "name": "more_data", "value": "my_value" } );
+			$.getJSON( sSource, aoData, function (json) { 
+				
+				fnCallback(json);
+			} );
+		},
+		"sAjaxSource": ajaxSource
+		,"fnDrawCallback": fnStyleTable
+	}
+	);
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function() {
+			//app.router.navigate(fileUrl, {trigger: true});
+			$("#export-getGpx").removeAttr("disabled");
+			$("#spanGeneratingGpx").html("");
+		},
+		error : function(){
+			//alert("error in gpx generation");
+		}
+	});
+		/*app.utils.fnShowHide(0);
+		app.utils.fnShowHide(2);
+		app.utils.fnShowHide(4);
+		app.utils.fnShowHide(6);
+		app.utils.fnShowHide(7);*/
+}
+
 /*
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

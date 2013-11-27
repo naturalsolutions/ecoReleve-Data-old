@@ -360,6 +360,8 @@ display: block;}
 	/*width:280px;*/
 	position : fixed;
 	left:0px;
+	z-index : 5000;
+	margin-top : 4px;
 }
 /* view allaData btn group criterias 
 .allData-btn-group {
@@ -369,10 +371,14 @@ button.allData-criteriaBtn{
 	padding: 5px;
 	font-size: 12px;
 }
-#searchBtn>img{
+#searchBtn{
 	border-style:solid;
 	border-width:1px;
 	border-color: black;
+}
+#searchBtn>img{
+	/*display: block;*/
+	margin: 0 auto; 
 }
 #allData-searchId {
 	margin: 0;
@@ -426,7 +432,7 @@ line-height: 30px;
 	*/
 	display : none;
 	background-color : black;
-	z-index: 1000;
+	z-index: 10000;
 	opacity:0.82;
 	position : fixed;
 	width : 220px;
@@ -467,6 +473,77 @@ text-transform: lowercase;
 div.olControlMousePosition {
 	color: black;
 }
+div.olControlZoom a {
+	height: 33px;
+	width: 33px;
+}
+.navbar-fixed-top, .navbar-fixed-bottom {
+	position : fixed;
+}
+/* export view */
+#export-filter-header{
+	background: grey;
+	margin-bottom: 10px;
+	padding-left: 5px;
+	color: white;
+}
+#export-field-select-btn {
+	margin-left: 10px;
+	margin-top: -10px;
+	height: 42px;
+	width: 50px;
+}
+#filter-query-btn, #geo-query-btn {
+	height: 42px;
+	width: 120px;
+
+}
+div.filterElement{
+	margin-bottom: 2px;
+	padding-top: 5px;
+}
+.filter-select-operator {
+	display: inline-block;
+	width: 75px;
+	height: 35px;
+}
+.blackText {
+	color:black;
+}
+.modal-header {
+	background: red;
+}
+.modal-body {
+	background: white;
+	color:black;
+}
+.modal-content {
+	margin:3%;
+}
+#mapView {
+	width: 600px;
+	height:600px;
+}
+#exportResultList {
+	float: left;
+	margin-left: 5%;
+}
+#exportResultList_length, #exportResultList_filter {
+	display: none;
+}
+
+
+
+/*.modal-content {
+	margin: 3%;
+}*/
+
+@media screen and (max-width: 1280px) {
+.tilesGrid{
+	max-width: 550px;
+	}
+}
+
 @media screen and (max-width: 640px) {
 	
 }

@@ -21,7 +21,9 @@
 		"configProtos" : "configProtos",
 		"dataEdit/:id" : "dataEdit",
 		"indiv" : "indiv",
-		"allData" : "allData"
+		"allData" : "allData",
+		"export": "export",
+		"exportFilter" : "exportFilter"
 		
 	},
 	initialize: function(options){
@@ -522,6 +524,28 @@
 			$("#configInfos").text("");
 			app.router.navigate('#config', {trigger: true});
 		}
+	},
+	export : function(){
+		if (navigator.onLine == true){
+			app.views.main = new Backbone.Layout({
+				template: "#main-layout"
+			});
+			$("#content").empty().append(app.views.main.el);
+			app.views.main.setView(".layoutContent", new app.Views.ExportView());
+			app.views.main.render();
+			$('body').css({'background-image':''});
+		} else {
+			alert("you are not connected ! Please check your connexion ");
+			app.router.navigate('#', {trigger: true});
+		}
+	
+	},
+	exportFilter : function(name){
+		$("#content").empty().append(app.views.main.el);
+		app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: name}));
+		app.views.main.render();
+		$('body').css({'background-image':''});
+	
 	}
 	
  });

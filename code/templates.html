@@ -35,6 +35,21 @@
 		<div class="row-fluid">
 			<div class="span6 tilesGrid" >
 				<ul class="thumbnails">
+					<li class="span3 tile tile-red icon">
+						<a href="#export" >
+							<img src="images/upload.png">
+							<h2>Export</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-yellow icon">
+						<a href="#mydata" >
+							<img src="images/my-data2.png">
+							<h2>My data</h2>
+						</a>
+					</li>
+				</ul>
+				<!--
+				<ul class="thumbnails">
 					<li class="span3 tile tile-orange icon">
 						<a href="#indiv" >
 							<img src="images/birds.png">
@@ -48,6 +63,7 @@
 						</a>
 					</li>
 				</ul>
+				-->
 				<ul class="thumbnails">
 					<li class="span3 tile  tile-green icon">  <!--  tile-double  -->
 						<a href="#entryStation" >
@@ -55,7 +71,7 @@
 							<h2>New data</h2>
 						</a>
 					</li>
-					<li class="span3 tile tile-red icon">
+					<li class="span3 tile tile-orange icon">
 						<a id="alldata" >
 							<img src="images/all-data.png">
 							<h2>All data</h2>
@@ -69,7 +85,7 @@
 					<li class="span3 tile tile-orange icon">
 							<a href="#updateData" >
 								<img src="images/download.png">
-								<h2>Update</h2>
+								<h2>Import</h2>
 							</a>
 					</li>
 					<li class="span3 tile tile-red icon">
@@ -518,7 +534,7 @@
                 </a><a class="back-button" href="#"></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li><a>Update data</a> </li>                      
+                        <li><a>Import data</a> </li>                      
                     </ul>
                 </div>
             </div>
@@ -536,7 +552,7 @@
 							<a href="#" >
 								<img src="images/birds.png">
 								<span class="alignLeft">birds</span>
-								<span class="alignRight" id="birdsImportDate">last update:</span>
+								<span class="alignRight" id="birdsImportDate">last import:</span>
 							</a>
 						</li>
 						<li class="span3 tile tile-double tile-orange icon textLeft ">
@@ -736,7 +752,6 @@
 			<div class="selectFields"></div>
 		</div>
 	</div>
-	
 </script>
 <!-- layout "all data  -->
 <script type="layout" id="allData-layout">
@@ -807,7 +822,7 @@
 		</fieldset>
 		<fieldset>
 			<legend class="critLegend">search</legend>
-			<ul id="allData-searchId"><li><a id="searchBtn"><img src="images/Find-Replace.png" style="height:60px; width:100px;"/></a></li></ul> 
+			<ul id="allData-searchId"><li id="searchBtn"><a ><img src="images/Find-Replace.png" style="height:60px; width:60px;align-left:60px"/></a></li></ul> 
 			
 		</fieldset>
 		<br/>	
@@ -816,17 +831,19 @@
 		<div id="allDataMap">
 			<div id="allDataCluster">
 				cluster : 
-				<select id="select_cluster">
+				<!--<select id="select_cluster">
 					<option value="yes">yes</option>
 					<option value="no">no</option>
-				</select>
+				</select>  -->
+				<input type="radio" name="cluster" class="cluster" value="yes" checked> yes&nbsp;
+				<input type="radio" name="cluster" class="cluster" value="no"> no <br/>
 			</div>
-			<div style="width:700px; height:650px" id="map"></div>
+			<div style="width:700px; height:730px" id="map"></div>
 			<div id="allDataMapDataInfos"></div>
 		</div>
 		<div  id="allDataList">
 			<br/><br/>
-			<a class="btn" id="refreshTable">Refresh table</a><br/>
+			<a class="btn" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>
 			<br/>
 			<table id='allDataBoxList' class='display' >
 			  <thead>
@@ -848,3 +865,167 @@
 
 	</div>
 </script>	
+<script type="text/template" id="export-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">select data view</h3>
+    </div>
+    <div class="modal-body">
+		<form>
+			<label for="male">theme</label>
+			<select id="export-themes">
+			  <option value=""> </option>
+			</select> 
+			<label for="male">views</label>
+		</form>
+		<ul class="unstyled" id="export-views">
+		</ul>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn">Close</a>
+    <!--  <a href="#" class="btn btn-danger">next &gt;</a>-->
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-filter-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<div class="span4">
+				<h3 class="modal-title">add filter</h3>
+			</div>
+			<div class="span8"><span>selected view :</span><span id="filterViewName"></span></div>
+		</div>
+    </div>
+    <div class="modal-body">
+		<div id="export-filter-result">
+			<h4 class="blackText">initial count : <span id="countViewRows"><img src="images/ajax-loader-linear.gif" /></span></h4>
+			<div id="export-filter-content"></div>
+		</div>
+		<div id="filter-btn" class="masqued"><a class="btn" id="export-add-filter"> add criterias <i class="icon-plus"></i></a></div>
+		<div id="export-field-selection" class="masqued">
+			<label for="male">select a field and add a criteria</label>
+			<select id="export-view-fields">
+			</select> 
+			<button id="export-field-select-btn"> Ok </button>
+		</div>
+		<div id="export-filter-list" class="masqued">
+			<div class ="row-fluid" id="export-filter-header">
+				<div class="span4">field</div>
+				<div class="span2">operator</div>
+				<div class="span5">value</div>
+				<div class="span1"></div>
+			</div>
+		</div>
+		<div id="filter-query" class="masqued" ><button id="filter-query-btn">check result</button><span id="filter-query-result" ></span></div>
+    </div>
+    <div class="modal-footer">
+		<a href="#export" class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn btn-danger" id="exportMap">next &gt;</a>
+		<input id="filterForView"  type="hidden" value="" />
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-map-template">
+	<div class="modal-dialog">
+  <div class="modal-content" id="mapView">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">select a geographic extent</h3>
+    </div>
+    <div class="modal-body">
+		<div id="map"></div>
+		<input  class="updateSelection" type="hidden" value="" />
+		<div id="bbox">longitude min : <span id="minLon"></span>, latitude min : <span id="minLat"></span><br/>longitude max : <span id="maxLon"></span>, latitude max : <span id="maxLat"></span><br/></div>
+		<div id="geo-query"><button id="geo-query-btn">check result</button><span id="geo-query-result" ></span></div>
+	
+    </div>
+    <div class="modal-footer">
+      <a class="btn" id="export-back-filter">&lt; previous</a>
+	  <a class="btn" id="export-first-step">first step</a>
+      <a class="btn btn-danger" id="export-result">next &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-coldisplay-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<h3 class="modal-title">Select columns to display</h3>
+		</div>
+    </div>
+    <div class="modal-body">
+		<p> default selected fields: LAT, LON, DATE, (Station or Site_name)</p>
+		<div id="formcolumns">
+			
+		</div>
+    </div>
+    <div class="modal-footer">
+		<a  class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn" id="export-first-step">first step</a>
+		<a class="btn btn-danger" id="exportResult">next &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-result-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<div class="span4">
+				<h3 class="modal-title">result</h3>
+			</div>
+		</div>
+    </div>
+    <div class="modal-body">
+		<div>
+			<table id='exportResultList' class='display' >
+			  <thead>
+				<tr id='exportResultList-head'>
+				  <!-- <th> id </th>  -->
+				</tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table><br/><br/>
+		</div>
+    </div>
+    <div class="modal-footer">
+		<span id="spanGeneratingGpx">waiting for generating gpx file ...<img src="images/ajax-loader-linear.gif"/></span>
+		<a  class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn" id="export-first-step" >first step</a>
+		<a class="btn btn-danger" id="exportDataMap" > data on map </a>  <!--id="exportDataMap"-->
+		<a  class="btn btn-danger" disabled id="export-getGpx" href="http://ns24422.ovh.net/ecoReleve-core/gps/data.gpx">get gpx file</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-data-on-map-template">
+	<div class="modal-dialog">
+  <div class="modal-content" id="mapView">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">selected data on map</h3>
+    </div>
+    <div class="modal-body">
+		<div id="map"></div>
+    </div>
+    <div class="modal-footer">
+     <!-- <a class="btn" id="export-back-grid">&lt; previous</a> -->
+	  <a class="btn" id="export-first-step">first step</a>
+	   <a class="btn btn-danger" href="#">close</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
