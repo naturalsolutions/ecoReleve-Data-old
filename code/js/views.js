@@ -1354,7 +1354,7 @@ app.Views.AllData = Backbone.View.extend({
 
 	},events : {
 		'change #select_id_proto' : 'updateTable',
-		'change input.cluster' : 'search',
+		'change input.cluster' : 'updateMap',
 		'click #btnY-1' :'updateDate1an',
 		'click #btnReset' : 'resetdate',
 		'click #btnY-2' : 'updateDate2ans',
@@ -1424,6 +1424,9 @@ app.Views.AllData = Backbone.View.extend({
 		var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
 		app.utils.filldatable(params);
 		
+	},
+	updateMap : function(){
+		app.utils.updateLayer(this.map_view);
 	},
 	updateZoom : function(){ 
 		app.utils.updateLayer(this.map_view);

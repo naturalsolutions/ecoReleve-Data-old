@@ -166,7 +166,7 @@ NS.UI.MapView = Backbone.View.extend({
 			if (options.protocol){
 				var url = options.protocol.attributes.url;
 				var format = options.protocol.attributes.format;
-				var params = options.protocol.attributes.params;
+				var params = options.protocol.attributes.params || "";
 				var strategies = options.protocol.attributes.strategies; 
 				var layerStrategies = new Array();
 				var dataFormat;
@@ -220,8 +220,8 @@ NS.UI.MapView = Backbone.View.extend({
 				}
 				var protocol= new OpenLayers.Protocol.HTTP({
 					url: url,
-					format: dataFormat//,
-					//params : params
+					format: dataFormat,
+					params : params
 				});
 				// zoom modif : reload data if strategy "fixed" is not activated
 				vector.fixedStrategy = true;

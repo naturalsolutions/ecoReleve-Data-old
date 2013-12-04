@@ -918,7 +918,7 @@ app.utils.updateLayer = function(mapView){
 	}
 	if (!exists){
 		var serverUrl = localStorage.getItem("serverUrl");
-		var url = serverUrl + "/carto/station_get?";
+		var url = serverUrl + "/proto/station_get?format=geojson";
 		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
 		mapView.addLayer({protocol : protocol , layerName : "Observations", });
 	} 
