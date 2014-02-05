@@ -126,7 +126,7 @@ textarea {
   * {
     text-shadow: none !important;
     color: #000 !important;
-    background: transparent !important;
+  /*  background: transparent !important;*/
     box-shadow: none !important;
   }
   a,
@@ -156,9 +156,9 @@ textarea {
   img {
     page-break-inside: avoid;
   }
-  img {
+ /* img {
     max-width: 100% !important;
-  }
+  }*/
   @page  {
     margin: 0.5cm;
   }
@@ -173,6 +173,7 @@ textarea {
     page-break-after: avoid;
   }
 }
+
 .clearfix {
   *zoom: 1;
 }
@@ -1894,7 +1895,7 @@ table th[class*="span"],
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url("../../../img/glyphicons-halflings.png");
+  background-image: url("../../img/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -6181,6 +6182,9 @@ li {
 }
 .thumbnails > li.tile.tile-teal {
   background-color: #00aba9;
+}
+.thumbnails > li.tile.tile-grey {
+  background-color: #D2D2D2;
 }
 .navbar-inner {
   -webkit-box-shadow: none;

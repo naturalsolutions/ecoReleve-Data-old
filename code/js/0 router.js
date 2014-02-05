@@ -23,17 +23,7 @@
 		"indiv" : "indiv",
 		"allData" : "allData",
 		"export": "export",
-		"export/:view": "exportFilter",
-		"export/:view/filter" :"exportMap",
-		//"export/:view/:filter":"exportMap",
-		"export/:view/":"exportMap",
-		"export/:view/fields" :"exportFields",
-		"export/:view/result" : "exportResult",
-		"export/:view/ResultOnMapView" : "ResultOnMapView",
-		"import" :"import",
-		"import-load" : "importLoad",
-		"import-map" : "importMap"
-		//"exportFilter" : "exportFilter"
+		"exportFilter" : "exportFilter"
 		
 	},
 	_currentView: null,
@@ -44,7 +34,7 @@
                 this._currentView.off();
             }
             this._currentView = view;
-            $('section#main').append(view.el);
+            $('#main').append(view.el);
             view.render();
     },
 	home: function(){
@@ -89,7 +79,6 @@
 	},
 	stationType : function(){
 		// set users list
-		/*
 		app.global.usersTab = new Array();
 		app.collections.users.each(function(user){
 			var userName = user.get('name');
@@ -103,21 +92,17 @@
 		app.views.main.setView(".layoutContent", new app.Views.StationTypeView());
 		app.views.main.render();
 		$('body').css({'background-image':''});
-		*/
-		this.setView(new app.views.StationTypeView());
 	},
 	entryStation: function(){
-		this.setView(new app.views.StationPositionView());
-		
 		//try {
-		/*$('body').css({'background-image':''});	
+		$('body').css({'background-image':''});	
 		app.views.main = new Backbone.Layout({
 			template: "#main-layout"
 		});
 		$("#content").empty().append(app.views.main.el);
-		app.views.main.setView(".layoutContent", new app.Views.StationPositionView());*/
+		app.views.main.setView(".layoutContent", new app.Views.StationPositionView());
 		
-		/*
+		
 		app.models.location = new app.Models.Location();
 		app.models.location.id ="1";
 		app.models.location.constructor.schema = app.models.location.schema;	
@@ -131,7 +116,7 @@
 			var myposition = new NS.UI.Point({ latitude : app.point.latitude, longitude: app.point.longitude, label:"my position"});
 			map_view.addLayer({point : myposition , layerName : "my position"});
 			$("#waitControl").remove(); 
-		});*/
+		});
 	},
 	stationFromGpx : function(){
 		// check if the is stored waypoints
@@ -283,7 +268,7 @@
 		
 	},
 	mapMyPosition : function(){
-	/*	$('body').css({'background-image':''});
+		$('body').css({'background-image':''});
 		app.views.main.setView(".layoutContent", new app.Views.MapStationsView());
 		app.views.main.render();
 		$('div#content').css({'background-image':''});
@@ -292,7 +277,7 @@
 		var mapCenter = new NS.UI.Point({ latitude : 43.29, longitude: 5.37});
 		var mapZoom = 12;
 		var map_view = new NS.UI.MapView({ el: $("#map"), center: mapCenter, zoom: mapZoom});
-		map_view.addLayer({point : myposition , layerName : "bureau"});    */
+		map_view.addLayer({point : myposition , layerName : "bureau"});
 	},
 	mydata : function(){
 		//try {
@@ -540,7 +525,17 @@
 				app.router.navigate('#config', {trigger: true});
 				$("#configInfos").text("");
 			} else {
-				this.setView(new app.views.AllDataView());
+				$('body').css({'background-image':''});
+				var myLayout= new Backbone.Layout({
+				template: "#allData-layout"
+				});
+				$("#content").empty().append(myLayout.el);
+				//var tplAllData = _.template($('#allData-template').html());
+				var tplAllData = _.template($('#allData-temp').html());
+				myLayout.setView("#myDataTable", new app.Views.AllData({template:tplAllData}));
+				myLayout.render(); 
+				// modify div alignement
+				$("div.container").css({"left":"0px"});
 			}
 		} else {
 			alert("you are not connected ! Please check your connexion ");
@@ -550,7 +545,6 @@
 	},
 	export : function(){
 		if (navigator.onLine == true){
-			/*
 			app.views.main = new Backbone.Layout({
 				template: "#main-layout"
 			});
@@ -558,8 +552,6 @@
 			app.views.main.setView(".layoutContent", new app.Views.ExportView());
 			app.views.main.render();
 			$('body').css({'background-image':''});
-			*/
-			this.setView(new app.views.ExportView());
 		} else {
 			alert("you are not connected ! Please check your connexion ");
 			app.router.navigate('#', {trigger: true});
@@ -567,37 +559,15 @@
 	
 	},
 	exportFilter : function(name){
-		this.setView(new app.views.ExportFilterView({viewName: name}));
-		/*
 		$("#content").empty().append(app.views.main.el);
 		app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: name}));
 		app.views.main.render();
 		$('body').css({'background-image':''});
-		*/
-	},
-	exportMap : function(view,filter){
-		this.setView(new app.views.ExportMapView({view: view ,filter:filter}));
-	},
-	exportFields : function(view){
-		this.setView(new app.views.ExportColumnsSelection({view: view}));
-	},
-	exportResult : function(view){
-		this.setView(new app.views.ExportResult({view: view}));
-	},
-	ResultOnMapView : function(view){
-		this.setView(new app.views.ExportResultOnMapView({view: view}));
-	},
-	import : function(){
-		this.setView(new app.views.Import());
-	},
-	importLoad: function(){
-		this.setView(new app.views.ImportLoad());
-	},
-	importMap : function(){
-		this.setView(new app.views.ImportMap());
+	
 	}
+	
  });
 
- app.router = new app.Router();
+
  return app;
 })(ecoReleveData);

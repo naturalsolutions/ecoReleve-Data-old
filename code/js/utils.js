@@ -1,4 +1,4 @@
-﻿var ecoReleveData = (function(app) {
+var ecoReleveData = (function(app) {
     //"use strict";
 
 /*********************************************  Protocols  ************************************************/
@@ -284,50 +284,59 @@ app.utils.loadWaypoints = function (url){
 }
 app.utils.loadWaypointsFromFile = function (xml){
 	// test if collection of waypoints exists and clean it
-	var exists = localStorage.getItem("xmlWaypointsIsloaded");
-	if ( exists != "true"){
-		app.collections.waypointsList = new app.Collections.Waypoints(); 
-	}
-	var len = app.collections.waypointsList.length;
-	if (len > 0 ) {
-		app.utils.clearCollection(app.collections.waypointsList); 
-	}
-	// id waypoint
-	var id = 0;
-   $(xml).find('wpt').each(   
-	function()
-	{
-		// créer le modèle protocol
-		app.models.waypoint = new app.Models.Waypoint();
-		var latitude = $(this).attr('lat');
-		var longitude = $(this).attr('lon');
-		var waypointName = $(this).find('name').text();
-		var waypointTime = $(this).find('time').text();
-		
-		// renseigner les métadonnées du modèle
-		id += 1;
-		var idwpt = "wpt" + id;
-		app.models.waypoint.set("id", idwpt);
-		app.models.waypoint.set("name", waypointName);
-		app.models.waypoint.set("latitude", latitude);
-		app.models.waypoint.set("longitude", longitude);
-		app.models.waypoint.set("waypointTime", waypointTime);
-		app.models.waypoint.set("used", false);
-		app.collections.waypointsList.add(app.models.waypoint);
-		// save the collection of protocols in the localstorage
-		app.models.waypoint.save();	
+	try {
+		/*var exists = localStorage.getItem("xmlWaypointsIsloaded");
+		if ( exists != "true"){*/
+			app.collections.waypointsList = new app.collections.Waypoints(); 
+		/*}
+		var len = app.collections.waypointsList.length;
+		if (len > 0 ) {
+			app.utils.clearCollection(app.collections.waypointsList); 
+		}*/
+		// id waypoint
+		var id = 0;
+		$("#spanGeneratingGpx").removeClass("masqued");
+	   $(xml).find('wpt').each(   
+		function()
+		{
+			// créer le modèle protocol
+			app.models.waypoint = new app.models.Waypoint();
+			var latitude = $(this).attr('lat');
+			var longitude = $(this).attr('lon');
+			var waypointName = $(this).find('name').text();
+			var waypointTime = $(this).find('time').text();
+			
+			// renseigner les métadonnées du modèle
+			id += 1;
+			var idwpt = "wpt" + id;
+			app.models.waypoint.set("id", idwpt);
+			app.models.waypoint.set("name", waypointName);
+			app.models.waypoint.set("latitude", latitude);
+			app.models.waypoint.set("longitude", longitude);
+			app.models.waypoint.set("waypointTime", waypointTime);
+			//app.models.waypoint.set("used", false);
+			app.collections.waypointsList.add(app.models.waypoint);
+			// save the collection of protocols in the localstorage
+			//app.models.waypoint.save();	
 
-	}); 
-	if (id!=0){
-		localStorage.setItem("xmlWaypointsIsloaded","true");
-		// update tile displayed date
-		var d = new Date();  
-		var newDate = d.defaultView();
-		localStorage.setItem("gpxLastImportDate",newDate);
-		alert("Gpx file is successfully loaded! You have " + id + " waypoints");
-	} else {
-		alert("Please check gpx file structure. There is not stored waypoints !");
-	
+		}); 
+		if (id!=0){
+			//localStorage.setItem("xmlWaypointsIsloaded","true");
+			// update tile displayed date
+			var d = new Date();  
+			var newDate = d.defaultView();
+			localStorage.setItem("gpxLastImportDate",newDate);
+			$("#spanGeneratingGpx").html("Gpx file is successfully loaded! You have " + id + " waypoints &nbsp;&nbsp;");
+			$("#importLoadNext").removeAttr("disabled");
+		} else {
+			$("#spanGeneratingGpx").html("");
+			alert("Please check gpx file structure. There is not stored waypoints !");
+		
+		}
+	}
+	catch (e) {
+		localStorage.setItem("xmlWaypointsIsloaded", "false");
+		alert ("error loading gpx file");
 	}
 }
 function generateListField(node, callback){				 
@@ -508,10 +517,7 @@ app.utils.addTracks = function (urlFile, layerName){
 	app.global.traksLoaded = true ;	
 	$("#waitLoadingTracks").html(" <img src='images/loader.gif'/>");
 	$('a#displayTracks').text('Hide tracks');
-	setTimeout(hideWaitLoadingTrack, 5000);
-
-
-	
+	setTimeout(hideWaitLoadingTrack, 5000);	
 }
 function hideWaitLoadingTrack(){
 	$("#waitLoadingTracks").html("");
@@ -814,33 +820,71 @@ app.utils.filldatable = function(params, paramsMap){
 	var cluster = $('.cluster:checked').val();
 	var ajaxSource
 	if (paramsMap){
-		ajaxSource = serverUrl + '/proto/station_get?' + params + '&' + paramsMap;
+		ajaxSource = serverUrl + '/station/get?' + params + '&' + paramsMap;
 	}else{
-		ajaxSource = serverUrl + '/proto/station_get?' + params;
+		ajaxSource = serverUrl + '/station/get?' + params;
+	}
+	
+	app.utils.getDataForGrid(ajaxSource,function(collection){
+		var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,ajaxSource, [2,6,7,8]);
+	});
 
-	}
-	$('#allDataBoxList').dataTable( {
-		"bServerSide": true,
-		"bProcessing": true,
-		"bDestroy" : true,
-		"iDisplayLength": 10,
-		"fnServerData": function ( sSource, aoData, fnCallback ) {
-			/* Add some extra data to the sender */
-			aoData.push( { "name": "more_data", "value": "my_value" } );
-			$.getJSON( sSource, aoData, function (json) { 
+	/*
+	app.xhr = "";
+	app.xhr = $.ajax({
+		url: ajaxSource,
+		dataType: "json",
+		success: function(data) {
+			// create schema model and dynamic fields for the grid
+			var rowsNumber = data.count;
+			var dataValues = data.values;
+			var firstRow = dataValues[0];
+			var listColumns = [];
+			var schema = {};
+			for (key in firstRow){
+				var colName = key;
+				schema[colName] =  {'title': colName, type: 'Text', sortable: true};
+			}
+
+			  app.models.ExportGridModel = Backbone.Model.extend({
+					}, {
+						// Declare schema and verbose name at model level
+						schema: schema,
+						verboseName: 'Data'
+				});
 				
-				fnCallback(json);
-			} );
+				app.collections.AllDataCollection = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+				app.collections.VisibleListInGrid = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+
+				 var gridCollection = new app.collections.AllDataCollection();
+
+			var ln = dataValues.length;
+			for (var i=0;i<ln;i++){
+				rowValue = dataValues[i];
+				var gridModel = new app.models.ExportGridModel();
+				for(key in rowValue){
+				  	var colName = key;
+				  	var colValue = rowValue[key];
+				  	gridModel.set(colName,colValue);		
+			    }
+				//listColumns
+				gridCollection.add(gridModel);
+			}
+
+			app.utils.initGridServer(gridCollection, rowsNumber,ajaxSource);
+
 		},
-		"sAjaxSource": ajaxSource
-		,"fnDrawCallback": fnStyleTable
-	}
-	);
-		app.utils.fnShowHide(0);
-		app.utils.fnShowHide(2);
-		app.utils.fnShowHide(4);
-		app.utils.fnShowHide(6);
-		app.utils.fnShowHide(7);
+		error : function(){
+		}
+	});
+
+	*/
+
 }
 fnStyleTable = function(){
 	//console.log( 'DataTables has redrawn the table' );
@@ -856,6 +900,7 @@ fnStyleTable = function(){
 	$("#allDataBoxList").css("style", "width: 450px;");
 	 
 }*/
+
 app.utils.fnShowHide  = function(iCol){
 	/* Get the DataTables object again - this is not a recreation, just a get of the object */
 	var oTable = $('#allDataBoxList').dataTable();
@@ -870,17 +915,17 @@ app.utils.fillTaxaList = function(){
 		url: serverUrl + "/proto/proto_taxon_get?id_proto="+$("#id_proto").attr("value")+"&search="+$("#iTaxon").attr("value"),
 		dataType: "text",
 		success: function(xmlresp) {
-				var xmlDoc=$.parseXML(xmlresp),
-				$xml=$(xmlDoc),
-				$taxons=$xml.find("taxon");
-				$taxons.each(function(){
-					$('<option value=\"'+$(this).text()+'\">').appendTo('#lTaxon');
-				});
-				$taxons=$xml.find("taxons");
-				if($taxons.attr('havetaxon')=="yes")
-					$("#iTaxon").removeAttr("disabled");
-				else
-					$("#iTaxon").attr("disabled","disabled");
+			var xmlDoc=$.parseXML(xmlresp),
+			$xml=$(xmlDoc),
+			$taxons=$xml.find("taxon");
+			$taxons.each(function(){
+				$('<option value=\"'+$(this).text()+'\">').appendTo('#lTaxon');
+			});
+			$taxons=$xml.find("taxons");
+			if($taxons.attr('havetaxon')=="yes")
+				$("#iTaxon").removeAttr("disabled");
+			else
+				$("#iTaxon").attr("disabled","disabled");
 		}
 	});
 }
@@ -904,8 +949,16 @@ app.utils.updateLayer = function(mapView){
 		idate : $('#idate').text(),
 		//cluster:$("#select_cluster option:selected").attr('value'),
 		cluster : $('.cluster:checked').val(),
-		taxonsearch:$("#iTaxon").attr("value") 
+		taxonsearch:$("#iTaxon").attr("value")
 	};
+
+	/*var id_proto = $("#id_proto").attr("value");
+	var	place = $("#place").attr("value");
+	var	region = $("#region").attr("value");
+	var	idate = $('#idate').text();
+	var	cluster = $('.cluster:checked').val();
+	var	taxonsearch = $("#iTaxon").attr("value");*/
+
 	// check if layer exists
 	var exists = false;
 
@@ -919,19 +972,55 @@ app.utils.updateLayer = function(mapView){
 	if (!exists){
 		var serverUrl = localStorage.getItem("serverUrl");
 		var url = serverUrl + "/proto/station_get?format=geojson";
+		//  ajax call to get features
+		/*
+		$.ajax({
+			url: url,
+			dataType: "json",
+			data : 'id_proto='+ id_proto +'&place='+ place + '&region=' + region + '&idate=' + idate + '&cluster=' + cluster + '&taxonsearch=' + taxonsearch ,
+			xhrFields: {
+			 withCredentials: true
+			},
+			success: function(data) {
+				var featuresDetails = data;
+				var featuresList = featuresDetails.features;
+				var len = featuresList.length;
+				if ( len > 0 )
+				{
+					var listStations = new NS.UI.PointsList();
+				
+					for(var i=0; i<len;i++){
+						var lat = featuresList[i].geometry.coordinates[1];
+						var lon = featuresList[i].geometry.coordinates[0];
+						var id = featuresList[i].properties.id ; 
+						var year = featuresList[i].properties.year ; 
+						console.log ("lat :" + lat +" lon : " + lon);
+						var  point = new NS.UI.Point({ latitude : lat, longitude: lon, label:"", id:id , year:year, popup:true});
+						listStations.add(point);
+					}
+					mapView.addLayer({collection : listStations , layerName : "observations", popup : false, cluster : cluster  });  //,style:style 
+					//var wsTableUrl =  url + "?id_taxon=" + idTaxa;
+				}
+			}, error  : function(data) {
+
+			}
+	    });
+		*/
+
+
 		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
-		mapView.addLayer({protocol : protocol , layerName : "Observations", });
+		mapView.addLayer({protocol : protocol , layerName : "Observations", }); 
 	} 
 	else {
 		// update layer
 		mapView.updateLayer("Observations", params);
 	}
-	//$("#allDataMapDataInfos").html("");
+	$("#allDataMapDataInfos").html("");
 }
 app.utils.getThemesList = function(){
 	$('#export-themes').empty();
 	$('<option value=""></option>').appendTo("#export-themes");
-	$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
+	//$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
 	var serverUrl = localStorage.getItem("serverUrl");
 	$.ajax({
 		url: serverUrl + "/views/themes_list",
@@ -945,7 +1034,7 @@ app.utils.getThemesList = function(){
 			}
 		},
 		error: function() {
-				alert("error loading themes, please check your webservice");
+			alert("error loading themes, please check your webservice");
 		}
 	});
 
@@ -959,7 +1048,6 @@ app.utils.getViewsList  = function(id){
 			url: viewsUrl,
 			dataType: "json",
 			success: function(data) {
-				debugger;
 				var len = data.length;
 				for (var i=0; i<len; i++){
 					var value = data[i].MapSelectionManager.TSMan_sp_name;
@@ -983,11 +1071,10 @@ app.utils.generateFilter  = function(viewName){
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
-				debugger;
 				var count = data[0].count;
 				count += " records";
 				$("#countViewRows").text(count);
-				getFieldsListForSelectedView(viewName);
+				getFieldsListForwView(viewName);
 			},
 			error: function() {
 				$("#countViewRows").text("error !");
@@ -995,7 +1082,6 @@ app.utils.generateFilter  = function(viewName){
 	});
 
 }
-
 getFieldsListForSelectedView = function(viewName){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var viewUrl = serverUrl + "/views/detail/" + viewName ;  
@@ -1020,13 +1106,13 @@ app.utils.getFiltredResult = function(query, view){
 	$("#filter-query-result").html();
 	$("#filter-query-result").html('<img src="images/ajax-loader-linear.gif" />');
 	var serverUrl = localStorage.getItem("serverUrl");
-	var viewUrl = serverUrl + "/views/get/" + view + "/count?filters=" + query ;
+	var viewUrl = serverUrl + "/views/get/" + view + "/count?filter=" + query ;
 	$.ajax({
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
 				var count = data[0].count;
-				$("#filter-query-result").html(' <br/><h4 class="blackText">filtred count : ' + count + '</h4>');
+				$("#filter-query-result").html(' <br/><p>filtred count:<span><b> ' + count + ' </b>records</span></p>');
 			},
 			error : function(){
 				$("#filter-query-result").html(' <h4>error</h4>');
@@ -1049,45 +1135,75 @@ app.utils.getResultForGeoFilter= function(query, view){
 		error : function(){
 			$("#geo-query-result").html(' <h4>error</h4>');
 		}
-
 	});
 
 }
 app.utils.getExportList = function(view, filter, bbox, BBview){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var displayedColumns = app.utils.exportSelectedFieldsList;
-	var columnsParam = "";
-	var ln = displayedColumns.length;
-	for (var i=0; i< ln;i++){
-		columnsParam += displayedColumns[i] + "," ;
-	}
-	// remove last caracter ","
-	columnsParam = columnsParam.substring(0, ln-1);
-	var ajaxSource = serverUrl +  "/views/get/" + view + "?filters=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns ; 
-	var url = ajaxSource;
-	BBview.url = ajaxSource;
-	ajaxSource = ajaxSource + "&format=datatablejs" ;
-	$('#exportResultList').dataTable( {
-		"bServerSide": true,
-		"bProcessing": true,
-		"bDestroy" : true,
-		"iDisplayLength": 10,
-		"fnServerData": function ( sSource, aoData, fnCallback ) {
-			/* Add some extra data to the sender */
-			//aoData.push( { "name": "more_data", "value": "my_value" } );
-			$.getJSON( sSource, aoData, function (json) { 
-				
-				fnCallback(json);
-			} );
-		},
-		"sAjaxSource": ajaxSource
-		,"fnDrawCallback": fnStyleTable
-	}
-	);
-	$.ajax({
+	var url = serverUrl +  "/views/get/" + view + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns ; 
+	BBview.url = url;
+
+	app.utils.getDataForGrid(url,function(collection){
+		var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,url);
+		// TODO   generate gpx  a faire ?
+		$("#export-getGpx").removeAttr("disabled");
+		$("#spanGeneratingGpx").html("");
+	});
+
+	/*
+	app.xhr = "";
+	app.xhr = $.ajax({
 		url: url,
 		dataType: "json",
-		success: function() {
+		success: function(data) {
+			// create schema model and dynamic fields for the grid
+			var firstRow  = data[0].MapSelectionManager;
+			var schema = {};
+			for(key in firstRow){
+			  	var colName = key;
+			  	var colValue = firstRow[key];
+			  //	gridModel.set(colName,colValue);	
+			 // 	gridModel.set(colName,colValue);	
+			  	schema[colName] =  {'title': colName, type: 'Text', sortable: true};
+			  }
+			 // app.models.ExportGridModel.constructor.schema = schema;
+			  //var gridCollection = new app.collections.ExportGridCollection();
+			  app.models.ExportGridModel = Backbone.Model.extend({
+
+					}, {
+						// Declare schema and verbose name at model level
+						schema: schema,
+						verboseName: 'Observation'
+				});
+				app.collections.ExportGridCollection = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+				app.collections.VisibleListInGrid = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+
+				 var gridCollection = new app.collections.ExportGridCollection();
+
+			for(key in data) {
+			  var rowVal = data[key].MapSelectionManager;
+			  var gridModel = new app.models.ExportGridModel();
+			  
+			 // gridModel.set("schema",{});
+			  for(key in rowVal){
+			  	var colName = key;
+			  	var colValue = rowVal[key];
+			  	gridModel.set(colName,colValue);	
+			  	gridModel.set(colName,colValue);	
+			  	schema[colName] =  {'title': colName, type: 'Text', sortable: true};
+			  }
+			  //gridModel.constructor.schema = schema;
+			  
+			  gridCollection.add(gridModel);
+			}
+			// add grid
+			app.utils.initGrid (gridCollection, app.collections.VisibleListInGrid);
 			//app.router.navigate(fileUrl, {trigger: true});
 			$("#export-getGpx").removeAttr("disabled");
 			$("#spanGeneratingGpx").html("");
@@ -1096,6 +1212,11 @@ app.utils.getExportList = function(view, filter, bbox, BBview){
 			//alert("error in gpx generation");
 		}
 	});
+	
+	*/
+
+	
+
 		/*app.utils.fnShowHide(0);
 		app.utils.fnShowHide(2);
 		app.utils.fnShowHide(4);
@@ -1125,6 +1246,290 @@ JSON.stringify = JSON.stringify || function (obj) {
 	};	
 
 */
+app.utils.getDataForGrid = function (url,callback){
+	app.xhr = "";
+	app.xhr = $.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			// create schema model and dynamic fields for the grid
+			var rowsNumber = data.count;
+			var dataValues = data.values;
+			var firstRow = dataValues[0];
+			var listColumns = [];
+			var schema = {};
+			for (key in firstRow){
+				var colName = key;
+				schema[colName] =  {'title': colName, type: 'Text', sortable: true};
+			}
+
+			  app.models.ExportGridModel = Backbone.Model.extend({
+					}, {
+						// Declare schema and verbose name at model level
+						schema: schema,
+						verboseName: 'Data'
+				});
+				
+				app.collections.AllDataCollection = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+				app.collections.VisibleListInGrid = Backbone.Collection.extend({
+				  model:  app.models.ExportGridModel
+				});
+
+				 var gridCollection = new app.collections.AllDataCollection();
+
+			var ln = dataValues.length;
+			for (var i=0;i<ln;i++){
+				rowValue = dataValues[i];
+				var gridModel = new app.models.ExportGridModel();
+				for(key in rowValue){
+				  	var colName = key;
+				  	var colValue = rowValue[key];
+				  	gridModel.set(colName,colValue);		
+			    }
+				//listColumns
+				gridCollection.add(gridModel);
+			}
+			callback (gridCollection, rowsNumber);
+		},
+		error : function(){
+		}
+	});
+}
+app.utils.initGrid = function(list, VisibleList, columns){
+	var visibleList = new VisibleList;
+  // initier la grid
+	var grid = new NS.UI.Grid({
+		collection: visibleList,
+		pageSize: 10,
+		pageSizes: [5,10, 20, 50],
+		page: 1,
+		pagerPosition: 'top'
+	});
+	//show a first page
+	grid.size = list.length;
+    visibleList.reset(list.slice(0, grid.pageSize));
+    //  Specify how to handle grid events
+	function reloadGrid() {
+		var data;
+		if (! _.isEmpty(grid.filters)){
+			data = list.filter(function(item) {
+				var k, v, testDate,
+					res = true;
+				for (k in this) {
+					v = this[k];
+					testDate = new Date(v);
+					if (isFinite(testDate)) {
+						res = res && (item.get(k).toString() === v);
+					} else {
+						res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+					}
+				}
+				return res;
+			}, grid.filters);
+		} else{
+			data = list.models;
+		}
+		if (grid.sortColumn) {
+			data = _.sortBy(data, function(m) {return m.get(grid.sortColumn);});
+			if (grid.sortOrder == 'desc')
+				data.reverse();
+		}
+		grid.size = data.length;
+		visibleList.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
+		if (typeof(col) != "undefined"){
+			masquerColonne(col);
+		}
+	}
+	grid.on('selected', function (model) {console.log(model);});
+	grid.on('sort', function (fieldId, order) {
+		grid.sortColumn = fieldId;
+		grid.sortOrder = order;
+		reloadGrid();
+	});
+	grid.on('unsort', function () {
+		delete grid.sortColumn;
+		delete grid.sortOrder;
+		reloadGrid();
+	});
+	grid.on('filter', function (fieldId, value) {
+		grid.filters[fieldId] = value;
+		grid.page = 1; // Page count will change, keeping current page will be meaning-less
+		reloadGrid();
+	});
+	grid.on('unfilter', function (fieldId) {
+		delete grid.filters[fieldId];
+		grid.page = 1; // Page count will change, keeping current page will be meaning-less
+		reloadGrid();
+	});
+	grid.on('page', function (target) {
+		grid.page = target;
+		reloadGrid();
+	});
+	grid.on('pagesize', function (size) {
+		grid.pageSize = size;
+		reloadGrid();
+	});
+
+    // 5) render the grid (empty at the moment) and bind it to the DOM tree
+   $('div#grid').html("");
+   grid.render().$el.appendTo('div#grid');
+	if (typeof(columns) != "undefined"){
+		var ln = columns.length;
+		for (var i=0;i<ln;i++){
+			masquerColonne(columns[i]);
+		}
+	}
+	function masquerColonne(num){
+		if (num){
+			$("table>thead").find("tr").each(function(){
+				 var nom = $(this).get(num - 1).firstChild;
+				 $(nom).addClass("masqued");
+			});
+			$("table>tbody").find("tr").each(function(){
+				 var nom = $(this).get(num - 1).firstChild;
+				 $(nom).addClass("masqued");
+			});
+		}
+	}
+}
+app.utils.initGridServer = function (gridCollection, count,url, columns){
+	//var visibleList = new VisibleList;
+  // initier la grid
+	var grid = new NS.UI.Grid({
+		collection: gridCollection,
+		pageSize: 10,
+		pageSizes: [5,10, 20, 50],
+		page: 1,
+		pagerPosition: 'top'
+	});
+	//show a first page
+	grid.size = count;
+    gridCollection.reset(gridCollection.slice(0, grid.pageSize));
+    //  Specify how to handle grid events
+	function reloadGrid() {
+		var data;
+		/*if (! _.isEmpty(grid.filters)){
+			data = gridCollection.filter(function(item) {
+				var k, v, testDate,
+					res = true;
+				for (k in this) {
+					v = this[k];
+					testDate = new Date(v);
+					if (isFinite(testDate)) {
+						res = res && (item.get(k).toString() === v);
+					} else {
+						res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+					}
+				}
+				return res;
+			}, grid.filters);
+		} else{*/
+			//data = gridCollection.models;
+			var params = "&limit=" + grid.pageSize + "&skip=" +  (grid.page - 1) * grid.pageSize;
+			
+			if (grid.sortColumn) {
+				params += "&sortColumn=" + grid.sortColumn + "&sortOrder=" + grid.sortOrder ;
+			}
+			if (! _.isEmpty(grid.filters)){
+				for (k in grid.filters) {
+						var v = grid.filters[k];
+						params += "&filters[]=" + k + ":"+ v;
+				}
+				//params += "&" + grid.filters ;
+			}
+
+			var urlGrid = url + params;
+			app.utils.getDataForGrid(urlGrid,function(coll,rowsNumber){
+
+				data = coll;
+				grid.size = rowsNumber;
+				gridCollection.reset(data.slice(0, grid.pageSize));
+				//grid.size = data.length;
+				//gridCollection.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
+				if (typeof(columns) != "undefined"){
+					var ln = columns.length;
+					for (var i=0;i<ln;i++){
+						masquerColonne(columns[i]);
+					}
+				}
+			});
+		//}
+		/*if (grid.sortColumn) {
+			data = _.sortBy(data, function(m) {return m.get(grid.sortColumn);});
+			if (grid.sortOrder == 'desc')
+				data.reverse();
+		}
+		grid.size = data.length;
+		gridCollection.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
+		if (typeof(col) != "undefined"){
+			masquerColonne(col);
+		}*/
+	}
+	grid.on('selected', function (model) {
+		app.models.selectedModel = model;
+		//console.log(model);
+		}
+	);
+	grid.on('sort', function (fieldId, order) {
+		grid.sortColumn = fieldId;
+		grid.sortOrder = order;
+		reloadGrid();
+	});
+	grid.on('unsort', function () {
+		delete grid.sortColumn;
+		delete grid.sortOrder;
+		reloadGrid();
+	});
+	grid.on('filter', function (fieldId, value) {
+		grid.filters[fieldId] = value;
+		grid.page = 1; // Page count will change, keeping current page will be meaning-less
+		reloadGrid();
+	});
+	grid.on('unfilter', function (fieldId) {
+		delete grid.filters[fieldId];
+		grid.page = 1; // Page count will change, keeping current page will be meaning-less
+		reloadGrid();
+	});
+	grid.on('page', function (target) {
+		grid.page = target;
+		reloadGrid();
+	});
+	grid.on('pagesize', function (size) {
+		grid.pageSize = size;
+		reloadGrid();
+	});
+
+    // 5) render the grid (empty at the moment) and bind it to the DOM tree
+   $('div#grid').html("");
+   grid.render().$el.appendTo('div#grid');
+	if (typeof(columns) != "undefined"){
+		var ln = columns.length;
+		for (var i=0;i<ln;i++){
+			masquerColonne(columns[i]);
+		}
+	}
+	function masquerColonne(num){
+		if (num){
+			$("table>thead").find("tr").each(function(){
+				/* var nom = $(this).get(num - 1);
+				 var nom2 = $(this).childNodes();
+				 //var tm = nom.firstChild;
+				 $(nom2).addClass("masqued");*/
+				 $(this.childNodes[num - 1]).addClass("masqued");
+			});
+			$("table>tbody").find("tr").each(function(){
+				/* var nom = $(this).get(num - 1).firstChild;
+				 $(nom).addClass("masqued");*/
+
+				  $(this.childNodes[num - 1]).addClass("masqued");
+			});
+		}
+	}
+}
+
+
 
 
  return app;

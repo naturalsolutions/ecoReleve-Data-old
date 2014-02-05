@@ -1,4 +1,4 @@
-﻿// v0.1 2013/30/09
+// v0.1 2013/30/09
 var NS = window.NS || {};
 
 if(NS.UI){} else { NS.UI={} ; };
@@ -62,6 +62,7 @@ NS.UI.MapView = Backbone.View.extend({
 					 new OpenLayers.Control.Zoom()
 				]//,
 				//renderers : ['SVG']
+				,renderers: ["Canvas"]
 			}); 
 			// add masked element to store selected elements id
 			$(this.el).append('<input id="updateSelection" type="hidden" value="" />');
@@ -105,13 +106,13 @@ NS.UI.MapView = Backbone.View.extend({
 			 /* 'pointRadius': 10,
 			  'externalGraphic': '${thumbnail}'*/
 			  pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'
+			 // , label : "${Site_name}",  labelXOffset: "50", labelYOffset: "-15"
 			});
 			
 			var defaultStyle = s;
 			//var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
 			var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
-			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});
-						
+			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
 			var vector = new OpenLayers.Layer.Vector(layerName, {
 				//styleMap:  new OpenLayers.StyleMap(s),
 				projection: 'EPSG:4326'
@@ -119,6 +120,7 @@ NS.UI.MapView = Backbone.View.extend({
 			// if provided data is a backbone collection
 			// check if we can display popup
 			vector.popup = (options.popup) || (false);
+			vector.renderers= ['Canvas'];
 			if (options.collection){
 				options.collection.each(function(o) {
 					// if station not used, display it
@@ -139,12 +141,26 @@ NS.UI.MapView = Backbone.View.extend({
 						//{externalGraphic: 'img/marker.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
 						);
 						//lastpoint = new OpenLayers.LonLat(lon, lat);
-						vector.styleMap = styleMap;
+						
 						vector.addFeatures(f);
 						//vector.popup = true;
 						//$("#waitControl").remove(); 
 					}
+
+
+
 				});
+				var cluster = options.cluster;	
+				// cluster style
+				vector.styleMap = styleMap;
+				if (cluster =="yes"){
+					var layerStyle;
+					var rules = clusterMapRules ();
+					layerStyle = new OpenLayers.Style(null, {
+					rules: rules
+					}); 
+					vector.styleMap = layerStyle;
+				}
 			}
 			// if provided data is a model point (latitude, longitude, label)
 			if (options.point){
@@ -162,17 +178,21 @@ NS.UI.MapView = Backbone.View.extend({
 				vector.addFeatures(f);
 				$("#waitControl").remove(); 
 			}
+			var strategies;
+			var layerStrategies = new Array();
+			var fixedStrategy = false;
 			// if provided data is from a file (kml) or a server  --> a protocol + a strategy
 			if (options.protocol){
 				var url = options.protocol.attributes.url;
 				var format = options.protocol.attributes.format;
 				var params = options.protocol.attributes.params || "";
-				var strategies = options.protocol.attributes.strategies; 
-				var layerStrategies = new Array();
+				strategies = options.protocol.attributes.strategies; 
+				layerStrategies = new Array();
 				var dataFormat;
 				var cluster = options.protocol.attributes.cluster;
-				var fixedStrategy = false;
+				
 				var popup = options.protocol.attributes.popup;
+				var style = options.protocol.attributes.style;
 				
 				switch (format)
 				{
@@ -248,22 +268,42 @@ NS.UI.MapView = Backbone.View.extend({
 					}); 
 					vector.styleMap = layerStyle;
 				} else {
-				/*	var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
-					var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
-					var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});*/
 					vector.styleMap = styleMap;
+					if (style){
+						var defaultStyle = style;
+						var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
+						vector.styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
+					}
 				}
 				//$("#waitControl").remove(); 
 			}		
 			this.map.addLayer(vector);
-			
+			this.map.zoomToExtent(vector.getDataExtent());
+			$("#waitControl").remove(); 
+			vector.events.register("loadend", vector, function(){
+		        alert("fin de chargement");
+		    });
+			/*
 			if (! options.point){
 				this.map.zoomToExtent(vector.getDataExtent());
 			}
 			else {
 				//	this.map.panTo(bounds.getCenterLonLat());
-			}
-			vector.events.register("featuresadded", vector, zoomToData);
+			}*/
+			//vector.events.register("featuresadded", vector, zoomToData);
+			vector.events.on({'featuresadded': function(feature) {
+				var bounds = this.map.getDataExtent();
+				if(bounds){ 
+					this.map.panTo(bounds.getCenterLonLat());
+					this.map.zoomToExtent(bounds); 
+				}
+				//this.events.unregister("featuresadded", this, zoomToData);
+				$("#waitControl").remove(); 
+
+				}
+
+			}); 
+
 			vector.events.on({
                 'featureselected': function(feature) {
 					var featureId = feature.feature.attributes.id;
@@ -336,7 +376,22 @@ NS.UI.MapView = Backbone.View.extend({
 							var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
 							$("#updateSelection").val(bbox);  
 							$(".updateSelection").val(bbox);  
-							
+							// convert values to decimal format "x.xx"	
+							minLatWGS = parseFloat(minLatWGS);
+                    		minLatWGS = minLatWGS.toFixed(2);	
+                    		minLonWGS = parseFloat(minLonWGS);
+                    		minLonWGS = minLonWGS.toFixed(2);	
+                    		maxLatWGS = parseFloat(maxLatWGS);
+                    		maxLatWGS = maxLatWGS.toFixed(2);
+                    		maxLonWGS = parseFloat(maxLonWGS);
+                    		maxLonWGS = maxLonWGS.toFixed(2);	
+
+                    		if (NS.UI.bbox){
+	                    		NS.UI.bbox.set("minLatWGS", minLatWGS || "");
+	                    		NS.UI.bbox.set("minLonWGS", minLonWGS || "");
+	                    		NS.UI.bbox.set("maxLatWGS", maxLatWGS || "");
+	                    		NS.UI.bbox.set("maxLonWGS", maxLonWGS || "");
+                    		}
 						}
 					}
 				};
@@ -487,6 +542,35 @@ NS.UI.MapView = Backbone.View.extend({
 			if ($("#waitControl").length == 0) {
 				$(mapDiv).append(ele);
 			}
+		},
+		editLabel : function(layerName, label){
+			var vector_layer;
+			for(var i = 0; i < this.map.layers.length; i++ ){
+					if((this.map.layers[i].name) ==layerName){vector_layer = this.map.layers[i] ;break;}
+			};
+			/*vector_layer.styleMap['default'] = style;
+			vector_layer.redraw(false);*/
+			//vector_layer.refresh({force: true}); 
+			vector_layer.styleMap.styles.default.defaultStyle.label = "${" + label + "}";
+			vector_layer.redraw();
+
+		},
+		moveLabel : function(layerName, direction, value){
+			var vector_layer;
+			for(var i = 0; i < this.map.layers.length; i++ ){
+					if((this.map.layers[i].name) ==layerName){vector_layer = this.map.layers[i] ;break;}
+			};
+
+			var actualVal = 0;
+			if (direction =="h"){
+				actualVal = vector_layer.styleMap.styles.default.defaultStyle.labelXOffset  ;
+				vector_layer.styleMap.styles.default.defaultStyle.labelXOffset = parseInt(actualVal) + parseInt(value) ;
+
+			} else {
+				actualVal = vector_layer.styleMap.styles.default.defaultStyle.labelYOffset  ;
+				vector_layer.styleMap.styles.default.defaultStyle.labelYOffset = parseInt(actualVal) + parseInt(value) ;
+			}
+			vector_layer.redraw();
 		}
 });
 /******************************* Models **********************************************************/
@@ -509,6 +593,15 @@ NS.UI.Protocol =  Backbone.Model.extend({
 		strategies :{ type: '[]' }
     }
 });
+NS.UI.BBOXModel = Backbone.Model.extend({
+	schema: {
+		minLonWGS: { type: 'Number' },
+		minLatWGS: { type: 'Number' },
+		maxLonWGS: { type: 'Number' },
+		maxLatWGS: { type: 'Number' }
+    }
+});
+
 /********************************** functions **************************************************/
 function clusterMapRules (){
 	var colors = {

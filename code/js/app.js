@@ -1,143 +1,60 @@
-﻿var ecoReleveData = (function(app) {
-   // "use strict";
-	app = {
-		Collections: {},
-		Models: {},
-		Views: {},
-		// Instances
-		collections: {},
-		views: {},
-		models: {},
-		markers:{},
-		utils: {},
-		global:{
-			lastView:"",
-			fileSystem :"",
-			dataToSave:"",
-			//stocker le nombre d'observateurs
-			nbObs:1,
-			style: "",
-			zoom : ""
+var ecoReleveData = (function(app) {
+
+"use strict";
+
+// Creating the application namespace
+app = {
+	config: {
+	// Find pathname portion of the URL and clean it (remove trailing slash if any)
+	root: window.location.pathname.replace(/\/(?:index.html)?$/, '')
+	},
+	dao: {},
+	models: {},
+	views: {},
+	utils: {},
+	collections :{},
+	roles: {
+		admin: 'admin',
+		superuser: 'superuser',
+		user: 'user'
 		},
-		form:{}
-	};
-	/** only mobile version **/
-	if ( (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/Android/i) ) ) {
-		if(window.PhoneGap){
-			document.addEventListener("deviceready",onDeviceReady,false);
-		}else {
-		  $(document).ready(function(){
-			onDeviceReady();
-		  });
-		}
-		function onDeviceReady() {
-			app.init();
-		}
-	} else {
-	/** only desktop version **/
-		$(document).ready(function(){
-			app.init();
-		});
-	}
-	/*************************/
-	app.init = function () {
+	instances: {}
+};
 
-		var initalizers = [];
-		// loading templates
-		initalizers.push(
-			$.ajax({
-				url: 'templates.html',
-				dataType: 'text'
-			}).done(function(contents) {
-				$("#templates").append(contents);
-			})
-        );
+// ----------------------------------------------- The Application initialisation ------------------------------------------ //
+$().ready(function() {
+  init();
+}) ;
 
-		// load stored protocols
-		app.collections.protocolsList = new app.Collections.Protocols();
-		initalizers.push(app.collections.protocolsList.fetch({async: false}));
+function init(){
+   
+	 // Spinner management (visual feedback for ongoing requests)
+	$(document).ajaxStart(function () { $('body').addClass('loading'); });
+	$(document).ajaxStop(function () { $('body').removeClass('loading'); });
+   window.deferreds = [];
+    // Customize Underscore templates behaviour: 'with' statement is prohibited in JS strict mode
+     _.templateSettings.variable = 'data';
 
-		if (app.collections.protocolsList.length == 0 ){
-			//load protocols file
-			//app.utils.clearCollection (app.collections.protocolsList);
-			initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml"));
-			//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
-		} 
-		// loading waypoints
-		app.collections.waypointsList = new app.Collections.Waypoints();
-		initalizers.push(app.collections.waypointsList.fetch({async: false}));
-		if ( app.collections.waypointsList.length == 0 ){
-			/*app.collections.waypointsList.each(function(element){
-				element.destroy();
-			});*/
-			//initalizers.push(app.utils.loadWaypoints("ressources/exemple_wpt.gpx"));
-		}
-		// Load stored stations
-		app.collections.stations = new app.Collections.Stations();
-		initalizers.push(app.collections.stations.fetch({async: false}));
-		
-		// Load stored observations
-		app.collections.observations = new app.Collections.Observations();
-		initalizers.push(app.collections.observations.fetch({async: false}));
-		
-		// load stored users
-		app.collections.users = new app.Collections.Users();
-		initalizers.push(app.collections.users.fetch({async: false}));
-		// add user test
-		if (app.collections.users.length == 0 ){
-			var newUser = new app.Models.User();
-			newUser.name = "user_1";
-			newUser.attributes.name = "user_1";
-			app.collections.users.add(newUser);
-		} 
-		// init database	
-		 initDB();
-		$.when.apply($, initalizers).done(function() {
 
-			app.router = new app.Router();
-			Backbone.history.start();
-			// check if "schema" object exists to genegate form UI
-			app.collections.protocolsList.each(function(protocol) {
-				protocol.schema = protocol.attributes.schema ;
-			});
-			// default url server:
-			var actualServerUrl = localStorage.getItem("serverUrl");
-			if ((actualServerUrl ==null)  ||( typeof(actualServerUrl) =="undefined") || (actualServerUrl =="")){
-				localStorage.setItem( "serverUrl","http://ns24422.ovh.net/ecoReleve-core");
-			}
-			/** only mobile version **/
-			if ( (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/Android/i) ) ) {
-				// photo capture
-				app.global.pictureSource = navigator.camera.PictureSourceType;
-				app.global.destinationType = navigator.camera.DestinationType;
-				/** olocal file access **/
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, app.utils.onFSSuccess, app.utils.onError);
-			}
-        });
-  };
-  
-  function initDB(){
-	  window.deferreds = [];
-	  // Initialisation des données 
-	  app.global.db = openDatabase("ecoReleve-data", "1.0", "db ecoreleve", 20*1024*1024);// espace accordé à la BD: 20 MO
-	  app.utils.initializeDB(app.global.db);
-	  var dfd = $.Deferred();
-	  deferreds.push(dfd);
-	  //Test si les données existes
-	  //Si oui alors => pas de chargement des données en base
-	  $.when(app.utils.runQuery("SELECT * FROM TIndividus" , [])).done(function (dta) {
-		var arr = [];
-		if (dta.rows.length == 0 ) {
-		  arr.push(app.utils.loadFileIndiv(app.global.db));
-		}
-	   $.when.apply(this, arr).then(function () {
-		  return  dfd.resolve();
-		});
-	  }).fail(function (err) {
-		  return dfd.resolve();
-	  });
-	}
-	
+  	app.instances.mainNav = new app.views.Navigation({model: app.router});
+   // Bread crumbs
+	app.instances.breadCrumbs = new app.views.BreadCrumbs({model: app.router});
+	// Current user
+	app.instances.userView = new app.views.CurrentUser();
+	app.instances.userView.$el.appendTo('.navbar .navbar-inner');
+			
+  $.when.apply(null, deferreds).done(function() {
+	app.instances.mainNav.render();
+	app.instances.mainNav.$el.appendTo('#main-nav');
+	app.instances.breadCrumbs.$el.insertBefore('#static-menu');
+	app.instances.breadCrumbs.render();
+	app.instances.userView.render();
+    Backbone.history.start();
+	// Main navigation
+	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
+	localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
+  });
+}
 
- return app;
+return app;
 })(ecoReleveData);
