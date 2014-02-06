@@ -140,7 +140,7 @@ app.models.Waypoint = Backbone.Model.extend({
 		name: {title: 'name', type: 'Text',sortable: true},
 		latitude: {title: 'latitude', type: 'Number',sortable: true},
 		longitude: {title: 'longitude', type: 'Number',sortable: true},
-		waypointTime: {title: 'waypointTime', type: 'Number',sortable: true}//,
+		waypointTime: {title: 'waypointTime', type: 'Date', sortable: true}//,
 		//used: {title: 'used', type: 'Boolean'}
 	},
 	verboseName: 'Waypoint'

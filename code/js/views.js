@@ -511,6 +511,9 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         return inputDiv;
     },
     exitExp : function(e){
+        if(app.xhr){ 
+             app.xhr.abort();
+         }
         app.router.navigate('#', {trigger: true});
     }
 });
@@ -533,7 +536,7 @@ app.views.ExportMapView = app.views.BaseView.extend({
         var style = new OpenLayers.Style({
               pointRadius:0.2,strokeWidth:0.2,fillColor:'#edb759',strokeColor:'white',cursor:'pointer'
         });
-        this.map_view.addLayer({point : point , layerName : "", style : style});
+        this.map_view.addLayer({point : point , layerName : "", style : style, zoom : 3});
         //masquer certains controles
          var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
         this.map_view.map.removeControl(controls[0]);
@@ -1200,18 +1203,20 @@ app.views.AllDataView = app.views.BaseView.extend({
         app.utils.filldatable(params, paramsMap);
     },  
     selectTableElement : function(e){
-       var selectedModel = app.models.selectedModel ;
-       $("#allDataInfosPanel").css({"display":"block"});
-       var content ="<h3>details</h3>";
-       for (k in selectedModel.attributes){
-         var v = selectedModel.attributes[k];
-         content += "<p class='allDataInfosTitles'> "+ k + " <br/><span>" + v + "</span></p>";
-       }
-        $("#allDataInfosPanelContent").html(content);
-
+        var ele  = e.target.parentNode.nodeName;
+       // if (ele =="TD"){
+        if (ele =="TR") {
+            var selectedModel = app.models.selectedModel ;
+            $("#allDataInfosPanel").css({"display":"block"});
+            var content ="<h3>details</h3>";
+            for (k in selectedModel.attributes){
+                var v = selectedModel.attributes[k];
+                content += "<p class='allDataInfosTitles'> "+ k + " <br/><span>" + v + "</span></p>";
+           }
+            $("#allDataInfosPanelContent").html(content);
+        }
 
        /*
-
         var ele  = $(e.target).get(0).nodeName;
         if (ele =="TD"){
             // find table id
@@ -1326,7 +1331,30 @@ app.views.ImportMap = app.views.BaseView.extend({
         app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
         var map_view = app.utils.initMap();
         map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints"});
+        this.mapView = map_view;
+    },
+    events : {
+        "selectedFeatures:change" : "featuresChange"
+
+    },
+    featuresChange : function(e){
+        var selectedFeatures = this.mapView.map.selectedFeatures;
+        var ln = selectedFeatures.length;
+        if (ln == 0){
+            app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
+        } else {
+           var selectedFeaturesCollection = new app.collections.Waypoints();
+            for(var i=0;i<ln;i++){
+                var modelId = selectedFeatures[i];
+                var selectedModel = app.collections.waypointsList.get(modelId);
+                selectedFeaturesCollection.add(selectedModel);
+            }
+            app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
+
+        }
+        e.preventDefault();
     }
+
 });
 
 

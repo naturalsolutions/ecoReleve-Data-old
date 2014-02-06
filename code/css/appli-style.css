@@ -118,6 +118,10 @@ select[name="pagesizes"]{
 .modal-title-picto {
     height: 35px;
 }
+/*******************  grid  *******************/
+div.filter-form-div > input {
+	width:200px;
+}
 /**********************************************/
 /* Top bar with actions, menu and all */
 .navbar-inner {padding: 0 5px 0 0;} /* metro-BS add an extra padding which create a weird effect... */

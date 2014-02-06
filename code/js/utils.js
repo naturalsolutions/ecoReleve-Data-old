@@ -305,7 +305,9 @@ app.utils.loadWaypointsFromFile = function (xml){
 			var longitude = $(this).attr('lon');
 			var waypointName = $(this).find('name').text();
 			var waypointTime = $(this).find('time').text();
-			
+
+			// changer le format de date de "AAA/MM/JJ HH:MM:SS"  a  jj/mm/aaaa
+			waypointTime = changeDateFormat(waypointTime,"gpx");
 			// renseigner les métadonnées du modèle
 			id += 1;
 			var idwpt = "wpt" + id;
@@ -338,6 +340,32 @@ app.utils.loadWaypointsFromFile = function (xml){
 		localStorage.setItem("xmlWaypointsIsloaded", "false");
 		alert ("error loading gpx file");
 	}
+}
+function changeDateFormat(dateObs, format){
+		var dateSplit, date,formatDate, YYYY,MM ,DD ;
+	if (typeof (format) ==="undefined" ){
+		dateSplit = dateObs.split(" ");
+		date = dateSplit[0];
+		formatDate= date.split("-");
+		YYYY = formatDate[0];
+		MM = formatDate[1];
+		DD = formatDate[2];
+		MM -= 1;
+	} else {
+		dateSplit = dateObs.split("T");
+		date = dateSplit[0];
+		formatDate= date.split("-");
+		YYYY = formatDate[0];
+		MM = formatDate[1];
+		DD = formatDate[2];
+		MM -= 1;
+	}
+	var dateEN = new Date(2013, 1 - 1, 26);
+	dateEN.setHours(0,0,0, 0);
+	dateEN.setDate(DD);
+	dateEN.setMonth(MM);
+	dateEN.setFullYear(YYYY); 
+	return dateEN; 
 }
 function generateListField(node, callback){				 
 	 
@@ -1067,14 +1095,15 @@ app.utils.generateFilter  = function(viewName){
 	// count nb rows
 	var serverUrl = localStorage.getItem("serverUrl");
 	var viewUrl = serverUrl + "/views/get/" + viewName + "/count" ;
-	$.ajax({
+	app.xhr = "";
+	app.xhr = $.ajax({
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
 				var count = data[0].count;
 				count += " records";
 				$("#countViewRows").text(count);
-				getFieldsListForwView(viewName);
+				getFieldsListForSelectedView(viewName);
 			},
 			error: function() {
 				$("#countViewRows").text("error !");
@@ -1085,7 +1114,8 @@ app.utils.generateFilter  = function(viewName){
 getFieldsListForSelectedView = function(viewName){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var viewUrl = serverUrl + "/views/detail/" + viewName ;  
-	$.ajax({
+	app.xhr = "";
+	app.xhr = $.ajax({
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
@@ -1259,8 +1289,14 @@ app.utils.getDataForGrid = function (url,callback){
 			var listColumns = [];
 			var schema = {};
 			for (key in firstRow){
+				var type;
 				var colName = key;
-				schema[colName] =  {'title': colName, type: 'Text', sortable: true};
+				if (colName.toUpperCase() == "DATE"){
+					type ="Date";
+				} else {
+					type ="Text";
+				}
+				schema[colName] =  {'title': colName, type: type, sortable: true};
 			}
 
 			  app.models.ExportGridModel = Backbone.Model.extend({
@@ -1285,7 +1321,13 @@ app.utils.getDataForGrid = function (url,callback){
 				var gridModel = new app.models.ExportGridModel();
 				for(key in rowValue){
 				  	var colName = key;
-				  	var colValue = rowValue[key];
+				  	var colValue ;
+				  	if (colName.toUpperCase() =="DATE")	{
+				  		var colVal = rowValue[key];	
+				  		colValue = changeDateFormat(colVal);
+				  	} else {
+				  		colValue = rowValue[key];	
+				  	}
 				  	gridModel.set(colName,colValue);		
 			    }
 				//listColumns

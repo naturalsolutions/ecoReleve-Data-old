@@ -278,11 +278,27 @@ NS.UI.MapView = Backbone.View.extend({
 				//$("#waitControl").remove(); 
 			}		
 			this.map.addLayer(vector);
-			this.map.zoomToExtent(vector.getDataExtent());
-			$("#waitControl").remove(); 
-			vector.events.register("loadend", vector, function(){
-		        alert("fin de chargement");
-		    });
+			if (! options.protocol){
+				this.map.zoomToExtent(vector.getDataExtent());
+				$("#waitControl").remove(); 
+			}
+			if (options.zoom) {
+				var zoomLevel = options.zoom;
+				this.map.zoomTo(zoomLevel);
+			}
+		/*	vector.events.register("loadend", vector, function(){
+		        var bounds = this.map.getDataExtent();
+				if(bounds){ 
+					this.map.panTo(bounds.getCenterLonLat());
+					this.map.zoomToExtent(bounds); 
+				}
+				//this.events.unregister("featuresadded", this, zoomToData);
+				$("#waitControl").remove(); 
+
+				
+		    }); */
+
+
 			/*
 			if (! options.point){
 				this.map.zoomToExtent(vector.getDataExtent());
@@ -290,8 +306,8 @@ NS.UI.MapView = Backbone.View.extend({
 			else {
 				//	this.map.panTo(bounds.getCenterLonLat());
 			}*/
-			//vector.events.register("featuresadded", vector, zoomToData);
-			vector.events.on({'featuresadded': function(feature) {
+			vector.events.register("featuresadded", vector, zoomToData);
+			/*vector.events.on({'featuresadded': function(feature) {
 				var bounds = this.map.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
@@ -302,7 +318,7 @@ NS.UI.MapView = Backbone.View.extend({
 
 				}
 
-			}); 
+			}); */
 
 			vector.events.on({
                 'featureselected': function(feature) {
@@ -321,6 +337,7 @@ NS.UI.MapView = Backbone.View.extend({
 					} else {
 						createPopup(feature);
 					}
+					$('#map').trigger('selectedFeatures:change');
                 },
                 'featureunselected': function(feature) {
 					var featureId = feature.feature.attributes.id;
@@ -341,6 +358,7 @@ NS.UI.MapView = Backbone.View.extend({
 					} else {
 						destroyPopup();
 					}
+					$('#map').trigger('selectedFeatures:change');
                 }
             });
 
