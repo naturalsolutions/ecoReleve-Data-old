@@ -73,6 +73,9 @@
             case 'import':
                 this.context = 'import';
                 break;
+			case 'allData':
+				this.context = 'all data';
+				break;
 			
             /*case 'newSample':
             case 'editSample':

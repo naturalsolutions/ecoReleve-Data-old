@@ -761,11 +761,9 @@ function updateBBOX(tabLon, tabLat){
 
 }
 function updateSelectedFeatures(listId){
-	debugger;
 	var nb = listId.length;
 	var value = ""
-	if ((nb < 15) && (nb > 0)){
-		
+	if ((nb < 15) && (nb > 0)){	
 		for (var i=0; i<nb; i++){
 			value += listId[i] + ",";
 		}

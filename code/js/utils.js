@@ -328,7 +328,8 @@ app.utils.loadWaypointsFromFile = function (xml){
 			var d = new Date();  
 			var newDate = d.defaultView();
 			localStorage.setItem("gpxLastImportDate",newDate);
-			$("#spanGeneratingGpx").html("Gpx file is successfully loaded! You have " + id + " waypoints &nbsp;&nbsp;");
+			var fileName = localStorage.getItem("gpxFileName");
+			$("#spanGeneratingGpx").html("Gpx file '" +  fileName + "' is successfully loaded! You have " + id + " waypoints &nbsp;&nbsp;");
 			$("#importLoadNext").removeAttr("disabled");
 		} else {
 			$("#spanGeneratingGpx").html("");
@@ -1477,6 +1478,16 @@ app.utils.initGridServer = function (gridCollection, count,url, columns){
 			if (! _.isEmpty(grid.filters)){
 				for (k in grid.filters) {
 						var v = grid.filters[k];
+						if (k.toUpperCase() == "DATE"){
+							var dt = new Date(v);
+							var vYear = dt.getFullYear();	
+							var vMounth = dt.getMonth() + 1;
+							if (vMounth < 10){vMounth = "0" + vMounth;}
+							var vDay = dt.getDate();
+							if (vDay < 10){vDay = "0" + vDay;}
+
+							v = vYear + "-" + vMounth + "-" + vDay ;
+						}
 						params += "&filters[]=" + k + ":"+ v;
 				}
 				//params += "&" + grid.filters ;

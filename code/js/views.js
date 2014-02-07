@@ -1358,11 +1358,5 @@ app.views.ImportMap = app.views.BaseView.extend({
 });
 
 
-
-
-
-
-
-
  return app;
 })(ecoReleveData);
