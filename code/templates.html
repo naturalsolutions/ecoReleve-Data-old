@@ -1,0 +1,1031 @@
+﻿<script type="text/template" id="msgBox-template">
+	<div class="message-dialog bg-color-red" >
+		<p><h2 class="ftColr-white ">Passage &agrave; l&acute;&eacute;tape suivante !</h2></p>
+		 <a class="button big " href="#proto-choice" >Return</a>
+		 <a class="button big" href="#" >Home</a>
+	</div>
+</script>
+
+<script type="text/template" id="map-stations-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>My position</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<br/>
+		<section id="grid">
+			<div class="border-color-red" id="map" style="height:300px, width:600px;"></div>
+		</section>
+	</div>
+</script> 
+
+<script type="text/template" id="home-template">
+	<div class="container-fluid home">
+		<div>
+			<h1>ecoReleve data</h1>
+		</div><br/>
+		<div class="row-fluid">
+			<div class="span6 tilesGrid" >
+				<ul class="thumbnails">
+					<li class="span3 tile tile-red icon">
+						<a href="#export" >
+							<img src="images/upload.png">
+							<h2>Export</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-yellow icon">
+						<a href="#mydata" >
+							<img src="images/my-data2.png">
+							<h2>My data</h2>
+						</a>
+					</li>
+				</ul>
+				<!--
+				<ul class="thumbnails">
+					<li class="span3 tile tile-orange icon">
+						<a href="#indiv" >
+							<img src="images/birds.png">
+							<h2>Identify individual</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-yellow icon">
+						<a href="#mydata" >
+							<img src="images/my-data2.png">
+							<h2>My data</h2>
+						</a>
+					</li>
+				</ul>
+				-->
+				<ul class="thumbnails">
+					<li class="span3 tile  tile-green icon">  <!--  tile-double  -->
+						<a href="#entryStation" >
+							<img src="images/new-data.png">
+							<h2>New data</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-orange icon">
+						<a id="alldata" >
+							<img src="images/all-data.png">
+							<h2>All data</h2>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="span6 tilesGrid">
+
+				<ul class="thumbnails">
+					<li class="span3 tile tile-orange icon">
+							<a href="#updateData" >
+								<img src="images/download.png">
+								<h2>Import</h2>
+							</a>
+					</li>
+					<li class="span3 tile tile-red icon">
+						<a href="#uploadData" >
+							<img src="images/upload.png">
+							<h2>Upload</h2>
+						</a>
+					</li>
+				</ul>
+				<ul class="thumbnails">
+					<li class="span3 tile tile-lime icon">
+						<a href="#map" >
+							<img src="images/maps.png">
+							<h2>Map</h2>
+						</a>
+					</li>
+					<li class="span3 tile tile-blue icon">
+						<a href="#config" >
+							<img src="images/configuration.png">
+							<h2>Configuration</h2>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</script>
+ <script type="text/template" id="sation-type-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: coordinates</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+			<br/><br/>
+			<section id="grid">
+				<div class="row-fluid" >
+					<div>
+						<div class="span4">
+							<a href="#entryStation"><img src="images/station_from_gps.jpg"/></a>
+						</div>
+						<div class="span4">
+							<a href="#stationFromGpx"><img src="images/station_from_gpx_file.jpg"/></a>
+						</div>
+					</div><br/>
+				</div>
+				
+			</section>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li class="active">
+									<a href="#" >Home</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+ </script>
+  <script type="text/template" id="sation-file-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#entryStation"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: gpx data</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+			<br/><br/>
+			<section id="grid">
+				<div class="row-fluid" >
+					<div class="span6" id="dataTableRow">
+						<table cellpadding="0" cellspacing="0" border="0" class="display" id="waypointsDataTable"></table>
+					</div>
+					<div class="span6" id="mapColumn">
+						<div id="navigation" >
+							<a class="button btn " id="displayTracks" > show tracks  </a>
+							<a class="button btn " id="waitLoadingTracks"></a>
+						</div>
+						<div id="map"></div>
+					</div>
+					
+				</div>
+					<br/><br/><br/>					
+			</section>
+			<br/>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li>
+									<a href="#" >Home</a>
+								</li>
+								<li class="active">
+									<a id="locationSubmit" type="submit" style="display:none;">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+ </script>
+ <script type="text/template" id="sation-position-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: position</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<header  id="overview">
+		  <h3 class="ftColr-black ftBold">Station type</h3>
+		  <div class="subnav">
+			<ul class="nav nav-pills">
+			  <li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" >point <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				  <li><a>polygon</a></li>
+				  <li><a>named location</a></li>
+				</ul>
+			  </li>
+			</ul>
+		  </div>
+		</header>
+			<section id="grid">			
+				<div class="row-fluid" >
+					<div class="span8" >
+						<div id="locationForm" class="whiteBorder"></div>
+					</div>
+					<div class="span2">
+						<ul class="infos">
+							<li class="span2">
+								<a class="btn fromStation" href="#stationFromGpx" >
+									<span>from existing<br/>station</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row-fluid" id="rowMap">
+					<div class="span10"  id="spanMap">
+						<div id="map" style="height : 400px" >
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li >
+									<a href="#" >Cancel</a>
+								</li>
+								<li class="active">
+									<a id="locationSubmit" type="submit">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+ </script>
+<script type="text/template" id="sation-infos-template">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Station: details</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<br/><br/>
+		<section id="grid">
+			<div class="row-fluid" >
+				<div id="stationForm" class="whiteBorder"></div><br/>
+			</div>
+			 <div id="navigation" style="display:none;">
+                    <ul>
+                        <li class="selected">
+                            <a href="#">Title</a>
+                        </li>
+                        <li>
+                            <a href="#">Time</a>
+                        </li>
+                        <li>
+                            <a href="#">Observer</a>
+                        </li>
+               
+                    </ul>
+                </div>
+		</section> 
+		<div class="navbar navbar-fixed-bottom">
+			<div class="navbar-inner">
+				<div class="navBarPerso">
+					<div class="nav-collapse collapse">
+						<ul class="nav nav-pills">
+							<li >
+								<a href="#entryStation" >Cancel</a>
+							</li>
+							<li class="active">
+								<a id="stationInfoSubmit">Next</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="layout" id="data-entry-layout">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navBarPerso">
+					</a><a class="back-button" href="#proto-choice"></a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li id="data-entry-protocol"><a>Station > data entry </a> </li>                      
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<br/>
+			<section id="grid">
+				<div class="row-fluid" id="dataEntryRow" >
+					<div class="station span4" id="stationPanel"></div>
+					<div class="protocol span8" ></div>	
+				</div>
+				<div class="row-fluid"  >
+					<div class="obsStoredAlertBox alert alert-block" id="obsStoredAlertBox"></div>
+				</div>
+			</section>
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<div class="navBarPerso">
+						<div class="nav-collapse collapse">
+							<ul class="nav nav-pills">
+								<li >
+									<a href="#proto-choice" >Cancel</a>
+								</li>
+								<li class="active">
+									<a id="protocolSubmit">Submit</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</script>
+
+<script id="data-entry-station" type="template">
+	<p><h2>Station</h2></p>
+	<br/>
+	<h3>Name:</h3>	<h4><%= station_name %></h4> 
+	<h3>Longitude:</h3>	<h4><%= longitude %></h4>
+	<h3>Latitude:</h3>	<h4><%= latitude %></h4>
+	<h3>Date:</h3>	<h4><%= date_day %></h4>
+	<h3>Time:</h3>	<h4><%= time_now %></h4>
+</script>
+
+<script id="data-entry-protocol" type="template">
+	<div id="wrapper">
+		<div id="steps" style="width: 3000px; margin-left: 0px; "></div>
+		<div id="navigation" style="display:none;">
+			
+        </div>
+	</div>
+	<div class="navbar navbar-fixed-bottom">
+		<div class="navbar-inner">
+			<div class="navBarPerso">
+				<div class="nav-collapse collapse">
+					<ul class="nav nav-pills">
+						<li>
+							<a href="#" >Cancel</a>
+						</li>
+						<li class="active">
+							<a class="button submit">Validate</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ><img src="" id="image"  /></div>
+</script>
+<script type="layout" id="main-layout">
+	<div class="layoutContent"></div>
+</script>
+<script id="#item-template" type="template">
+  	<a>
+		<button class="command-button  bg-color-red " idProt=<%= id %>>
+			<h2 class="ftColr-white" idProt=<%= id %>><%= name %></h2>
+		</button>
+	</a>
+</script>
+<script type="layout" id="msgBox-protocols-choice">
+	<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="navBarPerso">
+					</a><a class="back-button" href="#stationInfos"></a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li id="data-entry-protocol"><a>Protocol choice </a> </li>                      
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<br/>
+			<section id="grid">
+				<div class="row alertRow">
+					<div class="span5">
+						<p><h1>Choose a data protocol</h1></p>
+					</div>
+					<div class="span6">
+						<div class="listview">
+						</div>
+						<div>
+							<a href="#" class="whiteBackground btn">Cancel</a>	
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+</script>
+<script  id="data-entry-end-template" type="template">
+	<br/>
+	<div class="span5">
+			<p><h2 id="alertTitle"><span id="data-entry-end-proto-name"></span> saved</h2><h3 id="alertTitle">Do you want to continue data entry on the same station ?</h3></p>
+	</div>
+	<div class="span6">
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="#proto-choice" class="btnChoice btn">Yes</a></li>
+			<li><a href="#entryStation" class="btnChoice btn">No</a></li>	
+			<li><a  href="#"  class="btnChoice btn">Finish</a></li>
+		</ul>
+	</div>
+	<br/>
+</script>
+<!-- layout view my data   -->	
+<script type="layout" id="my-data-layout">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>My data</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<br/>
+		<section id="grid">
+			<div class="grid gridview">
+			</div>
+		</section>
+	</div>
+</script>
+<!-- layout view my data / template view filter  -->	
+<script  id="my-data-filter-template" type="template">
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span10">
+				<h3 class="text-left">
+					Data filtering
+				</h3>
+				<h4 class="text-left">by date</h4>
+				<div class="btn-group">
+					 <a class="btn prevDate" type="button"><em class="icon-align-left"></em>prev</a> 
+					 <input type="text" name="date_day" class="datepicker"/>
+					 <a class="btn nextDate" type="button" style="display:none"><em class="icon-align-right" ></em>next</a> 
+					 <a class="btn primary icon go">Go</a>
+				</div>
+			</div>
+			<div class="span2">
+				<ul class="infos">
+					<li class="span3 infos">
+						<a class="btn perso" >
+							<span id="mydataNbStations">0</span><br/>
+							<span>station(s)</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div><br/>
+	<div class="obsContainer"></div>	
+</script>
+
+<script  id="my-data-tabControl-template" type="template">
+	<div id="myDataDelObs" class="masqued btn-group">
+	<a class="btn primary icon delObservation" style="float:left;">Delete</a>
+	<a class="btn primary icon editObservation">Edit</a>
+	</div><br/><br/>
+	<a class="btn icon" style="float:right;margin-top:5px;">nb stations</a>
+	<ul class="nav nav-tabs">
+		<li class="active"><a class="tabControl">list</a><div class="obsList content tabElement"></div></li>
+		<li><a class="tabControl">map</a>
+			<div id="map" class="masqued tabElement"></div>
+		</li>
+	</ul>
+</script>
+<!-- layout view update data   -->	
+<script type="layout" id="update-data-layout">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Import data</a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+	</div>
+</script>
+<script  id="update-data-template" type="template">
+		<br/><br/>
+		<div class="row-fluid " id="btnSelection" style="display: ;">
+			<div class="span tilesGrid" >
+					<ul class="thumbnails">
+						<li class="span3 tile tile-double tile-orange icon textLeft">
+							<a href="#" >
+								<img src="images/birds.png">
+								<span class="alignLeft">birds</span>
+								<span class="alignRight" id="birdsImportDate">last import:</span>
+							</a>
+						</li>
+						<li class="span3 tile tile-double tile-orange icon textLeft ">
+							<a class="gpxLoading" >
+								<img src="images/GPS-Tracking.png">
+								<!--<h2>GPX</h2>-->
+								<span class="alignLeft">GPX</span>
+								<span class="alignRight" id="gpxImportDate"></span>
+							</a>
+						</li>
+					</ul>
+			</div>
+		</div>
+		<div class="row-fluid" id="btnFileSelection" style="display:none ;">
+			<div><input id="file" type="file" /></div>
+		</div>
+</script>
+<!-- update data alert view -->
+<script  id="update-data-alert-template" type="template">
+	<br/>
+	<div class="span5">
+			<p><h2>Are you sure you want to update your data?</h2><br/><h3>This action will delete all your local data</h3></p>
+	</div>
+	<div class="span6">
+		<div class="listviewProtocols"></div>
+		<div>
+			<ul class="nav nav-pills">
+			  <li >
+				<a class="cancel whiteBackground">Cancel</a>
+			  </li>
+			   <li class="active">
+				<a class="validate">Ok</a>
+			  </li>
+			</ul>
+		</div>
+	</div>
+	<br/>
+</script>
+<script type="layout" id="upload-data-layout">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Upload data </a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<br/>
+		<section id="grid">
+			<div class="uploadDataGridView"></div>
+		</section>
+	</div>
+</script>
+<script  id="upload-data-template" type="template">
+	<div class='span5 saveInLocalFile'>
+		<a class="btn">Save data <br/> in a local file</a>
+	</div>
+</script>
+<!-- layout view config data   -->	
+<script type="layout" id="config-data-layout">
+	<div class="navbar navbar-fixed-top">
+        <div class="navbar-inner" id="navConfig">
+            <div class="navBarPerso">
+                </a><a class="back-button" href="#"></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a>Configuration </a> </li>                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container">		
+	</div>
+</script>
+<script type="text/template" id="config-list-template">
+	<!--<a  class="btn  users" style="float:left;margin-top:5px;" >Users</a> -->
+	<br/><br/>
+	<div class="span tilesGrid" >
+			<ul class="thumbnails">
+				<li class="span3 tile tile-blue icon">
+					<a id="configUsers" >
+						<img src="images/User-Add.png">
+						<span class="alignLeft">users</span>
+						<span class="alignRight"></span>
+					</a>
+				</li>
+				<li class="span3 tile tile-blue icon">
+					<a id="configProtos">
+						<img src="images/protocols-edit.png">
+						<h2>protocols</h2>
+					</a>
+				</li>
+				
+				<li class="span3 tile tile-blue icon">
+					<a id="serverUrl">
+						<img src="images/link.png">
+						<h2>server url<h2>
+					</a>
+				</li>
+
+				<li class="span3 tile tile-blue icon">
+					<a>
+						<img src="images/taxa.png">
+						<h2>taxons<h2>
+					</a>
+				</li>
+				<li class="span3 tile tile-blue icon">
+					<a >
+						<img src="images/Layers.png">
+						<h2>layers<h2>
+					</a>
+				</li>
+			</ul>
+			<div id= "configInfos"></div>
+			
+	</div>
+	<div class="popup masqued">
+		<div class="span6 editServerUrl" >
+			<p><h3>Actual server Url: </h3><span id="spanServerUrl"></span><br/></p>
+			<a class="btn" id="editServerUrl" href="#configurl">edit</a>
+		</div>
+		<div class= "inputUrl masqued" id="serverForm">	
+		</div>
+	</div>
+</script>
+<script type="text/template" id="config-url-template">
+	<br/><br/>
+	<div id="fromUrlServer"></div><br/>
+	<div id="serverUrlInfo"></div><br/>
+	<div>
+		<a class="btn" href="#config">cancel</a>
+		<a class="btn" id="saveServerUrl">Save</a>
+	</div>
+</script>
+<script type="text/template" id="config-protos-template">
+	<br/><br/>
+	<div class="span" >
+		<div><h3>Choose protocol(s) to download or to update</h3></div>
+		<div id="configProtocolsForm"></div>
+		<div>
+			<a class="btn" href="#config">cancel</a>
+			<a class="btn" id="configChooseProtocols">next</a>
+		</div>
+		
+	</div>
+</script>
+<!-- layout "identify individuals  -->
+<script type="layout" id="indiv-layout">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="navBarPerso">
+				</a><a class="back-button" href="#"></a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a>Birds</a> </li>                      
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<br/>
+		<section id="dataTableRow">
+		</section>
+	</div>
+</script>
+<script type="text/template" id="indiv-template">
+	<div id="go_top" ></div>
+	<div class="row-fluid" id="msgColumnsModif" style="display: '';">
+		<div  class="span10" ><h3>modify the list of displayed columns</h3>
+		</div> 
+		<div class="span2">
+			<a  class="btn primary icon submit" style="float:right;">GO</a>	
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span12" id="dataFilterRow"></div>
+		<div><a class="btn" id="submitForm" style="display: none;">Submit</a></div>
+	</div>
+	<div class="row-fluid" >
+		<div class="span12" id="dataTableRow">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="indivDataTable"></table>
+		</div>
+	</div>
+	<br/>
+	<div>
+		<a class="btn" href="#go_top"><img src="images/go_top.png"/></a>
+	</div>
+	<div class="row-fluid alertRow ">
+		<div class="span8 alert alert-block">
+			<div class="selectFields"></div>
+		</div>
+	</div>
+</script>
+<!-- layout "all data  -->
+<script type="layout" id="allData-layout">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="navBarPerso">
+				</a><a class="back-button" href="#"></a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a>All data</a> </li>                      
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" id="myDataTable">
+	</div>
+</script>
+<script type="text/template" id="allData-template">
+	<div class="row-fluid" >
+		<div class="span12 " >
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="allDataTable" >  
+				<thead>
+				<tr>
+				  <th>TSta_PK_ID</th>
+				  <th>FieldActivity_Name</th>
+				  <th>Name</th>
+				  <th>DATE</th>
+				</tr>
+			    </thead>
+			    <tbody></tbody>
+			</table>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="allData-temp">
+	<div id="allDataInfosPanel">
+		<div id="allDataInfosPanelClose"><img src="images/close.png" /></div>
+		<div id="allDataInfosPanelContent"></div>
+	</div>
+	<div class="allDataFilterPanel" >
+	
+		<fieldset>
+			<legend class="critLegend">what</legend>
+			protocol: <br/><input type='text' value='28' id="id_proto">
+			<select id="select_id_proto"/><br/>	
+			taxon: <br/><input list="lTaxon" type="text" id="iTaxon" />
+			<datalist id="lTaxon"/>
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">where</legend>
+			place: <br/><input type='text' id="place"/><br/>	
+			region: <br/><input type='text' id="region"/><br/>	
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">when</legend>
+			date:<br/>
+			<div class="allData-btn-group">
+				  <a class="allData-criteriaBtn btn" id="btnD-1" style="font-size: 12px; ">day-1</a>
+				  <a class="allData-criteriaBtn btn " id="btnY-1" style="font-size: 12px; ">year-1</a>
+				  <a class="allData-criteriaBtn btn" id="btnY-2" style="font-size: 12px; ">year-2</a>
+				  <a class="allData-criteriaBtn btn" id="btnReset" style="font-size: 12px; ">Reset</a>
+			</div>
+
+			interval of time <br/>
+			start date:<br/> <input type="text" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
+			end date:<br/>  <input type="text" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		</fieldset>
+		<fieldset>
+			<legend class="critLegend">search</legend>
+			<ul id="allData-searchId"><li id="searchBtn"><a ><img src="images/Find-Replace.png" style="height:60px; width:60px;align-left:60px"/></a></li></ul> 
+			
+		</fieldset>
+		<br/>	
+	</div>
+	<div  id="allDataContent">	
+		<div id="allDataMap">
+			<div id="allDataCluster">
+				cluster : 
+				<!--<select id="select_cluster">
+					<option value="yes">yes</option>
+					<option value="no">no</option>
+				</select>  -->
+				<input type="radio" name="cluster" class="cluster" value="yes" checked> yes&nbsp;
+				<input type="radio" name="cluster" class="cluster" value="no"> no <br/>
+			</div>
+			<div style="width:700px; height:730px" id="map"></div>
+			<div id="allDataMapDataInfos"></div>
+		</div>
+		<div  id="allDataList">
+			<br/><br/>
+			<a class="btn" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>
+			<br/>
+			<table id='allDataBoxList' class='display' >
+			  <thead>
+				<tr>
+				  <th> id </th>
+				  <th> activity </th>
+				  <th> name </th>
+				  <th> date </th>
+				  <th> region </th>
+				  <th> place </th>
+				   <th> lat </th>
+				   <th> lon </th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table><br/><br/>
+		</div>
+
+	</div>
+</script>	
+<script type="text/template" id="export-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">select data view</h3>
+    </div>
+    <div class="modal-body">
+		<form>
+			<label for="male">theme</label>
+			<select id="export-themes">
+			  <option value=""> </option>
+			</select> 
+			<label for="male">views</label>
+		</form>
+		<ul class="unstyled" id="export-views">
+		</ul>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn">Close</a>
+    <!--  <a href="#" class="btn btn-danger">next &gt;</a>-->
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-filter-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<div class="span4">
+				<h3 class="modal-title">add filter</h3>
+			</div>
+			<div class="span8"><span>selected view :</span><span id="filterViewName"></span></div>
+		</div>
+    </div>
+    <div class="modal-body">
+		<div id="export-filter-result">
+			<h4 class="blackText">initial count : <span id="countViewRows"><img src="images/ajax-loader-linear.gif" /></span></h4>
+			<div id="export-filter-content"></div>
+		</div>
+		<div id="filter-btn" class="masqued"><a class="btn" id="export-add-filter"> add criterias <i class="icon-plus"></i></a></div>
+		<div id="export-field-selection" class="masqued">
+			<label for="male">select a field and add a criteria</label>
+			<select id="export-view-fields">
+			</select> 
+			<button id="export-field-select-btn"> Ok </button>
+		</div>
+		<div id="export-filter-list" class="masqued">
+			<div class ="row-fluid" id="export-filter-header">
+				<div class="span4">field</div>
+				<div class="span2">operator</div>
+				<div class="span5">value</div>
+				<div class="span1"></div>
+			</div>
+		</div>
+		<div id="filter-query" class="masqued" ><button id="filter-query-btn">check result</button><span id="filter-query-result" ></span></div>
+    </div>
+    <div class="modal-footer">
+		<a href="#export" class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn btn-danger" id="exportMap">next &gt;</a>
+		<input id="filterForView"  type="hidden" value="" />
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-map-template">
+	<div class="modal-dialog">
+  <div class="modal-content" id="mapView">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">select a geographic extent</h3>
+    </div>
+    <div class="modal-body">
+		<div id="map"></div>
+		<input  class="updateSelection" type="hidden" value="" />
+		<div id="bbox">longitude min : <span id="minLon"></span>, latitude min : <span id="minLat"></span><br/>longitude max : <span id="maxLon"></span>, latitude max : <span id="maxLat"></span><br/></div>
+		<div id="geo-query"><button id="geo-query-btn">check result</button><span id="geo-query-result" ></span></div>
+	
+    </div>
+    <div class="modal-footer">
+      <a class="btn" id="export-back-filter">&lt; previous</a>
+	  <a class="btn" id="export-first-step">first step</a>
+      <a class="btn btn-danger" id="export-result">next &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-coldisplay-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<h3 class="modal-title">Select columns to display</h3>
+		</div>
+    </div>
+    <div class="modal-body">
+		<p> default selected fields: LAT, LON, DATE, (Station or Site_name)</p>
+		<div id="formcolumns">
+			
+		</div>
+    </div>
+    <div class="modal-footer">
+		<a  class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn" id="export-first-step">first step</a>
+		<a class="btn btn-danger" id="exportResult">next &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-result-template">
+	<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="row-fluid">
+			<div class="span4">
+				<h3 class="modal-title">result</h3>
+			</div>
+		</div>
+    </div>
+    <div class="modal-body">
+		<div>
+			<table id='exportResultList' class='display' >
+			  <thead>
+				<tr id='exportResultList-head'>
+				  <!-- <th> id </th>  -->
+				</tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table><br/><br/>
+		</div>
+    </div>
+    <div class="modal-footer">
+		<span id="spanGeneratingGpx">waiting for generating gpx file ...<img src="images/ajax-loader-linear.gif"/></span>
+		<a  class="btn" id="exportPrevBtn">&lt; previous</a>
+		<a class="btn" id="export-first-step" >first step</a>
+		<a class="btn btn-danger" id="exportDataMap" > data on map </a>  <!--id="exportDataMap"-->
+		<a  class="btn btn-danger" disabled id="export-getGpx" href="http://ns24422.ovh.net/ecoReleve-core/gps/data.gpx">get gpx file</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>
+<script type="text/template" id="export-data-on-map-template">
+	<div class="modal-dialog">
+  <div class="modal-content" id="mapView">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="modal-title">selected data on map</h3>
+    </div>
+    <div class="modal-body">
+		<div id="map"></div>
+    </div>
+    <div class="modal-footer">
+     <!-- <a class="btn" id="export-back-grid">&lt; previous</a> -->
+	  <a class="btn" id="export-first-step">first step</a>
+	   <a class="btn btn-danger" href="#">close</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</script>

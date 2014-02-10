@@ -118,9 +118,16 @@ select[name="pagesizes"]{
 .modal-title-picto {
     height: 35px;
 }
-/*******************  grid  *******************/
-div.filter-form-div > input {
-	width:200px;
+.exportViewsList {
+	width:450px;
+	height: 35px;
+	background: grey;
+	padding-top: 10px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	padding-left: 10px;
+	font-size: 18px;
+	color: white;
 }
 /**********************************************/
 /* Top bar with actions, menu and all */
@@ -156,13 +163,39 @@ body.loading #logo {
 /* grid view */
 .pagination ul > li > span[data-target] {cursor: pointer; color: #2e8bcc;}
 .grid table th {padding: 0; text-align: center; vertical-align: middle; background: #fff;}
-.grid table th > div {padding: 4px 8px; position: relative;}
+.grid table th > div {padding: 7px 8px; position: relative;}
 .grid table td {vertical-align: middle; cursor: pointer; padding: 2px 8px;}
 .grid table tbody:hover {background-color: rgb(220, 220, 255);}
-.pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; color: #999; font-style: italic;}
+.pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; font-style: italic;}
+.pagination-stats em {color: #2E8BCC; font-size: xx-large;}
 .pagination ul {margin: 0 1em;}
 #pagesize-selector {display: inline-block; line-height: 25px; vertical-align: top;}
 #pagesize-selector select {width: auto; margin-bottom: 0;}
+
+/* grid view: filtering & sorting actions */
+.grid th .sort-action, .grid th .filter-action {position: absolute; right: 1px; cursor: pointer; border-width: 1px; border-style: solid; border-radius: 3px; font-size: 10px; padding: 2px; display: inline-block; width: 10px; height: 12px;}
+
+/* grid view: sorting */
+.grid th .sort-action {top: 1px; color: red; border-color: red;}
+.grid th .sort-action:hover {background-color: red; color: white;}
+.grid th .sort-action[data-order=""] {color: #2E8BCC; border-color: #2E8BCC;}
+.grid th .sort-action[data-order=""]:hover {background-color: #2E8BCC; color: white;}
+
+/* grid view: filtering */
+.grid th .filter-action {bottom: 1px; color: #2E8BCC; border-color: #2E8BCC;}
+.grid th .filter-action:hover {background-color: #2E8BCC; color: white;}
+.grid th .filter-action.active {color: red; border-color: red;}
+.grid th .filter-action.active:hover {background-color: red; color: white;}
+.grid .filter-form {padding: 0.5em; background-color: #fff; border: 1px solid #ccc; position: absolute; left: 50%; top: 100%; margin-left: -15px; display: none;}
+.grid th:last-child .filter-form {right: 0; margin-left: 0; left: auto;}
+.grid .filter-form form {margin: 0;}
+.grid .filter-form .input-append, .grid .filter-form .input-prepend {margin: 0;}
+.grid .filter-form .filter-form-boolean {margin-left: 0; margin-bottom: 1em;}
+.grid .filter-form input.error {border-color: #953b39; color: #b94a48;}
+.grid .filter-form input.error:focus {-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392; -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;}
+
+
+
 /* Tiled navigation */
 /*
 .thumbnails > li.tile {height: auto; padding: 0; width: auto; cursor: auto; margin: 1em;}
@@ -207,3 +240,7 @@ header.navbar .nav li.dropdown.open > .dropdown-toggle {background-color: rgba(2
 	}
 	#main {position: static;}
 }
+/*******************  grid  *******************/
+/*div.filter-form > form, input.inputGrid {
+	width:200px;
+}*/

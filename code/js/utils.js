@@ -1083,8 +1083,8 @@ app.utils.getViewsList  = function(id){
 					var label = data[i].MapSelectionManager.TSMan_Layer_Name;
 					$('<li class="exportViewsList" value=\"'+ value +'\">'+ label + "</li>").appendTo('#export-views');
 				}
-				$('.exportViewsList').css({"display":"inline-block","width":"450px","height": "35px","background": "grey","padding-top": "10px",
-				                          "margin-top": "2px","margin-bottom": "2px","padding-left": "10px","font-size": "18px","color": "white"});
+				/*$('.exportViewsList').css({"width":"450px","height": "35px","background": "grey","padding-top": "10px",
+				                          "margin-top": "2px","margin-bottom": "2px","padding-left": "10px","font-size": "18px","color": "white"});*/
 
 			},error: function() {
 				alert("error loading views, please check your webservice");
