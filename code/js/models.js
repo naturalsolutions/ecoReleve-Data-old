@@ -136,7 +136,7 @@ app.models.Waypoint = Backbone.Model.extend({
 
 	},{
 		schema: {
-		id: {title: 'id', type: 'Number',sortable: true},
+		id: {title: 'id', type: 'Text',sortable: true},
 		name: {title: 'name', type: 'Text',sortable: true},
 		latitude: {title: 'latitude', type: 'Number',sortable: true},
 		longitude: {title: 'longitude', type: 'Number',sortable: true},

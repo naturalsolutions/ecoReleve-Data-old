@@ -147,15 +147,30 @@ app.views.HomeView = app.views.BaseView.extend({
         this._dfds = {};
 		window.addEventListener('online',  this.updateOnlineStatus);
 		window.addEventListener('offline', this.updateOnlineStatus);
-        this.loadStats();
+       
+       /* var body_width = $(window).width(); 
+        if (body_width < 1300 ){
+            $("canvas").attr("width", "350px");
+        }*/
 	},
-    /*afterRender: function () {
-        this.resizeImage();
+    afterRender: function () {
+       /* this.resizeImage();
         var self = this;
         $(window).bind('resize', function () { 
             self.resizeImage();
-        });
-    },*/
+        });*/
+         this.loadStats();
+        var d = (new Date()+'').split(' ');
+        // ["Mon", "Feb", "1", "2014"....
+        d[1] = this.convertMonth(d[1]);
+         var date =  [d[1], d[2],d[3]].join(' ');
+        // Feb 1  2014 ...
+        $("#date").html(date);
+        var body_width = $(window).width(); 
+        if (body_width < 1300 ){
+            $("canvas").attr("width", "350px");
+        }
+    },
 	events : {
 		'click #alldata' : 'alldata'
 	},
@@ -216,70 +231,119 @@ app.views.HomeView = app.views.BaseView.extend({
         } 
     },
     loadStats : function(){
-        var url = this.serverUrl + "/station/count/month";
-        $.ajax({
-            url: url,
-            dataType: "json",
-            success: function(data) {
-                var stat =data[0][0];
-                var pieData =[];
-                var labels =[];
-                var barData=[];
-                var colors =["#F38630","#E0E4CC","#69D2E7","#3F9F3F","#A4A81E","#F0F70C","#0CF7C4","#92D6C7","#2385b8","#E0C8DD","#F38630","#E0E4CC"] ;
-                var legend="<div id='graphLegend' style='text-align: left;'><b>stations number per month</b><br/>";
-                var i=0;
-                for (key in stat){
-                    var dataObj = {};
-                    var month = key;
-                    var value = stat[key] || 0 ;
-                   /* dataObj.value = parseInt(value);
-                    dataObj.label = month;
-                    dataObj.color = colors[i];
-                    legend += "<p><a style='background:" + dataObj.color  + "; width:20px;height:20px;'>&nbsp;&nbsp;&nbsp;</a>&nbsp;" + month + "</p>";
-                    pieData.push(dataObj);
-                    i +=1;*/
-                    // bar graph
-                    labels.push(month);
-                    barData.push(parseInt(value));
+        var dataGraph = localStorage.getItem("ecoreleveChart"); 
+        // get current month and compare it with stored month
+        var d = (new Date()+'').split(' ');
+        // ["Mon", "Feb", "1", "2014"....
+        var month  =  d[1];
+        var storedMonth = localStorage.getItem("ecoreleveChartMonth");
+        if(dataGraph && (month == storedMonth )){
+            var gData = JSON.parse(dataGraph);
+            var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
+            $("#homeGraphLegend").html("<h3>stations number per month</h3>"); 
+        } else {
+            var url = this.serverUrl + "/station/count/month";
+            $.ajax({
+                url: url,
+                dataType: "json",
+                success: function(data) {
+                    var stat =data[0][0];
+                    var pieData =[];
+                    var labels =[];
+                    var barData=[];
+                    var colors =["#F38630","#E0E4CC","#69D2E7","#3F9F3F","#A4A81E","#F0F70C","#0CF7C4","#92D6C7","#2385b8","#E0C8DD","#F38630","#E0E4CC"] ;
+                    var legend="<div id='graphLegend' style='text-align: left;'><b>stations number per month</b><br/>";
+                    var i=0;
+                    for (key in stat){
+                        var dataObj = {};
+                        var month = key;
+                        var value = stat[key] || 0 ;
+                       /* dataObj.value = parseInt(value);
+                        dataObj.label = month;
+                        dataObj.color = colors[i];
+                        legend += "<p><a style='background:" + dataObj.color  + "; width:20px;height:20px;'>&nbsp;&nbsp;&nbsp;</a>&nbsp;" + month + "</p>";
+                        pieData.push(dataObj);
+                        i +=1;*/
+                        // bar graph
+                        labels.push(month);
+                        barData.push(parseInt(value));
+                    }
+                    labels =labels.reverse();
+                    barData = barData.reverse();
+                    var gData = {
+                        labels : labels ,
+                        datasets : [
+                            {
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,1)",
+                                data : barData
+                            }
+                        ]
+                    }
+                    var strData = JSON.stringify(gData);
+                    // store data in localstorage
+                    localStorage.setItem("ecoreleveChart",strData);
+                    // store month in localstrorage to update data every month
+                    var d = (new Date()+'').split(' ');
+                    // ["Mon", "Feb", "1", "2014"....
+                    var month  =  d[1];
+                    localStorage.setItem("ecoreleveChartMonth",month);
+                    var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
+                    $("#homeGraphLegend").html("<h3>stations number per month</h3>");
+                    /*
+                    var len = data.length;
+                    for (var i=0; i<len; i++){
+                        var dataObj = {};
+                        var value = data[i].value;
+                        var family = data[i].FAMILY;
+                        if (family ==""){ family = "non renseign&eacute;"};
+                        dataObj.value = parseInt(value);
+                        dataObj.label = family;
+                        dataObj.color = colors[i];
+
+                        legend += "<p><a style='background:" + dataObj.color  + "; width:20px;height:20px;'>&nbsp;&nbsp;&nbsp;</a>&nbsp;" + family + "</p>";
+                        pieData.push(dataObj);*/
+                    
+
+                   /*
+                   legend += "</div>";
+                   $("#legend").append(legend);
+                   var myPie = new Chart(document.getElementById("graph").getContext("2d")).Doughnut(pieData,null);*/
+                },
+                error: function(data) {
+                    $("#homeGraphLegend").html("error in loading data ");
                 }
-                labels =labels.reverse();
-                barData = barData.reverse();
-                var gData = {
-                    labels : labels ,
-                    datasets : [
-                        {
-                            fillColor : "rgba(220,220,220,0.5)",
-                            strokeColor : "rgba(220,220,220,1)",
-                            data : barData
-                        }
-                    ]
-                }
-
-                var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
-                $("#homeGraphLegend").text("stations number per month");
-                /*
-                var len = data.length;
-                for (var i=0; i<len; i++){
-                    var dataObj = {};
-                    var value = data[i].value;
-                    var family = data[i].FAMILY;
-                    if (family ==""){ family = "non renseign&eacute;"};
-                    dataObj.value = parseInt(value);
-                    dataObj.label = family;
-                    dataObj.color = colors[i];
-
-                    legend += "<p><a style='background:" + dataObj.color  + "; width:20px;height:20px;'>&nbsp;&nbsp;&nbsp;</a>&nbsp;" + family + "</p>";
-                    pieData.push(dataObj);*/
-                
-
-               /*
-               legend += "</div>";
-               $("#legend").append(legend);
-               var myPie = new Chart(document.getElementById("graph").getContext("2d")).Doughnut(pieData,null);*/
-            },
-            error: function(data) {
-            }
-        });
+            });
+        }
+    },
+    convertMonth : function(month){
+        var monthUpper = month.toUpperCase();
+        switch (monthUpper){
+            case "JAN":
+                return "January";
+            case "FEB":
+                return "February";
+            case "MAR":
+                return "March";
+            case "APR":
+                return "April";
+            case "MAY":
+                return "May"; 
+            case "JUN":
+                return "June";  
+            case "JUL":
+                return "July";  
+            case "AUG":
+                return "August"; 
+            case "SEP":
+                return "September";  
+            case "OCT":
+                return "October";  
+            case "NOV":
+                return "November";  
+            case "DEC":
+                return "December";     
+        }
     }
 
 });
@@ -1332,6 +1396,7 @@ app.views.ImportMap = app.views.BaseView.extend({
         var map_view = app.utils.initMap();
         map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints"});
         this.mapView = map_view;
+        $("div.modal-body").css("min-height","650px;");
     },
     events : {
         "selectedFeatures:change" : "featuresChange"

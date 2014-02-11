@@ -329,7 +329,7 @@ app.utils.loadWaypointsFromFile = function (xml){
 			var newDate = d.defaultView();
 			localStorage.setItem("gpxLastImportDate",newDate);
 			var fileName = localStorage.getItem("gpxFileName");
-			$("#spanGeneratingGpx").html("Gpx file '" +  fileName + "' is successfully loaded! You have " + id + " waypoints &nbsp;&nbsp;");
+			$("#spanGeneratingGpx").html("<i>Gpx file '" +  fileName + "' is successfully loaded! You have <span id='exportWptNumber'>" + id + "</span> waypoints &nbsp;&nbsp;</i>");
 			$("#importLoadNext").removeAttr("disabled");
 		} else {
 			$("#spanGeneratingGpx").html("");
