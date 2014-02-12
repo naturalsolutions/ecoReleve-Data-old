@@ -92,7 +92,7 @@ NS.UI.MapView = Backbone.View.extend({
 		/******************** Methods *****************************************/
 		addLayer : function(options){
 			
-			this.displayWaitControl();
+			//this.displayWaitControl();
 			var layerName = options.layerName || "Features";
 			// style
 			// if layer exists, remove it
@@ -494,7 +494,8 @@ NS.UI.MapView = Backbone.View.extend({
 			map.updateSize();
 		},
 		updateLayer: function(layerName, params){
-			this.displayWaitControl();
+			//this.displayWaitControl();
+			var self = this;
 			var vector_layer;
 			for(var i = 0; i < this.map.layers.length; i++ ){
 					if((this.map.layers[i].name) ==layerName){vector_layer = this.map.layers[i] ;break;}
@@ -515,6 +516,10 @@ NS.UI.MapView = Backbone.View.extend({
 				vector_layer.styleMap = layerStyle;
 			}
 			vector_layer.refresh({force: true}); 
+			
+			vector_layer.events.register("beforefeaturesadded", vector_layer,function(){
+				self.displayWaitControl();
+			});
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
 			//$("#waitControl").remove(); 
 			function zoomData(){

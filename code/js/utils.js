@@ -856,7 +856,7 @@ app.utils.filldatable = function(params, paramsMap){
 	
 	app.utils.getDataForGrid(ajaxSource,function(collection){
 		var rowsNumber = collection.length ;
-		app.utils.initGridServer(collection, rowsNumber,ajaxSource, [2,6,7,8]);
+		app.utils.initGridServer(collection, rowsNumber,ajaxSource, [2,6,7,8], {pageSize :20});
 	});
 
 	/*
@@ -971,6 +971,15 @@ app.utils.getUpdateParams = function(){
 app.utils.updateLayer = function(mapView){
 	//$("#allDataMapDataInfos").html("<p>Loading data  <img src='images/ajax-loader-linear.gif'/></p>");
 	//get params
+	
+	// delete selected feature layer if exists
+	for(var i = 0; i < mapView.map.layers.length; i++ ){
+		if((mapView.map.layers[i].name) == "Selected feature" ) {
+			mapView.map.removeLayer(mapView.map.layers[i]);
+		}
+	}
+
+
 	var params = {
 		id_proto : $("#id_proto").attr("value"),
 		place:$("#place").attr("value"),
@@ -1045,6 +1054,41 @@ app.utils.updateLayer = function(mapView){
 		mapView.updateLayer("Observations", params);
 	}
 	$("#allDataMapDataInfos").html("");
+}
+app.utils.updateLocation = function(mapView, point){
+	var exists = false;
+	var vector_layer = null;
+	for(var i = 0; i < mapView.map.layers.length; i++ ){
+		if((mapView.map.layers[i].name) == "Selected feature" ) {
+				mapView.clearLayer(mapView.map.layers[i]);
+				vector_layer = mapView.map.layers[i];
+				exists = true;
+				break;
+			}
+	}
+	/*	
+	for(var i = 0; i < mapView.map.layers.length; i++ ){
+		if((mapView.map.layers[i].name) == "Selected feature" ) {
+			mapView.map.removeLayer(mapView.map.layers[i]);
+		}
+	}*/
+	if (!exists){
+		var pt = new NS.UI.Point({ latitude : point.latitude, longitude : point.longitude , label:""});
+		var style =  new OpenLayers.Style({
+			pointRadius:6,strokeWidth:1,fillColor:'#F00C27',strokeColor:'black',cursor:'pointer'
+		});
+		mapView.addLayer({point : pt , layerName : "Selected feature", style : style }); 
+		var location = new OpenLayers.LonLat(point.longitude,point.latitude);
+		mapView.setCenter(location);
+		mapView.panTo(location);
+	} else {
+		vector_layer.removeAllFeatures();
+		var lonlat = new OpenLayers.LonLat(point.longitude, point.latitude);
+		lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:3857"));
+		var f = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));		
+		vector_layer.addFeatures(f);
+		mapView.map.setCenter(lonlat);
+	}
 }
 app.utils.getThemesList = function(){
 	$('#export-themes').empty();
@@ -1278,7 +1322,9 @@ JSON.stringify = JSON.stringify || function (obj) {
 
 */
 app.utils.getDataForGrid = function (url,callback){
-	app.xhr = "";
+	if(app.xhr){ 
+        app.xhr.abort();
+    }
 	app.xhr = $.ajax({
 		url: url,
 		dataType: "json",
@@ -1340,7 +1386,7 @@ app.utils.getDataForGrid = function (url,callback){
 		}
 	});
 }
-app.utils.initGrid = function(list, VisibleList, columns){
+app.utils.initGrid = function(list, VisibleList, columns, options){
 	var visibleList = new VisibleList;
   // initier la grid
 	var grid = new NS.UI.Grid({
@@ -1437,12 +1483,12 @@ app.utils.initGrid = function(list, VisibleList, columns){
 		}
 	}
 }
-app.utils.initGridServer = function (gridCollection, count,url, columns){
+app.utils.initGridServer = function (gridCollection, count,url, columns, options){
 	//var visibleList = new VisibleList;
   // initier la grid
 	var grid = new NS.UI.Grid({
 		collection: gridCollection,
-		pageSize: 10,
+		pageSize: options.pageSize || 10,
 		pageSizes: [5,10, 20, 50],
 		page: 1,
 		pagerPosition: 'top'

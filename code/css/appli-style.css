@@ -157,6 +157,11 @@ select[name="pagesizes"]{
 	color: #2E8BCC;
 	font-size: xx-large;
 }
+/*********** alldata             *************/
+#featureOnTheMap {
+	margin-top: 20px;
+}
+
 /**********************************************/
 /* Top bar with actions, menu and all */
 .navbar-inner {padding: 0 5px 0 0;} /* metro-BS add an extra padding which create a weird effect... */
@@ -191,7 +196,7 @@ body.loading #logo {
 /* grid view */
 .pagination ul > li > span[data-target] {cursor: pointer; color: #2e8bcc;}
 .grid table th {padding: 0; text-align: center; vertical-align: middle; background: #fff;}
-.grid table th > div {padding: 7px 8px; position: relative;}
+.grid table th > div {padding: 7px 8px; position: relative;min-width : 85px;}
 .grid table td {vertical-align: middle; cursor: pointer; padding: 2px 8px;}
 .grid table tbody:hover {background-color: rgb(220, 220, 255);}
 .pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; font-style: italic;}

@@ -355,7 +355,7 @@ display: block;}
 }
 /* view allData filter div background */
 .allDataFilterPanel {
-	background : grey;
+	/*background : grey;*/
 	padding: 1em;
 	/*width:280px;*/
 	position : fixed;
@@ -363,6 +363,8 @@ display: block;}
 	z-index : 5000;
 	margin-top : 4px;
 	color:white;
+	background-color: black;
+	opacity: 0.82;
 }
 /* view allaData btn group criterias 
 .allData-btn-group {
@@ -416,7 +418,7 @@ button.allData-criteriaBtn{
 	float: left;
 }
 #allDataMap, #allDataList{
-	margin: 1%;
+	margin: 0.3%;
 	/*max-width : 100%;*/
 }
 #allDataList{

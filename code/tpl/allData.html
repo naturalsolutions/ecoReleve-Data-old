@@ -4,6 +4,11 @@
 </div>
 <div class="allDataFilterPanel non-printable" >
 	<fieldset>
+		<legend class="critLegend">search</legend>
+		<ul id="allData-searchId" class="unstyled"><li id="searchBtn"><a ><img src="images/Find-Replace.png" style="height:60px; width:60px;align-left:60px"/><img src="images/go.jpg"/></a></li></ul> 
+		
+	</fieldset>
+	<fieldset>
 		<legend class="critLegend">what</legend>
 		protocol: <br/><input type='text' value='28' id="id_proto">
 		<select id="select_id_proto"/><br/>	
@@ -26,14 +31,10 @@
 		</div>
 
 		interval of time <br/>
-		start date:<br/> <input type="text" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
-		end date:<br/>  <input type="text" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		start date:<br/> <input type="date"" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
+		end date:<br/>  <input type="date" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
 	</fieldset>
-	<fieldset>
-		<legend class="critLegend">search</legend>
-		<ul id="allData-searchId"><li id="searchBtn"><a ><img src="images/Find-Replace.png" style="height:60px; width:60px;align-left:60px"/> GO </a></li></ul> 
-		
-	</fieldset>
+
 	<br/>	
 </div>
 <div  id="allDataContent">	
@@ -47,13 +48,13 @@
 			<input type="radio" name="cluster" class="cluster" value="yes" checked> yes&nbsp;
 			<input type="radio" name="cluster" class="cluster" value="no"> no <br/>
 		</div>
-		<div style="width:600px; height:730px" id="map"></div>
+		<div style="width:600px; height:820px" id="map"></div>
 		<div id="allDataMapDataInfos"></div>
 	</div>
 	<div  id="allDataList">
-		<br/><br/>
+		<!--<br/><br/>
 		<a class="btn non-printable" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>
-		<br/>
+		<br/>  -->
 		<div id="grid" >
 		</div><br/><br/>
 	</div>

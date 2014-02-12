@@ -315,6 +315,17 @@ app.views.HomeView = app.views.BaseView.extend({
                 }
             });
         }
+        // update individuals number
+        var indivUrl = this.serverUrl + "/TViewIndividual/list/count";
+        $.ajax({
+                url: indivUrl,
+                dataType: "json",
+                success: function(data) {
+                    var stat =data[0].count;
+                    $("#infos span").text(stat);
+                 }
+        });   
+
     },
     convertMonth : function(month){
         var monthUpper = month.toUpperCase();
@@ -1150,7 +1161,7 @@ app.views.AllDataView = app.views.BaseView.extend({
 
         $( "label, input,button, select " ).css( "font-size", "15px" );
         //datalist of taxons
-        //app.utils.fillTaxaList();
+        app.utils.fillTaxaList();
     }    
     ,events : {
         'change #select_id_proto' : 'updateTable',
@@ -1165,7 +1176,10 @@ app.views.AllDataView = app.views.BaseView.extend({
         'click tr' : 'selectTableElement',
         'click #allDataInfosPanelClose' : 'closeInfosPanel',
         //'change input#updateSelection' : 'updateTableForSelecedFeatures'
-        'click #refreshTable' : 'updateTableForSelecedFeatures'
+         'selectedFeatures:change' : 'updateTableForSelecedFeatures',
+        //'click #refreshTable' : 'updateTableForSelecedFeatures'
+        'click #featureOnTheMap' : 'zoomMapToSelectedFeature',
+        'click div.olControlSelectFeatureItemActive.olButton' : "deletePositionLayer"
     },
     updateTable: function(){
         //this.updateControls();
@@ -1175,21 +1189,29 @@ app.views.AllDataView = app.views.BaseView.extend({
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnY-1").css({"background-color" : "rgb(150,150,150)"});
         $('#idate').text("1ans");   
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
     },
     updateDate2ans : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnY-2").css({"background-color" : "rgb(150,150,150)"});
-        $('#idate').text("2ans");   
+        $('#idate').text("2ans");
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");   
     },
     resetdate : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnReset").css({"background-color" : "rgb(150,150,150)"});
         $('#idate').text("");
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
     },
     updateDateHier : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnD-1").css({"background-color" : "rgb(150,150,150)"});
         $('#idate').text("hier");
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
     },
     updateDateDep : function(){
         var regex = new RegExp("^[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
@@ -1216,13 +1238,14 @@ app.views.AllDataView = app.views.BaseView.extend({
             $("#dateinter").attr("disabled","disabled");
     },
     search : function(){
+        $("#map").css("height","795px");
         this.updateControls();
         var datedep=$("#datedep").attr('value');
         var datearr=$("#datearr").attr('value');
         $('#idate').text(datedep+";"+ datearr);
-        app.utils.updateLayer(this.map_view);
         var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
         app.utils.filldatable(params);
+        app.utils.updateLayer(this.map_view);
         
     },
     updateMap : function(){
@@ -1258,7 +1281,6 @@ app.views.AllDataView = app.views.BaseView.extend({
         var idSelected = $("#featuresId").val();
         if (idSelected ==""){
             paramsMap = "bbox=" + $("#updateSelection").val();
-            
         }
         else {
             // get all id station from string  (id1,id2 ...)
@@ -1273,76 +1295,58 @@ app.views.AllDataView = app.views.BaseView.extend({
             var selectedModel = app.models.selectedModel ;
             $("#allDataInfosPanel").css({"display":"block"});
             var content ="<h3>details</h3>";
+            var latitude, longitude;
             for (k in selectedModel.attributes){
                 var v = selectedModel.attributes[k];
+                if (k.toUpperCase()=="DATE"){
+                    var d = (new Date(v)+'').split(' ');
+                    v =  [d[1], d[2],d[3]].join(' ');
+                }
+                if (k.toUpperCase()=="LAT"){
+                    latitude = v;
+                }
+                if (k.toUpperCase()=="LON"){
+                    longitude = v ;
+                }
                 content += "<p class='allDataInfosTitles'> "+ k + " <br/><span>" + v + "</span></p>";
            }
+             content +="<p id='featureOnTheMap' longitude='" + longitude +"' latitude='" + latitude +"'><a><img src='images/Map-Location.png'/></a> <i>show it on the map</i></p>";
             $("#allDataInfosPanelContent").html(content);
         }
-
-       /*
-        var ele  = $(e.target).get(0).nodeName;
-        if (ele =="TD"){
-            // find table id
-            var table = $(e.target).parent().parent().parent().get(0).attributes["id"].nodeValue;
-            // initialize datatable
-            app.utils.oTable = $('#allDataBoxList');
-            var oTab = $('#allDataBoxList').dataTable();
-            // selected tr element
-            var trElement = $(e.target).parent().get(0);
-            if ( $(trElement).hasClass('row_selected')) {
-                $(trElement).removeClass('row_selected');
-                $("#locationSubmit").attr("style","display:none ;");
+    },
+    zoomMapToSelectedFeature : function(){
+        var latitude = $("#featureOnTheMap").attr("latitude");
+        var longitude = $("#featureOnTheMap").attr("longitude");
+        var point = {};
+        point.longitude = longitude;
+        point.latitude = latitude;
+        //this.map_view.setCenter(point);
+        app.utils.updateLocation (this.map_view, point);
+    },
+    deletePositionLayer : function(){
+            // delete selected feature layer if exists
+        for(var i = 0; i < mapView.map.layers.length; i++ ){
+            if((mapView.map.layers[i].name) == "Selected feature" ) {
+                mapView.map.removeLayer(mapView.map.layers[i]);
             }
-            else {
-                oTab.$('tr.row_selected').removeClass('row_selected');
-                $(trElement).addClass('row_selected');
-                $("#locationSubmit").attr("style","display: ;");
-            }
-            // get coordinates for selected station
-            var anSelected = app.utils.fnGetSelected( oTab );
-            
-            if (anSelected.length !== 0) {
-                $("#allDataInfosPanel").css({"display":"block"});
-                var data = oTab.fnGetData(anSelected[0]);
-                var content ="<h3>details</h3>";
-                content += " <p class='allDataInfosTitles'> id <br/><span>" + data[0] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> activity<br/><span>" + data[1] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> name  <br/><span>" + data[2] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> date <br/><span>" + data[3] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> region <br/><span>" + data[4] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> place <br/><span>" + data[5] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> latitude <br/><span>" + data[6] + "</span></p>";
-                content += "<p class='allDataInfosTitles'> longitude <br/><span>" + data[7] + "</span></p>";
-                $("#allDataInfosPanelContent").html(content);
-            } else {
-                $("#allDataInfosPanel").hide();
-            }
-            
-        }  
-        */
+        }
     }
     , closeInfosPanel : function(){
         $('#allDataInfosPanel').hide();
     }
-
-
 }); 
 app.views.Import = app.views.BaseView.extend({
     template: "import" ,
     initialize : function(options) {
-
     }
 }); 
 app.views.ImportLoad = app.views.BaseView.extend({
     template: "import-load" ,
     initialize : function(options) {
-
     },
     events :{
         'click #btnFileSelection' : 'gpxFileSelection',
         'click #importLoadNext' : 'importMap'
-
     },
     gpxFileSelection  : function(){ 
         var selected_file = document.querySelector('#file');
@@ -1400,7 +1404,6 @@ app.views.ImportMap = app.views.BaseView.extend({
     },
     events : {
         "selectedFeatures:change" : "featuresChange"
-
     },
     featuresChange : function(e){
         var selectedFeatures = this.mapView.map.selectedFeatures;
@@ -1415,11 +1418,9 @@ app.views.ImportMap = app.views.BaseView.extend({
                 selectedFeaturesCollection.add(selectedModel);
             }
             app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
-
         }
         e.preventDefault();
     }
-
 });
 
 
