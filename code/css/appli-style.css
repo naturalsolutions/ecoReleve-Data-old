@@ -5,10 +5,10 @@
 }
 /*****/
 #home-right {
-	background: rgba(0, 0, 0, 0.74);
+	background: rgba(0, 0, 0, 1);/*0.74*/
     min-height: 950px;
     color: white;
-	margin-left: 1px;
+	margin-left: 0px;
 	width: 33.64%;
 }
 #infos {
@@ -99,7 +99,14 @@ line-height: 25px;
 padding: 10px;
 margin-left: 15px;
 }
-
+@-moz-document url-prefix()
+{
+    .tile.icon > a > img {
+    width: 64px;
+    height: 64px;
+    margin-top: 32px;
+	}
+}
 /*
 #main-nav .tile-wrapper {
 width: 100%;
@@ -134,6 +141,7 @@ div#export-filter-list{
 }
 #filter-query-result p span{
     color: green;
+	font-size: xx-large;
 }
 select[name="pagesizes"]{
 	font-size: 15px;
@@ -153,14 +161,41 @@ select[name="pagesizes"]{
 	font-size: 18px;
 	color: white;
 }
-#exportWptNumber {
-	color: #2E8BCC;
-	font-size: xx-large;
+#exportWptNumber, #countViewRows, #geo-query-result {
+	color: rgb(33, 122, 21);
+	font-size: x-large;
 }
 /*********** alldata             *************/
 #featureOnTheMap {
 	margin-top: 20px;
 }
+/* warning */
+#alldataAlert {
+	background-color: #F7F4B5;
+	position: fixed;
+	margin-top: 200px;
+	z-index: 30000;
+	width: 100%;
+	height: 200px;
+	text-align: center;
+	padding: 10px;
+}
+#alldataAlert img {
+	margin: 10px;
+}
+#refreshTable {
+	border: 0px none;
+	background: url("../images/Command-Refresh-01.png") no-repeat scroll 96% 50% rgb(51, 51, 51);
+	background-size: 24% auto;
+	color: rgb(255, 255, 255);
+	padding: 2% 13% 3% 2%;
+	font-size: 2em;
+}
+/************** objects  ********************/
+div.tabbable div.tab-content {
+	color:black;
+}
+
 
 /**********************************************/
 /* Top bar with actions, menu and all */
@@ -200,7 +235,7 @@ body.loading #logo {
 .grid table td {vertical-align: middle; cursor: pointer; padding: 2px 8px;}
 .grid table tbody:hover {background-color: rgb(220, 220, 255);}
 .pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; font-style: italic;}
-.pagination-stats em {color: #2E8BCC; font-size: xx-large;}
+.pagination-stats em {color: rgb(33, 122, 21); font-size: xx-large;}
 .pagination ul {margin: 0 1em;}
 #pagesize-selector {display: inline-block; line-height: 25px; vertical-align: top;}
 #pagesize-selector select {width: auto; margin-bottom: 0;}
@@ -237,7 +272,7 @@ body.loading #logo {
 .thumbnails > li.tile.tile-double a {width: 260px;}
 */
 #main-nav .tile-wrapper {width: 100%; height: 100%; position: fixed; top: 0px;}
-#main-nav .thumbnails {margin: 0; background-color: #000;}
+#main-nav .thumbnails {margin: 0; background-color: #000; z-index: 20000;}
 [class^="tile-icon-"], [class*=" tile-icon-"] {display: inline-block; width: 64px; height: 64px; margin-top: 1px; vertical-align: text-top; background-repeat: no-repeat;}
 .thumbnails > li.tile h2 {margin-top: inherit;}
 #static-menu {margin-left: 5px;}

@@ -854,9 +854,9 @@ app.utils.filldatable = function(params, paramsMap){
 		ajaxSource = serverUrl + '/station/get?' + params;
 	}
 	
-	app.utils.getDataForGrid(ajaxSource,function(collection){
-		var rowsNumber = collection.length ;
-		app.utils.initGridServer(collection, rowsNumber,ajaxSource, [2,6,7,8], {pageSize :20});
+	app.utils.getDataForGrid(ajaxSource,function(collection,rowsNumber ){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,ajaxSource, {pageSize :15, columns :[2,6,7,8] });
 	});
 
 	/*
@@ -941,7 +941,7 @@ app.utils.fillTaxaList = function(){
 	$('#lTaxon').empty();
 	var serverUrl = localStorage.getItem("serverUrl");
 	$.ajax({
-		url: serverUrl + "/proto/proto_taxon_get?id_proto="+$("#id_proto").attr("value")+"&search="+$("#iTaxon").attr("value"),
+		url: serverUrl + "/proto/proto_taxon_get?id_proto="+$("#id_proto").attr("value"),  //+"&search="+$("#iTaxon").attr("value")
 		dataType: "text",
 		success: function(xmlresp) {
 			var xmlDoc=$.parseXML(xmlresp),
@@ -965,41 +965,86 @@ app.utils.getUpdateParams = function(){
 	params.region= $("#region").attr("value");
 	params.idate = $('#idate').text();
 	params.taxonsearch = $("#iTaxon").attr("value") ; 
-	
 	return params;
 }
 app.utils.updateLayer = function(mapView){
-	//$("#allDataMapDataInfos").html("<p>Loading data  <img src='images/ajax-loader-linear.gif'/></p>");
-	//get params
-	
 	// delete selected feature layer if exists
 	for(var i = 0; i < mapView.map.layers.length; i++ ){
 		if((mapView.map.layers[i].name) == "Selected feature" ) {
 			mapView.map.removeLayer(mapView.map.layers[i]);
 		}
 	}
-
-
 	var params = {
 		id_proto : $("#id_proto").attr("value"),
 		place:$("#place").attr("value"),
 		region : $("#region").attr("value"),
 		idate : $('#idate').text(),
-		//cluster:$("#select_cluster option:selected").attr('value'),
 		cluster : $('.cluster:checked').val(),
-		taxonsearch:$("#iTaxon").attr("value")
+		taxonsearch:$("#iTaxon").attr("value"),
+		zoom: 3
 	};
+	var serverUrl = localStorage.getItem("serverUrl");
+	var url = serverUrl + "/station/list?format=geojson&limit=0";
+	var urlCount = serverUrl + "/station/list/count?" + "id_proto="+ params.id_proto + "&place=" 
+				+ params.place +"&region="+params.region +"&idate=" +params.idate +"&cluster=" +params.cluster +"&taxonsearch=" + params.taxonsearch ;
+	//get count
+	$.ajax({
+		url: urlCount,
+		dataType: "json",
+		success: function(data) {
+			var featuresNumber  = data[0].count;
+			if (featuresNumber < 5000){
+				// check if layer exists
+				var exists = false;
+				for(var i = 0; i < mapView.map.layers.length; i++ ){
+					if((mapView.map.layers[i].name) == "Observations" ) {
+						mapView.clearLayer(mapView.map.layers[i]);
+						exists = true;
+						break;
+					}
+				}
+				// center the map
+				var center = {};
+				center.latitude = 22;
+				center.longitude = 75;
 
-	/*var id_proto = $("#id_proto").attr("value");
-	var	place = $("#place").attr("value");
-	var	region = $("#region").attr("value");
-	var	idate = $('#idate').text();
-	var	cluster = $('.cluster:checked').val();
-	var	taxonsearch = $("#iTaxon").attr("value");*/
-
-	// check if layer exists
+				if (!exists){
+					var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
+					mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
+				} 
+				else {
+					// update layer
+					mapView.updateLayer("Observations", params, center);
+				}
+				$("#allDataMapDataInfos").html("");
+			}
+			else {
+				// delete features
+				for(var i = 0; i < mapView.map.layers.length; i++ ){
+					if((mapView.map.layers[i].name) == "Observations" ) {
+						mapView.clearLayer(mapView.map.layers[i]);
+						exists = true;
+						break;
+					}
+				}
+				$("#alldataAlert").removeClass("masqued");
+			}
+		}
+	});
+}
+app.utils.continueUpdateLayer = function(mapView){
+	var params = {
+		id_proto : $("#id_proto").attr("value"),
+		place:$("#place").attr("value"),
+		region : $("#region").attr("value"),
+		idate : $('#idate').text(),
+		cluster : $('.cluster:checked').val(),
+		taxonsearch:$("#iTaxon").attr("value"),
+		zoom: 3
+	};
+	var serverUrl = localStorage.getItem("serverUrl");
+	var url = serverUrl + "/station/list?format=geojson&limit=0";
 	var exists = false;
-
 	for(var i = 0; i < mapView.map.layers.length; i++ ){
 		if((mapView.map.layers[i].name) == "Observations" ) {
 			mapView.clearLayer(mapView.map.layers[i]);
@@ -1007,54 +1052,44 @@ app.utils.updateLayer = function(mapView){
 			break;
 		}
 	}
+	// center the map
+	var center = {};
+	center.latitude = 22;
+	center.longitude = 75;
 	if (!exists){
-		var serverUrl = localStorage.getItem("serverUrl");
-		var url = serverUrl + "/proto/station_get?format=geojson";
-		//  ajax call to get features
-		/*
-		$.ajax({
-			url: url,
-			dataType: "json",
-			data : 'id_proto='+ id_proto +'&place='+ place + '&region=' + region + '&idate=' + idate + '&cluster=' + cluster + '&taxonsearch=' + taxonsearch ,
-			xhrFields: {
-			 withCredentials: true
-			},
-			success: function(data) {
-				var featuresDetails = data;
-				var featuresList = featuresDetails.features;
-				var len = featuresList.length;
-				if ( len > 0 )
-				{
-					var listStations = new NS.UI.PointsList();
-				
-					for(var i=0; i<len;i++){
-						var lat = featuresList[i].geometry.coordinates[1];
-						var lon = featuresList[i].geometry.coordinates[0];
-						var id = featuresList[i].properties.id ; 
-						var year = featuresList[i].properties.year ; 
-						console.log ("lat :" + lat +" lon : " + lon);
-						var  point = new NS.UI.Point({ latitude : lat, longitude: lon, label:"", id:id , year:year, popup:true});
-						listStations.add(point);
-					}
-					mapView.addLayer({collection : listStations , layerName : "observations", popup : false, cluster : cluster  });  //,style:style 
-					//var wsTableUrl =  url + "?id_taxon=" + idTaxa;
-				}
-			}, error  : function(data) {
-
-			}
-	    });
-		*/
-
-
 		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
-		mapView.addLayer({protocol : protocol , layerName : "Observations", }); 
+		mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
 	} 
 	else {
 		// update layer
-		mapView.updateLayer("Observations", params);
+		mapView.updateLayer("Observations", params, center);
 	}
 	$("#allDataMapDataInfos").html("");
 }
+/*app.utils.layerForBbox = function(mapView, view, filter){
+	var serverUrl = localStorage.getItem("serverUrl");
+	var url = serverUrl + "/views/get/"+ view + "?filter=" + filter + "&format=geojson&limit=0&cluster=yes";
+	var exists = false;
+	for(var i = 0; i < mapView.map.layers.length; i++ ){
+		if((mapView.map.layers[i].name) == "Observations" ) {
+			mapView.clearLayer(mapView.map.layers[i]);
+			exists = true;
+			break;
+		}
+	}
+	// center the map
+	var center = {};
+	center.latitude = 22;
+	center.longitude = 75;
+	if (!exists){
+		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], cluster:true, popup : false});
+		mapView.addLayer({protocol : protocol , layerName : "Observations"});   //, center: center, zoom:3 
+	} 
+	else {
+		// update layer
+		mapView.updateLayer("Observations", params, center);
+	}
+}*/
 app.utils.updateLocation = function(mapView, point){
 	var exists = false;
 	var vector_layer = null;
@@ -1073,11 +1108,11 @@ app.utils.updateLocation = function(mapView, point){
 		}
 	}*/
 	if (!exists){
-		var pt = new NS.UI.Point({ latitude : point.latitude, longitude : point.longitude , label:""});
+		var pt = new NS.UI.Point({ latitude : point.latitude, longitude : point.longitude , label:"",});
 		var style =  new OpenLayers.Style({
-			pointRadius:6,strokeWidth:1,fillColor:'#F00C27',strokeColor:'black',cursor:'pointer'
+			pointRadius:8,strokeWidth:1,fillColor:'#F00C27',strokeColor:'black',cursor:'pointer'
 		});
-		mapView.addLayer({point : pt , layerName : "Selected feature", style : style }); 
+		mapView.addLayer({point : pt , layerName : "Selected feature", style : style, noSelect:true }); 
 		var location = new OpenLayers.LonLat(point.longitude,point.latitude);
 		mapView.setCenter(location);
 		mapView.panTo(location);
@@ -1154,46 +1189,43 @@ app.utils.generateFilter  = function(viewName){
 				$("#countViewRows").text("error !");
 			}
 	});
-
 }
 getFieldsListForSelectedView = function(viewName){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var viewUrl = serverUrl + "/views/detail/" + viewName ;  
 	app.xhr = "";
 	app.xhr = $.ajax({
-			url: viewUrl,
-			dataType: "json",
-			success: function(data) {
-				var fieldsList = [];
-				app.utils.exportFieldsList = [];
-				for (var prop in data){
-					var optionItem = "<option type='"+ data[prop].type +"'>" + prop + "</option>"
-					//fieldsList.push(field);
-					$("#export-view-fields").append(optionItem);
-					app.utils.exportFieldsList.push(prop);
-				}
-				$("#filter-btn").removeClass("masqued");
+		url: viewUrl,
+		dataType: "json",
+		success: function(data) {
+			var fieldsList = [];
+			app.utils.exportFieldsList = [];
+			for (var prop in data){
+				var optionItem = "<option type='"+ data[prop].type +"'>" + prop + "</option>"
+				//fieldsList.push(field);
+				$("#export-view-fields").append(optionItem);
+				app.utils.exportFieldsList.push(prop);
 			}
+			$("#filter-btn").removeClass("masqued");
+		}
 	});
-
 }
-app.utils.getFiltredResult = function(query, view){
-	$("#filter-query-result").html();
-	$("#filter-query-result").html('<img src="images/ajax-loader-linear.gif" />');
+app.utils.getFiltredResult = function(element, query, view){
+	$("#" + element +"").html();
+	$("#" + element +"").html('<img src="images/ajax-loader-linear.gif" />');
 	var serverUrl = localStorage.getItem("serverUrl");
 	var viewUrl = serverUrl + "/views/get/" + view + "/count?filter=" + query ;
 	$.ajax({
-			url: viewUrl,
-			dataType: "json",
-			success: function(data) {
-				var count = data[0].count;
-				$("#filter-query-result").html(' <br/><p>filtred count:<span><b> ' + count + ' </b>records</span></p>');
-			},
-			error : function(){
-				$("#filter-query-result").html(' <h4>error</h4>');
-			}
+		url: viewUrl,
+		dataType: "json",
+		success: function(data) {
+			var count = data[0].count;
+			$("#filter-query-result").html(' <br/><p>filtred count:<span> ' + count + ' records</span></p>');
+		},
+		error : function(){
+			$("#filter-query-result").html(' <h4>error</h4>');
+		}
 	});
-
 }
 app.utils.getResultForGeoFilter= function(query, view){
 	$("#geo-query-result").html();
@@ -1205,100 +1237,39 @@ app.utils.getResultForGeoFilter= function(query, view){
 		dataType: "json",
 		success: function(data) {
 			var count = data[0].count;
-			$("#geo-query-result").html(' <br/><h4 class="blackText">filtred count : ' + count + '</h4>');
+			$("#geo-query-result").html(' <br/><br/>filtred count : ' + count + '');
 		},
 		error : function(){
-			$("#geo-query-result").html(' <h4>error</h4>');
+			$("#geo-query-result").html(' error');
 		}
 	});
-
 }
 app.utils.getExportList = function(view, filter, bbox, BBview){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var displayedColumns = app.utils.exportSelectedFieldsList;
 	var url = serverUrl +  "/views/get/" + view + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns ; 
 	BBview.url = url;
-
-	app.utils.getDataForGrid(url,function(collection){
-		var rowsNumber = collection.length ;
-		app.utils.initGridServer(collection, rowsNumber,url);
+	app.utils.getDataForGrid(url,function(collection, rowsNumber){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,url,{pageSize :10});
 		// TODO   generate gpx  a faire ?
-		$("#export-getGpx").removeAttr("disabled");
+		//$("#export-getGpx").removeAttr("disabled");
 		$("#spanGeneratingGpx").html("");
 	});
-
-	/*
-	app.xhr = "";
-	app.xhr = $.ajax({
-		url: url,
-		dataType: "json",
-		success: function(data) {
-			// create schema model and dynamic fields for the grid
-			var firstRow  = data[0].MapSelectionManager;
-			var schema = {};
-			for(key in firstRow){
-			  	var colName = key;
-			  	var colValue = firstRow[key];
-			  //	gridModel.set(colName,colValue);	
-			 // 	gridModel.set(colName,colValue);	
-			  	schema[colName] =  {'title': colName, type: 'Text', sortable: true};
-			  }
-			 // app.models.ExportGridModel.constructor.schema = schema;
-			  //var gridCollection = new app.collections.ExportGridCollection();
-			  app.models.ExportGridModel = Backbone.Model.extend({
-
-					}, {
-						// Declare schema and verbose name at model level
-						schema: schema,
-						verboseName: 'Observation'
-				});
-				app.collections.ExportGridCollection = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-				app.collections.VisibleListInGrid = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-
-				 var gridCollection = new app.collections.ExportGridCollection();
-
-			for(key in data) {
-			  var rowVal = data[key].MapSelectionManager;
-			  var gridModel = new app.models.ExportGridModel();
-			  
-			 // gridModel.set("schema",{});
-			  for(key in rowVal){
-			  	var colName = key;
-			  	var colValue = rowVal[key];
-			  	gridModel.set(colName,colValue);	
-			  	gridModel.set(colName,colValue);	
-			  	schema[colName] =  {'title': colName, type: 'Text', sortable: true};
-			  }
-			  //gridModel.constructor.schema = schema;
-			  
-			  gridCollection.add(gridModel);
-			}
-			// add grid
-			app.utils.initGrid (gridCollection, app.collections.VisibleListInGrid);
-			//app.router.navigate(fileUrl, {trigger: true});
+	// generate files "pdf" and "gpx"
+	var urlFile = serverUrl + "/views/get/" + view + "/export" + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns ;  
+	$.ajax({
+		url: urlFile,
+		//dataType: "json",
+		success: function() {
 			$("#export-getGpx").removeAttr("disabled");
-			$("#spanGeneratingGpx").html("");
+      		$('#export-getPdf').removeAttr("disabled");
 		},
 		error : function(){
-			//alert("error in gpx generation");
+			alert("error in generating gpx file!");
 		}
 	});
-	
-	*/
-
-	
-
-		/*app.utils.fnShowHide(0);
-		app.utils.fnShowHide(2);
-		app.utils.fnShowHide(4);
-		app.utils.fnShowHide(6);
-		app.utils.fnShowHide(7);*/
 }
-
 /*
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);
@@ -1345,23 +1316,19 @@ app.utils.getDataForGrid = function (url,callback){
 				}
 				schema[colName] =  {'title': colName, type: type, sortable: true};
 			}
-
-			  app.models.ExportGridModel = Backbone.Model.extend({
+			app.models.ExportGridModel = Backbone.Model.extend({
 					}, {
 						// Declare schema and verbose name at model level
 						schema: schema,
 						verboseName: 'Data'
-				});
-				
-				app.collections.AllDataCollection = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-				app.collections.VisibleListInGrid = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-
-				 var gridCollection = new app.collections.AllDataCollection();
-
+			});
+			app.collections.AllDataCollection = Backbone.Collection.extend({
+			  model:  app.models.ExportGridModel
+			});
+			app.collections.VisibleListInGrid = Backbone.Collection.extend({
+			  model:  app.models.ExportGridModel
+			});
+			var gridCollection = new app.collections.AllDataCollection();
 			var ln = dataValues.length;
 			for (var i=0;i<ln;i++){
 				rowValue = dataValues[i];
@@ -1394,7 +1361,9 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
 		pageSize: 10,
 		pageSizes: [5,10, 20, 50],
 		page: 1,
-		pagerPosition: 'top'
+		pagerPosition: 'top'//,
+	//	dateFormat: 'yyyy/mm/dd',
+
 	});
 	//show a first page
 	grid.size = list.length;
@@ -1405,12 +1374,14 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
 		if (! _.isEmpty(grid.filters)){
 			data = list.filter(function(item) {
 				var k, v, testDate,
-					res = true;
+				res = true;
 				for (k in this) {
 					v = this[k];
 					testDate = new Date(v);
+					testDate.setHours(0,0,0, 0);
 					if (isFinite(testDate)) {
-						res = res && (item.get(k).toString() === v);
+						//res = res && (item.get(k).toString() === v);
+						res = res && (item.get(k).toString() === testDate.toString());
 					} else {
 						res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
 					}
@@ -1483,7 +1454,7 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
 		}
 	}
 }
-app.utils.initGridServer = function (gridCollection, count,url, columns, options){
+app.utils.initGridServer = function (gridCollection, count,url,options){
 	//var visibleList = new VisibleList;
   // initier la grid
 	var grid = new NS.UI.Grid({
@@ -1547,10 +1518,10 @@ app.utils.initGridServer = function (gridCollection, count,url, columns, options
 				gridCollection.reset(data.slice(0, grid.pageSize));
 				//grid.size = data.length;
 				//gridCollection.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
-				if (typeof(columns) != "undefined"){
-					var ln = columns.length;
+				if (typeof(options.columns) != "undefined"){
+					var ln = options.columns.length;
 					for (var i=0;i<ln;i++){
-						masquerColonne(columns[i]);
+						masquerColonne(options.columns[i]);
 					}
 				}
 			});
@@ -1603,10 +1574,10 @@ app.utils.initGridServer = function (gridCollection, count,url, columns, options
     // 5) render the grid (empty at the moment) and bind it to the DOM tree
    $('div#grid').html("");
    grid.render().$el.appendTo('div#grid');
-	if (typeof(columns) != "undefined"){
-		var ln = columns.length;
+	if (typeof(options.columns) != "undefined"){
+		var ln = options.columns.length;
 		for (var i=0;i<ln;i++){
-			masquerColonne(columns[i]);
+			masquerColonne(options.columns[i]);
 		}
 	}
 	function masquerColonne(num){
@@ -1628,7 +1599,14 @@ app.utils.initGridServer = function (gridCollection, count,url, columns, options
 	}
 }
 
-
+app.utils.fillObjectsTable = function(){
+	var serverUrl = localStorage.getItem("serverUrl");
+	var ajaxSource = serverUrl + '/TViewIndividual/list?' ;
+	app.utils.getDataForGrid(ajaxSource,function(collection ,rowsNumber){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,ajaxSource, {pageSize :15, columns :[2,6,7,8] });
+	});
+}
 
 
  return app;

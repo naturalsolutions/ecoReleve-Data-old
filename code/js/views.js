@@ -13,136 +13,131 @@ app.views.BaseView = Backbone.View.extend({
         this._dfd.resolve(this);
     },  
     // Template management
-        prefix: app.config.root + '/tpl/',
-        template: '',
-        getTemplate: function () {
-            var path = this.prefix + this.template + '.html',
-                dfd = $.Deferred();
-            app.templates = app.templates || {};
+    prefix: app.config.root + '/tpl/',
+    template: '',
+    getTemplate: function () {
+        var path = this.prefix + this.template + '.html',
+            dfd = $.Deferred();
+        app.templates = app.templates || {};
 
-            if (app.templates[path]) {
+        if (app.templates[path]) {
+            dfd.resolve(app.templates[path]);
+        } else {
+            $.get(path, function (data) {
+                app.templates[path] = _.template(data);
                 dfd.resolve(app.templates[path]);
-            } else {
-                $.get(path, function (data) {
-                    app.templates[path] = _.template(data);
-                    dfd.resolve(app.templates[path]);
-                }, "text");
-            }
-            return dfd.promise();
-        },  
-    //Sub-view management
-        getViews: function (selector) {
-            if (selector in this._views) {
-                return this._views[selector];
-            }
-            return [];
-        },
-
-        insertView: function (selector, view) {
-            if (!view) {
-                view = selector;
-                selector = '';
-            }
-            // Keep a reference to this selector/view pair
-            if (!(selector in this._views)) {
-                this._views[selector] = [];
-            }
-            this._views[selector].push(view);
-            // Forget this subview when it gets removed
-            view.once('remove', function (view) {
-                var i, found = false;
-                for (i = 0; i < this.length; i++) {
-                    if (this[i].cid === view.cid) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) {
-                    this.splice(i, 1);
-                }
-            }, this._views[selector]);
-        },
-
-        removeViews: function (selector) {
-            if (selector in this._views) {
-                while (this._views[selector].length) {
-                    this._views[selector][0].remove();
-                }
-            }
-        },
-
-        // Take care of sub-views before removing
-        remove: function () {
-            _.each(this._views, function (viewList, selector) {
-                _.each(viewList, function (view) {
-                    view.remove();
-                });
-            });
-            this.trigger('remove', this);
-            Backbone.View.prototype.remove.apply(this, arguments);
-        },
-    //Rendering process
-        serialize: function () {
-			if (this.model){
-				return this.model.toJSON();
-			}
-        },
-
-        // Can be overridden by child classes
-        beforeRender: function () {},
-        afterRender: function () {},
-
-        render: function () {
-            // Reset promise
-            this._dfd = $.Deferred();
-
-            // Give a chance to child classes to do something before render
-            this.beforeRender();
-
-            this.getTemplate().done(_.bind(function (tpl) {
-
-                var data = this.serialize(),
-                    rawHtml = tpl(data),
-                    rendered;
-
-                // Re-use nice "noel" trick from LayoutManager
-                rendered = this.$el.html(rawHtml).children();
-                this.$el.replaceWith(rendered);
-                this.setElement(rendered);
-
-                // Add sub-views
-                _.each(this._views, function (viewList, selector) {
-                    var base = selector ? this.$el.find(selector) : this.$el;
-                    _.each(viewList, function (view) {
-                        view.render().$el.appendTo(this);
-                    }, base);
-                }, this);
-
-                // Give a chance to child classes to do something after render
-                try {
-                    this.afterRender();
-                    this._dfd.resolve(this);
-                } catch (e) {
-                    if (console && console.error) {
-                        console.error(e);
-                    }
-                    this._dfd.reject(this);
-                }
-
-            }, this));
-
-            return this;
-        },
-
-        promise: function () {
-            return this._dfd.promise();
+            }, "text");
         }
-    });
+        return dfd.promise();
+    },  
+    //Sub-view management
+    getViews: function (selector) {
+        if (selector in this._views) {
+            return this._views[selector];
+        }
+        return [];
+    },
+    insertView: function (selector, view) {
+        if (!view) {
+            view = selector;
+            selector = '';
+        }
+        // Keep a reference to this selector/view pair
+        if (!(selector in this._views)) {
+            this._views[selector] = [];
+        }
+        this._views[selector].push(view);
+        // Forget this subview when it gets removed
+        view.once('remove', function (view) {
+            var i, found = false;
+            for (i = 0; i < this.length; i++) {
+                if (this[i].cid === view.cid) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                this.splice(i, 1);
+            }
+        }, this._views[selector]);
+    },
+    removeViews: function (selector) {
+        if (selector in this._views) {
+            while (this._views[selector].length) {
+                this._views[selector][0].remove();
+            }
+        }
+    },
+
+    // Take care of sub-views before removing
+    remove: function () {
+        _.each(this._views, function (viewList, selector) {
+            _.each(viewList, function (view) {
+                view.remove();
+            });
+        });
+        this.trigger('remove', this);
+        Backbone.View.prototype.remove.apply(this, arguments);
+    },
+    //Rendering process
+    serialize: function () {
+		if (this.model){
+			return this.model.toJSON();
+		}
+    },
+    // Can be overridden by child classes
+    beforeRender: function () {},
+    afterRender: function () {},
+    render: function () {
+        // Reset promise
+        this._dfd = $.Deferred();
+
+        // Give a chance to child classes to do something before render
+        this.beforeRender();
+
+        this.getTemplate().done(_.bind(function (tpl) {
+
+            var data = this.serialize(),
+                rawHtml = tpl(data),
+                rendered;
+
+            // Re-use nice "noel" trick from LayoutManager
+            rendered = this.$el.html(rawHtml).children();
+            this.$el.replaceWith(rendered);
+            this.setElement(rendered);
+
+            // Add sub-views
+            _.each(this._views, function (viewList, selector) {
+                var base = selector ? this.$el.find(selector) : this.$el;
+                _.each(viewList, function (view) {
+                    view.render().$el.appendTo(this);
+                }, base);
+            }, this);
+
+            // Give a chance to child classes to do something after render
+            try {
+                this.afterRender();
+                this._dfd.resolve(this);
+            } catch (e) {
+                if (console && console.error) {
+                    console.error(e);
+                }
+                this._dfd.reject(this);
+            }
+
+        }, this));
+
+        return this;
+    },
+    promise: function () {
+        return this._dfd.promise();
+    }
+ });
 
 app.views.HomeView = app.views.BaseView.extend({
 	template: 'home',
 	initialize: function() {
-         this.serverUrl = localStorage.getItem( "serverUrl");
+         
 		app.views.BaseView.prototype.initialize.apply(this, arguments);
         this._dfds = {};
 		window.addEventListener('online',  this.updateOnlineStatus);
@@ -159,6 +154,7 @@ app.views.HomeView = app.views.BaseView.extend({
         $(window).bind('resize', function () { 
             self.resizeImage();
         });*/
+        this.serverUrl = localStorage.getItem( "serverUrl");
          this.loadStats();
         var d = (new Date()+'').split(' ');
         // ["Mon", "Feb", "1", "2014"....
@@ -239,8 +235,9 @@ app.views.HomeView = app.views.BaseView.extend({
         var storedMonth = localStorage.getItem("ecoreleveChartMonth");
         if(dataGraph && (month == storedMonth )){
             var gData = JSON.parse(dataGraph);
-            var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
-            $("#homeGraphLegend").html("<h3>stations number per month</h3>"); 
+            //var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
+            var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData,null);
+            $("#homeGraphLegend").html("<h3>number of observations</h3>"); 
         } else {
             var url = this.serverUrl + "/station/count/month";
             $.ajax({
@@ -288,7 +285,8 @@ app.views.HomeView = app.views.BaseView.extend({
                     // ["Mon", "Feb", "1", "2014"....
                     var month  =  d[1];
                     localStorage.setItem("ecoreleveChartMonth",month);
-                    var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
+                    //var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
+                    var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData,null);
                     $("#homeGraphLegend").html("<h3>stations number per month</h3>");
                     /*
                     var len = data.length;
@@ -431,8 +429,8 @@ app.views.ExportView = app.views.BaseView.extend({
     }
 });
 app.views.ExportFilterView= app.views.BaseView.extend({
-     template: 'export-filter',
-     initialize : function (options){
+    template: 'export-filter',
+    initialize : function (options){
         this.viewName = options.viewName;
         this.selectedFields = new Array();
         Array.prototype.remove = function(x) { 
@@ -451,37 +449,43 @@ app.views.ExportFilterView= app.views.BaseView.extend({
     },
     events :{
         'click #exportPrevBtn' : 'exportview',
-        'click #export-add-filter' : 'addFilter',
+        //'click #export-add-filter' : 'addFilter',
         'click #export-field-select-btn' :'selectField',
         'click .btnDelFilterField' : 'deleteFilterItem',
         'click #filter-query-btn' : 'filterQuery',
         'click #exportMap' : 'selectExtend',
-        'click button.close' : 'exitExp'
+        'click button.close' : 'exitExp',
+        'change #export-view-fields' : 'selectField'
         
     },
     exportview : function(){
         app.router.navigate("#export", {trigger: true});
     },
-    addFilter : function(){
+    /*addFilter : function(){
         $("#export-field-selection").removeClass("masqued");
         $("#filter-btn").addClass("masqued");
        // $('#export-view-fields').css({"display": "inline-block","height": "40px","width": "350px"});
-    
-    },
+    },*/
     selectField : function(){
         var fieldName = $("#export-view-fields option:selected").text();
          var fieldId = fieldName.replace("@", "-");
         // check if field is already selected
         var ln = this.selectedFields.length;
         var isSelected = false;
-        if (ln > 0) {
-            for (var i=0;i<ln;i++){
-                if (this.selectedFields[i] ==fieldId){
-                    isSelected = true;
-                    break;
+        if (fieldName==""){
+           isSelected = true; 
+        }
+        else {
+            if (ln > 0) {
+                for (var i=0;i<ln;i++){
+                    if (this.selectedFields[i] ==fieldId){
+                        isSelected = true;
+                        break;
+                    }
                 }
             }
         }
+
         if (isSelected == false) {
             var fieldType = $("#export-view-fields option:selected").attr('type');
             var fieldId = fieldName.replace("@", "-");
@@ -489,7 +493,7 @@ app.views.ExportFilterView= app.views.BaseView.extend({
             var operatorDiv = this.generateOperator(fieldType);
             var inputDiv = this.generateInputField(fieldType);
             var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-"  + fieldId +"'><div class='span4 name' >" + fieldName + "</div><div class='span2 operator'>"+ operatorDiv +"</div><div class='span5'>";
-                fieldFilterElement += inputDiv + "</div><div class='span1'><a cible='div-"  + fieldId +"' class='btnDelFilterField'><img src='img/delete.png'/></a></div></div>";
+                fieldFilterElement += inputDiv + "</div><div class='span1'><a cible='div-"  + fieldId +"' class='btnDelFilterField'><img src='img/Cancel.png'/></a></div></div>";
             $("#export-filter-list").append(fieldFilterElement);
             $("#export-filter-list").removeClass("masqued");
             $('#filter-query').removeClass("masqued");
@@ -525,7 +529,7 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         query = query.substring(0,query.length - 1);
         var selectedView = this.viewName ;
         $("#filterForView").val(query);
-        app.utils.getFiltredResult(query,selectedView);
+        app.utils.getFiltredResult("filter-query-result", query,selectedView);
         this.query = query;
     },
     selectExtend : function(){
@@ -568,6 +572,9 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         /*case "datetime":
         operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option></select>";
           break;*/
+         case "text":
+          operatorDiv = "<select class='filter-select-operator'><option>LIKE</option><option>=</option></select>";  //"LIKE";
+          break;
         default:
          operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
         }
@@ -587,38 +594,37 @@ app.views.ExportFilterView= app.views.BaseView.extend({
     },
     exitExp : function(e){
         if(app.xhr){ 
-             app.xhr.abort();
-         }
+            app.xhr.abort();
+        }
         app.router.navigate('#', {trigger: true});
     }
 });
 app.views.ExportMapView = app.views.BaseView.extend({
-     template: "export-map" ,
+     template: "export-map",
     initialize : function(options) {
         this.currentView =  options.view;
         //this.filterValue = options.filter;
-        this.filterValue = app.views.filterValue;
-        
+        this.filterValue = app.views.filterValue; 
         //$("input#updateSelection").trigger('change');
     },
     afterRender: function(options) {
-       // $(".modal-content").css({"height":"700px"});
         $("#filterViewName").text(this.currentView);
-        $('#map').css({"width":"800px","height":"500px"});
+        $('#map').css({"width":"800px","height":"400px"});
      //   $(".modal-body").css({"max-height":"600px"});
         var  point = new NS.UI.Point({ latitude : 31, longitude: 61, label:""});
         this.map_view = app.utils.initMap(point, 3);
-        var style = new OpenLayers.Style({
+        /*var style = new OpenLayers.Style({
               pointRadius:0.2,strokeWidth:0.2,fillColor:'#edb759',strokeColor:'white',cursor:'pointer'
         });
-        this.map_view.addLayer({point : point , layerName : "", style : style, zoom : 3});
+        this.map_view.addLayer({point : point , layerName : "", style : style, zoom : 3});*/
         //masquer certains controles
+         /*
          var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
         this.map_view.map.removeControl(controls[0]);
         controls = this.map_view.map.getControlsByClass("OpenLayers.Control.Panel");
         this.map_view.map.removeControl(controls[0]);
         // add zoom controls to map
-        this.addControlsToMap();
+        this.addControlsToMap(); */
         //add bbox content
         NS.UI.bbox = new NS.UI.BBOXModel();
         // init bbox model
@@ -629,33 +635,30 @@ app.views.ExportMapView = app.views.BaseView.extend({
         var bboxView = new app.views.BboxMapView({model:NS.UI.bbox});
         bboxView.$el.appendTo("#bbox");
         bboxView.render();
-        // check bbox coordinates stored in hidden input "#updateSelection"
-        
-        /*
-        this.timer = setInterval(function(){
-            var bboxVals = $("input#updateSelection").val();
-            if ((typeof bboxVals) !== "undefined"){
-                var tab = bboxVals.split(",");
-                var minLon = tab[0] || "";
-                var minLat = tab[1] || "";
-                var maxLon = tab[2] || "";
-                var maxLat = tab[3] || "";
-                if (bboxVals!=""){  
-                    minLon = parseFloat(minLon);
-                    minLon = minLon.toFixed(2);
-                    minLat = parseFloat(minLat);
-                    minLat = minLat.toFixed(2);
-                    maxLon = parseFloat(maxLon);
-                    maxLon = maxLon.toFixed(2);
-                    maxLat = parseFloat(maxLat);
-                    maxLat = maxLat.toFixed(2);
-                }
-                $("#minLon").text(minLon);
-                $("#minLat").text(minLat);
-                $("#maxLon").text(maxLon);
-                $("#maxLat").text(maxLat);
-            }
-        }, 2000);
+
+        // add geodata to base layer
+        this.displayWaitControl();
+        var serverUrl = localStorage.getItem("serverUrl");
+        var url = serverUrl + "/views/get/"+ this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
+        var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON" , strategies:["BBOX"], cluster:true, params:{cluster:"yes"}});
+        this.map_view.addLayer({protocol : protocol , layerName : "Observations", noSelect : false});
+
+        /*var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
+        this.map_view.map.removeControl(controls[0]);
+        controls = this.map_view.map.getControlsByClass("OpenLayers.Control.Panel");
+        this.map_view.map.removeControl(controls[0]);*/
+        // add zoom controls to map
+        this.addControlsToMap(); 
+
+        //this.addControlsToMap();
+
+
+
+       /*
+       // calculate initial count
+        var filterVal = this.filterValue;
+        //var query = "filter=" + filterVal;
+        app.utils.getFiltredResult("countViewRows", filterVal,this.currentView);
         */
     },
     events : {
@@ -723,6 +726,16 @@ app.views.ExportMapView = app.views.BaseView.extend({
     },     
     exitExp : function(e){
         app.router.navigate('#', {trigger: true});
+    },
+    displayWaitControl : function (){
+        var mapDiv = this.map_view.el;
+        var width =  (screen.width)/2;
+        var height = (screen.height)/2;
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var st = $("#waitControl").html();
+        if ($("#waitControl").length == 0) {
+            $(mapDiv).append(ele);
+        }
     }
 });		
 			
@@ -732,7 +745,7 @@ app.views.BboxMapView = app.views.BaseView.extend({
         /*this.listenTo(this.model, 'change', this.update);
         app.views.BaseView.prototype.initialize.apply(this, arguments);*/
         this.model.on('change',this.render,this);
-    }	
+    }
 });
 app.views.ExportColumnsSelection = app.views.BaseView.extend({
     template: "export-columns",
@@ -751,6 +764,7 @@ app.views.ExportColumnsSelection = app.views.BaseView.extend({
         // parcourir la liste de champs, afficher celles qui ne correspondent pas aux champs a afficher par défaut (lat, lon, date, station ou site_name)
         var ln = fieldsList.length;
         // columns to display on grid
+        //this.displayWaitControl();
         app.utils.exportSelectedFieldsList = [];
         for (var i=0; i< ln;i++){
             var field = fieldsList[i];
@@ -794,6 +808,7 @@ app.views.ExportColumnsSelection = app.views.BaseView.extend({
             $("#formcolumns").append(myView.el);
             $("#exportResult").on("click", $.proxy(myView.onSubmit, myView));
             $(".form-actions").addClass("masqued");
+           // $("#waitControl").remove();
         },2000);
         
         
@@ -834,6 +849,16 @@ app.views.ExportColumnsSelection = app.views.BaseView.extend({
     },
     exitExp : function(e){
         app.router.navigate('#', {trigger: true});
+    },
+    displayWaitControl : function (){
+        var mapDiv = this.map_view.el;
+        var width =  (screen.width)/2;
+        var height = (screen.height)/2;
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var st = $("#waitControl").html();
+        if ($("#waitControl").length == 0) {
+            $("div.modal-body").append(ele);
+        }
     }
 });
 app.views.ExportColumnsListFormView = NS.UI.Form.extend({
@@ -865,13 +890,21 @@ app.views.ExportResult = app.views.BaseView.extend({
         this.currentView =  options.view;
         this.filterValue = app.views.filterValue;
         this.bbox = app.views.bbox;
+        
     },
     afterRender: function(options) {
       //  $(".modal-content").css({"height":"700px", "max-width": "900px"});
       //  $('#map').css({"width":"700px","height":"400px"});
       //  $(".modal-body").css({"max-height":"600px"});
+      var serverUrl = localStorage.getItem("serverUrl");
+      var gpxFileUrl = serverUrl + "/gps/data.gpx";
+      var pdfFileUrl = serverUrl + "/pdf/data.pdf";
+      $('#export-getGpx').attr("href", gpxFileUrl);
+      $('#export-getPdf').attr("link", pdfFileUrl);
+
       $("#filterViewName").text(this.currentView);
         var fieldsList = app.utils.exportSelectedFieldsList;
+        if (app.utils.exportSelectedFieldsList[0]=="Id") {app.utils.exportSelectedFieldsList.shift();}
         var ln = fieldsList.length;
         //generate datatable structure
         for (var i=0; i< ln ; i++){
@@ -888,13 +921,13 @@ app.views.ExportResult = app.views.BaseView.extend({
         //'click #export-getGpx' : 'getGpx',
         'click #export-first-step' : 'backToFistStep',
         'click #exportDataMap' : 'dataOnMap',
-        'click #canvas' : "generateCanvas",
+        'click #export-getPdf':"getPdfFile",
         'click button.close' : 'exitExp'
     },
-    backToMap : function (){
+    backToMap : function(){
         if(app.xhr){ 
              app.xhr.abort();
-         }
+        }
         var currentView = this.currentView;
       //  var filterValue = this.filterValue;
       //  var bboxVal = this.bbox;
@@ -903,9 +936,9 @@ app.views.ExportResult = app.views.BaseView.extend({
        //app.views.main.setView(".layoutContent", new app.Views.ExportColumnsSelection({view: currentView ,filter:filterValue, bbox: bboxVal}));
        // app.views.main.render();
     },
-    getGpx : function (){
-        /*var url = this.url;
-        app.utils.getGpxFile(url);  */
+    getPdfFile : function (){
+        var url = $('#export-getPdf').attr("link");
+        window.open(url, 'list export in pdf');
     },
     backToFistStep : function (){
         if(app.xhr){ 
@@ -917,38 +950,6 @@ app.views.ExportResult = app.views.BaseView.extend({
         var route ="#export/" + this.currentView + "/ResultOnMapView";
          app.router.navigate(route, {trigger: true});
     },
-    generateCanvas : function (){
-        var pdf = new jsPDF('p','in','letter')
-        , source = $('#grid')
-        , specialElementHandlers = {
-            // element with id of "bypass" - jQuery style selector
-            '#bypassme': function(element, renderer){
-                // true = "handled elsewhere, bypass text extraction"
-                return true
-            }
-        }
-
-        // all coords and widths are in jsPDF instance's declared units
-        // 'inches' in this case
-        pdf.fromHTML(
-            source // HTML string or DOM elem ref.
-            , 0.5 // x coord
-            , 0.5 // y coord
-            , {
-                'width':7.5 // max width of content on PDF
-                , 'elementHandlers': specialElementHandlers
-            }
-        )
-
-        pdf.save('Test.pdf');
-
-       /* html2canvas(document.getElementById("grid"), {
-            onrendered: function(canvas) {
-                // canvas is the final rendered <canvas> element
-                document.getElementById("grid-canvas").appendChild(canvas);
-            }
-        });*/
-    },
     exitExp : function(e){
         if(app.xhr){ 
              app.xhr.abort();
@@ -958,52 +959,45 @@ app.views.ExportResult = app.views.BaseView.extend({
     
 });
 app.views.GridView = app.views.BaseView.extend({
-       // template: 'type-list',
-
-        initialize: function(options) {
-            app.utilities.BaseView.prototype.initialize.apply(this, arguments);
-            this.grid = new NS.UI.Grid(options);
-            this.insertView(this.grid);
-            // Relay grid events
-            this.grid.on('selected', function(model) {this.trigger('selected', model);}, this);
-            this.grid.on('sort', function(field, order) {this.trigger('sort', field, order);}, this);
-            this.grid.on('unsort', function() {this.trigger('unsort');}, this);
-            this.grid.on('filter', function(fieldId, value) {this.trigger('filter', fieldId, value);}, this);
-            this.grid.on('unfilter', function(fieldId) {this.trigger('unfilter', fieldId);}, this);
-            this.grid.on('page', function(target) {this.trigger('page', target);}, this);
-            this.grid.on('pagesize', function(size) {this.trigger('pagesize', size);}, this);
-            // Custom date picker
-            this.grid.addDatePicker = function(element) {
-                var $el = $(element),
-                    val = $el.val();
-                $el.attr('type', 'text');
-                $el.datepicker({format: app.config.dateFormat}) //  dd/mm/yyyy                
-                    .on('changeDate', $el, function(e) {
-                        if (e.viewMode == 'days') {
-                            e.data.trigger('input');
-                        }
-                    });
-                $el.on('input', function(e) {$(this).datepicker('hide');});
-                $el.on('keydown', function(e) {if (e.keyCode == 27 || e.keyCode == 9) $(this).datepicker('hide');});
-                if (val) $el.datepicker('setValue', val);
-            }
+    initialize: function(options) {
+        app.utilities.BaseView.prototype.initialize.apply(this, arguments);
+        this.grid = new NS.UI.Grid(options);
+        this.insertView(this.grid);
+        // Relay grid events
+        this.grid.on('selected', function(model) {this.trigger('selected', model);}, this);
+        this.grid.on('sort', function(field, order) {this.trigger('sort', field, order);}, this);
+        this.grid.on('unsort', function() {this.trigger('unsort');}, this);
+        this.grid.on('filter', function(fieldId, value) {this.trigger('filter', fieldId, value);}, this);
+        this.grid.on('unfilter', function(fieldId) {this.trigger('unfilter', fieldId);}, this);
+        this.grid.on('page', function(target) {this.trigger('page', target);}, this);
+        this.grid.on('pagesize', function(size) {this.trigger('pagesize', size);}, this);
+        // Custom date picker
+        this.grid.addDatePicker = function(element) {
+            var $el = $(element),
+                val = $el.val();
+            $el.attr('type', 'text');
+            $el.datepicker({format: app.config.dateFormat}) //  dd/mm/yyyy                
+                .on('changeDate', $el, function(e) {
+                    if (e.viewMode == 'days') {
+                        e.data.trigger('input');
+                    }
+                });
+            $el.on('input', function(e) {$(this).datepicker('hide');});
+            $el.on('keydown', function(e) {if (e.keyCode == 27 || e.keyCode == 9) $(this).datepicker('hide');});
+            if (val) $el.datepicker('setValue', val);
         }
-        /*,
-
-        serialize: function() {
-            return {
-                verboseName: 'List of ' + this.collection.model.verboseName.toLowerCase()
-            };
-        }*/
-    });
+    }
+});
 	
 app.views.ExportResultOnMapView = app.views.BaseView.extend({
     template: "export-data-on-map",
     initialize : function(options) {
         var serverUrl = localStorage.getItem("serverUrl");
         this.view = options.view;
-        this.displayedColumns = app.utils.exportSelectedFieldsList;
-        this.url = serverUrl +  "/views/get/" + this.view + "?filter=" + app.views.filterValue + "&bbox=" + app.views.bbox + "&columns=" + this.displayedColumns ; 
+        this.displayedCols = app.utils.exportSelectedFieldsList;
+        this.url = serverUrl +  "/views/get/" + this.view + "?filter=" + app.views.filterValue + "&bbox=" + app.views.bbox + "&columns=" + this.displayedCols ; 
+        //add id field to field list to display on the map
+        this.displayedCols.unshift("Id");
     },
     afterRender: function(options) {
      //   $(".modal-content").css({"height":"700px"});
@@ -1015,15 +1009,34 @@ app.views.ExportResultOnMapView = app.views.BaseView.extend({
         var url = this.url + "&format=geojson";
         var style  = new OpenLayers.Style({
             pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'
-            , label : "${Site_name}",  labelXOffset: "50", labelYOffset: "-15"
-        });
+            , label : "${getLabel}",  labelXOffset: "50", labelYOffset: "-15"}
+            , {context: {
+                    getLabel: function(feature) {
+                        if(feature.layer.map.getZoom() > 5) {
+                            //return feature.attributes.label;
+                            // return list of arributes (labels to display on the map)
+                                var labelsList = [];
+                                for (k in feature.attributes) {
+
+                                if ((k!="Id") && (k!="count")) {
+                                    labelsList.push(feature.attributes[k]);
+                                }
+                                labelsList.unshift(feature.attributes["Id"]);
+                                return labelsList;
+                            }
+                        } else {return "";}
+                    }
+                }}
+
+
+            );
         var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], popup : false, style: style});
         this.map_view.addLayer({protocol : protocol , layerName : "Observations", });
         this.addControlsToMap();
     // load map vector fields list
-        var len = this.displayedColumns.length;
+        var len = this.displayedCols.length;
         for (var i=0;i< len; i++){
-            var label = this.displayedColumns[i];
+            var label = this.displayedCols[i];
             $("#map-field-selection").append("<option>" + label +"</option>");
         }
     },
@@ -1119,15 +1132,15 @@ app.views.AllDataView = app.views.BaseView.extend({
             url: serverUrl + "/proto/proto_list",
             dataType: "text",
             success: function(xmlresp) {
-                    var xmlDoc=$.parseXML(xmlresp),
-                    $xml=$(xmlDoc),
-                    $protocoles=$xml.find("protocole");
-                    // init select control with empty val
-                    $('<option id= 0 ></option>').appendTo('#select_id_proto');
-                    $protocoles.each(function(){
-                        $('<option id=\"'+$(this).attr('id')+'\" value=\"'+$(this).text()+'\">'+$(this).text()+'</option>').appendTo('#select_id_proto');
-                    });
-                    $("#select_id_proto option[id='0']").attr('selected','selected');
+                var xmlDoc=$.parseXML(xmlresp),
+                $xml=$(xmlDoc),
+                $protocoles=$xml.find("protocole");
+                // init select control with empty val
+                $('<option id= 0 ></option>').appendTo('#select_id_proto');
+                $protocoles.each(function(){
+                    $('<option id=\"'+$(this).attr('id')+'\" value=\"'+$(this).text()+'\">'+$(this).text()+'</option>').appendTo('#select_id_proto');
+                });
+                $("#select_id_proto option[id='0']").attr('selected','selected');
             }
         });
         var dataContainer = $("#main")[0];   //var myDataTable = $("#myDataTable")[0];
@@ -1153,12 +1166,9 @@ app.views.AllDataView = app.views.BaseView.extend({
             } 
 
         });
-
         $("#allDataList").hide();
-
         var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
         this.map_view = app.utils.initMap(point, 3);
-
         $( "label, input,button, select " ).css( "font-size", "15px" );
         //datalist of taxons
         app.utils.fillTaxaList();
@@ -1176,14 +1186,17 @@ app.views.AllDataView = app.views.BaseView.extend({
         'click tr' : 'selectTableElement',
         'click #allDataInfosPanelClose' : 'closeInfosPanel',
         //'change input#updateSelection' : 'updateTableForSelecedFeatures'
-         'selectedFeatures:change' : 'updateTableForSelecedFeatures',
-        //'click #refreshTable' : 'updateTableForSelecedFeatures'
+        // 'selectedFeatures:change' : 'updateTableForSelecedFeatures',
+        'click #refreshTable' : 'updateTableForSelecedFeatures',
         'click #featureOnTheMap' : 'zoomMapToSelectedFeature',
-        'click div.olControlSelectFeatureItemActive.olButton' : "deletePositionLayer"
+        'click div.olControlSelectFeatureItemActive.olButton' : "deletePositionLayer",
+        'click #alldataAlertYes' : 'continueGeoQuery',
+        'click #alldataAlertNo' : 'resetGeoQuery'
     },
     updateTable: function(){
         //this.updateControls();
         $("#id_proto").attr("value",($("#select_id_proto option:selected").attr('id')));
+         app.utils.fillTaxaList();
     },
     updateDate1an : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
@@ -1219,7 +1232,6 @@ app.views.AllDataView = app.views.BaseView.extend({
         var regex3 = new RegExp("^[0-9]{4}-(0[1-9]|1[012])$");
         var datedep=$("#datedep").attr('value');
         var datearr=$("#datearr").attr('value');
-        
         if(((regex.test(datedep) && regex.test(datearr)) || (regex2.test(datedep) && regex2.test(datearr)) || (regex3.test(datedep) && regex3.test(datearr)) ) && datedep<=datearr)
             $("#dateinter").removeAttr("disabled");
         else
@@ -1231,13 +1243,13 @@ app.views.AllDataView = app.views.BaseView.extend({
         var regex3 = new RegExp("^[0-9]{4}-(0[1-9]|1[012])$");
         var datedep=$("#datedep").attr('value');
         var datearr=$("#datearr").attr('value');
-        
         if(((regex.test(datedep) && regex.test(datearr)) || (regex2.test(datedep) && regex2.test(datearr)) || (regex3.test(datedep) && regex3.test(datearr)) ) && datedep<=datearr)
             $("#dateinter").removeAttr("disabled");
         else
             $("#dateinter").attr("disabled","disabled");
     },
     search : function(){
+        this.displayWaitControl();
         $("#map").css("height","795px");
         this.updateControls();
         var datedep=$("#datedep").attr('value');
@@ -1246,7 +1258,6 @@ app.views.AllDataView = app.views.BaseView.extend({
         var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
         app.utils.filldatable(params);
         app.utils.updateLayer(this.map_view);
-        
     },
     updateMap : function(){
         app.utils.updateLayer(this.map_view);
@@ -1324,15 +1335,41 @@ app.views.AllDataView = app.views.BaseView.extend({
         app.utils.updateLocation (this.map_view, point);
     },
     deletePositionLayer : function(){
-            // delete selected feature layer if exists
+        // delete selected feature layer if exists
+        var mapView = this.map_view ;
         for(var i = 0; i < mapView.map.layers.length; i++ ){
             if((mapView.map.layers[i].name) == "Selected feature" ) {
                 mapView.map.removeLayer(mapView.map.layers[i]);
             }
         }
-    }
-    , closeInfosPanel : function(){
+    }, 
+    closeInfosPanel : function(){
+        var mapView = this.map_view ;
         $('#allDataInfosPanel').hide();
+        for(var i = 0; i < mapView.map.layers.length; i++ ){
+            if((mapView.map.layers[i].name) == "Selected feature" ) {
+                mapView.map.removeLayer(mapView.map.layers[i]);
+            }
+        }
+    },
+    displayWaitControl : function (){
+        var mapDiv = this.map_view.el;
+        var width =  (screen.width)/2;
+        var height = (screen.height)/2;
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var st = $("#waitControl").html();
+        if ($("#waitControl").length == 0) {
+            $(mapDiv).append(ele);
+        }
+    },
+    continueGeoQuery : function (){
+         $("#alldataAlert").addClass("masqued");
+         this.displayWaitControl();
+         app.utils.continueUpdateLayer(this.map_view);
+    },
+    resetGeoQuery : function (){
+         $("#alldataAlert").addClass("masqued");
+         $("#waitControl").remove(); 
     }
 }); 
 app.views.Import = app.views.BaseView.extend({
@@ -1367,10 +1404,10 @@ app.views.ImportLoad = app.views.BaseView.extend({
                     var gpxFileName = localStorage.getItem("gpxFileName"); 
                     var gpxLastModif = localStorage.getItem("gpxLastModif"); 
 
-                    if ((gpxFileName != "null") && (gpxFileName == fileName) && (gpxLastModif == lastUpdate )){
+                   /* if ((gpxFileName != "null") && (gpxFileName == fileName) && (gpxLastModif == lastUpdate )){
                      alert ("this file correspond to last loaded version !");
-                    }                       
-                    else if (gpxLastModif != lastUpdate ){                          
+                    }    */                   
+                   // else if (gpxLastModif != lastUpdate ){                          
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
                             app.utils.loadWaypointsFromFile(xml);
@@ -1378,7 +1415,7 @@ app.views.ImportLoad = app.views.BaseView.extend({
                         localStorage.setItem("gpxFileName", fileName);
                         localStorage.setItem("gpxLastModif",lastUpdate);
                         }
-                    }
+                    //}
                 reader.readAsText(selected_file.files[0]);
                 
             } catch (e) {
@@ -1400,7 +1437,7 @@ app.views.ImportMap = app.views.BaseView.extend({
         var map_view = app.utils.initMap();
         map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints"});
         this.mapView = map_view;
-        $("div.modal-body").css("min-height","650px;");
+        $("div.modal-body").css({"min-height":"650px;"});
     },
     events : {
         "selectedFeatures:change" : "featuresChange"
@@ -1422,7 +1459,21 @@ app.views.ImportMap = app.views.BaseView.extend({
         e.preventDefault();
     }
 });
-
+app.views.objects = app.views.BaseView.extend({
+    template: "objects" ,
+    afterRender : function(options) {
+        app.utils.fillObjectsTable();
+    }
+    ,
+    events : {
+       // "selectedFeatures:change" : "featuresChange"
+    }/*,
+    remove: function(options) {
+        if(app.xhr){ 
+            app.xhr.abort();
+        }
+    }*/
+});
 
  return app;
 })(ecoReleveData);

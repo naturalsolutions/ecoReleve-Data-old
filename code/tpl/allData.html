@@ -1,4 +1,4 @@
-﻿<div id="allDataInfosPanel">
+﻿<div id="allDataInfosPanel" class="non-printable">
 	<div id="allDataInfosPanelClose"><img src="images/close.png" /></div>
 	<div id="allDataInfosPanelContent"></div>
 </div>
@@ -37,8 +37,12 @@
 
 	<br/>	
 </div>
-<div  id="allDataContent">	
+<div  id="allDataContent">
 	<div id="allDataMap">
+		<div style="width:600px; height:820px" id="map"></div>
+		<div id="allDataMapDataInfos"></div>
+	</div>
+	<div  id="allDataList">
 		<div id="allDataCluster">
 			cluster : 
 			<!--<select id="select_cluster">
@@ -48,14 +52,14 @@
 			<input type="radio" name="cluster" class="cluster" value="yes" checked> yes&nbsp;
 			<input type="radio" name="cluster" class="cluster" value="no"> no <br/>
 		</div>
-		<div style="width:600px; height:820px" id="map"></div>
-		<div id="allDataMapDataInfos"></div>
-	</div>
-	<div  id="allDataList">
-		<!--<br/><br/>
-		<a class="btn non-printable" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>
-		<br/>  -->
+		<br/>
+		<!--<a class="btn non-printable" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>  -->
+		<div><button  class="btn non-printable" id="refreshTable">refresh</button></div>
 		<div id="grid" >
 		</div><br/><br/>
 	</div>
+</div>
+<div class="alert alert-warning masqued" id="alldataAlert">
+	<h3><img src="images/Message-Warning.png" />you will load a large dataset on the map! would you like to continue?</h3>
+	<div><a id="alldataAlertYes"><img src="images/yes.png"/></a><a id="alldataAlertNo"><img src="images/no.png"/></a></div>
 </div>

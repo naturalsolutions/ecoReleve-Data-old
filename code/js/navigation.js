@@ -76,7 +76,9 @@
 			case 'allData':
 				this.context = 'all data';
 				break;
-			
+			case 'objects':
+				this.context = 'objects';
+				break;
             /*case 'newSample':
             case 'editSample':
             case 'newSubject':

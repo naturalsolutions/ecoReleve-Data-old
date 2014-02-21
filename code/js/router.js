@@ -32,7 +32,8 @@
 		"export/:view/ResultOnMapView" : "ResultOnMapView",
 		"import" :"import",
 		"import-load" : "importLoad",
-		"import-map" : "importMap"
+		"import-map" : "importMap",
+		"objects" : "objects"
 		//"exportFilter" : "exportFilter"
 		
 	},
@@ -595,7 +596,10 @@
 	},
 	importMap : function(){
 		this.setView(new app.views.ImportMap());
-	}
+	},
+	objects : function(){
+		this.setView(new app.views.objects());
+	} 
  });
 
  app.router = new app.Router();

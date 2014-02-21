@@ -52,7 +52,8 @@ function init(){
     Backbone.history.start();
 	// Main navigation
 	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
-	localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
+	//localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
+	localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
   });
 }
 

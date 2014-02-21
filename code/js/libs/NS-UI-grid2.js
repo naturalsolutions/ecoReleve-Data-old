@@ -403,14 +403,18 @@ NS.UI = (function(ns) {
                             var obj = this.grid.filters[this.prefix + id], formater = new ns.DateFormater();
                             if (obj !== undefined) {
                                 //  Split for separator option (between, after, ...) and value(s)
-                                var valToSplit = obj.split(":"), opt = valToSplit[0];
+                                /*var valToSplit = obj.split(":"), opt = valToSplit[0];
                                 valToSplit.shift();
                                 valToSplit = valToSplit.join(":");
                                 var value = valToSplit.split(";");
-                                
+                                */
+						
+								 var value = opt;
+								 opt = "same";
+								 
                                 header.filter = {
                                     type: field.type,
-                                    val: formater.format(new Date(value[0]), format),
+                                    val: formater.format(new Date(obj), format),
                                     selectedOption: opt
                                 };                                
                                 if (opt === "between") {
@@ -611,7 +615,8 @@ NS.UI = (function(ns) {
                                 break;
                             }
                         } else {
-                            if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(val)) {
+                            //if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(val)) {
+							 if (!/^\d{2,4}\-\d{1,2}\-\d{1,2}$/.test(val)) {
                                 val = '';
                                 break;
                             }
