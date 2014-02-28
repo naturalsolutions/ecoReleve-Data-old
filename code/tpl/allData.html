@@ -2,6 +2,7 @@
 	<div id="allDataInfosPanelClose"><img src="images/close.png" /></div>
 	<div id="allDataInfosPanelContent"></div>
 </div>
+<div id="allDataMapAlert"></div>
 <div class="allDataFilterPanel non-printable" >
 	<fieldset>
 		<legend class="critLegend">search</legend>
@@ -22,19 +23,25 @@
 	</fieldset>
 	<fieldset>
 		<legend class="critLegend">when</legend>
-		date:<br/>
+		interval of time <br/>
+		start date:<br/> <input type="date"" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
+		end date:<br/>  <input type="date" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		Or select:<br/>
 		<div class="allData-btn-group">
+			<!--
 			  <a class="allData-criteriaBtn btn" id="btnD-1" style="font-size: 12px; ">day-1</a>
 			  <a class="allData-criteriaBtn btn " id="btnY-1" style="font-size: 12px; ">year-1</a>
 			  <a class="allData-criteriaBtn btn" id="btnY-2" style="font-size: 12px; ">year-2</a>
 			  <a class="allData-criteriaBtn btn" id="btnReset" style="font-size: 12px; ">Reset</a>
+			-->
+			<a class="allData-criteriaBtn btn " id="btnW" style="font-size: 12px; ">current<br/>week</a>
+			<a class="allData-criteriaBtn btn" id="btnM" style="font-size: 12px; ">current<br/>month</a>
+			<a class="allData-criteriaBtn btn" id="btnY" style="font-size: 12px; ">current<br/>year</a>
+			<a class="allData-criteriaBtn btn" id="btnReset" style="font-size: 12px; ">Reset<br/>-</a>
+		
 		</div>
-
-		interval of time <br/>
-		start date:<br/> <input type="date"" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
-		end date:<br/>  <input type="date" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		<input type="text" id="idate" value="" />
 	</fieldset>
-
 	<br/>	
 </div>
 <div  id="allDataContent">
@@ -59,6 +66,7 @@
 		</div><br/><br/>
 	</div>
 </div>
+
 <div class="alert alert-warning masqued" id="alldataAlert">
 	<h3><img src="images/Message-Warning.png" />you will load a large dataset on the map! would you like to continue?</h3>
 	<div><a id="alldataAlertYes"><img src="images/yes.png"/></a><a id="alldataAlertNo"><img src="images/no.png"/></a></div>

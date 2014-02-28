@@ -8,11 +8,34 @@
     <div class="modal-body">
 		<div id="grid"></div>
     </div>
-    <div class="modal-footer non-printable">
+	<br/>
+    <div class="row-fluid">
+		<div class="span8"> 
+			  <div id="map"></div>
+		</div>
+		<div class="span4"> 
+		  <div id="div-map-field-selection" class="non-printable">
+			<h4>select a field to display</h4>
+			<select id="map-field-selection">
+			</select> 
+		  </div>
+		  <div id="div-map-label-hposition" class="non-printable">
+			<h4>adjust horizontal position of label</h4>
+			<button id="map-label-hposition-off">-</button>&nbsp;&nbsp;<button id="map-label-hposition-in">+</button>
+		  </div>
+		  <div id="div-map-label-vposition" class="non-printable">
+			<h4>adjust vertical position of label</h4>
+			 <button id="map-label-vposition-off">-</button>&nbsp;&nbsp;<button id="map-label-vposition-in">+</button>
+		  </div>
+		</div>
+	</div>
+	
+	
+	<div class="modal-footer non-printable">
 		<span id="spanGeneratingGpx">waiting for loading data ...<img src="images/ajax-loader-linear.gif"/></span>
 		<a  class="btn" id="exportPrevBtn">&lt; previous</a>
 		<a class="btn" id="export-first-step" >first step</a>
-		<a class="btn btn-success" id="exportDataMap" > data on map </a>  <!--id="exportDataMap"-->
+		<a class="btn" id="export-map-print">print me</a> 
 		<a  class="btn btn-success" disabled id="export-getGpx" >get gpx file</a>
 		<a  class="btn btn-success" disabled  id="export-getPdf" >get pdf file</a>
     </div>

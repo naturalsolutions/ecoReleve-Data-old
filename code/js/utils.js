@@ -993,7 +993,18 @@ app.utils.updateLayer = function(mapView){
 		dataType: "json",
 		success: function(data) {
 			var featuresNumber  = data[0].count;
-			if (featuresNumber < 5000){
+			if (featuresNumber == 0){
+				// delete features
+				for(var i = 0; i < mapView.map.layers.length; i++ ){
+					if((mapView.map.layers[i].name) == "Observations" ) {
+						mapView.clearLayer(mapView.map.layers[i]);
+						exists = true;
+						break;
+					}
+				}
+				$("#waitControl").remove(); 
+			}
+			else if (featuresNumber < 5000){
 				// check if layer exists
 				var exists = false;
 				for(var i = 0; i < mapView.map.layers.length; i++ ){
@@ -1011,6 +1022,24 @@ app.utils.updateLayer = function(mapView){
 				if (!exists){
 					var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
 					mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
+					// add zoom /pan toolbox
+					var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
+			        var zoomBox = new OpenLayers.Control.ZoomBox();
+			        var navigation = new OpenLayers.Control.Navigation();
+			        var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
+			            eventListeners: {
+			               'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
+			               'deactivate': function(){zoomBox.deactivate()}
+			            }
+			        });
+			        var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
+			            eventListeners: {
+			               'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
+			               'deactivate': function(){navigation.deactivate()}
+			            }
+			        });     
+			        panel.addControls([zoomBoxBtn, navigationBtn]);
+			        mapView.map.addControls([panel,zoomBox,navigation]);
 				} 
 				else {
 					// update layer
@@ -1027,7 +1056,18 @@ app.utils.updateLayer = function(mapView){
 						break;
 					}
 				}
-				$("#alldataAlert").removeClass("masqued");
+				// add alert view
+				$(".modal-backdrop").remove();
+				$("body").modal({
+				    backdrop: "static"
+				});
+				var alertView =  new app.views.AlertMapBox();
+				$("#allDataMapAlert").empty();
+				$("#allDataMapAlert").append(alertView.render().$el);
+				$("#allDataMapAlert").addClass("dialogBoxAlert");
+				$("div.in").addClass("modal-backdrop");
+
+				//$("#alldataAlert").removeClass("masqued");
 			}
 		}
 	});
@@ -1115,7 +1155,11 @@ app.utils.updateLocation = function(mapView, point){
 		mapView.addLayer({point : pt , layerName : "Selected feature", style : style, noSelect:true }); 
 		var location = new OpenLayers.LonLat(point.longitude,point.latitude);
 		mapView.setCenter(location);
-		mapView.panTo(location);
+		/*location = location.transform(
+				   new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+				   new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection
+		);*/
+		mapView.map.panTo(location);
 	} else {
 		vector_layer.removeAllFeatures();
 		var lonlat = new OpenLayers.LonLat(point.longitude, point.latitude);
@@ -1402,7 +1446,10 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
 			masquerColonne(col);
 		}
 	}
-	grid.on('selected', function (model) {console.log(model);});
+	grid.on('selected', function (model) {
+		//console.log(model);
+		app.models.selectedModel = model;
+	});
 	grid.on('sort', function (fieldId, order) {
 		grid.sortColumn = fieldId;
 		grid.sortOrder = order;
@@ -1598,7 +1645,6 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 		}
 	}
 }
-
 app.utils.fillObjectsTable = function(){
 	var serverUrl = localStorage.getItem("serverUrl");
 	var ajaxSource = serverUrl + '/TViewIndividual/list?' ;
@@ -1607,7 +1653,45 @@ app.utils.fillObjectsTable = function(){
 		app.utils.initGridServer(collection, rowsNumber,ajaxSource, {pageSize :15, columns :[2,6,7,8] });
 	});
 }
+app.utils.getObjectDetails = function(backboneView,url){
+	if(app.xhr){ 
+        app.xhr.abort();
+    }
+	app.xhr = $.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			$("#objectDetailsPanel").html("");
+			$("#objectDetailsPanelContent").html("");
+			var i=0;
+			for(k in data){
+				// activate first element of panel
+				$("#objectDetailsPanel").append("<li><a href='#d"+ i +"' data-toggle='tab'>" + k +"</a></li>");
+				var objectContent = data[k];
+				var ct ="";
+				for(v in objectContent){
+					//alert("objectContent[v] : " + objectContent[v]);
+					//alert("objectContent[v].toString : " + objectContent[v].toString);
+					if ((String(objectContent[v]) != "[object Object]")){
+							ct += "<p>" + v + " : " + objectContent[v] + "</p>";
+					}
+					else {
+						var objDetail = objectContent[v];
+						ct+="<h3><i>" + v + "</i></h3>";
+						for (z in objDetail){
+							ct+= "<p>" + z + " : " + objDetail[z] + "</p>";
+						}
+					}
+				}
+				$("#objectDetailsPanelContent").append("<div class='tab-pane fade' id='d"+ i +"'>" + ct +"</div>");
+				// k is the name of tab
+				i+=1;
+			}
+			$("#objectDetailsPanel:first-child a[href='#d0']").trigger("click");
+		}
+	});
 
+}
 
  return app;
  

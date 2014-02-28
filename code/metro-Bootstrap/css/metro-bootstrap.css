@@ -6186,6 +6186,9 @@ li {
 .thumbnails > li.tile.tile-grey {
   background-color: #D2D2D2;
 }
+.thumbnails > li.tile.tile-yellowPerso {
+background-color: #B4AB42;
+}
 .navbar-inner {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;

@@ -19,6 +19,26 @@ NS.UI.MapView = Backbone.View.extend({
 				projection: new OpenLayers.Projection("EPSG:3857"),
 				displayProjection: new OpenLayers.Projection("EPSG:4326"),
 				layers: [
+			            new OpenLayers.Layer.Google(
+			                "Google Physical",
+			                {type: google.maps.MapTypeId.TERRAIN}
+			            ),
+			            new OpenLayers.Layer.Google(
+			                "Google Streets", // the default
+			                {numZoomLevels: 20}
+			            ),
+			            new OpenLayers.Layer.Google(
+			                "Google Hybrid",
+			                {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
+			            ),
+			            new OpenLayers.Layer.Google(
+			                "Google Satellite",
+			                {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+			            )
+			        ]
+
+			        /*
+				layers: [
 					new OpenLayers.Layer.XYZ(
 						"OpenStreetMap", 
 						[
@@ -50,7 +70,7 @@ NS.UI.MapView = Backbone.View.extend({
                                          "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
                                          "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]
 					)
-				],
+				]*/,
 				controls : [
 					new OpenLayers.Control.MousePosition(),
 					new OpenLayers.Control.LayerSwitcher(),
@@ -355,6 +375,12 @@ NS.UI.MapView = Backbone.View.extend({
 							destroyPopup();
 						}
 						$('#map').trigger('selectedFeatures:change');
+	                },
+	                'unselectAll': function(	options	){
+	                	alert("unselect all");
+	                },
+	                'clickoutFeature': function(	options	){
+	                	alert("clickoutFeature");
 	                }
 	            });
 				//this.map.events.register('zoomend', this, function (event) {
@@ -410,9 +436,19 @@ NS.UI.MapView = Backbone.View.extend({
 					};
 					//$("#waitControl").remove(); 
 				});
+				// unselect features
+				this.map.events.register("click", map , function(e){
+						//alert("click on map");
+						/*this.map.selectedFeatures = [];
+						this.map.latitudes = [];
+						this.map.longitudes = [];*/
+
+				});
+				
+				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true});
 				var panelControls = [
-				 new OpenLayers.Control.Navigation(),
-				  new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true})  
+				    new OpenLayers.Control.Navigation(),
+					selectCtr    
 				];
 				var toolbar = new OpenLayers.Control.Panel({
 				   displayClass: 'olControlEditingToolbar',
@@ -420,6 +456,8 @@ NS.UI.MapView = Backbone.View.extend({
 				});
 				toolbar.addControls(panelControls);
 				this.map.addControl(toolbar);
+				// add unselection button
+				//$(".olMapViewport").append('<div style="position :absolute;z-index:1008;right:85px; top:4px;"><a><img id"mapunselectfeatures" src="images/editing_tool_unselect.png" /></a></div>');
 			}
 
 			function createPopup(feature) {
@@ -453,7 +491,6 @@ NS.UI.MapView = Backbone.View.extend({
 				}*/
 				this.events.unregister("featuresadded", this, zoomToData);
 				$("#waitControl").remove(); 
-				
 			}
 		
 		},
@@ -526,11 +563,11 @@ NS.UI.MapView = Backbone.View.extend({
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
 			//$("#waitControl").remove(); 
 			function zoomData(){
-				/*var bounds = this.getDataExtent();
+				var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
 					this.map.zoomToExtent(bounds); 
-				}  */
+				}  
 				this.events.unregister("featuresadded", this, zoomData);
 				$("#waitControl").remove(); 
 			}
@@ -597,6 +634,20 @@ NS.UI.MapView = Backbone.View.extend({
 				vector_layer.styleMap.styles.default.defaultStyle.labelYOffset = parseInt(actualVal) + parseInt(value) ;
 			}
 			vector_layer.redraw();
+		},events : {
+			"click #mapunselectfeatures" : "unselectFeatures"
+		},
+		/*afterRender: function () {
+            $('#mapunselectfeatures').on('click', this, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+               var tn; 
+				
+				
+            });
+        },*/
+		unselectFeatures : function(){
+			this.map.controls.selectControl.unselectAll();
 		}
 });
 /******************************* Models **********************************************************/

@@ -79,6 +79,9 @@
 			case 'objects':
 				this.context = 'objects';
 				break;
+			case 'argos':
+				this.context = 'argos';
+				break;
             /*case 'newSample':
             case 'editSample':
             case 'newSubject':
@@ -133,6 +136,8 @@
                 e.preventDefault();
                 e.stopPropagation();
                 e.data.show();
+				
+				
             });
         },
 
@@ -146,6 +151,7 @@
             $('body').addClass('modal-open');
             this.$el.slideDown(800);
             this.$el.on('click', this, this.clickCancelNav);
+			$("header.navbar.navbar-static-top").css("position","static");
         },
 
         clickFollowLink: function (e) {
@@ -158,6 +164,7 @@
             e.preventDefault();
             // /!\ event handler bound using jQuery's .on() method, "this" refers to the event target
             e.data.hide();
+			$("header .navbar-static-top").css("position","fixed");
         },
 
         update: function (name, args) {

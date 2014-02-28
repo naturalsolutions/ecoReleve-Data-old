@@ -161,11 +161,54 @@ select[name="pagesizes"]{
 	font-size: 18px;
 	color: white;
 }
+
+.exportViewsList:hover {
+	color: #1F411C;
+	text-decoration: inherit;
+	cursor: pointer;
+}
+
 #exportWptNumber, #countViewRows, #geo-query-result {
 	color: rgb(33, 122, 21);
 	font-size: x-large;
 }
-/*********** alldata             *************/
+/************************** argos ***********************/
+#argosLegendArgos, #argosLegendGps{
+	border-style: solid;
+	display: inlblock;
+	border-width: 1px;
+	left: 0px;
+	width: 2em;
+}
+#argosLegendArgos {
+	border-color: rgb(220,220,220,1);
+	background-color : rgba(220,220,220,0.5);
+}
+#argosLegendGps{
+	border-color: rgb(151,187,205,1);
+	background-color : rgba(151,187,205,0.5);
+}
+div.argosDivGraph {
+	margin-left: 1em;
+	margin-top: 1em;
+}
+#argosGraphDetails {
+	margin-top: 2em;
+	font-size: 1.2em;
+}
+#argosLegend {
+	margin-top: 6em;
+	border-style: solid;
+	border-color: rgb;
+	padding: 1em;
+	width: 150px;
+	border-width: 1px;
+}
+#argosDate, #argosValues, #argosPtt{
+	color: rgb(151,187,205);
+	font-size: x-large;
+}
+/*********** alldata *************/
 #featureOnTheMap {
 	margin-top: 20px;
 }
@@ -180,7 +223,7 @@ select[name="pagesizes"]{
 	text-align: center;
 	padding: 10px;
 }
-#alldataAlert img {
+#alldataAlert img, #allDataMapAlert img {
 	margin: 10px;
 }
 #refreshTable {
@@ -190,6 +233,27 @@ select[name="pagesizes"]{
 	color: rgb(255, 255, 255);
 	padding: 2% 13% 3% 2%;
 	font-size: 2em;
+}
+#OpenLayers_Control_MaximizeDiv_innerImage, #OpenLayers_Control_MinimizeDiv_innerImage {
+	margin-top: 20px;
+}
+img#mapunselectfeatures {
+	position: absolute;
+	z-index: 1007;
+	right: 85px;
+	top: 4px;
+}
+.dialogBoxAlert {
+	position: fixed;
+	top: 10%;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 301040;
+	opacity: 1;
+}
+a.allData-criteriaBtn {
+	line-height: 15px;
 }
 /************** objects  ********************/
 div.tabbable div.tab-content {

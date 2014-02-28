@@ -133,7 +133,7 @@ app.views.BaseView = Backbone.View.extend({
         return this._dfd.promise();
     }
  });
-
+//$home
 app.views.HomeView = app.views.BaseView.extend({
 	template: 'home',
 	initialize: function() {
@@ -640,7 +640,7 @@ app.views.ExportMapView = app.views.BaseView.extend({
         this.displayWaitControl();
         var serverUrl = localStorage.getItem("serverUrl");
         var url = serverUrl + "/views/get/"+ this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
-        var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON" , strategies:["BBOX"], cluster:true, params:{cluster:"yes"}});
+        var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON" , strategies:["BBOX"], cluster:true, params:{round:"0"}});
         this.map_view.addLayer({protocol : protocol , layerName : "Observations", noSelect : false});
 
         /*var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
@@ -884,18 +884,15 @@ app.views.ExportColumnsListFormView = NS.UI.Form.extend({
         });
     }
 });
+//$exportresult
 app.views.ExportResult = app.views.BaseView.extend({
     template: "export-result" ,
     initialize : function(options) {
         this.currentView =  options.view;
         this.filterValue = app.views.filterValue;
         this.bbox = app.views.bbox;
-        
     },
     afterRender: function(options) {
-      //  $(".modal-content").css({"height":"700px", "max-width": "900px"});
-      //  $('#map').css({"width":"700px","height":"400px"});
-      //  $(".modal-body").css({"max-height":"600px"});
       var serverUrl = localStorage.getItem("serverUrl");
       var gpxFileUrl = serverUrl + "/gps/data.gpx";
       var pdfFileUrl = serverUrl + "/pdf/data.pdf";
@@ -915,6 +912,49 @@ app.views.ExportResult = app.views.BaseView.extend({
         }
         app.utils.getExportList(this.currentView, this.filterValue, this.bbox, this);
         $("#exportResultList-head").css({"color":"black"});
+        // map view
+        this.displayedCols = app.utils.exportSelectedFieldsList;
+        this.url = serverUrl +  "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + this.displayedCols ; 
+        //add id field to field list to display on the map
+        this.displayedCols.unshift("Id");
+        $('#map').css({"width":"900px","height":"550px"});
+        var  point = new NS.UI.Point({ latitude : 31, longitude: 61, label:""});
+        this.map_view = app.utils.initMap(point, 2);
+        var url = this.url + "&format=geojson";
+        var style  = new OpenLayers.Style({
+            pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'
+            , label : "${getLabel}",  labelXOffset: "50", labelYOffset: "-15"}
+            , {context: {
+                    getLabel: function(feature) {
+                        if(feature.layer.map.getZoom() > 5) {
+                            //return feature.attributes.label;
+                            // return list of arributes (labels to display on the map)
+                                var labelsList = [];
+                                for (k in feature.attributes) {
+
+                                if ((k!="Id") && (k!="count")) {
+                                    labelsList.push(feature.attributes[k]);
+                                }
+                                labelsList.unshift(feature.attributes["Id"]);
+                                return labelsList;
+                            }
+                        } else {return "";}
+                    }
+                }}
+
+
+            );
+        var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], popup : false, style: style});
+        this.map_view.addLayer({protocol : protocol , layerName : "Observations", });
+        this.addControlsToMap();
+    // load map vector fields list
+        var len = this.displayedCols.length;
+        for (var i=0;i< len; i++){
+            var label = this.displayedCols[i];
+            $("#map-field-selection").append("<option>" + label +"</option>");
+        }
+
+
     },
     events : {
         'click #exportPrevBtn' : 'backToMap',
@@ -922,7 +962,13 @@ app.views.ExportResult = app.views.BaseView.extend({
         'click #export-first-step' : 'backToFistStep',
         'click #exportDataMap' : 'dataOnMap',
         'click #export-getPdf':"getPdfFile",
-        'click button.close' : 'exitExp'
+        'click button.close' : 'exitExp',
+        'change #map-field-selection': 'updateMap',
+        'click #map-label-hposition-off' : "moveHlabelOff",
+        'click #map-label-hposition-in' : "moveHlabelIn",
+        'click #map-label-vposition-off' : "moveVlabelOff",
+        'click #map-label-vposition-in' : "moveVlabelIn",
+        'click #export-map-print' : 'printMap'
     },
     backToMap : function(){
         if(app.xhr){ 
@@ -955,6 +1001,44 @@ app.views.ExportResult = app.views.BaseView.extend({
              app.xhr.abort();
          }
         app.router.navigate('#', {trigger: true});
+    },
+    addControlsToMap : function(){
+        var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
+        var zoomBox = new OpenLayers.Control.ZoomBox();
+        var navigation = new OpenLayers.Control.Navigation();
+        var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
+            eventListeners: {
+               'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
+               'deactivate': function(){zoomBox.deactivate()}
+            }
+        });
+        var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
+            eventListeners: {
+               'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
+               'deactivate': function(){navigation.deactivate()}
+            }
+        });     
+        panel.addControls([zoomBoxBtn, navigationBtn]);
+        this.map_view.map.addControls([panel,zoomBox,navigation]);
+    },
+    printMap : function (){
+         window.print();
+    },
+    updateMap : function(){
+        var selectedValue = $('#map-field-selection :selected').text();
+        this.map_view.editLabel("Observations", selectedValue);
+    },
+    moveHlabelOff : function(){
+        this.map_view.moveLabel("Observations", "h", "-2");
+    },
+    moveHlabelIn : function(){
+        this.map_view.moveLabel("Observations", "h", "+2");
+    },
+    moveVlabelOff : function(){
+        this.map_view.moveLabel("Observations", "v", "-2");
+    },
+    moveVlabelIn : function(){
+        this.map_view.moveLabel("Observations", "v", "+2");
     }
     
 });
@@ -988,7 +1072,7 @@ app.views.GridView = app.views.BaseView.extend({
         }
     }
 });
-	
+/*	
 app.views.ExportResultOnMapView = app.views.BaseView.extend({
     template: "export-data-on-map",
     initialize : function(options) {
@@ -1000,7 +1084,6 @@ app.views.ExportResultOnMapView = app.views.BaseView.extend({
         this.displayedCols.unshift("Id");
     },
     afterRender: function(options) {
-     //   $(".modal-content").css({"height":"700px"});
      $("#filterViewName").text(this.view);
         $('#map').css({"width":"900px","height":"550px"});
      //   $(".modal-body").css({"max-height":"600px"});
@@ -1070,14 +1153,7 @@ app.views.ExportResultOnMapView = app.views.BaseView.extend({
         panel.addControls([zoomBoxBtn, navigationBtn]);
         this.map_view.map.addControls([panel,zoomBox,navigation]);
     },
-    /*
-    backToFilter : function (){
-        var currentView = this.currentView;
-        window.clearInterval(this.timer);
-        app.views.main.setView(".layoutContent", new app.Views.ExportFilterView({viewName: currentView}));
-        app.views.main.render();
-    },
-    */
+
     backToFistStep : function (){
          app.router.navigate("#export", {trigger: true});
     },
@@ -1118,7 +1194,9 @@ app.views.ExportResultOnMapView = app.views.BaseView.extend({
     exitExp : function(e){
         app.router.navigate('#', {trigger: true});
     }
-});		
+});	
+*/	
+// $alldata
 app.views.AllDataView = app.views.BaseView.extend({
     template: "allData",
     afterRender: function(options){ 
@@ -1176,10 +1254,10 @@ app.views.AllDataView = app.views.BaseView.extend({
     ,events : {
         'change #select_id_proto' : 'updateTable',
         'change input.cluster' : 'updateMap',
-        'click #btnY-1' :'updateDate1an',
         'click #btnReset' : 'resetdate',
-        'click #btnY-2' : 'updateDate2ans',
-        'click #btnD-1' : 'updateDateHier',
+        'click #btnW' : 'updateDateWeek',
+        'click #btnM' : 'updateDateMonth',
+        'click #btnY' : 'updateDateYear',
         'keyup #datedep' : 'updateDateDep',
         'keyup #datearr' : 'updateDateArr',
         'click #searchBtn ' : 'search',
@@ -1198,7 +1276,28 @@ app.views.AllDataView = app.views.BaseView.extend({
         $("#id_proto").attr("value",($("#select_id_proto option:selected").attr('id')));
          app.utils.fillTaxaList();
     },
-    updateDate1an : function(){
+    updateDateWeek : function(){
+        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        $("#btnW").css({"background-color" : "rgb(150,150,150)"});
+        $('#idate').text("week");   
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
+    },
+    updateDateMonth : function(){
+        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        $("#btnM").css({"background-color" : "rgb(150,150,150)"});
+        $('#idate').text("month");   
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
+    },
+    updateDateYear : function(){
+        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        $("#btnY").css({"background-color" : "rgb(150,150,150)"});
+        $('#idate').text("year");   
+        $("#datedep").attr('value',"");
+        $("#datearr").attr('value',"");
+    },
+   /* updateDate1an : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnY-1").css({"background-color" : "rgb(150,150,150)"});
         $('#idate').text("1ans");   
@@ -1211,7 +1310,7 @@ app.views.AllDataView = app.views.BaseView.extend({
         $('#idate').text("2ans");
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");   
-    },
+    },*/
     resetdate : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnReset").css({"background-color" : "rgb(150,150,150)"});
@@ -1219,13 +1318,13 @@ app.views.AllDataView = app.views.BaseView.extend({
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
     },
-    updateDateHier : function(){
+   /* updateDateHier : function(){
         $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
         $("#btnD-1").css({"background-color" : "rgb(150,150,150)"});
         $('#idate').text("hier");
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
-    },
+    },*/
     updateDateDep : function(){
         var regex = new RegExp("^[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
         var regex2 = new RegExp("^[0-9]{4}$");
@@ -1254,10 +1353,17 @@ app.views.AllDataView = app.views.BaseView.extend({
         this.updateControls();
         var datedep=$("#datedep").attr('value');
         var datearr=$("#datearr").attr('value');
-        $('#idate').text(datedep+";"+ datearr);
+        if (datedep !="" || datearr !=""){
+            $('#idate').text(datedep+";"+ datearr);
+        }
+        /*$('#idate').text(datedep+";"+ datearr);*/
         var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
         app.utils.filldatable(params);
         app.utils.updateLayer(this.map_view);
+                    $("img#mapunselectfeatures").css("position" , "absolute");
+                $("img#mapunselectfeatures").css("z-index","1008");
+                $("img#mapunselectfeatures").css("right", "85px");
+                $("img#mapunselectfeatures").css("top", "4px");
     },
     updateMap : function(){
         app.utils.updateLayer(this.map_view);
@@ -1363,13 +1469,25 @@ app.views.AllDataView = app.views.BaseView.extend({
         }
     },
     continueGeoQuery : function (){
-         $("#alldataAlert").addClass("masqued");
-         this.displayWaitControl();
-         app.utils.continueUpdateLayer(this.map_view);
+        $("#allDataMapAlert").empty();    
+        $("#allDataMapAlert").removeClass("dialogBoxAlert");
+        $( "div.modal-backdrop" ).removeClass("modal-backdrop");
+        //$("#alldataAlert").addClass("masqued");
+        this.displayWaitControl();
+        app.utils.continueUpdateLayer(this.map_view);
     },
     resetGeoQuery : function (){
-         $("#alldataAlert").addClass("masqued");
+        $("#allDataMapAlert").empty();
+        $("#allDataMapAlert").removeClass("dialogBoxAlert");
+        $( "div.modal-backdrop" ).removeClass("modal-backdrop");
+
+        // $("#alldataAlert").addClass("masqued");
          $("#waitControl").remove(); 
+    }
+}); 
+app.views.AlertMapBox = app.views.BaseView.extend({
+    template: "alertMapBox" ,
+    initialize : function(options) {
     }
 }); 
 app.views.Import = app.views.BaseView.extend({
@@ -1440,7 +1558,8 @@ app.views.ImportMap = app.views.BaseView.extend({
         $("div.modal-body").css({"min-height":"650px;"});
     },
     events : {
-        "selectedFeatures:change" : "featuresChange"
+        "selectedFeatures:change" : "featuresChange",
+        'click tr' : 'selectTableElement'
     },
     featuresChange : function(e){
         var selectedFeatures = this.mapView.map.selectedFeatures;
@@ -1457,8 +1576,37 @@ app.views.ImportMap = app.views.BaseView.extend({
             app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
         }
         e.preventDefault();
+    },
+    selectTableElement : function(e){
+        var ele  = e.target.parentNode.nodeName;
+       // if (ele =="TD"){
+        if (ele =="TR") {
+            var selectedModel = app.models.selectedModel ;
+            var latitude, longitude;
+            for (k in selectedModel.attributes){
+                var v = selectedModel.attributes[k];
+                if (k.toUpperCase()=="LATITUDE"){
+                    latitude = v;
+                }
+                if (k.toUpperCase()=="LONGITUDE"){
+                    longitude = v ;
+                }
+               // content += "<p class='allDataInfosTitles'> "+ k + " <br/><span>" + v + "</span></p>";
+           }
+           this.zoomMapToSelectedFeature(latitude,longitude);
+            /* content +="<p id='featureOnTheMap' longitude='" + longitude +"' latitude='" + latitude +"'><a><img src='images/Map-Location.png'/></a> <i>show it on the map</i></p>";
+            $("#allDataInfosPanelContent").html(content);*/
+        }
+    },
+    zoomMapToSelectedFeature : function(latitude,longitude){
+        var point = {};
+        point.longitude = longitude;
+        point.latitude = latitude;
+        //this.map_view.setCenter(point);
+        app.utils.updateLocation (this.mapView, point);
     }
 });
+// $objects
 app.views.objects = app.views.BaseView.extend({
     template: "objects" ,
     afterRender : function(options) {
@@ -1466,13 +1614,79 @@ app.views.objects = app.views.BaseView.extend({
     }
     ,
     events : {
-       // "selectedFeatures:change" : "featuresChange"
-    }/*,
-    remove: function(options) {
-        if(app.xhr){ 
-            app.xhr.abort();
+       'click tr' : 'selectTableElement',
+       'click #objectsInfosPanelClose' : 'closeInfosPanel'
+    },
+    selectTableElement : function(e){
+        var ele  = e.target.parentNode.nodeName;
+        if (ele =="TR") {
+            var selectedModel = app.models.selectedModel ;
+            var id = selectedModel.attributes["ID"];
+            var serverUrl = localStorage.getItem("serverUrl");
+            var url = serverUrl + "/TViewIndividual/" + id;
+            app.utils.getObjectDetails(this,url);
+            $("#objectsInfosPanel").css({"display":"block"});
         }
-    }*/
+    },
+    closeInfosPanel : function(){
+        $('#objectsInfosPanel').hide();
+    },
+});
+app.views.Argos = app.views.BaseView.extend({
+    template: "argos" ,
+    afterRender : function(options) {
+        this.loadStats();
+    },
+        loadStats : function(){
+            var serverUrl = localStorage.getItem("serverUrl");
+            var url = serverUrl + "/argos/stat?format=json";
+            $.ajax({
+                url: url,
+                dataType: "json",
+                success: function(data) {
+
+                    var labels  = data["label"].reverse();
+                    var nbArgos = data["nbArgos"].reverse();
+                    var nbGps = data["nbGPS"].reverse();
+                    var nbPtt = data["nbPTT"].reverse();
+                    // Sum of values in each table
+                    /*var sumArgos = 0;var sumGps = 0;var sumPtt = 0;
+                    $.each(nbArgos,function(){sumArgos+=parseFloat(this) || 0;});
+                    $.each(nbGps,function(){sumGps+=parseFloat(this) || 0;});
+                    $.each(nbPtt,function(){sumPtt+=parseFloat(this) || 0;}); */
+                    var graphData = {
+                        labels : labels,
+                        datasets : [
+                            {
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,1)",
+                                data : nbArgos
+                            },
+                            {
+                                fillColor : "rgba(151,187,205,0.5)",
+                                strokeColor : "rgba(151,187,205,1)",
+                                data : nbGps
+                            }
+                        ]
+                    }
+                    var argosChart = new Chart(document.getElementById("argosGraph").getContext("2d")).Bar(graphData,null);
+                    /*$("#argosValues").text(sumArgos + sumGps );
+                    $("#argosPtt").text(sumPtt);*/
+                    // get last date
+                    var lastDate =  labels[labels.length - 1];
+                    var lastArgosValue = nbArgos[nbArgos.length - 1];
+                    var lastGpsValue = nbGps[nbGps.length - 1];
+                    var lastPttValue = nbPtt[nbPtt.length - 1];
+                    // data for last day
+                    $("#argosDate").text(lastDate);
+                    $("#argosValues").text(parseFloat(lastArgosValue) + parseFloat(lastGpsValue) );
+                    $("#argosPtt").text(lastPttValue);
+                },
+                error: function(data) {
+                   // $("#homeGraphLegend").html("error in loading data ");
+                }
+            });
+    }
 });
 
  return app;
