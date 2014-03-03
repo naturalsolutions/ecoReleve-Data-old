@@ -1,19 +1,22 @@
 ﻿<div class="row-fluid argosDivGraph" >
-	<div class="span5"> 
-		<h2> Argos GPS locations last seven days </h2>
-		<canvas id="argosGraph" width="600" height="450"></canvas>
-	</div>
-	<div class="span4"> 
+	<div class="span7"> 
+		<h2 id="argosTitle"> Argos GPS locations last seven days </h2>
+		<div class="argosDivGraph" id="argosGraphDetails">
+			<p>Last connection to the CLS Web Services : <span id ="argosDate"></span></p>
+			<p><span id ="argosValues"></span> positions received from <span id ="argosPtt"></span> transmitters. </p>
+
+		</div>
+		<canvas id="argosGraph" width="600" height="400"></canvas>
 		<div id="argosLegend">
-			<h3>Legend</h3>
+			<h4>Legend</h4>
 			<div id="argosGraphLegend">
 				<span id ="argosLegendArgos">&nbsp;&nbsp;&nbsp;</span>&nbsp;Argos<br/>
 				<span id ="argosLegendGps">&nbsp;&nbsp;&nbsp;</span>&nbsp;Gps
 			</div>
 		</div>
 	</div>
+	<div class="span4" id="argosDivImg"> 
+		<img src="images/Arie Buurman.jpg"/>
+	</div>
 </div>
-<div class="argosDivGraph" id="argosGraphDetails">
-	<p>Last connection to the CLS Web Services : <span id ="argosDate"></span></p>
-	<p><span id ="argosValues"></span> positions received from <span id ="argosPtt"></span> transmitters. </p>
-</div>
+

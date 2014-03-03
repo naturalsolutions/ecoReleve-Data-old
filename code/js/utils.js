@@ -1692,6 +1692,37 @@ app.utils.getObjectDetails = function(backboneView,url){
 	});
 
 }
+app.utils.convertToInt = function(array){
+	var tab= [];
+	for(var i=0;i<array.length;i++){
+		var value = array[i];
+		tab.push(parseInt(value));
+	}
+	return tab;
+}
+app.utils.MaxArray = function(array){
+	var max =0 ;
+	for(var i=0;i<array.length;i++){
+		var value = (array[i]);
+		if (value > max){max = value;}
+	}
+	return max;
+}
+app.utils.GraphJsMaxY= function(max){
+	var maxY;
+	if (max <500){maxY = 500;}
+	else if (max<1000){maxY = 1000;}
+	else if (max<1500){maxY = 1500;}
+	else if (max<2000){maxY = 2000;}
+	else if (max<2500){maxY = 2500;}
+	else if (max<3000){maxY = 3000;}
+	else if (max<4000){maxY = 4000;}	
+	else if (max<5000){maxY = 5000;}	
+	else if (max<10000){maxY = 10000;}
+	return maxY;
+}
+
+
 
  return app;
  

@@ -33,8 +33,10 @@
 		"import" :"import",
 		"import-load" : "importLoad",
 		"import-map" : "importMap",
+		"import-end": "importEndStep",
 		"objects" : "objects",
 		"argos" : "argos"
+
 		//"exportFilter" : "exportFilter"
 		
 	},
@@ -598,6 +600,9 @@
 	importMap : function(){
 		this.setView(new app.views.ImportMap());
 	},
+	importEndStep : function(){
+		this.setView(new app.views.importEndStep());
+	},		
 	objects : function(){
 		this.setView(new app.views.objects());
 	},

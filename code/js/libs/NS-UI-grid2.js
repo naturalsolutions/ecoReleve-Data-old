@@ -806,9 +806,9 @@ NS.UI = (function(ns) {
                 '                            <% if (cell.filter.type == "Text") { %>' +
                 
                 '                               <div class="filterSection">' +
-                '                                   <label><input type="radio" name="choose" value="same"   checked="checked" /> Exact match</label>' +
+                '                                   <label><input type="radio" name="choose" value="same"     <% if (cell.filter.selectedOption === "same") { %> checked="checked" <% } %>/> Exact match</label>' +
                 '                                   <label><input type="radio" name="choose" value="begins" <% if (cell.filter.selectedOption === "begins") { %> checked="checked" <% } %> /> Begins with</label>' +
-                '                                   <label><input type="radio" name="choose" value="contains" <% if (cell.filter.selectedOption === "contains") { %> checked="checked" <% } %> /> Contains</label>' +
+                '                                   <label><input type="radio" name="choose" value="contains"  checked="checked"/> Contains</label>' +
                 '                                   <label><input type="radio" name="choose" value="ends"     <% if (cell.filter.selectedOption === "ends")     { %> checked="checked" <% } %> /> Ends by</label>' +
                 '                               </div>' +
                 

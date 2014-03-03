@@ -945,11 +945,11 @@ NS.UI = (function(ns) {
                 var instance = options.initialData;
                 this.defaults = _.extend({}, this.defaults, {
                     id: (instance.isNew()) ? this.defaults.id : 'form_' + instance.id,
-                    label: (instance.isNew()) ? 'New ' + instance.constructor.verboseName.toLowerCase() : instance.constructor.verboseName + ' ' + instance.id
+                    label: (instance.isNew()) ? '' + instance.constructor.verboseName.toLowerCase() : instance.constructor.verboseName + ' ' + instance.id
                 });
             } else if (options.model) {
                 this.defaults = _.extend({}, this.defaults, {
-                    label: 'New ' + options.model.verboseName.toLowerCase()
+                    label: '' + options.model.verboseName.toLowerCase()
                 });
             }
 

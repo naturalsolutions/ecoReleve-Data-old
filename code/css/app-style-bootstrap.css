@@ -360,7 +360,7 @@ display: block;}
 	/*width:280px;*/
 	position : fixed;
 	left:0px;
-	/*z-index : 5000;*/
+	z-index : 5000;
 	margin-top : 4px;
 	color:white;
 	background-color: black;
@@ -471,7 +471,7 @@ button.allData-criteriaBtn{
 	max-width : 100%;
 }
 .allDataInfosTitles {
-margin-top: 15px;
+margin-top: 5px;
 margin-bottom: 0px;
 padding-bottom: 0px;
 text-transform: lowercase;
@@ -546,8 +546,8 @@ div.filterElement{
 }*/
 @media screen and (min-width: 1280px) {
 	.thumbnails > li.tile ,.thumbnails > li.tile a {
-		width: 200px;
-		height: 200px;
+		width: 150px;  /*200*/
+		height: 150px;
 	}
 }
 @media screen and (max-width: 1279px) {
@@ -564,10 +564,24 @@ div.filterElement{
 	#graph{
 		width: 420px;
 	}
+	/* Argos */
+	#argosGraph {
+		height: 250px;
+		width: 600px;
+	}
 }
-
+@media screen and (max-width: 800px) {
+	/* home page */
+	#home-right {
+		display: none;
+	}
+	/* Argos page */
+	div#argosDivImg {
+		display: none;
+	}
+}
 @media screen and (max-width: 640px) {
-	
+
 }
 @media (max-width: 480px) {
 	div.container{

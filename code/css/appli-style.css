@@ -49,7 +49,8 @@ border-bottom: 1px solid #bbb;
 margin: 0;
 }
 canvas{
-	margin-top: 1em;
+	margin-top: 2em;
+	margin-left: 2em;
 }
 .navbar-static-top {
 	width: 100%;
@@ -185,8 +186,8 @@ select[name="pagesizes"]{
 	background-color : rgba(220,220,220,0.5);
 }
 #argosLegendGps{
-	border-color: rgb(151,187,205,1);
-	background-color : rgba(151,187,205,0.5);
+	border-color: rgb(33, 122, 21,1);
+	background-color : rgba(33, 122, 21,0.5);
 }
 div.argosDivGraph {
 	margin-left: 1em;
@@ -195,18 +196,24 @@ div.argosDivGraph {
 #argosGraphDetails {
 	margin-top: 2em;
 	font-size: 1.2em;
+	margin-left: 3em;
 }
 #argosLegend {
-	margin-top: 6em;
+	margin-top: 1em;
+	margin-left: 4em;
 	border-style: solid;
-	border-color: rgb;
-	padding: 1em;
+	padding: 0.5em;
 	width: 150px;
 	border-width: 1px;
+	margin-bottom: 2em;
 }
 #argosDate, #argosValues, #argosPtt{
-	color: rgb(151,187,205);
+	color: rgb(33, 122, 21);
 	font-size: x-large;
+}
+#argosTitle{
+	margin-left: 1.2em;
+	margin-bottom: 0.6em;
 }
 /*********** alldata *************/
 #featureOnTheMap {
@@ -294,7 +301,7 @@ body.loading #logo {
 
 /* grid view */
 .pagination ul > li > span[data-target] {cursor: pointer; color: #2e8bcc;}
-.grid table th {padding: 0; text-align: center; vertical-align: middle; background: #fff;}
+.grid table th {padding: 0; vertical-align: middle; background: #fff;}
 .grid table th > div {padding: 7px 8px; position: relative;min-width : 85px;}
 .grid table td {vertical-align: middle; cursor: pointer; padding: 2px 8px;}
 .grid table tbody:hover {background-color: rgb(220, 220, 255);}

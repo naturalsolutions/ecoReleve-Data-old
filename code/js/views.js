@@ -455,7 +455,9 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         'click #filter-query-btn' : 'filterQuery',
         'click #exportMap' : 'selectExtend',
         'click button.close' : 'exitExp',
-        'change #export-view-fields' : 'selectField'
+        'change #export-view-fields' : 'selectField',
+        'change .filter-select-operator': 'updateInputInfo',
+        'click #msdnLink' : 'msdnDetails'
         
     },
     exportview : function(){
@@ -492,13 +494,26 @@ app.views.ExportFilterView= app.views.BaseView.extend({
             // generate operator
             var operatorDiv = this.generateOperator(fieldType);
             var inputDiv = this.generateInputField(fieldType);
-            var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-"  + fieldId +"'><div class='span4 name' >" + fieldName + "</div><div class='span2 operator'>"+ operatorDiv +"</div><div class='span5'>";
-                fieldFilterElement += inputDiv + "</div><div class='span1'><a cible='div-"  + fieldId +"' class='btnDelFilterField'><img src='img/Cancel.png'/></a></div></div>";
+            var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-"  + fieldId +"'><div class='span4 name' >" + fieldName + "</div><div class='span1 operator'>"+ operatorDiv +"</div><div class='span3'>";
+                fieldFilterElement += inputDiv + "</div><div class='span3'><span id='filterInfoInput'></span></div><div class='span1'><a cible='div-"  + fieldId +"' class='btnDelFilterField'><img src='img/Cancel.png'/></a></div></div>";
             $("#export-filter-list").append(fieldFilterElement);
             $("#export-filter-list").removeClass("masqued");
             $('#filter-query').removeClass("masqued");
             this.selectedFields.push(fieldId);
         }
+    },
+    updateInputInfo : function(){
+        $(".filterElement").each(function() {
+             var operator = $(this).find("select.filter-select-operator option:selected").text();
+            if (operator =="LIKE"){
+            $("#filterInfoInput").html("sql wildcard is allowed: <a id='msdnLink'>more details</a>");
+            }
+            else if (operator =="IN"){
+                $("#filterInfoInput").text(" for multi-seletion, separator is ';' ");
+            }
+            else{$("#filterInfoInput").text("");
+            }
+        });
     },
     deleteFilterItem: function(e){
         var elementId = $(e.target).parent().get(0).attributes["cible"].nodeValue;
@@ -521,6 +536,7 @@ app.views.ExportFilterView= app.views.BaseView.extend({
             }   */
             
             if (operator =="LIKE"){operator=" LIKE ";}
+            if (operator =="IN"){operator=" IN ";}
             
             var condition = $(this).find("input.fieldval").val(); 
             query += fieldName + operator + condition +",";
@@ -564,7 +580,7 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         switch(type)
         {
         case "string":
-          operatorDiv = "<select class='filter-select-operator'><option>LIKE</option><option>=</option></select>";  //"LIKE";
+          operatorDiv = "<select class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option></select>";  //"LIKE";
           break;
         case "integer":
           operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
@@ -573,7 +589,7 @@ app.views.ExportFilterView= app.views.BaseView.extend({
         operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option></select>";
           break;*/
          case "text":
-          operatorDiv = "<select class='filter-select-operator'><option>LIKE</option><option>=</option></select>";  //"LIKE";
+          operatorDiv = "<select class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option></select>";  //"LIKE";
           break;
         default:
          operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
@@ -597,7 +613,11 @@ app.views.ExportFilterView= app.views.BaseView.extend({
             app.xhr.abort();
         }
         app.router.navigate('#', {trigger: true});
+    },
+    msdnDetails : function(){
+        window.open('http://technet.microsoft.com/en-us/library/ms179859.aspx','_blank');
     }
+
 });
 app.views.ExportMapView = app.views.BaseView.extend({
      template: "export-map",
@@ -801,7 +821,7 @@ app.views.ExportColumnsSelection = app.views.BaseView.extend({
         };
         columnsModel.schema = schema ;
         columnsModel.constructor.schema = columnsModel.schema;
-        columnsModel.constructor.verboseName  = "Columns";          
+        columnsModel.constructor.verboseName  = "dataset";          
         setTimeout(function(){
             var myView = new app.views.ExportColumnsListFormView({initialData:columnsModel});
             myView.render();
@@ -896,8 +916,10 @@ app.views.ExportResult = app.views.BaseView.extend({
       var serverUrl = localStorage.getItem("serverUrl");
       var gpxFileUrl = serverUrl + "/gps/data.gpx";
       var pdfFileUrl = serverUrl + "/pdf/data.pdf";
+      var csvFileUrl = serverUrl + "/csv/data.csv";
       $('#export-getGpx').attr("href", gpxFileUrl);
       $('#export-getPdf').attr("link", pdfFileUrl);
+      $('#export-getCsv').attr("href", csvFileUrl);
 
       $("#filterViewName").text(this.currentView);
         var fieldsList = app.utils.exportSelectedFieldsList;
@@ -962,6 +984,7 @@ app.views.ExportResult = app.views.BaseView.extend({
         'click #export-first-step' : 'backToFistStep',
         'click #exportDataMap' : 'dataOnMap',
         'click #export-getPdf':"getPdfFile",
+        'click #export-getCsv' : 'getCsvFile',
         'click button.close' : 'exitExp',
         'change #map-field-selection': 'updateMap',
         'click #map-label-hposition-off' : "moveHlabelOff",
@@ -985,6 +1008,9 @@ app.views.ExportResult = app.views.BaseView.extend({
     getPdfFile : function (){
         var url = $('#export-getPdf').attr("link");
         window.open(url, 'list export in pdf');
+    },
+    getCsvFile : function (){
+
     },
     backToFistStep : function (){
         if(app.xhr){ 
@@ -1606,6 +1632,12 @@ app.views.ImportMap = app.views.BaseView.extend({
         app.utils.updateLocation (this.mapView, point);
     }
 });
+app.views.importEndStep = app.views.BaseView.extend({
+    template: "import-endStep",
+    afterRender : function(options) {
+    }
+});
+
 // $objects
 app.views.objects = app.views.BaseView.extend({
     template: "objects" ,
@@ -1649,11 +1681,17 @@ app.views.Argos = app.views.BaseView.extend({
                     var nbArgos = data["nbArgos"].reverse();
                     var nbGps = data["nbGPS"].reverse();
                     var nbPtt = data["nbPTT"].reverse();
+
                     // Sum of values in each table
                     /*var sumArgos = 0;var sumGps = 0;var sumPtt = 0;
                     $.each(nbArgos,function(){sumArgos+=parseFloat(this) || 0;});
                     $.each(nbGps,function(){sumGps+=parseFloat(this) || 0;});
                     $.each(nbPtt,function(){sumPtt+=parseFloat(this) || 0;}); */
+                    // convert values in Arrays to int
+                    nbArgos = app.utils.convertToInt(nbArgos);
+                    nbGps = app.utils.convertToInt(nbGps);
+                    nbPtt = app.utils.convertToInt(nbPtt);
+
                     var graphData = {
                         labels : labels,
                         datasets : [
@@ -1663,13 +1701,30 @@ app.views.Argos = app.views.BaseView.extend({
                                 data : nbArgos
                             },
                             {
-                                fillColor : "rgba(151,187,205,0.5)",
-                                strokeColor : "rgba(151,187,205,1)",
+                                fillColor : "rgba(33, 122, 21,0.5)",
+                                strokeColor : "rgba(33, 122, 21,1)",
                                 data : nbGps
                             }
                         ]
                     }
-                    var argosChart = new Chart(document.getElementById("argosGraph").getContext("2d")).Bar(graphData,null);
+                    var maxValueArgos = app.utils.MaxArray(nbArgos);
+                    var maxValueGps = app.utils.MaxArray(nbGps);
+                    var maxValueInGraph = (maxValueArgos > maxValueGps) ? maxValueArgos: maxValueGps;
+                    maxValueInGraph = app.utils.GraphJsMaxY(maxValueInGraph);
+                    var steps = 5;
+                    /*new Chart(ctx).Bar(plotData, {
+                        scaleOverride: true,
+                        scaleSteps: steps,
+                        scaleStepWidth: Math.ceil(max / steps),
+                        scaleStartValue: 0
+                    });*/
+
+                    var argosChart = new Chart(document.getElementById("argosGraph").getContext("2d")).Bar(graphData,{
+                        scaleOverride: true,
+                        scaleSteps: steps,
+                        scaleStepWidth: Math.ceil(maxValueInGraph / steps),
+                        scaleStartValue: 0
+                    });
                     /*$("#argosValues").text(sumArgos + sumGps );
                     $("#argosPtt").text(sumPtt);*/
                     // get last date
