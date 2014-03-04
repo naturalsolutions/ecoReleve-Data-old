@@ -1643,11 +1643,20 @@ app.views.objects = app.views.BaseView.extend({
     template: "objects" ,
     afterRender : function(options) {
         app.utils.fillObjectsTable();
+        this.children = [];
+    },
+    removeAllChildren: function() {
+    _.each(this.children, function(view) { 
+        view.remove(); 
+    });
+    this.children = [];
     }
     ,
     events : {
        'click tr' : 'selectTableElement',
-       'click #objectsInfosPanelClose' : 'closeInfosPanel'
+       'click #objectsInfosPanelClose' : 'closeInfosPanel',
+       'click #objectsMap' : 'displayMap',
+       'click #objectsReturn' : 'maskMapBox'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1655,15 +1664,55 @@ app.views.objects = app.views.BaseView.extend({
             var selectedModel = app.models.selectedModel ;
             var id = selectedModel.attributes["ID"];
             var serverUrl = localStorage.getItem("serverUrl");
-            var url = serverUrl + "/TViewIndividual/" + id;
-            app.utils.getObjectDetails(this,url);
+            this.objectUrl = serverUrl + "/TViewIndividual/" + id;
+            app.utils.getObjectDetails(this,this.objectUrl);
             $("#objectsInfosPanel").css({"display":"block"});
         }
     },
     closeInfosPanel : function(){
         $('#objectsInfosPanel').hide();
     },
+    displayMap : function(){
+        // add map view
+        app.utils.displayObjectPositions(this, this.objectUrl);
+    },
+    maskMapBox : function(){
+        var tm = this;
+        this.removeAllChildren();
+        $("#objectsMapContainer").empty();
+        $("#objectsMapContainer").removeClass("dialogBoxAlert");
+        $( "div.modal-backdrop" ).removeClass("modal-backdrop");
+    }
 });
+app.views.ObjectMapBox = app.views.BaseView.extend({
+    template: "objectMapBox" ,
+    initialize  : function(options) {
+        this.parentView = options.view;
+        this.url = options.url;
+    },
+    afterRender : function(options) {
+        var self = this;
+        setTimeout(function() {
+            var url = self.url + "?format=geojson";
+            var mapView = app.utils.initMap();
+            self.map_view = mapView;
+            self.displayWaitControl();
+            var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], cluster:false, popup : false});
+            mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true});   //, center: center, zoom:3 
+            self.parentView.children.push(mapView);
+         }, 500);
+    },
+    displayWaitControl : function (){
+        var mapDiv = this.map_view.el;
+        var width =  (screen.width)/2;
+        var height = (screen.height)/2;
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var st = $("#waitControl").html();
+        if ($("#waitControl").length == 0) {
+            $(mapDiv).append(ele);
+        }
+    }
+}); 
 app.views.Argos = app.views.BaseView.extend({
     template: "argos" ,
     afterRender : function(options) {
@@ -1676,12 +1725,10 @@ app.views.Argos = app.views.BaseView.extend({
                 url: url,
                 dataType: "json",
                 success: function(data) {
-
                     var labels  = data["label"].reverse();
                     var nbArgos = data["nbArgos"].reverse();
                     var nbGps = data["nbGPS"].reverse();
                     var nbPtt = data["nbPTT"].reverse();
-
                     // Sum of values in each table
                     /*var sumArgos = 0;var sumGps = 0;var sumPtt = 0;
                     $.each(nbArgos,function(){sumArgos+=parseFloat(this) || 0;});
@@ -1691,7 +1738,6 @@ app.views.Argos = app.views.BaseView.extend({
                     nbArgos = app.utils.convertToInt(nbArgos);
                     nbGps = app.utils.convertToInt(nbGps);
                     nbPtt = app.utils.convertToInt(nbPtt);
-
                     var graphData = {
                         labels : labels,
                         datasets : [
@@ -1718,7 +1764,6 @@ app.views.Argos = app.views.BaseView.extend({
                         scaleStepWidth: Math.ceil(max / steps),
                         scaleStartValue: 0
                     });*/
-
                     var argosChart = new Chart(document.getElementById("argosGraph").getContext("2d")).Bar(graphData,{
                         scaleOverride: true,
                         scaleSteps: steps,

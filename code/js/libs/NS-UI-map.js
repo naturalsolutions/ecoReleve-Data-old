@@ -296,9 +296,10 @@ NS.UI.MapView = Backbone.View.extend({
 				//$("#waitControl").remove(); 
 			}		
 			this.map.addLayer(vector);
-			if (! options.protocol){
+			var zoomToExtent = options.zoomToExtent || false ; 
+			if ((! options.protocol) || options.zoomToExtent){
 				this.map.zoomToExtent(vector.getDataExtent());
-				$("#waitControl").remove(); 
+				//$("#waitControl").remove(); 
 			}
 			if (options.zoom) {
 				var zoomLevel = options.zoom;
@@ -484,12 +485,11 @@ NS.UI.MapView = Backbone.View.extend({
 			  feature.popup = null;*/
 			}
 			function zoomToData(){
-				
-				/*var bounds = this.getDataExtent();
+				var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
 					this.map.zoomToExtent(bounds); 
-				}*/
+				}
 				this.events.unregister("featuresadded", this, zoomToData);
 				$("#waitControl").remove(); 
 			}

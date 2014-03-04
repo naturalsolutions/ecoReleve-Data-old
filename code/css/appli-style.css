@@ -266,6 +266,12 @@ a.allData-criteriaBtn {
 div.tabbable div.tab-content {
 	color:black;
 }
+.white {
+	color:white;
+}
+a#objectsMap:hover {
+	cursor: pointer;
+}
 
 
 /**********************************************/

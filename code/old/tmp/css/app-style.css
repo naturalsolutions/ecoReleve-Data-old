@@ -1,0 +1,109 @@
+﻿.ftColr-white{
+	color: white;
+}
+.ftColr-black{
+	color: black;
+}
+.ftColr-blue{
+	color: blue;
+}
+.ftBold {
+	font-weight: bold;
+}
+.pading-min {
+	padding-top:2px;
+}
+
+.nav-bar .nav-bar-inner .element a, .nav-bar .nav-bar-inner a .element a {
+	height: 48px;
+}
+.nav-bar .nav-bar-inner > .divider, .nav-bar .nav-bar-inner > ul.menu > li.divider {
+	height: 48px;
+	line-height: 48px;
+}
+.span8 {
+	width: 100%;
+}
+.olMapViewport {
+	width: 100%;
+}
+#rowMap{
+	height: 500px;
+}
+#spanMap{
+	height: 100%;
+}
+#content{
+	height:100%;
+	width: 100%;
+}
+#homeContent{
+	height:100%;
+	width: 100%;
+}
+
+#homeContent div.style{
+	height:100%;
+	width: 100%;
+}
+
+div#content div.style{
+	height:100%;
+	width: 100%;
+}
+#index-page{
+	height:100%;
+	width: 100%;
+}
+
+body{
+	height:100%;
+	width: 100%;
+}
+div#content:first-child{
+	height:100%;
+	width: 100%;
+}
+.obsStoredAlertBox{
+	background-color:rgb(0,0,0);
+}
+
+.updateDataAlert{
+	background-color:rgb(0,0,0);
+}
+.configNewUserAlertBox{
+	background-color:rgb(0,0,0);
+}
+@media screen and (max-width: 640px) {
+  .station {
+    display:none;
+  }
+  .page.secondary .page-back {
+	width: 48px;
+	height: 48px;
+	left: 0px !important;
+  }
+  h2.ftColr-white.ftBold {
+	margin: 0px 0;
+	padding: 0px 70px 0;
+   }
+}
+@media (max-width: 480px) {
+	.tile {
+		width: 150px;
+		height: 150px;
+	}
+	.tile.double {
+		width: 310px;
+	}
+	.page.secondary .page-header .page-header-content h1{
+		left: 80px;
+	}
+	.page.secondary .page-region .page-region-content {
+		padding-left: 5px;
+	}
+}
+
+
+
+

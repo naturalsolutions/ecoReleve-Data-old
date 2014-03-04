@@ -1687,11 +1687,29 @@ app.utils.getObjectDetails = function(backboneView,url){
 				// k is the name of tab
 				i+=1;
 			}
+
+			$("#d0").append("<h4 class='white'>positions on the map</h4><a id='objectsMap'><img src='images/map.jpg' /></a>");
+			// init map
+			//<div id='map' style='width:200px; height:150px'></div>
+			//var map_view = app.utils.initMap();
 			$("#objectDetailsPanel:first-child a[href='#d0']").trigger("click");
 		}
 	});
 
 }
+ app.utils.displayObjectPositions = function(view, objectUrl){
+    $(".modal-backdrop").remove();
+    $("body").modal({
+        backdrop: "static"
+    });
+    var alertView =  new app.views.ObjectMapBox({view : view, url:objectUrl});
+    view.children.push(alertView);
+    $("#objectsMapContainer").empty();
+    $("#objectsMapContainer").append(alertView.render().$el);
+    $("#objectsMapContainer").addClass("dialogBoxAlert");
+    $("div.in").addClass("modal-backdrop");
+}
+
 app.utils.convertToInt = function(array){
 	var tab= [];
 	for(var i=0;i<array.length;i++){

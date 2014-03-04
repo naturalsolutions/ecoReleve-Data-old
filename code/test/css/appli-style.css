@@ -1,0 +1,183 @@
+﻿/***************** home page *****************/
+/*  openlayers renderer problem  */
+#map img {
+    max-width: none;
+}
+/*****/
+#home-right {
+	background: rgba(0, 0, 0, 0.74);
+    min-height: 950px;
+    color: white;
+}
+#home-left {
+	background-image:url(../images/home_imgFond2.jpg);
+	background-repeat:no-repeat;
+	/*background-size: 100%; */
+    background-position: top center; 
+	padding-top: 20px;
+}
+img.superbg {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+#homeGraphLegend{
+	margin-left: 15px;
+	font-size: 1.2em;
+}
+.navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner {
+    background: rgb(33, 122, 21);
+}
+.navbar-text {
+color: #F6F3F3;
+}
+#breadcrumbs > li:before {
+color: #f8f8f8;
+}
+#breadcrumbs > li:before {
+content: '>';
+position: absolute;
+top: 11px;
+}
+#static-menu > li:before {
+color: #f8f8f8;
+}
+#static-menu > li:before {
+content: '|';
+position: absolute;
+top: 7px;
+}
+#static-menu > li > a {
+margin: 0 10px 0 4px;
+font-weight: bold;
+font-size: smaller;
+padding: 13px 10px 7px;
+font-family: FontAwesome;
+}
+p.navbar-text {
+    margin: 0 20px;
+}
+#breadcrumbs > li > a {
+padding: 10px;
+margin-left: 15px;
+font-weight: normal;
+}
+#breadcrumbs > li > p.navbar-text {
+color: #cccccc;
+line-height: 25px;
+padding: 10px;
+margin-left: 15px;
+}
+
+/*
+#main-nav .tile-wrapper {
+width: 100%;
+height: 100%;
+position: fixed;
+top: 0px;
+z-index: 1000;
+}
+#main-nav .thumbnails {
+margin: 0;
+background-color: #000;
+} */
+/* Export ***************************************/
+modal-body-perso {
+background: rgb(221, 208, 208);
+color: black;
+}
+select#export-themes{
+display: "inline-block";
+height: 40px;
+width:400px;
+}
+.modal-body {
+max-height: 1000px;
+}
+div#export-filter-list{
+   margin-top: 15px; 
+}
+#filter-query-result p{
+    margin-top: 20px;
+    font-size: 17.5px;
+}
+#filter-query-result p span{
+    color: green;
+}
+select[name="pagesizes"]{
+	font-size: 15px;
+}
+
+.modal-title-picto {
+    height: 35px;
+}
+/**********************************************/
+/* Top bar with actions, menu and all */
+.navbar-inner {padding: 0 5px 0 0;} /* metro-BS add an extra padding which create a weird effect... */
+.navbar-inner .nav {margin: 2px 0;}
+.navbar-inner {background-color: #dddddd; background-image: none; filter: none;}
+.navbar .nav > li > a:hover {background-color: rgba(0, 0, 0, 0.18);} /* Darken link background on hover to highlight clickable element */
+
+/* Main application panel (whole screen except top bar) */
+#main {position: absolute; top: 8%; bottom: 0px; right: 0px; left: 0px; overflow: auto;}  /*top: 50px;*/
+#main > * {margin: 1em;}
+
+/* Logo and spinner */
+#logo {background: none no-repeat scroll center center transparent; float: left; height: 45px; margin: 2px 0px 0px 6px; width: 24px; background-image: url("images/ecoreleve.png");}
+body.loading #logo {
+    background-image: url("img/spinner.png");
+    -moz-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+#logo { background-image: url("../images/ecoreleve.png");}
+/* Current user */
+#current-user {font-size: 20px; margin: 2px 8px; padding: 10px 28px 10px 0; background: transparent url("img/icon-user.png") no-repeat scroll right center; font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif;color: white;}
+
+/* Navigation */
+#main-nav .tile-wrapper {display: none; z-index: 1100;}
+#main-nav h1 {font-size: 2em;}
+#main-nav li.tile.active {opacity: 1; border-color: rgb(255, 255, 255);}
+#main-nav li.tile {margin: 2.5em 1.5em; border: 2px solid black;}
+#main-nav li.tile:hover {border-color: rgba(255, 255, 255, 0.5);}
+#main-nav li.tile:active {border-color: rgb(255, 255, 255);}
+
+/* grid view */
+.pagination ul > li > span[data-target] {cursor: pointer; color: #2e8bcc;}
+.grid table th {padding: 0; text-align: center; vertical-align: middle; background: #fff;}
+.grid table th > div {padding: 4px 8px; position: relative;}
+.grid table td {vertical-align: middle; cursor: pointer; padding: 2px 8px;}
+.grid table tbody:hover {background-color: rgb(220, 220, 255);}
+.pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; color: #999; font-style: italic;}
+.pagination ul {margin: 0 1em;}
+#pagesize-selector {display: inline-block; line-height: 25px; vertical-align: top;}
+#pagesize-selector select {width: auto; margin-bottom: 0;}
+/* Tiled navigation */
+/*
+.thumbnails > li.tile {height: auto; padding: 0; width: auto; cursor: auto; margin: 1em;}
+.thumbnails > li.tile.tile-double {width: auto;}
+.thumbnails > li.tile a {height: 130px; padding: 5px; width: 130px; display: block;}
+.thumbnails > li.tile.tile-double a {width: 260px;}
+*/
+#main-nav .tile-wrapper {width: 100%; height: 100%; position: fixed; top: 0px;}
+#main-nav .thumbnails {margin: 0; background-color: #000;}
+[class^="tile-icon-"], [class*=" tile-icon-"] {display: inline-block; width: 64px; height: 64px; margin-top: 1px; vertical-align: text-top; background-repeat: no-repeat;}
+.thumbnails > li.tile h2 {margin-top: inherit;}
+#static-menu {margin-left: 5px;}
+#static-menu > li > a {margin: 0 10px 0 4px; font-weight: bold; font-size: smaller; padding: 13px 10px 7px; font-family: FontAwesome;}
+#static-menu > li:before {content: '|'; position: absolute; top: 7px;}
+body.modal-open {overflow: hidden;} /* Prevent scrolling when tiled nav is open */
+
+/* Contextual nav */
+header.navbar .nav li.dropdown.open > .dropdown-toggle {background-color: rgba(255, 255, 255, 0.2);}
+#context-nav li a {background-position: 5px center; background-repeat: no-repeat; padding-left: 35px; padding-right: 5px;}
+#context-nav li a[data-key="list"] {background-image: url("img/action-list.png");}
+#context-nav li a[data-key="detail"] {background-image: url("img/action-view.png");}
+#context-nav li a[data-key="edit"] {background-image: url("img/action-edit.png");}
+#context-nav li a[data-key="delete"] {background-image: url("img/action-delete.png");}
+#context-nav li a[data-key="create"] {background-image: url("img/action-create.png");}
+#context-nav li a[data-key="cancel"] {background-image: url("img/action-cancel.png");}
+#context-nav li a[data-key="save"] {background-image: url("img/action-save.png");}
+/*          export view/ filter      */
+#export-view-fields{display: inline-block; height: 40px; width: 350px;}
