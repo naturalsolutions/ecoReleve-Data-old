@@ -166,6 +166,7 @@ app.views.HomeView = app.views.BaseView.extend({
         if (body_width < 1300 ){
             $("canvas").attr("width", "350px");
         }
+        $( "div.modal-backdrop" ).removeClass("modal-backdrop");
     },
 	events : {
 		'click #alldata' : 'alldata'
@@ -668,7 +669,7 @@ app.views.ExportMapView = app.views.BaseView.extend({
         controls = this.map_view.map.getControlsByClass("OpenLayers.Control.Panel");
         this.map_view.map.removeControl(controls[0]);*/
         // add zoom controls to map
-        this.addControlsToMap(); 
+       // this.addControlsToMap(); 
 
         //this.addControlsToMap();
 
@@ -968,7 +969,7 @@ app.views.ExportResult = app.views.BaseView.extend({
             );
         var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], popup : false, style: style});
         this.map_view.addLayer({protocol : protocol , layerName : "Observations", });
-        this.addControlsToMap();
+        //this.addControlsToMap();
     // load map vector fields list
         var len = this.displayedCols.length;
         for (var i=0;i< len; i++){
@@ -1386,10 +1387,10 @@ app.views.AllDataView = app.views.BaseView.extend({
         var params = 'id_proto='+$("#id_proto").attr("value")+"&place="+$("#place").attr("value")+"&region="+$("#region").attr("value")+"&idate="+$('#idate').text()+"&taxonsearch="+$("#iTaxon").attr("value");
         app.utils.filldatable(params);
         app.utils.updateLayer(this.map_view);
-                    $("img#mapunselectfeatures").css("position" , "absolute");
+               /*     $("img#mapunselectfeatures").css("position" , "absolute");
                 $("img#mapunselectfeatures").css("z-index","1008");
                 $("img#mapunselectfeatures").css("right", "85px");
-                $("img#mapunselectfeatures").css("top", "4px");
+                $("img#mapunselectfeatures").css("top", "4px");*/
     },
     updateMap : function(){
         app.utils.updateLayer(this.map_view);
@@ -1656,7 +1657,8 @@ app.views.objects = app.views.BaseView.extend({
        'click tr' : 'selectTableElement',
        'click #objectsInfosPanelClose' : 'closeInfosPanel',
        'click #objectsMap' : 'displayMap',
-       'click #objectsReturn' : 'maskMapBox'
+       'click #objectsReturn' : 'maskMapBox',
+       'click #objectMapClose' : 'maskMapBox'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1677,7 +1679,6 @@ app.views.objects = app.views.BaseView.extend({
         app.utils.displayObjectPositions(this, this.objectUrl);
     },
     maskMapBox : function(){
-        var tm = this;
         this.removeAllChildren();
         $("#objectsMapContainer").empty();
         $("#objectsMapContainer").removeClass("dialogBoxAlert");

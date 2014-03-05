@@ -79,7 +79,8 @@ NS.UI.MapView = Backbone.View.extend({
 							enableKinetic: true
 						}
 					}),
-					 new OpenLayers.Control.Zoom()
+					 new OpenLayers.Control.Zoom(),
+					 new OpenLayers.Control.ZoomBox()
 				]//,
 				//renderers : ['SVG']
 				,renderers: ["Canvas"]
@@ -433,6 +434,7 @@ NS.UI.MapView = Backbone.View.extend({
 		                    		NS.UI.bbox.set("maxLatWGS", maxLatWGS || "");
 		                    		NS.UI.bbox.set("maxLonWGS", maxLonWGS || "");
 	                    		}
+
 							}
 						}
 					};
@@ -450,7 +452,8 @@ NS.UI.MapView = Backbone.View.extend({
 				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true});
 				var panelControls = [
 				    new OpenLayers.Control.Navigation(),
-					selectCtr    
+					selectCtr ,
+					new OpenLayers.Control.ZoomBox()   
 				];
 				var toolbar = new OpenLayers.Control.Panel({
 				   displayClass: 'olControlEditingToolbar',

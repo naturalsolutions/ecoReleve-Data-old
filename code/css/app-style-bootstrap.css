@@ -23,12 +23,12 @@ li.tile.tile-double.tile-red {
 	background-color: #B91D47 
 }
 .tile.icon >a > img  {
-	position: absolute;
+	/*position: absolute;*/
 	width: 64px;
 	height: 64px;
 	top: 50%;
 	left: 50%;
-	margin-left: -32px;
+	margin-left: 0px;
 	margin-top: -32px;
 }
 .tile-double.icon >a >img {
@@ -37,7 +37,7 @@ li.tile.tile-double.tile-red {
 	height: 64px;
 	top: 50%;
 	left: 50%;
-	margin-left: -32px;
+	margin-left: 0px;
 	margin-top: -32px;
 }
 .span6 {
@@ -597,5 +597,11 @@ div.filterElement{
 	}
 	#stationPanel {
 		display: none;
+	}
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .tile.icon >a > img  {
+		position: absolute;
+		margin-left: -32px;
 	}
 }

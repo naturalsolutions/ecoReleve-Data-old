@@ -1020,10 +1020,10 @@ app.utils.updateLayer = function(mapView){
 				center.longitude = 75;
 
 				if (!exists){
-					var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
+					var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX", "REFRESH"], params:params, cluster:true, popup : false});
 					mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
 					// add zoom /pan toolbox
-					var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
+					/*var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
 			        var zoomBox = new OpenLayers.Control.ZoomBox();
 			        var navigation = new OpenLayers.Control.Navigation();
 			        var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
@@ -1039,7 +1039,7 @@ app.utils.updateLayer = function(mapView){
 			            }
 			        });     
 			        panel.addControls([zoomBoxBtn, navigationBtn]);
-			        mapView.map.addControls([panel,zoomBox,navigation]);
+			        mapView.map.addControls([panel,zoomBox,navigation]);*/
 				} 
 				else {
 					// update layer
@@ -1308,6 +1308,7 @@ app.utils.getExportList = function(view, filter, bbox, BBview){
 		success: function() {
 			$("#export-getGpx").removeAttr("disabled");
       		$('#export-getPdf').removeAttr("disabled");
+      		$('#export-getCsv').removeAttr("disabled");
 		},
 		error : function(){
 			alert("error in generating gpx file!");

@@ -242,7 +242,7 @@ div.argosDivGraph {
 	font-size: 2em;
 }
 #OpenLayers_Control_MaximizeDiv_innerImage, #OpenLayers_Control_MinimizeDiv_innerImage {
-	margin-top: 20px;
+	margin-top: 30px;
 }
 img#mapunselectfeatures {
 	position: absolute;

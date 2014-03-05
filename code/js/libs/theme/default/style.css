@@ -380,11 +380,11 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 }
 .olControlNavToolbar div,
 .olControlEditingToolbar div {
-    background-image: url("img/editing_tool_bar2.png");  /*url("img/editing_tool_bar2.png");*/
+    background-image: url("img/openlayers_toolbar_md2.png");  /*url("img/editing_tool_bar2.png");*/
     background-repeat: no-repeat;
     margin: 0 0 5px 5px;
-    width: 36px;   /* 24px;*/
-    height: 33px;  /*22px;*/
+    width: 50px;   /*36 24px;*/
+    height: 50px;  /*33  22px;*/
     cursor: pointer
 }
 /* positions */
@@ -401,13 +401,14 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
     float: right;
 }
 /* individual controls */
+/*
 .olControlNavToolbar .olControlNavigationItemInactive,
 .olControlEditingToolbar .olControlNavigationItemInactive {
-    background-position: -155px -1px;  /*  -103px -1px; */ 
+    background-position: -155px -1px;  
 }
 .olControlNavToolbar .olControlNavigationItemActive ,
 .olControlEditingToolbar .olControlNavigationItemActive  {
-    background-position:   -155px -36px ; /*  -103px -24px; */ 
+    background-position:   -155px -36px ; 
 }
 .olControlNavToolbar .olControlZoomBoxItemInactive {
     background-position: -128px -1px;
@@ -439,8 +440,57 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 .olControlEditingToolbar .olControlSelectFeatureItemInactive {
 	 background-position: -40px -1px
 }
+*/
+/*
+.olControlNavToolbar .olControlNavigationItemInactive,
+.olControlEditingToolbar .olControlNavigationItemInactive {
+    background-position: 0px -1px;  
+}
+.olControlNavToolbar .olControlNavigationItemActive ,
+.olControlEditingToolbar .olControlNavigationItemActive  {
+    background-position:   -155px -36px ; 
+}
+*/
+.olControlNavigationItemActive {
+	 background-position: -100px -51px;
+}
+.olControlNavigationItemInactive {
+	 background-position: -100px 0px;
+}
+.olControlZoomBoxItemInactive {
+    background-position: -50px 0px;
+}
+.olControlZoomBoxItemActive  {
+    background-position: -50px -51px;
+}
+/*
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
+    background-position: -77px -1px;
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive {
+    background-position: -77px -24px;
+}
+.olControlEditingToolbar .olControlDrawFeaturePathItemInactive {
+    background-position: -51px -1px;
+}
+.olControlEditingToolbar .olControlDrawFeaturePathItemActive {
+    background-position: -51px -24px;
+}
+.olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive{
+    background-position: -26px -1px;
+}
+.olControlEditingToolbar .olControlDrawFeaturePolygonItemActive {
+    background-position: -26px -24px;
+}
+*/
 
 
+.olControlSelectFeatureItemActive {
+	 background-position: 0px -51px;
+}
+.olControlSelectFeatureItemInactive {
+	 background-position: 0px 0px;
+}
 div.olControlZoom {
     position: absolute;
     top: 8px;
