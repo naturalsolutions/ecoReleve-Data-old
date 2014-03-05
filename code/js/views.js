@@ -1426,6 +1426,10 @@ app.views.AllDataView = app.views.BaseView.extend({
         if (idSelected ==""){
             paramsMap = "bbox=" + $("#updateSelection").val();
         }
+        else if ((idSelected.split(",")[0]) =="") {
+            // paramsMap = "id_stations=''";
+             paramsMap = "bbox=" + $("#updateSelection").val();
+        }
         else {
             // get all id station from string  (id1,id2 ...)
             paramsMap = "id_stations=" + idSelected;

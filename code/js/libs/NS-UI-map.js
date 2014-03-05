@@ -342,7 +342,9 @@ NS.UI.MapView = Backbone.View.extend({
 				vector.events.on({
 	                'featureselected': function(feature) {
 						var featureId = feature.feature.attributes.id;
-						this.map.selectedFeatures.push(featureId); 
+						if (featureId!=""){
+							this.map.selectedFeatures.push(featureId); 
+						}
 						//update list of stored selected features id in the hidden input
 						updateSelectedFeatures(this.map.selectedFeatures);
 						var displayPopup = feature.feature.layer.popup;
