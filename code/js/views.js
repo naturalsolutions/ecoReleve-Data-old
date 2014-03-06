@@ -1662,7 +1662,8 @@ app.views.objects = app.views.BaseView.extend({
        'click #objectsInfosPanelClose' : 'closeInfosPanel',
        'click #objectsMap' : 'displayMap',
        'click #objectsReturn' : 'maskMapBox',
-       'click #objectMapClose' : 'maskMapBox'
+       'click #objectMapClose' : 'maskMapBox',
+       'click #objectsHistory' : 'displayHistoy'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1671,6 +1672,7 @@ app.views.objects = app.views.BaseView.extend({
             var id = selectedModel.attributes["ID"];
             var serverUrl = localStorage.getItem("serverUrl");
             this.objectUrl = serverUrl + "/TViewIndividual/" + id;
+            this.idSelectedIndiv = id;
             app.utils.getObjectDetails(this,this.objectUrl);
             $("#objectsInfosPanel").css({"display":"block"});
         }
@@ -1680,13 +1682,17 @@ app.views.objects = app.views.BaseView.extend({
     },
     displayMap : function(){
         // add map view
-        app.utils.displayObjectPositions(this, this.objectUrl);
+        app.utils.displayObjectPositions(this, this.objectUrl,this.idSelectedIndiv);
     },
     maskMapBox : function(){
         this.removeAllChildren();
         $("#objectsMapContainer").empty();
         $("#objectsMapContainer").removeClass("dialogBoxAlert");
         $( "div.modal-backdrop" ).removeClass("modal-backdrop");
+    },
+    displayHistoy : function(){
+        var url = this.objectUrl + "/carac";
+        app.utils.displayObjectHistory(this,url,this.idSelectedIndiv);
     }
 });
 app.views.ObjectMapBox = app.views.BaseView.extend({
@@ -1694,9 +1700,11 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
     initialize  : function(options) {
         this.parentView = options.view;
         this.url = options.url;
+        this.idSelectedIndiv = options.id;
     },
-    afterRender : function(options) {
+    afterRender : function() {
         var self = this;
+       
         setTimeout(function() {
             var url = self.url + "?format=geojson";
             var mapView = app.utils.initMap();
@@ -1705,6 +1713,7 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
             var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], cluster:false, popup : false});
             mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true});   //, center: center, zoom:3 
             self.parentView.children.push(mapView);
+             $("#objectOnMapId").text(self.idSelectedIndiv);
          }, 500);
     },
     displayWaitControl : function (){
@@ -1718,6 +1727,60 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
         }
     }
 }); 
+app.views.ObjectHistoryBox = app.views.BaseView.extend({
+    template: "objectHistoryBox" ,
+    initialize  : function(options) {
+        this.parentView = options.view;
+        this.url = options.url;
+        this.idSelectedIndiv = options.id;
+    },
+    afterRender : function() {
+        // load history
+        $.ajax({
+                url: this.url,
+                dataType: "json",
+                success: function(data) {
+                    var values = data[0];
+                    for(k in values ){
+                        //
+                        var characteristic = k;
+                        if (characteristic !="TViewIndividual"){
+                            var items = values[k];
+                            for (var s=0; s<items.length;s++){
+                                var row = items[s];
+                                var lineHtml = "<tr><td>" + characteristic + "</td>";
+                                lineHtml += "<td>" + ( row["value_precision"] || "" ) + "</td>";
+                                lineHtml += "<td>" + ( row["begin_date"] || "" ) + "</td>";
+                                lineHtml += "<td>" + ( row["end_date"] || "" ) + "</td>";
+                                lineHtml += "</tr>";
+                                $("#objectHistoryTable").append(lineHtml);
+                            }
+                        } else {
+                            var items = values[k];
+                            var sex = items["Sex"] || "";
+                            var origin  = items["Origin"] || "";
+                            var species =  items["Species"] || "";
+                            var birthDate = items["Birth_date"] || "";
+                            var deathDate = items["Death_date"] || "";
+                            var comments = items["Comments"] || "";
+        
+                            $("#ObjSex").text(sex);
+                            $("#ObjOrigin").text(origin);
+                            $("#ObjSpecies").text(species);
+                            $("#ObjBirthDate").text(birthDate);
+                            $("#ObjDeathDate").text(deathDate);
+                            $("#ObjComment").text(comments);
+                        }
+                    }
+                    $("#objModal").css("max-height","500px");
+                }
+        });
+        var self = this;
+        setTimeout(function() {
+            $("#ObjId").text(self.idSelectedIndiv);
+        }, 500);
+    }
+});
 app.views.Argos = app.views.BaseView.extend({
     template: "argos" ,
     afterRender : function(options) {

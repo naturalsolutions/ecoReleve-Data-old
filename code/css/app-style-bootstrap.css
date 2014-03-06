@@ -572,13 +572,15 @@ div.filterElement{
 }
 @media screen and (max-width: 800px) {
 	/* home page */
-	#home-right {
+	#home-right, #current-user {
 		display: none;
 	}
+	
 	/* Argos page */
 	div#argosDivImg {
 		display: none;
 	}
+	
 }
 @media screen and (max-width: 640px) {
 

@@ -380,6 +380,11 @@ NS.UI.MapView = Backbone.View.extend({
 							destroyPopup();
 						}
 						$('#map').trigger('selectedFeatures:change');
+
+						if (this.map.selectedFeatures.length == 0){
+						//	this.map.events.trigger('moveend');
+						}
+							
 	                },
 	                'unselectAll': function(	options	){
 	                	alert("unselect all");
@@ -418,8 +423,12 @@ NS.UI.MapView = Backbone.View.extend({
 								var maxLonWGS = maxPoint.lon;
 
 								var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
-								$("#updateSelection").val(bbox);  
-								$(".updateSelection").val(bbox);  
+								
+								if (this.map.selectedFeatures.length == 0){
+									$("#updateSelection").val(bbox);  
+									$(".updateSelection").val(bbox);  
+								}
+
 								// convert values to decimal format "x.xx"	
 								minLatWGS = parseFloat(minLatWGS);
 	                    		minLatWGS = minLatWGS.toFixed(2);	
