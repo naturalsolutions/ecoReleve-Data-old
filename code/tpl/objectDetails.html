@@ -1,0 +1,28 @@
+﻿<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close"   aria-hidden="true" id="objectMapClose">&times;</button> 
+      <h3 class="modal-title">&nbsp;individual details <span id="objectOnMapId"></span></h3>
+    </div>
+    <div class="modal-body modal-body-perso" id="objModal">
+		<div class="tabbable"> <!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#objDet1" data-toggle="tab" >map</a></li>
+				<li><a href="#objDet2" data-toggle="tab" >history</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="objDet1">
+					<!--<div id="map" style="width:1000px; height:600px"></div>-->
+					<div id="objMapDiv"></div>
+				</div>
+				<div class="tab-pane fade" id="objDet2">
+					<div id="objHistoryDiv"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-success" id="objectsReturn">&lt;return</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div>

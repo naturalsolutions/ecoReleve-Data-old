@@ -750,9 +750,9 @@ app.views.ExportMapView = app.views.BaseView.extend({
     },
     displayWaitControl : function (){
         var mapDiv = this.map_view.el;
-        var width =  (screen.width)/2;
-        var height = (screen.height)/2;
-        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var width =  ((screen.width)/2 -200);
+        var height = ((screen.height)/2 - 200);
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
         var st = $("#waitControl").html();
         if ($("#waitControl").length == 0) {
             $(mapDiv).append(ele);
@@ -873,9 +873,9 @@ app.views.ExportColumnsSelection = app.views.BaseView.extend({
     },
     displayWaitControl : function (){
         var mapDiv = this.map_view.el;
-        var width =  (screen.width)/2;
-        var height = (screen.height)/2;
-        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var width =  ((screen.width)/2 -200);
+        var height = ((screen.height)/2 - 200);
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
         var st = $("#waitControl").html();
         if ($("#waitControl").length == 0) {
             $("div.modal-body").append(ele);
@@ -1491,9 +1491,9 @@ app.views.AllDataView = app.views.BaseView.extend({
     },
     displayWaitControl : function (){
         var mapDiv = this.map_view.el;
-        var width =  (screen.width)/2;
-        var height = (screen.height)/2;
-        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var width =  ((screen.width)/2 -200);
+        var height = ((screen.height)/2 - 200);
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
         var st = $("#waitControl").html();
         if ($("#waitControl").length == 0) {
             $(mapDiv).append(ele);
@@ -1660,10 +1660,11 @@ app.views.objects = app.views.BaseView.extend({
     events : {
        'click tr' : 'selectTableElement',
        'click #objectsInfosPanelClose' : 'closeInfosPanel',
-       'click #objectsMap' : 'displayMap',
+       //'click #objectsMap' : 'displayMap',
        'click #objectsReturn' : 'maskMapBox',
        'click #objectMapClose' : 'maskMapBox',
-       'click #objectsHistory' : 'displayHistoy'
+       'click #objectsDetails' : 'objectDetails'
+       //'click #objectsHistory' : 'displayHistoy'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1693,10 +1694,15 @@ app.views.objects = app.views.BaseView.extend({
     displayHistoy : function(){
         var url = this.objectUrl + "/carac";
         app.utils.displayObjectHistory(this,url,this.idSelectedIndiv);
+    },
+    objectDetails : function(){
+        var url = this.objectUrl ; 
+        app.utils.displayObjectDetails(this,url,this.idSelectedIndiv);
     }
 });
 app.views.ObjectMapBox = app.views.BaseView.extend({
-    template: "objectMapBox" ,
+    //template: "objectMapBox" ,
+    template: "objectMap",
     initialize  : function(options) {
         this.parentView = options.view;
         this.url = options.url;
@@ -1707,20 +1713,21 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
        
         setTimeout(function() {
             var url = self.url + "?format=geojson";
-            var mapView = app.utils.initMap();
+			var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
+            var mapView = app.utils.initMap(point,3);
             self.map_view = mapView;
             self.displayWaitControl();
-            var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], cluster:false, popup : false});
-            mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true});   //, center: center, zoom:3 
+            var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED", "ANIMATEDCLUSTER"], cluster:true, popup : false, zoomToExtent:true});
+            mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true, zoom:3});   //, center: center, zoom:3 
             self.parentView.children.push(mapView);
-             $("#objectOnMapId").text(self.idSelectedIndiv);
+            // $("#objectOnMapId").text(self.idSelectedIndiv);
          }, 500);
     },
     displayWaitControl : function (){
         var mapDiv = this.map_view.el;
-        var width =  (screen.width)/2;
-        var height = (screen.height)/2;
-        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+        var width =  ((screen.width)/2 -200);
+        var height = ((screen.height)/2 - 200);
+        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
         var st = $("#waitControl").html();
         if ($("#waitControl").length == 0) {
             $(mapDiv).append(ele);
@@ -1728,7 +1735,8 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
     }
 }); 
 app.views.ObjectHistoryBox = app.views.BaseView.extend({
-    template: "objectHistoryBox" ,
+   // template: "objectHistoryBox" ,
+    template: "objectHistory" ,
     initialize  : function(options) {
         this.parentView = options.view;
         this.url = options.url;
@@ -1781,6 +1789,24 @@ app.views.ObjectHistoryBox = app.views.BaseView.extend({
         }, 500);
     }
 });
+app.views.ObjectDetails = app.views.BaseView.extend({
+    template: "objectDetails" ,
+    initialize  : function(options) {
+        this.parentView = options.view;
+        this.url = options.url;
+        this.idSelectedIndiv = options.id;
+    },
+    afterRender : function() {
+        var self = this;
+        setTimeout(function(){
+            // add map view
+            app.utils.displayObjectPositions(self.parentView, self.url,self.idSelectedIndiv);
+            // history
+            var url = self.url + "/carac";
+            app.utils.displayObjectHistory(self.parentView,url,self.idSelectedIndiv);
+        }, 500);
+    }
+});   
 app.views.Argos = app.views.BaseView.extend({
     template: "argos" ,
     afterRender : function(options) {

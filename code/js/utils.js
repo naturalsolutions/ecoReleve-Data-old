@@ -1338,9 +1338,9 @@ JSON.stringify = JSON.stringify || function (obj) {
 
 */
 app.utils.getDataForGrid = function (url,callback){
-	if(app.xhr){ 
+	/*if(app.xhr){ 
         app.xhr.abort();
-    }
+    }*/
 	app.xhr = $.ajax({
 		url: url,
 		dataType: "json",
@@ -1618,10 +1618,10 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 		grid.pageSize = size;
 		reloadGrid();
 	});
-
+	var container = options.container || 'div#grid';
     // 5) render the grid (empty at the moment) and bind it to the DOM tree
-   $('div#grid').html("");
-   grid.render().$el.appendTo('div#grid');
+   $(container).html("");
+   grid.render().$el.appendTo(container);
 	if (typeof(options.columns) != "undefined"){
 		var ln = options.columns.length;
 		for (var i=0;i<ln;i++){
@@ -1648,10 +1648,23 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 }
 app.utils.fillObjectsTable = function(){
 	var serverUrl = localStorage.getItem("serverUrl");
-	var ajaxSource = serverUrl + '/TViewIndividual/list?' ;
-	app.utils.getDataForGrid(ajaxSource,function(collection ,rowsNumber){
+	var indivUrl = serverUrl + '/TViewIndividual/list?' ;
+	// load data for indiv grid
+	app.utils.getDataForGrid(indivUrl,function(collection ,rowsNumber){
 		//var rowsNumber = collection.length ;
-		app.utils.initGridServer(collection, rowsNumber,ajaxSource, {pageSize :15, columns :[2,6,7,8] });
+		app.utils.initGridServer(collection, rowsNumber,indivUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsIndivGrid" });
+	});
+	// load data for radio transmitter
+	var radioUrl = serverUrl + '/TViewTrx_Radio/list?';
+	app.utils.getDataForGrid(radioUrl,function(collection ,rowsNumber){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,radioUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsRadioGrid" });
+	});
+	// load data for sat transmitter
+	var satUrl = serverUrl + '/TViewTrx_Sat/list?';
+	app.utils.getDataForGrid(satUrl,function(collection ,rowsNumber){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,satUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsSatGrid" });
 	});
 }
 app.utils.getObjectDetails = function(backboneView,url){
@@ -1689,7 +1702,7 @@ app.utils.getObjectDetails = function(backboneView,url){
 				i+=1;
 			}
 
-			$("#d0").append("<h4 class='white'>positions on the map</h4><a id='objectsMap'><img src='images/map.jpg' /></a><br/><a class='btn' id='objectsHistory'>history</a>");
+			$("#d0").append("<br/><a class='btn' id='objectsDetails'>details</a>");
 			// init map
 			//<div id='map' style='width:200px; height:150px'></div>
 			//var map_view = app.utils.initMap();
@@ -1698,6 +1711,7 @@ app.utils.getObjectDetails = function(backboneView,url){
 	});
 
 }
+/*
  app.utils.displayObjectPositions = function(view, objectUrl,idIndiv){
     $(".modal-backdrop").remove();
     $("body").modal({
@@ -1710,6 +1724,23 @@ app.utils.getObjectDetails = function(backboneView,url){
     $("#objectsMapContainer").addClass("dialogBoxAlert");
     $("div.in").addClass("modal-backdrop");
 }
+*/
+ app.utils.displayObjectPositions = function(view, objectUrl,idIndiv){
+    /*$(".modal-backdrop").remove();
+    $("body").modal({
+        backdrop: "static"
+    });*/
+    var alertView =  new app.views.ObjectMapBox({view : view, url:objectUrl, id:idIndiv});
+    $("#objMapDiv").append(alertView.render().$el);
+    
+    /*
+    view.children.push(alertView);
+    $("#map").empty();
+    $("#objectsMapContainer").append(alertView.render().$el);
+    $("#objectsMapContainer").addClass("dialogBoxAlert");
+    $("div.in").addClass("modal-backdrop");*/
+}
+/*
 app.utils.displayObjectHistory= function(view, url,idIndiv){
 	$(".modal-backdrop").remove();
     $("body").modal({
@@ -1721,6 +1752,22 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
     $("#objectsMapContainer").addClass("dialogBoxAlert");
     $("div.in").addClass("modal-backdrop");
 }
+*/
+app.utils.displayObjectHistory= function(view, url,idIndiv){
+    var alertView = new app.views.ObjectHistoryBox({view : view, url:url, id:idIndiv});
+ 	$("#objHistoryDiv").append(alertView.render().$el);
+}
+app.utils.displayObjectDetails = function(view, url,idIndiv){
+	$(".modal-backdrop").remove();
+    $("body").modal({
+        backdrop: "static"
+    });
+    var alertView = new app.views.ObjectDetails({view : view, url:url, id:idIndiv});
+    $("#objectsMapContainer").empty();
+    $("#objectsMapContainer").append(alertView.render().$el);
+    $("#objectsMapContainer").addClass("dialogBoxAlert");
+    $("div.in").addClass("modal-backdrop");
+}  
 app.utils.convertToInt = function(array){
 	var tab= [];
 	for(var i=0;i<array.length;i++){

@@ -178,7 +178,8 @@ NS.UI.MapView = Backbone.View.extend({
 					layerStyle = new OpenLayers.Style(null, {
 					rules: rules
 					}); 
-					vector.styleMap = layerStyle;
+					//vector.styleMap = layerStyle;
+					vector.styleMap = new OpenLayers.StyleMap({'default':layerStyle,'select':selectStyle});	
 				}
 			}
 			// if provided data is a model point (latitude, longitude, label)
@@ -252,6 +253,15 @@ NS.UI.MapView = Backbone.View.extend({
 						break;
 						case "REFRESH":
 							var strategy = new OpenLayers.Strategy.Refresh({force: true, active: true});
+							strategy.setLayer(vector);
+							layerStrategies.push(strategy);
+						break;
+						case "ANIMATEDCLUSTER":
+							var strategy = new OpenLayers.Strategy.AnimatedCluster({
+										            distance: 45,
+										            animationMethod: OpenLayers.Easing.Expo.easeOut,
+										            animationDuration: 10
+										        });
 							strategy.setLayer(vector);
 							layerStrategies.push(strategy);
 						break;
@@ -613,9 +623,9 @@ NS.UI.MapView = Backbone.View.extend({
 		},
 		displayWaitControl : function (){
 			var mapDiv = this.el;
-			var width =  (screen.width)/2;
-			var height = (screen.height)/2;
-			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/loader.gif' /></div>"  
+			var width =  ((screen.width)/2 -200);
+			var height = ((screen.height)/2 - 200);
+			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
 			var st = $("#waitControl").html();
 			if ($("#waitControl").length == 0) {
 				$(mapDiv).append(ele);

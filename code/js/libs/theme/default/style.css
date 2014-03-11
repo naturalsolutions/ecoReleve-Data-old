@@ -512,13 +512,16 @@ div.olControlZoom a {
     height: 33px;
     width:33px;
     line-height: 19px;
-    background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-    background: rgba(0, 60, 136, 0.5);
+	background:#65604f;
+    /*background: #130085; /* fallback for IE - IE6 requires background shorthand*/
+    /*background: rgba(0, 60, 136, 0.5);*/
+	
     filter: alpha(opacity=80);
 }
 div.olControlZoom a:hover {
-    background: #130085; /* fallback for IE */
-    background: rgba(0, 60, 136, 0.7);
+    /*background: #130085; /* fallback for IE */
+    /*background: rgba(0, 60, 136, 0.7);*/
+	background:#65604f;
     filter: alpha(opacity=100);
 }
 @media only screen and (max-width: 600px) {

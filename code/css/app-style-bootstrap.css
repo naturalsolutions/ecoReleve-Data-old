@@ -520,7 +520,7 @@ div.filterElement{
 	color:black;
 }
 .modal-header {
-	background: rgba(114, 162, 83, 0.44);
+	background: rgba(114, 162, 83, 0.99);
 	color: white;
 }
 .modal-body {
@@ -538,9 +538,6 @@ div.filterElement{
 #exportResultList_length, #exportResultList_filter {
 	display: none;
 }
-
-
-
 /*.modal-content {
 	margin: 3%;
 }*/
