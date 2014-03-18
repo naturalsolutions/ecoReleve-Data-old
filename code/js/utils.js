@@ -532,9 +532,7 @@ function erreurPosition(error){
 }
 
 app.utils.initMap = function (point, zoom) {			
-	
 	var initPoint = point || (new NS.UI.Point({ latitude : 43.29, longitude: 5.37, label:"bureau"}));
-	
 	var mapZoom = zoom || 12;
 	var map_view = new NS.UI.MapView({ el: $("#map"), center: initPoint, zoom: mapZoom});	
 	return map_view ;
@@ -979,14 +977,14 @@ app.utils.updateLayer = function(mapView){
 		place:$("#place").attr("value"),
 		region : $("#region").attr("value"),
 		idate : $('#idate').text(),
-		cluster : $('.cluster:checked').val(),
+		//cluster : $('.cluster:checked').val(),
 		taxonsearch:$("#iTaxon").attr("value"),
-		zoom: 3
+		//zoom: 3
 	};
 	var serverUrl = localStorage.getItem("serverUrl");
 	var url = serverUrl + "/station/list?format=geojson&limit=0";
 	var urlCount = serverUrl + "/station/list/count?" + "id_proto="+ params.id_proto + "&place=" 
-				+ params.place +"&region="+params.region +"&idate=" +params.idate +"&cluster=" +params.cluster +"&taxonsearch=" + params.taxonsearch ;
+				+ params.place +"&region="+params.region +"&idate=" +params.idate +"&taxonsearch=" + params.taxonsearch ;
 	//get count
 	$.ajax({
 		url: urlCount,
@@ -1020,8 +1018,10 @@ app.utils.updateLayer = function(mapView){
 				center.longitude = 75;
 
 				if (!exists){
-					var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX", "REFRESH"], params:params, cluster:true, popup : false});
-					mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
+					//var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX", "REFRESH"], params:params, cluster:true, popup : false});
+					//mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
+					var ajaxCall = { url : url, format: "GEOJSON", params:params, cluster:true};
+					mapView.addLayer({ajaxCall : ajaxCall , layerName : "Observations", center: center, zoom:4 }); 
 					// add zoom /pan toolbox
 					/*var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
 			        var zoomBox = new OpenLayers.Control.ZoomBox();
@@ -1043,9 +1043,31 @@ app.utils.updateLayer = function(mapView){
 				} 
 				else {
 					// update layer
-					mapView.updateLayer("Observations", params, center);
+					mapView.updateLayer("Observations",url, params);
 				}
 				$("#allDataMapDataInfos").html("");
+			}
+			else if (featuresNumber > 20000){
+					// delete features
+				for(var i = 0; i < mapView.map.layers.length; i++ ){
+					if((mapView.map.layers[i].name) == "Observations" ) {
+						mapView.clearLayer(mapView.map.layers[i]);
+						exists = true;
+						break;
+					}
+				}
+				// add alert view
+				$(".modal-backdrop").remove();
+				$("body").modal({
+				    backdrop: "static"
+				});
+				var alertView =  new app.views.AlertMapBox({cancel:true, featuresNumber : false});
+				$("#allDataMapAlert").empty();
+				$("#allDataMapAlert").append(alertView.render().$el);
+				$("#allDataMapAlert").addClass("dialogBoxAlert");
+				$("div.in").addClass("modal-backdrop");
+				
+				$("#waitControl").remove(); 
 			}
 			else {
 				// delete features
@@ -1061,7 +1083,7 @@ app.utils.updateLayer = function(mapView){
 				$("body").modal({
 				    backdrop: "static"
 				});
-				var alertView =  new app.views.AlertMapBox();
+				var alertView =  new app.views.AlertMapBox({featuresNumber:featuresNumber});
 				$("#allDataMapAlert").empty();
 				$("#allDataMapAlert").append(alertView.render().$el);
 				$("#allDataMapAlert").addClass("dialogBoxAlert");
@@ -1078,7 +1100,7 @@ app.utils.continueUpdateLayer = function(mapView){
 		place:$("#place").attr("value"),
 		region : $("#region").attr("value"),
 		idate : $('#idate').text(),
-		cluster : $('.cluster:checked').val(),
+		//cluster : $('.cluster:checked').val(),
 		taxonsearch:$("#iTaxon").attr("value"),
 		zoom: 3
 	};
@@ -1097,12 +1119,16 @@ app.utils.continueUpdateLayer = function(mapView){
 	center.latitude = 22;
 	center.longitude = 75;
 	if (!exists){
-		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
-		mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); 
+
+		var ajaxCall = { url : url, format: "GEOJSON", params:params, cluster:true};
+		mapView.addLayer({ajaxCall : ajaxCall , layerName : "Observations", center: center, zoom:3 }); 
+
+		/*var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], params:params, cluster:true, popup : false});
+		mapView.addLayer({protocol : protocol , layerName : "Observations", center: center, zoom:3 }); */
 	} 
 	else {
 		// update layer
-		mapView.updateLayer("Observations", params, center);
+		mapView.updateLayer("Observations", url, params, center);
 	}
 	$("#allDataMapDataInfos").html("");
 }
@@ -1186,7 +1212,7 @@ app.utils.getThemesList = function(){
 			}
 		},
 		error: function() {
-			alert("error loading themes, please check your webservice");
+			alert("error loading themes, please check connexion to webservice");
 		}
 	});
 
@@ -1210,7 +1236,7 @@ app.utils.getViewsList  = function(id){
 				                          "margin-top": "2px","margin-bottom": "2px","padding-left": "10px","font-size": "18px","color": "white"});*/
 
 			},error: function() {
-				alert("error loading views, please check your webservice");
+				alert("error loading views, please check connexion to webservice");
 			}
 		});
 	}
@@ -1667,7 +1693,7 @@ app.utils.fillObjectsTable = function(){
 		app.utils.initGridServer(collection, rowsNumber,satUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsSatGrid" });
 	});
 }
-app.utils.getObjectDetails = function(backboneView,url){
+app.utils.getObjectDetails = function(backboneView,objectType,url){
 	if(app.xhr){ 
         app.xhr.abort();
     }
@@ -1707,6 +1733,16 @@ app.utils.getObjectDetails = function(backboneView,url){
 			//<div id='map' style='width:200px; height:150px'></div>
 			//var map_view = app.utils.initMap();
 			$("#objectDetailsPanel:first-child a[href='#d0']").trigger("click");
+			// mask unsed tabs for Radio and sat
+			if (objectType !="individual"){
+				$( "a[href='#d1']").parent().addClass("masqued");
+			}
+			if (objectType =="radio"){
+				$( "a[href='#d0']").text("radio transmitter");
+			}
+			if (objectType =="sat"){
+				$( "a[href='#d0']").text("sat transmitter");
+			}
 		}
 	});
 
@@ -1753,16 +1789,16 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
     $("div.in").addClass("modal-backdrop");
 }
 */
-app.utils.displayObjectHistory= function(view, url,idIndiv){
-    var alertView = new app.views.ObjectHistoryBox({view : view, url:url, id:idIndiv});
+app.utils.displayObjectHistory= function(view,objectType, url,idIndiv){
+    var alertView = new app.views.ObjectHistoryBox({view : view, objectType : objectType, url:url, id:idIndiv});
  	$("#objHistoryDiv").append(alertView.render().$el);
 }
-app.utils.displayObjectDetails = function(view, url,idIndiv){
+app.utils.displayObjectDetails = function(view,objectType, url,idIndiv){
 	$(".modal-backdrop").remove();
     $("body").modal({
         backdrop: "static"
     });
-    var alertView = new app.views.ObjectDetails({view : view, url:url, id:idIndiv});
+    var alertView = new app.views.ObjectDetails({view : view, objectType : objectType, url:url, id:idIndiv});
     $("#objectsMapContainer").empty();
     $("#objectsMapContainer").append(alertView.render().$el);
     $("#objectsMapContainer").addClass("dialogBoxAlert");
@@ -1798,11 +1834,27 @@ app.utils.GraphJsMaxY= function(max){
 	return maxY;
 }
 
+app.utils.importScript = function(src){
+  var scriptElem = document.createElement('script');
+  scriptElem.setAttribute('src',src);
+  scriptElem.setAttribute('type','text/javascript');
+  document.getElementsByTagName('head')[0].appendChild(scriptElem);
+}
+
+// import with a random query parameter to avoid caching
+/*function importNoCache(src){
+  var ms = new Date().getTime().toString();
+  var seed = "?" + ms;
+  app.utils.importScript(src + seed);
+} */
+
+
+
+
+
+
+
 
 
  return app;
- 
-
- 
- 
 })(ecoReleveData);

@@ -299,7 +299,24 @@ app.models.CurrentUser = app.models.User.extend({
 	baseApiUrl: app.config.root + '/api/currentuser'
 });
 
+/***** objects  ***********************/
+app.models.HistoryItem = Backbone.Model.extend({
+	},{
+		schema: {
+		characteristic: {title: 'characteristic', type: 'Text',sortable: true},
+		value: {title: 'value', type: 'Text',sortable: true},
+		begin_date: {title: 'begin date', type: 'Date',sortable: true},
+		end_date: {title: 'end date', type: 'Date',sortable: true}
+	},
+	verboseName: 'HistoryItem'
 
+});
+app.collections.HistoryItems = Backbone.Collection.extend({
+  	model:  app.models.HistoryItem,
+    comparator: function(item) {
+        return item.get('begin_date');
+    }
+});
 
 
 

@@ -22,14 +22,22 @@
 	font-size: 1.3em;
 	margin-top: 1em;
 }
+/*
 #home-left {
-	/*background-image:url(../images/home_imgFond2.jpg); 
-	background-image:url(../images/home_img.jpg); */
+	background-image:url(../images/home_img.jpg); 
 	background-image:url(../images/home_fond_UAE.jpg);
 	background-repeat:no-repeat;
 	background-size: 200%; 
-   /* background-position: top center; */
 	padding-top: 20px;
+}
+*/
+#home-left {
+	background-image: url(../images/home_outarde2.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: top center;
+	padding-top: 20px;
+	min-height: 950px;
 }
 img.superbg {
     position:fixed;
@@ -108,6 +116,13 @@ margin-left: 15px;
     margin-top: 32px;
 	}
 }
+p#homePhotoCopyR {
+	text-align: left;
+	padding: 1.4em;
+	font-size: 1.2em;
+	color: black;
+	margin-top: 40px;
+}
 /*
 #main-nav .tile-wrapper {
 width: 100%;
@@ -169,9 +184,19 @@ select[name="pagesizes"]{
 	cursor: pointer;
 }
 
-#exportWptNumber, #countViewRows, #geo-query-result {
+#exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures {
 	color: rgb(33, 122, 21);
 	font-size: x-large;
+}
+/*************************** import  *********************/
+#importLoadTrack a {
+margin-left: 2.2em;
+background: #65604f;
+color: white;
+margin-top: 1em;
+}
+#importLoadTrack a:hover {
+background: #9E9B90;
 }
 /************************** argos ***********************/
 #argosLegendArgos, #argosLegendGps{

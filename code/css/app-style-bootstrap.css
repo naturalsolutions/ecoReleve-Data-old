@@ -594,7 +594,7 @@ div.filterElement{
 	h1 {
 		font-size: 40px;
 	}
-	#stationPanel {
+	#stationPanel, #nav-switch {
 		display: none;
 	}
 }

@@ -54,6 +54,15 @@ function init(){
 	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
 	//localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
 	localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
+	// load mapping scripts
+	   /* app.utils.importScript('js/libs/OpenLayers.debug.js');
+	       setTimeout(function() {
+            app.utils.importScript('js/libs/openlayersBbox.js');
+            app.utils.importScript('js/libs/AnimatedCluster.js');
+            app.utils.importScript('js/libs/NS-UI-map.js');
+        }, 2000);*/
+  	window.mapAjaxCall = false;
+  	window.mapAjaxCall.xhr = false;
   });
 }
 

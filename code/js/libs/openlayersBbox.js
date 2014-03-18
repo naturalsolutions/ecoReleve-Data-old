@@ -27,12 +27,20 @@
 		var maxLatWGS = maxPoint.lat;
 		var maxLonWGS = maxPoint.lon;
 								
-		alert("minLong: " + minLonWGS + "miLat: " + minLatWGS + "maxLong: "+ maxLonWGS + "maxLat: " + maxLatWGS);          
-		
-		
-		
-		
-		
+		// convert values to decimal format "x.xx"	
+		minLatWGS = parseFloat(minLatWGS);
+		minLatWGS = minLatWGS.toFixed(2);	
+		minLonWGS = parseFloat(minLonWGS);
+		minLonWGS = minLonWGS.toFixed(2);	
+		maxLatWGS = parseFloat(maxLatWGS);
+		maxLatWGS = maxLatWGS.toFixed(2);
+		maxLonWGS = parseFloat(maxLonWGS);
+		maxLonWGS = maxLonWGS.toFixed(2);	
+
+		//alert("minLong: " + minLonWGS + "miLat: " + minLatWGS + "maxLong: "+ maxLonWGS + "maxLat: " + maxLatWGS);         
+		var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
+		$("#updateSelection").val(bbox);  
+		//$(".updateSelection").val(bbox);  
 		
 		
 		
@@ -69,15 +77,30 @@
                             if (OpenLayers.Util.indexOf(layer.selectedFeatures, feature) == -1) {
                                 this.select(feature);
                                 selectedFeatures.push(feature); // <-- Modification of original function (2/3)
+								//this.map.selectedFeatures.push(feature.attributes.id);
                             }
                         }
                     }
                 }
         }
-        onFeatureSelect(selectedFeatures); // <-- Modification of original function (3/3)
+        onFeatureSelect(selectedFeatures, layer); // <-- Modification of original function (3/3)
         this.multiple = prevMultiple;
     }
 }
-function onFeatureSelect(f) {
-    alert(f.length);
+function onFeatureSelect(f, layer){
+	var ln = f.length;
+	var value = "";
+	var cluster = layer.cluster;
+	if ((ln < 15) && (!cluster) ) {
+		for (var i=0;i<ln;i++){
+			var featureId = f[i].attributes.id;
+			value += featureId + ",";
+		}
+		// delete last ","
+		var lenString = value.length;
+		value = value.substring(0,(lenString  - 1));
+	} else {
+		value="";
+	}
+	$("#featuresId").val(value);
 }

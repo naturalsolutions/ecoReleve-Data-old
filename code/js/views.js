@@ -167,6 +167,13 @@ app.views.HomeView = app.views.BaseView.extend({
             $("canvas").attr("width", "350px");
         }
         $( "div.modal-backdrop" ).removeClass("modal-backdrop");
+        
+        $(window).on('hashchange', function(e){
+            // abroad ajax calls
+            if(window.mapAjaxCall.xhr){ 
+                 window.mapAjaxCall.xhr.abort();
+             }
+        });
     },
 	events : {
 		'click #alldata' : 'alldata'
@@ -661,8 +668,16 @@ app.views.ExportMapView = app.views.BaseView.extend({
         this.displayWaitControl();
         var serverUrl = localStorage.getItem("serverUrl");
         var url = serverUrl + "/views/get/"+ this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
+        
+        /*
         var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON" , strategies:["BBOX"], cluster:true, params:{round:"0"}});
         this.map_view.addLayer({protocol : protocol , layerName : "Observations", noSelect : false});
+        */
+
+        var ajaxCall = { url : url, format: "GEOJSON", params:{round:"0"}, cluster:true, serverCluster:true};
+        this.map_view.addLayer({ajaxCall : ajaxCall , layerName : "Observations", noSelect : false,zoom:4 , zoomToExtent : true}); 
+
+
 
         /*var controls = this.map_view.map.getControlsByClass("OpenLayers.Control.MousePosition");
         this.map_view.map.removeControl(controls[0]);
@@ -967,8 +982,13 @@ app.views.ExportResult = app.views.BaseView.extend({
 
 
             );
+        /*
         var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED"], popup : false, style: style});
         this.map_view.addLayer({protocol : protocol , layerName : "Observations", });
+        */
+        var ajaxCall = { url : url, format: "GEOJSON", cluster:false, style: style};
+        this.map_view.addLayer({ajaxCall : ajaxCall , layerName : "Observations",  zoom:3 , zoomToExtent : true}); 
+
         //this.addControlsToMap();
     // load map vector fields list
         var len = this.displayedCols.length;
@@ -1227,60 +1247,64 @@ app.views.ExportResultOnMapView = app.views.BaseView.extend({
 app.views.AllDataView = app.views.BaseView.extend({
     template: "allData",
     afterRender: function(options){ 
-        // masqued fields
-        $('#id_proto').hide();
-        $('#idate').hide();
-        $('#allDataCluster').hide();
-        var serverUrl = localStorage.getItem("serverUrl");
-        //procole list for input select
-        $.ajax({
-            url: serverUrl + "/proto/proto_list",
-            dataType: "text",
-            success: function(xmlresp) {
-                var xmlDoc=$.parseXML(xmlresp),
-                $xml=$(xmlDoc),
-                $protocoles=$xml.find("protocole");
-                // init select control with empty val
-                $('<option id= 0 ></option>').appendTo('#select_id_proto');
-                $protocoles.each(function(){
-                    $('<option id=\"'+$(this).attr('id')+'\" value=\"'+$(this).text()+'\">'+$(this).text()+'</option>').appendTo('#select_id_proto');
-                });
-                $("#select_id_proto option[id='0']").attr('selected','selected');
-            }
-        });
-        var dataContainer = $("#main")[0];   //var myDataTable = $("#myDataTable")[0];
-        var widthDataContainer = dataContainer.clientWidth;
-        var widthallDataContent = widthDataContainer - 260 ; 
-        
-        $('#allDataMap').css('width', (widthallDataContent * 0.98) +'px'); //$('#map').css('width', '700px');
-        $('#map').css('width', (widthallDataContent * 0.97) +'px'); //$('#map').css('width', '700px');
-
-        $(window).bind('resize', function () { 
-            dataContainer = $("#main")[0];
-            widthDataContainer = dataContainer.clientWidth;
-            widthallDataContent = widthDataContainer - 260 ; 
-            $('#allDataContent').css('width', widthallDataContent + 'px');
+       // try{
+            // masqued fields
+            $('#id_proto').hide();
+            $('#idate').hide();
+            $('#allDataCluster').hide();
+            var serverUrl = localStorage.getItem("serverUrl");
+            //procole list for input select
+            $.ajax({
+                url: serverUrl + "/proto/proto_list",
+                dataType: "text",
+                success: function(xmlresp) {
+                    var xmlDoc=$.parseXML(xmlresp),
+                    $xml=$(xmlDoc),
+                    $protocoles=$xml.find("protocole");
+                    // init select control with empty val
+                    $('<option id= 0 ></option>').appendTo('#select_id_proto');
+                    $protocoles.each(function(){
+                        $('<option id=\"'+$(this).attr('id')+'\" value=\"'+$(this).text()+'\">'+$(this).text()+'</option>').appendTo('#select_id_proto');
+                    });
+                    $("#select_id_proto option[id='0']").attr('selected','selected');
+                }
+            });
+            var dataContainer = $("#main")[0];   //var myDataTable = $("#myDataTable")[0];
+            var widthDataContainer = dataContainer.clientWidth;
+            var widthallDataContent = widthDataContainer - 260 ; 
             
-            // check if datatable is not hided and resize map if window is resized
-            var displayed = $("#allDataList").is(":visible");
-            if (displayed){         
-                $('#map').css('width', (widthallDataContent * 0.63) +'px'); //$('#map').css('width', '700px');
-                //console.log ("widthallDataContent : " + widthallDataContent );
-                $('#allDataMap').css('width', (widthallDataContent * 0.65) +'px'); //$('#map').css('width', '700px');
-                $('#allDataList').css('width', (widthallDataContent * 0.3) +'px'); //$('#map').css('width', '700px');
-            } 
+            $('#allDataMap').css('width', (widthallDataContent * 0.98) +'px'); //$('#map').css('width', '700px');
+            $('#map').css('width', (widthallDataContent * 0.97) +'px'); //$('#map').css('width', '700px');
 
-        });
-        $("#allDataList").hide();
-        var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
-        this.map_view = app.utils.initMap(point, 3);
-        $( "label, input,button, select " ).css( "font-size", "15px" );
-        //datalist of taxons
-        app.utils.fillTaxaList();
+            $(window).bind('resize', function () { 
+                dataContainer = $("#main")[0];
+                widthDataContainer = dataContainer.clientWidth;
+                widthallDataContent = widthDataContainer - 260 ; 
+                $('#allDataContent').css('width', widthallDataContent + 'px');
+                
+                // check if datatable is not hided and resize map if window is resized
+                var displayed = $("#allDataList").is(":visible");
+                if (displayed){         
+                    $('#map').css('width', (widthallDataContent * 0.63) +'px'); //$('#map').css('width', '700px');
+                    //console.log ("widthallDataContent : " + widthallDataContent );
+                    $('#allDataMap').css('width', (widthallDataContent * 0.65) +'px'); //$('#map').css('width', '700px');
+                    $('#allDataList').css('width', (widthallDataContent * 0.3) +'px'); //$('#map').css('width', '700px');
+                } 
+
+            });
+            $("#allDataList").hide();
+            var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
+            this.map_view = app.utils.initMap(point, 3);
+            $( "label, input,button, select " ).css( "font-size", "15px" );
+            //datalist of taxons
+            app.utils.fillTaxaList();
+       /* } catch (e) {
+            app.router.navigate('#', {trigger: true});
+        }*/
     }    
     ,events : {
         'change #select_id_proto' : 'updateTable',
-        'change input.cluster' : 'updateMap',
+        //'change input.cluster' : 'updateMap',
         'click #btnReset' : 'resetdate',
         'click #btnW' : 'updateDateWeek',
         'click #btnM' : 'updateDateMonth',
@@ -1376,8 +1400,8 @@ app.views.AllDataView = app.views.BaseView.extend({
     },
     search : function(){
         this.displayWaitControl();
-        $("#map").css("height","795px");
-        this.updateControls();
+       // $("#map").css("height","795px");
+       this.updateControls();
         var datedep=$("#datedep").attr('value');
         var datearr=$("#datearr").attr('value');
         if (datedep !="" || datearr !=""){
@@ -1408,7 +1432,7 @@ app.views.AllDataView = app.views.BaseView.extend({
     updateControls : function (){
         $("#allDataList").removeAttr('style');
         $('#allDataCluster').removeAttr('style');
-
+        
         var dataContainer = $("#main")[0];   //var myDataTable = $("#myDataTable")[0];
         var widthDataContainer = dataContainer.clientWidth;     
         var widthallDataContent = widthDataContainer - 260 ; 
@@ -1417,6 +1441,8 @@ app.views.AllDataView = app.views.BaseView.extend({
         //console.log ("widthallDataContent : " + widthallDataContent );
         $('#allDataMap').css('width', (widthallDataContent * 0.62) +'px'); //$('#map').css('width', '700px');
         $('#allDataList').css('width', (widthallDataContent * 0.3) +'px'); //$('#map').css('width', '700px');
+        // redraw map
+        this.map_view.map.baseLayer.redraw();
     },
     updateTableForSelecedFeatures : function(evt){
         // check if you need to use selected features id ( else : use BBOX)
@@ -1519,6 +1545,23 @@ app.views.AllDataView = app.views.BaseView.extend({
 app.views.AlertMapBox = app.views.BaseView.extend({
     template: "alertMapBox" ,
     initialize : function(options) {
+        this.featuresNumber = options.featuresNumber;
+        this.cancelLoading = options.cancel;
+    },
+    afterRender : function() {
+        // display features number 
+        if (this.featuresNumber) {
+            var self = this;
+            setTimeout(function() {
+                $("#alerMapBoxNbFeatures").text(self.featuresNumber);
+            }, 200);
+        }
+        if (this.cancelLoading){
+             setTimeout(function() {
+                $("#alerMapBoxLoad").addClass("masqued");
+                $("#alerMapBoxCancelLoad").removeClass("masqued");
+            }, 200);
+        }
     }
 }); 
 app.views.Import = app.views.BaseView.extend({
@@ -1582,15 +1625,22 @@ app.views.ImportLoad = app.views.BaseView.extend({
 app.views.ImportMap = app.views.BaseView.extend({
     template: "import-filter" ,
     afterRender : function(options) {
-        app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
-        var map_view = app.utils.initMap();
-        map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints"});
-        this.mapView = map_view;
-        $("div.modal-body").css({"min-height":"650px;"});
+        //try{
+            app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
+            var map_view = app.utils.initMap();
+            map_view.addLayer({layerName : "tracks"}); 
+            map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints", zoomToExtent : true});
+
+            this.mapView = map_view;
+            $("div.modal-body").css({"min-height":"650px;"});
+       /* } catch (e) {
+            app.router.navigate('#', {trigger: true});
+        }*/
     },
     events : {
         "selectedFeatures:change" : "featuresChange",
-        'click tr' : 'selectTableElement'
+        'click tr' : 'selectTableElement',
+        'click #importLoadTrack a' : 'loadTrack'
     },
     featuresChange : function(e){
         var selectedFeatures = this.mapView.map.selectedFeatures;
@@ -1635,6 +1685,19 @@ app.views.ImportMap = app.views.BaseView.extend({
         point.latitude = latitude;
         //this.map_view.setCenter(point);
         app.utils.updateLocation (this.mapView, point);
+    },
+    loadTrack  : function(){
+        var action = $('#importLoadTrack a').text();
+        if (action =="load tracks"){
+            var ajaxCall = { url : "ressources/shp800.geojson", format: "GEOJSON"};
+            //this.mapView.addLayer({ajaxCall : ajaxCall , layerName : "tracks"}); 
+            var url = "ressources/shp800.geojson"; 
+            this.mapView.updateLayer("tracks",url); 
+            $('#importLoadTrack a').text('remove tracks');
+        } else {
+            this.mapView.removeLayer("tracks");
+            $('#importLoadTrack a').text('load tracks');
+        }
     }
 });
 app.views.importEndStep = app.views.BaseView.extend({
@@ -1661,20 +1724,31 @@ app.views.objects = app.views.BaseView.extend({
        'click tr' : 'selectTableElement',
        'click #objectsInfosPanelClose' : 'closeInfosPanel',
        //'click #objectsMap' : 'displayMap',
-       'click #objectsReturn' : 'maskMapBox',
-       'click #objectMapClose' : 'maskMapBox',
-       'click #objectsDetails' : 'objectDetails'
+       'click #objectsReturn' : 'maskBox',
+       'click #objectMapClose' : 'maskBox',
+       'click #objectsDetails' : 'objectDetails',
+       'click a.objTab' : 'closeInfosPanel'
        //'click #objectsHistory' : 'displayHistoy'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
         if (ele =="TR") {
             var selectedModel = app.models.selectedModel ;
+            var gridId = $(e.target).parents(".gridDiv").attr("id");
             var id = selectedModel.attributes["ID"];
             var serverUrl = localStorage.getItem("serverUrl");
-            this.objectUrl = serverUrl + "/TViewIndividual/" + id;
             this.idSelectedIndiv = id;
-            app.utils.getObjectDetails(this,this.objectUrl);
+            if (gridId =="objectsIndivGrid"){
+                this.objectUrl = serverUrl + "/TViewIndividual/" + id;
+                this.objectType = "individual";
+            } else if (gridId =="objectsRadioGrid"){
+                this.objectUrl = serverUrl + "/TViewTrx_Radio/" + id;
+                this.objectType = "radio";
+            } else if(gridId =="objectsSatGrid"){
+                this.objectUrl = serverUrl + "/TViewTrx_Sat/" + id;
+                this.objectType = "sat";
+            }
+            app.utils.getObjectDetails(this, this.objectType,this.objectUrl);
             $("#objectsInfosPanel").css({"display":"block"});
         }
     },
@@ -1685,7 +1759,7 @@ app.views.objects = app.views.BaseView.extend({
         // add map view
         app.utils.displayObjectPositions(this, this.objectUrl,this.idSelectedIndiv);
     },
-    maskMapBox : function(){
+    maskBox : function(){
         this.removeAllChildren();
         $("#objectsMapContainer").empty();
         $("#objectsMapContainer").removeClass("dialogBoxAlert");
@@ -1693,11 +1767,11 @@ app.views.objects = app.views.BaseView.extend({
     },
     displayHistoy : function(){
         var url = this.objectUrl + "/carac";
-        app.utils.displayObjectHistory(this,url,this.idSelectedIndiv);
+        app.utils.displayObjectHistory(this,this.objectType, url,this.idSelectedIndiv);
     },
     objectDetails : function(){
         var url = this.objectUrl ; 
-        app.utils.displayObjectDetails(this,url,this.idSelectedIndiv);
+        app.utils.displayObjectDetails(this,this.objectType, url,this.idSelectedIndiv);
     }
 });
 app.views.ObjectMapBox = app.views.BaseView.extend({
@@ -1710,15 +1784,19 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
     },
     afterRender : function() {
         var self = this;
-       
         setTimeout(function() {
             var url = self.url + "?format=geojson";
 			var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
             var mapView = app.utils.initMap(point,3);
             self.map_view = mapView;
             self.displayWaitControl();
+            /*
             var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED", "ANIMATEDCLUSTER"], cluster:true, popup : false, zoomToExtent:true});
             mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true, zoom:3});   //, center: center, zoom:3 
+            */
+            var ajaxCall = { url : url, format: "GEOJSON", cluster:true};
+            mapView.addLayer({ajaxCall : ajaxCall , layerName : "positions",  zoom:3 ,zoomToExtent : true}); 
+
             self.parentView.children.push(mapView);
             // $("#objectOnMapId").text(self.idSelectedIndiv);
          }, 500);
@@ -1741,45 +1819,96 @@ app.views.ObjectHistoryBox = app.views.BaseView.extend({
         this.parentView = options.view;
         this.url = options.url;
         this.idSelectedIndiv = options.id;
+        this.objectType = options.objectType;
     },
     afterRender : function() {
         // load history
+        var self = this;
         $.ajax({
                 url: this.url,
                 dataType: "json",
                 success: function(data) {
-                    var values = data[0];
-                    for(k in values ){
-                        //
-                        var characteristic = k;
-                        if (characteristic !="TViewIndividual"){
-                            var items = values[k];
-                            for (var s=0; s<items.length;s++){
-                                var row = items[s];
-                                var lineHtml = "<tr><td>" + characteristic + "</td>";
-                                lineHtml += "<td>" + ( row["value_precision"] || "" ) + "</td>";
-                                lineHtml += "<td>" + ( row["begin_date"] || "" ) + "</td>";
-                                lineHtml += "<td>" + ( row["end_date"] || "" ) + "</td>";
+                    // check kind of object
+                    var  objectType = self.objectType;
+                    var objectView ; 
+                    if (objectType =="individual"){
+                        objectView =  "TViewIndividual"; 
+                        var characteristic = data[0].TViewIndividual;
+                        var sex = characteristic.Sex  || "";
+                        var origin  = characteristic.Origin  || "";
+                        var species =  characteristic.Species || "";
+                        var birthDate = characteristic.Birth_date  || "";
+                        var deathDate = characteristic.Death_date || "";
+                        var comments = characteristic.Comments  || "";
+
+                        $("#ObjSex").text(sex);
+                        $("#ObjOrigin").text(origin);
+                        $("#ObjSpecies").text(species);
+                        $("#ObjBirthDate").text(birthDate);
+                        $("#ObjDeathDate").text(deathDate);
+                        $("#ObjComment").text(comments);
+                        $("#objectDescIndiv").removeClass("masqued");
+                    }
+                    else if (objectType =="radio"){
+                        objectView =  "TViewTrxRadio";
+                        var characteristic = data[0].TViewTrxRadio;
+                        var id = characteristic.Id  || "";
+                        var company  = characteristic.Company  || "";
+                        var shape =  characteristic.Shape || "";
+                        var weight = characteristic.Weight  || "";
+                        $("#ObjRadioId").text(id);
+                        $("#ObjCompanyId").text(company);
+                        $("#ObjShape").text(shape);
+                        $("#ObjWheight").text(weight);
+                        $("#objectDescRadio").removeClass("masqued");
+                    }
+                    else if (objectType =="sat"){
+                        objectView =  "TViewTrxSat";
+                        var characteristic = data[0].TViewTrxSat;
+                        var id = characteristic.Id  || "";
+                        var company  = characteristic.Company  || "";
+                        var model =  characteristic.Model || "";
+                        var comments = characteristic.Comments  || "";
+                        $("#ObjSatId").text(id);
+                        $("#ObjSatCompanyId").text(company);
+                        $("#ObjModel").text(model);
+                        $("#ObjSatComments").text(comments);
+                        $("#objectDescSat").removeClass("masqued");
+                    }
+                    var historyItems = new app.collections.HistoryItems();
+
+                    for (k in data){
+                        var item = data[k];
+                        for (j in item){
+                           if (j != objectView ) {
+
+                                var elem = item[j];
+                                var element = elem[0];
+                                /*
+                                var lineHtml = "<tr><td>" + j + "</td>";
+                                lineHtml += "<td>" + ( element["value_precision"] || "" ) + "</td>";
+                                lineHtml += "<td>" + ( element["begin_date"] || "" ) + "</td>";
+                                lineHtml += "<td>" + ( element["end_date"] || "" ) + "</td>";
                                 lineHtml += "</tr>";
                                 $("#objectHistoryTable").append(lineHtml);
+                                */    
+                                //
+                                var value = element["value_precision"] || "";
+                                var begin_date = element["begin_date"] || "";
+                                var end_date = element["end_date"] || "" ;
+                                var historyItem = new app.models.HistoryItem();
+                                historyItem.set('characteristic',j);
+                                historyItem.set('value',value);
+                                historyItem.set('begin_date',begin_date);
+                                historyItem.set('end_date',end_date);
+                                historyItems.add(historyItem);
                             }
-                        } else {
-                            var items = values[k];
-                            var sex = items["Sex"] || "";
-                            var origin  = items["Origin"] || "";
-                            var species =  items["Species"] || "";
-                            var birthDate = items["Birth_date"] || "";
-                            var deathDate = items["Death_date"] || "";
-                            var comments = items["Comments"] || "";
-        
-                            $("#ObjSex").text(sex);
-                            $("#ObjOrigin").text(origin);
-                            $("#ObjSpecies").text(species);
-                            $("#ObjBirthDate").text(birthDate);
-                            $("#ObjDeathDate").text(deathDate);
-                            $("#ObjComment").text(comments);
                         }
-                    }
+                    }    
+                   // sort collection by begin date 
+                    historyItems.sort();
+                    // init grid
+                    app.utils.initGrid(historyItems, app.collections.HistoryItems)
                     $("#objModal").css("max-height","500px");
                 }
         });
@@ -1795,15 +1924,23 @@ app.views.ObjectDetails = app.views.BaseView.extend({
         this.parentView = options.view;
         this.url = options.url;
         this.idSelectedIndiv = options.id;
+        this.objectType = options.objectType;
     },
     afterRender : function() {
         var self = this;
         setTimeout(function(){
-            // add map view
-            app.utils.displayObjectPositions(self.parentView, self.url,self.idSelectedIndiv);
+            // add map view for individuals
+            if (self.objectType =="individual") {
+                app.utils.displayObjectPositions(self.parentView, self.url,self.idSelectedIndiv);
+            } else {
+                // mask map control tab and activate history
+                $("#objBoxDetailsMap").addClass("masqued");
+               // $("#objBoxDetailsHistory").addClass("active");
+                $("#objBoxDetailsHistory").trigger("click");
+            }
             // history
             var url = self.url + "/carac";
-            app.utils.displayObjectHistory(self.parentView,url,self.idSelectedIndiv);
+            app.utils.displayObjectHistory(self.parentView,self.objectType, url,self.idSelectedIndiv);
         }, 500);
     }
 });   

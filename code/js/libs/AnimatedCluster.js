@@ -289,10 +289,12 @@ OpenLayers.Strategy.AnimatedCluster = OpenLayers.Class(OpenLayers.Strategy.Clust
                                     this.clustering = true;
                                     this.layer.removeFeatures(this.previousClusters);
                                     this.layer.addFeatures(this.clusters);
+                                    //var bbox = this.updateBBOX(this.layer);
                                     this.clustering = false;
                                     
                                 }
                                 this.animating = false;
+                                $("#waitControl").remove(); 
                             }, this)
                         }
                     });
@@ -379,6 +381,24 @@ OpenLayers.Strategy.AnimatedCluster = OpenLayers.Class(OpenLayers.Strategy.Clust
         return (distance <= this.distance);
     },
 
+    updateBBOX : function(vector){
+        var features = vector.features;
+        var ln = features.length;
+        var xmin ,xmax,ymin,ymax;
+        xmin = features[0].geometry.x;
+        xmax = xmin;
+        ymin = features[0].geometry.y;
+        ymax = ymin;
+        for(var i=1; i<ln;i++){
+            var x = features[i].geometry.x;
+            var y = features[i].geometry.y;
+            xmin = (x<xmin)? x: xmin;
+            xmax =(x>xmax)?x:xmax;
+            ymin = (y < ymin)? y: ymin;
+            ymax =(y>ymax) ? y:ymax;
+        }
+        return("xmin : " + xmin +" xmax: " + xmax + " ymin: " + ymin + " ymax: "+ ymax);
+    },
 
     CLASS_NAME: "OpenLayers.Strategy.AnimatedCluster"
 });

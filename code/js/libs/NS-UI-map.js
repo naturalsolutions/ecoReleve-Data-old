@@ -15,6 +15,7 @@ NS.UI.MapView = Backbone.View.extend({
 
 		initMap: function(options) {
 			// Initialize Basic Openlayers;
+			var refresh;
 			this.map = new OpenLayers.Map(this.el, {
 				projection: new OpenLayers.Projection("EPSG:3857"),
 				displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -22,11 +23,11 @@ NS.UI.MapView = Backbone.View.extend({
 			            new OpenLayers.Layer.Google(
 			                "Google Physical",
 			                {type: google.maps.MapTypeId.TERRAIN}
-			            ),
+			            ),/*
 			            new OpenLayers.Layer.Google(
 			                "Google Streets", // the default
 			                {numZoomLevels: 20}
-			            ),
+			            ),*/
 			            new OpenLayers.Layer.Google(
 			                "Google Hybrid",
 			                {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
@@ -83,9 +84,15 @@ NS.UI.MapView = Backbone.View.extend({
 					 new OpenLayers.Control.ZoomBox()
 				]//,
 				//renderers : ['SVG']
-				,renderers: ["Canvas"]
+				,renderers: ["Canvas"],
+				maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+				updateSize: refresh
+				/*,
+				updateSize: function(){
+				 	this.baseLayer.redraw();
+				}*/
 			}); 
-
+			refresh = this.map.baseLayer.redraw();
 			// add masked element to store selected elements id
 			$(this.el).append('<input id="updateSelection" type="hidden" value="" />');
 			$(this.el).append('<input id="featuresId"  type="hidden" value="" />');
@@ -94,6 +101,7 @@ NS.UI.MapView = Backbone.View.extend({
 			this.map.latitudes = new Array();
 			this.map.longitudes = new Array();
 			this.map.selectedFeatures = new Array();
+			this.mapAjaxCall ="";
 			
 			/*** center *******************************************************************************/
 			
@@ -133,7 +141,7 @@ NS.UI.MapView = Backbone.View.extend({
 			
 			var defaultStyle = s;
 			//var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
-			var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
+			var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});
 			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
 			var vector = new OpenLayers.Layer.Vector(layerName, {
 				//styleMap:  new OpenLayers.StyleMap(s),
@@ -289,26 +297,83 @@ NS.UI.MapView = Backbone.View.extend({
 				vector.strategies = layerStrategies;
 				vector.popup = popup ;
 				// cluster style
+				
 				if (cluster){
 					var layerStyle;
 					var rules = clusterMapRules ();
 					layerStyle = new OpenLayers.Style(null, {
 					rules: rules
 					}); 
-					vector.styleMap = layerStyle;
+					//vector.styleMap = layerStyle;
+					vector.styleMap = new OpenLayers.StyleMap({'default':layerStyle,'select':selectStyle});	
 				} else {
 					vector.styleMap = styleMap;
 					if (style){
 						var defaultStyle = style;
-						var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
+						var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});
 						vector.styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
 					}
 				}
 				//$("#waitControl").remove(); 
-			}		
+			}	
+			if (options.ajaxCall){
+				var url = options.ajaxCall.url;
+				var format = options.ajaxCall.format || "";
+				var params = options.ajaxCall.params || "";
+				var cluster = options.ajaxCall.cluster || false;
+				var  serverCluster = options.ajaxCall.serverCluster || false;
+				var style = options.ajaxCall.style || false;
+				if (cluster){
+					var layerStyle;
+					var rules = clusterMapRules ();
+					layerStyle = new OpenLayers.Style(null, {
+					rules: rules
+					}); 
+					vector.styleMap = new OpenLayers.StyleMap({'default':layerStyle,'select':selectStyle});
+					if (!serverCluster) {	
+						var strategy = new OpenLayers.Strategy.AnimatedCluster({
+												            distance: 45,
+												            animationMethod: OpenLayers.Easing.Expo.easeOut,
+												            animationDuration: 10
+						});
+						strategy.setLayer(vector);
+						vector.strategies = [];
+						vector.strategies.push(strategy);
+					}
+					vector.cluster = true;
+
+				} else {
+					vector.styleMap = styleMap;
+					if (style){
+						var defaultStyle = style;
+						var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});
+						vector.styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
+					}
+				}
+				
+				vector.bboxStrategy = true;
+	
+				vector.url = url;
+				vector.params = params;
+				// ajax call to get data
+				this.getData(this,vector, url,params);
+				/* $.ajax({
+		            url: url,
+		            dataType: "json",
+		            data: params
+				    }).done(function(data) {
+				        data = eval( data );
+				        var geojson_format = new OpenLayers.Format.GeoJSON({
+				            'internalProjection': self.map.baseLayer.projection,
+				            'externalProjection': new OpenLayers.Projection("EPSG:4326")
+				        });
+				        vector.removeAllFeatures();
+				        vector.addFeatures(geojson_format.read(data));
+				    });  */
+			}	
 			this.map.addLayer(vector);
 			var zoomToExtent = options.zoomToExtent || false ; 
-			if ((! options.protocol) || options.zoomToExtent){
+			if (options.zoomToExtent ){   //(! options.protocol) ||
 				this.map.zoomToExtent(vector.getDataExtent());
 				//$("#waitControl").remove(); 
 			}
@@ -351,23 +416,31 @@ NS.UI.MapView = Backbone.View.extend({
 				vector.events.register("featuresadded", vector, zoomToData);
 				vector.events.on({
 	                'featureselected': function(feature) {
+						
 						var featureId = feature.feature.attributes.id;
 						if (featureId!=""){
 							this.map.selectedFeatures.push(featureId); 
 						}
+						/*if (vector.cluster){
+							$("#featuresId").val("");	
+						}*/
+						/*
 						//update list of stored selected features id in the hidden input
 						updateSelectedFeatures(this.map.selectedFeatures);
 						var displayPopup = feature.feature.layer.popup;
 						// add coordinates of selected feature to arrays
-						if (!displayPopup){
-							var lon = feature.feature.geometry.x;
+						if (!displayPopup){*/
+							/*var lon = feature.feature.geometry.x;
 							var lat = feature.feature.geometry.y;
 							this.map.latitudes.push(lat);
 							this.map.longitudes.push(lon); 
-							updateBBOX(this.map.longitudes,this.map.latitudes );
+							updateBBOX(this.map.longitudes,this.map.latitudes ); */
+						
+						/*
 						} else {
 							createPopup(feature);
 						}
+						*/
 						$('#map').trigger('selectedFeatures:change');
 	                },
 	                'featureunselected': function(feature) {
@@ -375,20 +448,25 @@ NS.UI.MapView = Backbone.View.extend({
 						var displayPopup = feature.feature.layer.popup;
 						// remove id feature from selected features list if exists
 						removeItem(this.map.selectedFeatures, featureId);
+						
+						/*var featureId = feature.feature.attributes.id;
+						var displayPopup = feature.feature.layer.popup;
+						// remove id feature from selected features list if exists
+						removeItem(this.map.selectedFeatures, featureId);
 						//update list of stored selected features id in the hidden input
 						updateSelectedFeatures(this.map.selectedFeatures);
 						// add coordinates of selected feature to arrays
-						if (!displayPopup){
-							var lon = feature.feature.geometry.x;
+						if (!displayPopup){  */
+							/*var lon = feature.feature.geometry.x;
 							var lat = feature.feature.geometry.y;
 							// remove values if exists
 							removeItem(this.map.latitudes, lat);
 							removeItem(this.map.longitudes, lon);
 							// update selecting BBOX
-							updateBBOX(this.map.longitudes,this.map.latitudes );
-						} else {
+							updateBBOX(this.map.longitudes,this.map.latitudes ); */
+						/*} else {
 							destroyPopup();
-						}
+						}*/
 						$('#map').trigger('selectedFeatures:change');
 
 						if (this.map.selectedFeatures.length == 0){
@@ -406,6 +484,7 @@ NS.UI.MapView = Backbone.View.extend({
 				//this.map.events.register('zoomend', this, function (event) {
 				this.map.events.register('moveend', this, function (event) {
 					var vector_layer ;
+					var bbox ="";
 					for(var i = 0; i < this.map.layers.length; i++ ){
 						if(((this.map.layers[i].name) !="OpenStreetMap") && ( ((this.map.layers[i].name) !="Imagery") ) && (((this.map.layers[i].name) !="OpenCycleMap") )) {
 							vector_layer = this.map.layers[i] ;
@@ -432,7 +511,7 @@ NS.UI.MapView = Backbone.View.extend({
 								var maxLatWGS = maxPoint.lat;
 								var maxLonWGS = maxPoint.lon;
 
-								var bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
+								bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
 								
 								if (this.map.selectedFeatures.length == 0){
 									$("#updateSelection").val(bbox);  
@@ -460,17 +539,26 @@ NS.UI.MapView = Backbone.View.extend({
 						}
 					};
 					//$("#waitControl").remove(); 
+				var bboxStrategy = vector_layer.bboxStrategy || false ;
+				/*if(bboxStrategy){
+					var params = vector_layer.params;
+					params.bbox = bbox;
+					var url = vector_layer.url;
+					this.getData(this,vector_layer, url,params);
+				}*/
+
+					$("#waitControl").remove(); 
 				});
 				// unselect features
-				this.map.events.register("click", map , function(e){
+				//this.map.events.register("click", map , function(e){
 						//alert("click on map");
 						/*this.map.selectedFeatures = [];
 						this.map.latitudes = [];
 						this.map.longitudes = [];*/
 
-				});
+				//});
 				
-				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true});
+				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true, clickout: true});
 				var panelControls = [
 				    new OpenLayers.Control.Navigation(),
 					selectCtr ,
@@ -512,7 +600,7 @@ NS.UI.MapView = Backbone.View.extend({
 				var bounds = this.getDataExtent();
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
-					this.map.zoomToExtent(bounds); 
+					//this.map.zoomToExtent(bounds); 
 				}
 				this.events.unregister("featuresadded", this, zoomToData);
 				$("#waitControl").remove(); 
@@ -526,10 +614,10 @@ NS.UI.MapView = Backbone.View.extend({
 			this.map.getZoom();
 		},
 		zoomOut : function(){
-			this.map.zoomOut();
+		//	this.map.zoomOut();
 		},
 		zoomIn : function(){
-			this.map.zoomIn();
+		//	this.map.zoomIn();
 		},
 		enlarge: function(){
 			var mapDiv = this.el;
@@ -551,48 +639,134 @@ NS.UI.MapView = Backbone.View.extend({
 			//console.log("New size: "+mapDiv.style.width+ " / "+mapDiv.style.height);
 			map.updateSize();
 		},
-		updateLayer: function(layerName, params, center){
+		getData: function(mapView,layer,url,params){
+			var self = this;
+			if(window.mapAjaxCall.xhr){ 
+		        window.mapAjaxCall.xhr.abort();
+		    }
+			window.mapAjaxCall.xhr = $.ajax({
+				url: url,
+				dataType: "json",
+				data: params,
+				beforeSend : function (){
+					self.displayWaitControl();
+				},	
+				success: function(data){
+
+				},
+				error : function(data) {
+					var data;
+					alert("error loading geodata");
+				}
+			}).done(function(data) {
+			    data = eval( data );
+			    var bbox = data.bbox;
+			    var geojson_format = new OpenLayers.Format.GeoJSON({
+			        'internalProjection': mapView.map.baseLayer.projection,
+			        'externalProjection': new OpenLayers.Projection("EPSG:4326")
+			    });
+			    layer.removeAllFeatures();
+			    layer.addFeatures(geojson_format.read(data));
+			    if (bbox){
+			    	var minlon = bbox.minlon -0.2;
+			    	var minlat = bbox.minlat -0.2 ;
+			    	var maxlon = bbox.maxlon + 0.2 ;
+			    	var maxlat = bbox.maxlat + 0.2 ;
+			    	var minLatLon = new OpenLayers.LonLat(minlon,minlat);
+			    	minLatLon =minLatLon .transform(
+							new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+							new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection
+					);	
+			    	var maxLatLon = new OpenLayers.LonLat(maxlon,maxlat);
+			    	maxLatLon = maxLatLon .transform(
+							new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+							new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection
+					);
+
+					var bounds = new OpenLayers.Bounds();
+					bounds.extend(minLatLon);
+					bounds.extend(maxLatLon);
+					layer.map.zoomToExtent(bounds); 
+					    
+			    }
+
+			}); 
+		},
+		updateLayer: function(layerName,url, params, center){
 			//this.displayWaitControl();
 			var self = this;
 			var vector_layer;
 			for(var i = 0; i < this.map.layers.length; i++ ){
 					if((this.map.layers[i].name) ==layerName){vector_layer = this.map.layers[i] ;break;}
 			};
+			
+			/*
 			vector_layer.protocol.options.params = params;
-			var cluster = params.cluster ;
+			
+			*/
+			if (params){
+				var cluster = params.cluster || false ;
+			}
+			this.getData(this,vector_layer, url,params);
+			/* $.ajax({
+	            url: url,
+	            dataType: "json",
+	            data: params
+			    }).done(function(data) {
+			        data = eval( data );
+			        var geojson_format = new OpenLayers.Format.GeoJSON({
+			            'internalProjection': self.map.baseLayer.projection,
+			            'externalProjection': new OpenLayers.Projection("EPSG:4326")
+			        });
+			        vector_layer.removeAllFeatures();
+			        vector_layer.addFeatures(geojson_format.read(data));
+			    });  
+			*/
+
+
+			var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});   //#36b7d1
 			if (cluster =="no"){
 				var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
-				var selectStyle = new OpenLayers.Style({fillColor:'#36b7d1'});
+				
 				var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});
 				vector_layer.styleMap = styleMap;
-			} else if (cluster =="yes"){
+			} 
+			else if (cluster =="yes" ||cluster || vector_layer.bboxStrategy ){
 				var layerStyle;
 				var rules = clusterMapRules ();
 				layerStyle = new OpenLayers.Style(null, {
 				rules: rules
 				}); 
-				vector_layer.styleMap = layerStyle;
-			}
-			if (params.zoom){
+				//vector_layer.styleMap = layerStyle;
+				vector_layer.styleMap = new OpenLayers.StyleMap({'default':layerStyle, 'select':selectStyle});
+			} 
+			if ( params && params.zoom){
 				vector_layer.map.zoomTo(params.zoom);
 			}
 			if (center){
 				vector_layer.map.setCenter(center);
 			}
-			vector_layer.refresh({force: true}); 
 			
+			/*
+			vector_layer.refresh({force: true}); 
+			*/
+
 			vector_layer.events.register("beforefeaturesadded", vector_layer,function(){
 				self.displayWaitControl();
 	
 			});
+			
 			vector_layer.events.register("featuresadded", vector_layer, zoomData);	
 			//$("#waitControl").remove(); 
 			function zoomData(){
 				var bounds = this.getDataExtent();
+				//var bounds = OpenLayers.Bounds.fromArray(this.llbbox);	bounds.transform(proj4326, proj900913);	this.map.zoomToExtent(bounds);
 				if(bounds){ 
 					this.map.panTo(bounds.getCenterLonLat());
 					this.map.zoomToExtent(bounds); 
-				}  
+					$("#waitControl").remove(); 
+				}
+				
 				this.events.unregister("featuresadded", this, zoomData);
 				$("#waitControl").remove(); 
 			}
@@ -614,9 +788,15 @@ NS.UI.MapView = Backbone.View.extend({
 			this.map.panTo(point);
 			this.map.zoomTo(8);
 		},
-		removeLayer : function (layer){
+		removeLayer : function (layerName){
 			//layer.removeAllFeatures();
-			this.map.removeLayer(layer);
+			//this.map.removeLayer(layer);
+			for(var i = 0; i < this.map.layers.length; i++ ){
+					if((this.map.layers[i].name) == layerName ) {
+						this.clearLayer(this.map.layers[i]);
+						break;
+					}
+				}
 		},
 		clearLayer : function (layer){
 			layer.destroyFeatures();
@@ -659,22 +839,7 @@ NS.UI.MapView = Backbone.View.extend({
 				vector_layer.styleMap.styles.default.defaultStyle.labelYOffset = parseInt(actualVal) + parseInt(value) ;
 			}
 			vector_layer.redraw();
-		},events : {
-			"click #mapunselectfeatures" : "unselectFeatures"
-		},
-		/*afterRender: function () {
-            $('#mapunselectfeatures').on('click', this, function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-               var tn; 
-				
-				
-            });
-        },*/
-		unselectFeatures : function(){
-			this.map.controls.selectControl.unselectAll();
-		},
-
+		}
 });
 /******************************* Models **********************************************************/
 NS.UI.Point = Backbone.Model.extend({
@@ -816,10 +981,10 @@ function checkLayer(layerName, map){
 function onPopupClose(evt) {
     this.map.controls.selectControl.unselect(this.feature);
 }
-function onFeatureSelect(bounds) {
+/*function onFeatureSelect(bounds) {
 	var bbox = bounds.left +',' +  bounds.bottom +',' + bounds.right +',' + bounds.top ;
 	$("#updateSelection").val(bbox).trigger('change');
-} 
+} */
 function updateBBOX(tabLon, tabLat){
 	if (tabLon.length > 0 ){
 		var minLat = Math.min.apply({},tabLat);
