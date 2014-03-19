@@ -415,7 +415,7 @@ app.views.ExportView = app.views.BaseView.extend({
         //$(".modal-content").css({"width": "600px","max-width": "800px", "min-height": "500px","margin": "5%"});
        /* $(".modal-header").css({"background": "red"});
         $(".modal-body").css({"background": "white","color":"black"});*/
-        app.utils.getThemesList();
+        app.utils.getItemsList("#export-themes","/views/themes_list");
     },
     events :{
         'change #export-themes' : 'updateViewsList',
@@ -1626,7 +1626,7 @@ app.views.ImportMap = app.views.BaseView.extend({
     template: "import-filter" ,
     afterRender : function(options) {
         //try{
-            app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
+            app.utils.initGrid (app.collections.selectedWaypoints, app.collections.Waypoints);
             var map_view = app.utils.initMap();
             map_view.addLayer({layerName : "tracks"}); 
             map_view.addLayer({collection : app.collections.waypointsList , layerName : "waypoints", zoomToExtent : true});
@@ -1640,23 +1640,31 @@ app.views.ImportMap = app.views.BaseView.extend({
     events : {
         "selectedFeatures:change" : "featuresChange",
         'click tr' : 'selectTableElement',
-        'click #importLoadTrack a' : 'loadTrack'
+        'click #importLoadTrack a' : 'loadTrack',
+        'click #importInitSelection' : 'cancelSelection'
     },
     featuresChange : function(e){
         var selectedFeatures = this.mapView.map.selectedFeatures;
         var ln = selectedFeatures.length;
         if (ln == 0){
-            app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
+           // app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
+           app.collections.selectedWaypoints = app.collections.waypointsList;
         } else {
-           var selectedFeaturesCollection = new app.collections.Waypoints();
+           //var selectedFeaturesCollection = new app.collections.Waypoints();
+            app.collections.selectedWaypoints = new app.collections.Waypoints();
             for(var i=0;i<ln;i++){
                 var modelId = selectedFeatures[i];
                 var selectedModel = app.collections.waypointsList.get(modelId);
-                selectedFeaturesCollection.add(selectedModel);
+                //selectedFeaturesCollection.add(selectedModel);
+                app.collections.selectedWaypoints.add(selectedModel);
             }
-            app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
+           // app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
         }
+        app.utils.initGrid (app.collections.selectedWaypoints, app.collections.Waypoints);
         e.preventDefault();
+    },
+    cancelSelection : function(){
+        app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1700,12 +1708,83 @@ app.views.ImportMap = app.views.BaseView.extend({
         }
     }
 });
+app.views.importMetaData = app.views.BaseView.extend({
+    template: "import-metadata",
+    afterRender : function(options) {
+        app.utils.getItemsList("#import-activity","/view/theme/list?import=yes",true);
+        app.utils.getUsersList("#import-worker1","/user/fieldworkers",true);
+        app.utils.getUsersList("#import-worker2","/user/fieldworkers",true);
+        var nbWaypointsToImport = app.collections.selectedWaypoints.length;
+        $('#importNbWaypoints').text(nbWaypointsToImport);
+        this.selectedUser1 ="";
+        this.selectedUser2 ="";
+        this.selectedActivity ="";
+    },
+    events : {
+        "change #importWorker1" : "getSelectedUser1",
+        "change #importWorker2" : "getSelectedUser2",
+        "change #importActivity" : "getSelectedActivity",
+        'click #importLastStep' : "storeWaypoints"
+    },
+    getSelectedUser1 : function(){
+        var val = $('#importWorker1').val();
+        var selectedValue = $('#import-worker1 option').filter(function() {
+            return this.value == val;
+        });
+        if (selectedValue[0]){
+            this.selectedUser1 = selectedValue[0].value ;
+        } else {
+            this.selectedUser1 ="";
+            alert("please select a valid worker name");
+            $('#importWorker1').val("");
+        }
+    },
+    getSelectedUser2 : function(){
+        var val = $('#importWorker2').val();
+        var selectedValue = $('#import-worker2 option').filter(function() {
+            return this.value == val;
+        });
+        if (selectedValue[0]){
+            this.selectedUser2 = selectedValue[0].value ;
+        } else {
+            this.selectedUser2 ="";
+            alert("please select a valid worker name");
+            $('#importWorker2').val("");
+        }
+    },
+    getSelectedActivity : function(){
+        var val = $('#importActivity').val();
+        var selectedValue = $('#import-activity option').filter(function() {
+            return this.value == val;
+        });
+        if (selectedValue[0]){
+            this.selectedActivity = selectedValue[0].value ;
+        } else {
+            this.selectedActivity ="";
+            alert("please select a valid activity");
+            $('#importActivity').val("");
+        }
+    },
+    storeWaypoints : function(){
+        // add fieldActivity and fielduser to each model
+        for(var i=0; i<app.collections.selectedWaypoints.length; i++) {
+             wptModel = app.collections.selectedWaypoints.models[i];
+            wptModel.set("fieldActivity",this.selectedActivity);
+            wptModel.set("fieldWorker1",this.selectedUser1);
+            wptModel.set("fieldWorker2",this.selectedUser2);
+        }
+
+        app.router.navigate('#import-end', {trigger: true});
+
+    }
+});
 app.views.importEndStep = app.views.BaseView.extend({
     template: "import-endStep",
     afterRender : function(options) {
+        app.collections.selectedWaypoints = null;
+        app.collections.waypointsList = null;
     }
 });
-
 // $objects
 app.views.objects = app.views.BaseView.extend({
     template: "objects" ,

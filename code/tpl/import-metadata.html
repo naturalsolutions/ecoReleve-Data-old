@@ -1,0 +1,48 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+      <h3 class="modal-title"><img src="images/import.png" class="modal-title-picto">&nbsp;4- import > finish</h3>
+    </div>
+    <div class="modal-body modal-body-perso">
+      
+      <div class="row-fluid" >
+        <div class="span6"> 
+          <form>
+            <label for="male">field activity</label>
+            <input list="import-activity" type="text" id="importActivity">
+            <datalist id="import-activity">
+              <option value=""> </option>
+            </datalist> 
+
+            <label for="male">field worker 1</label>
+            <input list="import-worker1" type="text" id="importWorker1">
+            <datalist id="import-worker1">
+              <option value=""> </option>
+            </datalist> 
+            <label for="male">field worker 2</label>
+            <input list="import-worker2" type="text" id="importWorker2">
+            <datalist id="import-worker2">
+              <option value=""> </option>
+            </datalist> 
+
+            
+          </form>
+          <div>
+            <label><i>number of data to import: <span id="importNbWaypoints"></span></i></label>
+          </div>
+        </div>
+        <div class="span6">
+          <!-- <img src="images/import_photo.jpg"> -->
+            <img src="images/import.jpg"> 
+        </div>
+      </div> 
+
+    </div>
+    <div class="modal-footer">
+		<a href="#import-map" class="btn">&lt;previous</a>
+    <a href="#" class="btn">cancel</a>
+		<a class="btn btn-success" id="importLastStep">finish &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

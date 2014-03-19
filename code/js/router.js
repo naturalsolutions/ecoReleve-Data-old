@@ -33,6 +33,7 @@
 		"import" :"import",
 		"import-load" : "importLoad",
 		"import-map" : "importMap",
+		"import-meta" : "importMetadata",
 		"import-end": "importEndStep",
 		"objects" : "objects",
 		"argos" : "argos"
@@ -600,6 +601,9 @@
 	importMap : function(){
 		this.setView(new app.views.ImportMap());
 	},
+	importMetadata : function(){
+		this.setView(new app.views.importMetaData());
+	}, 
 	importEndStep : function(){
 		this.setView(new app.views.importEndStep());
 	},		

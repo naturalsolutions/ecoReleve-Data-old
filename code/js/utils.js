@@ -322,6 +322,8 @@ app.utils.loadWaypointsFromFile = function (xml){
 			//app.models.waypoint.save();	
 
 		}); 
+	   		// selected waypoints 
+            app.collections.selectedWaypoints = app.collections.waypointsList;	
 		if (id!=0){
 			//localStorage.setItem("xmlWaypointsIsloaded","true");
 			// update tile displayed date
@@ -1195,24 +1197,56 @@ app.utils.updateLocation = function(mapView, point){
 		mapView.map.setCenter(lonlat);
 	}
 }
-app.utils.getThemesList = function(){
-	$('#export-themes').empty();
-	$('<option value=""></option>').appendTo("#export-themes");
+app.utils.getItemsList = function(element, url,isDatalist){
+	$(element).empty();
+	$('<option value=""></option>').appendTo(element);
 	//$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
 	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
 	$.ajax({
-		url: serverUrl + "/views/themes_list",
+		url: url,
 		dataType: "json",
 		success: function(data) {
 			var len = data.length;
 			for (var i=0; i<len; i++){
 				var label = data[i].MapSelectionManager.Caption;
 				var value = data[i].MapSelectionManager.TProt_PK_ID;
-				$('<option value=\"'+ value +'\">'+ label + "</option>").appendTo('#export-themes');
+				if (isDatalist){
+					$('<option value=\"'+ label +'\">' + "</option>").appendTo(element);
+				} else {
+					$('<option value=\"'+ value +'\">'+ label + "</option>").appendTo(element);
+				}
 			}
 		},
 		error: function() {
-			alert("error loading themes, please check connexion to webservice");
+			alert("error loading items, please check connexion to webservice");
+		}
+	});
+
+}
+app.utils.getUsersList  = function(element, url,isDatalist){
+		$(element).empty();
+	$('<option value=""></option>').appendTo(element);
+	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var user = data[i];
+				var label = user[0].Nom;
+				var id = user[0].ID;
+				if (isDatalist){
+					$('<option value=\"'+ label +'\">' + "</option>").appendTo(element);
+				} else {
+					$('<option value=\"'+ id +'\">'+ label + "</option>").appendTo(element);
+				}
+			}
+		},
+		error: function() {
+			alert("error loading items, please check connexion to webservice");
 		}
 	});
 

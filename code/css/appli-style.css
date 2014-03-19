@@ -184,18 +184,18 @@ select[name="pagesizes"]{
 	cursor: pointer;
 }
 
-#exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures {
+#exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures, #importNbWaypoints {
 	color: rgb(33, 122, 21);
 	font-size: x-large;
 }
 /*************************** import  *********************/
-#importLoadTrack a {
-margin-left: 2.2em;
+#importLoadTrack a, #importInitSelection a {
+/*margin-left: 2.2em;*/
 background: #65604f;
 color: white;
 margin-top: 1em;
 }
-#importLoadTrack a:hover {
+#importLoadTrack a:hover, #importInitSelection a:hover {
 background: #9E9B90;
 }
 /************************** argos ***********************/

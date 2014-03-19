@@ -144,7 +144,6 @@ app.models.Waypoint = Backbone.Model.extend({
 		//used: {title: 'used', type: 'Boolean'}
 	},
 	verboseName: 'Waypoint'
-
 });
 app.collections.Waypoints = Backbone.Collection.extend({
   model:  app.models.Waypoint,
