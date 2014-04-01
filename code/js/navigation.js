@@ -109,19 +109,15 @@
             this.render();
         }
     });
-	
     app.views.Navigation = app.views.BaseView.extend({
         template: 'navigation',
-
         events: {
             'click a': 'clickFollowLink'
         },
-
         initialize: function () {
             this.listenTo(this.model, 'route', this.update);
             app.views.BaseView.prototype.initialize.apply(this, arguments);
         },
-
         serialize: function () {
             // Placeholder, will be refined later on
             /*
@@ -130,35 +126,30 @@
             };
 			*/
         },
-
         afterRender: function () {
             $('#nav-switch').on('click', this, function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 e.data.show();
-				
-				
             });
         },
-
         hide: function () {
             this.$el.hide();
             this.$el.off('click', this.clickCancelNav);
             $('body').removeClass('modal-open');
+            $(".allDataFilterPanel").css("z-index",5000); 
         },
-
         show: function () {
             $('body').addClass('modal-open');
             this.$el.slideDown(800);
             this.$el.on('click', this, this.clickCancelNav);
 			$("header.navbar.navbar-static-top").css("position","static");
+            $(".allDataFilterPanel").css("z-index",0); 
         },
-
         clickFollowLink: function (e) {
             e.stopPropagation();
             this.hide();
         },
-
         clickCancelNav: function (e) {
             e.stopPropagation();
             e.preventDefault();
@@ -166,7 +157,6 @@
             e.data.hide();
 			$("header .navbar-static-top").css("position","fixed");
         },
-
         update: function (name, args) {
         // to update
 		/*

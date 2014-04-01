@@ -1,4 +1,4 @@
-﻿.container-fluid.home {
+.container-fluid.home {
 	padding-left: 7%;
 	padding-top: 5%;
 }
@@ -29,7 +29,7 @@ li.tile.tile-double.tile-red {
 	top: 50%;
 	left: 50%;
 	margin-left: 0px;
-	margin-top: -32px;
+	margin-top: 15px;
 }
 .tile-double.icon >a >img {
 	position: absolute;
@@ -541,12 +541,22 @@ div.filterElement{
 /*.modal-content {
 	margin: 3%;
 }*/
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1600px){
+/* objects map */
+	#slider {
+	width: 80%;
+	}
+}
+@media screen and (min-width: 1280px){
 	.thumbnails > li.tile ,.thumbnails > li.tile a {
 		width: 150px;  /*200*/
 		height: 150px;
 	}
+	.pagination ul > li > a, .pagination ul > li > span {
+		padding: 4px 6px;
+	}
 }
+
 @media screen and (max-width: 1279px) {
 	.tilesGrid{
 		max-width: 550px;
@@ -566,21 +576,88 @@ div.filterElement{
 		height: 250px;
 		width: 600px;
 	}
+		#slider {
+	width: 70%;
+	}
 }
-@media screen and (max-width: 800px) {
+
+@media screen and (max-width: 1024px) {
+	#allDataImgSearch {
+		height: 30px;
+	}
+	#alldataCritDateLabel, #allDataSearchLabel{
+		display : none;
+	}
+	.critLegend  {
+		line-height: 17px;
+	}
+	div#allDataFilterPanel  legend {
+		font-size: 15px;
+	}
+	#id_proto, #iTaxon, #place, #region, #datedep, #datearr{
+		height: 15px;
+		line-height:15px;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+		width: 140px;
+		height: 140px;
+		padding: 0px;
+	}
+	.tuilesHome {
+		height: 155px;
+	}
+	/*  argos */
+	#argosDivImg{
+		display : none;
+	}
+	#argosTitle {
+		font-size: 30px;
+		padding-bottom: 0px;
+		line-height: 0px;
+	}
+	#argosGraph{
+		height: 300px;
+	}
+	/* import map*/
+	#importMapContainer {
+		min-width: 60%;
+	}
+	.pagination ul > li > a, .pagination ul > li > span {
+		padding: 4px 6px;
+	}
+	/* objects map */
+	#slider {
+	width: 68%;
+	}
+}
+@media screen and (max-width: 1300px) {
+	#intervalOfTime{
+	width: 120px;
+	}
+}
+@media screen and (max-width: 820px) {
 	/* home page */
 	#home-right, #current-user {
 		display: none;
 	}
-	
 	/* Argos page */
 	div#argosDivImg {
 		display: none;
 	}
-	
-}
+	/* export */
+	#exportPhoto {
+		display: none;
+	}
+	/* objects map */
+	#slider {
+	width: 60%;
+	}
 @media screen and (max-width: 640px) {
 
+	/* import */
+	.importPhoto {
+		display: none;
+	}
 }
 @media (max-width: 480px) {
 	div.container{
@@ -598,9 +675,22 @@ div.filterElement{
 		display: none;
 	}
 }
+/* webkit */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .tile.icon >a > img  {
-		position: absolute;
-		margin-left: -32px;
+		/*position: absolute;*/
+		 margin-top: 20px;
+	}
+}
+/* firefox */
+@-moz-document url-prefix()
+{
+    .tile.icon > a > img {
+    width: 64px;
+    height: 64px;
+    margin-top: 32px;
+	}
+	.thumbnails > li.tile h2 {
+    margin-top: -20px;
 	}
 }

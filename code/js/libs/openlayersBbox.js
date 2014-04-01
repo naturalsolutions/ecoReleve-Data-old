@@ -1,4 +1,6 @@
 ﻿OpenLayers.Control.SelectFeature.prototype.selectBox = function(position) {
+	var minLatWGS, minLonWGS ,maxLatWGS ,maxLonWGS;
+
     if (position instanceof OpenLayers.Bounds) {
         var minXY = this.map.getLonLatFromPixel(
             new OpenLayers.Pixel(position.left, position.bottom)
@@ -85,13 +87,38 @@
         }
         onFeatureSelect(selectedFeatures, layer); // <-- Modification of original function (3/3)
         this.multiple = prevMultiple;
+    } else {
+    	$("#featuresId").val("");
+    	var bounds = this.map.getExtent(); 
+		var minLat = bounds.bottom;
+		var maxLat= bounds.top;
+		var minlong = bounds.left;
+		var maxLong = bounds.right;
+
+		var minPoint=new OpenLayers.LonLat(minlong,minLat);
+		minPoint=minPoint.transform(
+			new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+			//new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection  900913
+			new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+		);
+		var maxPoint = new OpenLayers.LonLat(maxLong,maxLat);
+		maxPoint=maxPoint.transform(
+			new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+			new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+		);
+		minLatWGS = minPoint.lat;
+		minLonWGS = minPoint.lon;
+		maxLatWGS = maxPoint.lat;
+		maxLonWGS = maxPoint.lon;
+		bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
+		$("#updateSelection").val(bbox);  
     }
 }
 function onFeatureSelect(f, layer){
 	var ln = f.length;
 	var value = "";
 	var cluster = layer.cluster;
-	if ((ln < 15) && (!cluster) ) {
+	if ((ln < 15) && (!cluster)){
 		for (var i=0;i<ln;i++){
 			var featureId = f[i].attributes.id;
 			value += featureId + ",";

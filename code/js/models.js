@@ -133,7 +133,7 @@ app.collections.Users = Backbone.Collection.extend({
 Waypoints Model & collection
 **************************************************************/	
 app.models.Waypoint = Backbone.Model.extend({
-
+	sync: Backbone.localforage.sync()
 	},{
 		schema: {
 		id: {title: 'id', type: 'Text',sortable: true},
@@ -146,8 +146,14 @@ app.models.Waypoint = Backbone.Model.extend({
 	verboseName: 'Waypoint'
 });
 app.collections.Waypoints = Backbone.Collection.extend({
-  model:  app.models.Waypoint,
-  localStorage : new Store('waypointList')
+ 	 model:  app.models.Waypoint,
+  	//localStorage : new Store('waypointList')
+  	sync: Backbone.localforage.sync('waypointList'),
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
 });
 /*************************************************************
 protocols updating form Model

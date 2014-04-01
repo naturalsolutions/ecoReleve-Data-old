@@ -23,11 +23,11 @@ NS.UI.MapView = Backbone.View.extend({
 			            new OpenLayers.Layer.Google(
 			                "Google Physical",
 			                {type: google.maps.MapTypeId.TERRAIN}
-			            ),/*
+			            )/*,
 			            new OpenLayers.Layer.Google(
 			                "Google Streets", // the default
 			                {numZoomLevels: 20}
-			            ),*/
+			            ),
 			            new OpenLayers.Layer.Google(
 			                "Google Hybrid",
 			                {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
@@ -35,11 +35,16 @@ NS.UI.MapView = Backbone.View.extend({
 			            new OpenLayers.Layer.Google(
 			                "Google Satellite",
 			                {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
-			            )
+			            )*/
 			        ]
-
-			        /*
+			        
+			     /*   
 				layers: [
+					new OpenLayers.Layer.OSM("OpenCycleMap",
+                                        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                                         "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                                         "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]
+					),
 					new OpenLayers.Layer.XYZ(
 						"OpenStreetMap", 
 						[
@@ -65,13 +70,8 @@ NS.UI.MapView = Backbone.View.extend({
 							attribution: "Tiles Courtesy of <a href='http://open.mapquest.co.uk/' target='_blank'>MapQuest</a>. Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency. <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>",
 							transitionEffect: "resize"
 						}
-					),
-					new OpenLayers.Layer.OSM("OpenCycleMap",
-                                        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
-                                         "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
-                                         "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]
 					)
-				]*/,
+				] */,
 				controls : [
 					new OpenLayers.Control.MousePosition(),
 					new OpenLayers.Control.LayerSwitcher(),
@@ -86,7 +86,9 @@ NS.UI.MapView = Backbone.View.extend({
 				//renderers : ['SVG']
 				,renderers: ["Canvas"],
 				maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
-				updateSize: refresh
+				updateSize: refresh,
+				 zoomDuration: 15
+				// numZoomLevels: 18
 				/*,
 				updateSize: function(){
 				 	this.baseLayer.redraw();

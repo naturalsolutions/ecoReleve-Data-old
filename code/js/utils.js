@@ -575,13 +575,18 @@ app.utils.validateFields = function (){
 	return valRetour ; 
 }
 // get the date format in MM/DD/YYYY
-Date.prototype.defaultView=function(){
+Date.prototype.defaultView=function(format){
 	var dd=this.getDate();
 	if(dd<10)dd='0'+dd;
 	var mm=this.getMonth()+1;
 	if(mm<10)mm='0'+mm;
 	var yyyy=this.getFullYear();
-	return String(mm+"\/"+dd+"\/"+yyyy)
+	if (format=="MM/DD/YYYY"){
+		return String(dd+"\/"+ mm +"\/"+yyyy);
+	} else {
+		return String(yyyy+"\/"+mm+"\/"+ dd);
+	}
+	
 }
 // get distinct values from an array
 Array.prototype.distinct = function(){
@@ -707,6 +712,7 @@ app.utils.readAsText = function (file) {
 }
 */
 // ----------------------------------------------- Database Initialisation ------------------------------------------ //
+/*
 app.utils.initializeDB = function(db){
   try {
     if (db) {
@@ -725,6 +731,7 @@ app.utils.initializeDB = function(db){
    console.log(err);
   }
 }
+*/
 // ----------------------------------------------- Utilitaire de requêtes------------------------------------------ //
 app.utils.runQuery = function (query , param) {
     return $.Deferred(function (d) {
@@ -768,7 +775,7 @@ app.utils.findAll = function(callback) {
 		}
 	);
 }
-
+/*
 app.utils.loadFileIndiv = function (db){	
 	var dfd = $.Deferred();
 	var arr = [];
@@ -801,15 +808,14 @@ app.utils.loadFileIndiv = function (db){
 				//insertRow(req);
 				arr.push(app.utils.runQuery(query , []) ); 
            }
-		   /*localStorage.setItem('fileIndivLoaded', "true");
-		   $("#birdsHeader").html("Birds");
-		   $("#waitControlIndiv").attr('style', 'display:none;');*/
+
 		    $.when.apply(this, arr).then(function () {
 				return  dfd.resolve();
 			});
        }
     });
 }
+*/
 app.utils.checkURL = function(value) {
     var urlregex = new RegExp("^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
     if (urlregex.test(value)) {
@@ -988,7 +994,8 @@ app.utils.updateLayer = function(mapView){
 	var urlCount = serverUrl + "/station/list/count?" + "id_proto="+ params.id_proto + "&place=" 
 				+ params.place +"&region="+params.region +"&idate=" +params.idate +"&taxonsearch=" + params.taxonsearch ;
 	//get count
-	$.ajax({
+
+	app.xhr = $.ajax({
 		url: urlCount,
 		dataType: "json",
 		success: function(data) {
@@ -1063,7 +1070,7 @@ app.utils.updateLayer = function(mapView){
 				$("body").modal({
 				    backdrop: "static"
 				});
-				var alertView =  new app.views.AlertMapBox({cancel:true, featuresNumber : false});
+				var alertView =  new app.views.AlertMapBox({cancel:true, featuresNumber : featuresNumber});
 				$("#allDataMapAlert").empty();
 				$("#allDataMapAlert").append(alertView.render().$el);
 				$("#allDataMapAlert").addClass("dialogBoxAlert");
@@ -1085,7 +1092,7 @@ app.utils.updateLayer = function(mapView){
 				$("body").modal({
 				    backdrop: "static"
 				});
-				var alertView =  new app.views.AlertMapBox({featuresNumber:featuresNumber});
+				var alertView =  new app.views.AlertMapBox({featuresNumber:featuresNumber, cancel:false});
 				$("#allDataMapAlert").empty();
 				$("#allDataMapAlert").append(alertView.render().$el);
 				$("#allDataMapAlert").addClass("dialogBoxAlert");
@@ -1158,6 +1165,192 @@ app.utils.continueUpdateLayer = function(mapView){
 		mapView.updateLayer("Observations", params, center);
 	}
 }*/
+app.utils.getTrackFromPoints  = function (url,mapView){
+	var featurecollection;
+	var coordinates = [];
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var features = data.features;
+			var ln = features.length;
+			for(var i=0; i<ln;i++){
+				var pointCoordinates = [];
+				var pointLongitude = features[i].geometry.coordinates[0];
+				var pointLatitude = features[i].geometry.coordinates[1];
+				pointCoordinates.push(pointLongitude);
+				pointCoordinates.push(pointLatitude);
+				coordinates.push(pointCoordinates);
+			}
+			 featurecollection = {"type":"Feature",
+ 								"properties":{},
+ 								"geometry":{"type":"LineString", "coordinates":coordinates }
+ 								};
+ 			var tn = 0;
+ 			var geojson_format = new OpenLayers.Format.GeoJSON({
+			        'internalProjection': mapView.map.baseLayer.projection,
+			        'externalProjection': new OpenLayers.Projection("EPSG:4326")
+			    });
+           	var vector_layer = new OpenLayers.Layer.Vector("Line",{style: {strokeWidth: 1, strokeColor: "#ff0000", strokeOpacity: 1 }}); 
+          	mapView.map.addLayer(vector_layer);
+          	featurecollection = eval(featurecollection);
+           	vector_layer.addFeatures(geojson_format.read(featurecollection));
+		},
+		error: function() {
+			alert("error loading data, please check connexion to webservice");
+		}
+	});
+
+}
+app.utils.animatedLayer = function (url,mapView){
+	var featurecollection;
+	var coordinates = [];
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var features = data.features;
+			var ln = features.length;
+			data = eval( data );
+			var startDate = features[0].properties.date;
+			var endDate = features[ln-1].properties.date;
+			var spanEl = $("#intervalOfTime");
+			var interval = parseInt(spanEl.val(), 10) * 86400;
+			var endDate2 = startDate + interval ;
+			app.utils.AnimStartDate = startDate;
+			app.utils.AnimEndDate = endDate;
+
+		    var geojson_format = new OpenLayers.Format.GeoJSON({
+		        'internalProjection': mapView.map.baseLayer.projection,
+		        'externalProjection': new OpenLayers.Projection("EPSG:4326")
+		    });
+		    var filter = new OpenLayers.Filter.Comparison({
+			    type: OpenLayers.Filter.Comparison.BETWEEN,
+			    property: "date",
+			    lowerBoundary: startDate,
+			    upperBoundary: endDate2//new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+			});
+		    app.utils.AnimFilter = filter;
+			var filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});
+			app.utils.AnimfilterStrategy = filterStrategy ;
+			var vector_layer = new OpenLayers.Layer.Vector("animation",
+				{strategies: [ filterStrategy],
+					styleMap: new OpenLayers.StyleMap({
+					        "default": new OpenLayers.Style({
+					            /*
+					            graphicName: "circle",
+					            pointRadius: 4,
+					            fillOpacity: 0.7,
+					            fillColor: "#E8154A",  // 1A6921  -> red
+					            strokeColor: "#E8154A",
+					            strokeWidth: 1
+					            */
+					             externalGraphic: "images/positionMarker3.png",
+					             graphicWidth: 15, graphicHeight: 20, graphicYOffset: -37, graphicOpacity: 1
+        			})
+			})
+			}); 
+
+          	mapView.map.addLayer(vector_layer);
+           	vector_layer.addFeatures(geojson_format.read(data));
+           	
+		},
+		error: function() {
+			alert("error loading data, please check connexion to webservice");
+		}
+	});
+
+}
+app.utils.timlineLayer = function (url,mapView,callback){
+	var featurecollection;
+	var coordinates = [];
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var features = data.features;
+			var ln = features.length;
+			data = eval( data );
+			var startDate = features[0].properties.date;
+			var endDate = features[ln-1].properties.date;
+			
+			app.utils.timelineStartDate = startDate;
+			app.utils.timelineEndDate = endDate;
+
+		    var geojson_format = new OpenLayers.Format.GeoJSON({
+		        'internalProjection': mapView.map.baseLayer.projection,
+		        'externalProjection': new OpenLayers.Projection("EPSG:4326")
+		    });
+		    var filter = new OpenLayers.Filter.Comparison({
+			    type: OpenLayers.Filter.Comparison.BETWEEN,
+			    property: "date",
+			    lowerBoundary: startDate,
+			    upperBoundary: endDate//new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+			});
+		    app.utils.timelineFilter = filter;
+			var filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});
+			app.utils.timelinefilterStrategy = filterStrategy ;
+			var vector_layer = new OpenLayers.Layer.Vector("timeline",
+				{strategies: [ filterStrategy],
+					styleMap: new OpenLayers.StyleMap({
+					        "default": new OpenLayers.Style({
+					            /*graphicName: "circle",
+					            pointRadius: 4,
+					            fillOpacity: 0.7,
+					            fillColor: "#E8154A",
+					            strokeColor: "#E8154A",
+					            strokeWidth: 1*/
+					            /*
+					             externalGraphic: "images/positionMarker3.png",
+					             graphicWidth: 15, graphicHeight: 20, graphicYOffset: -37, graphicOpacity: 1 */
+					             graphicName: "circle",
+					            pointRadius: 4,
+					            fillOpacity: 0.7,
+					            fillColor: "#E8154A",  // 1A6921  -> red
+					            strokeColor: "#E8154A",
+					            strokeWidth: 1
+        			})
+			})
+			}); 
+
+          	mapView.map.addLayer(vector_layer);
+           	vector_layer.addFeatures(geojson_format.read(data));
+           	// init date values
+	        var stDate = new Date(startDate * 1000);
+	        // convert date format
+	        stDate = stDate.defaultView('YYYY/MM/DD')
+	        $("#objectsIndivMapSliderStartDate").text(stDate);
+	        var enDate = new Date(endDate * 1000);
+	        // convert date format
+	        enDate = enDate.defaultView('YYYY/MM/DD')
+	        $("#objectsIndivMapSliderEndDate").text(enDate);
+	        // set values for slider
+	        /*$("#dateSlider").attr("data-slider-min",startDate);
+	        $("#dateSlider").attr("data-slider-max",endDate);
+	         var sliderValue = "[" + startDate + "," + endDate + "]";
+	        $("#dateSlider").attr("data-slider-value",sliderValue);
+	        $("#dateSlider").attr("data-slider-step",86400);
+	         $("#dateSlider").slider({});*/
+	        // Change max
+	       
+	        if(stDate != enDate) {
+		        $("#dateSlider").slider({});
+		        $("#sliderwait").addClass("masqued");
+		        $("#dateSlider").data('slider').min = startDate;
+				$("#dateSlider").data('slider').max = endDate;
+				$("#dateSlider").data('slider').step = 86400;
+			} else {
+				$("#sliderContent").addClass("masqued");
+				$("#sliderMessage").removeClass("masqued");
+			}
+			callback();
+		},
+		error: function() {
+			alert("error loading data, please check connexion to webservice");
+		}
+	});
+
+}
 app.utils.updateLocation = function(mapView, point){
 	var exists = false;
 	var vector_layer = null;
@@ -1249,7 +1442,6 @@ app.utils.getUsersList  = function(element, url,isDatalist){
 			alert("error loading items, please check connexion to webservice");
 		}
 	});
-
 }
 app.utils.getViewsList  = function(id){
 	$('#export-views').empty();
@@ -1274,6 +1466,56 @@ app.utils.getViewsList  = function(id){
 			}
 		});
 	}
+}
+app.utils.getAreaList  = function(element, url,isDatalist){
+	$(element).empty();
+	$('<option value=""></option>').appendTo(element);
+	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var area = data[i].TStationsJoin.Area;
+				if (isDatalist){
+					$('<option value=\"'+ area +'\">' + "</option>").appendTo(element);
+				} else {
+					$('<option value=\"'+ area +'\">'+ area + "</option>").appendTo(element);
+				}
+			}
+		},
+		error: function() {
+			alert("error loading items, please check connexion to webservice");
+		}
+	});
+
+}
+app.utils.getLocalityList  = function(element, url,isDatalist){
+	$(element).empty();
+	$('<option value=""></option>').appendTo(element);
+	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var area = data[i].TStationsJoin.Locality;
+				if (isDatalist){
+					$('<option value=\"'+ area +'\">' + "</option>").appendTo(element);
+				} else {
+					$('<option value=\"'+ area +'\">'+ area + "</option>").appendTo(element);
+				}
+			}
+		},
+		error: function() {
+			alert("error loading items, please check connexion to webservice");
+		}
+	});
+
 }
 app.utils.generateFilter  = function(viewName){
 	// count nb rows
@@ -1762,7 +2004,7 @@ app.utils.getObjectDetails = function(backboneView,objectType,url){
 				i+=1;
 			}
 
-			$("#d0").append("<br/><a class='btn' id='objectsDetails'>details</a>");
+			$("#d0").prepend("<a class='btn' id='objectsDetails'>details</a><br/>");
 			// init map
 			//<div id='map' style='width:200px; height:150px'></div>
 			//var map_view = app.utils.initMap();
@@ -1865,6 +2107,10 @@ app.utils.GraphJsMaxY= function(max){
 	else if (max<4000){maxY = 4000;}	
 	else if (max<5000){maxY = 5000;}	
 	else if (max<10000){maxY = 10000;}
+	else if (max<15000){maxY = 15000;}
+	else if (max<20000){maxY = 20000;}
+	else if (max<50000){maxY = 50000;}
+	else if (max<100000){maxY = 100000;}
 	return maxY;
 }
 

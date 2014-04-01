@@ -49,7 +49,7 @@
                 this._currentView.off();
             }
             this._currentView = view;
-            $('section#main').append(view.el);
+            $('section#main').html(view.el);
             view.render();
     },
 	home: function(){

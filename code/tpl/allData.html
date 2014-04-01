@@ -5,27 +5,37 @@
 <div id="allDataMapAlert"></div>
 <div class="allDataFilterPanel non-printable" >
 	<fieldset>
-		<legend class="critLegend">search</legend>
-		<ul id="allData-searchId" class="unstyled"><li id="searchBtn"><a ><img src="images/Find-Replace.png" style="height:60px; width:60px;align-left:60px"/><img src="images/go.jpg"/></a></li></ul> 
+		<legend class="critLegend" id="allDataSearchLabel">search</legend>
+		<ul id="allData-searchId" class="unstyled"><li id="searchBtn"><a ><img src="images/FindAllData.png" id="allDataImgSearch"/></a></li></ul> 
 		
 	</fieldset>
 	<fieldset>
 		<legend class="critLegend">what</legend>
-		protocol: <br/><input type='text' value='12' id="id_proto">
+		protocol: <br/><input type='text' value='12' id="id_proto" >
 		<select id="select_id_proto"/><br/>	
 		taxon: <br/><input list="lTaxon" type="text" id="iTaxon" />
 		<datalist id="lTaxon"/>
 	</fieldset>
 	<fieldset>
 		<legend class="critLegend">where</legend>
-		locality: <br/><input type='text' id="place"/><br/>	
-		area: <br/><input type='text' id="region"/><br/>	
+		locality: <br/><!--<input type='text' id="place"/><br/>	-->
+		<input list="alldata-localityList" type="text" id="place" >    
+        <datalist id="alldata-localityList">
+              <option value=""> </option>
+        </datalist>
+        <br/>
+		area: <br/><!--<input type='text' id="region"/><br/>-->
+		<input list="alldata-regionList" type="text" id="region" >    
+        <datalist id="alldata-regionList">
+              <option value=""> </option>
+        </datalist> 
+        <br/>
 	</fieldset>
 	<fieldset>
 		<legend class="critLegend">when</legend>
-		interval of time <br/>
-		start date:<br/> <input type="date"" id="datedep" placeholder="YYYY-MM-JJ"/><br/>
-		end date:<br/>  <input type="date" id="datearr"placeholder="YYYY-MM-JJ"/><br/>
+		<p id="alldataCritDateLabel">interval of time <br/></p>
+		start date:<br/> <input type="date" id="datedep" placeholder="YYYY-MM-JJ" class="alldataInput"/><br/>
+		end date:<br/>  <input type="date" id="datearr" placeholder="YYYY-MM-JJ" class="alldataInput"/><br/>
 		Or select:<br/>
 		<div class="allData-btn-group">
 			<!--
@@ -47,6 +57,7 @@
 <div  id="allDataContent">
 	<div id="allDataMap">
 		<div style="width:700px; height:820px" id="map"></div>
+		<a class="btn masqued" id="allDataLoadTrack">load tracks</a>
 		<div id="allDataMapDataInfos"></div>
 	</div>
 	<div  id="allDataList">
@@ -59,6 +70,7 @@
 		<br/>
 		<!--<a class="btn non-printable" id="refreshTable" style="background:grey"><img src="images/Reload.png" style="height:60px; width:60px;" /></a><br/>  -->
 		<div><button  class="btn non-printable" id="refreshTable">refresh</button></div>
+
 		<div id="grid" >
 		</div><br/><br/>
 	</div>

@@ -4,12 +4,23 @@
     max-width: none;
 }
 /*****/
+/*
 #home-right {
-	background: rgba(0, 0, 0, 1);/*0.74*/
+	background: rgba(0, 0, 0, 1);
     min-height: 950px;
     color: white;
 	margin-left: 0px;
 	width: 33.64%;
+}
+*/
+#home-right {
+background: rgba(0, 0, 0, 1);
+min-height: 950px;
+color: white;
+margin-left: 0px;
+width: 450px;
+position: fixed;
+right: 0;
 }
 #infos {
 	background: black;
@@ -32,14 +43,14 @@
 }
 */
 #home-left {
-	background-image: url(../images/home_outarde2.jpg);
+	/*background-image: url(../images/home_outarde2.jpg);
 	background-repeat: no-repeat;
 	background-size: 100%;
-	background-position: top center;
+	background-position: top center;*/
 	padding-top: 20px;
 	min-height: 950px;
 }
-img.superbg {
+img#superbg {
     position:fixed;
     top:0;
     left:0;
@@ -108,14 +119,7 @@ line-height: 25px;
 padding: 10px;
 margin-left: 15px;
 }
-@-moz-document url-prefix()
-{
-    .tile.icon > a > img {
-    width: 64px;
-    height: 64px;
-    margin-top: 32px;
-	}
-}
+
 p#homePhotoCopyR {
 	text-align: left;
 	padding: 1.4em;
@@ -184,16 +188,19 @@ select[name="pagesizes"]{
 	cursor: pointer;
 }
 
-#exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures, #importNbWaypoints {
+#exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures, #importNbWaypoints,#alerMapBoxNbFeaturesCancel {
 	color: rgb(33, 122, 21);
 	font-size: x-large;
+}
+#exportPhoto {
+	float: right;
 }
 /*************************** import  *********************/
 #importLoadTrack a, #importInitSelection a {
 /*margin-left: 2.2em;*/
 background: #65604f;
 color: white;
-margin-top: 1em;
+margin: 1em;
 }
 #importLoadTrack a:hover, #importInitSelection a:hover {
 background: #9E9B90;
@@ -287,6 +294,31 @@ img#mapunselectfeatures {
 a.allData-criteriaBtn {
 	line-height: 15px;
 }
+#allDataImgSearch {
+	height:50px; 
+	width:160px;
+	align-left:60px;
+	border: white 1px solid;
+}
+.btnSelected {
+	background-color : rgb(119, 117, 117);
+	color: white;
+}
+.btnUnselected {
+	background-color :#CDCDCD;
+	color: black;
+}
+#allDataLoadTrack {
+	position: fixed;
+	margin-top: -50px;
+	z-index: 30000;
+	margin-left: 5px;
+	color: white;
+	background: #65604f;
+}
+a#allDataLoadTrack:hover{
+	background: #A09F9C;
+}
 /************** objects  ********************/
 div.tabbable div.tab-content {
 	color:black;
@@ -310,6 +342,24 @@ a#objectsMap:hover {
 span.objDescription{
 font-size: 17.5px;
 margin-right: 1em;
+}
+#objectsIndivMapSlider,#objectsIndivMapAnim {
+min-height: 20px;
+padding: 10px;
+margin-bottom: 20px;
+background-color: #E0E0E0;
+border: 1px solid #e3e3e3;
+border-radius: 4px;
+}
+#objectsIndivMapSliderStartDate, #objectsIndivMapSliderEndDate {
+	font-size: small;
+	margin: 0.8em;
+}
+#intervalOfTime {
+margin-top: 0.5em;
+}
+#objAnimConent{
+margin-top: 3em;
 }
 /**********************************************/
 /* Top bar with actions, menu and all */
@@ -389,6 +439,7 @@ body.loading #logo {
 #main-nav .thumbnails {margin: 0; background-color: #000; z-index: 20000;}
 [class^="tile-icon-"], [class*=" tile-icon-"] {display: inline-block; width: 64px; height: 64px; margin-top: 1px; vertical-align: text-top; background-repeat: no-repeat;}
 .thumbnails > li.tile h2 {margin-top: inherit;}
+
 #static-menu {margin-left: 5px;}
 #static-menu > li > a {margin: 0 10px 0 4px; font-weight: bold; font-size: smaller; padding: 13px 10px 7px; font-family: FontAwesome;}
 #static-menu > li:before {content: '|'; position: absolute; top: 7px;}

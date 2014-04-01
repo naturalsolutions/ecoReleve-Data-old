@@ -149,11 +149,10 @@ app.views.HomeView = app.views.BaseView.extend({
         }*/
 	},
     afterRender: function () {
-       /* this.resizeImage();
-        var self = this;
-        $(window).bind('resize', function () { 
-            self.resizeImage();
-        });*/
+        $("#supersized").html("");
+       $.supersized({
+            slides  :   [ {image : 'images/home_outarde_paysage.jpg'} ]
+        });
         this.serverUrl = localStorage.getItem( "serverUrl");
          this.loadStats();
         var d = (new Date()+'').split(' ');
@@ -162,10 +161,7 @@ app.views.HomeView = app.views.BaseView.extend({
          var date =  [d[1], d[2],d[3]].join(' ');
         // Feb 1  2014 ...
         $("#date").html(date);
-        var body_width = $(window).width(); 
-        if (body_width < 1300 ){
-            $("canvas").attr("width", "350px");
-        }
+
         $( "div.modal-backdrop" ).removeClass("modal-backdrop");
         
         $(window).on('hashchange', function(e){
@@ -183,7 +179,7 @@ app.views.HomeView = app.views.BaseView.extend({
 		if (navigator.onLine == true){
 			//var serverUrl = localStorage.getItem( "serverUrl");
 			if ((this.serverUrl === undefined) || (this.serverUrl ==null)){
-					alert ("Please configurate the server url ");
+				alert ("Please configurate the server url ");
 			}
 			else {
 				app.router.navigate('#allData', {trigger: true});
@@ -206,13 +202,11 @@ app.views.HomeView = app.views.BaseView.extend({
 		}
 	},
     resizeImage : function(){ 
-        var $image = $('img.superbg');
+        var $image = $('img#superbg');
         var image_width = $image.width(); 
         var image_height = $image.height();     
-         
         var over = image_width / image_height; 
         var under = image_height / image_width; 
-         
         var body_width = $(window).width(); 
         var body_height = $(window).height(); 
          
@@ -415,6 +409,11 @@ app.views.ExportView = app.views.BaseView.extend({
         //$(".modal-content").css({"width": "600px","max-width": "800px", "min-height": "500px","margin": "5%"});
        /* $(".modal-header").css({"background": "red"});
         $(".modal-body").css({"background": "white","color":"black"});*/
+          // remove background image
+          $.supersized({
+            slides  :   [ {image : ''} ]
+        });
+
         app.utils.getItemsList("#export-themes","/views/themes_list");
     },
     events :{
@@ -1248,6 +1247,10 @@ app.views.AllDataView = app.views.BaseView.extend({
     template: "allData",
     afterRender: function(options){ 
        // try{
+            // remove background image
+              $.supersized({
+                slides  :   [ {image : ''} ]
+            });
             // masqued fields
             $('#id_proto').hide();
             $('#idate').hide();
@@ -1262,11 +1265,11 @@ app.views.AllDataView = app.views.BaseView.extend({
                     $xml=$(xmlDoc),
                     $protocoles=$xml.find("protocole");
                     // init select control with empty val
-                    $('<option id= 0 ></option>').appendTo('#select_id_proto');
+                   // $('<option id= 0 ></option>').appendTo('#select_id_proto');
                     $protocoles.each(function(){
                         $('<option id=\"'+$(this).attr('id')+'\" value=\"'+$(this).text()+'\">'+$(this).text()+'</option>').appendTo('#select_id_proto');
                     });
-                    $("#select_id_proto option[id='0']").attr('selected','selected');
+                    $("#select_id_proto option[id='12']").attr('selected','selected');
                 }
             });
             var dataContainer = $("#main")[0];   //var myDataTable = $("#myDataTable")[0];
@@ -1295,12 +1298,15 @@ app.views.AllDataView = app.views.BaseView.extend({
             $("#allDataList").hide();
             var  point = new NS.UI.Point({ latitude : 34, longitude: 44, label:""});
             this.map_view = app.utils.initMap(point, 3);
+            this.map_view.addLayer({layerName : "tracks"}); 
             $( "label, input,button, select " ).css( "font-size", "15px" );
             //datalist of taxons
             app.utils.fillTaxaList();
        /* } catch (e) {
             app.router.navigate('#', {trigger: true});
         }*/
+            // get area list 
+            this.getAreaList();
     }    
     ,events : {
         'change #select_id_proto' : 'updateTable',
@@ -1320,30 +1326,54 @@ app.views.AllDataView = app.views.BaseView.extend({
         'click #featureOnTheMap' : 'zoomMapToSelectedFeature',
         'click div.olControlSelectFeatureItemActive.olButton' : "deletePositionLayer",
         'click #alldataAlertYes' : 'continueGeoQuery',
-        'click #alldataAlertNo' : 'resetGeoQuery'
+        'click #alldataAlertNo' : 'resetGeoQuery',
+        'click #allDataLoadTrack':'loadTrack'
+    },
+    getAreaList : function(){
+        var idProtocol = $("#id_proto").attr("value");
+        app.utils.getAreaList("#alldata-regionList","/station/area?id_proto=" + idProtocol ,true);
+        app.utils.getLocalityList("#alldata-localityList","/station/locality?id_proto=" + idProtocol ,true);
     },
     updateTable: function(){
         //this.updateControls();
+        $("#iTaxon").val("");
+        $("#place").val("");
+        $("#region").val("");
         $("#id_proto").attr("value",($("#select_id_proto option:selected").attr('id')));
          app.utils.fillTaxaList();
+         this.getAreaList();
     },
     updateDateWeek : function(){
-        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
-        $("#btnW").css({"background-color" : "rgb(150,150,150)"});
+       // $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        $(".allData-criteriaBtn").removeClass("btnSelected");
+        $(".allData-criteriaBtn").addClass("btnUnselected");
+       // $("#btnW").css({"background-color" : "rgb(119, 117, 117)"});
+        $("#btnW").removeClass("btnUnselected");
+        $("#btnW").addClass("btnSelected");
         $('#idate').text("week");   
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
     },
     updateDateMonth : function(){
-        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
-        $("#btnM").css({"background-color" : "rgb(150,150,150)"});
+        $(".allData-criteriaBtn").removeClass("btnSelected");
+        $(".allData-criteriaBtn").addClass("btnUnselected");
+        //$(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        //$("#btnM").css({"background-color" : "rgb(119, 117, 117)"});
+         $("#btnM").removeClass("btnUnselected");
+        $("#btnM").addClass("btnSelected");
+       
         $('#idate').text("month");   
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
     },
     updateDateYear : function(){
-        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
-        $("#btnY").css({"background-color" : "rgb(150,150,150)"});
+        $(".allData-criteriaBtn").removeClass("btnSelected");
+        $(".allData-criteriaBtn").addClass("btnUnselected");
+        //$(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        //$("#btnY").css({"background-color" : "rgb(119, 117, 117)"});
+         $("#btnY").removeClass("btnUnselected");
+        $("#btnY").addClass("btnSelected");
+
         $('#idate').text("year");   
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
@@ -1363,8 +1393,13 @@ app.views.AllDataView = app.views.BaseView.extend({
         $("#datearr").attr('value',"");   
     },*/
     resetdate : function(){
-        $(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
-        $("#btnReset").css({"background-color" : "rgb(150,150,150)"});
+        $(".allData-criteriaBtn").removeClass("btnSelected");
+        $(".allData-criteriaBtn").addClass("btnUnselected");
+        $("#btnReset").removeClass("btnUnselected");
+        $("#btnReset").addClass("btnSelected");
+        //$(".allData-criteriaBtn").css({"background-color" : "#CDCDCD"});
+        //$("#btnReset").css({"background-color" : "rgb(150,150,150)"});
+
         $('#idate').text("");
         $("#datedep").attr('value',"");
         $("#datearr").attr('value',"");
@@ -1415,6 +1450,8 @@ app.views.AllDataView = app.views.BaseView.extend({
                 $("img#mapunselectfeatures").css("z-index","1008");
                 $("img#mapunselectfeatures").css("right", "85px");
                 $("img#mapunselectfeatures").css("top", "4px");*/
+        // display button loading tracks
+        $("#allDataLoadTrack").removeClass("masqued");
     },
     updateMap : function(){
         app.utils.updateLayer(this.map_view);
@@ -1540,6 +1577,17 @@ app.views.AllDataView = app.views.BaseView.extend({
 
         // $("#alldataAlert").addClass("masqued");
          $("#waitControl").remove(); 
+    },
+    loadTrack  : function(){
+        var action = $('#allDataLoadTrack').text();
+        if (action =="load tracks"){
+            var url = "ressources/shp800.geojson"; 
+            this.map_view.updateLayer("tracks",url); 
+            $('#allDataLoadTrack').text('remove tracks');
+        } else {
+            this.map_view.removeLayer("tracks");
+            $('#allDataLoadTrack').text('load tracks');
+        }
     }
 }); 
 app.views.AlertMapBox = app.views.BaseView.extend({
@@ -1550,23 +1598,29 @@ app.views.AlertMapBox = app.views.BaseView.extend({
     },
     afterRender : function() {
         // display features number 
-        if (this.featuresNumber) {
-            var self = this;
-            setTimeout(function() {
-                $("#alerMapBoxNbFeatures").text(self.featuresNumber);
-            }, 200);
-        }
+        var self = this;
         if (this.cancelLoading){
              setTimeout(function() {
                 $("#alerMapBoxLoad").addClass("masqued");
                 $("#alerMapBoxCancelLoad").removeClass("masqued");
+                $("#alerMapBoxNbFeaturesCancel").text(self.featuresNumber);
             }, 200);
         }
+        else {
+            setTimeout(function() {
+                $("#alerMapBoxNbFeatures").text(self.featuresNumber);
+            }, 200);
+        }
+        
     }
 }); 
 app.views.Import = app.views.BaseView.extend({
     template: "import" ,
     initialize : function(options) {
+        // remove background image
+          $.supersized({
+            slides  :   [ {image : ''} ]
+        });
     }
 }); 
 app.views.ImportLoad = app.views.BaseView.extend({
@@ -1697,7 +1751,7 @@ app.views.ImportMap = app.views.BaseView.extend({
     loadTrack  : function(){
         var action = $('#importLoadTrack a').text();
         if (action =="load tracks"){
-            var ajaxCall = { url : "ressources/shp800.geojson", format: "GEOJSON"};
+            //var ajaxCall = { url : "ressources/shp800.geojson", format: "GEOJSON"};
             //this.mapView.addLayer({ajaxCall : ajaxCall , layerName : "tracks"}); 
             var url = "ressources/shp800.geojson"; 
             this.mapView.updateLayer("tracks",url); 
@@ -1782,15 +1836,21 @@ app.views.importEndStep = app.views.BaseView.extend({
     template: "import-endStep",
     afterRender : function(options) {
         app.collections.selectedWaypoints = null;
-        app.collections.waypointsList = null;
+        //app.collections.waypointsList = null;
+        app.collections.waypointsList.save();
     }
 });
 // $objects
 app.views.objects = app.views.BaseView.extend({
     template: "objects" ,
     afterRender : function(options) {
+        // remove background image
+          $.supersized({
+            slides  :   [ {image : ''} ]
+        });
         app.utils.fillObjectsTable();
         this.children = [];
+        this.intervalAnimation = 0.3; //0.125; // for indiv animation on the map
     },
     removeAllChildren: function() {
     _.each(this.children, function(view) { 
@@ -1806,8 +1866,11 @@ app.views.objects = app.views.BaseView.extend({
        'click #objectsReturn' : 'maskBox',
        'click #objectMapClose' : 'maskBox',
        'click #objectsDetails' : 'objectDetails',
-       'click a.objTab' : 'closeInfosPanel'
+       'click a.objTab' : 'closeInfosPanel',
        //'click #objectsHistory' : 'displayHistoy'
+       'click #animationStart' : 'startAnimation',
+       'click #animationStop' : 'stopAnimation',
+       'click #animationInit' : 'initAnimation'
     },
     selectTableElement : function(e){
         var ele  = e.target.parentNode.nodeName;
@@ -1851,6 +1914,53 @@ app.views.objects = app.views.BaseView.extend({
     objectDetails : function(){
         var url = this.objectUrl ; 
         app.utils.displayObjectDetails(this,this.objectType, url,this.idSelectedIndiv);
+    },
+    startAnimation : function(){
+        $("#dateIntervalDisplay").removeClass("masqued");
+        var startDate = app.utils.AnimStartDate;
+        var endDate = app.utils.AnimEndDate;
+        var spanEl = $("#intervalOfTime");
+        var interval = parseInt(spanEl.val(), 10) * 86400;  
+        if (this.animationTimer) {
+            this.stopAnimation(true);
+        }
+        if (!this.currentDate) {
+            this.currentDate = startDate;
+        }
+        var filter = app.utils.AnimFilter;
+        var filterStrategy = app.utils.AnimfilterStrategy;
+        var self = this;
+        var next = function() {
+            if (self.currentDate < endDate) {
+                filter.lowerBoundary = self.currentDate;
+                filter.upperBoundary = self.currentDate + interval ;  // + interval
+                filterStrategy.setFilter(filter);
+                self.currentDate = self.currentDate + interval ;
+                var stDate = new Date(self.currentDate * 1000);
+                $("#animationStartDate").text(stDate.defaultView('YYYY/MM/DD'));  // convert date format from timestamp to YYYY/MM/DD
+                var  eDate = new Date((self.currentDate  + interval) * 1000);
+                $("#animationEndDate").text(eDate.defaultView('YYYY/MM/DD'));
+
+            } else {
+                self.stopAnimation(true);
+            }
+        };
+        this.animationTimer = window.setInterval(next, this.intervalAnimation * 1000);
+    },
+    stopAnimation : function(reset){
+        window.clearInterval(this.animationTimer);
+        this.animationTimer = null;
+        if (reset === true) {
+            this.currentDate = null;
+        }
+    },
+    initAnimation : function (){
+        this.currentDate = app.utils.AnimStartDate;
+        window.clearInterval(this.animationTimer);
+        this.animationTimer = null;
+        $("#animationStartDate").text("");  
+        $("#animationEndDate").text("");
+        $("#dateIntervalDisplay").addClass("masqued");
     }
 });
 app.views.ObjectMapBox = app.views.BaseView.extend({
@@ -1862,6 +1972,8 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
         this.idSelectedIndiv = options.id;
     },
     afterRender : function() {
+        // apply slider look
+        $("#dateSlider").slider({});
         var self = this;
         setTimeout(function() {
             var url = self.url + "?format=geojson";
@@ -1869,15 +1981,25 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
             var mapView = app.utils.initMap(point,3);
             self.map_view = mapView;
             self.displayWaitControl();
-            /*
-            var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["FIXED", "ANIMATEDCLUSTER"], cluster:true, popup : false, zoomToExtent:true});
-            mapView.addLayer({protocol : protocol , layerName : "positions", zoomToExtent: true, zoom:3});   //, center: center, zoom:3 
-            */
+            // layer with clustored data
             var ajaxCall = { url : url, format: "GEOJSON", cluster:true};
             mapView.addLayer({ajaxCall : ajaxCall , layerName : "positions",  zoom:3 ,zoomToExtent : true}); 
+            /*
+            // layer with timeline
+            app.utils.timlineLayer (url, mapView);
+            // layer with animated positions
+            app.utils.animatedLayer (url, mapView);
+            */
+            //self.parentView.children.push(mapView);
+            app.utils.timlineLayer (url, mapView, function(){
+                app.utils.animatedLayer(url, mapView);
+            });
+            $("#dateSlider").slider().on('slideStop', function(){
+            // get range of date and update layer
+            var interval = $("#dateSlider").data('slider').getValue();
+            self.updateTimeLineLayer(interval);
+       });
 
-            self.parentView.children.push(mapView);
-            // $("#objectOnMapId").text(self.idSelectedIndiv);
          }, 500);
     },
     displayWaitControl : function (){
@@ -1889,6 +2011,15 @@ app.views.ObjectMapBox = app.views.BaseView.extend({
         if ($("#waitControl").length == 0) {
             $(mapDiv).append(ele);
         }
+    },
+    updateTimeLineLayer : function (interval){
+        var dateMin = interval[0];
+        var datMax = interval[1];
+        var filter = app.utils.timelineFilter;
+        var filterStrategy = app.utils.timelinefilterStrategy;
+        filter.lowerBoundary = dateMin;
+        filter.upperBoundary = datMax ;  
+        filterStrategy.setFilter(filter);
     }
 }); 
 app.views.ObjectHistoryBox = app.views.BaseView.extend({
@@ -1972,7 +2103,7 @@ app.views.ObjectHistoryBox = app.views.BaseView.extend({
                                 $("#objectHistoryTable").append(lineHtml);
                                 */    
                                 //
-                                var value = element["value_precision"] || "";
+                                var value = element["value_precision"] || element["value"];
                                 var begin_date = element["begin_date"] || "";
                                 var end_date = element["end_date"] || "" ;
                                 var historyItem = new app.models.HistoryItem();
@@ -2004,10 +2135,12 @@ app.views.ObjectDetails = app.views.BaseView.extend({
         this.url = options.url;
         this.idSelectedIndiv = options.id;
         this.objectType = options.objectType;
+
     },
     afterRender : function() {
         var self = this;
         setTimeout(function(){
+            $("#objectDetailsType").text(self.objectType);
             // add map view for individuals
             if (self.objectType =="individual") {
                 app.utils.displayObjectPositions(self.parentView, self.url,self.idSelectedIndiv);
@@ -2026,11 +2159,15 @@ app.views.ObjectDetails = app.views.BaseView.extend({
 app.views.Argos = app.views.BaseView.extend({
     template: "argos" ,
     afterRender : function(options) {
+        // remove background image
+          $.supersized({
+            slides  :   [ {image : ''} ]
+        });
         this.loadStats();
     },
         loadStats : function(){
             var serverUrl = localStorage.getItem("serverUrl");
-            var url = serverUrl + "/argos/stat?format=json";
+            var url = serverUrl + "/sensor/stat?format=json"; 
             $.ajax({
                 url: url,
                 dataType: "json",
@@ -2038,7 +2175,7 @@ app.views.Argos = app.views.BaseView.extend({
                     var labels  = data["label"].reverse();
                     var nbArgos = data["nbArgos"].reverse();
                     var nbGps = data["nbGPS"].reverse();
-                    var nbPtt = data["nbPTT"].reverse();
+                    //var nbPtt = data["nbPTT"].reverse();
                     // Sum of values in each table
                     /*var sumArgos = 0;var sumGps = 0;var sumPtt = 0;
                     $.each(nbArgos,function(){sumArgos+=parseFloat(this) || 0;});
@@ -2047,7 +2184,7 @@ app.views.Argos = app.views.BaseView.extend({
                     // convert values in Arrays to int
                     nbArgos = app.utils.convertToInt(nbArgos);
                     nbGps = app.utils.convertToInt(nbGps);
-                    nbPtt = app.utils.convertToInt(nbPtt);
+                    //nbPtt = app.utils.convertToInt(nbPtt);
                     var graphData = {
                         labels : labels,
                         datasets : [
@@ -2086,14 +2223,15 @@ app.views.Argos = app.views.BaseView.extend({
                     var lastDate =  labels[labels.length - 1];
                     var lastArgosValue = nbArgos[nbArgos.length - 1];
                     var lastGpsValue = nbGps[nbGps.length - 1];
-                    var lastPttValue = nbPtt[nbPtt.length - 1];
+                    //var lastPttValue = nbPtt[nbPtt.length - 1];
                     // data for last day
                     $("#argosDate").text(lastDate);
                     $("#argosValues").text(parseFloat(lastArgosValue) + parseFloat(lastGpsValue) );
-                    $("#argosPtt").text(lastPttValue);
+                    //$("#argosPtt").text(lastPttValue);
                 },
                 error: function(data) {
                    // $("#homeGraphLegend").html("error in loading data ");
+                   alert("error loading data. please check webservice.");
                 }
             });
     }

@@ -9650,6 +9650,17 @@ OpenLayers.Map = OpenLayers.Class({
             if (map.baseLayer.wrapDateLine) {
                 zoom = map.adjustZoom(zoom);
             }
+			// bug gmap
+			var center = xy ?
+            map.getZoomTargetCenter(xy, map.getResolutionForZoom(zoom)) :
+            map.getCenter();
+             if (center) {
+                 map.events.triggerEvent('zoomstart', {
+                     center: center,
+                     zoom: zoom
+                 });
+             }
+			 // fin bug gmap
             if (map.zoomTween) {
                 var currentRes = map.getResolution(),
                     targetRes = map.getResolutionForZoom(zoom),
@@ -9685,9 +9696,10 @@ OpenLayers.Map = OpenLayers.Class({
                     });
                 }
             } else {
-                var center = xy ?
+				// bug gmap
+                /* var center = xy ?
                     map.getZoomTargetCenter(xy, map.getResolutionForZoom(zoom)) :
-                    null;
+                    null;*/
                 map.setCenter(center, zoom);
             }
         }
@@ -13924,6 +13936,7 @@ OpenLayers.Layer.EventPane = OpenLayers.Class(OpenLayers.Layer, {
         if (this.mapObject == null) {
             this.loadWarningMessage();
         }
+		this.map.events.register('zoomstart', this, this.onZoomStart); //bug gmap
     },
 
     /**
@@ -13935,12 +13948,25 @@ OpenLayers.Layer.EventPane = OpenLayers.Class(OpenLayers.Layer, {
      * map - {<OpenLayers.Map>}
      */
     removeMap: function(map) {
+		this.map.events.unregister('zoomstart', this, this.onZoomStart); //bug gmap
         if (this.pane && this.pane.parentNode) {
             this.pane.parentNode.removeChild(this.pane);
         }
         OpenLayers.Layer.prototype.removeMap.apply(this, arguments);
     },
-  
+	/**
+      * Method: onZoomStart //bug gmap
+      *
+      * Parameters:
+      * evt - zoomstart event object with center and zoom properties.
+      */
+     onZoomStart: function(evt) {
+         if (this.mapObject != null) {
+             var center = this.getMapObjectLonLatFromOLLonLat(evt.center);
+             var zoom = this.getMapObjectZoomFromOLZoom(evt.zoom);
+             this.setMapObjectCenter(center, zoom, false);
+         }
+     },
     /**
      * Method: loadWarningMessage
      * If we can't load the map lib, then display an error message to the 
