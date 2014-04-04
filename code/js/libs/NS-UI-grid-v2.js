@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Grid view
  */
 
@@ -309,11 +309,13 @@ NS.UI = (function(ns) {
             'click .pagination [data-target]': 'onPage',
             'click .sort-action': 'onSort',
             'click .filter-action': 'toggleFilter',
+            'click .clear-filters button': 'clearAllFilters',
             'submit .filter-form form': 'addFilter',
             'input .filter-form input[type="number"]': 'onNumberInput',
             'reset .filter-form form': 'clearFilter',
             'change .pagination select[name="pagesizes"]': 'onPageRedim',
             'click .dateSection input[name="choose"]' : "onDateFilter",
+            'click input[type="radio"]' : "selectBtn"
         },
         initialize: function(options) {
             BaseView.prototype.initialize.apply(this, arguments);
@@ -336,6 +338,15 @@ NS.UI = (function(ns) {
                 this.setCollection(options.collection);
 
             this._numberRegexp = new RegExp('^([0-9]+|[0-9]*[\.,][0-9]+)$');
+        },
+        selectBtn : function(e) {
+            var element = e.target;
+            var elementName =  $(element).attr("name");
+            var ele = "input[name='" + elementName + "']";
+            $(ele).attr('checked',false);
+            $(element).attr('checked',true);
+
+
         },
         setCollection: function(c) {
             if (this.collection)
@@ -403,18 +414,14 @@ NS.UI = (function(ns) {
                             var obj = this.grid.filters[this.prefix + id], formater = new ns.DateFormater();
                             if (obj !== undefined) {
                                 //  Split for separator option (between, after, ...) and value(s)
-                                /*var valToSplit = obj.split(":"), opt = valToSplit[0];
+                                var valToSplit = obj.split(":"), opt = valToSplit[0];
                                 valToSplit.shift();
                                 valToSplit = valToSplit.join(":");
                                 var value = valToSplit.split(";");
-                                */
-						
-								 var value = opt;
-								 opt = "same";
-								 
+                                
                                 header.filter = {
                                     type: field.type,
-                                    val: formater.format(new Date(obj), format),
+                                    val: formater.format(new Date(value[0]), format),
                                     selectedOption: opt
                                 };                                
                                 if (opt === "between") {
@@ -518,7 +525,8 @@ NS.UI = (function(ns) {
                 pageSizes: this.pageSizes,
                 pageSize: this.pageSize,
                 headerIterator: this.getHeaderIterator(),
-                pager: pagerData
+                pager: pagerData,
+                filtersDisabled: this.disableFilters
             };
         },
         beforeRender: function() {
@@ -544,6 +552,9 @@ NS.UI = (function(ns) {
             this.$el.find('th input[type="date"]').each($.proxy(function(idx, elt) {
                 this.addDatePicker(elt);
             }, this));
+            if (!this.disableFilters && this.$el.find('thead th form.active').length) {
+                this.$el.find('.clear-filters button').prop('disabled', false);
+            }
         },
         addDatePicker: function(element) {
             // Can be overridden by users to activate a custom datepicker on date inputs
@@ -565,6 +576,9 @@ NS.UI = (function(ns) {
                     val = $input.val();
             $input.toggleClass('error', val != '' && !this._numberRegexp.test(val));
         },
+        clearAllFilters: function(e) {
+            this.trigger('unfilter');
+        },
         clearFilter: function(e) {
             var $form = $(e.target);
             this.trigger('unfilter', $form.data('id'));
@@ -577,8 +591,22 @@ NS.UI = (function(ns) {
                     key = $form.data('id');
             switch ($form.data('type')) {
                 case 'Text':
+                    var options = $form.find('input[type="radio"][checked="checked"]').val();
                     var val = $form.find('[name="val"]').val();
                     val = $.trim(val);
+                    switch (options) {
+                            case "same" : 
+                            val = "exact:" + val;
+                            break;
+                            case "begins" : 
+                            val = "begin:" + val;
+                            break;
+                            case "ends" : 
+                            val = "end:" + val;
+                            break;
+                            case "contains" : 
+                            break;
+                    }        
                     break;
                 case 'Number':
                     var val = $form.find('[name="val"]').val();
@@ -589,37 +617,69 @@ NS.UI = (function(ns) {
                         val = '';
                     break;
                 case 'Date':
-                    var options = $form.find('input[type="radio"]:checked').val();
+                    var options = $form.find('input[type="radio"][checked="checked"]').val();
                     
                     if (_.contains(["same", "between", "after", "before"], options)) {
                         //  options with value
-                        var val = $.trim($form.find('[name="val"]').val()), parts;
+                        var val = $.trim($form.find('[name="val"]').val()),
+                            parts,
+                            formater = new ns.DateFormater();;
                         
                         if (options === "between") {
-                            var firstVal = val, secondVal = $.trim($form.find(".valBetween").val());        
-                            if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(secondVal) || !/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(firstVal)) {                                
+                            var firstVal = val, secondVal = $form.find(".valBetween").val();
+                            //if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(secondVal) || !/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(firstVal)) {  adaptation ERD
+                            if (!/^\d{2,4}\-\d{1,2}\-\d{1,2}$/.test(secondVal) || !/^\d{2,4}\-\d{1,2}\-\d{1,2}$/.test(firstVal)){
                                 val = '';
                                 break;
                             }
-                            //  to check
-                            var formater = new ns.DateFormater();
 
-                            firstVal    = formater.getDate(firstVal, this.dateFormat);
-                            secondVal   = formater.getDate(secondVal, this.dateFormat);
-                            
-                            if (firstVal - secondVal <= 0 && isFinite(secondVal) && isFinite(firstVal)) {
-                                secondVal.setMinutes(secondVal.getMinutes() - secondVal.getTimezoneOffset());
-                                val = firstVal.toISOString() + ";" + secondVal.toISOString();
+                            if (secondVal == firstVal ){
+                                val = firstVal;
                             } else {
-                                val = "";
-                                break;
+                                var dateMin,dateMax;
+                                if (secondVal > firstVal){
+                                    dateMin = firstVal;
+                                    dateMax = secondVal;
+                                } else {
+                                    dateMin = secondVal;
+                                    dateMax = firstVal;
+                                }
+                                // between -> interval of time that integrate two borns, so before -> before dateMax + 1 day && after -> after dateMin - 1
+                                var dtMax = new Date(dateMax);
+                                var dtMin = new Date(dateMin);
+                                // convert date to format "yyyy-mm-dd"
+                                var dtMaxMonth = dtMax.getMonth()+1;
+                                var dtMaxDay = dtMax.getDate() + 1;
+                                 var dtMinMonth = dtMin.getMonth()+1;
+                                var dtMinDay = dtMin.getDate() - 1;
+
+                                // convert format month "MM"
+                                if (dtMaxMonth <10) {dtMaxMonth = "0" + dtMaxMonth;}  
+                                if (dtMaxDay <10) {dtMaxDay = "0" + dtMaxDay;}   
+                                if (dtMinMonth <10) {dtMinMonth = "0" + dtMinMonth;}  
+                                if (dtMinDay <10) {dtMinDay = "0" + dtMinDay;}     
+
+                                var strDateMax = dtMax.getFullYear() + "-" + dtMaxMonth +"-" + dtMaxDay;
+                                var strDateMin = dtMin.getFullYear() + "-" + dtMinMonth +"-" + dtMinDay;
+                             
+                                 val = "before:" + strDateMax +"&filters[]=DATE:after:" + strDateMin;
+
                             }
+
                         } else {
-                            //if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(val)) {
-							 if (!/^\d{2,4}\-\d{1,2}\-\d{1,2}$/.test(val)) {
+                            //if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(val)) {     //adaptation to ERD
+                                 if (!/^\d{2,4}\-\d{1,2}\-\d{1,2}$/.test(val)) {
                                 val = '';
                                 break;
+                            } else if (options !="same"){
+                               val = options + ":" + val; 
                             }
+
+
+                            //val = formater.getDate(val, this.dateFormat).toISOString(); //adaptation to ERD
+
+
+
                             // Beware of new Date(s), if s is 01/10/2012, it is interpreted as Jan 10, 2012
                             /*parts   = val.split('/');
                             var year = (parts[2].length < 4) ? parseInt(parts[2]) + 2000 : parts[2];
@@ -638,30 +698,36 @@ NS.UI = (function(ns) {
                     } else {
                         //  predefined value
                         var today = new Date();
+                        var strDate ; 
                         today.setHours(1, 0, 0, 0, 0);
                         
                         switch (options) {
                             case "lastYear" : 
                                 var lastYear = new Date(today);
                                 lastYear.setFullYear( lastYear.getFullYear() - 1);
-                                val = lastYear.toISOString() + ";" + today.toISOString();
+                                strDate = lastYear.toISOString() ;
+                                val = "after:" + strDate.split("T")[0];
                             break;
                             case "lastWeek" : 
                                 var lastWeek = new Date(today);
-                                lastWeek.setDate( lastWeek.getDate() - 7);
-                                val = lastWeek.toISOString() + ";" + today.toISOString();
+                                lastWeek.setDate( lastWeek.getDate() - 8);
+                                strDate = lastWeek.toISOString() ;
+                                val = "after:" + strDate.split("T")[0];
                                 break;
                             case "lastMonth" : 
                                 var lastMonth = new Date(today);
                                 lastMonth.setMonth( lastMonth.getMonth() - 1);
-                                val = lastMonth.toISOString() + ";" + today.toISOString();
+                                strDate = lastMonth.toISOString() ;
+                                val = "after:" + strDate.split("T")[0];
                                 break;
                             case "today" : 
-                                val = today.toISOString();
+                                strDate = today.toISOString();
+                                val = strDate.split("T")[0];
                                 break;
                             case "yesterday" : 
                                 today.setDate( today.getDate() - 1);
-                                val = today.toISOString();
+                                strDate = today.toISOString() ;
+                                val = strDate.split("T")[0];
                                 break;
                         }
                     }
@@ -677,7 +743,7 @@ NS.UI = (function(ns) {
             } else if (val != '') {
                 //  _.contains( ["Text", "Date"], $form.data('type'));
                 if ($form.data('type') === 'Text' || $form.data('type') === "Date") {
-                    this.trigger('filter', key, val, $form.find(":checked").val());
+                    this.trigger('filter', key, val, $form.find('input[type="radio"][checked="checked"]').val());
                 } else {
                     this.trigger('filter', key, val);
                 }
@@ -709,10 +775,10 @@ NS.UI = (function(ns) {
         },
                 
         onDateFilter: function(event) {
-            var form    = $(event.target).closest("form");            
-            var val     = $(event.target).val();            
+            var form    = $(event.target).closest("form");
+            var val     = $(event.target).val();
 
-            if (_.contains(["same", "before", "after", "between"], val)) {                
+            if (_.contains(["same", "before", "after", "between"], val)) {
                 //  show input
                 $(form).find("input[name='val']").show();
                 if (val === "between") {
@@ -722,7 +788,7 @@ NS.UI = (function(ns) {
                     $(form).find("#pBetween").hide();
                     $(form).find(".valBetween").hide();
                     $(form).find(".valBetween").val("");
-                }                
+                }
             } else {
                 //  hide input
                 $(form).find("#pBetween").hide();
@@ -787,6 +853,7 @@ NS.UI = (function(ns) {
                 '</select>' +
                 'rows per page' +
                 '</span>' +
+                '<% if (!data.filtersDisabled) { %><span class="clear-filters"><button class="btn clear-filters" disabled>Clear all filters</button></span><% } %>' +
                 '</div>' +
                 '<% } %>' +
                 '<table class="table table-bordered">' +
@@ -801,38 +868,37 @@ NS.UI = (function(ns) {
                 '                <% if (cell.sortable) { %><i class="sort-action <%= iconClass %>" data-order="<%= cell.order %>" data-id="<%= cell.id %>" title="Sort"></i><% } %>' +
                 '                <% if (cell.filter) { %> ' +
                 '                    <i class="filter-action icon-filter<%= (cell.filter.val ? " active" : "" ) %>" title="Filter"></i>' +
-                '                    <div class="filter-form"><form data-type="<%= cell.filter.type %>" data-id="<%= cell.id %>">' +
+                '                    <div class="filter-form"><form data-type="<%= cell.filter.type %>" data-id="<%= cell.id %>" class="<%= (cell.filter.val ? "active" : "" ) %>">' +
                 '                        <div>' +
                 '                            <% if (cell.filter.type == "Text") { %>' +
                 
                 '                               <div class="filterSection">' +
-                '                                   <label><input type="radio" name="choose" value="same"     <% if (cell.filter.selectedOption === "same") { %>   <% } %>/> Exact match</label>' +
-                '                                   <label><input type="radio" name="choose" value="begins" <% if (cell.filter.selectedOption === "begins") { %>   <% } %> /> Begins with</label>' +
-                '                                   <label><input type="radio" name="choose" value="contains"  checked="checked"/> Contains</label>' +
-                '                                   <label><input type="radio" name="choose" value="ends"     <% if (cell.filter.selectedOption === "ends")     { %>   <% } %> /> Ends by</label>' +
+                '                                   <label><input type="radio" name="chooseT" value="same" <% if (cell.filter.selectedOption === "same") { %> checked="checked" <% } %>   /> Exact match</label>' +
+                '                                   <label><input type="radio" name="chooseT" value="begins" <% if (cell.filter.selectedOption === "begins") { %> checked="checked" <% } %> /> Begins with</label>' +
+                '                                   <label><input type="radio" name="chooseT" value="contains" checked="checked" <% if (cell.filter.selectedOption === "contains") { %> checked="checked" <% } %> /> Contains</label>' +
+                '                                   <label><input type="radio" name="chooseT" value="ends"     <% if (cell.filter.selectedOption === "ends")     { %> checked="checked" <% } %> /> Ends by</label>' +
                 '                               </div>' +
                 
-                '                            <input class="inputGrid" type="text" name="val" value="<%= cell.filter.val || "" %>" />' +
+                '                            <input class="filterInput span2" type="text" name="val" value="<%= cell.filter.val || "" %>" />' +
                 '                            <% } else if (cell.filter.type == "Number") { %>' +
-                '                            <input class="inputGrid" type="number" name="val" value="<%= cell.filter.val || "" %>" />' +
+                '                            <input class="filterInput span2" type="number" name="val" value="<%= cell.filter.val || "" %>" />' +
                 '                            <% } else if (cell.filter.type == "Date") { %>' +
                 
                 '                               <div class="filterSection dateSection">' +
-                '                                   <label><input type="radio" name="choose" value="today"      /> Today </label>' +
-                '                                   <label><input type="radio" name="choose" value="yesterday"  <% if (cell.filter.selectedOption === "yesterday")  { %>  <% } %> /> Yesterday     </label>' +
-                '                                   <label><input type="radio" name="choose" value="lastWeek"   <% if (cell.filter.selectedOption === "lastWeek")   { %>  <% } %> /> Last week     </label>' +
-                '                                   <label><input type="radio" name="choose" value="lastMonth"  <% if (cell.filter.selectedOption === "lastMonth")  { %>  <% } %> /> Last month    </label>' +
-                '                                   <label><input type="radio" name="choose" value="lastYear"   <% if (cell.filter.selectedOption === "lastYear")   { %>  <% } %> /> Last year     </label>' +                
-                '                                   <hr />' +                 
-                '                                   <label><input type="radio" name="choose" value="same" checked="checked"  <% if (cell.filter.selectedOption === "same")       { %> checked="checked" <% } %> /> Exact match   </label>' +
-                '                                   <label><input type="radio" name="choose" value="before"     <% if (cell.filter.selectedOption === "before")     { %>  <% } %> /> Before        </label>' +                
-                '                                   <label><input type="radio" name="choose" value="after"      <% if (cell.filter.selectedOption === "after")      { %>  <% } %> /> After         </label>' +
-                '                                   <label><input type="radio" name="choose" value="between"    <% if (cell.filter.selectedOption === "between")    { %>  <% } %> /> Between       </label>' +
+                '                                   <label><input type="radio" name="choose" value="today"     checked="checked"  <% if (cell.filter.selectedOption === "today")      { %> checked="checked" <% } %> /> Today </label>' +
+                '                                   <label><input type="radio" name="choose" value="lastWeek"   <% if (cell.filter.selectedOption === "lastWeek")   { %> checked="checked" <% } %> /> Last week</label>' +
+                '                                   <label><input type="radio" name="choose" value="lastMonth"  <% if (cell.filter.selectedOption === "lastMonth")  { %> checked="checked" <% } %> /> Last month</label>' +
+                '                                   <label><input type="radio" name="choose" value="lastYear"   <% if (cell.filter.selectedOption === "lastYear")   { %> checked="checked" <% } %> /> Last year</label>' +                
+                '                                   <br />' +                 
+                '                                   <label><input type="radio" name="choose" value="same"      <% if (cell.filter.selectedOption === "same")       { %> checked="checked" <% } %> /> Exact match   </label>' +
+                '                                   <label><input type="radio" name="choose" value="before"     <% if (cell.filter.selectedOption === "before")     { %> checked="checked" <% } %> /> Before        </label>' +                
+                '                                   <label><input type="radio" name="choose" value="after"      <% if (cell.filter.selectedOption === "after")      { %> checked="checked" <% } %> /> After         </label>' +
+                '                                   <label><input type="radio" name="choose" value="between"    <% if (cell.filter.selectedOption === "between")    { %> checked="checked" <% } %> /> Between       </label>' +
                 '                               </div> ' +
                 
-                '                            <input class="inputGrid <% if(!_.contains( ["before", "after", "between", "same"], cell.filter.selectedOption)) { %> hide <% } %>" type="date" name="val" value="<%= cell.filter.val || "" %>" />' +
+                '                            <input class="filterInput span2 <% if(!_.contains( ["before", "after", "between", "same"], cell.filter.selectedOption)) { %> hide <% } %>" type="date" name="val" value="<%= cell.filter.val || "" %>" />' +
                 '                            <label id="pBetween" class="<% if (cell.filter.selectedOption !== "between")   { %>hide <% } %>">And</label>' +
-                '                            <input class=" inputGrid  <% if (cell.filter.selectedOption !== "between")   { %>hide <% } %> valBetween" type="date" name="valBetween" value="<%= cell.filter.valBetween || "" %>" />' +
+                '                            <input class="filterInput span2 <% if (cell.filter.selectedOption !== "between")   { %>hide <% } %> valBetween" type="date" name="valBetween" value="<%= cell.filter.valBetween || "" %>" />' +
                 '                            <% } else if (cell.filter.type == "Boolean") { %>' +
                 '                            <div class="span2 filter-form-boolean">' +
                 '                            <label class="radio inline"><input type="radio" name="val" value="true"<%= cell.filter.val == "true" ? " checked" : "" %> />True</label>' +
@@ -869,6 +935,7 @@ NS.UI = (function(ns) {
                 '</select>' +
                 'rows per page' +
                 '</span>' +
+                '<% if (!data.filtersDisabled) { %><span class="clear-filters"><button class="btn clear-filters" disabled>Clear all filters</button></span><% } %>' +
                 '</div>' +
                 '<% } %>' +
                 '</div>'

@@ -205,6 +205,9 @@ margin: 1em;
 #importLoadTrack a:hover, #importInitSelection a:hover {
 background: #9E9B90;
 }
+.filterInput{
+	min-width: 180px;
+}
 /************************** argos ***********************/
 #argosLegendArgos, #argosLegendGps{
 	border-style: solid;
@@ -318,6 +321,9 @@ a.allData-criteriaBtn {
 }
 a#allDataLoadTrack:hover{
 	background: #A09F9C;
+}
+.filterSection {
+	min-width: 200px;
 }
 /************** objects  ********************/
 div.tabbable div.tab-content {

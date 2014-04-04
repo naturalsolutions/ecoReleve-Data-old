@@ -1718,24 +1718,78 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
     //  Specify how to handle grid events
 	function reloadGrid() {
 		var data;
-		if (! _.isEmpty(grid.filters)){
+		//if (grid.filters.length>0) {
+		if (!( isEmptyObject(grid.filters))){
 			data = list.filter(function(item) {
 				var k, v, testDate,
 				res = true;
 				for (k in this) {
 					v = this[k];
-					testDate = new Date(v);
+					// for date and text, v=condition:value  -> get condition & value
+					var ConditionValue = v.split(":");
+					
+					var condition="", val=null, dateMin,dateMax;
+					if (ConditionValue.length == 2 ){
+						condition = ConditionValue[0];
+						val = ConditionValue[1];
+					// condition between v = "before:2013-05-30&filters[]=DATE:after:2013-05-21"	
+					} else if (ConditionValue.length == 4 ){
+						condition = "between";
+						var dtMax = ConditionValue[1]; // 2013-05-30&filters[]=DATE
+						dateMax = dtMax.split("&")[0];
+						dateMin = ConditionValue[3];
+						val = dateMin; // or dateMax, just to enter to next condition
+					}
+
+					testDate = new Date(val || v);  // val if exists 
 					testDate.setHours(0,0,0, 0);
 					if (isFinite(testDate)) {
 						//res = res && (item.get(k).toString() === v);
-						res = res && (item.get(k).toString() === testDate.toString());
+						switch (condition) {
+                            case "before" : 
+                                res = res && (item.get(k) < testDate );
+                                break;
+                            case "after" : 
+                                res = res && (item.get(k) > testDate );
+                                break;
+                            case "":
+                            	res = res && (item.get(k).toString() === testDate.toString());
+                            	break;
+                            case "between":
+                            	dateMax = new Date(dateMax);   
+								dateMax.setHours(0,0,0, 0);
+								dateMin = new Date(dateMin);   
+								dateMin.setHours(0,0,0, 0);
+                            	res = res && (item.get(k) < dateMax ) && (item.get(k) > dateMin );
+                        }
+
+						//res = res && (item.get(k).toString() === testDate.toString());
 					} else {
-						res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+						switch (condition) {
+                            case "exact" : 
+                                res = res && (item.get(k).toLowerCase() === val.toLowerCase());
+                                break;
+                            case "begin" : 
+                                res = res && (item.get(k).toLowerCase().indexOf(val.toLowerCase()) == 0);
+                                break;
+                           	case "end" : 
+                           		var str = val.toLowerCase();
+                           		res = res && (item.get(k).length >= str.length && item.get(k).toLowerCase().lastIndexOf(str) + str.length == item.get(k).length);
+                                //res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+                                break;     
+                            case "":
+                            	res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+                            	break;
+                            default:
+                            	res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
+                            	break;
+                        }
+						//res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
 					}
 				}
 				return res;
 			}, grid.filters);
-		} else{
+		} else {
 			data = list.models;
 		}
 		if (grid.sortColumn) {
@@ -1769,7 +1823,11 @@ app.utils.initGrid = function(list, VisibleList, columns, options){
 		reloadGrid();
 	});
 	grid.on('unfilter', function (fieldId) {
+		if (fieldId){
 		delete grid.filters[fieldId];
+		} else {
+			grid.filters = {};
+		}
 		grid.page = 1; // Page count will change, keeping current page will be meaning-less
 		reloadGrid();
 	});
@@ -1842,10 +1900,10 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 			if (grid.sortColumn) {
 				params += "&sortColumn=" + grid.sortColumn + "&sortOrder=" + grid.sortOrder ;
 			}
-			if (! _.isEmpty(grid.filters)){
+			if (!( isEmptyObject(grid.filters))){
 				for (k in grid.filters) {
 						var v = grid.filters[k];
-						if (k.toUpperCase() == "DATE"){
+						/*if (k.toUpperCase() == "DATE"){
 							var dt = new Date(v);
 							var vYear = dt.getFullYear();	
 							var vMounth = dt.getMonth() + 1;
@@ -1854,7 +1912,7 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 							if (vDay < 10){vDay = "0" + vDay;}
 
 							v = vYear + "-" + vMounth + "-" + vDay ;
-						}
+						}*/
 						params += "&filters[]=" + k + ":"+ v;
 				}
 				//params += "&" + grid.filters ;
@@ -1902,13 +1960,17 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 		delete grid.sortOrder;
 		reloadGrid();
 	});
-	grid.on('filter', function (fieldId, value) {
+	grid.on('filter', function (fieldId, value, condition) {
 		grid.filters[fieldId] = value;
 		grid.page = 1; // Page count will change, keeping current page will be meaning-less
 		reloadGrid();
 	});
 	grid.on('unfilter', function (fieldId) {
+		if (fieldId){
 		delete grid.filters[fieldId];
+	} else {
+		grid.filters = {};
+	}
 		grid.page = 1; // Page count will change, keeping current page will be meaning-less
 		reloadGrid();
 	});
@@ -2128,7 +2190,13 @@ app.utils.importScript = function(src){
   app.utils.importScript(src + seed);
 } */
 
-
+function isEmptyObject(obj) {
+    var name;
+    for (name in obj) {
+        return false;
+    }
+    return true;
+}
 
 
 
