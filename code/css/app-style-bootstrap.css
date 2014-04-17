@@ -556,7 +556,6 @@ div.filterElement{
 		padding: 4px 6px;
 	}
 }
-
 @media screen and (max-width: 1279px) {
 	.tilesGrid{
 		max-width: 550px;
@@ -580,7 +579,6 @@ div.filterElement{
 	width: 70%;
 	}
 }
-
 @media screen and (max-width: 1024px) {
 	#allDataImgSearch {
 		height: 30px;

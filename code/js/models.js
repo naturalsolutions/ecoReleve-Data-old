@@ -5,6 +5,7 @@
 Protocol Model & collection
 **************************************************************/
 app.models.Protocol = Backbone.Model.extend({
+	sync: Backbone.localforage.sync(),
 	defaults: {
 		id: null,
 		name:""
@@ -18,11 +19,17 @@ app.models.Protocol = Backbone.Model.extend({
 });
  
 app.collections.Protocols = Backbone.Collection.extend({
+	sync: Backbone.localforage.sync('ProtocolsList'),
     model: app.models.Protocol,
-	localStorage: new Store("protocolsList"),
-		 initialize : function Stations() {
+	//localStorage: new Store("protocolsList"),
+	initialize : function Stations() {
 				//	console.log('Protocols list Constructor');
-		}
+	},
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
 });
 
 // fields
@@ -77,38 +84,58 @@ app.models.PhotoField= Backbone.Model.extend({
 Station Model & collection
 ************************************************************/	
 app.models.Station = Backbone.Model.extend({
-    defaults: {
-        station_name:""
-		}
-}, {
+    sync: Backbone.localforage.sync()
+	},{
+		schema: {
+			Name:  { type: 'Text', title:'station name'},  //,validators: ['required']
+			LAT :  { type: 'Text', title:'latitude', required : true },
+			LON :  { type: 'Text', title:'longitude', required : true },
+			FieldActivity_Name: { type: 'Text', title:'field activity'},
+			Date_: { type: 'Text', title:'date'}, //,validators: ['required']
+			FieldWorker1: { type: 'Text' , title:'field worker 1',required : true},  //type: 'Select' , title:'field Worker 1', options: this.usersList , required : true 
+			FieldWorker2: { type: 'Text' , title:'field worker 2'  },
+			FieldWorker3: { type: 'Text' , title:'field worker 3'  },
+			FieldWorker4: { type: 'Text' , title:'field worker 4'  },
+			FieldWorker5: { type: 'Text' , title:'field worker 5'  }
+			
+			//time_now: { type: 'Text', title:'Time'},
+	},
 	verboseName : "station"
 });
  
 app.collections.Stations = Backbone.Collection.extend({
     model: app.models.Station,
-	localStorage: new Store("stationsList"),
-		 initialize : function Stations() {
-					//console.log('Stations list Constructor');
-		}
+    sync: Backbone.localforage.sync('StationList'),
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
 });	
+/*
 app.models.Location  = Backbone.Model.extend({
 	schema: {
-		latitude:{ type: 'Text', title:'Latitude'/*, inline : 'true'*/},  //,validators: ['required']
-		longitude: { type: 'Text', title:'Longitude'/* , inline : 'true'*/}  //,validators: ['required']
+		latitude:{ type: 'Text', title:'Latitude'},  //,validators: ['required']
+		longitude: { type: 'Text', title:'Longitude'}  //,validators: ['required']
 	},
 	verboseName: 'Location'
 });
-
+*/
 /*************************************************************
 Observation Model & collection
 **************************************************************/	
 app.models.Observation = Backbone.Model.extend({
-
+	sync: Backbone.localforage.sync()
 });
  
 app.collections.Observations = Backbone.Collection.extend({
-    model: app.models.Observation,
-	localStorage: new Store("observationsList")
+	sync: Backbone.localforage.sync('ObservationsList'),
+  	model: app.models.Observation,
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
 });
 
 app.TableField = Backbone.Model.extend({
@@ -119,21 +146,52 @@ User Model & collection
 **************************************************************/	
 // MODELS
 app.models.User = Backbone.Model.extend({
-	/*schema: {
-		name:{ type: 'Text', title:'Name',validators: ['required']}  
-	}*/
+	sync: Backbone.localforage.sync()
+	},{
+	schema: {
+		name:{ type: 'Text', title:'Name'}  
+	},
+	verboseName: 'user'
 });
-
 // COLLECTIONS
 app.collections.Users = Backbone.Collection.extend({
-  model:  app.models.User,
-  localStorage : new Store('usersList')
+  	sync: Backbone.localforage.sync('UsersList'),
+  	model: Backbone.Model.extend({
+        sync: Backbone.localforage.sync()
+    }),
+  //model: app.models.User,
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	},
+	load: function (options) {
+		//this.sync("read", this, options);
+		this.sync('read', this, {                                                                                                                                                                                                                                                                                                                                     
+		success: function(){                                                                                                                                                                                                                                                                                                                                          
+		  console.log('collection loaded!');                                                                                                                                                                                                                                                                                                                              
+		}                                                                                                                                                                                                                                                                                                                                                             
+	  });  
+	}
+  //localStorage : new Store('usersList')
 });
+//fieldActivity
+app.collections.FieldActivities = Backbone.Collection.extend({
+  	sync: Backbone.localforage.sync('FieldActivities'),
+  	model: Backbone.Model.extend({
+        sync: Backbone.localforage.sync()
+    }),
+    save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
+}); 
 /*************************************************************
 Waypoints Model & collection
 **************************************************************/	
 app.models.Waypoint = Backbone.Model.extend({
-	sync: Backbone.localforage.sync()
+	sync: Backbone.localforage.sync('waypointModel')
 	},{
 		schema: {
 		id: {title: 'id', type: 'Text',sortable: true},
@@ -268,6 +326,7 @@ app.models.BaseModel = Backbone.Model.extend({
         baseLocalUrl: '',
         verboseName: ''
     });
+/*
 app.models.User = app.models.BaseModel.extend({
 	getRoles: function () {
 		if (!this._roles) {
@@ -295,7 +354,7 @@ app.models.User = app.models.BaseModel.extend({
 	},
 	verboseName: 'User'
 });
-
+*/
 app.models.CurrentUser = app.models.User.extend({
 	url: function () {
 		return this.constructor.baseApiUrl;

@@ -170,7 +170,7 @@ select[name="pagesizes"]{
 .modal-title-picto {
     height: 35px;
 }
-.exportViewsList {
+.exportViewsList, .protocolViewsList, .inputEnd {
 	width:450px;
 	height: 35px;
 	background: grey;
@@ -182,12 +182,11 @@ select[name="pagesizes"]{
 	color: white;
 }
 
-.exportViewsList:hover {
+.exportViewsList:hover, .protocolViewsList:hover, .inputEnd:hover {
 	color: #1F411C;
 	text-decoration: inherit;
 	cursor: pointer;
 }
-
 #exportWptNumber, #countViewRows, #geo-query-result, #alerMapBoxNbFeatures, #importNbWaypoints,#alerMapBoxNbFeaturesCancel {
 	color: rgb(33, 122, 21);
 	font-size: x-large;
@@ -407,7 +406,7 @@ body.loading #logo {
 .pagination-stats {display: inline-block; vertical-align: top; margin-top: 5px; font-style: italic;}
 .pagination-stats em {color: rgb(33, 122, 21); font-size: xx-large;}
 .pagination ul {margin: 0 1em;}
-#pagesize-selector {display: inline-block; line-height: 25px; vertical-align: top;}
+#pagesize-selector {display: inline-block; line-height: 25px; vertical-align: top;margin: 10px;}
 #pagesize-selector select {width: auto; margin-bottom: 0;}
 
 /* grid view: filtering & sorting actions */
@@ -483,3 +482,18 @@ header.navbar .nav li.dropdown.open > .dropdown-toggle {background-color: rgba(2
 /*div.filter-form > form, input.inputGrid {
 	width:200px;
 }*/
+#objectImportButton{background-color: #217A15;width:10%;float:right;margin:5px;height:115px;color:white}
+#objectImportButtonContent{padding-left:35px}
+#objectImportButton :hover {background-color: #1A6311;cursor:pointer}
+
+#objectAddButton{background-color: #217A15;width:10%;float:right;margin:5px;height:115px;color:white}
+#objectAddButtonContent{padding-left:35px}
+#objectAddButtonContent h4{padding-left:20px}
+#objectAddButton :hover {background-color: #1A6311;cursor:pointer}
+#objectNew{color:red}
+
+.editCaracBtn{color:black;padding:5px;background-color:#F1F1F1;margin-left:35px;float:right}
+.editCaracBtn{cursor:pointer}
+.tab-pane p {width:600px;height:30px;padding-bottom:10px;padding-top:10px;border-bottom:1px double white}
+#objectsInfosPanel{height:900px;overflow:auto}
+#objDelete{float: right;}

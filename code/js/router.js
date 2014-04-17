@@ -5,12 +5,14 @@
 	routes: {
 		"": "home" ,
 		"stationType" : "stationType",
-		"entryStation": "entryStation",
+		"newStation" : "newStation",
+		//"entryStation": "entryStation",
 		"stationFromGpx" : "stationFromGpx",
 		"stationInfos": "stationInfos",
 		"stationInfos/:id" : "monitoredStation",
 		"proto-choice": "protoChoice",
 		"data-entry/:id": "dataEntry",
+		"data-entryEnd" : "dataEntryEnd",
 		"map": "mapMyPosition",
 		"mydata":"mydata",
 		"msgBox" : "alert",
@@ -53,64 +55,14 @@
             view.render();
     },
 	home: function(){
-		
 		this.setView(new app.views.HomeView());
-
-		
-		
-		
-		/*
-		// Create the Layout.
-		app.views.main = new Backbone.Layout({
-			template: "#main-layout"
-		});
-		// Attach Layout to the DOM.
-		$("#content").empty().append(app.views.main.el);
-		//var homeTemplate = _.template($('#home-template').html());
-		app.views.main.setView(".layoutContent", new app.Views.HomeView());
-		app.views.main.render();
-
-		*/
-
-		
-		// calculate number of stored stations
-		/*var ln = app.collections.observations.length;
-		$('#badgeMyData').text(ln);
-		// set users list
-		app.global.usersTab = new Array();
-		app.collections.users.each(function(user){
-			var userName = user.get('name');
-			app.global.usersTab.push(userName);
-		});   
-		// image de fond
-			var height = screen.height;
-			var width = screen.width;
-			$('body').css({'height':height, 'width': width });
-			$('body').css({'height':height, 'width': width });
-		$('body').css({'background-image':'url(images/home_imgFond.jpg)','background-repeat':'no-repeat','background-position':'center center', 'background-size':'100% 100%'});
-		$('.page.secondary .page-region .page-region-content').css({ 'padding-left': '80px'});
-		$(window).unbind( "resize" );*/
-	
 	},
 	stationType : function(){
-		// set users list
-		/*
-		app.global.usersTab = new Array();
-		app.collections.users.each(function(user){
-			var userName = user.get('name');
-			app.global.usersTab.push(userName);
-		});
-		
-		app.views.main = new Backbone.Layout({
-			template: "#main-layout"
-		});
-		$("#content").empty().append(app.views.main.el);
-		app.views.main.setView(".layoutContent", new app.Views.StationTypeView());
-		app.views.main.render();
-		$('body').css({'background-image':''});
-		*/
 		this.setView(new app.views.StationTypeView());
 	},
+	newStation  : function(){
+		this.setView(new  app.views.NewStation());
+	},	
 	entryStation: function(){
 		this.setView(new app.views.StationPositionView());
 		
@@ -229,34 +181,11 @@
 		
 	}, 
 	protoChoice : function(){
-		try {
-			var protoSelectionLayout = new Backbone.Layout({
-				template: "#msgBox-protocols-choice",
-				collection:app.collections.protocolsList
-			});
-			if (app.global.lastView == "stationInfos"){
-
-					$("#content").empty().append(protoSelectionLayout.el);
-					protoSelectionLayout.render();
-					var listview = new app.Views.ListView({collection:app.collections.protocolsList});
-					protoSelectionLayout.setView(".listview", listview);
-					protoSelectionLayout.render();
-					app.global.lastView = "proto-choice";
-			} 
-			else {
-				$("#content").empty().append(protoSelectionLayout.el);
-				protoSelectionLayout.render();
-				var listview = new app.Views.ListView({collection:app.collections.protocolsList});
-				protoSelectionLayout.setView(".listview", listview);
-				protoSelectionLayout.render();
-				app.global.lastView = "proto-choice";
-			}
-		}catch (e) {
-			app.router.navigate('#', {trigger: true});
-		}
+		this.setView(new  app.views.InputProtocolChoice());
 	},
 	dataEntry : function(id){
-	//	try {
+		this.setView(new  app.views.ProtocolEntry({id: id}));
+			/*
 			app.views.dataEntryLayout= new Backbone.Layout({
 			template: "#data-entry-layout"
 			});
@@ -281,11 +210,12 @@
 			// set default values in form fields & generate fielset list for the current protocol to enhance UI
 			var fieldsetList = new Array();
 			var schema = currentModel.schema;
+			*/
 
-	/*	}catch (e) {
-			app.router.navigate('#', {trigger: true}); 
-		}*/
 		
+	},
+	dataEntryEnd  : function(){
+		this.setView(new  app.views.InputEnd());
 	},
 	mapMyPosition : function(){
 	/*	$('body').css({'background-image':''});

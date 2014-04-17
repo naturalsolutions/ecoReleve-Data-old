@@ -19,7 +19,7 @@ app.utils.generateProtocolFromXml  = function (xml){
 				function()
 				{
 					// créer le modèle protocol
-					app.models.protocol = new app.Models.Protocol();
+					app.models.protocol = new app.models.Protocol();
 					var id = $(this).attr('id');
 					var protName = $(this).find('display_label:first').text();
 					
@@ -207,7 +207,7 @@ app.utils.getProtocolsFromServer = function (url){
 			
 
 			
-			var formModel = new app.Models.ProtoModel();
+			var formModel = new app.models.ProtoModel();
 			var schema = {
 				Protocols:{ type: 'CheckBox', title:'Protocols', options : procolsList /*, inline : 'true'*/}  //,validators: ['required']
 			};
@@ -248,7 +248,7 @@ app.utils.loadWaypoints = function (url){
             {
 				//xmlNode = $(xml);	
 				// creer la collection de Waypoints
-				app.collections.waypointsList = new app.Collections.Waypoints(); 
+				app.collections.waypointsList = new app.collections.Waypoints(); 
 				// id waypoint
 				var id = 0;
 			   $(xml).find('wpt').each(   
@@ -401,7 +401,7 @@ function generateListField(node, callback){
 	options[0] = (defval === null) ? "" : defval;
   	options[defaultvalueposition] = firstval;
 	// creer 1 modele champ de type liste
-	var listField = new app.Models.ListField({
+	var listField = new app.models.ListField({
 	id: fieldId,
 	name : name,
 	display_label:label,
@@ -420,7 +420,7 @@ function generateTextField(node, callback){
 	var multiline = $(node).find('multiline').text();
 	// creer le modele champ de type texte
 	
-	var textField = new app.Models.TextField({
+	var textField = new app.models.TextField({
 			id: fieldId,
 			name : name,
 			display_label:label,
@@ -441,7 +441,7 @@ function generateNumericField(node, callback){
 	var maxBound = $(node).find('max_bound').text();
 	var precision = $(node).find('precision').text();
 	// creer le modele champ numerique
-	var numField = new app.Models.NumericField({
+	var numField = new app.models.NumericField({
 		id: fieldId,
 		name : name,
 		display_label:label,
@@ -460,7 +460,7 @@ function generateBooleanField(node, callback){
 	var defaultVal = $(node).find('default_value').text();
 	var required = $(node).find('required').text();
 	// creer le modele champ boolean
-	var boolField = new app.Models.BooleanField({
+	var boolField = new app.models.BooleanField({
 		id: fieldId,
 		name : name,
 		display_label:label,
@@ -474,7 +474,7 @@ function generatePhotoField(node, callback){
 	var name = $(node).find('label').text();
 	var label = $(node).find('display_label').text();
 	
-	var photoField = new app.Models.PhotoField({
+	var photoField = new app.models.PhotoField({
 		id: fieldId,
 		name : name,
 		display_label:label
@@ -1443,6 +1443,60 @@ app.utils.getUsersList  = function(element, url,isDatalist){
 		}
 	});
 }
+app.utils.getUsersListForStrorage = function(url){
+	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var user = data[i];
+				var label = user[0].Nom;
+				var id = user[0].ID;
+				app.collections.users.add({"idUser": id  ,"label": label});
+			}
+			app.collections.users.save();
+		},
+		error: function() {
+			alert("error loading items, please check connexion to webservice");
+		}
+	});
+}
+app.utils.getFieldActivityListForStrorage = function(url){
+	var serverUrl = localStorage.getItem("serverUrl");
+	url = serverUrl + url ;
+	$.ajax({
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var len = data.length;
+			for (var i=0; i<len; i++){
+				var label = data[i].MapSelectionManager.Caption;
+				var value = data[i].MapSelectionManager.TProt_PK_ID;
+				app.collections.fieldActivityList.add({"idActivity": value  ,"label": label});
+			}
+			app.collections.fieldActivityList.save();
+		},
+		error: function() {
+			alert("error loading items, please check connexion to webservice");
+		}
+	});
+}
+app.utils.addDatalistControl = function(controlId, collection){
+	var element= document.createElement('datalist');
+	$(element).attr('id',controlId + "List");    //  .appendTo('body');    
+	// get itemList
+	collection.each(function(model) { 
+		var item = model.attributes.label;
+		var listItem = "<option value='" + item + "'></option>";
+		$(element).append(listItem);
+	}); 
+	// insert datalist in form element
+	$("form").append(element);
+}
+
 app.utils.getViewsList  = function(id){
 	$('#export-views').empty();
 	if (id!=""){
@@ -2030,8 +2084,17 @@ app.utils.fillObjectsTable = function(){
 		//var rowsNumber = collection.length ;
 		app.utils.initGridServer(collection, rowsNumber,satUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsSatGrid" });
 	});
+	// load data for RFID
+	var rfidUrl = serverUrl + '/TViewFieldsensor/list?';
+	app.utils.getDataForGrid(rfidUrl,function(collection ,rowsNumber){
+		//var rowsNumber = collection.length ;
+		app.utils.initGridServer(collection, rowsNumber,rfidUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsField_sensorGrid" });
+	});
+
+
+
 }
-app.utils.getObjectDetails = function(backboneView,objectType,url){
+app.utils.getObjectDetails = function(backboneView,objectType,url,idObj){
 	if(app.xhr){ 
         app.xhr.abort();
     }
@@ -2048,8 +2111,7 @@ app.utils.getObjectDetails = function(backboneView,objectType,url){
 				var objectContent = data[k];
 				var ct ="";
 				for(v in objectContent){
-					//alert("objectContent[v] : " + objectContent[v]);
-					//alert("objectContent[v].toString : " + objectContent[v].toString);
+					/*
 					if ((String(objectContent[v]) != "[object Object]")){
 							ct += "<p>" + v + " : " + objectContent[v] + "</p>";
 					}
@@ -2060,12 +2122,37 @@ app.utils.getObjectDetails = function(backboneView,objectType,url){
 							ct+= "<p>" + z + " : " + objDetail[z] + "</p>";
 						}
 					}
+					*/
+					if ((String(objectContent[v]) != "[object Object]")){
+							var editable = objectContent[v][1]['edit'];
+							var idbtn = objectContent[v][1]['typeandid'];
+							var bouton="";
+							if(editable==1){
+								bouton="<span name='"+v+"' class='editCaracBtn' id="+idbtn+">Edit</span>";
+							}
+							ct += "<p>" + v + " : " + objectContent[v][0]+bouton + "</p>";
+					}
+					else {
+						var objDetail = objectContent[v];
+						ct += "<h3><i>" + v + "</i></h3>";
+						for (z in objDetail){
+							var editable = objDetail[z][1]['edit'];
+							var idbtn = objDetail[z][1]['typeandid'];
+							var bouton="";
+							if(editable==1){
+								bouton="<span name='"+z+"' class='editCaracBtn' id="+idbtn+">Edit</span>";
+							}
+							ct += "<p>" + z + " : " + objDetail[z][0] +bouton+"</p>";
+						}
+					}
 				}
 				$("#objectDetailsPanelContent").append("<div class='tab-pane fade' id='d"+ i +"'>" + ct +"</div>");
 				// k is the name of tab
 				i+=1;
 			}
-
+			$("#objectDetailsPanel").append("<li id='objectSuccessEdit' style='display: none;'><img SRC='img/success.jpg' width='40px' height='40px'/></li><li id='objectErrorEdit' style='display: none;'><img SRC='img/error.jpg' width='40px' height='40px'/></li>");
+			$("#objectDetailsPanel").append("<li id='objectNew' style='display: none;'>NEW</li>");
+			$("#d0").prepend("<a class='btn' objId='"+ idObj  + "' id='objDelete'>delete</a><br/>");
 			$("#d0").prepend("<a class='btn' id='objectsDetails'>details</a><br/>");
 			// init map
 			//<div id='map' style='width:200px; height:150px'></div>
@@ -2080,6 +2167,9 @@ app.utils.getObjectDetails = function(backboneView,objectType,url){
 			}
 			if (objectType =="sat"){
 				$( "a[href='#d0']").text("sat transmitter");
+			}
+			if (objectType =="fieldsensor"){
+				$( "a[href='#d0']").text("fieldsensor");
 			}
 		}
 	});

@@ -50,6 +50,8 @@ function init(){
 	app.instances.breadCrumbs.render();
 	app.instances.userView.render();
     Backbone.history.start();
+    window.mapAjaxCall = false;
+  	window.mapAjaxCall.xhr = false;
 	// Main navigation
 	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
 	//localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
@@ -61,8 +63,40 @@ function init(){
             app.utils.importScript('js/libs/AnimatedCluster.js');
             app.utils.importScript('js/libs/NS-UI-map.js');
         }, 2000);*/
-  	window.mapAjaxCall = false;
-  	window.mapAjaxCall.xhr = false;
+
+  	// get users list if not exists
+  	app.collections.users = new app.collections.Users();
+  	// get fieldActivity
+	app.collections.users.fetch().then(function () {
+		if (app.collections.users.length === 0){
+			app.utils.getUsersListForStrorage("/user/fieldworkers");
+		}
+	});
+	// get field activity list
+	app.collections.fieldActivityList = new app.collections.FieldActivities();
+	app.collections.fieldActivityList.fetch().then(function () {
+		if (app.collections.fieldActivityList.length === 0){
+			app.utils.getFieldActivityListForStrorage("/view/theme/list?import=yes");
+		}
+	});
+	// get station list
+	app.collections.stations = new app.collections.Stations();
+	app.collections.stations.fetch().then(function() {
+		console.log("stations loaded ! ");
+	});
+	// load stored protocols
+	app.collections.protocolsList = new app.collections.Protocols();
+	app.collections.protocolsList.fetch().then(function(){
+		if (app.collections.protocolsList.length === 0){
+			app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml");
+		}
+	});
+	// load observations
+	app.collections.observations = new app.collections.Observations();
+	app.collections.observations.fetch().then(function() {
+		console.log("observations loaded ! ");
+	});
+
   });
 }
 
