@@ -1,0 +1,4567 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="MapSource 6.15.11" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+   <wpt lat="33.2920212" lon="-2.8691468">
+    <ele>1319.5253906</ele>
+    <time>2013-05-29T11:32:20Z</time>
+    <name>01M26</name>
+    <cmt>29-MAY-13 11:32</cmt>
+    <desc>29-MAY-13 11:32</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6435406" lon="-2.0948394">
+    <time>2013-05-23T08:04:36Z</time>
+    <name>121882M26</name>
+    <cmt>23-MAY-13 08:04</cmt>
+    <desc>23-MAY-13 08:04</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6414872" lon="-2.0952174">
+    <ele>1102.5092773</ele>
+    <time>2013-05-23T07:23:22Z</time>
+    <name>2IMMROYAL</name>
+    <cmt>23-MAY-13 07:23</cmt>
+    <desc>23-MAY-13 07:23</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2374999" lon="-4.6500999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>ARTIFBAR 1</name>
+    <cmt>ARTIFBARRAGEENJIL2</cmt>
+    <desc>ARTIFBARRAGEENJIL2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2377700" lon="-4.6497100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>ARTIFBAR 2</name>
+    <cmt>ARTIFBARRAGEENJIL3</cmt>
+    <desc>ARTIFBARRAGEENJIL3</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2374500" lon="-4.6504000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>ARTIFBARRA</name>
+    <cmt>ARTIFBARRAGEENJIL1</cmt>
+    <desc>ARTIFBARRAGEENJIL1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3890423" lon="-3.3351283">
+    <ele>1275.5454102</ele>
+    <time>2013-05-23T16:55:37Z</time>
+    <name>BARRAGE</name>
+    <cmt>23-MAY-13 16:55</cmt>
+    <desc>23-MAY-13 16:55</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6338988" lon="-2.0839391">
+    <ele>1106.1140137</ele>
+    <time>2013-05-23T07:15:25Z</time>
+    <name>CANYON</name>
+    <cmt>23-MAY-13 07:15</cmt>
+    <desc>23-MAY-13 07:15</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7533099" lon="-3.3507400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>CHABAT</name>
+    <cmt>30-JUN-09 08:47</cmt>
+    <desc>30-JUN-09 08:47</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7499599" lon="-3.3517300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>CHABAT2</name>
+    <cmt>30-JUN-09 08:48</cmt>
+    <desc>30-JUN-09 08:48</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1046840" lon="-3.2742206">
+    <ele>1597.1040039</ele>
+    <time>2013-05-29T14:55:15Z</time>
+    <name>CIRCA</name>
+    <cmt>29-MAY-13 14:55</cmt>
+    <desc>29-MAY-13 14:55</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="34.0411499" lon="-5.0051299">
+    <time>2013-05-01T11:31:59Z</time>
+    <name>CONSULAT</name>
+    <cmt>01-MAY-13 11:25</cmt>
+    <desc>01-MAY-13 11:25</desc>
+    <sym>Flag, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2614942" lon="-2.6525885">
+    <ele>1307.9897461</ele>
+    <time>2013-05-29T07:03:07Z</time>
+    <name>COURONNE</name>
+    <cmt>29-MAY-13 07:03</cmt>
+    <desc>29-MAY-13 07:03</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5709823" lon="-3.2698994">
+    <ele>1212.0988770</ele>
+    <time>2013-05-28T13:34:34Z</time>
+    <name>DOB</name>
+    <cmt>28-MAY-13 13:34</cmt>
+    <desc>28-MAY-13 13:34</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="35.1965700" lon="-6.1524300">
+    <time>2013-05-04T10:32:08Z</time>
+    <name>HOTEL ESPA</name>
+    <cmt>04-MAY-13 10:28</cmt>
+    <desc>04-MAY-13 10:28</desc>
+    <sym>Lodging</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1737499" lon="-2.8217100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFCHAREF</name>
+    <cmt>JORFCHAREFAMONT</cmt>
+    <desc>JORFCHAREFAMONT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0960800" lon="-4.2677000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFDOUIRA</name>
+    <cmt>JORFDOUIRA</cmt>
+    <desc>JORFDOUIRA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0974399" lon="-4.3247600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFOUCHIL</name>
+    <cmt>JORFOUCHILAS</cmt>
+    <desc>JORFOUCHILAS</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6272999" lon="-3.7325099">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFRAGGOU</name>
+    <cmt>JORFRAGGOU</cmt>
+    <desc>JORFRAGGOU</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1303199" lon="-3.6533100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFSAHMA</name>
+    <cmt>JORFSAHMA</cmt>
+    <desc>JORFSAHMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5702799" lon="-3.7737900">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>JORFTACHOU</name>
+    <cmt>JORFTACHOUROUINT</cmt>
+    <desc>JORFTACHOUROUINT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.2774399" lon="-2.0204299">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFADBA 1</name>
+    <cmt>KEHFADBABA2</cmt>
+    <desc>KEHFADBABA2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.2780800" lon="-2.0215200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFADBABA</name>
+    <cmt>KEHFADBABA</cmt>
+    <desc>KEHFADBABA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5801400" lon="-3.6274699">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAFTIS1</name>
+    <cmt>KEHFAFTIS1</cmt>
+    <desc>KEHFAFTIS1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5807000" lon="-3.6270200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAFTIS2</name>
+    <cmt>KEHFAFTIS2</cmt>
+    <desc>KEHFAFTIS2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6267399" lon="-3.7325099">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAINTIT</name>
+    <cmt>KEHFAINTITAHIN</cmt>
+    <desc>KEHFAINTITAHIN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.1745900" lon="-8.4833199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAITWAB</name>
+    <cmt>KEHFAITWABLI</cmt>
+    <desc>KEHFAITWABLI</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.5081800" lon="-8.0402300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAKKA1</name>
+    <cmt>KEHFAKKA1</cmt>
+    <desc>KEHFAKKA1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.5073400" lon="-8.0407300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAKKA2</name>
+    <cmt>KEHFAKKA2</cmt>
+    <desc>KEHFAKKA2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.5045500" lon="-8.0427699">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAKKA3</name>
+    <cmt>KEHFAKKA3</cmt>
+    <desc>KEHFAKKA3</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1128599" lon="-4.3595999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFALMOU</name>
+    <cmt>KEHFALMOU</cmt>
+    <desc>KEHFALMOU</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.8807800" lon="-6.9356400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAMSALI</name>
+    <cmt>KEHFAMSALIKH</cmt>
+    <desc>KEHFAMSALIKH</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="30.0581700" lon="-8.3995499">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFANMIR</name>
+    <cmt>KEHFANMIR</cmt>
+    <desc>KEHFANMIR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3016800" lon="-4.0776700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFAZDAG</name>
+    <cmt>KEHFAZDAG</cmt>
+    <desc>KEHFAZDAG</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.4088900" lon="-2.7958000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFBAAJ</name>
+    <cmt>KEHFBAAJ</cmt>
+    <desc>KEHFBAAJ</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1160499" lon="-3.2272200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFBOUHSS</name>
+    <cmt>KEHFBOUHSSIRA</cmt>
+    <desc>KEHFBOUHSSIRA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.4185600" lon="-2.8455799">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFBOUSAA</name>
+    <cmt>KEHFBOUSAATAN</cmt>
+    <desc>KEHFBOUSAATAN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7499599" lon="-3.3517300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFCHAB 1</name>
+    <cmt>KEHFCHABATENSA2</cmt>
+    <desc>KEHFCHABATENSA2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.2685699" lon="-2.5162799">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFCHAB 2</name>
+    <cmt>KEHFCHABATLAKHIRA</cmt>
+    <desc>KEHFCHABATLAKHIRA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7533099" lon="-3.3507400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFCHABAT</name>
+    <cmt>KEHFCHABATENSA1</cmt>
+    <desc>KEHFCHABATENSA1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1743399" lon="-2.8217100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFCHAREF</name>
+    <cmt>KEHFCHAREFAMONT</cmt>
+    <desc>KEHFCHAREFAMONT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.8543300" lon="-6.8420300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFDKHAIS</name>
+    <cmt>KEHFDKHAISS</cmt>
+    <desc>KEHFDKHAISS</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.4352800" lon="-1.7720200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFDRIBIN</name>
+    <cmt>KEHFDRIBINA</cmt>
+    <desc>KEHFDRIBINA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9525200" lon="-4.2879999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFELBGHE</name>
+    <cmt>KEHFELBGHEL</cmt>
+    <desc>KEHFELBGHEL</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9753500" lon="-3.0415600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFELMA</name>
+    <cmt>KEHFELMA</cmt>
+    <desc>KEHFELMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2809400" lon="-4.6086300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFENJIL</name>
+    <cmt>KEHFENJIL</cmt>
+    <desc>KEHFENJIL</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1592900" lon="-2.8277599">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFFGHNAG</name>
+    <cmt>KEHFFGHNAGLAASSAL</cmt>
+    <desc>KEHFFGHNAGLAASSAL</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6177200" lon="-3.5487499">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFFRITIS</name>
+    <cmt>KEHFFRITISSA</cmt>
+    <desc>KEHFFRITISSA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0292000" lon="-3.1982199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGALBLA</name>
+    <cmt>KEHFGALBLAHRACH</cmt>
+    <desc>KEHFGALBLAHRACH</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.4058400" lon="-1.9647700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGALBNH</name>
+    <cmt>KEHFGALBNHASSE</cmt>
+    <desc>KEHFGALBNHASSE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0662000" lon="-3.9623000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGHAWIR</name>
+    <cmt>KEHFGHAWIRATLAHMAM</cmt>
+    <desc>KEHFGHAWIRATLAHMAM</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8691900" lon="-3.8121300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGHNI 1</name>
+    <cmt>KEHFGHNIGAT2</cmt>
+    <desc>KEHFGHNIGAT2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8703400" lon="-3.8126100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGHNIGA</name>
+    <cmt>KEHFGHNIGAT</cmt>
+    <desc>KEHFGHNIGAT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1991299" lon="-2.5748900">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFGHZALA</name>
+    <cmt>KEHFGHZALA</cmt>
+    <desc>KEHFGHZALA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1166099" lon="-3.3085000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFHASSIH</name>
+    <cmt>KEHFHASSIHMAR</cmt>
+    <desc>KEHFHASSIHMAR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3919899" lon="-2.4664599">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFHAZMA</name>
+    <cmt>KEHFHAZMA</cmt>
+    <desc>KEHFHAZMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3928099" lon="-2.4639700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFHAZMA2</name>
+    <cmt>KEHFHAZMA2</cmt>
+    <desc>KEHFHAZMA2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3928300" lon="-2.4640199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFHAZMA3</name>
+    <cmt>KEHFHAZMA3</cmt>
+    <desc>KEHFHAZMA3</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.1357900" lon="-3.0425200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFHMAM</name>
+    <cmt>KEHFHMAM</cmt>
+    <desc>KEHFHMAM</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6313400" lon="-4.0318999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFIFRING</name>
+    <cmt>KEHFIFRIN'GHOLA</cmt>
+    <desc>KEHFIFRIN'GHOLA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3650000" lon="-4.0158199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFISEL 1</name>
+    <cmt>KEHFISELFEN2</cmt>
+    <desc>KEHFISELFEN2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3625800" lon="-4.0155400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFISELFE</name>
+    <cmt>KEHFISELFEN</cmt>
+    <desc>KEHFISELFEN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5431599" lon="-3.9092099">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFJNOUN</name>
+    <cmt>KEHFJNOUN</cmt>
+    <desc>KEHFJNOUN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3439399" lon="-2.8633399">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFKARIMA</name>
+    <cmt>KEHFKARIMA</cmt>
+    <desc>KEHFKARIMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1104699" lon="-3.3864600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFKELCHA</name>
+    <cmt>KEHFKELCHA</cmt>
+    <desc>KEHFKELCHA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2530700" lon="-4.6005999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFKHTARE</name>
+    <cmt>KEHFKHTARE</cmt>
+    <desc>KEHFKHTARE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8000000" lon="-4.4074300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFKSABI</name>
+    <cmt>KEHFKSABI</cmt>
+    <desc>KEHFKSABI</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6428300" lon="-3.8595000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFKSAREL</name>
+    <cmt>KEHFKSARELKAF</cmt>
+    <desc>KEHFKSARELKAF</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="30.2967499" lon="-8.4744100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLAAGAB</name>
+    <cmt>KEHFLAAGAB</cmt>
+    <desc>KEHFLAAGAB</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0635599" lon="-1.9615500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLAKRIM</name>
+    <cmt>KEHFLAKRIMA</cmt>
+    <desc>KEHFLAKRIMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0080899" lon="-2.5549300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLETHIM</name>
+    <cmt>KEHFLETHIMA</cmt>
+    <desc>KEHFLETHIMA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.5347000" lon="-7.5954999">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLGLABW</name>
+    <cmt>KEHFLGLABWADEDRAA</cmt>
+    <desc>KEHFLGLABWADEDRAA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.5431800" lon="-7.4344200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLGSAB</name>
+    <cmt>KEHFLGSAB</cmt>
+    <desc>KEHFLGSAB</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2029200" lon="-2.9817200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFLUKSER</name>
+    <cmt>KEHFLUKSERA</cmt>
+    <desc>KEHFLUKSERA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5440799" lon="-4.4111100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMAHC 1</name>
+    <cmt>KEHFMAHCENELMERS2</cmt>
+    <desc>KEHFMAHCENELMERS2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5434100" lon="-4.4110500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMAHCEN</name>
+    <cmt>KEHFMAHCENELMERS1</cmt>
+    <desc>KEHFMAHCENELMERS1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9411300" lon="-3.0717700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMECH 1</name>
+    <cmt>KEHFMECHKAKOUR1</cmt>
+    <desc>KEHFMECHKAKOUR1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9315300" lon="-3.0961699">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMECHKA</name>
+    <cmt>KEHFMECHKAKOUR</cmt>
+    <desc>KEHFMECHKAKOUR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9731399" lon="-3.4583300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMELHA</name>
+    <cmt>KEHFMELHA</cmt>
+    <desc>KEHFMELHA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.2860699" lon="-2.4654600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMENG 1</name>
+    <cmt>KEHFMENGOUB3</cmt>
+    <desc>KEHFMENGOUB3</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.2845200" lon="-2.4558199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMENGOU</name>
+    <cmt>KEHFMENGOUB2</cmt>
+    <desc>KEHFMENGOUB2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3628400" lon="-2.4907600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMHESSA</name>
+    <cmt>KEHFMHESSAR</cmt>
+    <desc>KEHFMHESSAR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3412099" lon="-3.1000900">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMOGU 1</name>
+    <cmt>KEHFMOGUIR1</cmt>
+    <desc>KEHFMOGUIR1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3427599" lon="-3.0994600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMOGUIR</name>
+    <cmt>KEHFMOGUIR</cmt>
+    <desc>KEHFMOGUIR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.8127700" lon="-7.9892500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFMSSALI</name>
+    <cmt>KEHFMSSALIT</cmt>
+    <desc>KEHFMSSALIT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8617799" lon="-3.8614000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFNIFDRA</name>
+    <cmt>KEHFNIFDRAG</cmt>
+    <desc>KEHFNIFDRAG</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3885199" lon="-2.3136700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFNOUIDR</name>
+    <cmt>KEHFNOUIDRE</cmt>
+    <desc>KEHFNOUIDRE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3999700" lon="-3.4734199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFOSATLB</name>
+    <cmt>KEHFOSATLBIR</cmt>
+    <desc>KEHFOSATLBIR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7631300" lon="-3.3577000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFOUAH 1</name>
+    <cmt>KEHFOUAHAR2</cmt>
+    <desc>KEHFOUAHAR2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7636000" lon="-3.3581900">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFOUAHAR</name>
+    <cmt>KEHFOUAHAR1</cmt>
+    <desc>KEHFOUAHAR1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="30.0506800" lon="-7.3738600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFOUEDAL</name>
+    <cmt>KEHFOUEDALAAYNE</cmt>
+    <desc>KEHFOUEDALAAYNE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.6953600" lon="-8.5219300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFOUJOU</name>
+    <cmt>KEHFOUJOU</cmt>
+    <desc>KEHFOUJOU</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2752099" lon="-2.9429800">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFRASNAJ</name>
+    <cmt>KEHFRASNAJI</cmt>
+    <desc>KEHFRASNAJI</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1755800" lon="-3.2533699">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFREKKAM</name>
+    <cmt>KEHFREKKAM</cmt>
+    <desc>KEHFREKKAM</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7013700" lon="-3.5671900">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFROUIRA</name>
+    <cmt>KEHFROUIRAT</cmt>
+    <desc>KEHFROUIRAT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9696500" lon="-3.0395699">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFSBAA</name>
+    <cmt>KEHFSBAA</cmt>
+    <desc>KEHFSBAA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9697899" lon="-3.0391000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFSBAA1</name>
+    <cmt>KEHFSBAA1</cmt>
+    <desc>KEHFSBAA1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4427600" lon="-3.2418600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFSEBL 1</name>
+    <cmt>KEHFSEBLAOUD2</cmt>
+    <desc>KEHFSEBLAOUD2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4690399" lon="-3.2440500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFSEBLAO</name>
+    <cmt>KEHFSEBLAOUD</cmt>
+    <desc>KEHFSEBLAOUD</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9413899" lon="-2.2770300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFSIDIAM</name>
+    <cmt>KEHFSIDIAMAR</cmt>
+    <desc>KEHFSIDIAMAR</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5691899" lon="-3.7728100">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTACHOU</name>
+    <cmt>KEHFTACHOUROUINT</cmt>
+    <desc>KEHFTACHOUROUINT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6728900" lon="-4.0336399">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTAGOUR</name>
+    <cmt>KEHFTAGOURAST</cmt>
+    <desc>KEHFTAGOURAST</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6321099" lon="-4.0335600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTAGU 1</name>
+    <cmt>KEHFTAGUEN2</cmt>
+    <desc>KEHFTAGUEN2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6297300" lon="-4.0548199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTAGUEN</name>
+    <cmt>KEHFTAGUEN</cmt>
+    <desc>KEHFTAGUEN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.0400899" lon="-9.1120799">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTARBOU</name>
+    <cmt>KEHFTARBOUT</cmt>
+    <desc>KEHFTARBOUT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6233300" lon="-4.0030400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTAZA 1</name>
+    <cmt>KEHFTAZARWALTE</cmt>
+    <desc>KEHFTAZARWALTE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6280000" lon="-4.0098799">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTAZARW</name>
+    <cmt>KEHFTAZARWALT</cmt>
+    <desc>KEHFTAZARWALT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0284900" lon="-2.0464800">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTENDRA</name>
+    <cmt>KEHFTENDRARA</cmt>
+    <desc>KEHFTENDRARA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3360500" lon="-3.9592700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTIOUAN</name>
+    <cmt>KEHFTIOUANT</cmt>
+    <desc>KEHFTIOUANT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7111299" lon="-3.5675299">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFTIZRTR</name>
+    <cmt>KEHFTIZRTRIN</cmt>
+    <desc>KEHFTIZRTRIN</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7217200" lon="-3.5490600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFWATWAT</name>
+    <cmt>KEHFWATWAT</cmt>
+    <desc>KEHFWATWAT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="30.0433700" lon="-7.1428199">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFYOUFKR</name>
+    <cmt>KEHFYOUFKRABI</cmt>
+    <desc>KEHFYOUFKRABI</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6302099" lon="-3.9463700">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFYOUFUG</name>
+    <cmt>KEHFYOUFUG</cmt>
+    <desc>KEHFYOUFUG</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9766200" lon="-4.0423600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFZEIDA</name>
+    <cmt>KEHFZEIDA</cmt>
+    <desc>KEHFZEIDA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9786099" lon="-4.0414299">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KEHFZEIDA2</name>
+    <cmt>KEHFZEIDA2</cmt>
+    <desc>KEHFZEIDA2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7014499" lon="-3.3180400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>KHEFSOUIK</name>
+    <cmt>KHEFSOUIK</cmt>
+    <desc>KHEFSOUIK</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9904524" lon="-2.3343819">
+    <ele>1099.8657227</ele>
+    <time>2013-05-28T16:07:46Z</time>
+    <name>LANIER</name>
+    <cmt>28-MAY-13 16:07</cmt>
+    <desc>28-MAY-13 16:07</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="29.1863300" lon="-8.2487400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEAANADA</name>
+    <cmt>MINEAANADA</cmt>
+    <desc>MINEAANADA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1734400" lon="-4.0851200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEAASLAW</name>
+    <cmt>MINEAASLAWPGENERAL</cmt>
+    <desc>MINEAASLAWPGENERAL</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.5720699" lon="-2.6680299">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEARIGUI</name>
+    <cmt>MINEARIGUIB</cmt>
+    <desc>MINEARIGUIB</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6260500" lon="-4.2007599">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEAUJA 1</name>
+    <cmt>MINEAUJARGHA1</cmt>
+    <desc>MINEAUJARGHA1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6505199" lon="-4.2161000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEAUJARG</name>
+    <cmt>MINEAUJARGHA</cmt>
+    <desc>MINEAUJARGHA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2812899" lon="-4.0146500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEBATENW</name>
+    <cmt>MINEBATENWPGENERAL</cmt>
+    <desc>MINEBATENWPGENERAL</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.5675000" lon="-1.9530300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEBOUARF</name>
+    <cmt>MINEBOUARFA</cmt>
+    <desc>MINEBOUARFA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9651299" lon="-3.0454000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEDEBDOU</name>
+    <cmt>MINEDEBDOU</cmt>
+    <desc>MINEDEBDOU</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3455600" lon="-1.9765300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEGHELS</name>
+    <cmt>MINEGHELS</cmt>
+    <desc>MINEGHELS</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8001999" lon="-4.6238399">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEHAOU 1</name>
+    <cmt>MINEHAOULI2</cmt>
+    <desc>MINEHAOULI2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8109900" lon="-4.5932500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEHAOULI</name>
+    <cmt>MINEHAOULI1</cmt>
+    <desc>MINEHAOULI1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.5765099" lon="-2.4404400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEHOUANI</name>
+    <cmt>MINEHOUANIT</cmt>
+    <desc>MINEHOUANIT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.5944599" lon="-4.1963599">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEIWODI</name>
+    <cmt>MINEIWODI</cmt>
+    <desc>MINEIWODI</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.3588500" lon="-1.4279399">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEJBELME</name>
+    <cmt>MINEJBELMELHA</cmt>
+    <desc>MINEJBELMELHA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6222299" lon="-1.6869800">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEKLAH</name>
+    <cmt>MINEKLAH</cmt>
+    <desc>MINEKLAH</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6306900" lon="-3.8547400">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINELCHAFE</name>
+    <cmt>MINELCHAFE</cmt>
+    <desc>MINELCHAFE</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7168599" lon="-3.6189600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEMERIJA</name>
+    <cmt>MINEMERIJA</cmt>
+    <desc>MINEMERIJA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6193799" lon="-2.3175200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINENSISSA</name>
+    <cmt>MINEN'SISSA</cmt>
+    <desc>MINEN'SISSA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8466799" lon="-4.4955000">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEOULE 1</name>
+    <cmt>MINEOULEDTAYR2</cmt>
+    <desc>MINEOULEDTAYR2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8469900" lon="-4.4954500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEOULE 2</name>
+    <cmt>MINEOULEDTAYR3</cmt>
+    <desc>MINEOULEDTAYR3</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8462400" lon="-4.4963200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEOULE 3</name>
+    <cmt>MINEOULEDTAYR4</cmt>
+    <desc>MINEOULEDTAYR4</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8512400" lon="-4.4987500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEOULE 4</name>
+    <cmt>MINEOULEDTAYR5</cmt>
+    <desc>MINEOULEDTAYR5</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8479999" lon="-4.4954500">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINEOULEDT</name>
+    <cmt>MINEOULEDTAYR1</cmt>
+    <desc>MINEOULEDTAYR1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3591700" lon="-3.8603200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINESHEG 1</name>
+    <cmt>MINESHEGGL'ARDENT2</cmt>
+    <desc>MINESHEGGL'ARDENT2</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3575600" lon="-3.8576300">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINESHEGGL</name>
+    <cmt>MINESHEGGL'ARDENT1</cmt>
+    <desc>MINESHEGGL'ARDENT1</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6213900" lon="-3.7760200">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINETAMSLE</name>
+    <cmt>MINETAMSLEMT</cmt>
+    <desc>MINETAMSLEMT</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0562399" lon="-1.9568600">
+    <time>2013-04-29T13:29:47Z</time>
+    <name>MINETENDRA</name>
+    <cmt>MINETENDRARA</cmt>
+    <desc>MINETENDRARA</desc>
+    <sym>Forest</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8463460" lon="-2.5341508">
+    <ele>1127.5034180</ele>
+    <time>2013-05-28T15:29:37Z</time>
+    <name>MONP</name>
+    <cmt>28-MAY-13 15:29</cmt>
+    <desc>28-MAY-13 15:29</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3057762" lon="-2.8682335">
+    <ele>1322.6494141</ele>
+    <time>2013-05-29T10:57:04Z</time>
+    <name>N104M</name>
+    <cmt>29-MAY-13 10:57</cmt>
+    <desc>29-MAY-13 10:57</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1793575" lon="-2.9753112">
+    <ele>1404.6013184</ele>
+    <time>2013-05-29T12:22:26Z</time>
+    <name>N117M</name>
+    <cmt>29-MAY-13 12:22</cmt>
+    <desc>29-MAY-13 12:22</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2144082" lon="-2.9636961">
+    <ele>1413.9741211</ele>
+    <time>2013-05-29T12:04:15Z</time>
+    <name>N118M</name>
+    <cmt>29-MAY-13 12:04</cmt>
+    <desc>29-MAY-13 12:04</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8947644" lon="-2.4407741">
+    <ele>1100.8269043</ele>
+    <time>2013-05-28T15:40:34Z</time>
+    <name>N153A</name>
+    <cmt>28-MAY-13 15:40</cmt>
+    <desc>28-MAY-13 15:40</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9500044" lon="-2.2319277">
+    <ele>1073.6699219</ele>
+    <time>2013-05-28T16:45:16Z</time>
+    <name>N154A</name>
+    <cmt>28-MAY-13 16:45</cmt>
+    <desc>28-MAY-13 16:45</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3561398" lon="-2.8699099">
+    <ele>1286.8405762</ele>
+    <time>2013-05-29T10:21:24Z</time>
+    <name>N160A</name>
+    <cmt>29-MAY-13 10:21</cmt>
+    <desc>29-MAY-13 10:21</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7141970" lon="-2.8508261">
+    <ele>1260.8852539</ele>
+    <time>2013-05-28T14:16:52Z</time>
+    <name>N164A</name>
+    <cmt>28-MAY-13 14:16</cmt>
+    <desc>28-MAY-13 14:16</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7405958" lon="-2.7198303">
+    <ele>1182.5385742</ele>
+    <time>2013-05-28T14:52:22Z</time>
+    <name>N166A</name>
+    <cmt>28-MAY-13 14:52</cmt>
+    <desc>28-MAY-13 14:52</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4887081" lon="-2.7619429">
+    <ele>1217.1457520</ele>
+    <time>2013-05-28T19:19:12Z</time>
+    <name>N169A</name>
+    <cmt>28-MAY-13 19:19</cmt>
+    <desc>28-MAY-13 19:19</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9155846" lon="-2.3657322">
+    <ele>1086.4074707</ele>
+    <time>2013-05-28T17:30:44Z</time>
+    <name>N170A</name>
+    <cmt>28-MAY-13 17:30</cmt>
+    <desc>28-MAY-13 17:30</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9868192" lon="-2.2984712">
+    <ele>1072.2280273</ele>
+    <time>2013-05-28T16:16:39Z</time>
+    <name>N171A</name>
+    <cmt>28-MAY-13 16:16</cmt>
+    <desc>28-MAY-13 16:16</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2213666" lon="-2.4093348">
+    <ele>1238.7753906</ele>
+    <time>2013-05-29T07:52:36Z</time>
+    <name>N172A</name>
+    <cmt>29-MAY-13 07:52</cmt>
+    <desc>29-MAY-13 07:52</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8836253" lon="-2.3284046">
+    <ele>1086.8879395</ele>
+    <time>2013-05-28T17:11:17Z</time>
+    <name>N173A</name>
+    <cmt>28-MAY-13 17:11</cmt>
+    <desc>28-MAY-13 17:11</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2634007" lon="-2.6573609">
+    <ele>1292.1279297</ele>
+    <time>2013-05-29T06:51:30Z</time>
+    <name>N39M32</name>
+    <cmt>29-MAY-13 06:51</cmt>
+    <desc>29-MAY-13 06:51</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7826157" lon="-2.7399829">
+    <ele>1209.6955566</ele>
+    <time>2013-05-21T17:29:30Z</time>
+    <name>NOTFIA</name>
+    <cmt>21-MAY-13 17:29</cmt>
+    <desc>21-MAY-13 17:29</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4621214" lon="-3.2548109">
+    <time>2013-05-23T14:20:55Z</time>
+    <name>NOTFIA 1</name>
+    <cmt>23-MAY-13 14:20</cmt>
+    <desc>23-MAY-13 14:20</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3655678" lon="-3.2788930">
+    <time>2013-05-23T16:24:42Z</time>
+    <name>NOTFIA A</name>
+    <cmt>23-MAY-13 16:24</cmt>
+    <desc>23-MAY-13 16:24</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4004146" lon="-3.3090208">
+    <ele>1315.1994629</ele>
+    <time>2013-05-23T16:36:41Z</time>
+    <name>NOTFIA B</name>
+    <cmt>23-MAY-13 16:36</cmt>
+    <desc>23-MAY-13 16:36</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4045455" lon="-3.4526725">
+    <time>2013-05-23T17:40:19Z</time>
+    <name>NOTFIA C</name>
+    <cmt>23-MAY-13 17:40</cmt>
+    <desc>23-MAY-13 17:40</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4264163" lon="-2.8061314">
+    <ele>1239.0156250</ele>
+    <time>2013-05-29T05:57:56Z</time>
+    <name>OEDIC</name>
+    <cmt>29-MAY-13 05:57</cmt>
+    <desc>29-MAY-13 05:57</desc>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3112217" lon="-3.2598212">
+    <ele>1321.4477539</ele>
+    <time>2013-05-16T13:06:14Z</time>
+    <name>OUED TISSA</name>
+    <cmt>16-MAY-13 13:06</cmt>
+    <desc>16-MAY-13 13:06</desc>
+    <sym>Flag, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2689700" lon="-1.9946999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN01M05</name>
+    <cmt>2013-05-17T15:03:09Z</cmt>
+    <desc>2013-05-17T15:03:09Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8493099" lon="-2.4969099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN01M20</name>
+    <cmt>2013-05-03T16:12:16Z</cmt>
+    <desc>2013-05-03T16:12:16Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9275600" lon="-2.3553500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN02M01</name>
+    <cmt>2013-04-28T23:21:11Z</cmt>
+    <desc>2013-04-28T23:21:11Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0200200" lon="-2.0760200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN038I</name>
+    <cmt>2013-04-27T10:49:58Z</cmt>
+    <desc>2013-04-27T10:49:58Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2221500" lon="-2.1470399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN039I</name>
+    <cmt>2013-05-06T11:04:16Z</cmt>
+    <desc>2013-05-06T11:04:16Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9554399" lon="-2.3941800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN03M01</name>
+    <cmt>2013-04-29T03:15:10Z</cmt>
+    <desc>2013-04-29T03:15:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9821899" lon="-2.4667799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN03M25</name>
+    <cmt>2013-04-26T16:00:31Z</cmt>
+    <desc>2013-04-26T16:00:31Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2675699" lon="-2.3123300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN040I</name>
+    <cmt>2013-05-06T11:05:06Z</cmt>
+    <desc>2013-05-06T11:05:06Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1552399" lon="-2.4442299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN041I</name>
+    <cmt>2013-05-05T13:37:20Z</cmt>
+    <desc>2013-05-05T13:37:20Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9526799" lon="-2.1439199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN042I</name>
+    <cmt>2013-05-06T11:06:54Z</cmt>
+    <desc>2013-05-06T11:06:54Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6398299" lon="-1.9992700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN043I</name>
+    <cmt>2013-05-06T11:07:29Z</cmt>
+    <desc>2013-05-06T11:07:29Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6393400" lon="-2.9669600">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN044I</name>
+    <cmt>2013-05-06T11:08:02Z</cmt>
+    <desc>2013-05-06T11:08:02Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7261000" lon="-2.1404300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN045I</name>
+    <cmt>2013-05-06T11:09:00Z</cmt>
+    <desc>2013-05-06T11:09:00Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0048600" lon="-2.0700800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN046I</name>
+    <cmt>2013-05-06T11:09:51Z</cmt>
+    <desc>2013-05-06T11:09:51Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0032200" lon="-2.0824399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN047I</name>
+    <cmt>2013-05-06T11:10:31Z</cmt>
+    <desc>2013-05-06T11:10:31Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2048300" lon="-2.3176299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN048I</name>
+    <cmt>2013-05-06T11:11:29Z</cmt>
+    <desc>2013-05-06T11:11:29Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2164899" lon="-2.5294499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN049I</name>
+    <cmt>2013-05-06T11:12:14Z</cmt>
+    <desc>2013-05-06T11:12:14Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8777600" lon="-2.5106299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN04M01</name>
+    <cmt>2013-05-07T02:47:33Z</cmt>
+    <desc>2013-05-07T02:47:33Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0925399" lon="-2.6133300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN050I</name>
+    <cmt>2013-05-06T11:13:06Z</cmt>
+    <desc>2013-05-06T11:13:06Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8881799" lon="-2.1599399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN051I</name>
+    <cmt>2013-05-13T08:20:02Z</cmt>
+    <desc>2013-05-13T08:20:02Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2070399" lon="-2.3647599">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN052I</name>
+    <cmt>2013-05-13T08:20:56Z</cmt>
+    <desc>2013-05-13T08:20:56Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9988599" lon="-2.4098999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN053I</name>
+    <cmt>2013-05-13T08:22:01Z</cmt>
+    <desc>2013-05-13T08:22:01Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7077800" lon="-2.5469300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN054I</name>
+    <cmt>2013-05-13T08:22:39Z</cmt>
+    <desc>2013-05-13T08:22:39Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7853900" lon="-2.7094899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN055I</name>
+    <cmt>2013-05-13T14:19:43Z</cmt>
+    <desc>2013-05-13T14:19:43Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7834200" lon="-2.2556199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN056I</name>
+    <cmt>2013-05-18T09:51:27Z</cmt>
+    <desc>2013-05-18T09:51:27Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7264499" lon="-2.3631300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN057I</name>
+    <cmt>2013-05-18T09:52:12Z</cmt>
+    <desc>2013-05-18T09:52:12Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7494299" lon="-2.4933300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN058I</name>
+    <cmt>2013-05-18T09:53:07Z</cmt>
+    <desc>2013-05-18T09:53:07Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7104400" lon="-2.5026800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN059I</name>
+    <cmt>2013-05-18T09:54:01Z</cmt>
+    <desc>2013-05-18T09:54:01Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6398499" lon="-2.5228900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN060I</name>
+    <cmt>2013-05-18T09:55:12Z</cmt>
+    <desc>2013-05-18T09:55:12Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0835799" lon="-2.8153199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN061I</name>
+    <cmt>2013-05-18T09:56:17Z</cmt>
+    <desc>2013-05-18T09:56:17Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2405199" lon="-2.1593399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN062I</name>
+    <cmt>2013-05-18T09:56:50Z</cmt>
+    <desc>2013-05-18T09:56:50Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8268500" lon="-2.4553500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN063I</name>
+    <cmt>2013-05-18T09:57:22Z</cmt>
+    <desc>2013-05-18T09:57:22Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9014300" lon="-2.5088699">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN065I</name>
+    <cmt>2013-05-24T09:45:11Z</cmt>
+    <desc>2013-05-24T09:45:11Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7953499" lon="-2.2949000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN066I</name>
+    <cmt>2013-05-24T09:50:45Z</cmt>
+    <desc>2013-05-24T09:50:45Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7617299" lon="-2.3065100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN067I</name>
+    <cmt>2013-05-24T09:47:31Z</cmt>
+    <desc>2013-05-24T09:47:31Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8861300" lon="-2.5125000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN07M14</name>
+    <cmt>2013-05-03T15:58:46Z</cmt>
+    <desc>2013-05-03T15:58:46Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9287299" lon="-2.4121899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN07M23</name>
+    <cmt>2013-05-17T13:39:42Z</cmt>
+    <desc>2013-05-17T13:39:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9186300" lon="-2.5067899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN081B</name>
+    <cmt>2013-04-22T10:04:57Z</cmt>
+    <desc>2013-04-22T10:04:57Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5713599" lon="-3.1780699">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN085M</name>
+    <cmt>2013-04-29T14:44:20Z</cmt>
+    <desc>2013-04-29T14:44:20Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8003800" lon="-2.5250200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN086B</name>
+    <cmt>2013-04-22T10:06:17Z</cmt>
+    <desc>2013-04-22T10:06:17Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5917900" lon="-3.1491799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN086M</name>
+    <cmt>2013-04-29T14:45:08Z</cmt>
+    <desc>2013-04-29T14:45:08Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9873399" lon="-2.4541399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN087F</name>
+    <cmt>2013-04-27T11:11:56Z</cmt>
+    <desc>2013-04-27T11:11:56Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4052999" lon="-3.2270099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN087M</name>
+    <cmt>2013-04-29T14:46:13Z</cmt>
+    <desc>2013-04-29T14:46:13Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4050500" lon="-3.0998500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN088M</name>
+    <cmt>2013-04-29T14:47:04Z</cmt>
+    <desc>2013-04-29T14:47:04Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3662399" lon="-3.1393400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN089M</name>
+    <cmt>2013-04-29T14:47:51Z</cmt>
+    <desc>2013-04-29T14:47:51Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7758700" lon="-2.6947600">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN091B</name>
+    <cmt>2013-04-27T10:55:41Z</cmt>
+    <desc>2013-04-27T10:55:41Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2104899" lon="-3.3389300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN091M</name>
+    <cmt>2013-04-29T14:49:09Z</cmt>
+    <desc>2013-04-29T14:49:09Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7743200" lon="-2.6938100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN092B</name>
+    <cmt>2013-04-29T10:28:25Z</cmt>
+    <desc>2013-04-29T10:28:25Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8716800" lon="-2.6247900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN093B</name>
+    <cmt>2013-04-29T10:29:12Z</cmt>
+    <desc>2013-04-29T10:29:12Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1075799" lon="-3.1934100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN093M</name>
+    <cmt>2013-04-29T14:50:39Z</cmt>
+    <desc>2013-04-29T14:50:39Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1307400" lon="-3.1086200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN094M</name>
+    <cmt>2013-04-29T14:51:19Z</cmt>
+    <desc>2013-04-29T14:51:19Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0741299" lon="-2.9371100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN095F</name>
+    <cmt>2013-05-06T10:41:45Z</cmt>
+    <desc>2013-05-06T10:41:45Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3078200" lon="-3.1488400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN095M</name>
+    <cmt>2013-04-29T14:52:05Z</cmt>
+    <desc>2013-04-29T14:52:05Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1641699" lon="-3.0352900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN096F</name>
+    <cmt>2013-05-06T10:42:33Z</cmt>
+    <desc>2013-05-06T10:42:33Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.5116499" lon="-3.2869900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN096M</name>
+    <cmt>2013-05-02T16:16:42Z</cmt>
+    <desc>2013-05-02T16:16:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0749199" lon="-2.4150900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN097B</name>
+    <cmt>2013-04-27T11:21:39Z</cmt>
+    <desc>2013-04-27T11:21:39Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1536900" lon="-3.0112000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN097F</name>
+    <cmt>2013-05-06T10:43:00Z</cmt>
+    <desc>2013-05-06T10:43:00Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1157300" lon="-3.1863399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN098F</name>
+    <cmt>2013-05-06T10:43:42Z</cmt>
+    <desc>2013-05-06T10:43:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9800499" lon="-3.1353599">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN099F</name>
+    <cmt>2013-05-06T10:45:48Z</cmt>
+    <desc>2013-05-06T10:45:48Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8538699" lon="-2.6520499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN100B</name>
+    <cmt>2013-04-27T11:25:17Z</cmt>
+    <desc>2013-04-27T11:25:17Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0007299" lon="-3.0857899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN100F</name>
+    <cmt>2013-05-06T10:45:00Z</cmt>
+    <desc>2013-05-06T10:45:00Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8610899" lon="-2.9414500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN101B</name>
+    <cmt>2013-04-27T11:26:22Z</cmt>
+    <desc>2013-04-27T11:26:22Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9589499" lon="-3.1267000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN101F</name>
+    <cmt>2013-05-06T10:46:22Z</cmt>
+    <desc>2013-05-06T10:46:22Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3505000" lon="-3.2600200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN101M</name>
+    <cmt>2013-05-02T16:19:49Z</cmt>
+    <desc>2013-05-02T16:19:49Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7738700" lon="-2.3061500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN102B</name>
+    <cmt>2013-05-05T13:29:38Z</cmt>
+    <desc>2013-05-05T13:29:38Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6717899" lon="-2.6176300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN102F</name>
+    <cmt>2013-05-06T10:47:02Z</cmt>
+    <desc>2013-05-06T10:47:02Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3144900" lon="-3.2597900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN102M</name>
+    <cmt>2013-05-02T16:20:33Z</cmt>
+    <desc>2013-05-02T16:20:33Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7567499" lon="-2.3283800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN103B</name>
+    <cmt>2013-05-05T13:28:58Z</cmt>
+    <desc>2013-05-05T13:28:58Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3028499" lon="-2.8525900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN103M</name>
+    <cmt>2013-05-02T16:21:43Z</cmt>
+    <desc>2013-05-02T16:21:43Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1570799" lon="-2.4368200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN104B</name>
+    <cmt>2013-05-05T13:33:02Z</cmt>
+    <desc>2013-05-05T13:33:02Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3057600" lon="-2.8682299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN104M</name>
+    <cmt>2013-05-02T16:22:30Z</cmt>
+    <desc>2013-05-02T16:22:30Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1439600" lon="-2.4588200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN105B</name>
+    <cmt>2013-05-05T13:39:45Z</cmt>
+    <desc>2013-05-05T13:39:45Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2586800" lon="-2.9209099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN105M</name>
+    <cmt>2013-05-02T16:23:31Z</cmt>
+    <desc>2013-05-02T16:23:31Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6587500" lon="-3.1343300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN106M</name>
+    <cmt>2013-05-02T16:24:04Z</cmt>
+    <desc>2013-05-02T16:24:04Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3080999" lon="-3.3435699">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN107M</name>
+    <cmt>2013-05-09T16:22:20Z</cmt>
+    <desc>2013-05-09T16:22:20Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7715400" lon="-2.2664400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN108B</name>
+    <cmt>2013-05-05T13:30:07Z</cmt>
+    <desc>2013-05-05T13:30:07Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4477699" lon="-3.0394900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN110M</name>
+    <cmt>2013-05-09T16:33:27Z</cmt>
+    <desc>2013-05-09T16:33:27Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2232899" lon="-2.8673900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN111A</name>
+    <cmt>2013-04-24T10:12:42Z</cmt>
+    <desc>2013-04-24T10:12:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4013899" lon="-3.1012499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN111M</name>
+    <cmt>2013-05-09T16:35:10Z</cmt>
+    <desc>2013-05-09T16:35:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6825800" lon="-2.8296899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN112B</name>
+    <cmt>2013-05-06T11:00:10Z</cmt>
+    <desc>2013-05-06T11:00:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1909199" lon="-3.2541700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN112M</name>
+    <cmt>2013-05-09T16:37:08Z</cmt>
+    <desc>2013-05-09T16:37:08Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7181900" lon="-2.4388199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN113B</name>
+    <cmt>2013-05-06T11:00:46Z</cmt>
+    <desc>2013-05-06T11:00:46Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1601800" lon="-3.1954800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN113M</name>
+    <cmt>2013-05-21T07:49:34Z</cmt>
+    <desc>2013-05-21T07:49:34Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3657900" lon="-3.2465099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN114M</name>
+    <cmt>2013-05-18T10:57:47Z</cmt>
+    <desc>2013-05-18T10:57:47Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8381000" lon="-2.7508799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN116B</name>
+    <cmt>2013-05-13T08:17:23Z</cmt>
+    <desc>2013-05-13T08:17:23Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1007199" lon="-3.2034399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN116M</name>
+    <cmt>2013-05-21T07:54:50Z</cmt>
+    <desc>2013-05-21T07:54:50Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2651699" lon="-2.1451599">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN117B</name>
+    <cmt>2013-05-13T08:18:00Z</cmt>
+    <desc>2013-05-13T08:18:00Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1793699" lon="-2.9752699">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN117M</name>
+    <cmt>2013-05-21T07:56:34Z</cmt>
+    <desc>2013-05-21T07:56:34Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.6777099" lon="-2.3892900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN118B</name>
+    <cmt>2013-05-13T08:18:28Z</cmt>
+    <desc>2013-05-13T08:18:28Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2143899" lon="-2.9636899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN118M</name>
+    <cmt>2013-05-21T08:00:03Z</cmt>
+    <desc>2013-05-21T08:00:03Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="34.1205000" lon="-2.2342799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN119A</name>
+    <cmt>2013-04-24T10:32:34Z</cmt>
+    <desc>2013-04-24T10:32:34Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1674100" lon="-2.4961400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN119B</name>
+    <cmt>2013-05-18T10:01:44Z</cmt>
+    <desc>2013-05-18T10:01:44Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2936400" lon="-2.8675500">
+    <ele>1325.0527344</ele>
+    <time>2013-05-29T11:11:01Z</time>
+    <name>ZN119M</name>
+    <cmt>29-MAY-13 11:10</cmt>
+    <desc>29-MAY-13 11:10</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9440000" lon="-2.3231999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN120A</name>
+    <cmt>2013-04-24T10:34:42Z</cmt>
+    <desc>2013-04-24T10:34:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8502800" lon="-2.5547000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN120B</name>
+    <cmt>2013-05-18T10:02:25Z</cmt>
+    <desc>2013-05-18T10:02:25Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7834500" lon="-2.2399400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN121B</name>
+    <cmt>2013-05-18T10:02:58Z</cmt>
+    <desc>2013-05-18T10:02:58Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2739600" lon="-2.9563999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN122A</name>
+    <cmt>2013-04-30T13:29:32Z</cmt>
+    <desc>2013-04-30T13:29:32Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7597200" lon="-2.3549700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN122B</name>
+    <cmt>2013-05-18T10:03:36Z</cmt>
+    <desc>2013-05-18T10:03:36Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6949799" lon="-2.7315099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN123A</name>
+    <cmt>2013-04-30T13:30:08Z</cmt>
+    <desc>2013-04-30T13:30:08Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8766800" lon="-2.6410099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN123B</name>
+    <cmt>2013-05-18T10:04:06Z</cmt>
+    <desc>2013-05-18T10:04:06Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6618599" lon="-2.7522899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN124A</name>
+    <cmt>2013-04-30T13:30:42Z</cmt>
+    <desc>2013-04-30T13:30:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6181999" lon="-3.0442900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN125A</name>
+    <cmt>2013-04-30T13:31:27Z</cmt>
+    <desc>2013-04-30T13:31:27Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.0566500" lon="-2.5192500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN125B</name>
+    <cmt>2013-05-18T10:05:44Z</cmt>
+    <desc>2013-05-18T10:05:44Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6114900" lon="-2.6167299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN126A</name>
+    <cmt>2013-04-30T13:31:55Z</cmt>
+    <desc>2013-04-30T13:31:55Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8318300" lon="-2.4472199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN126B</name>
+    <cmt>2013-05-18T10:06:19Z</cmt>
+    <desc>2013-05-18T10:06:19Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7578200" lon="-2.8355200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN127A</name>
+    <cmt>2013-04-30T13:32:32Z</cmt>
+    <desc>2013-04-30T13:32:32Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9413899" lon="-2.4822300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN127B</name>
+    <cmt>2013-05-18T10:07:13Z</cmt>
+    <desc>2013-05-18T10:07:13Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7528600" lon="-2.9989900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN128A</name>
+    <cmt>2013-04-30T13:33:19Z</cmt>
+    <desc>2013-04-30T13:33:19Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7417799" lon="-2.4726700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN128B</name>
+    <cmt>2013-05-18T10:08:05Z</cmt>
+    <desc>2013-05-18T10:08:05Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6840700" lon="-3.0585799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN129A</name>
+    <cmt>2013-04-30T13:34:05Z</cmt>
+    <desc>2013-04-30T13:34:05Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6873500" lon="-2.9351800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN130A</name>
+    <cmt>2013-04-30T13:34:38Z</cmt>
+    <desc>2013-04-30T13:34:38Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7809099" lon="-2.9210900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN131A</name>
+    <cmt>2013-04-30T13:36:24Z</cmt>
+    <desc>2013-04-30T13:36:24Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9072899" lon="-2.5802199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN132A</name>
+    <cmt>2013-04-30T13:36:56Z</cmt>
+    <desc>2013-04-30T13:36:56Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9070200" lon="-2.5363600">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN133A</name>
+    <cmt>2013-04-30T13:37:42Z</cmt>
+    <desc>2013-04-30T13:37:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9135500" lon="-2.4033299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN134A</name>
+    <cmt>2013-04-30T13:38:21Z</cmt>
+    <desc>2013-04-30T13:38:21Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9093400" lon="-2.4007999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN135A</name>
+    <cmt>2013-04-30T13:39:52Z</cmt>
+    <desc>2013-04-30T13:39:52Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9749699" lon="-2.3011900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN136A</name>
+    <cmt>2013-04-30T13:40:29Z</cmt>
+    <desc>2013-04-30T13:40:29Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7494999" lon="-2.9900399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN137A</name>
+    <cmt>2013-04-30T13:41:49Z</cmt>
+    <desc>2013-04-30T13:41:49Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3868400" lon="-2.9348500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN138A</name>
+    <cmt>2013-04-30T13:42:39Z</cmt>
+    <desc>2013-04-30T13:42:39Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9743400" lon="-2.5243500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN139A</name>
+    <cmt>2013-04-30T13:43:16Z</cmt>
+    <desc>2013-04-30T13:43:16Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9814600" lon="-2.3190600">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN140A</name>
+    <cmt>2013-04-30T13:43:46Z</cmt>
+    <desc>2013-04-30T13:43:46Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9833700" lon="-2.2826900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN141A</name>
+    <cmt>2013-04-30T13:44:38Z</cmt>
+    <desc>2013-04-30T13:44:38Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8108899" lon="-2.4503800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN142A</name>
+    <cmt>2013-04-30T13:45:09Z</cmt>
+    <desc>2013-04-30T13:45:09Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6911099" lon="-2.6654200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN143A</name>
+    <cmt>2013-05-06T09:08:21Z</cmt>
+    <desc>2013-05-06T09:08:21Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7536099" lon="-2.5292499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN144A</name>
+    <cmt>2013-05-06T09:08:49Z</cmt>
+    <desc>2013-05-06T09:08:49Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8046700" lon="-2.4551800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN145A</name>
+    <cmt>2013-05-06T09:09:27Z</cmt>
+    <desc>2013-05-06T09:09:27Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9182599" lon="-2.2299700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN146A</name>
+    <cmt>2013-05-06T09:10:07Z</cmt>
+    <desc>2013-05-06T09:10:07Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9355499" lon="-2.2264099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN148A</name>
+    <cmt>2013-05-06T09:11:10Z</cmt>
+    <desc>2013-05-06T09:11:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9364300" lon="-2.2469899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN149A</name>
+    <cmt>2013-05-06T09:11:45Z</cmt>
+    <desc>2013-05-06T09:11:45Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8231899" lon="-2.5433800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN150A</name>
+    <cmt>2013-05-06T09:12:16Z</cmt>
+    <desc>2013-05-06T09:12:16Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9229300" lon="-2.4001499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN151A</name>
+    <cmt>2013-05-06T09:12:47Z</cmt>
+    <desc>2013-05-06T09:12:47Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9007899" lon="-2.6034800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN152A</name>
+    <cmt>2013-05-06T09:13:40Z</cmt>
+    <desc>2013-05-06T09:13:40Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8947899" lon="-2.4407799">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN153A</name>
+    <cmt>2013-05-07T10:02:15Z</cmt>
+    <desc>2013-05-07T10:02:15Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9499100" lon="-2.2319100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN154A</name>
+    <cmt>2013-05-07T10:02:43Z</cmt>
+    <desc>2013-05-07T10:02:43Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8504300" lon="-2.4784299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN155A</name>
+    <cmt>2013-05-07T10:03:25Z</cmt>
+    <desc>2013-05-07T10:03:25Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.6950900" lon="-2.6516899">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN156A</name>
+    <cmt>2013-05-07T10:04:11Z</cmt>
+    <desc>2013-05-07T10:04:11Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7137800" lon="-2.7235500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN157A</name>
+    <cmt>2013-05-07T10:04:48Z</cmt>
+    <desc>2013-05-07T10:04:48Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2490700" lon="-2.1174400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN158A</name>
+    <cmt>2013-05-07T10:05:20Z</cmt>
+    <desc>2013-05-07T10:05:20Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7190500" lon="-2.4813499">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN159A</name>
+    <cmt>2013-05-18T09:26:58Z</cmt>
+    <desc>2013-05-18T09:26:58Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.3561500" lon="-2.8698399">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN160A</name>
+    <cmt>2013-05-18T09:28:25Z</cmt>
+    <desc>2013-05-18T09:28:25Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9364200" lon="-2.2094100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-25T10:24:19Z</time>
+    <name>ZN161A</name>
+    <cmt>2013-05-18T09:29:55Z</cmt>
+    <desc>2013-05-18T09:29:55Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8217199" lon="-2.4838100">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN162A</name>
+    <cmt>2013-05-18T09:32:10Z</cmt>
+    <desc>2013-05-18T09:32:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8094600" lon="-3.1492000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN163A</name>
+    <cmt>2013-05-18T09:33:51Z</cmt>
+    <desc>2013-05-18T09:33:51Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7141600" lon="-2.8508500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN164A</name>
+    <cmt>2013-05-17T14:19:13Z</cmt>
+    <desc>2013-05-17T14:19:13Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7739700" lon="-3.0324199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN165A</name>
+    <cmt>2013-05-17T14:16:06Z</cmt>
+    <desc>2013-05-17T14:16:06Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.7405900" lon="-2.7198200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN166A</name>
+    <cmt>2013-05-17T14:21:25Z</cmt>
+    <desc>2013-05-17T14:21:25Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9238200" lon="-2.4080299">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN167A</name>
+    <cmt>2013-05-18T08:46:10Z</cmt>
+    <desc>2013-05-18T08:46:10Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9306500" lon="-2.4148400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN168A</name>
+    <cmt>2013-05-18T08:46:38Z</cmt>
+    <desc>2013-05-18T08:46:38Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4887000" lon="-2.7619200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN169A</name>
+    <cmt>2013-05-24T08:16:44Z</cmt>
+    <desc>2013-05-24T08:16:44Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7556500" lon="-2.2191199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN16M10</name>
+    <cmt>2013-05-25T10:37:57Z</cmt>
+    <desc>2013-05-25T10:37:57Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9155700" lon="-2.3657199">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN170A</name>
+    <cmt>2013-05-24T08:17:23Z</cmt>
+    <desc>2013-05-24T08:17:23Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.9868500" lon="-2.2985000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN171A</name>
+    <cmt>2013-05-24T08:17:59Z</cmt>
+    <desc>2013-05-24T08:17:59Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2213600" lon="-2.4093800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN172A</name>
+    <cmt>2013-05-24T08:19:34Z</cmt>
+    <desc>2013-05-24T08:19:34Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.8836299" lon="-2.3283500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN173A</name>
+    <cmt>2013-05-24T08:20:05Z</cmt>
+    <desc>2013-05-24T08:20:05Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7042100" lon="-2.4603900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN21M15</name>
+    <cmt>2013-05-06T14:55:04Z</cmt>
+    <desc>2013-05-06T14:55:04Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7111199" lon="-2.4684800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN25M15</name>
+    <cmt>2013-04-22T16:40:06Z</cmt>
+    <desc>2013-04-22T16:40:06Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1223499" lon="-2.9927800">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN26M32</name>
+    <cmt>2013-04-27T08:48:49Z</cmt>
+    <desc>2013-04-27T08:48:49Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1009499" lon="-2.2103700">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN27M32</name>
+    <cmt>2013-04-27T08:58:19Z</cmt>
+    <desc>2013-04-27T08:58:19Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1635700" lon="-2.0114900">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN28M32</name>
+    <cmt>2013-04-27T09:06:11Z</cmt>
+    <desc>2013-04-27T09:06:11Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.9962500" lon="-2.4359400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN29M15</name>
+    <cmt>2013-05-04T08:29:22Z</cmt>
+    <desc>2013-05-04T08:29:22Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1708699" lon="-2.1167600">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN30M15</name>
+    <cmt>2013-05-04T08:32:42Z</cmt>
+    <desc>2013-05-04T08:32:42Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1547700" lon="-2.7236500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN31M32</name>
+    <cmt>2013-05-10T15:58:43Z</cmt>
+    <desc>2013-05-10T15:58:43Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.8301099" lon="-2.4823300">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN32M32</name>
+    <cmt>2013-05-10T16:07:14Z</cmt>
+    <desc>2013-05-10T16:07:14Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.4525800" lon="-2.2010200">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN33M32</name>
+    <cmt>2013-05-10T16:01:28Z</cmt>
+    <desc>2013-05-10T16:01:28Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2391800" lon="-2.0766000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN34M32</name>
+    <cmt>2013-05-10T15:54:46Z</cmt>
+    <desc>2013-05-10T15:54:46Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1072600" lon="-2.3573099">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN35M15</name>
+    <cmt>2013-05-18T08:18:26Z</cmt>
+    <desc>2013-05-18T08:18:26Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7518499" lon="-2.4773000">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN36M15</name>
+    <cmt>2013-05-18T08:21:11Z</cmt>
+    <desc>2013-05-18T08:21:11Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="32.7448400" lon="-2.4852400">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN37M15</name>
+    <cmt>2013-05-18T08:23:22Z</cmt>
+    <desc>2013-05-18T08:23:22Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.1071600" lon="-2.6180500">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN38M15</name>
+    <cmt>2013-05-18T09:04:02Z</cmt>
+    <desc>2013-05-18T09:04:02Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="33.2633999" lon="-2.6573999">
+    <ele>-998.9166260</ele>
+    <time>2013-05-28T08:33:25Z</time>
+    <name>ZN39M32</name>
+    <cmt>2013-05-24T16:38:03Z</cmt>
+    <desc>2013-05-24T16:38:03Z</desc>
+    <sym>Oval, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+ </gpx>

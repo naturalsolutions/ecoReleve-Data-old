@@ -2066,33 +2066,30 @@ app.utils.initGridServer = function (gridCollection, count,url,options){
 }
 app.utils.fillObjectsTable = function(){
 	var serverUrl = localStorage.getItem("serverUrl");
-	var indivUrl = serverUrl + '/TViewIndividual/list?' ;
+	var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc' ;
 	// load data for indiv grid
 	app.utils.getDataForGrid(indivUrl,function(collection ,rowsNumber){
 		//var rowsNumber = collection.length ;
 		app.utils.initGridServer(collection, rowsNumber,indivUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsIndivGrid" });
 	});
 	// load data for radio transmitter
-	var radioUrl = serverUrl + '/TViewTrx_Radio/list?';
+	var radioUrl = serverUrl + '/TViewTrx_Radio/list?sortColumn=ID&sortOrder=desc';
 	app.utils.getDataForGrid(radioUrl,function(collection ,rowsNumber){
 		//var rowsNumber = collection.length ;
 		app.utils.initGridServer(collection, rowsNumber,radioUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsRadioGrid" });
 	});
 	// load data for sat transmitter
-	var satUrl = serverUrl + '/TViewTrx_Sat/list?';
+	var satUrl = serverUrl + '/TViewTrx_Sat/list?sortColumn=ID&sortOrder=desc';
 	app.utils.getDataForGrid(satUrl,function(collection ,rowsNumber){
 		//var rowsNumber = collection.length ;
 		app.utils.initGridServer(collection, rowsNumber,satUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsSatGrid" });
 	});
 	// load data for RFID
-	var rfidUrl = serverUrl + '/TViewFieldsensor/list?';
+	var rfidUrl = serverUrl + '/TViewFieldsensor/list?sortColumn=ID&sortOrder=desc';
 	app.utils.getDataForGrid(rfidUrl,function(collection ,rowsNumber){
 		//var rowsNumber = collection.length ;
 		app.utils.initGridServer(collection, rowsNumber,rfidUrl, {pageSize :15, columns :[2,6,7,8],container : "#objectsField_sensorGrid" });
 	});
-
-
-
 }
 app.utils.getObjectDetails = function(backboneView,objectType,url,idObj){
 	if(app.xhr){ 
@@ -2124,25 +2121,47 @@ app.utils.getObjectDetails = function(backboneView,objectType,url,idObj){
 					}
 					*/
 					if ((String(objectContent[v]) != "[object Object]")){
-							var editable = objectContent[v][1]['edit'];
-							var idbtn = objectContent[v][1]['typeandid'];
-							var bouton="";
-							if(editable==1){
-								bouton="<span name='"+v+"' class='editCaracBtn' id="+idbtn+">Edit</span>";
+						var editable = objectContent[v][1]['edit'];
+						var idbtn = objectContent[v][1]['typeandid'];
+						var order = objectContent[v][1]['order'];
+						var importance = objectContent[v][1]['importance'];
+						var classimportance="";
+						if(importance!=3){
+							if(importance==2){
+								classimportance="class='objectcaractype2'";
 							}
-							ct += "<p>" + v + " : " + objectContent[v][0]+bouton + "</p>";
+							if(importance==1){
+								classimportance="class='objectcaractype1'";
+							}
+						}
+						var bouton="";
+						if(editable==1){
+							bouton="<span name='"+v+"' class='editCaracBtn' id="+idbtn+">Edit</span>";
+						}
+						ct += "<p  "+classimportance+">" + v + " : " + objectContent[v][0]+bouton + "</p>";
 					}
 					else {
 						var objDetail = objectContent[v];
-						ct += "<h3><i>" + v + "</i></h3>";
+						ct += "<h2><i>" + v + "</i></h2>";
 						for (z in objDetail){
 							var editable = objDetail[z][1]['edit'];
 							var idbtn = objDetail[z][1]['typeandid'];
+							var order = objDetail[z][1]['order'];
+							var importance = objDetail[z][1]['importance'];
+							var classimportance="";
+							if(importance!=3){
+								if(importance==2){
+									classimportance="class='objectcaractype2'";
+								}
+								if(importance==1){
+									classimportance="class='objectcaractype1'";
+								}
+							}
 							var bouton="";
 							if(editable==1){
 								bouton="<span name='"+z+"' class='editCaracBtn' id="+idbtn+">Edit</span>";
 							}
-							ct += "<p>" + z + " : " + objDetail[z][0] +bouton+"</p>";
+							ct += "<p "+classimportance+" >"+ z + " : " + objDetail[z][0] +bouton+"</p>";
 						}
 					}
 				}
@@ -2153,7 +2172,7 @@ app.utils.getObjectDetails = function(backboneView,objectType,url,idObj){
 			$("#objectDetailsPanel").append("<li id='objectSuccessEdit' style='display: none;'><img SRC='img/success.jpg' width='40px' height='40px'/></li><li id='objectErrorEdit' style='display: none;'><img SRC='img/error.jpg' width='40px' height='40px'/></li>");
 			$("#objectDetailsPanel").append("<li id='objectNew' style='display: none;'>NEW</li>");
 			$("#d0").prepend("<a class='btn' objId='"+ idObj  + "' id='objDelete'>delete</a><br/>");
-			$("#d0").prepend("<a class='btn' id='objectsDetails'>details</a><br/>");
+			//$("#d0").prepend("<a class='btn' id='objectsDetails'>details</a><br/>");    details button
 			// init map
 			//<div id='map' style='width:200px; height:150px'></div>
 			//var map_view = app.utils.initMap();
@@ -2218,8 +2237,11 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 }
 */
 app.utils.displayObjectHistory= function(view,objectType, url,idIndiv){
-    var alertView = new app.views.ObjectHistoryBox({view : view, objectType : objectType, url:url, id:idIndiv});
- 	$("#objHistoryDiv").append(alertView.render().$el);
+    var alertView = new app.views.ObjectHistoryBox({view : view, objectType : objectType, url:url, id:idIndiv}); 	
+	$("#objectsInfosPanelHistory").empty();
+	$("#objectsInfosPanelHistory").append('<h3>history</h3>');
+	$("#objectsInfosPanelHistory").append(alertView.render().$el);
+	// $("#objHistoryDiv").append(alertView.render().$el);
 }
 app.utils.displayObjectDetails = function(view,objectType, url,idIndiv){
 	$(".modal-backdrop").remove();

@@ -369,6 +369,20 @@ HomeView
 	        $.supersized({
 	            slides:[ {image: ''} ]
 	        });
+	    },
+	    events : {
+	    	'click #station' : 'getStation'
+	    },
+	    getStation : function() {
+	    	var stationType = $('input[name=stationtype]:checked').val();
+	    	switch(stationType){ 
+	    		case "newStation" :
+	    			app.router.navigate('#newStation', {trigger: true}); 
+	    			break;
+	    		case "importedStation" :
+	    			app.router.navigate('#importedStation', {trigger: true}); 	
+	    			break;
+	    	}
 	    }
 	});
 	app.views.NewStation = app.views.BaseView.extend({
@@ -516,7 +530,7 @@ HomeView
 	    afterRender: function() {
 	        $(".protocol").append(this.formView.el);
 	        // add hidden input to the form to store protocol name and id
-	        var inputProtocolName = "<input type='hidden'  name='protocolName'  value='" + this.currentModelName + "'>";
+	        var inputProtocolName = "<input type='hidden'  name='protocolName'  value='" + this.currentModelName + "''>";
 	        var inputProtocolId = "<input type='hidden'  name='protocolId'  value=" + this.selectedProtocolId + ">";
 	        $("form").append(inputProtocolName);
 	        $("form").append(inputProtocolId);
@@ -1853,13 +1867,19 @@ HomeView
 	    },
 	    storeWaypoints : function(){
 	        // add fieldActivity and fielduser to each model
-	        for(var i=0; i<app.collections.selectedWaypoints.length; i++) {
+	        /*for(var i=0; i<app.collections.selectedWaypoints.length; i++) {
 	             wptModel = app.collections.selectedWaypoints.models[i];
 	            wptModel.set("fieldActivity",this.selectedActivity);
 	            wptModel.set("fieldWorker1",this.selectedUser1);
 	            wptModel.set("fieldWorker2",this.selectedUser2);
-	        }
-
+	        }*/
+	        var self = this;
+	        app.collections.selectedWaypoints.each(function(model){
+	        	model.set("fieldActivity",self.selectedActivity);
+	        	model.set("fieldWorker1",self.selectedUser1);
+	        	model.set("fieldWorker2",self.selectedUser2);
+	        });
+	        app.collections.selectedWaypoints.save();
 	        app.router.navigate('#import-end', {trigger: true});
 
 	    }
@@ -1888,13 +1908,14 @@ HomeView
 
 	    },
 	    removeAllChildren: function() {
-		    _.each(this.children, function(view) { 
-		        view.remove(); 
-		    });
-		    this.children = [];
-	    },
+	    _.each(this.children, function(view) { 
+	        view.remove(); 
+	    });
+	    this.children = [];
+	    }
+	    ,
 	    events : {
-	       'click tr' : 'selectTableElement',
+	       'click .tab-pane tr' : 'selectTableElement',
 	       'click #objectsInfosPanelClose' : 'closeInfosPanel',
 	       //'click #objectsMap' : 'displayMap',
 	       'click #objectsReturn' : 'maskBox',
@@ -1905,7 +1926,6 @@ HomeView
 	       'click #animationStart' : 'startAnimation',
 	       'click #animationStop' : 'stopAnimation',
 	       'click #animationInit' : 'initAnimation',
-	       'click #objectImportButtonContent' : 'showModalImport',
 	       'click #objectAddButtonContent' : 'AddObject',
 	       'click .editCaracBtn' : 'showModalEdit',
 	       'click .objTab' : 'activateSelectedTab',
@@ -1939,6 +1959,12 @@ HomeView
 	                    break;    
 	            }
 	            app.utils.getObjectDetails(this, this.objectType,this.objectUrl,id);
+				var currentview=this;
+				
+				setTimeout(function() {
+					var url = currentview.objectUrl + "/carac";
+					app.utils.displayObjectHistory(currentview,currentview.objectType, url,currentview.idSelectedIndiv);
+				},400); 
 	            $("#objectsInfosPanel").css({"display":"block"});
 	        }
 	    },
@@ -2010,14 +2036,6 @@ HomeView
 	        $("#animationEndDate").text("");
 	        $("#dateIntervalDisplay").addClass("masqued");
 	    },
-	    showModalImport : function (){
-	        var OIview = new app.views.ObjectImportCsvView();
-	        OIview.render().showModal(
-	        {
-	            x: event.pageX,
-	            y: event.pageY
-	        });
-	    },
 	    showModalEdit : function (e){
 	        // Create the modal view
 	        var OEview = new app.views.ObjectEditView();
@@ -2043,29 +2061,28 @@ HomeView
 	            url : url+"/object/add?object_type="+ObjectType,
 	            dataType : "json",
 	            success : function(data) {   
-	                var idObj=data.object_id, getObjectDetailsType, getObjectUrl;              
+	                var idObj=data.object_id;               
 	                //for client update (show detail of new object)
-	                
 	                if(ObjectType=="Individual"){                   
-	                    getObjectDetailsType="individual";
-	                    getObjectUrl=url + "/TViewIndividual/" + idObj;
+	                    var getObjectDetailsType="individual";
+	                    var getObjectUrl=url + "/TViewIndividual/" + idObj;
 	                }
 	                else if(ObjectType=="Trx-radio"){
-	                    getObjectDetailsType="radio";
-	                    getObjectUrl=url + "/TViewTrx_Radio/" + idObj;
+	                    var getObjectDetailsType="radio";
+	                    var getObjectUrl=url + "/TViewTrx_Radio/" + idObj;
 	                }
 	                else if(ObjectType=="Trx_sat"){
-	                    getObjectDetailsType="sat";
-	                    getObjectUrl=url + "/TViewTrx_Sat/" + idObj;
+	                    var getObjectDetailsType="sat";
+	                    var getObjectUrl=url + "/TViewTrx_Sat/" + idObj;
 	                }
 	                else if(ObjectType=="Field_sensor"){
-	                    getObjectDetailsType="fieldsensor";
-	                    getObjectUrl=url + "/TViewFieldsensor/" + idObj;
+	                    var getObjectDetailsType="fieldsensor";
+	                    var getObjectUrl=url + "/TViewFieldsensor/" + idObj;
 	                }   
 	                currentview.idSelectedIndiv=idObj;
 	                currentview.objectUrl=getObjectUrl;
 	                currentview.objectType=getObjectDetailsType;
-	                app.utils.getObjectDetails(this, getObjectDetailsType,getObjectUrl);
+	                app.utils.getObjectDetails(currentview, getObjectDetailsType,getObjectUrl);
 	                $("#objectsInfosPanel").css({"display":"block"});
 	                setTimeout(function() {
 	                    $("#objectNew").fadeIn("slow");
@@ -2081,6 +2098,8 @@ HomeView
 	    },
 	    deleteObject : function(e){
 	        var objId =  $(e.target).attr("objId");
+			if(objId=="undefined")
+				objId = this.idSelectedIndiv;
 	        var delView = new app.views.ObjectDeleteView({objId : objId });
 	        delView.render().showModal(
 	        {
@@ -2090,49 +2109,41 @@ HomeView
 	    }
 	});
 //Object Import View (Modal)
-	app.views.ObjectImportCsvView = Backbone.ModalView.extend({
-	     prefix: app.config.root + '/tpl/',
-	    template: "exportObjectImportCsv" 
-
-	});
-//Object Import View (Modal)
 	app.views.ObjectEditView = Backbone.ModalView.extend({
 	    initialize: function(){
 	            
 	    },
-	    hideModal  : function(){ 
-
-	    },
 	    events: {
-	            'click #SubmitEditCarac' : 'SubmitEditCarac'
+	            'click #SubmitEditCarac' : 'SubmitEditCarac',
+	            'click #CancelEditCarac' : 'CancelEditCarac'
 	    },
 	    render:function(){
-	            var idcarac=this.idcarac,getObjectDetailsType,getObjectUrl;
+	            var idcarac=this.idcarac;
 	            var name = this.name;
 	            var idObj = this.idObj;
 	            var typeobject=$(".nav-tabs .active .objTab").text();
 	            var url = localStorage.getItem("serverUrl");
 	            var typecarac = idcarac.substring(0,1);
-	            idcarac = idcarac.substring(1,idcarac.length);
+	            var idcarac = idcarac.substring(1,idcarac.length);
 	            var tpl='<div class="modal-dialog"><div class="modal-content"> <div class="modal-header"> <h3 class="modal-title"><img src="images/import_.png" class="modal-title-picto">Edit characteristic</h3></div><div class="modal-body modal-body-perso"><b>'+name+'</b><div class="row-fluid" ><div class="span6"><form id="editformobject" enctype="multipart/form-data" method="post" action="'+url+'/characteristic/edit"> <input name="object_type" type="hidden" value="'+typeobject+'"/> <input name="object_id" type="hidden" value="'+idObj+'"/> <input name="id_carac" type="hidden" value="'+idcarac+'"/>';
 	            var currentmodal=this;
 	            
 	            //for client update
 	            if(typeobject=="Individual"){
-	                getObjectDetailsType="individual";
-	                getObjectUrl=url + "/TViewIndividual/" + idObj;
+	                var getObjectDetailsType="individual";
+	                var getObjectUrl=url + "/TViewIndividual/" + idObj;
 	            }
 	            else if(typeobject=="Trx-radio"){
-	                getObjectDetailsType="radio";
-	                getObjectUrl=url + "/TViewTrx_Radio/" + idObj;
+	                var getObjectDetailsType="radio";
+	                var getObjectUrl=url + "/TViewTrx_Radio/" + idObj;
 	            }
 	            else if(typeobject=="Trx_sat"){
-	                getObjectDetailsType="sat";
-	                getObjectUrl=url + "/TViewTrx_Sat/" + idObj;
+	                var getObjectDetailsType="sat";
+	                var getObjectUrl=url + "/TViewTrx_Sat/" + idObj;
 	            }
 	            else if(typeobject=="Field_sensor"){
-	                getObjectDetailsType="fieldsensor";
-	                getObjectUrl=url + "/TViewFieldsensor/" + idObj;
+	                var getObjectDetailsType="fieldsensor";
+	                var getObjectUrl=url + "/TViewFieldsensor/" + idObj;
 	            }           
 	            
 	            //hide 'new' if its new object (no longer a new object after edit)
@@ -2153,7 +2164,8 @@ HomeView
 	                        console.log('complete success');
 	                        console.log(response.responseText);
 	                        
-	                        $('#objectSuccessEdit').fadeIn("slow",function() {
+	                        $('#objectSuccessEdit').fadeIn("slow"
+	                        , function() {
 	                            // Animation complete                           
 	                            $('#objectSuccessEdit').fadeOut(2000,
 	                                function() {
@@ -2171,7 +2183,8 @@ HomeView
 	                    //error edit
 	                    else{
 	                        console.log('complete error');
-	                        $('#objectErrorEdit').fadeIn("slow", function() {
+	                        $('#objectErrorEdit').fadeIn("slow"
+	                        , function() {
 	                            // Animation complete
 	                            $('#objectErrorEdit').fadeOut(2000,
 	                                function() {
@@ -2193,9 +2206,21 @@ HomeView
 	                },
 	                dataType:"json"              
 	            };
+				
+				//get current day
+				var date=new Date();
+				var year=1900+date.getYear();
+				var month=date.getMonth()+1;
+				if(month<10)
+					month="0"+month;
+				var day=date.getDate();	
+				if(day<10)
+					day="0"+day;
+				date=year+"-"+month+"-"+day;
+				
 	            //therausus carac
 	            if(typecarac=="t"){
-	                tpl+='Value : <input list="lThesa" type="text" name="value" /><datalist id="lThesa"/>  <input name="carac_type" type="hidden" value="t"/>';
+	                tpl+='Value : <input list="lThesa" type="text" name="value" /><datalist id="lThesa"/>  <input name="carac_type" type="hidden" value="t"/>'
 	                
 	                if(app.xhr){ 
 	                    app.xhr.abort();
@@ -2207,7 +2232,8 @@ HomeView
 	                        url : url+"/thesaurus/autocomplete/list?id_type="+idcarac+"&object_type="+typeobject,
 	                        dataType : "json",
 	                        success : function(data) {
-	                                for(var t in data){
+	                            
+	                                for(t in data){
 	                                    if(t!='distinct')
 	                                        $("#lThesa").append("<option value='"+data[t]['Tthesaurus']['topic_en']+" ; "+data[t]['Tthesaurus']['ID']+"'/>");
 	                                }
@@ -2218,12 +2244,14 @@ HomeView
 	            }
 	            //date carac
 	            else if(typecarac=="d"){
-	                tpl+='Value: <input name="value" type="date"/> <input name="carac_type" type="hidden" value="d"/>';
+	                tpl+='Value: <input name="value" value="'+date+'"  type="date"/> <input name="carac_type" type="hidden" value="d"/>'
 	            }
 	            //string carac
 	            else
-	                tpl+='Value: <input name="value" type="text"/> <input name="carac_type" type="hidden" value="v"/>';
-	            tpl+='Begin date: <input name="begin_date" type="date" id="beginDate"/> End date:<input name="end_date" type="date"/> Comment: <input name="comments" type="text"> <input type="submit" id="SubmitEditCarac" value="Submit">'; 
+	                tpl+='Value: <input name="value" type="text"/> <input name="carac_type" type="hidden" value="v"/>'
+	            
+			    tpl+='Begin date: <input name="begin_date" type="date" value="'+date+'" id="beginDate"/> End date:<input id="endDate" name="end_date" type="date"/> Comment: <input name="comments" type="text">'; 
+			    tpl+='<input type="submit" id="SubmitEditCarac" value="Save"><input type="button" id="CancelEditCarac" value="Cancel">'; 
 	            tpl+='</form><ul class="unstyled" id="export-views"></ul></div><div class="modal-footer"></div></div></div>';
 	           
 
@@ -2244,7 +2272,11 @@ HomeView
 	            return this;
 	    },
 	    SubmitEditCarac: function(){
-	            this.hideModal();    
+	        //if uncomment submit will not work
+			// this.hideModal();    
+	    },
+	    CancelEditCarac: function(){
+			this.hideModal(); 
 	    }
 
 	});
@@ -2337,9 +2369,9 @@ HomeView
 	        var mapDiv = this.map_view.el;
 	        var width =  ((screen.width)/2 -200);
 	        var height = ((screen.height)/2 - 200);
-	        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>" ;
+	        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
 	        var st = $("#waitControl").html();
-	        if ($("#waitControl").length === 0) {
+	        if ($("#waitControl").length == 0) {
 	            $(mapDiv).append(ele);
 	        }
 	    },
@@ -2370,67 +2402,42 @@ HomeView
 	                dataType: "json",
 	                success: function(data) {
 	                    // check kind of object
-	                    var  objectType = self.objectType, characteristic;
+	                    var  objectType = self.objectType;
 	                    var objectView ; 
 	                    if (objectType =="individual"){
 	                        objectView =  "TViewIndividual"; 
-	                        characteristic = data[0][0].TViewIndividual;
+	                        var characteristic = data[0][0].TViewIndividual;
 	                        var sex = characteristic.Sex  || "";
 	                        var origin  = characteristic.Origin  || "";
 	                        var species =  characteristic.Species || "";
 	                        var birthDate = characteristic.Birth_date  || "";
 	                        var deathDate = characteristic.Death_date || "";
 	                        var comments = characteristic.Comments  || "";
-
-	                        $("#ObjSex").text(sex);
-	                        $("#ObjOrigin").text(origin);
-	                        $("#ObjSpecies").text(species);
-	                        $("#ObjBirthDate").text(birthDate);
-	                        $("#ObjDeathDate").text(deathDate);
-	                        $("#ObjComment").text(comments);
-	                        $("#objectDescIndiv").removeClass("masqued");
 	                    }
 	                    else if (objectType =="radio"){
 	                        objectView =  "TViewTrxRadio";
-	                        characteristic = data[0][0].TViewTrxRadio;
+	                        var characteristic = data[0][0].TViewTrxRadio;
 	                        var id = characteristic.Id  || "";
 	                        var company  = characteristic.Company  || "";
 	                        var shape =  characteristic.Shape || "";
 	                        var weight = characteristic.Weight  || "";
-	                        $("#ObjRadioId").text(id);
-	                        $("#ObjCompanyId").text(company);
-	                        $("#ObjShape").text(shape);
-	                        $("#ObjWheight").text(weight);
-	                        $("#objectDescRadio").removeClass("masqued");
 	                    }
 	                    else if (objectType =="sat"){
 	                        objectView =  "TViewTrxSat";
-	                        characteristic = data[0][0].TViewTrxSat;
+	                        var characteristic = data[0][0].TViewTrxSat;
 	                        var id = characteristic.Id  || "";
 	                        var company  = characteristic.Company  || "";
 	                        var model =  characteristic.Model || "";
 	                        var comments = characteristic.Comments  || "";
-	                        $("#ObjSatId").text(id);
-	                        $("#ObjSatCompanyId").text(company);
-	                        $("#ObjModel").text(model);
-	                        $("#ObjSatComments").text(comments);
-	                        $("#objectDescSat").removeClass("masqued");
 	                    }
 	                    else if (objectType =="fieldsensor"){
 	                        objectView =  "TViewFieldsensor";
-	                        characteristic = data[0][0].TViewFieldsensor;
+	                        var characteristic = data[0][0].TViewFieldsensor;
 	                        var id = characteristic.Id  || "";
 	                        var company  = characteristic.Company  || "";
 	                        var model =  characteristic.Model || "";
 	                        var comments = characteristic.Comments  || "";
 	                        var fieldsensortype = characteristic.Field_sensor_type  || "";
-	                        
-	                        $("#ObjFieldSensorId").text(id);
-	                        $("#ObjFieldSensorCompanyId").text(company);
-	                        $("#ObjFieldSensorModel").text(model);
-	                        $("#ObjSatComments").text(comments);
-	                        $("#ObjFieldSensorTypeId").text(fieldsensortype);
-	                        $("#objectDescFieldSensor").removeClass("masqued");
 	                    }
 	                    var historyItems = new app.collections.HistoryItems();
 
@@ -2455,7 +2462,7 @@ HomeView
 	                   // sort collection by begin date 
 	                    historyItems.sort();
 	                    // init grid
-	                    app.utils.initGrid(historyItems, app.collections.HistoryItems);
+	                    app.utils.initGrid(historyItems, app.collections.HistoryItems)
 	                    $("#objModal").css("max-height","500px");
 	                }
 	        });

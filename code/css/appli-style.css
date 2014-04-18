@@ -492,8 +492,16 @@ header.navbar .nav li.dropdown.open > .dropdown-toggle {background-color: rgba(2
 #objectAddButton :hover {background-color: #1A6311;cursor:pointer}
 #objectNew{color:red}
 
-.editCaracBtn{color:black;padding:5px;background-color:#F1F1F1;margin-left:35px;float:right}
+.editCaracBtn{color:black;padding:5px;background-color:#F1F1F1;margin-left:35px;float:right;font-size:17px}
 .editCaracBtn{cursor:pointer}
-.tab-pane p {width:600px;height:30px;padding-bottom:10px;padding-top:10px;border-bottom:1px double white}
-#objectsInfosPanel{height:900px;overflow:auto}
+.tab-pane p {width:630px;height:30px;padding-bottom:10px;padding-top:10px;border-bottom:1px double white}
+#objectsInfosPanel{height:850px;overflow:auto}
+#objectsInfosPanel h2{color:white}
+#objectsInfosPanel th{color:black}
+#objectsInfosPanel table tbody :hover{cursor:auto;background-color:black}
+#objectsInfosPanel table i {display:none}
 #objDelete{float: right;}
+#objectsInfosPanelHistory{height:800px;background-color:black}
+#CancelEditCarac{margin-left:20px}
+.objectcaractype1{font-size:30px}
+.objectcaractype2{font-size:20px}

@@ -191,7 +191,7 @@ app.collections.FieldActivities = Backbone.Collection.extend({
 Waypoints Model & collection
 **************************************************************/	
 app.models.Waypoint = Backbone.Model.extend({
-	sync: Backbone.localforage.sync('waypointModel')
+	sync: Backbone.localforage.sync()
 	},{
 		schema: {
 		id: {title: 'id', type: 'Text',sortable: true},
