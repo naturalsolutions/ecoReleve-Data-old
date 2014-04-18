@@ -211,6 +211,14 @@ app.collections.Waypoints = Backbone.Collection.extend({
 	    this.each(function(model) {
 	        model.save();
 	    });
+	},
+	destroy : function() {
+		do{
+		  	this.each(function(model){
+			        model.destroy();
+			});
+		}
+		while (this.length > 0);  
 	}
 });
 /*************************************************************

@@ -6,9 +6,12 @@
 			"stationType" : "stationType",
 			"newStation" : "newStation",
 			//"entryStation": "entryStation",
+			"importedStation": "importedStation",
+			
 			"stationFromGpx" : "stationFromGpx",
 			"stationInfos": "stationInfos",
 			"stationInfos/:id" : "monitoredStation",
+
 			"proto-choice": "protoChoice",
 			"data-entry/:id": "dataEntry",
 			"data-entryEnd" : "dataEntryEnd",
@@ -62,6 +65,9 @@
 		newStation  : function(){
 			this.setView(new  app.views.NewStation());
 		},	
+		importedStation : function(){
+			this.setView(new  app.views.ImportedStation());
+		},
 		entryStation: function(){
 			this.setView(new app.views.StationPositionView());
 			

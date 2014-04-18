@@ -323,8 +323,14 @@ app.utils.loadWaypointsFromFile = function (xml){
 
 		}); 
 	   		// selected waypoints 
+	   		var tmp = new app.collections.Waypoints();
+	        tmp.fetch().then(function() {
+				tmp.destroy();
+				//app.collections.selectedWaypoints.save();
+			});
             app.collections.selectedWaypoints = app.collections.waypointsList;	
-		if (id!=0){
+
+		if (id!==0){
 			//localStorage.setItem("xmlWaypointsIsloaded","true");
 			// update tile displayed date
 			var d = new Date();  

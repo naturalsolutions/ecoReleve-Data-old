@@ -358,8 +358,9 @@ HomeView
 
 	});
 /*****************************************************
-    input (new data)
+//$input    input (new data)
 ******************************************************/ 
+
 	app.views.StationTypeView = app.views.BaseView.extend({
 		template: 'input',
 		initialize : function() {
@@ -377,10 +378,19 @@ HomeView
 	    	var stationType = $('input[name=stationtype]:checked').val();
 	    	switch(stationType){ 
 	    		case "newStation" :
+	    			app.utils.stationType = "newStation";
 	    			app.router.navigate('#newStation', {trigger: true}); 
 	    			break;
 	    		case "importedStation" :
-	    			app.router.navigate('#importedStation', {trigger: true}); 	
+	    			app.utils.stationType = "importedStation";
+	    			app.collections.importedStations = new app.collections.Waypoints();
+					app.collections.importedStations.fetch().then(function() {
+						 if (app.collections.importedStations.length>0){
+						 	app.router.navigate('#importedStation', {trigger: true}); 	
+						 } else {
+						 	alert('there is not imported stations');
+						 }
+					});
 	    			break;
 	    	}
 	    }
@@ -433,10 +443,41 @@ HomeView
 	            app.collections.stations.save();
 	            app.router.navigate('#proto-choice', {trigger: true}); 
 	        });
+	    }
+	});
+	//imported station
+	app.views.ImportedStation = app.views.BaseView.extend({
+	    template: 'inputStationDetails',
+	    initialize : function() {
+	        this.selectedStation = null;
 	    },
-	    afterRender: function () {
-	        $('h3', this.$el).attr('style', 'display:none');
-	          
+	    afterRender: function() {
+	        // load imported stations
+			//app.collections.importedStations = new app.collections.Waypoints();
+			//app.collections.importedStations.fetch().then(function() {
+				 app.utils.initGrid (app.collections.importedStations, app.collections.Waypoints);
+			//});
+	    },
+	    events : {
+	    	'click #inputStationAdd' : 'nextStep',
+	    	'click tr' : 'selectTableElement'
+	    },
+	    nextStep  : function() {
+	    	if( this.selectedStation !== null){
+	    		 app.router.navigate("#proto-choice", {trigger: true});
+	    		//app.collections.stations.add(instance);
+	        	//app.collections.stations.save();
+
+	    	} else {
+	    		alert("please select a station");
+	    	}
+	
+	    },
+	    selectTableElement : function(e){
+	        var ele  = e.target.parentNode.nodeName;
+	        if (ele =="TR") {
+	            this.selectedStation = app.models.selectedModel ;
+	        }
 	    }
 	});
 // protcol choice
@@ -462,7 +503,8 @@ HomeView
 	        $('.listview').append(listView);
 	    },
 	    events : {
-	            'click li.protocolViewsList' : 'navigation'
+	            'click li.protocolViewsList' : 'navigation',
+	            'click #backStation' : 'backToStation'
 	        },
 	    navigation : function(e){ 
 	        e.preventDefault();
@@ -471,6 +513,13 @@ HomeView
 	        app.router.navigate(route, {trigger: true});
 	        /*app.global.selectedProtocolId = idSelectedProto;
 	        app.global.selectedProtocolName = $(e.target).html();*/
+	    },
+	    backToStation  : function(){ 
+	    	if(app.utils.stationType === "newStation"){
+	    		app.router.navigate('#newStation', {trigger: true}); 
+	    	}else{
+	  			app.router.navigate('#importedStation', {trigger: true}); 
+	    	}
 	    }
 	});
 	app.views.ProtocolListView = Backbone.View.extend({
@@ -559,12 +608,23 @@ HomeView
 	    initialize: function(options) {
 	    },  
 	    events : {
-	            'click li.inputEnd' : 'navigation'
+	            'click li.inputEnd' : 'navigation',
+	            'click #backStation' : 'backToStation'
 	    },
 	    navigation : function(e){ 
 	        e.preventDefault();
 	        var route = $(e.target).attr("href");
-	        app.router.navigate(route, {trigger: true});
+	        if (route){
+	        	app.router.navigate(route, {trigger: true});
+	        }
+
+	    },
+	    backToStation  : function(){ 
+	    	if(app.utils.stationType === "newStation"){
+	    		app.router.navigate('#newStation', {trigger: true}); 
+	    	}else{
+	  			app.router.navigate('#importedStation', {trigger: true}); 
+	    	}
 	    }
 	});
 	app.views.CurrentUser = app.views.BaseView.extend({
@@ -1660,6 +1720,9 @@ HomeView
 	        
 	    }
 	}); 
+	/*****************************************************************************
+	//$import
+	******************************************************************************/
 	app.views.Import = app.views.BaseView.extend({
 	    template: "import" ,
 	    initialize : function(options) {
@@ -1879,7 +1942,13 @@ HomeView
 	        	model.set("fieldWorker1",self.selectedUser1);
 	        	model.set("fieldWorker2",self.selectedUser2);
 	        });
-	        app.collections.selectedWaypoints.save();
+	        //clear stored models in waypoint list to update store
+	        //var tmp = new app.collections.Waypoints();
+	        //tmp.fetch().then(function() {
+			//	tmp.destroy();
+				app.collections.selectedWaypoints.save();
+			//});
+	        app.collections.waypointsList = null;
 	        app.router.navigate('#import-end', {trigger: true});
 
 	    }
@@ -1908,12 +1977,11 @@ HomeView
 
 	    },
 	    removeAllChildren: function() {
-	    _.each(this.children, function(view) { 
-	        view.remove(); 
-	    });
-	    this.children = [];
-	    }
-	    ,
+		    _.each(this.children, function(view) { 
+		        view.remove(); 
+		    });
+		    this.children = [];
+	    },
 	    events : {
 	       'click .tab-pane tr' : 'selectTableElement',
 	       'click #objectsInfosPanelClose' : 'closeInfosPanel',
@@ -2164,8 +2232,7 @@ HomeView
 	                        console.log('complete success');
 	                        console.log(response.responseText);
 	                        
-	                        $('#objectSuccessEdit').fadeIn("slow"
-	                        , function() {
+	                        $('#objectSuccessEdit').fadeIn("slow", function() {
 	                            // Animation complete                           
 	                            $('#objectSuccessEdit').fadeOut(2000,
 	                                function() {
@@ -2183,8 +2250,7 @@ HomeView
 	                    //error edit
 	                    else{
 	                        console.log('complete error');
-	                        $('#objectErrorEdit').fadeIn("slow"
-	                        , function() {
+	                        $('#objectErrorEdit').fadeIn("slow", function() {
 	                            // Animation complete
 	                            $('#objectErrorEdit').fadeOut(2000,
 	                                function() {
@@ -2220,7 +2286,7 @@ HomeView
 				
 	            //therausus carac
 	            if(typecarac=="t"){
-	                tpl+='Value : <input list="lThesa" type="text" name="value" /><datalist id="lThesa"/>  <input name="carac_type" type="hidden" value="t"/>'
+	                tpl+='Value : <input list="lThesa" type="text" name="value" /><datalist id="lThesa"/>  <input name="carac_type" type="hidden" value="t"/>';
 	                
 	                if(app.xhr){ 
 	                    app.xhr.abort();
@@ -2233,7 +2299,7 @@ HomeView
 	                        dataType : "json",
 	                        success : function(data) {
 	                            
-	                                for(t in data){
+	                                for(var t in data){
 	                                    if(t!='distinct')
 	                                        $("#lThesa").append("<option value='"+data[t]['Tthesaurus']['topic_en']+" ; "+data[t]['Tthesaurus']['ID']+"'/>");
 	                                }
@@ -2244,7 +2310,7 @@ HomeView
 	            }
 	            //date carac
 	            else if(typecarac=="d"){
-	                tpl+='Value: <input name="value" value="'+date+'"  type="date"/> <input name="carac_type" type="hidden" value="d"/>'
+	                tpl+='Value: <input name="value" value="'+date+'"  type="date"/> <input name="carac_type" type="hidden" value="d"/>';
 	            }
 	            //string carac
 	            else
@@ -2290,23 +2356,6 @@ HomeView
 	        'click #objDelYes' : 'deleteObject',
 	        'click #objDelNo' : 'reset'
 	    },
-	    /*
-	    render:function(){
-	        var tpl=  '<div class="modal-dialog">';
-	            tpl+= '<div class="modal-content"> ';
-	            tpl+= '<div class="modal-header"> ';
-	            tpl+= ' <h3 class="modal-title"><img src="images/import_.png" class="modal-title-picto" />delete object</h3>';
-	            tpl+= '</div>';
-	            tpl+= '<div class="modal-body modal-body-perso">';
-	            tpl+= ' <p> are you sure you want to delete selected object?';
-	            tpl+= ' <br/><a id="objDelYes" class="btn">yes</a><a id="objDelNo" class="btn btn-success">no</a>';
-	            tpl+= '</div></div></div>';
-
-	        _.bindAll( this, "render");
-	        this.template = _.template( tpl);
-	        $(this.el).html( this.template());
-	        return this;
-	    },*/
 	    deleteObject :function(){
 	        var serverUrl = localStorage.getItem("serverUrl");
 	        var url = serverUrl + "/object/delete/" + this.objId;
@@ -2317,7 +2366,6 @@ HomeView
 	                app.utils.fillObjectsTable();   
 	                alert("object deleted !");
 	                $('#objectsInfosPanel').hide();
-
 	            }
 	        }); 
 	        this.hideModal();
@@ -2369,9 +2417,9 @@ HomeView
 	        var mapDiv = this.map_view.el;
 	        var width =  ((screen.width)/2 -200);
 	        var height = ((screen.height)/2 - 200);
-	        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
+	        var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>" ; 
 	        var st = $("#waitControl").html();
-	        if ($("#waitControl").length == 0) {
+	        if ($("#waitControl").length === 0) {
 	            $(mapDiv).append(ele);
 	        }
 	    },
