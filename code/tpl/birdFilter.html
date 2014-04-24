@@ -1,0 +1,54 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+    <!--  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+      <h3 class="modal-title"><img src="images/birds.png" class="modal-title-picto">&nbsp;1- bird > select criterias </h3>
+    </div>
+    <div class="modal-body modal-body-perso">
+    	<div class="row-fluid" >
+        <div class="span6"> 	
+          <div id="form">
+            <form method="POST">
+              <label>id</label>
+              <input type="text" name="ID">
+              <label>frequency</label>
+              <input type="text" name="VHF_frequency"  list="birdFrequencyList">
+              <datalist  id="birdFrequencyList"></datalist>
+              <label>ptt</label>
+              <input type="text" name="PTT" list="birdPttList">
+              <datalist  id="birdPttList"></datalist>
+              <label>monitoring status</label>
+              <input type="text" name="monitoring" list="birdMonitoryList">
+              <datalist  id="birdMonitoryList"></datalist>
+              <label>survey type</label>
+              <input type="text" name="Survey_type" list="birdSurveyList">
+              <datalist  id="birdSurveyList"></datalist>
+              <label>release ring color</label>
+              <input type="text" name="release" list="birdReleaseRingColorList">
+              <datalist  id="birdReleaseRingColorList"></datalist>
+              <label>chip code</label>
+              <input type="text" name="chip" list="birdChipCodeList">
+               <datalist  id="birdChipCodeList"></datalist>
+              <label>sex</label>
+              <input type="text" name="sex" list="birdSexList">
+              <datalist  id="birdSexList"></datalist>
+              <br/>
+              <input type="button" value="submit" id="indivFilterSubmit">
+            </form>
+          </div>
+          <div id="grid">
+            <div id="objectsIndivGrid" class="gridDiv"></div>
+          </div>
+        </div>
+        <div class="span6">   
+          <!-- <img src="images/import_photo.jpg"> -->
+          <img src="images/input_outarde.jpg" class="importPhoto">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn">cancel</a>
+      <a id="inputStationAdd" class="btn btn-success">next &gt;</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

@@ -1,7 +1,5 @@
 var ecoReleveData = (function(app) {
-
 "use strict";
-
 // Creating the application namespace
 app = {
 	config: {
@@ -20,14 +18,12 @@ app = {
 		},
 	instances: {}
 };
-
 // ----------------------------------------------- The Application initialisation ------------------------------------------ //
 $().ready(function() {
   init();
 }) ;
 
 function init(){
-   
 	 // Spinner management (visual feedback for ongoing requests)
 	$(document).ajaxStart(function () { $('body').addClass('loading'); });
 	$(document).ajaxStop(function () { $('body').removeClass('loading'); });
@@ -93,9 +89,9 @@ function init(){
 	});
 	// load observations
 	app.collections.observations = new app.collections.Observations();
-	app.collections.observations.fetch().then(function() {
-		console.log("observations loaded ! ");
-	});
+			app.collections.observations.fetch().then(function() {
+				console.log("observations loaded ! ");
+			});
 
   });
 }

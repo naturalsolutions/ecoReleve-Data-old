@@ -82,6 +82,9 @@
 			case 'argos':
 				this.context = 'argos';
 				break;
+			case 'birds':
+				this.context = 'birds';
+				break;
             /*case 'newSample':
             case 'editSample':
             case 'newSubject':

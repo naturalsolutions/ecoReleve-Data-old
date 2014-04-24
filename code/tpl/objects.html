@@ -1,25 +1,34 @@
 ﻿<div id="objectsInfosPanel" class="non-printable">
-	<div id="objectsInfosPanelClose"><img src="images/close.png" /></div>
+	<div id="objectsInfosPanelClose">
+		<img src="images/close.png" />
+	</div>
 	<div id="objectsInfosPanelContent">
-		<div class="tabbable"> <!-- Only required for left/right tabs -->
-			<ul class="nav nav-tabs" id="objectDetailsPanel">
-			</ul>
-			<div class="tab-content" id="objectDetailsPanelContent">
-			</div>
+		<div class="tabbable">
+			<!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs" id="objectDetailsPanel"></ul>
+			<div class="tab-content" id="objectDetailsPanelContent"></div>
 		</div>
 		<div id="objectsInfosPanelHistory"/>
 	</div>
 </div>
-<div  class="objectButton" id="objectAddButton">	
-</div>
-<div class="tabbable"> <!-- Only required for left/right tabs -->
-    <ul class="nav nav-tabs">
-		<li class="active"><a href="#t1" data-toggle="tab" class="objTab">Individual</a></li>
-		<li><a href="#t2" data-toggle="tab" class="objTab">Trx-radio</a></li>
-		<li><a href="#t3" data-toggle="tab" class="objTab">Trx_sat</a></li>
-		<li><a href="#t4" data-toggle="tab" class="objTab">Field_sensor</a></li>
-    </ul>
-    <div class="tab-content">
+<div  class="objectButton" id="objectAddButton"></div>
+<div class="tabbable">
+	<!-- Only required for left/right tabs -->
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#t1" data-toggle="tab" class="objTab">Individual</a>
+		</li>
+		<li>
+			<a href="#t2" data-toggle="tab" class="objTab">Trx-radio</a>
+		</li>
+		<li>
+			<a href="#t3" data-toggle="tab" class="objTab">Trx_sat</a>
+		</li>
+		<li>
+			<a href="#t4" data-toggle="tab" class="objTab">Field_sensor</a>
+		</li>
+	</ul>
+	<div class="tab-content">
 		<div class="tab-pane active" id="t1">
 			<div id="objectsIndivGrid" class="gridDiv"></div>
 		</div>
@@ -32,8 +41,8 @@
 		<div class="tab-pane" id="t4">
 			<div id="objectsField_sensorGrid" class="gridDiv"></div>
 		</div>
-    </div>
+	</div>
 </div>
 <div id="objectsMapContainer">
-	<div id='map' style='width:200px; height:150px'></div> 
+	<div id='map' style='width:200px; height:150px'></div>
 </div>
