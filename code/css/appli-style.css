@@ -469,7 +469,7 @@ body.loading #logo {
 .grid table th {
 	padding: 0;
 	vertical-align: middle;
-	background: #fff;
+	/*background: #fff;*/
 }
 .grid table th > div {
 	padding: 7px 8px;
@@ -822,3 +822,157 @@ header.navbar .nav li.dropdown.open > .dropdown-toggle {
 #birdId{
 	color: white;
 }
+
+/*****   birds filter  ****************/
+#birdsFilterContainer {
+	display: table;
+	width: 100%;
+	height: 100%;
+	background-color: #313131;
+	color: white;
+}
+#birdsFilterContainerRow  {
+	display: table-row;
+	height: 100%;
+}
+#birdsFilterContainer div.span5, #birdsFilterContainer div.span7 {
+	display: table-cell;
+  	float: none;
+}
+/*#objectsIndivGrid {
+background-color: #313131;
+
+}*/
+#objectsIndivFilter {
+	background-image:url(../images/birdsFilter.jpg);
+	color: black;
+	background-repeat:no-repeat;
+	/*width: 100%;*/
+}
+#objectsIndivGrid div.pagination.pagination-right,#birdDetails div.pagination.pagination-right {
+	display: none;
+}
+#objectsIndivGrid thead {
+	color: black;
+	font-size: 10px;
+
+}
+#objectsIndivGrid{
+	padding: 1%;
+	margin-top: 5%;
+}
+#birdsBlocFilter{
+	text-align: center;
+	margin-top: 15px;
+}
+div.birdCaracFilter {
+	display: inline-block;
+    width: 180px;
+    padding: 5px 10px;
+    text-align: left;
+    vertical-align: top;
+
+}
+#indivFilterSubmit {
+	margin-top: 20px;
+	width: 160px;
+}
+#separator{
+	border-bottom: 1px solid #7b7b7b;
+	background-color: rgba(255, 0, 0, 0);
+	position: absolute;
+	width: 100%;
+	height: 45px;
+	z-index: 1;
+}
+#serachHeader{
+	margin-left: 15px;
+}
+.importPhoto{
+	float: right;
+}
+#objectsIndivGrid table th, #birdDetails table th {
+	color: white;
+}
+#objectsIndivGrid table th .filter-action, #birdDetails table th .filter-action, #objectsIndivGrid table th .sort-action, #birdDetails table th .sort-action{
+	display: none;
+}
+#objectsIndivGrid table tr:hover{
+	color:grey;
+}
+#objectsIndivGrid{
+color: #a3a1a1;
+}
+#objectsIndivGrid .table-bordered td, #birdDetails .table-bordered td {
+	border-left: 0px;
+	border-right: 0px;
+}
+#objectsIndivGrid .table-bordered,  #birdDetails .table-bordered{
+	border: 0px;
+	/*border-top: 0px;*/
+}
+#objectsIndivGrid .table-bordered th, #birdDetails .table-bordered th  {
+ border-left: 0px ;
+}
+#birdFilterGrid {
+padding-left: 20px;
+}
+#birdMap {
+	position: absolute;
+	right: 0;
+}
+#birdDetails {
+margin-left: 20px;
+}
+#separatorDetails{
+	border-bottom: 1px solid #7b7b7b;
+	background-color: rgba(255, 0, 0, 0);
+	height: 45px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+#birdDetailsStatusDiv, .birdDetailsDiv{
+	border-top: 1px solid #7b7b7b;
+	background-color: rgba(255, 0, 0, 0);
+	padding-top: 5px;
+}
+#divBirdName {
+	margin-top: 10px;
+margin-bottom: 10px;
+}
+#separatorDetails span {
+	font-size: 20px;
+	margin-left: 10px;
+}
+#indivFilterClear {
+	margin-left: 20px;
+	margin-top: -85px;
+	font-size: 20px;
+	padding: 8px;
+	width: 160px;
+}
+#animationDiv {
+	height: 120px;
+	background-color: #a3a1a1;
+	text-align: center;
+}
+#sliderContent {
+	padding-top: 30px;
+}
+@media screen and (min-width: 1600px) {
+	#objMapDiv div#map{
+		width: 800px;
+	}
+}
+@media screen and (max-width: 1024px) {
+	div.birdCaracFilter {
+    	width: 160px;
+	}
+}
+div.birdCaracFilter input {
+	 width: 150px;
+}
+label.labelform {
+	font-size: 15px;
+}
+

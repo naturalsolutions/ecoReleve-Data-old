@@ -134,7 +134,7 @@ var ecoReleveData = (function(app) {
 HomeView
 ******************************************************/
 	app.views.HomeView = app.views.BaseView.extend({
-		template: 'home',
+		template: 'home2',
 		initialize: function() {
 
 			app.views.BaseView.prototype.initialize.apply(this, arguments);
@@ -151,7 +151,8 @@ HomeView
 			$('#supersized').html('');
 			$.supersized({
 				slides: [{
-					image: 'images/home_outarde_paysage.jpg'
+					//image: 'images/home_outarde_paysage.jpg'
+					image: 'images/home_fond.jpg'
 				}]
 			});
 			this.serverUrl = localStorage.getItem('serverUrl');
@@ -171,6 +172,8 @@ HomeView
 					window.mapAjaxCall.xhr.abort();
 				}
 			});
+			// set site name in home page
+			$("#homeSiteName").text("Missour. Morocco");
 		},
 		events: {
 			'click #alldata': 'alldata'
@@ -229,7 +232,7 @@ HomeView
 			}
 		},
 		loadStats: function() {
-			var dataGraph = localStorage.getItem("ecoreleveChart");
+			/* var dataGraph = localStorage.getItem("ecoreleveChart");
 			// get current month and compare it with stored month
 			var d = (new Date() + '').split(' ');
 			// ["Mon", "Feb", "1", "2014"....
@@ -240,7 +243,7 @@ HomeView
 				//var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
 				var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData, null);
 				$("#homeGraphLegend").html("<h3>number of observations</h3>");
-			} else {
+			} else {*/
 				var url = this.serverUrl + "/station/count/month";
 				$.ajax({
 					url: url,
@@ -272,7 +275,7 @@ HomeView
 						var gData = {
 							labels: labels,
 							datasets: [{
-								fillColor: "rgba(220,220,220,0.5)",
+								fillColor: "rgba(100,100,100,0.7)",
 								strokeColor: "rgba(220,220,220,1)",
 								data: barData
 							}]
@@ -312,7 +315,7 @@ HomeView
 						$("#homeGraphLegend").html("error in loading data ");
 					}
 				});
-			}
+			//}
 			// update individuals number
 			var indivUrl = this.serverUrl + "/TViewIndividual/list/count";
 			$.ajax({
@@ -409,6 +412,7 @@ HomeView
 			this.formView.render();
 		},
 		afterRender: function() {
+
 			$('#stationForm').append(this.formView.el);
 			$(".form-actions").addClass("masqued");
 			var frmView = this.formView;
@@ -428,7 +432,7 @@ HomeView
 			//users inputs needs only 1 datalist control
 			var user1ControlId = $("[name='FieldWorker1']").attr("id");
 			$("[name='FieldWorker1']").attr("list", user1ControlId + "List");
-			app.utils.addDatalistControl(user1ControlId, app.collections.users);
+			app.utils.addDatalistControl(user1ControlId, app.collections.users,"idUser");
 			var user2ControlId = $("[name='FieldWorker2']").attr("id");
 			$("[name='FieldWorker2']").attr("list", user1ControlId + "List");
 			var user3ControlId = $("[name='FieldWorker3']").attr("id");
@@ -445,13 +449,62 @@ HomeView
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {
 				//var tm = instance;
+				// add date time
+				var dateNow = new Date();
+				var dd = dateNow.getDate();
+				var mm = dateNow.getMonth()+1;
+				var yyyy = dateNow.getFullYear();
+				var hrs = dateNow.getHours();
+				var mins =dateNow.getMinutes();
+				var myDateTimeString = yyyy +"-"+mm+"-"+ dd +" "+hrs+ ":" +mins + ":00.00";
+				instance.attributes.Date_ = myDateTimeString;
+				// add station id
+				var idLastStation = app.utils.idLastStation;
+				instance.attributes.stationId = idLastStation + 1;
+				// autoincrement last station id
+				app.utils.idLastStation += 1;
+				// store value
+				localStorage.setItem("idLastStation", app.utils.idLastStation);
+				// replace field workers name by id
+				var fieldWorker1 = instance.attributes.FieldWorker1;
+				// get users dalist id
+				var user1ControlId = $("[name='FieldWorker1']").attr("id");
+				var idList = "#" + user1ControlId + "List";
+				// replace fieldWorker1 name by fieldworker id
+				var userId;
+				if (instance.attributes.FieldWorker1){
+					userId = this.getUserId(idList,"FieldWorker1");
+					instance.attributes.FieldWorker1 = userId;
+				}
+				if (instance.attributes.FieldWorker2){
+					userId = this.getUserId(idList,"FieldWorker2");
+					instance.attributes.FieldWorker2 = userId;
+				}
+				if (instance.attributes.FieldWorker3){
+					userId = this.getUserId(idList,"FieldWorker3");
+					instance.attributes.FieldWorker3 = userId;
+				}
+				if (instance.attributes.FieldWorker4){
+					userId = this.getUserId(idList,"FieldWorker4");
+					instance.attributes.FieldWorker4 = userId;
+				}
+				if (instance.attributes.FieldWorker5){
+					userId = this.getUserId(idList,"FieldWorker5");
+					instance.attributes.FieldWorker5 = userId;
+				}
 				app.collections.stations.add(instance);
 				app.collections.stations.save();
 				app.router.navigate('#proto-choice', {
 					trigger: true
 				});
 			});
-		}
+		},
+		getUserId : function(idList, inputName){
+            var x = $("[name='" + inputName + "']").val();
+            var z = $(idList);
+            var val = $(z).find('option[value="' + x + '"]').text();
+            return val;
+        }
 	});
 	//imported station
 	app.views.ImportedStation = app.views.BaseView.extend({
@@ -484,9 +537,12 @@ HomeView
 
 		},
 		selectTableElement: function(e) {
-			var ele = e.target.parentNode.nodeName;
-			if (ele == "TR") {
+			var ele = e.target.parentNode;
+			var eleName = e.target.parentNode.nodeName;
+			if (eleName == "TR") {
 				this.selectedStation = app.models.selectedModel;
+				$(eleName).css("background-color","rgba(255, 255, 255,0)");
+				$(ele).css("background-color","rgb(180, 180, 180)");
 			}
 		}
 	});
@@ -615,6 +671,7 @@ HomeView
 			//this.usersList = options.usersTab ; 
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {
+				instance.attributes.idStation = app.utils.idLastStation;
 				instance.attributes.protocolName = $("input[name='protocolName']").val();
 				instance.attributes.protocolId = $("input[name='protocolId']").val();
 				app.collections.observations.add(instance);
@@ -2031,10 +2088,13 @@ HomeView
 			app.utils.initGrid(app.collections.waypointsList, app.collections.Waypoints);
 		},
 		selectTableElement: function(e) {
-			var ele = e.target.parentNode.nodeName;
+			var eleName = e.target.parentNode.nodeName;
+			var eleTr = e.target.parentNode;
+			if (eleName == "TR") {
 			// if (ele =="TD"){
-			if (ele == "TR") {
 				var selectedModel = app.models.selectedModel;
+				$(eleName).css("background-color","rgba(255, 255, 255,0)");
+				$(eleTr).css("background-color","rgb(180, 180, 180)");
 				var latitude, longitude;
 				for (var k in selectedModel.attributes) {
 					var v = selectedModel.attributes[k];
@@ -2179,7 +2239,6 @@ HomeView
 			this.intervalAnimation = 0.3; //0.125; // for indiv animation on the map
 			$("#objectImportButton").append('<div id="objectImportButtonContent"><img src="images/import_.png"><h4>Import csv</h4></div>');
 			$("#objectAddButton").append('<div id="objectAddButtonContent"><img src="images/import_.png"><h4>Add</h4></div>');
-
 		},
 		removeAllChildren: function() {
 			_.each(this.children, function(view) {
@@ -2196,9 +2255,9 @@ HomeView
 			'click #objectsDetails': 'objectDetails',
 			'click a.objTab': 'closeInfosPanel',
 			//'click #objectsHistory' : 'displayHistoy'
-			'click #animationStart': 'startAnimation',
+			/*'click #animationStart': 'startAnimation',
 			'click #animationStop': 'stopAnimation',
-			'click #animationInit': 'initAnimation',
+			'click #animationInit': 'initAnimation',*/
 			'click #objectAddButtonContent': 'AddObject',
 			'click .editCaracBtn': 'showModalEdit',
 			'click .objTab': 'activateSelectedTab',
@@ -2229,6 +2288,11 @@ HomeView
 						this.objectUrl = serverUrl + "/TViewFieldsensor/" + id;
 						this.objectType = "fieldsensor";
 						break;
+					case "objectsField_rfidGrid":
+						this.objectUrl = serverUrl + "/TViewRFID/" + id;
+						this.objectType = "rfid";
+						break;
+
 				}
 				app.utils.getObjectDetails(this, this.objectType, this.objectUrl, id);
 				var currentview = this;
@@ -2263,7 +2327,7 @@ HomeView
 			var url = this.objectUrl;
 			app.utils.displayObjectDetails(this, this.objectType, url, this.idSelectedIndiv);
 		},
-		startAnimation: function() {
+		/*startAnimation: function() {
 			$("#dateIntervalDisplay").removeClass("masqued");
 			var startDate = app.utils.AnimStartDate;
 			var endDate = app.utils.AnimEndDate;
@@ -2309,7 +2373,7 @@ HomeView
 			$("#animationStartDate").text("");
 			$("#animationEndDate").text("");
 			$("#dateIntervalDisplay").addClass("masqued");
-		},
+		},*/
 		showModalEdit: function(e) {
 			// Create the modal view
 			var OEview = new app.views.ObjectEditView();
@@ -2348,6 +2412,10 @@ HomeView
 					} else if (ObjectType == "Field_sensor") {
 						var getObjectDetailsType = "fieldsensor";
 						var getObjectUrl = url + "/TViewFieldsensor/" + idObj;
+					}
+					 else if (ObjectType == "rfid") {
+						var getObjectDetailsType = "rfid";
+						var getObjectUrl = url + "/TViewRFID/" + idObj;
 					}
 					currentview.idSelectedIndiv = idObj;
 					currentview.objectUrl = getObjectUrl;
@@ -2607,7 +2675,7 @@ HomeView
 					zoom: 3,
 					zoomToExtent: true
 				});
-				/*
+				
 				//self.parentView.children.push(mapView);
 				app.utils.timlineLayer(url, mapView, function() {
 					app.utils.animatedLayer(url, mapView);
@@ -2616,9 +2684,13 @@ HomeView
 					// get range of date and update layer
 					var interval = $("#dateSlider").data('slider').getValue();
 					self.updateTimeLineLayer(interval);
-				});*/
+				});
 
 			}, 500);
+			var windowWidth = $(window).width(); 
+	        if (windowWidth > 1599 ){
+	            $("#map").css("width", "900px");
+	        }
 		},
 		displayWaitControl: function() {
 			var mapDiv = this.map_view.el;
@@ -2838,6 +2910,8 @@ $bird 				birds
 	app.views.Birds = app.views.BaseView.extend({
 		template: "birdFilter",
 		afterRender: function() {
+			var windowWidth = $(window).width();
+			var windowHeigth = $(window).height();
 			$.supersized({
 				slides: [{
 					image: ''
@@ -2850,11 +2924,17 @@ $bird 				birds
 			// load data for indiv grid
 			app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber) {
 				app.utils.initGridServer(collection, rowsNumber, indivUrl, {
-					pageSize: 5,
-					columns: [2, 6, 7, 8],
+					pageSize: 50,
+					//columns: [0,1,2, 3, 4, 9],
 					container: "#objectsIndivGrid"
 				});
+				$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
+				$("#objectsIndivGrid").mCustomScrollbar({
+					theme:"dark",
+					 horizontalScroll:true
+				});
 			});
+
 			// autocomplete for fields list
 			var fieldUrl = serverUrl + '/list/autocomplete?table_name=TViewIndividual'+ '&column_name=' ;
 			// field sex
@@ -2864,7 +2944,7 @@ $bird 				birds
 			var fieldSurveyUrl = fieldUrl + 'id61@TCaracThes_Survey_type_Precision';
 			app.utils.getdataListForBirdFilter ("#birdSurveyList", fieldSurveyUrl);
 			// field ptt
-			var fieldPttUrl = fieldUrl + 'id22@TCaracThes_PTT_model_Precision';
+			var fieldPttUrl = fieldUrl + 'id19@TCarac_PTT';
 			app.utils.getdataListForBirdFilter ("#birdPttList", fieldPttUrl);
 			// frequency
 			var fieldFrequencyUrl = fieldUrl + 'id5@TCarac_Transmitter_Frequency';
@@ -2878,43 +2958,92 @@ $bird 				birds
 			// release ring color
 			var fieldReleaseRingColorUrl = fieldUrl + 'id8@TCaracThes_Release_Ring_Color_Precision';
 			app.utils.getdataListForBirdFilter ("#birdReleaseRingColorList", fieldReleaseRingColorUrl);
+			//color
+			var fieldColorUrl = fieldUrl + 'id14@TCaracThes_Mark_Color_1_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);
+			// age
+			var fieldAgeUrl = fieldUrl + 'id2@Thes_Age_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdAgeList", fieldAgeUrl);
+			// origin
+			var fieldOriginUrl = fieldUrl + 'id33@Thes_Origin_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdOriginList", fieldOriginUrl);
+			// release ring
+			var fieldReleaseRingUrl = fieldUrl + 'id9@TCarac_Release_Ring_Code' ;
+			app.utils.getdataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);
+			// breeding ring
+			var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
+			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);
+			
+
+
 		},
 		events :{
 			'click #indivFilterSubmit' : 'getBirdsList',
-			'click tr': 'selectTableElement'
+			'click tr': 'selectTableElement',
+			'click #indivFilterClear' : 'clearFields',
+
+
+
+
 		},
 		getBirdsList : function() {
+			var windowWidth = $(window).width();
+			var windowHeigth = $(window).height();
 			var params = [] ;
 			var id = $('input[name="ID"]').val().trim();
-			var frequency = $('input[name="VHF_frequency"]').val().trim();
+			var frequency = $('input[name="frequency"]').val().trim();
 			var ptt = $('input[name="PTT"]').val().trim();
-			var surveyType = $('input[name="Survey_type"]').val().trim();
 			var sex = $('input[name="sex"]').val().trim();
+			var release = $('input[name="release"]').val().trim();
+			var breeding = $('input[name="breeding"]').val().trim();
+			var age = $('input[name="age"]').val().trim();
+			var origin = $('input[name="origin"]').val().trim();
+			var color = $('input[name="color"]').val().trim();
+			
+
 			if(id){
-				params.push("filters[]=ID:" + id);
+				params.push("filters[]=ID:exact:" + id);  
 			}
 			if (frequency){
-				params.push("filters[]=VHF_frequency:" + frequency);
+				params.push("filters[]=frequency:" + frequency);
 			}
 			if(ptt){
 				params.push("filters[]=PTT:" + ptt);
 			}
-			if(surveyType){
-				params.push("filters[]=Survey_type:" + surveyType);
-			}
 			if(sex){
 				params.push("filters[]=sex:" + sex);
+			}
+			if(release){
+				params.push("filters[]=release ring:" + release);
+			}
+			if(breeding){
+				params.push("filters[]=breeding ring:" + breeding);
+			}
+			if(age){
+				params.push("filters[]=age:" + age);
+			}
+			if(origin){
+				params.push("filters[]=origin:" + origin);
+			}
+			if(color){
+				params.push("filters[]=mark_color:" + color);
 			}
 			var filterParams = params.join("&"); 
 			// update data indiv grid
 			var url = this.indivUrl + "&" + filterParams;
 			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
 				app.utils.initGridServer(collection, rowsNumber, url, {
-					pageSize: 5,
-					columns: [2, 6, 7, 8],
+					pageSize: 50,
+					//columns: [2, 6, 7, 8],
 					container: "#objectsIndivGrid"
 				});
+				$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
+				$("#objectsIndivGrid").mCustomScrollbar({
+					theme:"dark",
+					 horizontalScroll:true
 			});
+			});
+			
 		},
 		selectTableElement: function(e) {
 			var ele = e.target.parentNode.nodeName;
@@ -2935,6 +3064,9 @@ $bird 				birds
 				app.utils.displayObjectHistory(currentview, currentview.objectType, url, currentview.idSelectedIndiv);
 				*/
 			}
+		},
+		clearFields : function() {
+			$("input").val("");
 		}
 
 	});
@@ -2942,9 +3074,11 @@ $bird 				birds
 		template: "birdDetails",
 		initialize : function(options) {
 			this.birdId = options.id;
+			this.intervalAnimation = 0.3; 
 		},
 		afterRender: function() {
-			
+			var windowHeigth = $(window).height();
+			$("#birdDetails").css({"height": windowHeigth -50 });
 			$("#birdId").text(this.birdId);
 			var serverUrl = localStorage.getItem("serverUrl");
 			var objectUrl = serverUrl + "/TViewIndividual/" + this.birdId;
@@ -2962,6 +3096,21 @@ $bird 				birds
 					var deathDate = characteristic.Death_date || "";
 					var comments = characteristic.Comments || "";
 					$("#birdSpecies").text(species);
+					$("#birdBirthDate").text(birthDate);
+					$("#birdSexLabel").text(sex);
+					$("#birdOriginLabel").text(origin);
+					if(sex ==="male"){
+						$("#birdSexPic").attr("src","images/sexe_m.png");
+					} else {
+						$("#birdSexPic").attr("src","images/sexe_f.png");
+					}
+					if (origin ==="wild"){
+						$("#birdOriginPic").attr("src","images/origin_wild.png");
+					} else {
+						$("#birdOriginPic").attr("src","images/origin_release.png");
+					}
+					var age;
+
 					var historyItems = new app.collections.HistoryItems();
 					for (var k in data[0]) {
 						var item = data[0][k];
@@ -2978,15 +3127,103 @@ $bird 				birds
 								historyItem.set('begin_date', begin_date);
 								historyItem.set('end_date', end_date);
 								historyItems.add(historyItem);
+								if (j ==="Age"){ 
+									 age = element["value_precision"];
+								}
+								if (j==="PTT"){
+									var ptt= element["value"];
+									$('#transmittersVal').html("<b>ptt: </b>" + ptt)	;
+								}
+							}
+							$("#birdAgeLabel").text(age);
+							$("#birdAgePic").attr("src","images/age_adult.png");
+							var selectedModel = app.models.selectedModel;
+							if (selectedModel){
+								var atr = selectedModel.attributes;
+								var lastObs = atr["last observation"];
+								var surveyType = atr["survey type"];
+								var transmitter = atr["transmitter"];
+								var monitoringStatus = atr["monitoring status"];
+								$("#birdLastObs").text(lastObs);
+								$("#birdSurveyType").text(surveyType);
+								if (monitoringStatus==="Lost"){
+									$("#birdMonitStatus").html("<img src='images/status_lost.png'/><span>" + monitoringStatus +"</span>");
+									
+								}
+								
+
+
+
+
+
 							}
 						}
 					}
 					// sort collection by begin date 
 					historyItems.sort();
 					// init grid
-					app.utils.initGrid(historyItems, app.collections.HistoryItems);
+					app.utils.initGrid(historyItems, app.collections.HistoryItems, null, {pageSize: 50});
+					$("#grid").css({"height":windowHeigth /2});
+
+					$("#grid").mCustomScrollbar({
+						theme:"dark"
+					});
 				}
 			});
+			
+		},
+		events : {
+			'click #animationStart': 'startAnimation',
+			'click #animationStop': 'stopAnimation',
+			'click #animationInit': 'initAnimation'
+		},
+		startAnimation: function() {
+			$("#dateIntervalDisplay").removeClass("masqued");
+			var startDate = app.utils.AnimStartDate;
+			var endDate = app.utils.AnimEndDate;
+			/*var spanEl = $("#intervalOfTime");
+			var interval = parseInt(spanEl.val(), 10) * 86400;*/
+			var interval = 15 * 86400;
+			if (this.animationTimer) {
+				this.stopAnimation(true);
+			}
+			if (!this.currentDate) {
+				this.currentDate = startDate;
+			}
+			var filter = app.utils.AnimFilter;
+			var filterStrategy = app.utils.AnimfilterStrategy;
+			var self = this;
+			var next = function() {
+				if (self.currentDate < endDate) {
+					filter.lowerBoundary = self.currentDate;
+					filter.upperBoundary = self.currentDate + interval; // + interval
+					filterStrategy.setFilter(filter);
+					self.currentDate = self.currentDate + interval;
+					var stDate = new Date(self.currentDate * 1000);
+					/*$("#animationStartDate").text(stDate.defaultView('YYYY/MM/DD')); // convert date format from timestamp to YYYY/MM/DD
+					var eDate = new Date((self.currentDate + interval) * 1000);
+					$("#animationEndDate").text(eDate.defaultView('YYYY/MM/DD'));*/
+
+				} else {
+					self.stopAnimation(true);
+				}
+			};
+			this.animationTimer = window.setInterval(next, this.intervalAnimation * 1000);
+		},
+		stopAnimation: function(reset) {
+			window.clearInterval(this.animationTimer);
+			this.animationTimer = null;
+			if (reset === true) {
+				this.currentDate = null;
+			}
+		},
+		initAnimation: function() {
+			this.currentDate = app.utils.AnimStartDate;
+			window.clearInterval(this.animationTimer);
+			this.animationTimer = null;
+			/*$("#animationStartDate").text("");
+			$("#animationEndDate").text("");
+			$("#dateIntervalDisplay").addClass("masqued");  */
 		}
 	});
 

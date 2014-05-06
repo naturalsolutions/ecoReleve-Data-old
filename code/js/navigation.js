@@ -1,4 +1,4 @@
-﻿var ecoReleveData = (function(app) {
+var ecoReleveData = (function(app) {
     "use strict";
 
     /*app.views.ContextualNavigation = app.views.BaseView.extend({
@@ -85,23 +85,6 @@
 			case 'birds':
 				this.context = 'birds';
 				break;
-            /*case 'newSample':
-            case 'editSample':
-            case 'newSubject':
-            case 'editSubject':
-                this.context = 'samples';
-                break;
-            case 'listSampleTypes':
-            case 'viewSampleType':
-            case 'editSampleType':
-            case 'listSubjectTypes':
-            case 'viewSubjectType':
-            case 'editSubjectType':
-            case 'listEventTypes':
-            case 'viewEventType':
-            case 'editEventType':
-                this.context = 'admin';
-                break;*/
 			case '':	
 			 this.context = 'home';
                 break;
@@ -141,6 +124,7 @@
             this.$el.off('click', this.clickCancelNav);
             $('body').removeClass('modal-open');
             $(".allDataFilterPanel").css("z-index",5000); 
+            $("header.navbar.navbar-static-top").css("position","fixed");
         },
         show: function () {
             $('body').addClass('modal-open');

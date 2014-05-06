@@ -1295,8 +1295,9 @@ app.utils.loadFileIndiv = function (db){
 				data = eval(data);
 				var startDate = features[0].properties.date;
 				var endDate = features[ln - 1].properties.date;
-				var spanEl = $("#intervalOfTime");
-				var interval = parseInt(spanEl.val(), 10) * 86400;
+				//var spanEl = $("#intervalOfTime");
+				// var interval = parseInt(spanEl.val(), 10) * 86400;
+				var interval = 30 * 86400;
 				var endDate2 = startDate + interval;
 				app.utils.AnimStartDate = startDate;
 				app.utils.AnimEndDate = endDate;
@@ -1591,13 +1592,19 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 	}
-	app.utils.addDatalistControl = function(controlId, collection) {
+	app.utils.addDatalistControl = function(controlId, collection, idAttr) {
 		var element = document.createElement('datalist');
 		$(element).attr('id', controlId + "List"); //  .appendTo('body');    
 		// get itemList
 		collection.each(function(model) {
 			var item = model.attributes.label;
-			var listItem = "<option value='" + item + "'></option>";
+			var listItem; 
+			if(idAttr){
+				var idElement =  model.attributes[idAttr];
+				listItem  = "<option value='" + item + "'>"+ idElement +"</option>";
+			}else{
+				listItem  = "<option value='" + item + "'></option>";
+			}
 			$(element).append(listItem);
 		});
 		// insert datalist in form element
@@ -1783,7 +1790,7 @@ app.utils.loadFileIndiv = function (db){
 	}
 	app.utils.getdataListForBirdFilter = function(element, url){
 		$(element).empty();
-		$.ajax({
+		var ajaxCall = $.ajax({
 			url: url,
 			dataType: "json",
 			success: function(data) {
@@ -1796,6 +1803,7 @@ app.utils.loadFileIndiv = function (db){
 			},
 			error: function() {
 				alert("error loading items, please check connexion to webservice");
+				ajaxCall.abort();
 			}
 		});
 
@@ -1888,9 +1896,13 @@ JSON.stringify = JSON.stringify || function (obj) {
 	app.utils.initGrid = function(list, VisibleList, columns, options) {
 		var visibleList = new VisibleList;
 		// initier la grid
+		var pageSize = 10;
+		if (options){
+			pageSize = options.pageSize || 10;
+		}
 		var grid = new NS.UI.Grid({
 			collection: visibleList,
-			pageSize: 10,
+			pageSize: pageSize,
 			pageSizes: [5, 10, 20, 50],
 			page: 1,
 			pagerPosition: 'top' //,
@@ -2032,7 +2044,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 		// 5) render the grid (empty at the moment) and bind it to the DOM tree
 		$('div#grid').html("");
 		grid.render().$el.appendTo('div#grid');
-		if (typeof(columns) != "undefined") {
+		if (columns & (typeof(columns) != "undefined") ) {
 			var ln = columns.length;
 			for (var i = 0; i < ln; i++) {
 				masquerColonne(columns[i]);
@@ -2293,7 +2305,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 							ct += "<p  " + classimportance + ">" + v + " : " + objectContent[v][0] + bouton + "</p>";
 						} else {
 							var objDetail = objectContent[v];
-							ct += "<h2><i>" + v + "</i></h2>";
+							//ct += "<h2><i>" + v + "</i></h2>";
 							for (var z in objDetail) {
 								var editable = objDetail[z][1]['edit'];
 								var idbtn = objDetail[z][1]['typeandid'];
@@ -2340,6 +2352,9 @@ JSON.stringify = JSON.stringify || function (obj) {
 				}
 				if (objectType == "fieldsensor") {
 					$("a[href='#d0']").text("fieldsensor");
+				}
+				if (objectType == "fieldrfid") {
+					$("a[href='#d0']").text("RFID ");
 				}
 			}
 		});
@@ -2469,13 +2484,6 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 		return maxY;
 	}
 
-	app.utils.importScript = function(src) {
-		var scriptElem = document.createElement('script');
-		scriptElem.setAttribute('src', src);
-		scriptElem.setAttribute('type', 'text/javascript');
-		document.getElementsByTagName('head')[0].appendChild(scriptElem);
-	}
-
 	// import with a random query parameter to avoid caching
 	/*function importNoCache(src){
   var ms = new Date().getTime().toString();
@@ -2490,7 +2498,6 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 		}
 		return true;
 	}
-
 
 
 	return app;

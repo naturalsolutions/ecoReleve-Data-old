@@ -343,7 +343,7 @@ NS.UI = (function(ns) {
             } else {
                 options = _.map(optionConfig, function(item) {
 					if (typeof(item) == 'object') {
-                        if ('options' in item) {
+                        if (item !== null && ('options' in item)) {
                             // optgroup
                             return {
                                 label: item.label,

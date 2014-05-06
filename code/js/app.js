@@ -89,9 +89,16 @@ function init(){
 	});
 	// load observations
 	app.collections.observations = new app.collections.Observations();
-			app.collections.observations.fetch().then(function() {
-				console.log("observations loaded ! ");
-			});
+	app.collections.observations.fetch().then(function() {
+		console.log("observations loaded ! ");
+	});
+	// get id of last stored station
+	var idLastStation = parseInt(localStorage.getItem("idLastStation"));
+	if (idLastStation){
+		app.utils.idLastStation = idLastStation;
+	} else {
+		app.utils.idLastStation = 0;
+	}
 
   });
 }

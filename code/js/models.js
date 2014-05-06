@@ -86,7 +86,7 @@ Station Model & collection
 app.models.Station = Backbone.Model.extend({
     sync: Backbone.localforage.sync()
 	},{
-		schema: {
+		schema: { 
 			Name:  { type: 'Text', title:'station name'},  //,validators: ['required']
 			LAT :  { type: 'Text', title:'latitude', required : true },
 			LON :  { type: 'Text', title:'longitude', required : true },

@@ -544,7 +544,7 @@ div.filterElement{
 @media screen and (min-width: 1600px){
 /* objects map */
 	#slider {
-	width: 80%;
+	width: 90%;  /*  80   */
 	}
 }
 @media screen and (min-width: 1280px){
@@ -576,7 +576,11 @@ div.filterElement{
 		width: 600px;
 	}
 		#slider {
-	width: 70%;
+	width: 90%;
+	}
+	/*  input  */
+	div.birdCaracFilter {
+		width: 160px;
 	}
 }
 @media screen and (max-width: 1024px) {
@@ -625,7 +629,12 @@ div.filterElement{
 	}
 	/* objects map */
 	#slider {
-	width: 68%;
+	width: 90%;  /*  68%;   */
+	}
+	/* input */
+	.importPhoto{
+		width: 300px;
+		float: right;
 	}
 }
 @media screen and (max-width: 1300px) {
@@ -648,7 +657,11 @@ div.filterElement{
 	}
 	/* objects map */
 	#slider {
-	width: 60%;
+	width: 90%;   /*   60   */
+	}
+		/* input */
+	.importPhoto{
+		display: none;
 	}
 @media screen and (max-width: 640px) {
 

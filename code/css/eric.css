@@ -1,0 +1,202 @@
+/* **************** eric temp styles **************** */
+
+/*body, .navbar .nav > li, h1, h2, h3, h4, h5, h6 {
+	font-family: 'Exo', 'sans-serif';
+}*/
+
+#home-top{
+	height: 320px;
+	padding-top: 1%;  /* 5  */
+	overflow: hidden;
+}
+
+#home-bottom{
+	height: 40%;
+	padding-top: 1%;
+}
+
+#infos{
+	background: none;
+	padding: 0;
+	text-align: left;
+
+}
+.home-right-bloc{
+	float: left;
+	width: 50%;
+}
+
+li.tile img{
+	width: 70px;
+	height: 70px;
+	margin-top: 8px;
+}
+
+li.tile a{
+	display: block;
+}
+
+.thumbnails > li.tile.tile-double{
+	width: 330px;
+}
+
+.thumbnails > li.tile {
+	opacity: 1;
+}
+.thumbnails > li.tile:hover {
+	opacity: 0.8;
+}
+
+.thumbnails > li.tile h2{
+	font-size: 1.5em;
+}
+
+#credits{
+	position:fixed;
+	padding-right: 20px;
+	bottom: 10px;
+	right: 0px;
+	text-align: right;
+	color: white;
+	font-size: 0.8em;
+	z-index: -100;
+	opacity: 0.3;
+}
+canvas{
+    margin:0 !important;
+}
+.thumbnails > li.tile.tile-orangePerso{
+	background-color: #f6712e;
+}
+.thumbnails > li.tile.tile-green{
+	background-color: #007947;
+}
+.thumbnails > li.tile.tile-teal{
+	background-color: #00b6ad;
+}
+div.container {
+position: absolute;
+top: 20px;
+left: 20px;
+}
+.tile-double.icon >a >img {
+	margin-top: 15px;
+	position: inherit;
+	margin-left: -90px;
+}
+.tile-double.icon >a >h2 {
+	margin-left: -90px;
+}
+#homeSiteName {
+	font-size: 28px;
+	margin: 12.5px 0;
+	font-family: "Segoe UI Light", "Helvetica Neue", "Segoe UI", "Segoe WP", sans-serif;
+	font-weight: 100;
+	line-height: 25px;
+	color: inherit;
+	text-rendering: optimizelegibility;
+}
+@media screen and (max-width: 1366px) {
+	#homeContent {
+		top: -5px;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+		width: 140px;
+		height: 140px;
+	}
+	.thumbnails > li.tile.tile-double {
+		width: 310px;
+	}
+
+}
+@media screen and (max-width: 1024px){
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+		width: 120px;
+		height: 120px;
+		padding: 0px;
+	}
+	.thumbnails > li.tile.tile-double {
+		width: 260px;
+	}
+	.tile-double.icon >a >img {
+		margin-left: -140px;
+	}
+	.tile-double.icon >a >h2 {
+		margin-left: -140px;
+		margin-top: -12px;
+		font-size: 1.4em;
+	}
+	.tile.icon >a >h2 {
+		margin-top: -12px;
+		font-size: 1.4em;
+	}
+}
+@media screen and (max-width: 800px){
+	h2 {
+		font-size: 30px;
+	}
+	#infos {
+		margin-left: 4em;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+		width: 100px;
+		height: 100px;
+		padding: 0px;
+	}
+	.thumbnails > li.tile.tile-double {
+		width: 210px;
+	}
+	.tile-double.icon >a >img {
+		margin-left: -140px;
+		width: 50px;
+		height: 50px;
+	}
+	.tile.icon >a >img {
+		width: 50px;
+		height: 50px;
+	}
+	.tile-double.icon >a >h2 {
+		margin-left: -140px;
+		margin-top: -12px;
+		font-size: 1.4em;
+	}
+	.tile.icon >a >h2 {
+		margin-top: -20px;
+		font-size: 1.1em;
+	}
+	.thumbnails > li {
+		margin-bottom: 10px;
+		margin-left: 10px;
+	}
+
+}
+@media screen and (min-width: 1600px){
+	#home-top {
+	padding-top: 3%;
+	}
+	#homeContent {
+		left: 70px;
+	}
+	#home-bottom {
+	padding-top: 5%;
+	}
+	.thumbnails > li.tile.tile-double {
+	width: 400px;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+	width: 185px;
+	height: 185px;
+	}
+	.tile.icon >a > img, .tile-double.icon >a >img {
+	/* position: absolute; */
+	width: 80px;
+	height: 80px;
+	top: 50%;
+	left: 50%;
+	margin-left: 0px;
+	margin-top: 15px;
+	}
+	.tile-double.icon >a >h2 {
+	margin-left: 0px;
+	}
+}
