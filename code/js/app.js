@@ -52,6 +52,7 @@ function init(){
 	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
 	//localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
 	localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
+	//localStorage.setItem("serverUrl", "http://localhost:82/ecoreleve-core");
 	// load mapping scripts
 	   /* app.utils.importScript('js/libs/OpenLayers.debug.js');
 	       setTimeout(function() {
@@ -91,6 +92,9 @@ function init(){
 	app.collections.observations = new app.collections.Observations();
 	app.collections.observations.fetch().then(function() {
 		console.log("observations loaded ! ");
+		// number of stored observations
+		var ln = app.collections.observations.length;
+		$("#homeNbObs").text(ln);
 	});
 	// get id of last stored station
 	var idLastStation = parseInt(localStorage.getItem("idLastStation"));
@@ -99,9 +103,18 @@ function init(){
 	} else {
 		app.utils.idLastStation = 0;
 	}
+	// loading mapping scripts
+	loadScript("js/libs/OpenLayers-2-14.js");
+	loadScript("js/libs/openlayersBbox.js");
+	loadScript("js/libs/AnimatedCluster.js");
 
   });
 }
+	function loadScript(src) {
+    	var scriptElement = document.createElement('script');
+        scriptElement.src = src;
+   		document.body.appendChild(scriptElement);
+	}
 
 return app;
 })(ecoReleveData);

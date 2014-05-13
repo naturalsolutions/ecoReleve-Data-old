@@ -303,7 +303,7 @@ min-height: 70px;
 #mapColumn, #dataTableRow {
 	width: 40%;
 }
-/* view allData  */
+/************************************* view allData  ***********************************************************************/
 #myDataTable {
 	width: 100%;
 }
@@ -489,7 +489,7 @@ div.olControlZoom a {
 .navbar-fixed-top, .navbar-fixed-bottom {
 	position : fixed;
 }
-/* export view */
+/*********************************************** export view ******************************************************/
 #export-filter-header{
 	background: grey;
 	margin-bottom: 10px;
@@ -541,6 +541,7 @@ div.filterElement{
 /*.modal-content {
 	margin: 3%;
 }*/
+/**************************************************   media querys ************************************************************/
 @media screen and (min-width: 1600px){
 /* objects map */
 	#slider {

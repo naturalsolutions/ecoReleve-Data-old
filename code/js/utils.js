@@ -70,16 +70,16 @@ var ecoReleveData = (function(app) {
 									var minBound = field.get("min_bound");
 									var maxBound = field.get("max_bound");
 									// validator for min value & max value
-									var validatorslist = new Array();
+									var validatorslist = [];
 
-									if (minBound != "") {
+									if (minBound !== "") {
 										var min = {};
 										min.type = "minval";
 										min.minval = parseInt(minBound);
 										validatorslist.push(min);
 									}
 
-									if (maxBound != "") {
+									if (maxBound !== "") {
 										var max = {};
 										max.type = "maxval";
 										max.maxval = parseInt(maxBound);
@@ -170,8 +170,7 @@ var ecoReleveData = (function(app) {
 
 			});
 		localStorage.setItem("xmlProtocolsIsloaded", "true");
-
-	}
+	};
 	app.utils.getProtocolsFromServer = function(url) {
 		// call WS protocols
 		$.ajax({
@@ -179,8 +178,8 @@ var ecoReleveData = (function(app) {
 			url: url,
 			dataType: "xml",
 			success: function(xml) {
-				var procolsList = new Array();
-				var listColumns = new Array();
+				var procolsList = [];
+				var listColumns = [];
 				$(xml).find('protocole').each(function() {
 					var protocol = {};
 					protocol.val = $(this).attr('id');
@@ -250,7 +249,7 @@ var ecoReleveData = (function(app) {
 				});
 			}
 		});
-	}
+	};
 	app.utils.loadWaypoints = function(url) {
 		$.ajax({
 			type: "GET",
@@ -293,7 +292,7 @@ var ecoReleveData = (function(app) {
 				alert("error in loading file !");
 			}
 		});
-	}
+	};
 	app.utils.loadWaypointsFromFile = function(xml) {
 		// test if collection of waypoints exists and clean it
 		try {
@@ -359,7 +358,7 @@ var ecoReleveData = (function(app) {
 			localStorage.setItem("xmlWaypointsIsloaded", "false");
 			alert("error loading gpx file");
 		}
-	}
+	};
 
 	function changeDateFormat(dateObs, format) {
 		var dateSplit, date, formatDate, YYYY, MM, DD;
@@ -401,7 +400,7 @@ var ecoReleveData = (function(app) {
 		var defaultvalueposition;
 
 		var listVal = itemlist.split('|');
-		var options = new Array();
+		var options = [];
 
 		for (var i = 0; i < listVal.length; i++) {
 			var valItem = listVal[i];
@@ -505,7 +504,7 @@ var ecoReleveData = (function(app) {
 	/************************************************** GPS ***********************************************************/
 	app.utils.getPosition = function() {
 		var latitude, longitude;
-		var myPosition = new Object();
+		var myPosition = {};
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				latitude = position.coords.latitude;
@@ -518,9 +517,7 @@ var ecoReleveData = (function(app) {
 				timeout: 10000
 			});
 		}
-		//return (latitude + ";" + longitude);	
-		//	return myPosition;
-	}
+	};
 	app.utils.myPositionOnMap = function(callback) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
@@ -536,7 +533,7 @@ var ecoReleveData = (function(app) {
 				timeout: 10000
 			});
 		}
-	}
+	};
 
 	function erreurPosition(error) {
 		var info = "Erreur lors de la geolocalisation : ";
@@ -571,7 +568,7 @@ var ecoReleveData = (function(app) {
 			zoom: mapZoom
 		});
 		return map_view;
-	}
+	};
 
 	app.utils.addTracks = function(urlFile, layerName) {
 		var protocol = new NS.UI.Protocol({
@@ -588,7 +585,7 @@ var ecoReleveData = (function(app) {
 		$("#waitLoadingTracks").html(" <img src='images/loader.gif'/>");
 		$('a#displayTracks').text('Hide tracks');
 		setTimeout(hideWaitLoadingTrack, 5000);
-	}
+	};
 
 	function hideWaitLoadingTrack() {
 		$("#waitLoadingTracks").html("");
@@ -602,9 +599,7 @@ var ecoReleveData = (function(app) {
 			Min = "0" + Min;
 		}
 		$('input[name*="' + fieldName + '"]').val(Heure + ":" + Min);
-		//$("#mytime").val(Heure + ":" + Min);
-		//setTimeout("app.utils.getTime()",1000);
-	}
+	};
 	app.utils.validateFields = function() {
 		var valRetour = 1;
 		$("input").each(function() {
@@ -615,7 +610,7 @@ var ecoReleveData = (function(app) {
 			}
 		});
 		return valRetour;
-	}
+	};
 	// get the date format in MM/DD/YYYY
 	Date.prototype.defaultView = function(format) {
 		var dd = this.getDate();
@@ -629,7 +624,7 @@ var ecoReleveData = (function(app) {
 			return String(yyyy + "\/" + mm + "\/" + dd);
 		}
 
-	}
+	};
 	// get distinct values from an array
 	Array.prototype.distinct = function() {
 		var map = {}, out = [];
@@ -642,30 +637,23 @@ var ecoReleveData = (function(app) {
 			map[this[i]] = 1;
 		}
 		return out;
-	}
+	};
 	/******************************************************* photo capture *****************************************/
 	app.utils.onPhotoDataSuccess = function(imageData) {
-		/*     $("#smallImage").attr("style","display:block");
-var source = "data:image/jpeg;base64," + imageData;
-$("#smallImage").attr("src", source);
-localStorage.setItem("myphoto",source);
-var myImage = localStorage.getItem("myphoto");
-$("#smallImage").attr("src", myImage);
-*/
-	}
+	};
 	app.utils.onPhotoFileSuccess = function(imageData) {
 		app.form.fields.photo_url.setValue(imageData);
 		$("#image").attr("src", imageData);
 		$("#image").attr("height", "200");
 		$("#image").attr("width", "200");
-	}
+	};
 	app.utils.onFail = function(message) {
 		alert('Failed because: ' + message);
-	}
+	};
 	/********************************************************plugin jquery Datatables *****************************************/
-	app.utils.fnGetSelected = function(oTableLocal) {
+	/*app.utils.fnGetSelected = function(oTableLocal) {
 		return oTableLocal.$('tr.row_selected');
-	}
+	};*/
 	app.utils.reloadProtocols = function(oTableLocal) {
 		app.collections.protocolsList = new app.Collections.Protocols();
 		app.collections.protocolsList.fetch({
@@ -681,11 +669,11 @@ $("#smallImage").attr("src", myImage);
 		app.collections.protocolsList.each(function(protocol) {
 			protocol.schema = protocol.attributes.schema;
 		});
-	}
+	};
 
 	app.utils.getProtocolDetails = function(protocolName) {
 		// check internet connexion
-		if (navigator.onLine == true) {
+		if (navigator.onLine === true) {
 			// check if server url is configurated
 			var serverUrl = localStorage.getItem("serverUrl");
 			if ((serverUrl === undefined) || (serverUrl == null)) {
@@ -700,7 +688,7 @@ $("#smallImage").attr("src", myImage);
 					url: link,
 					dataType: "xml",
 					success: function(xml) {
-						app.utils.generateProtocolFromXml(xml)
+						app.utils.generateProtocolFromXml(xml);
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
 						alert(xhr.status);
@@ -711,28 +699,28 @@ $("#smallImage").attr("src", myImage);
 		} else {
 			alert("you are not connected ! Please check your connexion ");
 		}
-	}
+	};
 	/***********************************************************  Phonegap File API *************************************************/
 	app.utils.onFSSuccess = function(fs) {
 		app.global.fileSystem = fs;
-	}
+	};
 	app.utils.onError = function(e) {
 		var HTML = "<h2>Error</h2>" + e.toString();
 		alert(HTML);
-	}
+	};
 	app.utils.appendFile = function(f) {
 		f.createWriter(function(writerOb) {
-			writerOb.onwrite = function() {}
+			writerOb.onwrite = function() {};
 			//go to the end of the file...
 			// writerOb.seek(writerOb.length);
 			writerOb.write(app.utils.appendFile.textToWrite);
-		})
-	}
+		});
+	};
 	app.utils.gotFileEntry = function(fileEntry) {
 		var fileUrl = fileEntry.fullPath;
 		// load xml protocols file
 		app.utils.loadProtocols(fileUrl);
-	}
+	};
 	app.utils.clearCollection = function(collection) {
 		collection.each(function(model) {
 			model.destroy();
@@ -744,7 +732,7 @@ $("#smallImage").attr("src", myImage);
 			});
 			len = collection.length;
 		}
-	}
+	};
 	/*
 app.utils.gotFile = function (file){
         //readDataUrl(file);
@@ -793,16 +781,16 @@ app.utils.initializeDB = function(db){
 
 	function successWrapper(d) {
 		return (function(tx, data) {
-			d.resolve(data)
-		})
-	};
+			d.resolve(data);
+		});
+	}
 
 	function failureWrapper(d) {
 		return (function(tx, error) {
 			console.log('failureWrapper');
 			console.log(error);
-			d.reject(error)
-		})
+			d.reject(error);
+		});
 	}
 	app.utils.findAll = function(callback) {
 		app.global.db.transaction(
@@ -823,55 +811,14 @@ app.utils.initializeDB = function(db){
 				console.log(tx);
 			}
 		);
-	}
-	/*
-app.utils.loadFileIndiv = function (db){	
-	var dfd = $.Deferred();
-	var arr = [];
-    $.ajax({
-       type: 'GET',
-       url: 'ressources/indiv_LastPositions.csv',
-       data: null,
-       success: function(text) {
-			//$("#birdsHeader").html("Chargement du fichier indiv...");
-			console.log("generation de la table individus");
-			//$("#waitControlIndiv").attr('style', 'display:inherit; position:absolute; left:'+((w_screen*0.5)-50)+'px; top:'+((h_screen*0.5)-50)+'px; width:100px;height:100px; z-index:5;');
-           var fields = text.split(/\n/);
-           var data = fields.slice(1,fields.length);
-           for(var j = 0; j < data.length; j += 1) {
-				// suivre l'état d'avancement de generation de la table dans la BD
-				//$("#birdsHeader").html("Chargement de la ligne " + j + " /" + data.length + "...");
-				var dataFields = data[j].split(';');
-				var  values = ""
-				for(var k = 0; k < dataFields.length; k += 1) {
-				values = values +"'"+dataFields[k]+"',";
-				}
-				var n=values.lastIndexOf(",");
-				var val = values.substr(0,n);
-				var query = "INSERT INTO TIndividus (Tind_FieldWorker1 ,"
-				+"Tind_FieldWorker2 , Tind_FieldActivity_Name , Tind_Name , Tind_Region , Tind_Place , Tind_DATE ,"
-				+"Tind_LAT , Tind_LON , Tind_Site_name ,Tind_MonitoredSite_type , Tind_label , Tind_Sex ,"
-				+"Tind_Origin , Tind_Species , Tind_Status , Tind_Tr_Shape , Tind_Tr_Model , Tind_Tr_Number ," 
-				+ "Tind_NumBagBre , Tind_Chip , Tind_TCaracThes_Mark_Color_1_Precision , Tind_PTT , Tind_Frequency ,"
-				+"Tind_NumBagRel , Tind_Fk_TInd_ID , Tind_FreqOpti ) VALUES ("+ val +")";
-				//insertRow(req);
-				arr.push(app.utils.runQuery(query , []) ); 
-           }
-
-		    $.when.apply(this, arr).then(function () {
-				return  dfd.resolve();
-			});
-       }
-    });
-}
-*/
+	};
 	app.utils.checkURL = function(value) {
 		var urlregex = new RegExp("^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
 		if (urlregex.test(value)) {
 			return (true);
 		}
 		return (false);
-	}
+	};
 
 	app.utils.checkServer = function(url) {
 		$("#serverUrlInfo").text("Please wait, Checking server state ... ");
@@ -893,17 +840,17 @@ app.utils.loadFileIndiv = function (db){
 
 			}
 		});
-	}
+	};
 	app.utils.trim = function(myString) {
 		return myString.replace(/^\s+/g, '').replace(/\s+$/g, '');
-	}
+	};
 	app.utils.filldatable = function(params, paramsMap) {
 		//debugger;	
 		$("#allDataInfosPanel").hide();
 		var serverUrl = localStorage.getItem("serverUrl");
 		//var cluster = $("#select_cluster option:selected").attr('value');
 		var cluster = $('.cluster:checked').val();
-		var ajaxSource
+		var ajaxSource;
 		if (paramsMap) {
 			ajaxSource = serverUrl + '/station/get?' + params + '&' + paramsMap;
 		} else {
@@ -917,83 +864,8 @@ app.utils.loadFileIndiv = function (db){
 				columns: [2, 6, 7, 8]
 			});
 		});
+	};
 
-		/*
-	app.xhr = "";
-	app.xhr = $.ajax({
-		url: ajaxSource,
-		dataType: "json",
-		success: function(data) {
-			// create schema model and dynamic fields for the grid
-			var rowsNumber = data.count;
-			var dataValues = data.values;
-			var firstRow = dataValues[0];
-			var listColumns = [];
-			var schema = {};
-			for (key in firstRow){
-				var colName = key;
-				schema[colName] =  {'title': colName, type: 'Text', sortable: true};
-			}
-
-			  app.models.ExportGridModel = Backbone.Model.extend({
-					}, {
-						// Declare schema and verbose name at model level
-						schema: schema,
-						verboseName: 'Data'
-				});
-				
-				app.collections.AllDataCollection = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-				app.collections.VisibleListInGrid = Backbone.Collection.extend({
-				  model:  app.models.ExportGridModel
-				});
-
-				 var gridCollection = new app.collections.AllDataCollection();
-
-			var ln = dataValues.length;
-			for (var i=0;i<ln;i++){
-				rowValue = dataValues[i];
-				var gridModel = new app.models.ExportGridModel();
-				for(key in rowValue){
-				  	var colName = key;
-				  	var colValue = rowValue[key];
-				  	gridModel.set(colName,colValue);		
-			    }
-				//listColumns
-				gridCollection.add(gridModel);
-			}
-
-			app.utils.initGridServer(gridCollection, rowsNumber,ajaxSource);
-
-		},
-		error : function(){
-		}
-	});
-
-	*/
-
-	}
-	/*fnStyleTable = function() {
-
-		setTimeout(function() {
-			$("#allDataBoxList").removeAttr("style");
-
-		}, 1000);
-	};*/
-	/*fnCallback = function(json){
-	console.log( 'DataTables has redrawn the table' );
-	$("#allDataBoxList").css("style", "width: 450px;");
-	 
-}*/
-
-	app.utils.fnShowHide = function(iCol) {
-		/* Get the DataTables object again - this is not a recreation, just a get of the object */
-		var oTable = $('#allDataBoxList').dataTable();
-		var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-		oTable.fnSetColumnVis(iCol, bVis ? false : true);
-		$("#allDataBoxList").css("style", "width: 380px;");
-	}
 	app.utils.fillTaxaList = function() {
 		$('#lTaxon').empty();
 		var serverUrl = localStorage.getItem("serverUrl");
@@ -1014,7 +886,7 @@ app.utils.loadFileIndiv = function (db){
 					$("#iTaxon").attr("disabled", "disabled");
 			}
 		});
-	}
+	};
 	app.utils.getUpdateParams = function() {
 		var params = {};
 		params.id_proto = $("#id_proto").attr("value");
@@ -1023,7 +895,7 @@ app.utils.loadFileIndiv = function (db){
 		params.idate = $('#idate').text();
 		params.taxonsearch = $("#iTaxon").attr("value");
 		return params;
-	}
+	};
 	app.utils.updateLayer = function(mapView) {
 		// delete selected feature layer if exists
 		for (var i = 0; i < mapView.map.layers.length; i++) {
@@ -1050,7 +922,7 @@ app.utils.loadFileIndiv = function (db){
 			dataType: "json",
 			success: function(data) {
 				var featuresNumber = data[0].count;
-				if (featuresNumber == 0) {
+				if (featuresNumber === 0) {
 					// delete features
 					for (var i = 0; i < mapView.map.layers.length; i++) {
 						if ((mapView.map.layers[i].name) == "Observations") {
@@ -1090,24 +962,6 @@ app.utils.loadFileIndiv = function (db){
 							center: center,
 							zoom: 4
 						});
-						// add zoom /pan toolbox
-						/*var panel = new OpenLayers.Control.Panel({displayClass: 'panel', allowDepress: false});
-			        var zoomBox = new OpenLayers.Control.ZoomBox();
-			        var navigation = new OpenLayers.Control.Navigation();
-			        var zoomBoxBtn = new OpenLayers.Control.Button({displayClass: 'olControlZoomBox', type: OpenLayers.Control.TYPE_TOOL,
-			            eventListeners: {
-			               'activate': function(){zoomBox.activate(); navigation.deactivate(); }, 
-			               'deactivate': function(){zoomBox.deactivate()}
-			            }
-			        });
-			        var navigationBtn = new OpenLayers.Control.Button({displayClass: 'olControlNavigation', type: OpenLayers.Control.TYPE_TOOL,
-			            eventListeners: {
-			               'activate': function(){navigation.activate(); zoomBox.deactivate();}, 
-			               'deactivate': function(){navigation.deactivate()}
-			            }
-			        });     
-			        panel.addControls([zoomBoxBtn, navigationBtn]);
-			        mapView.map.addControls([panel,zoomBox,navigation]);*/
 					} else {
 						// update layer
 						mapView.updateLayer("Observations", url, params);
@@ -1164,7 +1018,7 @@ app.utils.loadFileIndiv = function (db){
 				}
 			}
 		});
-	}
+	};
 	app.utils.continueUpdateLayer = function(mapView) {
 		var params = {
 			id_proto: $("#id_proto").attr("value"),
@@ -1211,31 +1065,7 @@ app.utils.loadFileIndiv = function (db){
 			mapView.updateLayer("Observations", url, params, center);
 		}
 		$("#allDataMapDataInfos").html("");
-	}
-	/*app.utils.layerForBbox = function(mapView, view, filter){
-	var serverUrl = localStorage.getItem("serverUrl");
-	var url = serverUrl + "/views/get/"+ view + "?filter=" + filter + "&format=geojson&limit=0&cluster=yes";
-	var exists = false;
-	for(var i = 0; i < mapView.map.layers.length; i++ ){
-		if((mapView.map.layers[i].name) == "Observations" ) {
-			mapView.clearLayer(mapView.map.layers[i]);
-			exists = true;
-			break;
-		}
-	}
-	// center the map
-	var center = {};
-	center.latitude = 22;
-	center.longitude = 75;
-	if (!exists){
-		var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON", strategies:["BBOX"], cluster:true, popup : false});
-		mapView.addLayer({protocol : protocol , layerName : "Observations"});   //, center: center, zoom:3 
-	} 
-	else {
-		// update layer
-		mapView.updateLayer("Observations", params, center);
-	}
-}*/
+	};
 	app.utils.getTrackFromPoints = function(url, mapView) {
 		var featurecollection;
 		var coordinates = [];
@@ -1282,7 +1112,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.animatedLayer = function(url, mapView) {
 		var featurecollection;
 		var coordinates = [];
@@ -1347,7 +1177,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.timlineLayer = function(url, mapView, callback) {
 		var featurecollection;
 		var coordinates = [];
@@ -1383,15 +1213,6 @@ app.utils.loadFileIndiv = function (db){
 					strategies: [filterStrategy],
 					styleMap: new OpenLayers.StyleMap({
 						"default": new OpenLayers.Style({
-							/*graphicName: "circle",
-					            pointRadius: 4,
-					            fillOpacity: 0.7,
-					            fillColor: "#E8154A",
-					            strokeColor: "#E8154A",
-					            strokeWidth: 1*/
-							/*
-					             externalGraphic: "images/positionMarker3.png",
-					             graphicWidth: 15, graphicHeight: 20, graphicYOffset: -37, graphicOpacity: 1 */
 							graphicName: "circle",
 							pointRadius: 4,
 							fillOpacity: 0.7,
@@ -1407,20 +1228,12 @@ app.utils.loadFileIndiv = function (db){
 				// init date values
 				var stDate = new Date(startDate * 1000);
 				// convert date format
-				stDate = stDate.defaultView('YYYY/MM/DD')
+				stDate = stDate.defaultView('YYYY/MM/DD');
 				$("#objectsIndivMapSliderStartDate").text(stDate);
 				var enDate = new Date(endDate * 1000);
 				// convert date format
-				enDate = enDate.defaultView('YYYY/MM/DD')
+				enDate = enDate.defaultView('YYYY/MM/DD');
 				$("#objectsIndivMapSliderEndDate").text(enDate);
-				// set values for slider
-				/*$("#dateSlider").attr("data-slider-min",startDate);
-	        $("#dateSlider").attr("data-slider-max",endDate);
-	         var sliderValue = "[" + startDate + "," + endDate + "]";
-	        $("#dateSlider").attr("data-slider-value",sliderValue);
-	        $("#dateSlider").attr("data-slider-step",86400);
-	         $("#dateSlider").slider({});*/
-				// Change max
 
 				if (stDate != enDate) {
 					$("#dateSlider").slider({});
@@ -1439,7 +1252,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.updateLocation = function(mapView, point) {
 		var exists = false;
 		var vector_layer = null;
@@ -1451,12 +1264,6 @@ app.utils.loadFileIndiv = function (db){
 				break;
 			}
 		}
-		/*	
-	for(var i = 0; i < mapView.map.layers.length; i++ ){
-		if((mapView.map.layers[i].name) == "Selected feature" ) {
-			mapView.map.removeLayer(mapView.map.layers[i]);
-		}
-	}*/
 		if (!exists) {
 			var pt = new NS.UI.Point({
 				latitude: point.latitude,
@@ -1478,10 +1285,6 @@ app.utils.loadFileIndiv = function (db){
 			});
 			var location = new OpenLayers.LonLat(point.longitude, point.latitude);
 			mapView.setCenter(location);
-			/*location = location.transform(
-				   new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-				   new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection
-		);*/
 			mapView.map.panTo(location);
 		} else {
 			vector_layer.removeAllFeatures();
@@ -1491,7 +1294,7 @@ app.utils.loadFileIndiv = function (db){
 			vector_layer.addFeatures(f);
 			mapView.map.setCenter(lonlat);
 		}
-	}
+	};
 	app.utils.getItemsList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
@@ -1518,7 +1321,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.getUsersList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
@@ -1544,7 +1347,7 @@ app.utils.loadFileIndiv = function (db){
 				alert("error loading items, please check connexion to webservice");
 			}
 		});
-	}
+	};
 	app.utils.getUsersListForStrorage = function(url) {
 		var serverUrl = localStorage.getItem("serverUrl");
 		url = serverUrl + url;
@@ -1568,7 +1371,7 @@ app.utils.loadFileIndiv = function (db){
 				alert("error loading items, please check connexion to webservice");
 			}
 		});
-	}
+	};
 	app.utils.getFieldActivityListForStrorage = function(url) {
 		var serverUrl = localStorage.getItem("serverUrl");
 		url = serverUrl + url;
@@ -1591,7 +1394,7 @@ app.utils.loadFileIndiv = function (db){
 				alert("error loading items, please check connexion to webservice");
 			}
 		});
-	}
+	};
 	app.utils.addDatalistControl = function(controlId, collection, idAttr) {
 		var element = document.createElement('datalist');
 		$(element).attr('id', controlId + "List"); //  .appendTo('body');    
@@ -1609,7 +1412,7 @@ app.utils.loadFileIndiv = function (db){
 		});
 		// insert datalist in form element
 		$("form").append(element);
-	}
+	};
 
 	app.utils.getViewsList = function(id) {
 		$('#export-views').empty();
@@ -1626,16 +1429,13 @@ app.utils.loadFileIndiv = function (db){
 						var label = data[i].MapSelectionManager.TSMan_Layer_Name;
 						$('<li class="exportViewsList" value=\"' + value + '\">' + label + "</li>").appendTo('#export-views');
 					}
-					/*$('.exportViewsList').css({"width":"450px","height": "35px","background": "grey","padding-top": "10px",
-				                          "margin-top": "2px","margin-bottom": "2px","padding-left": "10px","font-size": "18px","color": "white"});*/
-
 				},
 				error: function() {
 					alert("error loading views, please check connexion to webservice");
 				}
 			});
 		}
-	}
+	};
 	app.utils.getAreaList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
@@ -1660,7 +1460,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
@@ -1685,7 +1485,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
+	};
 	app.utils.generateFilter = function(viewName) {
 		// count nb rows
 		var serverUrl = localStorage.getItem("serverUrl");
@@ -1704,7 +1504,7 @@ app.utils.loadFileIndiv = function (db){
 				$("#countViewRows").text("error !");
 			}
 		});
-	}
+	};
 	var getFieldsListForSelectedView = function(viewName) {
 		var serverUrl = localStorage.getItem("serverUrl");
 		var viewUrl = serverUrl + "/views/detail/" + viewName;
@@ -1716,8 +1516,7 @@ app.utils.loadFileIndiv = function (db){
 				var fieldsList = [];
 				app.utils.exportFieldsList = [];
 				for (var prop in data) {
-					var optionItem = "<option type='" + data[prop].type + "'>" + prop + "</option>"
-					//fieldsList.push(field);
+					var optionItem = "<option type='" + data[prop].type + "'>" + prop + "</option>";
 					$("#export-view-fields").append(optionItem);
 					app.utils.exportFieldsList.push(prop);
 				}
@@ -1741,7 +1540,7 @@ app.utils.loadFileIndiv = function (db){
 				$("#filter-query-result").html(' <h4>error</h4>');
 			}
 		});
-	}
+	};
 	app.utils.getResultForGeoFilter = function(query, view) {
 		$("#geo-query-result").html();
 		$("#geo-query-result").html('<img src="images/ajax-loader-linear.gif" />');
@@ -1758,7 +1557,7 @@ app.utils.loadFileIndiv = function (db){
 				$("#geo-query-result").html(' error');
 			}
 		});
-	}
+	};
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
 		var serverUrl = localStorage.getItem("serverUrl");
 		var displayedColumns = app.utils.exportSelectedFieldsList;
@@ -1787,7 +1586,7 @@ app.utils.loadFileIndiv = function (db){
 				alert("error in generating gpx file!");
 			}
 		});
-	}
+	};
 	app.utils.getdataListForBirdFilter = function(element, url){
 		$(element).empty();
 		var ajaxCall = $.ajax({
@@ -1807,29 +1606,7 @@ app.utils.loadFileIndiv = function (db){
 			}
 		});
 
-	}
-	/*
-JSON.stringify = JSON.stringify || function (obj) {
-    var t = typeof (obj);
-    if (t != "object" || obj === null) {
-        // simple data type
-        if (t == "string") obj = '"'+obj+'"';
-        return String(obj);
-    }
-    else {
-        // recurse array or object
-        var n, v, json = [], arr = (obj && obj.constructor == Array);
-        for (n in obj) {
-            v = obj[n]; t = typeof(v);
-            if (t == "string") v = '"'+v+'"';
-            else if (t == "object" && v !== null) v = JSON.stringify(v);
-            json.push((arr ? "" : '"' + n + '":') + String(v));
-        }
-        return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-    }
-	};	
-
-*/
+	};
 	app.utils.getDataForGrid = function(url, callback) {
 		/*if(app.xhr){ 
         app.xhr.abort();
@@ -1892,7 +1669,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 			},
 			error: function() {}
 		});
-	}
+	};
 	app.utils.initGrid = function(list, VisibleList, columns, options) {
 		var visibleList = new VisibleList;
 		// initier la grid
@@ -1969,7 +1746,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 									res = res && (item.get(k).toLowerCase() === val.toLowerCase());
 									break;
 								case "begin":
-									res = res && (item.get(k).toLowerCase().indexOf(val.toLowerCase()) == 0);
+									res = res && (item.get(k).toLowerCase().indexOf(val.toLowerCase()) === 0);
 									break;
 								case "end":
 									var str = val.toLowerCase();
@@ -2063,7 +1840,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 				});
 			}
 		}
-	}
+	};
 	app.utils.initGridServer = function(gridCollection, count, url, options) {
 		//var visibleList = new VisibleList;
 		// initier la grid
@@ -2080,22 +1857,6 @@ JSON.stringify = JSON.stringify || function (obj) {
 		//  Specify how to handle grid events
 		function reloadGrid() {
 			var data;
-			/*if (! _.isEmpty(grid.filters)){
-			data = gridCollection.filter(function(item) {
-				var k, v, testDate,
-					res = true;
-				for (k in this) {
-					v = this[k];
-					testDate = new Date(v);
-					if (isFinite(testDate)) {
-						res = res && (item.get(k).toString() === v);
-					} else {
-						res = res && (item.get(k).toLowerCase().indexOf(v.toLowerCase()) >= 0);
-					}
-				}
-				return res;
-			}, grid.filters);
-		} else{*/
 			//data = gridCollection.models;
 			var params = "&limit=" + grid.pageSize + "&skip=" + (grid.page - 1) * grid.pageSize;
 
@@ -2105,16 +1866,6 @@ JSON.stringify = JSON.stringify || function (obj) {
 			if (!(isEmptyObject(grid.filters))) {
 				for (var k in grid.filters) {
 					var v = grid.filters[k];
-					/*if (k.toUpperCase() == "DATE"){
-							var dt = new Date(v);
-							var vYear = dt.getFullYear();	
-							var vMounth = dt.getMonth() + 1;
-							if (vMounth < 10){vMounth = "0" + vMounth;}
-							var vDay = dt.getDate();
-							if (vDay < 10){vDay = "0" + vDay;}
-
-							v = vYear + "-" + vMounth + "-" + vDay ;
-						}*/
 					params += "&filters[]=" + k + ":" + v;
 				}
 				//params += "&" + grid.filters ;
@@ -2136,16 +1887,6 @@ JSON.stringify = JSON.stringify || function (obj) {
 				}
 			});
 			//}
-			/*if (grid.sortColumn) {
-			data = _.sortBy(data, function(m) {return m.get(grid.sortColumn);});
-			if (grid.sortOrder == 'desc')
-				data.reverse();
-		}
-		grid.size = data.length;
-		gridCollection.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
-		if (typeof(col) != "undefined"){
-			masquerColonne(col);
-		}*/
 		}
 		grid.on('selected', function(model) {
 			app.models.selectedModel = model;
@@ -2211,7 +1952,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 				});
 			}
 		}
-	}
+	};
 	app.utils.fillObjectsTable = function() {
 		var serverUrl = localStorage.getItem("serverUrl");
 		var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
@@ -2244,7 +1985,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 				container: "#objectsSatGrid"
 			});
 		});
-		// load data for RFID
+		// load data for sensor field sensor
 		var rfidUrl = serverUrl + '/TViewFieldsensor/list?sortColumn=ID&sortOrder=desc';
 		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
@@ -2254,7 +1995,27 @@ JSON.stringify = JSON.stringify || function (obj) {
 				container: "#objectsField_sensorGrid"
 			});
 		});
-	}
+		//load data for sensor RFID
+		var rfidUrl = serverUrl + '/TViewRFID/list?sortColumn=ID&sortOrder=desc';
+		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
+			//var rowsNumber = collection.length ;
+			app.utils.initGridServer(collection, rowsNumber, rfidUrl, {
+				pageSize: 15,
+				columns: [2, 6, 7, 8],
+				container: "#objectsField_rfidGrid"
+			});
+		});
+		//load data for camera trap
+		var rfidUrl = serverUrl + '/TViewCameraTrap/list?sortColumn=ID&sortOrder=desc';
+		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
+			//var rowsNumber = collection.length ;
+			app.utils.initGridServer(collection, rowsNumber, rfidUrl, {
+				pageSize: 15,
+				columns: [2, 6, 7, 8],
+				container: "#objectsField_cameraGrid"
+			});
+		});
+	};
 	app.utils.getObjectDetails = function(backboneView, objectType, url, idObj) {
 		if (app.xhr) {
 			app.xhr.abort();
@@ -2272,18 +2033,6 @@ JSON.stringify = JSON.stringify || function (obj) {
 					var objectContent = data[k];
 					var ct = "";
 					for (var v in objectContent) {
-						/*
-					if ((String(objectContent[v]) != "[object Object]")){
-							ct += "<p>" + v + " : " + objectContent[v] + "</p>";
-					}
-					else {
-						var objDetail = objectContent[v];
-						ct+="<h3><i>" + v + "</i></h3>";
-						for (z in objDetail){
-							ct+= "<p>" + z + " : " + objDetail[z] + "</p>";
-						}
-					}
-					*/
 						if ((String(objectContent[v]) != "[object Object]")) {
 							var editable = objectContent[v][1]['edit'];
 							var idbtn = objectContent[v][1]['typeandid'];
@@ -2335,10 +2084,6 @@ JSON.stringify = JSON.stringify || function (obj) {
 				$("#objectDetailsPanel").append("<li id='objectSuccessEdit' style='display: none;'><img SRC='img/success.jpg' width='40px' height='40px'/></li><li id='objectErrorEdit' style='display: none;'><img SRC='img/error.jpg' width='40px' height='40px'/></li>");
 				$("#objectDetailsPanel").append("<li id='objectNew' style='display: none;'>NEW</li>");
 				$("#d0").prepend("<a class='btn' objId='" + idObj + "' id='objDelete'>delete</a><br/>");
-				//$("#d0").prepend("<a class='btn' id='objectsDetails'>details</a><br/>");    details button
-				// init map
-				//<div id='map' style='width:200px; height:150px'></div>
-				//var map_view = app.utils.initMap();
 				$("#objectDetailsPanel:first-child a[href='#d0']").trigger("click");
 				// mask unsed tabs for Radio and sat
 				if (objectType != "individual") {
@@ -2353,27 +2098,16 @@ JSON.stringify = JSON.stringify || function (obj) {
 				if (objectType == "fieldsensor") {
 					$("a[href='#d0']").text("fieldsensor");
 				}
-				if (objectType == "fieldrfid") {
+				if (objectType == "rfid") {
 					$("a[href='#d0']").text("RFID ");
+				}
+				if (objectType == "camera") {
+					$("a[href='#d0']").text("camera ");
 				}
 			}
 		});
 
 	}
-	/*
- app.utils.displayObjectPositions = function(view, objectUrl,idIndiv){
-    $(".modal-backdrop").remove();
-    $("body").modal({
-        backdrop: "static"
-    });
-    var alertView =  new app.views.ObjectMapBox({view : view, url:objectUrl, id:idIndiv});
-    view.children.push(alertView);
-    $("#objectsMapContainer").empty();
-    $("#objectsMapContainer").append(alertView.render().$el);
-    $("#objectsMapContainer").addClass("dialogBoxAlert");
-    $("div.in").addClass("modal-backdrop");
-}
-*/
 	app.utils.displayObjectPositions = function(view, objectUrl, idIndiv) {
 		/*$(".modal-backdrop").remove();
     $("body").modal({
@@ -2385,27 +2119,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 			id: idIndiv
 		});
 		$("#objMapDiv").append(alertView.render().$el);
-
-		/*
-    view.children.push(alertView);
-    $("#map").empty();
-    $("#objectsMapContainer").append(alertView.render().$el);
-    $("#objectsMapContainer").addClass("dialogBoxAlert");
-    $("div.in").addClass("modal-backdrop");*/
 	}
-	/*
-app.utils.displayObjectHistory= function(view, url,idIndiv){
-	$(".modal-backdrop").remove();
-    $("body").modal({
-        backdrop: "static"
-    });
-    var alertView = new app.views.ObjectHistoryBox({view : view, url:url, id:idIndiv});
-    $("#objectsMapContainer").empty();
-    $("#objectsMapContainer").append(alertView.render().$el);
-    $("#objectsMapContainer").addClass("dialogBoxAlert");
-    $("div.in").addClass("modal-backdrop");
-}
-*/
 	app.utils.displayObjectHistory = function(view, objectType, url, idIndiv) {
 		var alertView = new app.views.ObjectHistoryBox({
 			view: view,
@@ -2416,8 +2130,7 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 		$("#objectsInfosPanelHistory").empty();
 		$("#objectsInfosPanelHistory").append('<h3>history</h3>');
 		$("#objectsInfosPanelHistory").append(alertView.render().$el);
-		// $("#objHistoryDiv").append(alertView.render().$el);
-	}
+	};
 	app.utils.displayObjectDetails = function(view, objectType, url, idIndiv) {
 		$(".modal-backdrop").remove();
 		$("body").modal({
@@ -2433,7 +2146,7 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 		$("#objectsMapContainer").append(alertView.render().$el);
 		$("#objectsMapContainer").addClass("dialogBoxAlert");
 		$("div.in").addClass("modal-backdrop");
-	}
+	};
 	app.utils.convertToInt = function(array) {
 		var tab = [];
 		for (var i = 0; i < array.length; i++) {
@@ -2441,7 +2154,7 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 			tab.push(parseInt(value));
 		}
 		return tab;
-	}
+	};
 	app.utils.MaxArray = function(array) {
 		var max = 0;
 		for (var i = 0; i < array.length; i++) {
@@ -2451,7 +2164,7 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 			}
 		}
 		return max;
-	}
+	};
 	app.utils.GraphJsMaxY = function(max) {
 		var maxY;
 		if (max < 500) {
@@ -2482,14 +2195,7 @@ app.utils.displayObjectHistory= function(view, url,idIndiv){
 			maxY = 100000;
 		}
 		return maxY;
-	}
-
-	// import with a random query parameter to avoid caching
-	/*function importNoCache(src){
-  var ms = new Date().getTime().toString();
-  var seed = "?" + ms;
-  app.utils.importScript(src + seed);
-} */
+	};
 
 	function isEmptyObject(obj) {
 		var name;

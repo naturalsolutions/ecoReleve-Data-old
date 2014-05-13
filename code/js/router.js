@@ -16,7 +16,7 @@
 			"data-entry/:id": "dataEntry",
 			"data-entryEnd": "dataEntryEnd",
 			"map": "mapMyPosition",
-			"mydata": "mydata",
+			"mydata": "myData",
 			"msgBox": "alert",
 			"updateData": "updateData",
 			"uploadData": "uploadData",
@@ -43,6 +43,7 @@
 			"argos": "argos",
 			"birds": "birds",
 			"bird/:id" :"bird"
+			
 
 			//"exportFilter" : "exportFilter"
 
@@ -719,6 +720,9 @@
 		},
 		bird : function(id) {
 			this.setView(new app.views.Bird({id: id}));
+		},
+		myData : function() {
+			this.setView(new app.views.MyData());
 		}
 	});
 

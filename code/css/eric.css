@@ -96,6 +96,9 @@ left: 20px;
 	color: inherit;
 	text-rendering: optimizelegibility;
 }
+.tile-blue-perso {
+	color: #71A5BD;
+}
 @media screen and (max-width: 1366px) {
 	#homeContent {
 		top: -5px;

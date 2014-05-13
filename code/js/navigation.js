@@ -85,9 +85,47 @@ var ecoReleveData = (function(app) {
 			case 'birds':
 				this.context = 'birds';
 				break;
+			case 'importLoad':
+				this.context = '<a class="headerLink" href="#import">import</a> > load data';
+				break;
+			case 'importMap':
+				this.context = '<a class="headerLink" href="#import">import</a> > map';
+				break;
+			case 'importMetadata':
+				this.context = '<a class="headerLink" href="#import">import</a> > finish';
+				break;
+
 			case '':	
 			 this.context = 'home';
                 break;
+            case 'stationType':
+            this.context = '<a class="headerLink" href="#stationType">input</a> > station';
+                break;
+            case 'newStation':
+                this.context = '<a class="headerLink" href="#stationType">input</a> > new station';
+                break;
+            case 'protoChoice':
+                this.context = '<a class="headerLink" href="#stationType">input</a> > protocol list';
+                break;
+            case 'importedStation' : 
+                 this.context = '<a class="headerLink" href="#stationType">input</a> > imported station';
+                break;
+            case 'dataEntry':
+                this.context = '<a class="headerLink" href="#stationType">input</a> > <a class="headerLink" href="#proto-choice">protocol</a> >data entry';
+                break;
+            case 'exportFilter':
+				this.context = '<a class="headerLink" href="#export">export</a> > <span id="filterViewName">select data view<span>';
+                break;
+            case 'exportMap':
+            	this.context = '<a class="headerLink" href="#export">export</a> > select a geographic extent';
+                break;
+            case 'exportFields':
+            	this.context = '<a class="headerLink" href="#export">export</a> > select columns to display (<span id="filterViewName"></span>)';
+                break;
+            case 'exportResult' :
+            	this.context = '<a class="headerLink" href="#export">export</a> > result';
+                break;
+
 			/*default:
 			this.context = 'home';
                 break;*/

@@ -92,6 +92,7 @@ app.models.Station = Backbone.Model.extend({
 			LON :  { type: 'Text', title:'longitude', required : true },
 			FieldActivity_Name: { type: 'Text', title:'field activity'},
 			Date_: { type: 'Text', title:'date'}, //,validators: ['required']
+			time_:{type: 'Text', title:'time'},
 			FieldWorker1: { type: 'Text' , title:'field worker 1',required : true},  //type: 'Select' , title:'field Worker 1', options: this.usersList , required : true 
 			FieldWorker2: { type: 'Text' , title:'field worker 2'  },
 			FieldWorker3: { type: 'Text' , title:'field worker 3'  },
