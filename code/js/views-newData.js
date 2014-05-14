@@ -24,9 +24,11 @@ var ecoReleveData = (function(app) {
 			switch (stationType) {
 				case "newStation":
 					app.utils.stationType = "newStation";
+					
 					app.router.navigate('#newStation', {
 						trigger: true
 					});
+					
 					break;
 				case "importedStation":
 					app.utils.stationType = "importedStation";
@@ -46,29 +48,31 @@ var ecoReleveData = (function(app) {
 	});
 	app.views.NewStation = app.views.BaseView.extend({
 		template: 'inputStationDetails',
-		initialize: function() {
+		initialize: function(options) {
 			var station = new app.models.Station();
 			this.formView = new app.views.StationFormView({
 				initialData: station
 			});
 			this.formView.render();
+			this.stationType = "new"; // default value
+			// check if it is imported station or new station
+			if (options){
+				var type = options.type || null;
+				if (type && type ==="imported"){
+					alert("imported station !");
+					this.stationType = "imported";
+					this.importedStation = options.station ;
+				}
+			}
+			
 		},
 		afterRender: function() {
-
+			var dateImportedStation, timeImportedStation;
 			$('#stationForm').append(this.formView.el);
 			$(".form-actions").addClass("masqued");
 			var frmView = this.formView;
 			$("#inputStationAdd").on("click", $.proxy(frmView.onSubmit, frmView));
-			//field date default value
-			var inputDate = $('input[name*="Date_"]');
-			$(inputDate).datepicker();
-			$(inputDate).css('clip', 'auto');
-			var currentDate = new Date();
-			$(inputDate).datepicker("setDate", currentDate);
-			// get time now
-			app.utils.getTime('time_');
 			// add datalist control for fieldActivity & users
-
 			// get control id
 			var controlId = $("[name='FieldActivity_Name']").attr("id");
 			$("[name='FieldActivity_Name']").attr("list", controlId + "List");
@@ -85,6 +89,51 @@ var ecoReleveData = (function(app) {
 			$("[name='FieldWorker4']").attr("list", user1ControlId + "List");
 			var user5ControlId = $("[name='FieldWorker5']").attr("id");
 			$("[name='FieldWorker5']").attr("list", user1ControlId + "List");
+			//field date default value
+			var inputDate = $('input[name*="Date_"]');
+			$(inputDate).datepicker();
+			$(inputDate).css('clip', 'auto');
+			var currentDate;
+			// new station
+			if (this.stationType === "new"){
+				// display button 'get current coordinates' if hidden
+				$("#stationGetCoordinates").removeClass("masqued");
+				currentDate = new Date();
+				// get time now
+				app.utils.getTime('time_');
+			} else {
+				// imported station
+				// hide button to get current coordinates
+				$("#stationGetCoordinates").addClass("masqued");
+				// get the stored date of imported station
+				dateImportedStation = this.importedStation.attributes.waypointTime;
+				dateImportedStation = dateImportedStation.toString(); 
+				var splitDate = dateImportedStation.split('T'); 
+				var strDate = splitDate[0]; // example of value : 2013-04-28
+				timeImportedStation = splitDate[1]; // example of value : 10:05:00.000Z
+				// to use jquery Ui datepicker, we convet date to default format mm/dd/yyyy 
+				var strDateTab = strDate.split("-"); // to get dd mm and yyyy
+				currentDate = strDateTab[1]+ "/" + strDateTab[2] + "/"  + strDateTab[0]; // example :  "05/14/2014"
+				// edit time valur to get the right format HH:MM
+				var timeTab = timeImportedStation.split(":");
+				// set value to time field 
+				var timeOfImportedStation = timeTab[0] + ":" + timeTab[1];
+				$("[name='time_']").val(timeOfImportedStation);
+				// set stored values in imported station
+				$("[name='LAT']").val(this.importedStation.attributes.latitude);
+				$("[name='LON']").val(this.importedStation.attributes.longitude);
+				$("[name='Name']").val(this.importedStation.attributes.name);
+				$("[name='FieldWorker1']").val(this.importedStation.attributes.fieldWorker1);
+				$("[name='FieldWorker2']").val(this.importedStation.attributes.fieldWorker2);
+
+			}
+			// jquery UI datepicker , field date
+			$(inputDate).datepicker("setDate", currentDate);
+			
+			
+			
+
+			
 		},
 		events : {
 			"click #stationGetCoordinates" : "getActualPosition"
@@ -205,11 +254,12 @@ var ecoReleveData = (function(app) {
 		},
 		nextStep: function() {
 			if (this.selectedStation !== null) {
-				app.router.navigate("#proto-choice", {
-					trigger: true
+				
+				app.router.navigate("#newStation", {
+					trigger: false
 				});
-				//app.collections.stations.add(instance);
-				//app.collections.stations.save();
+				
+				app.router.setView(new app.views.NewStation({type:"imported", station:this.selectedStation }));
 
 			} else {
 				alert("please select a station");
