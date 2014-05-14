@@ -270,7 +270,7 @@ var ecoReleveData = (function(app) {
 				getObjectUrl = url + "/TViewFieldsensor/" + idObj;
 			} else if (typeobject == "rfid") {
 				getObjectDetailsType = "rfid";
-				getObjectUrl = url + "/TViewRFID/" + idObj; TViewCameraTrap;
+				getObjectUrl = url + "/TViewRFID/" + idObj; 
 			} else if (typeobject == "camera") {
 				getObjectDetailsType = "camera";
 				getObjectUrl = url + "/TViewCameraTrap/" + idObj; 
@@ -278,7 +278,6 @@ var ecoReleveData = (function(app) {
 
 			//hide 'new' if its new object (no longer a new object after edit)
 			$('#objectNew').fadeOut("slow");
-
 			//ajax form param   
 			var options = {
 				success: function(response) {
@@ -433,77 +432,7 @@ var ecoReleveData = (function(app) {
 			this.hideModal();
 		}
 	});
-	app.views.ObjectMapBox = app.views.BaseView.extend({
-		//template: "objectMapBox" ,
-		template: "birdMap",  //template: "objectMap",
-		initialize: function(options) {
-			this.parentView = options.view;
-			this.url = options.url;
-			this.idSelectedIndiv = options.id;
-		},
-		afterRender: function() {
-			// apply slider look
-			$("#dateSlider").slider({});
-			var self = this;
-			setTimeout(function() {
-				var url = self.url + "?format=geojson";
-				var point = new NS.UI.Point({
-					latitude: 34,
-					longitude: 44,
-					label: ""
-				});
-				var mapView = app.utils.initMap(point, 3);
-				self.map_view = mapView;
-				self.displayWaitControl();
-				// layer with clustored data
-				var ajaxCall = {
-					url: url,
-					format: "GEOJSON",
-					cluster: true
-				};
-				mapView.addLayer({
-					ajaxCall: ajaxCall,
-					layerName: "positions",
-					zoom: 3,
-					zoomToExtent: true
-				});
-				
-				//self.parentView.children.push(mapView);
-				app.utils.timlineLayer(url, mapView, function() {
-					app.utils.animatedLayer(url, mapView);
-				});
-				$("#dateSlider").slider().on('slideStop', function() {
-					// get range of date and update layer
-					var interval = $("#dateSlider").data('slider').getValue();
-					self.updateTimeLineLayer(interval);
-				});
 
-			}, 500);
-			var windowWidth = $(window).width(); 
-	        if (windowWidth > 1599 ){
-	            $("#map").css("width", "900px");
-	        }
-		},
-		displayWaitControl: function() {
-			var mapDiv = this.map_view.el;
-			var width = ((screen.width) / 2 - 200);
-			var height = ((screen.height) / 2 - 200);
-			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>";
-			var st = $("#waitControl").html();
-			if ($("#waitControl").length === 0) {
-				$(mapDiv).append(ele);
-			}
-		},
-		updateTimeLineLayer: function(interval) {
-			var dateMin = interval[0];
-			var datMax = interval[1];
-			var filter = app.utils.timelineFilter;
-			var filterStrategy = app.utils.timelinefilterStrategy;
-			filter.lowerBoundary = dateMin;
-			filter.upperBoundary = datMax;
-			filterStrategy.setFilter(filter);
-		}
-	});
 	app.views.ObjectHistoryBox = app.views.BaseView.extend({
 		// template: "objectHistoryBox" ,
 		template: "objectHistory",

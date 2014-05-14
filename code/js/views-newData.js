@@ -59,7 +59,6 @@ var ecoReleveData = (function(app) {
 			if (options){
 				var type = options.type || null;
 				if (type && type ==="imported"){
-					alert("imported station !");
 					this.stationType = "imported";
 					this.importedStation = options.station ;
 				}

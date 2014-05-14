@@ -1209,7 +1209,7 @@ app.utils.initializeDB = function(db){
 					filter: filter
 				});
 				app.utils.timelinefilterStrategy = filterStrategy;
-				var vector_layer = new OpenLayers.Layer.Vector("timeline", {
+				var vector_layer = new OpenLayers.Layer.Vector("positions", {
 					strategies: [filterStrategy],
 					styleMap: new OpenLayers.StyleMap({
 						"default": new OpenLayers.Style({
@@ -1225,6 +1225,12 @@ app.utils.initializeDB = function(db){
 
 				mapView.map.addLayer(vector_layer);
 				vector_layer.addFeatures(geojson_format.read(data));
+				mapView.map.zoomToExtent(vector_layer.getDataExtent());
+				var zoomLevel = mapView.map.zoom;
+				if (zoomLevel > 11){
+					mapView.zoomTo(11);
+				}
+				$("#waitControl").remove(); 
 				// init date values
 				var stDate = new Date(startDate * 1000);
 				// convert date format

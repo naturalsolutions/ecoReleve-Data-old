@@ -99,6 +99,7 @@ left: 20px;
 .tile-blue-perso {
 	color: #71A5BD;
 }
+
 @media screen and (max-width: 1366px) {
 	#homeContent {
 		top: -5px;
@@ -109,6 +110,14 @@ left: 20px;
 	}
 	.thumbnails > li.tile.tile-double {
 		width: 310px;
+	}
+	#homeMyDataTuile img{
+		margin-top: 1px;
+		height: 60px;
+		width: 50px;
+	}
+	#homeMyDataTuile h2 {
+		margin-top: -7px;
 	}
 
 }

@@ -1,7 +1,7 @@
 // v0.1 2013/30/09
 var NS = window.NS || {};
 
-if(NS.UI){} else { NS.UI={} ; };
+if(NS.UI){} else { NS.UI={} ; }
 
 NS.UI.MapView = Backbone.View.extend({
 		initialize: function(options) {
@@ -23,7 +23,7 @@ NS.UI.MapView = Backbone.View.extend({
 			            new OpenLayers.Layer.Google(
 			                "Google Physical",
 			                {type: google.maps.MapTypeId.TERRAIN}
-			            )/*,
+			            ),
 			            new OpenLayers.Layer.Google(
 			                "Google Streets", // the default
 			                {numZoomLevels: 20}
@@ -35,7 +35,7 @@ NS.UI.MapView = Backbone.View.extend({
 			            new OpenLayers.Layer.Google(
 			                "Google Satellite",
 			                {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
-			            )*/
+			            )
 			        ]
 			        
 			     /*   
@@ -620,6 +620,9 @@ NS.UI.MapView = Backbone.View.extend({
 		},
 		zoomIn : function(){
 		//	this.map.zoomIn();
+		},
+		zoomTo : function(zoomLevel){
+			this.map.zoomTo(zoomLevel);
 		},
 		enlarge: function(){
 			var mapDiv = this.el;
