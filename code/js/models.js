@@ -113,6 +113,33 @@ app.collections.Stations = Backbone.Collection.extend({
 	    });
 	}
 });	
+/***************************************************
+	StationProtocol : model & collection used to display
+	stored data (relation station/protocol in input data)
+***************************************************************/
+app.models.StationProtocol = Backbone.Model.extend({
+    sync: Backbone.localforage.sync()
+	},{
+		schema: { 
+			idStation : {type: 'Text', title:'id'},
+			station:  { type: 'Text', title:'station'}, 
+			LAT :  { type: 'Text', title:'latitude', required : true },
+			LON :  { type: 'Text', title:'longitude', required : true },
+			Date_: { type: 'Text', title:'date'}, //,validators: ['required']
+			protocol: { type: 'Text' , title:'protocol'  }
+	},
+	verboseName : "stationProtocol"
+});
+ 
+app.collections.StationsProtocols = Backbone.Collection.extend({
+    model: app.models.StationProtocol,
+    sync: Backbone.localforage.sync('StationProtocolList'),
+	save: function() {
+	    this.each(function(model) {
+	        model.save();
+	    });
+	}
+});	
 /*
 app.models.Location  = Backbone.Model.extend({
 	schema: {

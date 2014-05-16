@@ -99,6 +99,10 @@ left: 20px;
 .tile-blue-perso {
 	color: #71A5BD;
 }
+/*  scrollbars styles   */
+::-webkit-scrollbar {
+      width: 5px;
+}
 
 @media screen and (max-width: 1366px) {
 	#homeContent {

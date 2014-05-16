@@ -10,6 +10,7 @@ $bird 				birds
 	app.views.Birds = app.views.BaseView.extend({
 		template: "birdFilter",
 		afterRender: function() {
+			//$('.objectsIndivGrid').lionbars();
 			var windowWidth = $(window).width();
 			var windowHeigth = $(window).height();
 			$.supersized({
@@ -26,13 +27,16 @@ $bird 				birds
 				app.utils.initGridServer(collection, rowsNumber, indivUrl, {
 					pageSize: 50,
 					//columns: [0,1,2, 3, 4, 9],
-					container: "#objectsIndivGrid"
+					container: "#gridContainer"
 				});
 				$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
 				$("#objectsIndivGrid").mCustomScrollbar({
 					theme:"dark",
 					 horizontalScroll:true
 				});
+				/*$('.objectsIndivGrid').lionbars({
+				  // autohide: true
+				});*/
 			});
 
 			// autocomplete for fields list
@@ -74,7 +78,9 @@ $bird 				birds
 			var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
 			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);
 			
-
+			/*$('.objectsIndivGrid').lionbars({
+				   // autohide: true
+				});*/
 
 		},
 		events :{
@@ -135,13 +141,17 @@ $bird 				birds
 				app.utils.initGridServer(collection, rowsNumber, url, {
 					pageSize: 50,
 					//columns: [2, 6, 7, 8],
-					container: "#objectsIndivGrid"
+					container: "#gridContainer"
 				});
-				$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
-				$("#objectsIndivGrid").mCustomScrollbar({
+				$("#objectsIndivGrid").css({"height":(windowHeigth - 300), "max-width" : windowWidth / 2 });
+				("#objectsIndivGrid").mCustomScrollbar({
 					theme:"dark",
-					 horizontalScroll:true
+					 horizontalScroll:true,
+					 autoDraggerLength: true
 			});
+				/*$('.objectsIndivGrid').lionbars({
+				   //autohide: true
+				});*/
 			});
 			
 		},

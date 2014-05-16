@@ -362,23 +362,6 @@ HomeView
 		}
 
 	});
-/****************************************************
-	My stored data
-****************************************************/
-app.views.MyData = app.views.BaseView.extend({
-	template: 'myData',
-	initialize: function() {
-		// remove background image
-		$.supersized({
-			slides: [{
-				image: ''
-			}]
-		});
-	},
-	afterRender : function(){
-
-	}
-});
 
 	return app;
 })(ecoReleveData);

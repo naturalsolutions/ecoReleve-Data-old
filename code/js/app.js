@@ -96,6 +96,11 @@ function init(){
 		var ln = app.collections.observations.length;
 		$("#homeNbObs").text(ln);
 	});
+	// load obs collection for mydata grid
+	app.collections.obsListForMyData = new app.collections.StationsProtocols();
+	app.collections.obsListForMyData.fetch().then(function() {
+		console.log("obs loaded !");
+	});
 	// get id of last stored station
 	var idLastStation = parseInt(localStorage.getItem("idLastStation"));
 	if (idLastStation){

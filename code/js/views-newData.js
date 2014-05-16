@@ -129,10 +129,7 @@ var ecoReleveData = (function(app) {
 			// jquery UI datepicker , field date
 			$(inputDate).datepicker("setDate", currentDate);
 			
-			
-			
-
-			
+	
 		},
 		events : {
 			"click #stationGetCoordinates" : "getActualPosition"
@@ -220,6 +217,8 @@ var ecoReleveData = (function(app) {
 				}
 				app.collections.stations.add(instance);
 				app.collections.stations.save();
+				// store last station to be used later 
+				app.utils.LastStation = instance;
 				app.router.navigate('#proto-choice', {
 					trigger: true
 				});
@@ -304,7 +303,7 @@ var ecoReleveData = (function(app) {
 		navigation: function(e) {
 			e.preventDefault();
 			var idSelectedProto = $(e.target).attr("idProt");
-			var route = "data-entry/" + idSelectedProto;
+			var route = "#data-entry/" + idSelectedProto;
 			app.router.navigate(route, {
 				trigger: true
 			});
@@ -348,12 +347,13 @@ var ecoReleveData = (function(app) {
 		navigation: function(e) {
 			e.preventDefault();
 			var idSelectedProto = $(e.target).attr("idProt");
-			var route = "data-entry/" + idSelectedProto;
+			app.global.selectedProtocolId = idSelectedProto;
+			app.global.selectedProtocolName = $(e.target).html();
+			var route = "#data-entry/" + idSelectedProto;
 			app.router.navigate(route, {
 				trigger: true
 			});
-			app.global.selectedProtocolId = idSelectedProto;
-			app.global.selectedProtocolName = $(e.target).html();
+			
 		}
 	});
 	app.views.ProtocolEntry = app.views.BaseView.extend({
@@ -402,11 +402,24 @@ var ecoReleveData = (function(app) {
 			//this.usersList = options.usersTab ; 
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {
-				instance.attributes.idStation = app.utils.idLastStation;
+				//instance.attributes.idStation = app.utils.idLastStation;
+
+				instance.attributes.idStation = app.utils.LastStation.attributes.stationId;
 				instance.attributes.protocolName = $("input[name='protocolName']").val();
 				instance.attributes.protocolId = $("input[name='protocolId']").val();
 				app.collections.observations.add(instance);
 				app.collections.observations.save();
+				// create model StationProtocol that we need to display stored data and add it to the collection
+				var obsModel = new app.models.StationProtocol();
+				obsModel.attributes.idStation = app.utils.LastStation.attributes.stationId;
+				obsModel.attributes.station = app.utils.LastStation.attributes.Name;
+				obsModel.attributes.Date_ = app.utils.LastStation.attributes.Date_;
+				obsModel.attributes.LAT = app.utils.LastStation.attributes.LAT;
+				obsModel.attributes.LON = app.utils.LastStation.attributes.LON;
+				obsModel.attributes.protocol = instance.attributes.protocolName;
+				app.collections.obsListForMyData.add(obsModel);
+				app.collections.obsListForMyData.save();
+
 				app.router.navigate("#data-entryEnd", {
 					trigger: true
 				});

@@ -125,6 +125,10 @@ var ecoReleveData = (function(app) {
             case 'exportResult' :
             	this.context = '<a class="headerLink" href="#export">export</a> > result';
                 break;
+            case 'myData':
+                this.context = 'my data';
+                break;
+
 
 			/*default:
 			this.context = 'home';
