@@ -11,10 +11,18 @@
 					<label>station</label>
 					<hr/>
 					<label class="labelform">station name</label>
-					<input type="text" name="ID">
-					<label class="labelform">station id</label>
-					<input type="text" name="frequency"  list="birdFrequencyList">
-					<datalist  id=""></datalist>
+					<input type="text" name="name" list="mydataStationNameList">
+					<datalist  id="mydataStationNameList"></datalist>
+					<!--<label class="labelform">station id</label>
+					<input type="text" name="id"  list="mydataStationIdList">
+					<datalist  id="mydataStationIdList"></datalist> -->
+				</div>
+				<div class="filterItem">
+					<label>protocol</label>
+					<hr/>
+					<label class="labelform">protocol name</label>
+					<input type="text" name="protocol" list="mydataProtocolsList">
+					<datalist  id="mydataProtocolsList"></datalist>
 				</div>
 				<div class="filterItem">
 					<label>date</label>
@@ -26,12 +34,7 @@
 					<input type="text" name="endDate" list="birdSexList">
 					<datalist  id=""></datalist>
 				</div>
-				<div class="filterItem">
-					<label>protocol</label>
-					<hr/>
-					<input type="text" name="protocol" list="mydataProtocolsList">
-					<datalist  id="mydataProtocolsList"></datalist>
-				</div>
+
 			</div>
 			<div id="myDataFilterBtn">
 				<button id="mydataFilterClear">

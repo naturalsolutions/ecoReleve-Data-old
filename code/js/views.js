@@ -148,21 +148,34 @@ HomeView
 	        }*/
 		},
 		afterRender: function() {
-			$('#supersized').html('');
-			$.supersized({
-				slides: [{
-					//image: 'images/home_outarde_paysage.jpg'
-					image: 'images/home_fond.jpg'
-				}]
-			});
-			this.serverUrl = localStorage.getItem('serverUrl');
-			this.loadStats();
-			var d = (new Date() + '').split(' ');
-			// ["Mon", "Feb", "1", "2014"....
-			d[1] = this.convertMonth(d[1]);
-			var date = [d[1], d[2], d[3]].join(' ');
-			// Feb 1  2014 ...
-			$("#date").html(date);
+			 if (screenfull.enabled) {
+		        screenfull.request();
+		    } else {
+		        // Ignore or do something else
+		    }
+			
+			var body_width = $(window).width(); 
+			// stats displayed only for screens with width > 640
+	        if (body_width > 640 ){
+	        	$('#supersized').html('');
+				$.supersized({
+					slides: [{
+						//image: 'images/home_outarde_paysage.jpg'
+						image: 'images/home_fond.jpg'
+					}]
+				});
+	        	this.serverUrl = localStorage.getItem('serverUrl');
+				this.loadStats();
+				var d = (new Date() + '').split(' ');
+				// ["Mon", "Feb", "1", "2014"....
+				d[1] = this.convertMonth(d[1]);
+				var date = [d[1], d[2], d[3]].join(' ');
+				// Feb 1  2014 ...
+				$("#date").html(date);
+				// set site name in home page
+				$("#homeSiteName").text("Missour. Morocco");
+	        }
+			
 
 			$("div.modal-backdrop").removeClass("modal-backdrop");
 
@@ -172,8 +185,7 @@ HomeView
 					window.mapAjaxCall.xhr.abort();
 				}
 			});
-			// set site name in home page
-			$("#homeSiteName").text("Missour. Morocco");
+			
 			// number of stored observations
 			var ln = app.collections.observations.length;
 			$("#homeNbObs").text(ln);

@@ -89,7 +89,7 @@ var ecoReleveData = (function(app) {
 			var user5ControlId = $("[name='FieldWorker5']").attr("id");
 			$("[name='FieldWorker5']").attr("list", user1ControlId + "List");
 			//field date default value
-			var inputDate = $('input[name*="Date_"]');
+			var inputDate = $('input[name="Date_"]');
 			$(inputDate).datepicker();
 			$(inputDate).css('clip', 'auto');
 			var currentDate;
@@ -106,6 +106,12 @@ var ecoReleveData = (function(app) {
 				$("#stationGetCoordinates").addClass("masqued");
 				// get the stored date of imported station
 				dateImportedStation = this.importedStation.attributes.waypointTime;
+				dateImportedStation = moment( dateImportedStation);
+				currentDate = dateImportedStation.format("MM/DD/YYYY");
+				var time = dateImportedStation.format("HH:mm");
+				// get format MM/DD/YYYY
+
+				/*
 				dateImportedStation = dateImportedStation.toString(); 
 				var splitDate = dateImportedStation.split('T'); 
 				var strDate = splitDate[0]; // example of value : 2013-04-28
@@ -119,6 +125,9 @@ var ecoReleveData = (function(app) {
 				var timeOfImportedStation = timeTab[0] + ":" + timeTab[1];
 				$("[name='time_']").val(timeOfImportedStation);
 				// set stored values in imported station
+				*/
+
+				$("[name='time_']").val(time);
 				$("[name='LAT']").val(this.importedStation.attributes.latitude);
 				$("[name='LON']").val(this.importedStation.attributes.longitude);
 				$("[name='Name']").val(this.importedStation.attributes.name);
@@ -179,8 +188,12 @@ var ecoReleveData = (function(app) {
 				var hrs = dateSt.getHours();
 				var mins =dateSt.getMinutes();
 				var time = instance.attributes.time_;
+				// convert month and day to format mm and dd if value < 10
+				if (mm < 10) {mm = "0" + mm;}
+				if (dd < 10) {dd = "0" + dd;}
 				var myDateTimeString = yyyy +"-"+mm+"-"+ dd +" "+ time + ":00.00";
 				instance.attributes.Date_ = myDateTimeString;
+				instance.attributes.date = mm + "/" + dd + "/" + yyyy	;
 				// add station id
 				var idLastStation = app.utils.idLastStation;
 				instance.attributes.stationId = idLastStation + 1;
@@ -402,8 +415,12 @@ var ecoReleveData = (function(app) {
 			//this.usersList = options.usersTab ; 
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {
-				//instance.attributes.idStation = app.utils.idLastStation;
-
+				var idLastObs = app.utils.idLastObs;
+				instance.attributes.obsId = idLastObs + 1;
+				// autoincrement last obs id
+				app.utils.idLastObs += 1;
+				// store value
+				localStorage.setItem("idLastObs", app.utils.idLastObs);
 				instance.attributes.idStation = app.utils.LastStation.attributes.stationId;
 				instance.attributes.protocolName = $("input[name='protocolName']").val();
 				instance.attributes.protocolId = $("input[name='protocolId']").val();
@@ -413,10 +430,11 @@ var ecoReleveData = (function(app) {
 				var obsModel = new app.models.StationProtocol();
 				obsModel.attributes.idStation = app.utils.LastStation.attributes.stationId;
 				obsModel.attributes.station = app.utils.LastStation.attributes.Name;
-				obsModel.attributes.Date_ = app.utils.LastStation.attributes.Date_;
+				obsModel.attributes.date = app.utils.LastStation.attributes.date;
 				obsModel.attributes.LAT = app.utils.LastStation.attributes.LAT;
 				obsModel.attributes.LON = app.utils.LastStation.attributes.LON;
 				obsModel.attributes.protocol = instance.attributes.protocolName;
+				obsModel.attributes.obsId = instance.attributes.obsId;
 				app.collections.obsListForMyData.add(obsModel);
 				app.collections.obsListForMyData.save();
 

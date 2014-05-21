@@ -125,7 +125,7 @@ app.models.StationProtocol = Backbone.Model.extend({
 			station:  { type: 'Text', title:'station'}, 
 			LAT :  { type: 'Text', title:'latitude', required : true },
 			LON :  { type: 'Text', title:'longitude', required : true },
-			Date_: { type: 'Text', title:'date'}, //,validators: ['required']
+			date: { type: 'Text', title:'date'}, //,validators: ['required']
 			protocol: { type: 'Text' , title:'protocol'  }
 	},
 	verboseName : "stationProtocol"
@@ -138,6 +138,67 @@ app.collections.StationsProtocols = Backbone.Collection.extend({
 	    this.each(function(model) {
 	        model.save();
 	    });
+	},
+	getFiltredItems: function(stationName, protocolName, beginDate, endDate) {
+		// if datemin ="", set his value to 0
+		var minDate; 
+		if(!beginDate){
+			minDate = moment(0);
+		} else {
+			minDate = moment(beginDate);
+		}
+		var maxDate; 
+		if(!endDate){
+			maxDate = moment("01/01/2100");
+		} else {
+			maxDate = moment(endDate);
+		}
+
+	  	var filtredCollection = this.models.filter(function(model) {
+
+		    	var dateVal = moment(model.get('date'));
+		    	var station = model.get('station');
+		    	var checkStation = -1;
+		    	if (station){
+		    		 checkStation = station.indexOf(stationName);
+		    	}
+		    	var protocol = model.get('protocol');
+		    	var checkPprotocol = -1;
+		    	if (protocol){
+		    		checkPprotocol = protocol.indexOf(protocolName);	
+		    	}
+		    	
+
+		    	return  ( checkStation >= 0) &&  // filter / station name
+		    	(checkPprotocol >= 0) && // filter / protocole name
+		    	(dateVal >= minDate) && // filter / date min
+		    	(dateVal <= maxDate); // filter / date max
+		  	});
+	  	//}
+	  	/*
+	  	if (protocolName){
+	  		//condition.push("model.get('protocol') === '" + protocolName +"'");
+	  		filtredCollection.models.filter(function(model) {
+		    	return ( model.get('protocol') === protocolName );
+		  	});
+	  	}
+	  	// date is in format yyyy-mm-dd, so we can compare it as a string
+	  	if (beginDate){
+	  		//condition.push("model.get('date') >= " + beginDate);
+	  		filtredCollection.models.filter(function(model) {
+		    	return ( model.get('date') >= beginDate );
+		  	});
+	  	}
+	  	if (endDate){
+	  		//condition.push("model.get('date') <= " + endDate);
+	  		filtredCollection.models.filter(function(model) {
+		    	return ( model.get('date') === endDate );
+		  	});
+	  	}
+	  	*/
+	  	//var cond = condition.join(" && "); 
+
+	  return filtredCollection;
 	}
 });	
 /*

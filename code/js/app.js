@@ -50,8 +50,8 @@ function init(){
   	window.mapAjaxCall.xhr = false;
 	// Main navigation
 	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
-	//localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
-	localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
+	localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
+	//localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
 	//localStorage.setItem("serverUrl", "http://localhost:82/ecoreleve-core");
 	// load mapping scripts
 	   /* app.utils.importScript('js/libs/OpenLayers.debug.js');
@@ -101,13 +101,20 @@ function init(){
 	app.collections.obsListForMyData.fetch().then(function() {
 		console.log("obs loaded !");
 	});
-	// get id of last stored station
+	// get id of last stored station & last stored obs
 	var idLastStation = parseInt(localStorage.getItem("idLastStation"));
 	if (idLastStation){
 		app.utils.idLastStation = idLastStation;
 	} else {
 		app.utils.idLastStation = 0;
 	}
+	var idLastObs = parseInt(localStorage.getItem("idLastObs"));
+	if (idLastObs){
+		app.utils.idLastObs = idLastObs;
+	} else {
+		app.utils.idLastObs = 0;
+	}
+
 	// loading mapping scripts
 	head.load("js/libs/OpenLayers-2-14.js", function () {
 		 //called when script have been loaded

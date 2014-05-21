@@ -16,6 +16,7 @@
 		loadStats: function() {
 			var serverUrl = localStorage.getItem("serverUrl");
 			var url = serverUrl + "/sensor/stat?format=json";
+			//var url = "http://192.168.1.199:6543/ecoReleve-Sensor/weekData";
 			$.ajax({
 				url: url,
 				dataType: "json",

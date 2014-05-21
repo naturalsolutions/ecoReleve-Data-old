@@ -16,6 +16,7 @@
 			"data-entry/:id": "dataEntry",
 			"data-entryEnd": "dataEntryEnd",
 			"map": "mapMyPosition",
+			"mydata/:id": "myObs",
 			"mydata": "myData",
 			"msgBox": "alert",
 			"updateData": "updateData",
@@ -723,6 +724,9 @@
 		},
 		myData : function() {
 			this.setView(new app.views.MyData());
+		},
+		myObs : function(id){
+			this.setView(new app.views.MyObs({id: id}));
 		}
 	});
 

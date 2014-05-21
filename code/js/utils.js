@@ -314,10 +314,11 @@ var ecoReleveData = (function(app) {
 					var latitude = $(this).attr('lat');
 					var longitude = $(this).attr('lon');
 					var waypointName = $(this).find('name').text();
-					var waypointTime = $(this).find('time').text();
+					var waypointTime = moment($(this).find('time').text());
 
 					// changer le format de date de "AAA/MM/JJ HH:MM:SS"  a  jj/mm/aaaa
-					waypointTime = changeDateFormat(waypointTime, "gpx");
+					//waypointTime = changeDateFormat(waypointTime, "gpx");
+					
 					// renseigner les métadonnées du modèle
 					id += 1;
 					var idwpt = "wpt" + id;
@@ -1467,6 +1468,13 @@ app.utils.initializeDB = function(db){
 		});
 
 	};
+	app.utils.fillDataListFromArray = function(array, elementId){
+		var ln = array.length;
+		for (var i=0; i<ln;i++ ){
+			var option = "<option value='" + array[i] + "'></option>";
+			$(elementId).append(option);
+		}
+	};
 	app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
@@ -2210,6 +2218,22 @@ app.utils.initializeDB = function(db){
 		}
 		return true;
 	}
+
+app.utils.array_unique =  function (arr) {
+  return arr.reduce(function (p, c) {
+    if (p.indexOf(c) < 0) p.push(c);
+    return p;
+  }, []);
+}
+app.utils.isEmptyObject = function (obj) {
+    var name;
+    for (name in obj) {
+        return false;
+    }
+    return true;
+}
+
+
 
 
 	return app;

@@ -47,7 +47,15 @@ var ecoReleveData = (function(app) {
         initialize: function () {
             this.context = '';
             //this.appName = document.title;
-			this.appName = "ecoReleve-data";
+			var body_width = $(window).width(); 
+            // stats displayed only for screens with width > 640
+            if (body_width > 640 ){
+            this.appName = "ecoReleve-data";
+            } else {
+                this.appName = "home";
+            }
+
+
             this.listenTo(this.model, 'route', this.update);
             app.views.BaseView.prototype.initialize.apply(this, arguments);
         },
@@ -62,7 +70,7 @@ var ecoReleveData = (function(app) {
         update: function (name, args) {
             switch (name) {
             case 'home':
-                this.context = 'home';
+                this.context = '';  // home
                 break;
             case 'entryStation':
 				this.context = 'station';
@@ -102,16 +110,16 @@ var ecoReleveData = (function(app) {
             this.context = '<a class="headerLink" href="#stationType">input</a> > station';
                 break;
             case 'newStation':
-                this.context = '<a class="headerLink" href="#stationType">input</a> > new station';
+            this.context = '<a class="headerLink" href="#stationType">input</a> > <span class="maskForSmall">new</span> station';
                 break;
             case 'protoChoice':
-                this.context = '<a class="headerLink" href="#stationType">input</a> > protocol list';
+            this.context = '<a class="headerLink" href="#stationType">input</a> > protocol <span class="maskForSmall">list</span>';
                 break;
             case 'importedStation' : 
-                 this.context = '<a class="headerLink" href="#stationType">input</a> > imported station';
+            this.context = '<a class="headerLink" href="#stationType">input</a> ><span class="maskForSmall">imported</span> station';
                 break;
             case 'dataEntry':
-                this.context = '<a class="headerLink" href="#stationType">input</a> > <a class="headerLink" href="#proto-choice">protocol</a> >data entry';
+            this.context = '<a class="headerLink" href="#stationType">input</a> ><a class="headerLink" href="#proto-choice">protocol</a><span class="maskForSmall"> > data entry</span>';
                 break;
             case 'exportFilter':
 				this.context = '<a class="headerLink" href="#export">export</a> > <span id="filterViewName">select data view<span>';

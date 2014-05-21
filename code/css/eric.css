@@ -216,3 +216,103 @@ left: 20px;
 	margin-left: 0px;
 	}
 }
+
+@media screen and (max-width: 750px){
+	.ajustedTile {
+			display: inline-block;
+		}
+		#argosTile {
+			display: none;;
+		}
+	}
+@media screen and (max-width: 640px){
+	#home-top {
+		display: none;
+	}
+	#home-bottom {
+	margin-top: 10%;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+			width: 120px;
+			height: 120px;
+			padding: 0px;
+		}
+		.thumbnails > li.tile.tile-double, .thumbnails > li.tile.tile-double a {
+			width: 250px;
+		}
+		.tile-double.icon >a >img {
+			margin-left: -140px;
+			width: 50px;
+			height: 50px;
+		}
+		.tile.icon >a >img {
+			width: 50px;
+			height: 50px;
+		}
+		.tile-double.icon >a >h2 {
+			margin-left: -140px;
+			margin-top: -12px;
+			font-size: 1.4em;
+		}
+		.tile.icon >a >h2 {
+			margin-top: -20px;
+			font-size: 1.1em;
+		}
+		.thumbnails > li {
+			margin-bottom: 10px;
+			margin-left: 10px;
+		}
+		.tile-double.icon >a >img, .tile-double.icon >a >h2 {
+			margin-left: 0;
+		}
+
+		/* my data mask filter */
+		/*#myDataFilter, #objectsIndivFilter {
+			display: none;
+		}*/
+		p.navbar-text, #breadcrumbs > li > p.navbar-text, #breadcrumbs > li > a {
+		font-size: 0.75em;
+		}
+		.maskForSmall {
+			display: none;
+		}
+		/*  input form station */
+		.form-horizontal .control-group {
+		margin-bottom: 5px;
+		}
+		.form-horizontal .controls {
+		height: 45px;
+		}
+		form.form-horizontal h3 {
+			font-size: 18px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			padding-bottom: 0px;
+			line-height: 30px;
+		}
+		#inputEndMsgContainer{
+			width: 100%;
+		}
+		#objectsIndivFilter{
+			width: 200px;
+		}
+		.filterItem {
+			width: 180px;
+			margin: 5px;
+		}
+		hr {
+			margin: 1px 0;
+		}
+		#mydataFilterClear {
+			margin: 0px;
+		}
+		#inputChoiceDiv {
+			width: 80%;
+		}
+		#stationGetCoordinates {
+			left: 300px;
+		}
+
+
+
+}
