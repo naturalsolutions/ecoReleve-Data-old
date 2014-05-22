@@ -150,7 +150,7 @@ app.views.MyObs = app.views.BaseView.extend({
             if ( (property !=="id") && (property !=="idStation") && (property !=="protocolName") && (property !=="protocolId") && (property !=="obsId")) {
               //alert(property);
               var propertyValue = selectedObModel.get(property);
-              var element = "<p><span class='test'>" + property + ": </span><span class='test'>" + propertyValue +"</span>";
+              var element = "<div class='row-fluid'><div class='span6'>" + property + " </div><div class='span6'>" + propertyValue +"</div></div>";
               $("#myObsProtoValues").append(element);
             }
         }
@@ -162,8 +162,14 @@ app.views.MyObs = app.views.BaseView.extend({
 					label: ""
 		});
 		var mapView = app.utils.initMap(point, 10);
-		mapView.addLayer({layerName: "station", point : point});
-		// add marker
+		// add marker for station position
+		var style =  new OpenLayers.Style({
+			  externalGraphic: "images/marker_red.png",
+			  'pointRadius': 20//,
+			});
+
+		mapView.addLayer({layerName: "station", point : point, style :style});
+
 	}
 
 });
