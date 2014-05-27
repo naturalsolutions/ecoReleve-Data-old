@@ -105,7 +105,7 @@ var ecoReleveData = (function(app) {
 				// hide button to get current coordinates
 				$("#stationGetCoordinates").addClass("masqued");
 				// get the stored date of imported station
-				dateImportedStation = this.importedStation.attributes.waypointTime;
+				dateImportedStation = this.importedStation.get('waypointTime');
 				dateImportedStation = moment( dateImportedStation);
 				currentDate = dateImportedStation.format("MM/DD/YYYY");
 				var time = dateImportedStation.format("HH:mm");
@@ -128,11 +128,15 @@ var ecoReleveData = (function(app) {
 				*/
 
 				$("[name='time_']").val(time);
-				$("[name='LAT']").val(this.importedStation.attributes.latitude);
-				$("[name='LON']").val(this.importedStation.attributes.longitude);
-				$("[name='Name']").val(this.importedStation.attributes.name);
-				$("[name='FieldWorker1']").val(this.importedStation.attributes.fieldWorker1);
-				$("[name='FieldWorker2']").val(this.importedStation.attributes.fieldWorker2);
+				$("[name='LAT']").val(this.importedStation.get("latitude"));
+				$("[name='LON']").val(this.importedStation.get("longitude"));
+				$("[name='Name']").val(this.importedStation.get("name"));
+				$("[name='FieldActivity_Name']").val(this.importedStation.get("fieldActivity"));
+				$("[name='FieldWorker1']").val(this.importedStation.get("fieldWorker1"));
+				$("[name='FieldWorker2']").val(this.importedStation.get("fieldWorker2"));
+				$("[name='FieldWorker3']").val(this.importedStation.get("fieldWorker3"));
+				$("[name='FieldWorker4']").val(this.importedStation.get("fieldWorker4"));
+				$("[name='FieldWorker5']").val(this.importedStation.get("fieldWorker5"));
 
 			}
 			// jquery UI datepicker , field date

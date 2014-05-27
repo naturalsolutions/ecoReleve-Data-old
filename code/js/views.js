@@ -184,6 +184,11 @@ HomeView
 				if (window.mapAjaxCall.xhr) {
 					window.mapAjaxCall.xhr.abort();
 				}
+				if (app.xhr) {
+					app.xhr.abort();
+				}
+				console.log("route change...");
+				return false;
 			});
 			
 			// number of stored observations
@@ -247,20 +252,21 @@ HomeView
 			}
 		},
 		loadStats: function() {
-			/* var dataGraph = localStorage.getItem("ecoreleveChart");
-			// get current month and compare it with stored month
+			//caching graph data for a day
+			var dataGraph = localStorage.getItem("ecoreleveChart");
+			// get current day and compare it with stored day
 			var d = (new Date() + '').split(' ');
 			// ["Mon", "Feb", "1", "2014"....
-			var month = d[1];
-			var storedMonth = localStorage.getItem("ecoreleveChartMonth");
-			if (dataGraph && (month == storedMonth)) {
+			var day = d[2];
+			var storedDay = localStorage.getItem("ecoreleveChartDay");
+			if (dataGraph && (day == storedDay)) {
 				var gData = JSON.parse(dataGraph);
 				//var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
 				var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData, null);
 				$("#homeGraphLegend").html("<h3>number of observations</h3>");
-			} else {*/
-				var url = this.serverUrl + "/station/count/month";
-				$.ajax({
+			} else {
+			var url = this.serverUrl + "/station/count/month";
+			app.xhr = $.ajax({
 					url: url,
 					dataType: "json",
 					success: function(data) {
@@ -301,8 +307,8 @@ HomeView
 						// store month in localstrorage to update data every month
 						var d = (new Date() + '').split(' ');
 						// ["Mon", "Feb", "1", "2014"....
-						var month_ = d[1];
-						localStorage.setItem("ecoreleveChartMonth", month_);
+						var day_ = d[2];
+						localStorage.setItem("ecoreleveChartDay", day_);
 						//var myPie = new Chart(document.getElementById("graph").getContext("2d")).Bar(gData,null);
 						var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData, null);
 						$("#homeGraphLegend").html("<h3>stations number per month</h3>");
@@ -330,7 +336,7 @@ HomeView
 						$("#homeGraphLegend").html("error in loading data ");
 					}
 				});
-			//}
+			}
 			// update individuals number
 			var indivUrl = this.serverUrl + "/TViewIndividual/list/count";
 			$.ajax({

@@ -10,6 +10,9 @@
         <div class="span6">   
       		<label for="male">select a file</label>
       		<div id="btnFileSelection"><input id="file" type="file" /></div>
+          <div id="importLoadingMessage">
+            <span id="spanGeneratingGpx" class="masqued">waiting for loading data ...<img src="images/ajax-loader-linear.gif"/></span>
+          </div>
         </div>
         <div class="span6">   
           <!-- <img src="images/import_photo.jpg"> -->
@@ -18,7 +21,6 @@
       </div>  
     </div>
     <div class="modal-footer">
-		<span id="spanGeneratingGpx" class="masqued">waiting for loading data ...<img src="images/ajax-loader-linear.gif"/></span>
 		<a href="#import" class="btn">&lt;previous</a>
 	    <a href="#" class="btn">cancel</a>
 		<a disabled class="btn btn-success" id="importLoadNext">next &gt;</a>

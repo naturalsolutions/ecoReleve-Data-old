@@ -73,7 +73,12 @@
 		template: "import-filter",
 		afterRender: function(options) {
 			//try{
-			app.utils.initGrid(app.collections.selectedWaypoints, app.collections.Waypoints);
+			var col_a_masquer = [1];
+			var objOptions = {};
+			objOptions.editable = true;
+			objOptions.pagerPosition = 'bottom';
+			app.utils.initGrid(app.collections.selectedWaypoints, app.collections.Waypoints, col_a_masquer, objOptions);
+			app.utils.getItemsList("#import-activity", "/view/theme/list?import=yes", true);
 			var map_view = app.utils.initMap();
 			map_view.addLayer({
 				layerName: "tracks"
@@ -88,69 +93,103 @@
 			$("div.modal-body").css({
 				"min-height": "650px;"
 			});
-			/* } catch (e) {
-	            app.router.navigate('#', {trigger: true});
-	        }*/
+			/*
+			$('table').addClass('tablesaw');
+			$('table').attr('data-mode','swipe');*/
 		},
 		events: {
 			"selectedFeatures:change": "featuresChange",
-			'click tr': 'selectTableElement',
+			'click td': 'selectTableElement',
 			'click #importLoadTrack a': 'loadTrack',
-			'click #importInitSelection': 'cancelSelection'
+			'click #importInitSelection': 'cancelSelection',
+			'change input#importActivity': 'setModelWayPoint'
 		},
 		featuresChange: function(e) {
 			var selectedFeatures = this.mapView.map.selectedFeatures;
 			var ln = selectedFeatures.length;
+			var objOptions = {};
+			objOptions.editable = true;
+			objOptions.pagerPosition = 'bottom';
+			var col_a_masquer = [1];
 			if (ln === 0) {
-				// app.utils.initGrid (app.collections.waypointsList, app.collections.Waypoints);
 				app.collections.selectedWaypoints = app.collections.waypointsList;
 			} else {
-				//var selectedFeaturesCollection = new app.collections.Waypoints();
 				app.collections.selectedWaypoints = new app.collections.Waypoints();
+				app.collections.tableSelectedWaypoints.reset();
 				for (var i = 0; i < ln; i++) {
 					var modelId = selectedFeatures[i];
 					var selectedModel = app.collections.waypointsList.get(modelId);
-					//selectedFeaturesCollection.add(selectedModel);
 					app.collections.selectedWaypoints.add(selectedModel);
 				}
-				// app.utils.initGrid (selectedFeaturesCollection, app.collections.Waypoints);
 			}
-			app.utils.initGrid(app.collections.selectedWaypoints, app.collections.Waypoints);
+			app.utils.initGrid(app.collections.selectedWaypoints, app.collections.Waypoints, col_a_masquer, objOptions);
 			e.preventDefault();
 		},
-		cancelSelection: function() {
-			app.utils.initGrid(app.collections.waypointsList, app.collections.Waypoints);
+		cancelSelection: function(e) {
+			var col_a_masquer = [1];
+			var objOptions = {};
+			objOptions.editable = true;
+			objOptions.pagerPosition = 'bottom';
+			var self = this;
+			app.collections.tableSelectedWaypoints.each(function(model) {
+				self.zoomMapToSelectedFeature(model.latitude, model.longitude, model.id);
+			});
+			
+			app.utils.initGrid(app.collections.waypointsList, app.collections.Waypoints, col_a_masquer, objOptions);
+			app.collections.tableSelectedWaypoints.reset();
 		},
 		selectTableElement: function(e) {
+			var ele = e.target;
 			var eleName = e.target.parentNode.nodeName;
 			var eleTr = e.target.parentNode;
-			if (eleName == "TR") {
-			// if (ele =="TD"){
+			var latitude, longitude, idwpt;
+			if(ele.className == "fieldActivity"){
+				$(ele).html('<input list="import-activity" type="text" id="importActivity">');
+				$(e.target).find('#importActivity').trigger('focus');
+			}else if(ele.parentNode.className != "fieldActivity"){
 				var selectedModel = app.models.selectedModel;
-				$(eleName).css("background-color","rgba(255, 255, 255,0)");
-				$(eleTr).css("background-color","rgb(180, 180, 180)");
-				var latitude, longitude;
-				for (var k in selectedModel.attributes) {
-					var v = selectedModel.attributes[k];
-					if (k.toUpperCase() == "LATITUDE") {
-						latitude = v;
+				if(eleTr.className == "selected"){
+					$(eleTr).removeAttr("style");
+					$(eleTr).removeAttr("class");
+					app.collections.tableSelectedWaypoints.remove(selectedModel);
+				}else{
+					
+					for (var k in selectedModel.attributes) {
+						var v = selectedModel.attributes[k];
+						if (k.toUpperCase() == "LATITUDE") {
+							latitude = v;
+						}
+						if (k.toUpperCase() == "LONGITUDE") {
+							longitude = v;
+						}
+						if (k.toUpperCase() == "ID"){
+								idwpt = v;
+						}
 					}
-					if (k.toUpperCase() == "LONGITUDE") {
-						longitude = v;
-					}
-					// content += "<p class='allDataInfosTitles'> "+ k + " <br/><span>" + v + "</span></p>";
+					$(eleTr).css("background-color","rgb(180, 180, 180)");
+					$(eleTr).attr('class','selected');
+					app.collections.tableSelectedWaypoints.add(selectedModel);
+					app.collections.selectedWaypoints = app.collections.tableSelectedWaypoints;
 				}
-				this.zoomMapToSelectedFeature(latitude, longitude);
-				/* content +="<p id='featureOnTheMap' longitude='" + longitude +"' latitude='" + latitude +"'><a><img src='images/Map-Location.png'/></a> <i>show it on the map</i></p>";
-	            $("#allDataInfosPanelContent").html(content);*/
+				this.zoomMapToSelectedFeature(latitude, longitude, idwpt);
 			}
+			this.delegateEvents();
 		},
-		zoomMapToSelectedFeature: function(latitude, longitude) {
+		setModelWayPoint: function(e) {
+			var ele = e.target;
+			var eleTd = ele.parentNode;
+			var eleVal = ele.value;
+			var selectedModel = app.models.selectedModel;
+			selectedModel.attributes.fieldActivity = eleVal;
+			$(eleTd).html(eleVal);
+
+		},
+		zoomMapToSelectedFeature: function(latitude, longitude, idwpt) {
 			var point = {};
 			point.longitude = longitude;
 			point.latitude = latitude;
 			//this.map_view.setCenter(point);
-			app.utils.updateLocation(this.mapView, point);
+			app.utils.updateLocation(this.mapView, point, idwpt);
 		},
 		loadTrack: function() {
 			var action = $('#importLoadTrack a').text();
@@ -169,19 +208,23 @@
 	app.views.importMetaData = app.views.BaseView.extend({
 		template: "import-metadata",
 		afterRender: function(options) {
-			app.utils.getItemsList("#import-activity", "/view/theme/list?import=yes", true);
+
 			app.utils.getUsersList("#import-worker1", "/user/fieldworkers", true);
-			app.utils.getUsersList("#import-worker2", "/user/fieldworkers", true);
 			var nbWaypointsToImport = app.collections.selectedWaypoints.length;
 			$('#importNbWaypoints').text(nbWaypointsToImport);
 			this.selectedUser1 = "";
 			this.selectedUser2 = "";
-			this.selectedActivity = "";
+			this.selectedUser3 = "";
+			this.selectedUser4 = "";
+			this.selectedUser5 = "";
+
 		},
 		events: {
 			"change #importWorker1": "getSelectedUser1",
 			"change #importWorker2": "getSelectedUser2",
-			"change #importActivity": "getSelectedActivity",
+			"change #importWorker3": "getSelectedUser3",
+			"change #importWorker4": "getSelectedUser4",
+			"change #importWorker5": "getSelectedUser5",
 			'click #importLastStep': "storeWaypoints"
 		},
 		getSelectedUser1: function() {
@@ -199,7 +242,7 @@
 		},
 		getSelectedUser2: function() {
 			var val = $('#importWorker2').val();
-			var selectedValue = $('#import-worker2 option').filter(function() {
+			var selectedValue = $('#import-worker1 option').filter(function() {
 				return this.value == val;
 			});
 			if (selectedValue[0]) {
@@ -210,6 +253,45 @@
 				$('#importWorker2').val("");
 			}
 		},
+		getSelectedUser3: function() {
+			var val = $('#importWorker3').val();
+			var selectedValue = $('#import-worker1 option').filter(function() {
+				return this.value == val;
+			});
+			if (selectedValue[0]) {
+				this.selectedUser3 = selectedValue[0].value;
+			} else {
+				this.selectedUser3 = "";
+				alert("please select a valid worker name");
+				$('#importWorker3').val("");
+			}
+		},
+		getSelectedUser4: function() {
+			var val = $('#importWorker4').val();
+			var selectedValue = $('#import-worker1 option').filter(function() {
+				return this.value == val;
+			});
+			if (selectedValue[0]) {
+				this.selectedUser4 = selectedValue[0].value;
+			} else {
+				this.selectedUser4 = "";
+				alert("please select a valid worker name");
+				$('#importWorker4').val("");
+			}
+		},
+		getSelectedUser5: function() {
+			var val = $('#importWorker5').val();
+			var selectedValue = $('#import-worker1 option').filter(function() {
+				return this.value == val;
+			});
+			if (selectedValue[0]) {
+				this.selectedUser5 = selectedValue[0].value;
+			} else {
+				this.selectedUser5 = "";
+				alert("please select a valid worker name");
+				$('#importWorker3').val("");
+			}
+		},/*
 		getSelectedActivity: function() {
 			var val = $('#importActivity').val();
 			var selectedValue = $('#import-activity option').filter(function() {
@@ -222,7 +304,7 @@
 				alert("please select a valid activity");
 				$('#importActivity').val("");
 			}
-		},
+		},*/
 		storeWaypoints: function() {
 			// add fieldActivity and fielduser to each model
 			/*for(var i=0; i<app.collections.selectedWaypoints.length; i++) {
@@ -233,9 +315,12 @@
 	        }*/
 			var self = this;
 			app.collections.selectedWaypoints.each(function(model) {
-				model.set("fieldActivity", self.selectedActivity);
+				//model.set("fieldActivity", self.selectedActivity);
 				model.set("fieldWorker1", self.selectedUser1);
 				model.set("fieldWorker2", self.selectedUser2);
+				model.set("fieldWorker3", self.selectedUser3);
+				model.set("fieldWorker4", self.selectedUser4);
+				model.set("fieldWorker5", self.selectedUser5);
 			});
 			//clear stored models in waypoint list to update store
 			//var tmp = new app.collections.Waypoints();
@@ -255,7 +340,7 @@
 		afterRender: function(options) {
 			app.collections.selectedWaypoints = null;
 			//app.collections.waypointsList = null;
-			app.collections.waypointsList.save();
+			//app.collections.waypointsList.save();
 		}
 	});
 

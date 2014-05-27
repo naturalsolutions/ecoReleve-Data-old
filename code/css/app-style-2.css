@@ -186,6 +186,11 @@ select[name="pagesizes"] {
 }
 
 /* ********************************************************* import  ************************************** */
+#importLoadingMessage {
+font-size: 1.5em;
+margin-top: 2em;
+}
+
 #importLoadTrack a, #importInitSelection a {
 	/* margin-left: 2.2em;
 	*/

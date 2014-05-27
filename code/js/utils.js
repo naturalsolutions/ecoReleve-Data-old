@@ -299,6 +299,7 @@ var ecoReleveData = (function(app) {
 			/*var exists = localStorage.getItem("xmlWaypointsIsloaded");
 		if ( exists != "true"){*/
 			app.collections.waypointsList = new app.collections.Waypoints();
+			app.collections.tableSelectedWaypoints = new app.collections.Waypoints();
 			/*}
 		var len = app.collections.waypointsList.length;
 		if (len > 0 ) {
@@ -327,6 +328,7 @@ var ecoReleveData = (function(app) {
 					app.models.waypoint.set("latitude", latitude);
 					app.models.waypoint.set("longitude", longitude);
 					app.models.waypoint.set("waypointTime", waypointTime);
+					app.models.waypoint.set("fieldActivity", '');
 					//app.models.waypoint.set("used", false);
 					app.collections.waypointsList.add(app.models.waypoint);
 					// save the collection of protocols in the localstorage
@@ -1688,17 +1690,18 @@ app.utils.initializeDB = function(db){
 		var visibleList = new VisibleList;
 		// initier la grid
 		var pageSize = 10;
+		var pagerPosition = 'top';
 		if (options){
 			pageSize = options.pageSize || 10;
+			pagerPosition = options.pagerPosition || 'top';
 		}
 		var grid = new NS.UI.Grid({
 			collection: visibleList,
 			pageSize: pageSize,
 			pageSizes: [5, 10, 20, 50],
 			page: 1,
-			pagerPosition: 'top' //,
+			pagerPosition: pagerPosition //,
 			//	dateFormat: 'yyyy/mm/dd',
-
 		});
 		//show a first page
 		grid.size = list.length;
@@ -1791,9 +1794,12 @@ app.utils.initializeDB = function(db){
 			}
 			grid.size = data.length;
 			visibleList.reset(data.slice((grid.page - 1) * grid.pageSize, grid.page * grid.pageSize));
-			if (typeof(col) != "undefined") {
-				masquerColonne(col);
-			}
+			if (columns && (typeof(columns) != "undefined") ) {
+				var ln = columns.length;
+				for (var i = 0; i < ln; i++) {
+					masquerColonne(columns[i]);
+				}
+		  }
 		}
 		grid.on('selected', function(model) {
 			//console.log(model);
@@ -1826,6 +1832,16 @@ app.utils.initializeDB = function(db){
 		grid.on('page', function(target) {
 			grid.page = target;
 			reloadGrid();
+			if (options.editable = true){
+				var tdFieldactivity = $("div#grid").find("td.fieldActivity");
+				for(var i = 0; i < tdFieldactivity.length; i++ )
+				{
+					if ($(tdFieldactivity[i]).text() == "") {
+						tdFieldactivity[i].innerHTML = '<input list="import-activity" type="text" id="importActivity">';
+					}
+				}
+				var trSelected = $("div#grid").find("tr.selected");
+			}	
 		});
 		grid.on('pagesize', function(size) {
 			grid.pageSize = size;
@@ -1835,22 +1851,34 @@ app.utils.initializeDB = function(db){
 		// 5) render the grid (empty at the moment) and bind it to the DOM tree
 		$('div#grid').html("");
 		grid.render().$el.appendTo('div#grid');
-		if (columns & (typeof(columns) != "undefined") ) {
+		if (columns && (typeof(columns) != "undefined") ) {
 			var ln = columns.length;
 			for (var i = 0; i < ln; i++) {
 				masquerColonne(columns[i]);
 			}
 		}
 
+		if (options && options.editable ){
+			var tdFieldactivity = $("div#grid").find("td.fieldActivity");
+			for(var i = 0; i < tdFieldactivity.length; i++ )
+			{
+				if ($(tdFieldactivity[i]).text() === "") {
+					tdFieldactivity[i].innerHTML = '<input list="import-activity" type="text" id="importActivity">';
+				}
+			}
+		}
 		function masquerColonne(num) {
 			if (num) {
 				$("table>thead").find("tr").each(function() {
-					var nom = $(this).get(num - 1).firstChild;
+					/*var nom = $(this).get(num - 1).firstChild;
 					$(nom).addClass("masqued");
+					*/
+					$(this.childNodes[num - 1]).addClass("masqued");
 				});
 				$("table>tbody").find("tr").each(function() {
-					var nom = $(this).get(num - 1).firstChild;
-					$(nom).addClass("masqued");
+					/*	var nom = $(this).get(num - 1).firstChild;
+					$(nom).addClass("masqued");*/
+					$(this.childNodes[num - 1]).addClass("masqued");
 				});
 			}
 		}
@@ -2210,7 +2238,15 @@ app.utils.initializeDB = function(db){
 		}
 		return maxY;
 	};
-
+app.utils.displayWaitControl = function (element){
+	var width =  ((screen.width)/2 -200);
+	var height = ((screen.height)/2 - 200);
+	var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>" ; 
+	var st = $("#waitControl").html("");
+	if ($("#waitControl").length === 0) {
+		$(element).append(ele);
+	}
+};
 	function isEmptyObject(obj) {
 		var name;
 		for (name in obj) {

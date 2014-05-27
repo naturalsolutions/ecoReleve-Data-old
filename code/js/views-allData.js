@@ -7,75 +7,76 @@
 	app.views.AllDataView = app.views.BaseView.extend({
 		template: "allData",
 		afterRender: function(options) {
-			// try{
+			try{
 			// remove background image
-			$.supersized({
-				slides: [{
-					image: ''
-				}]
-			});
-			// masqued fields
-			$('#id_proto').hide();
-			$('#idate').hide();
-			$('#allDataCluster').hide();
-			var serverUrl = localStorage.getItem("serverUrl");
-			//procole list for input select
-			$.ajax({
-				url: serverUrl + "/proto/proto_list",
-				dataType: "text",
-				success: function(xmlresp) {
-					var xmlDoc = $.parseXML(xmlresp),
-						$xml = $(xmlDoc),
-						$protocoles = $xml.find("protocole");
-					// init select control with empty val
-					// $('<option id= 0 ></option>').appendTo('#select_id_proto');
-					$protocoles.each(function() {
-						$('<option id=\"' + $(this).attr('id') + '\" value=\"' + $(this).text() + '\">' + $(this).text() + '</option>').appendTo('#select_id_proto');
-					});
-					$("#select_id_proto option[id='12']").attr('selected', 'selected');
-				}
-			});
-			var dataContainer = $("#main")[0]; //var myDataTable = $("#myDataTable")[0];
-			var widthDataContainer = dataContainer.clientWidth;
-			var widthallDataContent = widthDataContainer - 260;
+				$.supersized({
+					slides: [{
+						image: ''
+					}]
+				});
+				// masqued fields
+				$('#id_proto').hide();
+				$('#idate').hide();
+				$('#allDataCluster').hide();
+				var serverUrl = localStorage.getItem("serverUrl");
+				//procole list for input select
+				$.ajax({
+					url: serverUrl + "/proto/proto_list",
+					dataType: "text",
+					success: function(xmlresp) {
+						var xmlDoc = $.parseXML(xmlresp),
+							$xml = $(xmlDoc),
+							$protocoles = $xml.find("protocole");
+						// init select control with empty val
+						// $('<option id= 0 ></option>').appendTo('#select_id_proto');
+						$protocoles.each(function() {
+							$('<option id=\"' + $(this).attr('id') + '\" value=\"' + $(this).text() + '\">' + $(this).text() + '</option>').appendTo('#select_id_proto');
+						});
+						$("#select_id_proto option[id='12']").attr('selected', 'selected');
+					}
+				});
+				var dataContainer = $("#main")[0]; //var myDataTable = $("#myDataTable")[0];
+				var widthDataContainer = dataContainer.clientWidth;
+				var widthallDataContent = widthDataContainer - 260;
 
-			$('#allDataMap').css('width', (widthallDataContent * 0.98) + 'px'); //$('#map').css('width', '700px');
-			$('#map').css('width', (widthallDataContent * 0.97) + 'px'); //$('#map').css('width', '700px');
+				$('#allDataMap').css('width', (widthallDataContent * 0.98) + 'px'); //$('#map').css('width', '700px');
+				$('#map').css('width', (widthallDataContent * 0.97) + 'px'); //$('#map').css('width', '700px');
 
-			$(window).bind('resize', function() {
-				dataContainer = $("#main")[0];
-				widthDataContainer = dataContainer.clientWidth;
-				widthallDataContent = widthDataContainer - 260;
-				$('#allDataContent').css('width', widthallDataContent + 'px');
+				$(window).bind('resize', function() {
+					dataContainer = $("#main")[0];
+					widthDataContainer = dataContainer.clientWidth;
+					widthallDataContent = widthDataContainer - 260;
+					$('#allDataContent').css('width', widthallDataContent + 'px');
 
-				// check if datatable is not hided and resize map if window is resized
-				var displayed = $("#allDataList").is(":visible");
-				if (displayed) {
-					$('#map').css('width', (widthallDataContent * 0.63) + 'px'); //$('#map').css('width', '700px');
-					//console.log ("widthallDataContent : " + widthallDataContent );
-					$('#allDataMap').css('width', (widthallDataContent * 0.65) + 'px'); //$('#map').css('width', '700px');
-					$('#allDataList').css('width', (widthallDataContent * 0.3) + 'px'); //$('#map').css('width', '700px');
-				}
+					// check if datatable is not hided and resize map if window is resized
+					var displayed = $("#allDataList").is(":visible");
+					if (displayed) {
+						$('#map').css('width', (widthallDataContent * 0.63) + 'px'); //$('#map').css('width', '700px');
+						//console.log ("widthallDataContent : " + widthallDataContent );
+						$('#allDataMap').css('width', (widthallDataContent * 0.65) + 'px'); //$('#map').css('width', '700px');
+						$('#allDataList').css('width', (widthallDataContent * 0.3) + 'px'); //$('#map').css('width', '700px');
+					}
 
-			});
-			$("#allDataList").hide();
-			var point = new NS.UI.Point({
-				latitude: 34,
-				longitude: 44,
-				label: ""
-			});
-			this.map_view = app.utils.initMap(point, 3);
-			this.map_view.addLayer({
-				layerName: "tracks"
-			});
-			$("label, input,button, select ").css("font-size", "15px");
-			//datalist of taxons
-			app.utils.fillTaxaList();
-			/* } catch (e) {
-	            app.router.navigate('#', {trigger: true});
-	        }*/
-			// get area list 
-			this.getAreaList();
+				});
+				$("#allDataList").hide();
+				var point = new NS.UI.Point({
+					latitude: 34,
+					longitude: 44,
+					label: ""
+				});
+				this.map_view = app.utils.initMap(point, 3);
+				this.map_view.addLayer({
+					layerName: "tracks"
+				});
+				$("label, input,button, select ").css("font-size", "15px");
+				//datalist of taxons
+				app.utils.fillTaxaList();
+				// get area list 
+				this.getAreaList();
+			} catch (e) {
+		            app.router.navigate('#', {trigger: true});
+		    }
+			
 		},
 		events: {
 			'change #select_id_proto': 'updateTable',

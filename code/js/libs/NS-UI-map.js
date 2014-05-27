@@ -471,7 +471,7 @@ NS.UI.MapView = Backbone.View.extend({
 						}*/
 						$('#map').trigger('selectedFeatures:change');
 
-						if (this.map.selectedFeatures.length == 0){
+						if (this.map.selectedFeatures.length === 0){
 						//	this.map.events.trigger('moveend');
 						}
 							
@@ -810,9 +810,9 @@ NS.UI.MapView = Backbone.View.extend({
 			var mapDiv = this.el;
 			var width =  ((screen.width)/2 -200);
 			var height = ((screen.height)/2 - 200);
-			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>"  
-			var st = $("#waitControl").html();
-			if ($("#waitControl").length == 0) {
+			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>" ; 
+			var st = $("#waitControl").html("");
+			if ($("#waitControl").length === 0) {
 				$(mapDiv).append(ele);
 			}
 		},
@@ -820,7 +820,7 @@ NS.UI.MapView = Backbone.View.extend({
 			var vector_layer;
 			for(var i = 0; i < this.map.layers.length; i++ ){
 					if((this.map.layers[i].name) ==layerName){vector_layer = this.map.layers[i] ;break;}
-			};
+			}
 			/*vector_layer.styleMap['default'] = style;
 			vector_layer.redraw(false);*/
 			//vector_layer.refresh({force: true}); 

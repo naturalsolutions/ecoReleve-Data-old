@@ -826,7 +826,7 @@ NS.UI = (function(ns) {
                 '                %> <td rowspan="<%= data.maxRowSpan %>">&nbsp; </td> <%' +
                 '            }' +
                 '        } else if (i === 0) {' +
-                '            %><td rowspan="<%= data.maxRowSpan %>"><%= value %></td><%' +
+                '            %><td class="<%=  key  %>"   rowspan="<%= data.maxRowSpan %>"><%= value %></td><%' +
                 '        }' +
                 '    });' +
                 '    %></tr><%' +
@@ -857,13 +857,13 @@ NS.UI = (function(ns) {
                 '</div>' +
                 '<% } %>' +
                 '<table class="table table-bordered">' +
-                '    <thead><% data.headerIterator(' +
+                '    <thead ><% data.headerIterator(' +
                 '        function (depth) {%><tr><%},' +
                 '        function (cell, depth) {' +
                 '            var colspan = (cell.sub.headers.length > 1) ? \' colspan="\' + cell.sub.headers.length + \'"\' : \'\',' +
                 '                rowspan = (depth > 1 && cell.sub.depth === 0) ? \' rowspan="\' + depth + \'"\' : \'\',' +
                 '                iconClass = (cell.order == "") ? "icon-sort" : (cell.order == "asc") ? "icon-sort-up" : "icon-sort-down";' +
-                '            %><th<%= colspan %><%= rowspan %>><div>' +
+                '            %><th <%= colspan %><%= rowspan %>><div>' +
                 '                <%= cell.title %>' +
                 '                <% if (cell.sortable) { %><i class="sort-action <%= iconClass %>" data-order="<%= cell.order %>" data-id="<%= cell.id %>" title="Sort"></i><% } %>' +
                 '                <% if (cell.filter) { %> ' +

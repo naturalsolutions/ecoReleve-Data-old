@@ -119,9 +119,6 @@ function init(){
 	head.load("js/libs/OpenLayers-2-14.js", function () {
 		 //called when script have been loaded
 		head.load("js/libs/openlayersBbox.js", "js/libs/AnimatedCluster.js","js/libs/NS-UI-map.js" );
-		/*loadScript("js/libs/openlayersBbox.js");
-		loadScript("js/libs/AnimatedCluster.js");
-		loadScript("js/libs/NS-UI-map.js");*/
     });
 
 	//loadScript("js/libs/OpenLayers-2-14.js");
