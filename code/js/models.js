@@ -174,30 +174,6 @@ app.collections.StationsProtocols = Backbone.Collection.extend({
 		    	(dateVal >= minDate) && // filter / date min
 		    	(dateVal <= maxDate); // filter / date max
 		  	});
-	  	//}
-	  	/*
-	  	if (protocolName){
-	  		//condition.push("model.get('protocol') === '" + protocolName +"'");
-	  		filtredCollection.models.filter(function(model) {
-		    	return ( model.get('protocol') === protocolName );
-		  	});
-	  	}
-	  	// date is in format yyyy-mm-dd, so we can compare it as a string
-	  	if (beginDate){
-	  		//condition.push("model.get('date') >= " + beginDate);
-	  		filtredCollection.models.filter(function(model) {
-		    	return ( model.get('date') >= beginDate );
-		  	});
-	  	}
-	  	if (endDate){
-	  		//condition.push("model.get('date') <= " + endDate);
-	  		filtredCollection.models.filter(function(model) {
-		    	return ( model.get('date') === endDate );
-		  	});
-	  	}
-	  	*/
-	  	//var cond = condition.join(" && "); 
-
 	  return filtredCollection;
 	}
 });	
@@ -480,9 +456,71 @@ app.collections.HistoryItems = Backbone.Collection.extend({
     }
 });
 
+/************ Argos *******************************/
+app.models.ArgosTransmitter = Backbone.Model.extend({
+	},{
+		schema: {
+		reference: {title: 'ptt', type: 'Text',sortable: true},
+		individusId: {title: 'individual id', type: 'Text',sortable: true},
+		nbPositions: {title: 'nb positions', type: 'Text',sortable: true},
+		status : {title: 'status', type: 'Text',sortable: true}
+	},
+	verboseName: 'ArgosTransmitter'
 
+});
+app.collections.ArgosTransmitters = Backbone.Collection.extend({
+  	model:  app.models.ArgosTransmitter,
+  	getFiltredItems: function(pttId, indivId,status) {
 
+	  	var filtredCollection = this.models.filter(function(model) {
 
+		    	var pttIdentifiant = model.get('reference');
+		    	var checkPttId = -1;
+		    	if (pttIdentifiant){
+		    		 checkPttId = pttIdentifiant.indexOf(pttId);
+		    	}
+		    	var individualId = model.get('individusId');
+		    	var checkIndivId = -1;
+		    	if (individualId){
+		    		individualId = individualId.toString();
+		    		checkIndivId = individualId.indexOf(indivId);	
+		    	}
+		    	var statusVal = model.get('status');
+		    	var checkStatus = -1;
+		    	if (statusVal){
+		    		 checkStatus = statusVal.indexOf(status);
+		    	}
+		    	// particular case : status = 'error' and individualId = null   
+		    	if (status ==="error"){
+		    		checkIndivId = 0;
+		    	}
+		    	
+		    	return  ( checkPttId >= 0) &&  // filter / station name
+		    	(checkIndivId >= 0) &&
+		    	(checkStatus >= 0);
+		    	/*&& // filter / protocole name
+		    	(dateVal >= minDate) && // filter / date min
+		    	(dateVal <= maxDate); // filter / date max */
+		  	});
+	  return filtredCollection;
+	}
+});
+
+app.models.ArgosLocation= Backbone.Model.extend({
+	},{
+		schema: {
+		date: {title: 'date', type: 'Text',sortable: true},
+		type : {title: 'type', type: 'Text',sortable: true},
+		latitude: {title: 'latitude', type: 'Text',sortable: true},
+		longitude: {title: 'longitude', type: 'Text',sortable: true}
+		
+	},
+	verboseName: 'ArgosLocation'
+
+});
+app.models.ArgosLocationCollection  = Backbone.Collection.extend({
+  	model:  app.models.ArgosLocation
+});
 
 
  return app;

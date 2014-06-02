@@ -107,53 +107,6 @@ var ecoReleveData = (function(app) {
 			var url = this.objectUrl;
 			app.utils.displayObjectDetails(this, this.objectType, url, this.idSelectedIndiv);
 		},
-		/*startAnimation: function() {
-			$("#dateIntervalDisplay").removeClass("masqued");
-			var startDate = app.utils.AnimStartDate;
-			var endDate = app.utils.AnimEndDate;
-			var spanEl = $("#intervalOfTime");
-			var interval = parseInt(spanEl.val(), 10) * 86400;
-			if (this.animationTimer) {
-				this.stopAnimation(true);
-			}
-			if (!this.currentDate) {
-				this.currentDate = startDate;
-			}
-			var filter = app.utils.AnimFilter;
-			var filterStrategy = app.utils.AnimfilterStrategy;
-			var self = this;
-			var next = function() {
-				if (self.currentDate < endDate) {
-					filter.lowerBoundary = self.currentDate;
-					filter.upperBoundary = self.currentDate + interval; // + interval
-					filterStrategy.setFilter(filter);
-					self.currentDate = self.currentDate + interval;
-					var stDate = new Date(self.currentDate * 1000);
-					$("#animationStartDate").text(stDate.defaultView('YYYY/MM/DD')); // convert date format from timestamp to YYYY/MM/DD
-					var eDate = new Date((self.currentDate + interval) * 1000);
-					$("#animationEndDate").text(eDate.defaultView('YYYY/MM/DD'));
-
-				} else {
-					self.stopAnimation(true);
-				}
-			};
-			this.animationTimer = window.setInterval(next, this.intervalAnimation * 1000);
-		},
-		stopAnimation: function(reset) {
-			window.clearInterval(this.animationTimer);
-			this.animationTimer = null;
-			if (reset === true) {
-				this.currentDate = null;
-			}
-		},
-		initAnimation: function() {
-			this.currentDate = app.utils.AnimStartDate;
-			window.clearInterval(this.animationTimer);
-			this.animationTimer = null;
-			$("#animationStartDate").text("");
-			$("#animationEndDate").text("");
-			$("#dateIntervalDisplay").addClass("masqued");
-		},*/
 		showModalEdit: function(e) {
 			// Create the modal view
 			var OEview = new app.views.ObjectEditView();

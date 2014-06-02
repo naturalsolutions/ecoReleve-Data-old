@@ -34,9 +34,6 @@ $bird 				birds
 					theme:"dark",
 					 horizontalScroll:true
 				});
-				/*$('.objectsIndivGrid').lionbars({
-				  // autohide: true
-				});*/
 			});
 
 			// autocomplete for fields list
@@ -77,20 +74,12 @@ $bird 				birds
 			// breeding ring
 			var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
 			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);
-			
-			/*$('.objectsIndivGrid').lionbars({
-				   // autohide: true
-				});*/
-
 		},
 		events :{
 			'click #indivFilterSubmit' : 'getBirdsList',
 			'click tr': 'selectTableElement',
 			'click #indivFilterClear' : 'clearFields',
-
-
-
-
+			'click #hideShowFilter' : 'moveFilter'
 		},
 		getBirdsList : function() {
 			var windowWidth = $(window).width();
@@ -149,34 +138,22 @@ $bird 				birds
 					 horizontalScroll:true,
 					 autoDraggerLength: true
 			});
-				/*$('.objectsIndivGrid').lionbars({
-				   //autohide: true
-				});*/
 			});
-			
 		},
 		selectTableElement: function(e) {
 			var ele = e.target.parentNode.nodeName;
 			if (ele == "TR") {
 				var selectedModel = app.models.selectedModel;
-				
-				var id = selectedModel.attributes["ID"];
+				var id = selectedModel.get("ID");
 				var route = '#bird/' + id;
 				app.router.navigate(route, {trigger: true});
-				
-				/*
-				this.objectUrl = serverUrl + "/TViewIndividual/" + id;
-				this.objectType = "individual";
-						
-				app.utils.getObjectDetails(this, this.objectType, this.objectUrl, id);
-			
-				var url = currentview.objectUrl + "/carac";
-				app.utils.displayObjectHistory(currentview, currentview.objectType, url, currentview.idSelectedIndiv);
-				*/
 			}
 		},
 		clearFields : function() {
 			$("input").val("");
+		},
+		moveFilter : function() {	
+		    $("#objectsIndivFilter").toggle( "slide" );
 		}
 
 	});

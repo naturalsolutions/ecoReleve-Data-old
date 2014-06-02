@@ -607,7 +607,7 @@ var ecoReleveData = (function(app) {
 		var valRetour = 1;
 		$("input").each(function() {
 			var valInput = $(this).val();
-			if (valInput == "") {
+			if (valInput === "") {
 				valRetour = 0;
 				return false;
 			}
@@ -663,7 +663,7 @@ var ecoReleveData = (function(app) {
 			async: false
 		});
 
-		if (app.collections.protocolsList.length == 0) {
+		if (app.collections.protocolsList.length === 0) {
 			//load protocols file
 			initalizers.push(app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml"));
 			//initalizers.push(app.utils.loadProtocols("http://82.96.149.133/html/ecoReleve/ecoReleve-data/ressources/XML_ProtocolDef2.xml"));
@@ -679,7 +679,7 @@ var ecoReleveData = (function(app) {
 		if (navigator.onLine === true) {
 			// check if server url is configurated
 			var serverUrl = localStorage.getItem("serverUrl");
-			if ((serverUrl === undefined) || (serverUrl == null)) {
+			if ((serverUrl === undefined) || (serverUrl === null)) {
 				alert("Please configurate the server url");
 			} else {
 				// call WS protocols
@@ -1425,7 +1425,7 @@ app.utils.initializeDB = function(db){
 
 	app.utils.getViewsList = function(id) {
 		$('#export-views').empty();
-		if (id != "") {
+		if (id !== "") {
 			var serverUrl = localStorage.getItem("serverUrl");
 			var viewsUrl = serverUrl + "/views/views_list?id_theme=" + id;
 			$.ajax({
@@ -1832,11 +1832,11 @@ app.utils.initializeDB = function(db){
 		grid.on('page', function(target) {
 			grid.page = target;
 			reloadGrid();
-			if (options.editable = true){
+			if (options.editable === true){
 				var tdFieldactivity = $("div#grid").find("td.fieldActivity");
 				for(var i = 0; i < tdFieldactivity.length; i++ )
 				{
-					if ($(tdFieldactivity[i]).text() == "") {
+					if ($(tdFieldactivity[i]).text() === "") {
 						tdFieldactivity[i].innerHTML = '<input list="import-activity" type="text" id="importActivity">';
 					}
 				}
@@ -1997,7 +1997,7 @@ app.utils.initializeDB = function(db){
 	};
 	app.utils.fillObjectsTable = function() {
 		var serverUrl = localStorage.getItem("serverUrl");
-		var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
+		/*var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
 		// load data for indiv grid
 		app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
@@ -2007,13 +2007,14 @@ app.utils.initializeDB = function(db){
 				container: "#objectsIndivGrid"
 			});
 		});
+		*/
 		// load data for radio transmitter
 		var radioUrl = serverUrl + '/TViewTrx_Radio/list?sortColumn=ID&sortOrder=desc';
 		app.utils.getDataForGrid(radioUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, radioUrl, {
 				pageSize: 15,
-				columns: [2, 6, 7, 8],
+				//columns: [2, 6, 7, 8],
 				container: "#objectsRadioGrid"
 			});
 		});
@@ -2023,12 +2024,12 @@ app.utils.initializeDB = function(db){
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, satUrl, {
 				pageSize: 15,
-				columns: [2, 6, 7, 8],
+				columns: [3], //[2, 6, 7, 8],
 				container: "#objectsSatGrid"
 			});
 		});
 		// load data for sensor field sensor
-		var rfidUrl = serverUrl + '/TViewFieldsensor/list?sortColumn=ID&sortOrder=desc';
+		/*var rfidUrl = serverUrl + '/TViewFieldsensor/list?sortColumn=ID&sortOrder=desc';
 		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, rfidUrl, {
@@ -2036,24 +2037,24 @@ app.utils.initializeDB = function(db){
 				columns: [2, 6, 7, 8],
 				container: "#objectsField_sensorGrid"
 			});
-		});
+		});*/
 		//load data for sensor RFID
 		var rfidUrl = serverUrl + '/TViewRFID/list?sortColumn=ID&sortOrder=desc';
 		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, rfidUrl, {
 				pageSize: 15,
-				columns: [2, 6, 7, 8],
+				//columns: [2, 6, 7, 8],
 				container: "#objectsField_rfidGrid"
 			});
 		});
 		//load data for camera trap
-		var rfidUrl = serverUrl + '/TViewCameraTrap/list?sortColumn=ID&sortOrder=desc';
-		app.utils.getDataForGrid(rfidUrl, function(collection, rowsNumber) {
+		var cameraUrl = serverUrl + '/TViewCameraTrap/list?sortColumn=ID&sortOrder=desc';
+		app.utils.getDataForGrid(cameraUrl, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
-			app.utils.initGridServer(collection, rowsNumber, rfidUrl, {
+			app.utils.initGridServer(collection, rowsNumber, cameraUrl, {
 				pageSize: 15,
-				columns: [2, 6, 7, 8],
+				//columns: [2, 6, 7, 8],
 				container: "#objectsField_cameraGrid"
 			});
 		});

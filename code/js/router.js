@@ -42,6 +42,7 @@
 			"import-end": "importEndStep",
 			"objects": "objects",
 			"argos": "argos",
+			"argos/:id": "argosDetails",
 			"birds": "birds",
 			"bird/:id" :"bird"
 			
@@ -715,6 +716,9 @@
 		},
 		argos: function() {
 			this.setView(new app.views.Argos());
+		},
+		argosDetails: function(id) {
+			this.setView(new app.views.ArgosDetails({id:id}));
 		},
 		birds: function() {
 			this.setView(new app.views.Birds());

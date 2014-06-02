@@ -77,7 +77,8 @@ app.views.MyData = app.views.BaseView.extend({
 	events : {
 			"click #mydataFilterClear" : "clearFields",
 			"click #myDataFilterSubmit" : "getMyDataList",
-			"click tr": "selectTableElement"
+			"click tr": "selectTableElement",
+			"click #hideShowFilter" : "moveFilter"
 	},
 	clearFields : function() {
 		$("input").val("");
@@ -110,6 +111,9 @@ app.views.MyData = app.views.BaseView.extend({
 			var route = '#mydata/' + selectedObservationId;
 			app.router.navigate(route, {trigger: true});
 		}
+	},
+	moveFilter : function() {
+		$("#objectsIndivFilter").toggle( "slide" );
 	}
 });
 
