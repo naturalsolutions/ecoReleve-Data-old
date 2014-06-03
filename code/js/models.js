@@ -464,6 +464,7 @@ app.models.ArgosTransmitter = Backbone.Model.extend({
 		individusId: {title: 'individual id', type: 'Text',sortable: true},
 		nbPositions: {title: 'nb positions', type: 'Text',sortable: true},
 		status : {title: 'status', type: 'Text',sortable: true}
+
 	},
 	verboseName: 'ArgosTransmitter'
 
@@ -512,7 +513,8 @@ app.models.ArgosLocation= Backbone.Model.extend({
 		date: {title: 'date', type: 'Text',sortable: true},
 		type : {title: 'type', type: 'Text',sortable: true},
 		latitude: {title: 'latitude', type: 'Text',sortable: true},
-		longitude: {title: 'longitude', type: 'Text',sortable: true}
+		longitude: {title: 'longitude', type: 'Text',sortable: true},
+		del : {title: '(-)', type: 'Text',sortable: true}
 		
 	},
 	verboseName: 'ArgosLocation'

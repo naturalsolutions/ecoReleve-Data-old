@@ -1109,3 +1109,19 @@ padding: 8px;
 width: 160px;
 margin: 20px;
 }
+#argosCheckImportPtt, #argosCheckPtt{
+	float: right;
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+#argosNbPositions {
+margin-left: 4em;
+}
+.redColor{
+	color: red;
+}
+.greenColor{
+	color: green;
+}

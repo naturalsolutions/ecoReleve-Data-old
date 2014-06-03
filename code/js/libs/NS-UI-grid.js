@@ -452,15 +452,16 @@ NS.UI = (function(ns) {
 
         addFilter: function(e) {
             e.preventDefault();
+            var val;
             var $form = $(e.target),
                 key = $form.data('id');
             switch ($form.data('type')) {
                 case 'Text':
-                    var val = $form.find('[name="val"]').val();
+                    val = $form.find('[name="val"]').val();
                     val = $.trim(val);
                     break;
                 case 'Number':
-                    var val = $form.find('[name="val"]').val();
+                    val = $form.find('[name="val"]').val();
                     val = $.trim(val);
                     if (this._numberRegexp.test(val))
                         val = val.replace(/,/, '.');
@@ -468,8 +469,8 @@ NS.UI = (function(ns) {
                         val = '';
                     break;
                 case 'Date':
-                    var val = $.trim($form.find('[name="val"]').val()),
-                        parts;
+                    val = $.trim($form.find('[name="val"]').val());
+                    var parts;
                     /*if (! /\d{2}\/\d{2}\/\d{4}/.test(val)) {
                         val = '';
                         break;
@@ -495,13 +496,13 @@ NS.UI = (function(ns) {
                     }
                     break;
                 case 'Boolean':
-                    var val = $form.find('[name="val"]:checked').val() || '';
+                    val = $form.find('[name="val"]:checked').val() || '';
                     break;
             }
-            if (val == '' && key in this.filters) {
+            if (val === '' && key in this.filters) {
                 this.trigger('unfilter', key);
                 $form.find('.error').removeClass('error');
-            } else if (val != '') {
+            } else if (val !== '') {
                 this.trigger('filter', key, val);
                 $form.find('.error').removeClass('error');
             }
