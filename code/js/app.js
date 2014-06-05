@@ -28,9 +28,13 @@ function init(){
 	$(document).ajaxStart(function () { $('body').addClass('loading'); });
 	$(document).ajaxStop(function () { $('body').removeClass('loading'); });
    window.deferreds = [];
+   // get server url 
+	$.getJSON('config/server.json', function(data) {
+		app.config.serverUrl = data.serverUrl; 
+		app.config.sensorUrl = data.sensorUrl;
+	});
     // Customize Underscore templates behaviour: 'with' statement is prohibited in JS strict mode
      _.templateSettings.variable = 'data';
-
 
   	app.instances.mainNav = new app.views.Navigation({model: app.router});
    // Bread crumbs
@@ -48,18 +52,6 @@ function init(){
     Backbone.history.start();
     window.mapAjaxCall = false;
   	window.mapAjaxCall.xhr = false;
-	// Main navigation
-	//localStorage.setItem("serverUrl", "http://ns24422.ovh.net/ecoReleve-core");
-	localStorage.setItem("serverUrl", "http://192.168.1.199/ecoReleve-core");
-	//localStorage.setItem("serverUrl", "http://192.168.1.199/ECWP_ecoReleve-core");
-	//localStorage.setItem("serverUrl", "http://localhost:82/ecoreleve-core");
-	// load mapping scripts
-	   /* app.utils.importScript('js/libs/OpenLayers.debug.js');
-	       setTimeout(function() {
-            app.utils.importScript('js/libs/openlayersBbox.js');
-            app.utils.importScript('js/libs/AnimatedCluster.js');
-            app.utils.importScript('js/libs/NS-UI-map.js');
-        }, 2000);*/
 
   	// get users list if not exists
   	app.collections.users = new app.collections.Users();
@@ -85,7 +77,7 @@ function init(){
 	app.collections.protocolsList = new app.collections.Protocols();
 	app.collections.protocolsList.fetch().then(function(){
 		if (app.collections.protocolsList.length === 0){
-			app.utils.loadProtocols("ressources/XML_ProtocolDef_eReleve.xml");
+			app.utils.loadProtocols("config/XML_ProtocolDef_eReleve.xml");
 		}
 	});
 	// load observations

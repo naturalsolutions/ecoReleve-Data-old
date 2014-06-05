@@ -1435,7 +1435,7 @@ app.utils.initializeDB = function(db){
 					var len = data.length;
 					for (var i = 0; i < len; i++) {
 						var value = data[i].MapSelectionManager.TSMan_sp_name;
-						var label = data[i].MapSelectionManager.TSMan_Layer_Name;
+						var label = data[i].MapSelectionManager.TSMan_Description;
 						$('<li class="exportViewsList" value=\"' + value + '\">' + label + "</li>").appendTo('#export-views');
 					}
 				},

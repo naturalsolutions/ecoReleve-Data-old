@@ -2,9 +2,8 @@
 	<div id="birdDetails"  class="span6">
 		<div id="separatorDetails">
 			<a href="#argos"><img src="images/back_white.png"></a><span>search results</span>
-			<span id="argosNbPositions"></span> positions
-			<button id="argosCheckImportPtt">check & import </button>
-			<button id="argosCheckPtt">check</button>
+			<button id="argosCheckImportPtt" class="argosBtn">check & import </button>
+			<button id="argosCheckPtt" class="argosBtn">check</button>
 		</div>
 		<div class="row-fluid">
 			<!--<div class="span6">
@@ -17,7 +16,7 @@
 				</div>
 			</div>-->
 			
-			<div class="row-fluid">
+			<div class="row-fluid" id="argosDetPttDet">
 				<div class="span1">
 					<img src="images/transmitters_picto.png" class="myObsPicto">
 				</div>
@@ -45,7 +44,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row-fluid borderStyled">
+			<div class="row-fluid borderStyled" id="argosDetIndivDet">
 				<div class="span1">
 					<img src="images/houtarde_picto.png" class="myObsPicto">
 				</div>
@@ -96,9 +95,10 @@
 			</div>
 
 		</div>
-		<div class="row-fluid borderStyled">
+		<div class="row-fluid borderStyled" id="argosDetLocationsDet">
 				<div class="span1">
 					<img src="images/observation.png" class="myObsPicto">
+					<span id="argosNbPositions" class="redColor"></span><br/><span id="argosDetPositionsLabel">positions</span>
 				</div>
 				<div class="span11">
 					<div id="grid"></div>

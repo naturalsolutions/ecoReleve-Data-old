@@ -27,7 +27,8 @@
 	  		/*$("input[name='beginDate']").datepicker();
 	  		$("input[name='endDate']").datepicker(); */
 	  		// get data
-	  		var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/unchecked_summary';
+	  		//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/unchecked/list';
+	  		var url = app.config.sensorUrl + '/argos/unchecked/list';
 	  		//http://192.168.1.199:6543/ecoReleve-Sensor/unchecked?id=22933
 	  		var _this = this;
 	  		if (!app.utils.transmittersCollection){
@@ -92,8 +93,8 @@
 			"click #hideShowFilter" : "moveFilter",
 			"click #argosFilterSubmit" : "getMyDataList",
 			"click #argosFilterClear" : "clearFields",
-			"click tr": "selectTableElement"
-
+			"click tr": "selectTableElement",
+			"click #argosImportPttList" : "importChecked"
 		},
 		moveFilter : function() {
 			
@@ -161,6 +162,21 @@
 					    break;
 				}
 			});
+		},
+		importChecked : function(){
+			var importList = [];
+
+			app.utils.transmittersCollection.each(function(model) {
+				var status = model.get('status');
+				if (status ==="checked"){
+					var importObj = {};
+					importObj.Ptt =  model.get('reference');
+					importObj.Ind_id  = model.get('individusId');
+					importList.push(importObj);
+				}
+			});
+			var tm = importList;
+
 		}
 		/*loadStats: function() {
 			var serverUrl = localStorage.getItem("serverUrl");
@@ -216,10 +232,12 @@
 		template: "argosDetails",
 		initialize: function(options) {
 			this.pttId = options.id;
+			this.locationsTodelete = [];
 		},
 		afterRender: function() {
 			this.windowHeigth = $(window).height();
-			var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/unchecked?id=' + this.pttId;
+			//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/unchecked?id=' + this.pttId;
+			var url = app.config.sensorUrl + '/argos/unchecked?id=' + this.pttId;
 	  		//var _this = this;
 	  		var _this = this;
 	  		$.ajax({
@@ -249,6 +267,9 @@
 					}else {
 						$("#argosDetIndivId").html('<span style="color:red;">unknown</span>');
 						$(".hideForUnknownIndiv").addClass('masqued');
+						$("#argosCheckImportPtt").attr("disabled","disabled");
+						$("#argosCheckPtt").attr("disabled","disabled");
+
 					}
 					$("#argosDetIndivSpecie").text(indivSpecie);
 					$("#argosDetIndivOrigin").text(indivOrigin);
@@ -303,6 +324,11 @@
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
+					// init object 'locations to delete'
+					_this.objLocationsToDelete = {};
+					_this.objLocationsToDelete.Ptt = $("#argosDetPttId").text();;
+					_this.objLocationsToDelete.Ind_id = $("#argosDetIndivId").text();
+					_this.objLocationsToDelete.Locations = [];
 				}
 			});
 		},
@@ -344,6 +370,17 @@
 			var selectedModel = app.models.selectedModel;
 			var latitude = selectedModel.get("latitude");
 			var longitude = selectedModel.get("longitude");
+			// add location to delete to the list to push to server
+			var location = {};
+				location.id = selectedModel.get('positionId');
+				var type = selectedModel.get('type');
+			if (type === 'argos' ){
+					location.type = 0;
+			} else {
+					location.type = 1;
+			}
+			this.objLocationsToDelete.Locations.push(location);
+
 			this.locationsCollection.remove(selectedModel);
 			// update and redraw grid
 			var nbRows =this.locationsCollection.length;
@@ -358,7 +395,7 @@
 			});
 			var last_model = this.locationsCollection.at(this.locationsCollection.length - 1);
 			this.drawUpdateMap(last_model);
-
+			
 		},
 		drawUpdateMap : function(lastModel) {
 			// init map
@@ -390,12 +427,15 @@
 		},
 		check : function() {
 			var referencePtt = $("#argosDetPttId").text();
-
+			// get keeped locations list 
+			var locations = this.getLocationsList(this.locationsCollection);
 			// find model in the collection to update status
 			//var modelToUpdate = app.utils.transmittersCollection.where({ reference: referencePtt });
 			app.utils.transmittersCollection.find(function(model) { 
 				if( model.get('reference') == referencePtt){
 					model.set('status','checked');
+					model.set('locations',locations);
+					// add keeped locations list to this transmitter
 					app.router.navigate("#argos", {trigger: true});
 				}
 			});
@@ -404,11 +444,15 @@
 			//modelToUpdate[0].set('status','checked');
 		},
 		checkImport : function() {
-			var referencePtt = $("#argosDetPttId").text();
+			var referencePtt = parseInt($("#argosDetPttId").text(),10);
+			var individualId = parseInt($("#argosDetIndivId").text(),10);
 			var objToImport = {};
-			objToImport.reference = referencePtt;
-			objToImport.positions = [];
-			this.locationsCollection.each(function(model) {
+			objToImport.ptt = referencePtt;
+			objToImport.ind_id = individualId;
+			//objToImport.locations = [];
+			// get locations list to be imported
+			objToImport.locations = this.getLocationsList(this.locationsCollection);
+			/*this.locationsCollection.each(function(model) {
 				var position = {};
 				position.id = model.get('positionId');
 				var type = model.get('type');
@@ -417,11 +461,68 @@
 				} else {
 					position.type = 1;
 				}
-				objToImport.positions.push(position);
+				objToImport.locations.push(position);
 			});
-			var tm = objToImport.positions;
+			*/
+			// ajax call to import locations
+			//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/insert';
+			var url = app.config.sensorUrl + '/argos/insert';
+			var tab = [];
+			tab[0] = objToImport;
+			var data = JSON.stringify(tab) ; //{protocoles: JSON.stringify(instance), stations: JSON.stringify(app.utils.LastStation)};
+	  		//var _this = this;
+	  		var _this = this;
+	  		$.ajax({
+				url: url,
+				type:"POST",
+				//dataType: "json",
+				data : data,
+				success: function(data){
+					alert("data imported for this transmitter !");
+					// change status to imported
+					app.utils.transmittersCollection.find(function(model) { 
+						if( model.get('reference') == referencePtt){
+							model.set('status','imported');
+							app.router.navigate("#argos", {trigger: true});
+						}
+					});
+				},
+				error : function(data){
+					alert("error importing data !");
+				}
+			});
+	  		// send checked locations (deleted locations considered as checked)
+	  		var objToCheck = JSON.stringify(this.objLocationsToDelete);
+	  		//var urlChecked = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/check';
+	  		var urlChecked = app.config.sensorUrl + '/argos/check';
+	  		$.ajax({
+				url: urlChecked,
+				type:"POST",
+				//dataType: "json",
+				data : objToCheck,
+				success: function(data){
+					alert("data checked for this transmitter !");
+				},
+				error : function(data){
+					alert("error importing data !");
+				}
+			});	
+		},
+		getLocationsList : function(collection){
+			var tab = [];
+			collection.each(function(model) {
+				var position = {};
+				position.id = model.get('positionId');
+				var type = model.get('type');
+				if (type === 'argos' ){
+					position.type = 0;
+				} else {
+					position.type = 1;
+				}
+				tab.push(position);
+			});
+			return tab;
 		}
-
 	});	
 
 		return app;

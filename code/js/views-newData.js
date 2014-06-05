@@ -416,6 +416,7 @@ var ecoReleveData = (function(app) {
 	});
 	app.views.ProtocolFormView = NS.UI.Form.extend({
 		initialize: function(options) {
+			this.serverUrl = localStorage.getItem("serverUrl");
 			//this.usersList = options.usersTab ; 
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {
@@ -442,8 +443,24 @@ var ecoReleveData = (function(app) {
 				app.collections.obsListForMyData.add(obsModel);
 				app.collections.obsListForMyData.save();
 
-				app.router.navigate("#data-entryEnd", {
-					trigger: true
+				var url = this.serverUrl + "/station/add";
+				var data = {protocoles: JSON.stringify(instance), stations: JSON.stringify(app.utils.LastStation)};
+				// push data to server
+				$.ajax({
+					url: url,
+					type: "POST",
+					data: data,
+					success: function(dt) {
+						alert('success pushing data to server !');
+						app.router.navigate("#data-entryEnd", {
+							trigger: true
+						});
+					},
+					error : function(){
+						alert('error in pushing data to server !');
+					}
+				}).fail(function() {
+				    alert( "error" );
 				});
 			});
 		}

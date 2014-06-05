@@ -169,7 +169,7 @@ select[name="pagesizes"] {
 	margin-top: 2px;
 	margin-bottom: 2px;
 	padding-left: 10px;
-	font-size: 18px;
+	font-size: 15px;
 	color: white;
 }
 .exportViewsList:hover, .protocolViewsList:hover, .inputEnd:hover {
@@ -1109,19 +1109,44 @@ padding: 8px;
 width: 160px;
 margin: 20px;
 }
-#argosCheckImportPtt, #argosCheckPtt{
+.argosBtn{
 	float: right;
 	padding-right: 0.5em;
 	padding-left: 0.5em;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	-ms-border-radius: 10px;
+	border-radius: 10px;
+	color: white;
+	background-color: #313131;
+	font-size: 1em;
+}
+#argosImportPttList {
+	margin-right: 1em;
+	margin-top: 2em;
 }
 #argosNbPositions {
-margin-left: 4em;
+margin-left: 1em;
 }
 .redColor{
 	color: red;
 }
 .greenColor{
 	color: green;
+}
+#argosDetPositionsLabel {
+font-size: 12px;
+}
+#argosDetPttDet {
+margin-top: 1em;
+}
+#argosDetIndivDet {
+margin-bottom: 1em;
+padding-top: 1em;
+}
+#argosDetLocationsDet {
+padding-top: 1em;
 }
