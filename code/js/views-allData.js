@@ -18,7 +18,8 @@
 				$('#id_proto').hide();
 				$('#idate').hide();
 				$('#allDataCluster').hide();
-				var serverUrl = localStorage.getItem("serverUrl");
+				//var serverUrl = localStorage.getItem("serverUrl");
+				var serverUrl = app.config.serverUrl;
 				//procole list for input select
 				$.ajax({
 					url: serverUrl + "/proto/proto_list",

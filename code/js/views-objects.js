@@ -45,7 +45,8 @@ var ecoReleveData = (function(app) {
 				var selectedModel = app.models.selectedModel;
 				var gridId = $(e.target).parents(".gridDiv").attr("id");
 				var id = selectedModel.attributes["ID"];
-				var serverUrl = localStorage.getItem("serverUrl");
+				//var serverUrl = localStorage.getItem("serverUrl");
+				var serverUrl = app.config.serverUrl;
 				this.idSelectedIndiv = id;
 				switch (gridId) {
 					case "objectsIndivGrid":
@@ -368,7 +369,8 @@ var ecoReleveData = (function(app) {
 			'click #objDelNo': 'reset'
 		},
 		deleteObject: function() {
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var url = serverUrl + "/object/delete/" + this.objId;
 			app.xhr = $.ajax({
 				url: url,

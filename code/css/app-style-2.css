@@ -1137,6 +1137,9 @@ margin-left: 1em;
 .greenColor{
 	color: green;
 }
+.yellowColor {
+	color: rgb(255, 206, 0);
+}
 #argosDetPositionsLabel {
 font-size: 12px;
 }
@@ -1149,4 +1152,28 @@ padding-top: 1em;
 }
 #argosDetLocationsDet {
 padding-top: 1em;
+}
+.badge {
+position: absolute;
+bottom: 0;
+right: 10px;
+width: 29px;
+height: 29px;
+text-align: center;
+color: #ffffff;
+padding: 5px;
+margin: 0;
+vertical-align: middle !important;
+display: block;
+font-size: 10pt;
+}
+@media screen and (max-width: 1600px) {
+	.badge {
+		width: 20px;
+		height: 20px;
+	}
+
+}
+.bg-red {
+background-color: #e51400 !important;
 }

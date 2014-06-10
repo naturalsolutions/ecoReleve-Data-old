@@ -28,54 +28,9 @@
 	  		$("input[name='endDate']").datepicker(); */
 	  		// get data
 	  		//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/unchecked/list';
-	  		var url = app.config.sensorUrl + '/argos/unchecked/list';
-	  		//http://192.168.1.199:6543/ecoReleve-Sensor/unchecked?id=22933
-	  		var _this = this;
+	  		
 	  		if (!app.utils.transmittersCollection){
-		  		$.ajax({
-					url: url,
-					dataType: "json",
-					success: function(data){
-						// créeer collection d'objets argos
-						app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
-						var transmitterIdList = [], indivIdList = [], individusId;
-						$.each( data, function( key, value ) {
-							var transmitter = new app.models.ArgosTransmitter();
-							// id transmitter
-							transmitter.set('reference', key);
-							individusId = value[0].ind_id;
-							transmitter.set('individusId', individusId);
-							transmitter.set('nbPositions', value[0].count);
-							var status = 'unchecked';
-							if(!individusId){
-								status = 'error';
-							} else{
-								// add individual id to id list for input data filter (autocomplete) 'individual'
-								indivIdList.push(individusId);
-							}
-							transmitter.set('status', status);
-							// transmitterIdList to provide autocomplete to field 'PTT'
-							transmitterIdList.push(key);
-							app.utils.transmittersCollection.add(transmitter);
-						 // console.log( key + ": " + value[0].ind_id  +  "  " + value[0].count  );
-						});
-						var nbRows = app.utils.transmittersCollection.length;
-						$("#argosDataNb").text(nbRows);
-						app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
-						$("#grid").css({"height":_this.windowHeigth *4/5});
-						$("#grid").mCustomScrollbar({
-							theme:"dark"
-						});
-						
-						transmitterIdList.sort();
-						indivIdList.sort();
-						// datalist for PTT and Individual input fields 
-						app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
-						app.utils.fillDataListFromArray(indivIdList, "#argosIndividualList");
-						_this.setStatusColor();
-
-					}
-				});
+	  			this.getTransmittersCollection();
 			} else {
 				var nbRows = app.utils.transmittersCollection.length;
 				$("#argosDataNb").text(nbRows);
@@ -95,6 +50,52 @@
 			"click #argosFilterClear" : "clearFields",
 			"click tr": "selectTableElement",
 			"click #argosImportPttList" : "importChecked"
+		},
+		getTransmittersCollection : function(){
+			var url = app.config.sensorUrl + '/argos/unchecked/list';
+	  		var _this = this;
+			$.ajax({
+				url: url,
+				dataType: "json",
+				success: function(data){
+					// créeer collection d'objets argos
+					app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
+					var transmitterIdList = [], indivIdList = [], individusId;
+					$.each( data, function( key, value ) {
+						var transmitter = new app.models.ArgosTransmitter();
+						transmitter.set('reference', value.ptt);
+						individusId = value.ind_id;
+						transmitter.set('individusId', individusId);
+						transmitter.set('nbPositions', value.count);
+						var status = 'unchecked';
+						if(!individusId){
+							status = 'error';
+						} else{
+							// add individual id to id list for input data filter (autocomplete) 'individual'
+							indivIdList.push(individusId);
+						}
+						transmitter.set('status', status);
+						// transmitterIdList to provide autocomplete to field 'PTT'
+						transmitterIdList.push(key);
+						app.utils.transmittersCollection.add(transmitter);
+					 // console.log( key + ": " + value[0].ind_id  +  "  " + value[0].count  );
+					});
+					var nbRows = app.utils.transmittersCollection.length;
+					$("#argosDataNb").text(nbRows);
+					app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+					$("#grid").css({"height":_this.windowHeigth *4/5});
+					$("#grid").mCustomScrollbar({
+						theme:"dark"
+					});
+					transmitterIdList.sort();
+					indivIdList.sort();
+					// datalist for PTT and Individual input fields 
+					app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
+					app.utils.fillDataListFromArray(indivIdList, "#argosIndividualList");
+					_this.setStatusColor();
+				}
+			});
+
 		},
 		moveFilter : function() {
 			
@@ -144,7 +145,9 @@
 			if (ele == "TR") {
 				var selectedModel = app.models.selectedModel;
 				var refPTT = selectedModel.get("reference");
-				var route = '#argos/' + refPTT;
+				var indivId = selectedModel.get("individusId");
+				//var route = '#argos/' + refPTT + '/indiv/'+ indivId;
+				var route = '#argos/ptt='  + refPTT + '&indivId='+ indivId;
 				app.router.navigate(route, {trigger: true});
 			}
 		},
@@ -155,6 +158,9 @@
 					case 'error':
 					    $(this).toggleClass("redColor");
 					    break;
+					case 'imported':
+					    $(this).toggleClass("yellowColor");
+					    break;
 					case 'checked':
 					    $(this).toggleClass("greenColor");
 					    break;
@@ -164,19 +170,41 @@
 			});
 		},
 		importChecked : function(){
+			var _this = this;
 			var importList = [];
-
 			app.utils.transmittersCollection.each(function(model) {
 				var status = model.get('status');
 				if (status ==="checked"){
 					var importObj = {};
-					importObj.Ptt =  model.get('reference');
-					importObj.Ind_id  = model.get('individusId');
+					importObj.ptt =  model.get('reference');
+					importObj.ind_id  = model.get('individusId');
+					importObj.locations  = model.get('locations');
 					importList.push(importObj);
 				}
 			});
-			var tm = importList;
 
+			if(importList.length>0){
+				var url = app.config.sensorUrl + '/argos/insert';
+				var data = JSON.stringify(importList) ; 
+		  		var _this = this;
+		  		$.ajax({
+					url: url,
+					type:"POST",
+					//dataType: "json",
+					data : data,
+					success: function(data){
+						alert("data imported for checked locations !");
+						_this.getTransmittersCollection();
+
+
+					},
+					error : function(data){
+						alert("error importing data !");
+					}
+				});
+	  		} else {
+	  			alert ('no locations to import !');
+	  		}
 		}
 		/*loadStats: function() {
 			var serverUrl = localStorage.getItem("serverUrl");
@@ -231,20 +259,23 @@
 	app.views.ArgosDetails= app.views.BaseView.extend({
 		template: "argosDetails",
 		initialize: function(options) {
-			this.pttId = options.id;
+			this.pttId = options.idTransmitter;
+			this.indivId = options.idIndiv;
 			this.locationsTodelete = [];
 		},
 		afterRender: function() {
 			this.windowHeigth = $(window).height();
-			//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/unchecked?id=' + this.pttId;
-			var url = app.config.sensorUrl + '/argos/unchecked?id=' + this.pttId;
-	  		//var _this = this;
+			var url;
+			if (this.indivId !='null'){
+			  url = app.config.sensorUrl + '/argos/unchecked?ptt=' + this.pttId + '&ind_id='+ this.indivId;
+			} else {
+				url = app.config.sensorUrl + '/argos/unchecked?ptt=' + this.pttId;
+			}
 	  		var _this = this;
 	  		$.ajax({
 				url: url,
 				dataType: "json",
 				success: function(data){
-					console.log(data);
 					var pttId = data.ptt.ptt,
 					manufacturer = data.ptt.manufacturer,
 					model = data.ptt.model,
@@ -254,8 +285,6 @@
 					indivSex = data.indiv.sex,
 					indivSpecie = data.indiv.specie,
 					indivStatus = data.indiv.status;
-
-					console.log(data);
 					
 					// display ptt data
 					$("#argosDetPttId").text(pttId);
@@ -326,9 +355,9 @@
 					});
 					// init object 'locations to delete'
 					_this.objLocationsToDelete = {};
-					_this.objLocationsToDelete.Ptt = $("#argosDetPttId").text();;
-					_this.objLocationsToDelete.Ind_id = $("#argosDetIndivId").text();
-					_this.objLocationsToDelete.Locations = [];
+					_this.objLocationsToDelete.ptt = $("#argosDetPttId").text();;
+					_this.objLocationsToDelete.ind_id = $("#argosDetIndivId").text();
+					_this.objLocationsToDelete.locations = [];
 				}
 			});
 		},
@@ -379,7 +408,7 @@
 			} else {
 					location.type = 1;
 			}
-			this.objLocationsToDelete.Locations.push(location);
+			this.objLocationsToDelete.locations.push(location);
 
 			this.locationsCollection.remove(selectedModel);
 			// update and redraw grid
@@ -426,19 +455,25 @@
 			});*/
 		},
 		check : function() {
+			if(this.locationsCollection){
 			var referencePtt = $("#argosDetPttId").text();
+			var indivId = $("#argosDetIndivId").text();
 			// get keeped locations list 
 			var locations = this.getLocationsList(this.locationsCollection);
 			// find model in the collection to update status
 			//var modelToUpdate = app.utils.transmittersCollection.where({ reference: referencePtt });
 			app.utils.transmittersCollection.find(function(model) { 
-				if( model.get('reference') == referencePtt){
+				if(( model.get('reference') == referencePtt) && (model.get('individusId') == indivId)){
 					model.set('status','checked');
 					model.set('locations',locations);
 					// add keeped locations list to this transmitter
 					app.router.navigate("#argos", {trigger: true});
 				}
 			});
+
+			} else {
+	  			alert ('no locations to check !');
+	  		}
 
 			//var tm = modelToUpdate;
 			//modelToUpdate[0].set('status','checked');
@@ -451,62 +486,56 @@
 			objToImport.ind_id = individualId;
 			//objToImport.locations = [];
 			// get locations list to be imported
-			objToImport.locations = this.getLocationsList(this.locationsCollection);
-			/*this.locationsCollection.each(function(model) {
-				var position = {};
-				position.id = model.get('positionId');
-				var type = model.get('type');
-				if (type === 'argos' ){
-					position.type = 0;
-				} else {
-					position.type = 1;
-				}
-				objToImport.locations.push(position);
-			});
-			*/
-			// ajax call to import locations
-			//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/insert';
-			var url = app.config.sensorUrl + '/argos/insert';
-			var tab = [];
-			tab[0] = objToImport;
-			var data = JSON.stringify(tab) ; //{protocoles: JSON.stringify(instance), stations: JSON.stringify(app.utils.LastStation)};
-	  		//var _this = this;
-	  		var _this = this;
-	  		$.ajax({
-				url: url,
-				type:"POST",
-				//dataType: "json",
-				data : data,
-				success: function(data){
-					alert("data imported for this transmitter !");
-					// change status to imported
-					app.utils.transmittersCollection.find(function(model) { 
-						if( model.get('reference') == referencePtt){
-							model.set('status','imported');
-							app.router.navigate("#argos", {trigger: true});
-						}
-					});
-				},
-				error : function(data){
-					alert("error importing data !");
-				}
-			});
+			if(this.locationsCollection){
+				objToImport.locations = this.getLocationsList(this.locationsCollection);
+				var url = app.config.sensorUrl + '/argos/insert';
+				var tab = [];
+				tab[0] = objToImport;
+				var data = JSON.stringify(tab) ; 
+		  		var _this = this;
+		  		$.ajax({
+					url: url,
+					type:"POST",
+					//dataType: "json",
+					data : data,
+					success: function(data){
+						alert("data imported for this transmitter !");
+						// change status to imported
+						app.utils.transmittersCollection.find(function(model) { 
+							if(( model.get('reference') == referencePtt) && (model.get('individusId') == individualId)){
+								model.set('status','imported');
+								app.router.navigate("#argos", {trigger: true});
+							}
+						});
+					},
+					error : function(data){
+						alert("error importing data !");
+					}
+				});
+	  		} else {
+	  			alert ('no locations to import !');
+	  		}
+
 	  		// send checked locations (deleted locations considered as checked)
-	  		var objToCheck = JSON.stringify(this.objLocationsToDelete);
-	  		//var urlChecked = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/check';
-	  		var urlChecked = app.config.sensorUrl + '/argos/check';
-	  		$.ajax({
-				url: urlChecked,
-				type:"POST",
-				//dataType: "json",
-				data : objToCheck,
-				success: function(data){
-					alert("data checked for this transmitter !");
-				},
-				error : function(data){
-					alert("error importing data !");
-				}
-			});	
+	  		if (this.objLocationsToDelete && this.objLocationsToDelete.locations.length > 0){
+		  		var objToCheck = JSON.stringify(this.objLocationsToDelete);
+		  		var tabDel = [];
+				tabDel[0] = urlChecked;
+				var dataDel = JSON.stringify(tabDel) ;
+		  		//var urlChecked = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/check';
+		  		var urlChecked = app.config.sensorUrl + '/argos/check';
+		  		$.ajax({
+					url: urlChecked,
+					type:"POST",
+					data : dataDel,
+					success: function(data){
+						alert("data checked for this transmitter !");
+					},
+					error : function(data){
+						alert("error importing data !");
+					}
+				});	
+			}
 		},
 		getLocationsList : function(collection){
 			var tab = [];

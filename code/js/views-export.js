@@ -285,7 +285,8 @@ var ecoReleveData = (function(app) {
 
 			// add geodata to base layer
 			this.displayWaitControl();
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var url = serverUrl + "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
 
 			/*
@@ -604,7 +605,8 @@ var ecoReleveData = (function(app) {
 			this.bbox = app.views.bbox;
 		},
 		afterRender: function(options) {
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var gpxFileUrl = serverUrl + "/gps/data.gpx";
 			var pdfFileUrl = serverUrl + "/pdf/data.pdf";
 			var csvFileUrl = serverUrl + "/csv/data.csv";

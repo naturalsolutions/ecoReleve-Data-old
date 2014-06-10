@@ -678,12 +678,13 @@ var ecoReleveData = (function(app) {
 		// check internet connexion
 		if (navigator.onLine === true) {
 			// check if server url is configurated
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			if ((serverUrl === undefined) || (serverUrl === null)) {
 				alert("Please configurate the server url");
 			} else {
 				// call WS protocols
-				var serverUrl = localStorage.getItem("serverUrl");
+				
 				//var link = serverUrl + "cake/proto/proto_get?proto_name=TProtocol_" + protocolName;
 				var link = serverUrl + "/proto/proto_get?id_proto=" + protocolName;
 				$.ajax({
@@ -850,7 +851,8 @@ app.utils.initializeDB = function(db){
 	app.utils.filldatable = function(params, paramsMap) {
 		//debugger;	
 		$("#allDataInfosPanel").hide();
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		//var cluster = $("#select_cluster option:selected").attr('value');
 		var cluster = $('.cluster:checked').val();
 		var ajaxSource;
@@ -871,7 +873,8 @@ app.utils.initializeDB = function(db){
 
 	app.utils.fillTaxaList = function() {
 		$('#lTaxon').empty();
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		$.ajax({
 			url: serverUrl + "/proto/proto_taxon_get?id_proto=" + $("#id_proto").attr("value"), //+"&search="+$("#iTaxon").attr("value")
 			dataType: "text",
@@ -915,7 +918,8 @@ app.utils.initializeDB = function(db){
 			taxonsearch: $("#iTaxon").attr("value"),
 			//zoom: 3
 		};
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var url = serverUrl + "/station/list?format=geojson&limit=0";
 		var urlCount = serverUrl + "/station/list/count?" + "id_proto=" + params.id_proto + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
 		//get count
@@ -1032,7 +1036,8 @@ app.utils.initializeDB = function(db){
 			taxonsearch: $("#iTaxon").attr("value"),
 			zoom: 3
 		};
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var url = serverUrl + "/station/list?format=geojson&limit=0";
 		var exists = false;
 		for (var i = 0; i < mapView.map.layers.length; i++) {
@@ -1308,7 +1313,8 @@ app.utils.initializeDB = function(db){
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
 		//$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1334,7 +1340,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getUsersList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1358,7 +1365,9 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getUsersListForStrorage = function(url) {
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
+
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1382,7 +1391,8 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getFieldActivityListForStrorage = function(url) {
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl =app.config.serverUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1426,7 +1436,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getViewsList = function(id) {
 		$('#export-views').empty();
 		if (id !== "") {
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var viewsUrl = serverUrl + "/views/views_list?id_theme=" + id;
 			$.ajax({
 				url: viewsUrl,
@@ -1448,7 +1459,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getAreaList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1480,7 +1492,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1504,7 +1517,8 @@ app.utils.initializeDB = function(db){
 	};
 	app.utils.generateFilter = function(viewName) {
 		// count nb rows
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/get/" + viewName + "/count";
 		app.xhr = "";
 		app.xhr = $.ajax({
@@ -1522,7 +1536,8 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	var getFieldsListForSelectedView = function(viewName) {
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/detail/" + viewName;
 		app.xhr = "";
 		app.xhr = $.ajax({
@@ -1543,7 +1558,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getFiltredResult = function(element, query, view) {
 		$("#" + element + "").html();
 		$("#" + element + "").html('<img src="images/ajax-loader-linear.gif" />');
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/get/" + view + "/count?filter=" + query;
 		$.ajax({
 			url: viewUrl,
@@ -1560,7 +1576,8 @@ app.utils.initializeDB = function(db){
 	app.utils.getResultForGeoFilter = function(query, view) {
 		$("#geo-query-result").html();
 		$("#geo-query-result").html('<img src="images/ajax-loader-linear.gif" />');
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/get/" + view + "/count?" + query;
 		$.ajax({
 			url: viewUrl,
@@ -1575,7 +1592,8 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
-		var serverUrl = localStorage.getItem("serverUrl");
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		var displayedColumns = app.utils.exportSelectedFieldsList;
 		var url = serverUrl + "/views/get/" + view + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		BBview.url = url;
@@ -1996,18 +2014,8 @@ app.utils.initializeDB = function(db){
 		}
 	};
 	app.utils.fillObjectsTable = function() {
-		var serverUrl = localStorage.getItem("serverUrl");
-		/*var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
-		// load data for indiv grid
-		app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber) {
-			//var rowsNumber = collection.length ;
-			app.utils.initGridServer(collection, rowsNumber, indivUrl, {
-				pageSize: 15,
-				columns: [2, 6, 7, 8],
-				container: "#objectsIndivGrid"
-			});
-		});
-		*/
+		//var serverUrl = localStorage.getItem("serverUrl");
+		var serverUrl = app.config.serverUrl;
 		// load data for radio transmitter
 		var radioUrl = serverUrl + '/TViewTrx_Radio/list?sortColumn=ID&sortOrder=desc';
 		app.utils.getDataForGrid(radioUrl, function(collection, rowsNumber) {

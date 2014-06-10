@@ -19,7 +19,8 @@ $bird 				birds
 				}]
 			});
 			// load data
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
 			this.indivUrl = indivUrl;
 			// load data for indiv grid
@@ -175,7 +176,8 @@ $bird 				birds
 			});
 
 			$("#birdId").text(this.birdId);
-			var serverUrl = localStorage.getItem("serverUrl");
+			//var serverUrl = localStorage.getItem("serverUrl");
+			var serverUrl = app.config.serverUrl;
 			var objectUrl = serverUrl + "/TViewIndividual/" + this.birdId;
 			app.utils.displayObjectPositions(this, objectUrl, this.birdId);
 			var url = objectUrl + "/carac";

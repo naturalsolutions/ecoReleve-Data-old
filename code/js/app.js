@@ -29,10 +29,10 @@ function init(){
 	$(document).ajaxStop(function () { $('body').removeClass('loading'); });
    window.deferreds = [];
    // get server url 
-	$.getJSON('config/server.json', function(data) {
+	 window.deferreds.push($.getJSON('config/server.json', function(data) {
 		app.config.serverUrl = data.serverUrl; 
 		app.config.sensorUrl = data.sensorUrl;
-	});
+	}));
     // Customize Underscore templates behaviour: 'with' statement is prohibited in JS strict mode
      _.templateSettings.variable = 'data';
 
@@ -43,7 +43,7 @@ function init(){
 	app.instances.userView = new app.views.CurrentUser();
 	app.instances.userView.$el.appendTo('.navbar .navbar-inner');
 			
-  $.when.apply(null, deferreds).done(function() {
+  $.when.apply(null, window.deferreds).done(function() {
 	app.instances.mainNav.render();
 	app.instances.mainNav.$el.appendTo('#main-nav');
 	app.instances.breadCrumbs.$el.insertBefore('#static-menu');

@@ -164,7 +164,8 @@ HomeView
 						image: 'images/home_fond.jpg'
 					}]
 				});
-	        	this.serverUrl = localStorage.getItem('serverUrl');
+	        	this.serverUrl = app.config.serverUrl;
+	        	//localStorage.getItem('serverUrl');
 				this.loadStats();
 				var d = (new Date() + '').split(' ');
 				// ["Mon", "Feb", "1", "2014"....
@@ -194,6 +195,8 @@ HomeView
 			// number of stored observations
 			var ln = app.collections.observations.length;
 			$("#homeNbObs").text(ln);
+			// get nb argos to check
+			this.getArgosLocations();
 		},
 		events: {
 			'click #alldata': 'alldata'
@@ -348,6 +351,12 @@ HomeView
 				}
 			});
 
+		},
+		getArgosLocations: function() {
+			var url = app.config.sensorUrl + '/argos/unchecked/count';
+			$.get( url, function(data) {
+				$("#homeArgosNb").html(data);
+			});
 		},
 		convertMonth: function(month) {
 			var monthUpper = month.toUpperCase();

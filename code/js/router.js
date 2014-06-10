@@ -42,7 +42,9 @@
 			"import-end": "importEndStep",
 			"objects": "objects",
 			"argos": "argos",
-			"argos/:id": "argosDetails",
+			//"argos/:id": "argosDetails",
+			//'argos/id:transmitter/indiv/id:indivId' : 'argosDetails',
+			'argos/*parameters' : 'argosDetails',
 			"birds": "birds",
 			"bird/:id" :"bird"
 			
@@ -625,8 +627,11 @@
 		},
 		allData: function() {
 			if (navigator.onLine === true) {
+				this.setView(new app.views.AllDataView());
+				/*
 				// check if server url is configurated
 				var serverUrl = localStorage.getItem("serverUrl");
+
 				if ((serverUrl === undefined) || (serverUrl === null)) {
 					alert("Please configurate the server url");
 					app.router.navigate('#config', {
@@ -636,12 +641,13 @@
 				} else {
 					this.setView(new app.views.AllDataView());
 				}
+				*/
 			} else {
 				alert("you are not connected ! Please check your connexion ");
-				$("#configInfos").text("");
+				/*$("#configInfos").text("");
 				app.router.navigate('#config', {
 					trigger: true
-				});
+				});*/
 			}
 		},
 		export: function() {
@@ -717,8 +723,11 @@
 		argos: function() {
 			this.setView(new app.views.Argos());
 		},
-		argosDetails: function(id) {
-			this.setView(new app.views.ArgosDetails({id:id}));
+		argosDetails: function(params) {
+			var paramTab = params.split("&");
+			var idTransmitter = paramTab[0].split("=")[1];
+			var idIndiv = paramTab[1].split("=")[1];
+			this.setView(new app.views.ArgosDetails({idTransmitter:idTransmitter,idIndiv:idIndiv }));
 		},
 		birds: function() {
 			this.setView(new app.views.Birds());
