@@ -83,10 +83,22 @@
 			map_view.addLayer({
 				layerName: "tracks"
 			});
+			/*
+			var defaultStyle =  new OpenLayers.Style({
+						  externalGraphic: "images/marker_red.png",
+						  'pointRadius': 20//,
+					});
+			var selectStyle = new OpenLayers.Style({
+						  externalGraphic: "images/marker_marron.png",
+						  'pointRadius': 20
+			});
+					
+			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
+			*/
 			map_view.addLayer({
 				collection: app.collections.waypointsList,
 				layerName: "waypoints",
-				zoomToExtent: true
+				zoomToExtent: true//, styleMap :styleMap
 			});
 
 			this.mapView = map_view;

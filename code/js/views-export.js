@@ -104,8 +104,8 @@ var ecoReleveData = (function(app) {
 				var fieldType = $("#export-view-fields option:selected").attr('type');
 				var fieldIdattr = fieldName.replace("@", "-");
 				// generate operator
-				var operatorDiv = this.generateOperator(fieldType);
-				var inputDiv = this.generateInputField(fieldType);
+				var operatorDiv = this.generateOperator(fieldType,fieldIdattr);
+				var inputDiv = this.generateInputField(fieldType,fieldIdattr);
 				var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-" + fieldIdattr + "'><div class='span4 name' >" + fieldName + "</div><div class='span1 operator'>" + operatorDiv + "</div><div class='span3'>";
 				fieldFilterElement += inputDiv + "</div><div class='span3'><span id='filterInfoInput'></span></div><div class='span1'><a cible='div-" + fieldIdattr + "' class='btnDelFilterField'><img src='img/Cancel.png'/></a></div></div>";
 				$("#export-filter-list").append(fieldFilterElement);
@@ -114,15 +114,22 @@ var ecoReleveData = (function(app) {
 				this.selectedFields.push(fieldIdattr);
 			}
 		},
-		updateInputInfo: function() {
+		updateInputInfo: function(e) {
 			$(".filterElement").each(function() {
-				var operator = $(this).find("select.filter-select-operator option:selected").text();
+				var el = e.target;
+				var operator = el.value;//.find("select.filter-select-operator option:selected").text();
 				if (operator == "LIKE") {
+					$("#in_"+el.id).removeAttr('style');
 					$("#filterInfoInput").html("sql wildcard is allowed: <a id='msdnLink'>more details</a>");
 				} else if (operator == "IN") {
+					$("#in_"+el.id).removeAttr('style');
 					$("#filterInfoInput").text(" for multi-seletion, separator is ';' ");
+				} else if(operator == "IS NULL" || operator == "IS NOT NULL"){
+					$("#in_"+el.id).val("");
+					$("#in_"+el.id).css('display','none');
 				} else {
 					$("#filterInfoInput").text("");
+					$("#in_"+el.id).removeAttr('style');
 				}
 			});
 		},
@@ -139,6 +146,7 @@ var ecoReleveData = (function(app) {
 			$(".filterElement").each(function() {
 
 				var fieldName = $(this).find("div.name").text();
+				var condition = $(this).find("input.fieldval").val();
 				/*var operator = $(this).find("div.operator").text();
 	            if (operator !="LIKE"){*/
 				var operator = $(this).find("select.filter-select-operator option:selected").text();
@@ -152,8 +160,10 @@ var ecoReleveData = (function(app) {
 				if (operator == "IN") {
 					operator = " IN ";
 				}
+				if (operator == "IS NOT NULL" || operator == "IS NULL") {
+					operator =" "+operator;//.replace(/ /g,'');
+				}
 
-				var condition = $(this).find("input.fieldval").val();
 				query += fieldName + operator + condition + ",";
 			});
 			// delete last character "&"
@@ -194,34 +204,34 @@ var ecoReleveData = (function(app) {
 	             window.print();
 	        */
 		},
-		generateOperator: function(type) {
+		generateOperator: function(type, id) {
 			var operatorDiv;
 			switch (type) {
 				case "string":
-					operatorDiv = "<select class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option></select>"; //"LIKE";
+					operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option><option>IS NOT NULL</option><option>IS NULL</option></select>"; //"LIKE";
 					break;
 				case "integer":
-					operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
+					operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option><option>IS NOT NULL</option><option>IS NULL</option></select>";
 					break;
 					/*case "datetime":
 	        operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option></select>";
 	          break;*/
 				case "text":
-					operatorDiv = "<select class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option></select>"; //"LIKE";
+					operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option><option>IS NOT NULL</option><option>IS NULL</option></select>"; //"LIKE";
 					break;
 				default:
-					operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option></select>";
+					operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option><option>IS NOT NULL</option><option>IS NULL</option></select>";
 			}
 			return operatorDiv;
 		},
-		generateInputField: function(type) {
+		generateInputField: function(type, id) {
 			var inputDiv = "";
 			switch (type) {
 				case "datetime":
-					inputDiv = "<input type='date' placeholder='YYYY-MM-DD' class='fieldval'/>";
+					inputDiv = "<input id='in_"+id+"' type='date' placeholder='YYYY-MM-DD' class='fieldval'/>";
 					break;
 				default:
-					inputDiv = "<input type='text' class='fieldval'/>";
+					inputDiv = "<input id='in_"+id+"' type='text' class='fieldval'/>";
 			}
 			return inputDiv;
 		},
@@ -285,7 +295,6 @@ var ecoReleveData = (function(app) {
 
 			// add geodata to base layer
 			this.displayWaitControl();
-			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
 			var url = serverUrl + "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
 
@@ -605,7 +614,6 @@ var ecoReleveData = (function(app) {
 			this.bbox = app.views.bbox;
 		},
 		afterRender: function(options) {
-			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
 			var gpxFileUrl = serverUrl + "/gps/data.gpx";
 			var pdfFileUrl = serverUrl + "/pdf/data.pdf";

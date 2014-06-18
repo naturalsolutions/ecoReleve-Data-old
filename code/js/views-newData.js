@@ -416,7 +416,8 @@ var ecoReleveData = (function(app) {
 	});
 	app.views.ProtocolFormView = NS.UI.Form.extend({
 		initialize: function(options) {
-			this.serverUrl = localStorage.getItem("serverUrl");
+			
+			this.serverUrl = app.config.serverUrl;
 			//this.usersList = options.usersTab ; 
 			NS.UI.Form.prototype.initialize.apply(this, arguments);
 			this.on('submit:valid', function(instance) {

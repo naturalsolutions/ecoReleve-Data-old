@@ -513,8 +513,9 @@ div.filterElement{
 }
 .filter-select-operator {
 	display: inline-block;
-	width: 75px;
+	width: 126px;
 	height: 35px;
+	font-size: 15px;
 }
 .blackText {
 	color:black;

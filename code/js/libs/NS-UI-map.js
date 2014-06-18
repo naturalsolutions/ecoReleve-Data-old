@@ -144,7 +144,7 @@ NS.UI.MapView = Backbone.View.extend({
 			var defaultStyle = s;
 			//var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
 			var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});
-			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
+			var styleMap = options.styleMap || new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
 			var vector = new OpenLayers.Layer.Vector(layerName, {
 				//styleMap:  new OpenLayers.StyleMap(s),
 				projection: 'EPSG:4326'
@@ -159,7 +159,7 @@ NS.UI.MapView = Backbone.View.extend({
 					var used = o.attributes.used;
 					var undef = ( used == "undefined" );
 					if (( used === false ) || ( used === undefined )){
-						var waypointId = o.attributes.id;
+						var waypointId = o.attributes.id || o.attributes.positionId;
 						//var myStationModel = app.collections.stations.get(stationId);
 						var lon = o.attributes.longitude;
 						var lat = o.attributes.latitude;

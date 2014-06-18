@@ -135,6 +135,7 @@
 			$("#grid").mCustomScrollbar({
 							theme:"dark"
 			});
+			this.setStatusColor();
 			
 		},
 		clearFields : function() {
@@ -186,7 +187,6 @@
 			if(importList.length>0){
 				var url = app.config.sensorUrl + '/argos/insert';
 				var data = JSON.stringify(importList) ; 
-		  		var _this = this;
 		  		$.ajax({
 					url: url,
 					type:"POST",
@@ -194,6 +194,10 @@
 					data : data,
 					success: function(data){
 						alert("data imported for checked locations !");
+						// clear array
+						importList.splice(0, importList.length);
+						// clear transmitter collection
+						app.utils.transmittersCollection.reset();
 						_this.getTransmittersCollection();
 
 
@@ -298,13 +302,15 @@
 						$(".hideForUnknownIndiv").addClass('masqued');
 						$("#argosCheckImportPtt").attr("disabled","disabled");
 						$("#argosCheckPtt").attr("disabled","disabled");
-
+						// change btn text color
+						$("#argosCheckImportPtt").addClass("disabled");
+						$("#argosCheckPtt").addClass("disabled");
 					}
 					$("#argosDetIndivSpecie").text(indivSpecie);
 					$("#argosDetIndivOrigin").text(indivOrigin);
 					$("#argosDetIndivSex").text(indivSex);
 					$("#argosDetIndivAge").text(indivAge);
-					$("#argosDetIndivStatus").text(indivStatus);
+					//$("#argosDetIndivStatus").text(indivStatus);
 					var locations = data.locations;
 					// new collection locations
 					_this.locationsCollection = new app.models.ArgosLocationCollection();
@@ -329,7 +335,7 @@
 
 					}
 					var nbRows =_this.locationsCollection.length;
-					app.utils.initGrid(_this.locationsCollection, app.models.ArgosLocationCollection, null,{pageSize : nbRows});
+					app.utils.initGrid(_this.locationsCollection, app.models.ArgosLocationCollection, [6],{pageSize : nbRows});
 					// add trush to del column
 					$("td.del").html("<img src='images/corbeille.png' class='deleteRow'>");
 					// display number of positions
@@ -343,19 +349,34 @@
 					});
 					_this.mapView = app.utils.initMap(point, 10);
 					// add marker for station position
-					var style =  new OpenLayers.Style({
+					var defaultStyle =  new OpenLayers.Style({
 						  externalGraphic: "images/marker_red.png",
 						  'pointRadius': 20//,
 					});
-
-					_this.mapView.addLayer({layerName: "station", collection : _this.locationsCollection, style :style});
+					var selectStyle = new OpenLayers.Style({
+						  externalGraphic: "images/marker_marron.png",
+						  'pointRadius': 20
+					});
+					var deleteStyle = new OpenLayers.Style({
+						  externalGraphic: "images/marker_yellow.png",
+						  'pointRadius': 20
+					});
+					var zoomtoselectStyle = new OpenLayers.Style({
+						  externalGraphic: "images/marker_green.png",
+						  'pointRadius': 20
+					});
+					var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle, 'delete' : deleteStyle, 'zoomSelect' : zoomtoselectStyle});	
+					_this.mapView.addLayer({layerName: "station", collection : _this.locationsCollection, styleMap :styleMap});
+					// get a reference to this layer to be used later
+					var nbLayers  = _this.mapView.map.layers.length; 
+					_this.locationsLayer = _this.mapView.map.layers[nbLayers- 1];
 					$("#grid").css({"height":_this.windowHeigth *4/5});
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
 					// init object 'locations to delete'
 					_this.objLocationsToDelete = {};
-					_this.objLocationsToDelete.ptt = $("#argosDetPttId").text();;
+					_this.objLocationsToDelete.ptt = $("#argosDetPttId").text();
 					_this.objLocationsToDelete.ind_id = $("#argosDetIndivId").text();
 					_this.objLocationsToDelete.locations = [];
 				}
@@ -365,7 +386,9 @@
 			"click tr": "selectTableElement",
 			"click img.deleteRow" : "deleteRow",
 			"click #argosCheckPtt" : "check",
-			"click #argosCheckImportPtt" : "checkImport"
+			"click #argosCheckImportPtt" : "checkImport",
+			"click img.reloadRow" : "reloadRow",
+			"selectedFeatures:change": "featuresChange"
 		},
 		selectTableElement: function(e) {
 			var ele = e.target.parentNode.nodeName;
@@ -375,33 +398,60 @@
 				var selectedModel = app.models.selectedModel;
 				var latitude = selectedModel.get("latitude");
 				var longitude = selectedModel.get("longitude");
-				// remove layer if exists
-				for (var i = 0; i < this.mapView.map.layers.length; i++) {
-					if ((this.mapView.map.layers[i].name) == "Selected argos station") {
-						this.mapView.map.removeLayer(this.mapView.map.layers[i]);
-					}
-				}
-				var point = new NS.UI.Point({
-					latitude: latitude,
-					longitude: longitude,
-					label: ""
-				});
-
-				var style =  new OpenLayers.Style({
-				  externalGraphic: "images/marker_blue.png",
-				  'pointRadius': 20//,
-				});
-				this.mapView.addLayer({layerName: "Selected argos station", point : point, style :style});
+				this.changeSelectedFeatureOnMap("zoomSelect", latitude,longitude );
 			}
 			return false;
 		},
+		changeSelectedFeatureOnMap : function(type, latitude, longitude){
+			// type = "zoomSelect"  or "delete" 
+			// convert coordinates 
+				var location =new OpenLayers.LonLat(longitude,latitude);
+				location=location.transform(
+					new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+					new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection
+				);
+				// find the feature corresponding to the selected line
+				var locationsLayer = this.locationsLayer;
+				var featuresList = locationsLayer.features;
+				var nbFeatures = featuresList.length;
+				for(var i = 0; i<nbFeatures;i++ ){
+					var x = featuresList[i].geometry.x;
+					var y = featuresList[i].geometry.y;
+					if (x === location.lon && y === location.lat) {
+						// change feature style
+						featuresList[i].renderIntent = type ;
+						// pan to location
+						if (type ==="zoomSelect"){
+							this.mapView.map.panTo(location);
+						}
+					} else {
+						// display default style
+						if (type ==="zoomSelect"){
+						featuresList[i].renderIntent = "default" ;
+						}
+					}
+				}
+				locationsLayer.redraw();
+
+		},
 		deleteRow : function(e) {
+			// set css   text-decoration : line-through   & modify icon trush
+			// select "tr" element to set text-decoration : line-through 
+			var ele = e.target.parentNode.parentNode;
+			$(ele).attr('class','desactivatedRow');
+			// change picto
+			$(e.target).attr('src','images/Reload_grey.png');
+			$(e.target).addClass('reloadRow');
+			$(e.target).removeClass('deleteRow');
+
 			var selectedModel = app.models.selectedModel;
 			var latitude = selectedModel.get("latitude");
 			var longitude = selectedModel.get("longitude");
 			// add location to delete to the list to push to server
 			var location = {};
 				location.id = selectedModel.get('positionId');
+				location.latitude = latitude;
+				location.longitude = longitude;
 				var type = selectedModel.get('type');
 			if (type === 'argos' ){
 					location.type = 0;
@@ -409,9 +459,18 @@
 					location.type = 1;
 			}
 			this.objLocationsToDelete.locations.push(location);
-
-			this.locationsCollection.remove(selectedModel);
+			// change features style on the map
+			var len = this.objLocationsToDelete.locations.length;
+			for(var i=0;i<len;i++){
+				var point = this.objLocationsToDelete.locations[i];
+				var lat = point.latitude;
+				var ln = point.longitude;
+				this.changeSelectedFeatureOnMap("delete", lat,ln);
+			}
+			
+			//this.locationsCollection.remove(selectedModel);
 			// update and redraw grid
+			/*
 			var nbRows =this.locationsCollection.length;
 			app.utils.initGrid(this.locationsCollection, app.models.ArgosLocationCollection, null,{pageSize : nbRows});
 			// display number of positions
@@ -424,7 +483,33 @@
 			});
 			var last_model = this.locationsCollection.at(this.locationsCollection.length - 1);
 			this.drawUpdateMap(last_model);
-			
+			*/
+		},
+		reloadRow : function(e) {
+
+			var ele = e.target.parentNode.parentNode;
+			$(ele).removeClass('desactivatedRow');
+			// change picto
+			$(e.target).attr('src','images/corbeille.png');
+			$(e.target).addClass('deleteRow');
+			$(e.target).removeClass('reloadRow');
+			var selectedModel = app.models.selectedModel;
+			var latitude = selectedModel.get("latitude");
+			var longitude = selectedModel.get("longitude");
+			this.changeSelectedFeatureOnMap("default", latitude,longitude);
+			// delete location from list of locations to delete
+			var locationId = selectedModel.get('positionId');
+			var ln = this.objLocationsToDelete.locations.length;
+			for(var i=0;i<ln;i++){
+				var point = this.objLocationsToDelete.locations[i];
+				var pointId = point.id || -1;
+				if (pointId == locationId){
+					this.objLocationsToDelete.locations.splice(i, 1);
+					// updata array length
+					ln = this.objLocationsToDelete.locations.length;
+				}
+			}
+
 		},
 		drawUpdateMap : function(lastModel) {
 			// init map
@@ -551,6 +636,31 @@
 				tab.push(position);
 			});
 			return tab;
+		},
+		featuresChange: function(e) {
+			var locationsLayer = this.locationsLayer;
+			var selectedFeaturesList = locationsLayer.selectedFeatures;
+			var len = selectedFeaturesList.length;
+			// for each feature get its it and select line in the grid
+			$("tr").removeClass("selectedTr");
+			for (var i = 0; i < len; i++) {
+				//get feature id
+				var featureId = selectedFeaturesList[i].attributes.id;
+				// change corresponded line look on the grid
+				$("td.positionId").each(function() {
+				    var value =  parseInt(this.textContent,10);
+				    if (value === featureId) { 
+				    	// get parent 'TR' and change his style to selected
+				    	var trElement = this.parentNode;
+				    	$(trElement).addClass("selectedTr");
+				    	//$("tr").addClass("selectedTr");
+				    	
+
+				    }
+				   // return false;
+				});
+			}
+			return false;
 		}
 	});	
 

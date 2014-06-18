@@ -472,24 +472,43 @@ app.models.ArgosTransmitter = Backbone.Model.extend({
 app.collections.ArgosTransmitters = Backbone.Collection.extend({
   	model:  app.models.ArgosTransmitter,
   	getFiltredItems: function(pttId, indivId,status) {
-
+  		// convert pttId to number
+  		if (pttId){
+  			pttId = parseInt(pttId,10);
+  		}
+  		else {
+  			pttId = 0;
+  		}
+  		if(indivId){
+  			indivId = parseInt(indivId,10);
+  		}
+  		else {
+  			indivId = 0;
+  		}
+	  	
 	  	var filtredCollection = this.models.filter(function(model) {
 
 		    	var pttIdentifiant = model.get('reference');
 		    	var checkPttId = -1;
 		    	if (pttIdentifiant){
-		    		 checkPttId = pttIdentifiant.indexOf(pttId);
+		    		// checkPttId = pttIdentifiant.indexOf(pttId);
+		    		if ((pttId === 0) || (pttIdentifiant === pttId)) {checkPttId = 0; }
 		    	}
 		    	var individualId = model.get('individusId');
 		    	var checkIndivId = -1;
 		    	if (individualId){
-		    		individualId = individualId.toString();
-		    		checkIndivId = individualId.indexOf(indivId);	
+		    		//individualId = individualId.toString();
+		    		if ((indivId === 0) || (individualId === indivId)) {checkIndivId = 0; }
+		    		//checkIndivId = individualId.indexOf(indivId);	
 		    	}
 		    	var statusVal = model.get('status');
 		    	var checkStatus = -1;
-		    	if (statusVal){
-		    		 checkStatus = statusVal.indexOf(status);
+		    	if (statusVal && status){
+		    		if(statusVal === status ){
+		    		 checkStatus = 1;
+		    		}
+		    	} else if (statusVal){
+		    		checkStatus = 0;
 		    	}
 		    	// particular case : status = 'error' and individualId = null   
 		    	if (status ==="error"){
@@ -514,7 +533,8 @@ app.models.ArgosLocation= Backbone.Model.extend({
 		type : {title: 'type', type: 'Text',sortable: true},
 		latitude: {title: 'latitude', type: 'Text',sortable: true},
 		longitude: {title: 'longitude', type: 'Text',sortable: true},
-		del : {title: '(-)', type: 'Text',sortable: true}
+		del : {title: '(-)', type: 'Text',sortable: true},
+		positionId : {title: 'position id', type: 'Number',sortable: true}
 		
 	},
 	verboseName: 'ArgosLocation'

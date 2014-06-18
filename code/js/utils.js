@@ -314,11 +314,11 @@ var ecoReleveData = (function(app) {
 					app.models.waypoint = new app.models.Waypoint();
 					var latitude = $(this).attr('lat');
 					var longitude = $(this).attr('lon');
+					// convert lat & long to number and round to 5 decimals
+					latitude = parseFloat(latitude).toFixed(5);
+					longitude = parseFloat(longitude).toFixed(5);
 					var waypointName = $(this).find('name').text();
 					var waypointTime = moment($(this).find('time').text());
-
-					// changer le format de date de "AAA/MM/JJ HH:MM:SS"  a  jj/mm/aaaa
-					//waypointTime = changeDateFormat(waypointTime, "gpx");
 					
 					// renseigner les métadonnées du modèle
 					id += 1;
@@ -336,11 +336,11 @@ var ecoReleveData = (function(app) {
 
 				});
 			// selected waypoints 
-			var tmp = new app.collections.Waypoints();
+			/*var tmp = new app.collections.Waypoints();
 			tmp.fetch().then(function() {
 				tmp.destroy();
 				//app.collections.selectedWaypoints.save();
-			});
+			});*/
 			app.collections.selectedWaypoints = app.collections.waypointsList;
 
 			if (id !== 0) {
@@ -1521,7 +1521,7 @@ app.utils.initializeDB = function(db){
 		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/get/" + viewName + "/count";
 		app.xhr = "";
-		app.xhr = $.ajax({
+		$.ajax({
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
@@ -1540,7 +1540,7 @@ app.utils.initializeDB = function(db){
 		var serverUrl = app.config.serverUrl;
 		var viewUrl = serverUrl + "/views/detail/" + viewName;
 		app.xhr = "";
-		app.xhr = $.ajax({
+		$.ajax({
 			url: viewUrl,
 			dataType: "json",
 			success: function(data) {
