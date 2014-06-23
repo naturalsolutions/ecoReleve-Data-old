@@ -286,7 +286,8 @@ var ecoReleveData = (function(app) {
 						// save the collection of protocols in the localstorage
 						app.models.waypoint.save();
 					});
-				localStorage.setItem("xmlWaypointsIsloaded", "true");
+				//localStorage.setItem("xmlWaypointsIsloaded", "true");
+				//xml = null;
 			},
 			error: function(xml) {
 				alert("error in loading file !");
@@ -1645,7 +1646,7 @@ app.utils.initializeDB = function(db){
 		/*if(app.xhr){ 
         app.xhr.abort();
     }*/
-		app.xhr = $.ajax({
+		$.ajax({
 			url: url,
 			dataType: "json",
 			success: function(data) {
@@ -1686,22 +1687,24 @@ app.utils.initializeDB = function(db){
 					var rowValue = dataValues[i];
 					var gridModel = new app.models.ExportGridModel();
 					for (key in rowValue) {
-						var colName = key;
+						var colNam = key;
 						var colValue;
-						if (colName.toUpperCase() == "DATE") {
+						if (colNam.toUpperCase() == "DATE") {
 							var colVal = rowValue[key];
 							colValue = changeDateFormat(colVal);
 						} else {
 							colValue = rowValue[key];
 						}
-						gridModel.set(colName, colValue);
+						gridModel.set(colNam, colValue);
 					}
 					//listColumns
 					gridCollection.add(gridModel);
 				}
 				callback(gridCollection, rowsNumber);
 			},
-			error: function() {}
+			error: function() {
+				console.log("error loading birds list");
+			}
 		});
 	};
 	app.utils.initGrid = function(list, VisibleList, columns, options) {
@@ -1900,6 +1903,7 @@ app.utils.initializeDB = function(db){
 				});
 			}
 		}
+		return grid;
 	};
 	app.utils.initGridServer = function(gridCollection, count, url, options) {
 		//var visibleList = new VisibleList;

@@ -560,7 +560,11 @@ NS.UI.MapView = Backbone.View.extend({
 
 				//});
 				
-				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{hover:false,multiple:true,box:true, clickout: true});
+				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{
+					hover:false,multiple:true,box:true, clickout: true,
+					toggleKey: "ctrlKey", // ctrl key removes from selection
+                    multipleKey: "shiftKey", // shift key adds to selection
+                    });
 				var panelControls = [
 				    new OpenLayers.Control.Navigation(),
 					selectCtr ,
@@ -568,7 +572,7 @@ NS.UI.MapView = Backbone.View.extend({
 				];
 				var toolbar = new OpenLayers.Control.Panel({
 				   displayClass: 'olControlEditingToolbar',
-				   defaultControl: panelControls[0]
+				   defaultControl: panelControls[1]
 				});
 				toolbar.addControls(panelControls);
 				this.map.addControl(toolbar);
@@ -729,13 +733,13 @@ NS.UI.MapView = Backbone.View.extend({
 
 
 			var selectStyle = new OpenLayers.Style({fillColor:'#EB421C'});   //#36b7d1
-			if (cluster =="no"){
+			if (cluster ==="no"){
 				var defaultStyle = new OpenLayers.Style({pointRadius:4,strokeWidth:1,fillColor:'#edb759',strokeColor:'black',cursor:'pointer'});
 				
 				var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});
 				vector_layer.styleMap = styleMap;
 			} 
-			else if (cluster =="yes" ||cluster || vector_layer.bboxStrategy ){
+			else if (cluster ==="yes" ||cluster || vector_layer.bboxStrategy ){
 				var layerStyle;
 				var rules = clusterMapRules ();
 				layerStyle = new OpenLayers.Style(null, {
@@ -1040,36 +1044,4 @@ function removeItem(array, item){
             }
     }
 }
-OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-                defaultHandlerOptions: {
-                    'single': true,
-                    'double': false,
-                    'pixelTolerance': 0,
-                    'stopSingle': false,
-                    'stopDouble': false
-                },
 
-                initialize: function(options) {
-                	this.map = options.map;
-                    this.handlerOptions = OpenLayers.Util.extend(
-                        {}, this.defaultHandlerOptions
-                    );
-                    OpenLayers.Control.prototype.initialize.apply(
-                        this, arguments
-                    ); 
-                    this.handler = new OpenLayers.Handler.Click(
-                        this, {
-                            'click': this.trigger
-                        }, this.handlerOptions
-                    );
-                }, 
-
-                trigger: function(e) {
-                   // var lonlat = map.getLonLatFromPixel(e.xy);
-                   var map = this.map;
-                   var tm;
-                   map.controls.selectControl.unselectAll();
-                   // alert("You clicked near " + lonlat.lat + " N, " + + lonlat.lon + " E");
-                }
-
- });

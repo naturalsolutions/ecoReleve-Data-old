@@ -4,6 +4,9 @@
 	
 	app.views.Argos = app.views.BaseView.extend({
 		template: "argos",
+		initialize: function(options) {
+			this._views = {};
+		},
 		afterRender: function(options) {
 
 			// remove background image
@@ -28,18 +31,22 @@
 	  		$("input[name='endDate']").datepicker(); */
 	  		// get data
 	  		//var url = 'http://192.168.1.199:6543/ecoReleve-Sensor/argos/unchecked/list';
-	  		
+	  		// list of individuals
+	  		this.indivIdList = [];
 	  		if (!app.utils.transmittersCollection){
 	  			this.getTransmittersCollection();
 			} else {
 				var nbRows = app.utils.transmittersCollection.length;
 				$("#argosDataNb").text(nbRows);
-				app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+				var grid = app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+				this.insertView(grid);
 				$("#grid").css({"height":this.windowHeigth *4/5});
 				$("#grid").mCustomScrollbar({
 							theme:"dark"
 				});
 				this.setStatusColor();
+				// datalists for filter autocomplete
+				this.getListsForFilter();
 			}
 			// color data items by 'status' value
 			
@@ -60,19 +67,19 @@
 				success: function(data){
 					// créeer collection d'objets argos
 					app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
-					var transmitterIdList = [], indivIdList = [], individusId;
+					var transmitterIdList = [], individusId;
 					$.each( data, function( key, value ) {
 						var transmitter = new app.models.ArgosTransmitter();
 						transmitter.set('reference', value.ptt);
 						individusId = value.ind_id;
 						transmitter.set('individusId', individusId);
 						transmitter.set('nbPositions', value.count);
-						var status = 'unchecked';
+						var status = 'please verify';
 						if(!individusId){
 							status = 'error';
 						} else{
 							// add individual id to id list for input data filter (autocomplete) 'individual'
-							indivIdList.push(individusId);
+							_this.indivIdList.push(individusId);
 						}
 						transmitter.set('status', status);
 						// transmitterIdList to provide autocomplete to field 'PTT'
@@ -82,16 +89,18 @@
 					});
 					var nbRows = app.utils.transmittersCollection.length;
 					$("#argosDataNb").text(nbRows);
-					app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+					var grd = app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+					_this.insertView(grd);
 					$("#grid").css({"height":_this.windowHeigth *4/5});
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
 					transmitterIdList.sort();
-					indivIdList.sort();
+					_this.indivIdList.sort();
+					app.utils.argosIndivList = _this.indivIdList;
 					// datalist for PTT and Individual input fields 
 					app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
-					app.utils.fillDataListFromArray(indivIdList, "#argosIndividualList");
+					app.utils.fillDataListFromArray(_this.indivIdList, "#argosIndividualList");
 					_this.setStatusColor();
 				}
 			});
@@ -100,13 +109,17 @@
 		moveFilter : function() {
 			
 			//alert(displayed);
-		    $("#argosFilter").toggle( "slide" );
-		    var displayed = $( "#argosFilter" ).attr("style");
-		    if (displayed ==="display: none;"){
-		    	$("#argosHideShowFilter").text("filter >");
-		    } else {
-		    	$("#argosHideShowFilter").text("< filter");
-		    }
+		    $("#argosFilter").toggle("slide", function() {
+		    	var displayed = $( "#argosFilter" ).attr("style");
+			    if (displayed ==="display: none;"){
+			    	//$("#argosHideShowFilter").text("filter >");
+			    	$("#hideShowFilter").addClass("selected");
+			    } else {
+			    	//$("#argosHideShowFilter").text("< filter");
+			    	$("#hideShowFilter").removeClass("selected");
+			    }
+		    });
+		    
 		   // argosHideShowFilter
 		},
 		getMyDataList : function(){
@@ -130,7 +143,8 @@
 			// display number of returned models
 			var nb = filtredCollection.length;
 			$("#argosDataNb").text(nb);
-			app.utils.initGrid(filtredCollection, app.collections.ArgosTransmitters, null,{pageSize : nb});
+			var grid = app.utils.initGrid(filtredCollection, app.collections.ArgosTransmitters, null,{pageSize : nb});
+			this.insertView(grid);
 			$("#grid").css({"height":this.windowHeigth *4/5});
 			$("#grid").mCustomScrollbar({
 							theme:"dark"
@@ -149,6 +163,8 @@
 				var indivId = selectedModel.get("individusId");
 				//var route = '#argos/' + refPTT + '/indiv/'+ indivId;
 				var route = '#argos/ptt='  + refPTT + '&indivId='+ indivId;
+				//app.utils.argosIndivList = this.indivIdList;
+				//this.indivIdList = null;
 				app.router.navigate(route, {trigger: true});
 			}
 		},
@@ -209,6 +225,26 @@
 	  		} else {
 	  			alert ('no locations to import !');
 	  		}
+		},
+		getListsForFilter : function(){
+			var transmitterIdList = [];
+			this.indivIdList= [];
+			var _this= this;
+			app.utils.transmittersCollection.each(function(model) {
+				var indivId = model.get("individusId");
+				var transmitterId = model.get("reference");
+				if(indivId){
+					// add individual id to id list for input data filter (autocomplete) 'individual'
+					_this.indivIdList.push(indivId);	
+				} 
+				transmitterIdList.push(transmitterId);
+			});
+			transmitterIdList.sort();
+			this.indivIdList.sort();
+			app.utils.argosIndivList = this.indivIdList;
+			// datalist for PTT and Individual input fields 
+			app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
+			app.utils.fillDataListFromArray(this.indivIdList, "#argosIndividualList");
 		}
 		/*loadStats: function() {
 			var serverUrl = localStorage.getItem("serverUrl");
@@ -246,7 +282,7 @@
 						scaleSteps: steps,
 						scaleStepWidth: Math.ceil(maxValueInGraph / steps),
 						scaleStartValue: 0
-					});
+					});""
 
 					var lastDate = labels[labels.length - 1];
 					var lastArgosValue = nbArgos[nbArgos.length - 1];
@@ -266,6 +302,7 @@
 			this.pttId = options.idTransmitter;
 			this.indivId = options.idIndiv;
 			this.locationsTodelete = [];
+			this._views = {};
 		},
 		afterRender: function() {
 			this.windowHeigth = $(window).height();
@@ -305,6 +342,11 @@
 						// change btn text color
 						$("#argosCheckImportPtt").addClass("disabled");
 						$("#argosCheckPtt").addClass("disabled");
+						// btn navigation
+						$("#argosCheckImportNextIndiv").addClass("disabled");
+						$("#argosCheckImportNextIndiv").attr("disabled","disabled");
+						$("#argosCheckImportPrevIndiv").addClass("disabled");
+						$("#argosCheckImportPrevIndiv").attr("disabled","disabled");
 					}
 					$("#argosDetIndivSpecie").text(indivSpecie);
 					$("#argosDetIndivOrigin").text(indivOrigin);
@@ -323,6 +365,8 @@
 						locationModel.set( 'date', locations[i].date);
 						locationModel.set( 'latitude', locations[i].lat );
 						locationModel.set( 'longitude', locations[i].lon);
+						locationModel.set( 'classLoc', locations[i].lc);
+						locationModel.set( 'distance', locations[i].dist);
 						//locationModel.set( 'del','test');
 						var type = locations[i].type;
 						if (type === 0 ){
@@ -332,10 +376,10 @@
 						}
 						
 						_this.locationsCollection.add(locationModel);
-
 					}
 					var nbRows =_this.locationsCollection.length;
-					app.utils.initGrid(_this.locationsCollection, app.models.ArgosLocationCollection, [6],{pageSize : nbRows});
+					var grid = app.utils.initGrid(_this.locationsCollection, app.models.ArgosLocationCollection, [8],{pageSize : nbRows});
+					_this.insertView(grid);
 					// add trush to del column
 					$("td.del").html("<img src='images/corbeille.png' class='deleteRow'>");
 					// display number of positions
@@ -348,13 +392,14 @@
 								label: ""
 					});
 					_this.mapView = app.utils.initMap(point, 10);
+					_this.insertView(_this.mapView);
 					// add marker for station position
 					var defaultStyle =  new OpenLayers.Style({
 						  externalGraphic: "images/marker_red.png",
 						  'pointRadius': 20//,
 					});
 					var selectStyle = new OpenLayers.Style({
-						  externalGraphic: "images/marker_marron.png",
+						  externalGraphic: "images/marker_grey.png",
 						  'pointRadius': 20
 					});
 					var deleteStyle = new OpenLayers.Style({
@@ -381,6 +426,51 @@
 					_this.objLocationsToDelete.locations = [];
 				}
 			});
+			$('.mapDisplay').css('float', 'right');
+		/*   to update  map container size*/
+		
+		this.setMapSize();
+		},
+		setMapSize : function(){
+			//$('#map').css('float', 'right');
+			var dataContainer = $("#main")[0]; 
+			var argosContentWidth = dataContainer.clientWidth;
+			if (argosContentWidth < 1480){
+				var mapContainerSize = argosContentWidth - 820;
+				$('#map').css('width', mapContainerSize + 'px');
+			}
+			$(window).bind('resize', function() {
+				dataContainer = $("#main")[0]; 
+			 	argosContentWidth = dataContainer.clientWidth;
+			 	console.log("argosContentWidth: " + argosContentWidth);
+				
+				if (argosContentWidth < 1481){
+					var mapContainerSize = argosContentWidth - 820;
+					$('#map').css('width', mapContainerSize + 'px');
+				} else {
+					$('#map').css('width', 600 + 'px');
+				}
+			});	
+			/*$(window).bind('resize', function() {
+				dataContainer = $("#main")[0];
+				argosContentWidth = dataContainer.clientWidth;
+				console.log ("argosContentWidth : " + argosContentWidth );
+				//widthargosContent = widthDataContainer;
+				//$('#allDataContent').css('width', widthargosContent + 'px');
+
+				// check if datatable is not hided and resize map if window is resized
+				//var displayed = $("#allDataList").is(":visible");
+				//if (displayed) {
+					if (argosContentWidth > 1630){
+					 //$('#map').css('width', '700px');
+					} else if(argosContentWidth > 1000) {
+						$("#birdDetails").removeClass("span6");
+						$("#birdDetails").addClass("span7");
+						$("#obsMap").removeClass("span6");
+						$("#obsMap").addClass("span5");
+						$('#map').css('width', (argosContentWidth  - 750 ) + 'px');
+					}
+			});*/
 		},
 		events : {
 			"click tr": "selectTableElement",
@@ -388,7 +478,9 @@
 			"click #argosCheckPtt" : "check",
 			"click #argosCheckImportPtt" : "checkImport",
 			"click img.reloadRow" : "reloadRow",
-			"selectedFeatures:change": "featuresChange"
+			"selectedFeatures:change": "featuresChange",
+			"click #argosCheckImportNextIndiv" : "navigationNextIndiv",
+			"click #argosCheckImportPrevIndiv" : "navigationPrevIndiv"
 		},
 		selectTableElement: function(e) {
 			var ele = e.target.parentNode.nodeName;
@@ -467,7 +559,10 @@
 				var ln = point.longitude;
 				this.changeSelectedFeatureOnMap("delete", lat,ln);
 			}
-			
+			// calculate difference between all postions and positions to delete
+			var nbRows = (this.locationsCollection.length) - (this.objLocationsToDelete.locations.length);
+			$("#argosNbPositions").text(nbRows);
+
 			//this.locationsCollection.remove(selectedModel);
 			// update and redraw grid
 			/*
@@ -509,7 +604,9 @@
 					ln = this.objLocationsToDelete.locations.length;
 				}
 			}
-
+			// calculate difference between all postions and positions to delete
+			var nbRows = (this.locationsCollection.length) - (this.objLocationsToDelete.locations.length);
+			$("#argosNbPositions").text(nbRows);
 		},
 		drawUpdateMap : function(lastModel) {
 			// init map
@@ -661,6 +758,57 @@
 				});
 			}
 			return false;
+		},
+		navigationNextIndiv : function() {
+			if (this.indivId !='null'){
+				// the 
+				var indivIndex = this.getIndivIdex();
+				var indivNb = app.utils.argosIndivList.length;
+				var nextIndivIndex;
+				if (indivIndex < (indivNb - 1)){
+					nextIndivIndex =indivIndex + 1;
+				} else {
+					nextIndivIndex = 0;
+				}
+				// get individual id value
+				var idNextIndiv = app.utils.argosIndivList[nextIndivIndex];
+				// get transmitter ref corresponding to the indiv id : 
+				var transmitterModel = app.utils.transmittersCollection.where({ individusId: idNextIndiv }); 
+				var transmitterId = transmitterModel[0].attributes.reference;
+				// navigate to next indiv details 
+				var route = '#argos/ptt=' + transmitterId + '&indivId=' + idNextIndiv;
+				app.router.navigate(route, {
+						trigger: true, replace: true
+				});
+			}	
+		},
+		navigationPrevIndiv  : function() {
+			if (this.indivId !='null'){
+				var indivNb = app.utils.argosIndivList.length;
+				var indivIndex = this.getIndivIdex();
+				var prevIndivIndex;
+				if (indivIndex > 0){
+					prevIndivIndex =indivIndex -1 ;
+				} else {
+					prevIndivIndex = indivNb - 1;
+				}
+				// get individual id value
+				var idPrevIndiv = app.utils.argosIndivList[prevIndivIndex];
+				// get transmitter ref corresponding to the indiv id : 
+				var transmitterModel = app.utils.transmittersCollection.where({ individusId: idPrevIndiv }); 
+				var transmitterId = transmitterModel[0].attributes.reference;
+				// navigate to next indiv details 
+				var route = '#argos/ptt=' + transmitterId + '&indivId=' + idPrevIndiv;
+				app.router.navigate(route, {
+						trigger: true, replace: true
+				});
+			}	
+		},
+		getIndivIdex : function() {
+			var intIndivId = parseInt(this.indivId,10);
+			var indivNb = app.utils.argosIndivList.length;
+			var indivIndex = app.utils.argosIndivList.indexOf(intIndivId);
+			return indivIndex;
 		}
 	});	
 

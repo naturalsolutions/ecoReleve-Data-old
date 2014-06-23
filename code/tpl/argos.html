@@ -24,8 +24,9 @@
 
 <div id="separator"></div>
 <div id="argosFilterContainer">
-	<button id="hideShowFilter">
-					 < filter </button>
+	<!--<button id="hideShowFilter">
+					 < filter </button>  -->
+	<div id="hideShowFilter"></div>				 
 	<div class="row-fluid" id="arogsFilterContainerRow">
 		<div class="span3" id="argosFilter">
 			<div id="serachHeader">
@@ -67,7 +68,7 @@
 					<br/>
 					<input type="text" name="status" list="statusList">
 					<datalist  id="statusList">
-						<option value="unchecked"></option>
+						<option value="please verify"></option>
 						<option value="checked"></option>
 						<option value="imported"></option>
 						<option value="error"></option>
@@ -87,7 +88,7 @@
 			<div id="argosFilterGrid" class="argosFilterGrid">
 				<div class="persoScroll">
 					<div id="argosGgridLabel">
-						<span id="argosDataNb"></span> datas
+						<span id="argosDataNb"></span> unchecked data from Argos database
 					</div>
 					<button id="argosImportPttList" class="argosBtn">import checked</button>
 					<div id="argosAllGrid" class="gridDiv">

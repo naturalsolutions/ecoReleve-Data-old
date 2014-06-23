@@ -1,9 +1,33 @@
+
+<div  class="mapDisplay">
+	<div id="map"></div>
+	<div id="argosMapLegend">
+		<div class="row-fluid">
+			<div class="span5">
+				<img src="images/marker_red.png"><span class="argosMapLegendLabel">individual locations</span>
+			</div>
+			<div class="span7">
+				<img src="images/marker_grey.png"><span class="argosMapLegendLabel">selected locations on the map</span>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span5">
+				<img src="images/marker_yellow.png"><span class="argosMapLegendLabel">deleted locations</span>
+			</div>
+			<div class="span7">
+				<img src="images/marker_green.png"><span class="argosMapLegendLabel">focus (selected location on the grid)</span>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row-fluid" id="birdDetailsContainer">
-	<div id="birdDetails"  class="span6">
+	<div id="birdDetails"  class="span7">
 		<div id="separatorDetails">
 			<a href="#argos"><img src="images/back_white.png"></a><span>search results</span>
+			<button id="argosCheckImportNextIndiv" class="argosBtn argosNav">next indiv > </button>
 			<button id="argosCheckImportPtt" class="argosBtn">check & import </button>
 			<button id="argosCheckPtt" class="argosBtn">check</button>
+			<button id="argosCheckImportPrevIndiv" class="argosBtn argosNav">< prev indiv </button>
 		</div>
 		<div class="row-fluid">
 			<!--<div class="span6">
@@ -105,7 +129,5 @@
 				</div>
 		</div>
 	</div>
-	<div class="span6" id="obsMap">
-		<div id="map" style="width:800px; height:800px;"></div>
-	</div>
 </div>
+

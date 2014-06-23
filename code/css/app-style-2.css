@@ -811,7 +811,7 @@ header.navbar .nav li.dropdown.open > .dropdown-toggle {
 }
 #birdsFilterContainer div.span5, #birdsFilterContainer div.span7 {
 	display: table-cell;
-  	float: none;
+  	float: left;
 }
 /*#objectsIndivGrid {
 background-color: #313131;
@@ -838,6 +838,7 @@ background-color: #313131;
 #birdsBlocFilter{
 	text-align: center;
 	margin-top: 15px;
+	margin-left: 45px;
 }
 div.birdCaracFilter {
 	display: inline-block;
@@ -1075,6 +1076,7 @@ background-repeat: no-repeat;
 }
 #argosDataFilter {
 	margin: 0 auto;
+	margin-left: 45px;
 }
 #hideShowFilter {
 position: fixed;
@@ -1168,6 +1170,40 @@ padding-top: 1em;
 .selectedTr{
 	background-color: grey;
 	color: black;
+}
+.mapDisplay {
+	float: right;
+	position: fixed;
+	right: 0px;
+	width:600px;
+}
+.mapDisplay #map {
+	width:600px;
+	height:700px;
+}
+#argosMapLegend {
+background-color: #A5A2A2;
+color: white;
+padding: 5px;
+}
+/*  hide show filter  */
+#hideShowFilter {
+    display: block;
+    position: absolute;
+    top: 55px;
+	left: 0px;
+    cursor: pointer;
+    height: 35px;  /*40*/
+    width: 35px;
+    z-index: 1;
+    background: url('../images/closeBT.png') no-repeat scroll left bottom #FFF;
+    /*border-radius: px 0px 0px 4px;*/
+}
+#hideShowFilter.selected {
+    background-position: left top;
+}
+.argosNav{
+background-color: #727171;
 }
 
 .badge {

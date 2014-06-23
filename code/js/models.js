@@ -533,6 +533,8 @@ app.models.ArgosLocation= Backbone.Model.extend({
 		type : {title: 'type', type: 'Text',sortable: true},
 		latitude: {title: 'latitude', type: 'Text',sortable: true},
 		longitude: {title: 'longitude', type: 'Text',sortable: true},
+		classLoc :{title: 'class', type: 'Text',sortable: true},
+		distance : {title: 'distance', type: 'Text',sortable: true},
 		del : {title: '(-)', type: 'Text',sortable: true},
 		positionId : {title: 'position id', type: 'Number',sortable: true}
 		

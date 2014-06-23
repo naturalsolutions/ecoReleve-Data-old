@@ -74,6 +74,7 @@ var ecoReleveData = (function(app) {
 				});
 			});
 			this.trigger('remove', this);
+			//this.stopListening();
 			Backbone.View.prototype.remove.apply(this, arguments);
 		},
 		//Rendering process
@@ -197,6 +198,8 @@ HomeView
 			$("#homeNbObs").text(ln);
 			// get nb argos to check
 			this.getArgosLocations();
+			// global var used to manage indiv list
+			app.utils.argosIndivList = null;
 		},
 		events: {
 			'click #alldata': 'alldata'
