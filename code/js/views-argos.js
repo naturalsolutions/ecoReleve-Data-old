@@ -64,6 +64,9 @@
 			$.ajax({
 				url: url,
 				dataType: "json",
+				beforeSend: function(){
+			    	 console.log("Before");
+			    },
 				success: function(data){
 					// créeer collection d'objets argos
 					app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
@@ -102,7 +105,13 @@
 					app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
 					app.utils.fillDataListFromArray(_this.indivIdList, "#argosIndividualList");
 					_this.setStatusColor();
-				}
+				},
+				complete: function(){
+			    	//alert("after");
+			    },
+			    error : function(){
+			    	//alert("error");
+			    }
 			});
 
 		},

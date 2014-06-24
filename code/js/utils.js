@@ -1649,6 +1649,9 @@ app.utils.initializeDB = function(db){
 		$.ajax({
 			url: url,
 			dataType: "json",
+			beforeSend: function(){
+			    	 console.log("Before");
+			},
 			success: function(data) {
 				// create schema model and dynamic fields for the grid
 				var rowsNumber = data.count;
@@ -1701,6 +1704,9 @@ app.utils.initializeDB = function(db){
 					gridCollection.add(gridModel);
 				}
 				callback(gridCollection, rowsNumber);
+			},
+			complete: function(){
+			    	console.log("after");
 			},
 			error: function() {
 				console.log("error loading birds list");

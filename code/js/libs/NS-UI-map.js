@@ -561,9 +561,10 @@ NS.UI.MapView = Backbone.View.extend({
 				//});
 				
 				var selectCtr = new OpenLayers.Control.SelectFeature(vector,{
-					hover:false,multiple:true,box:true, clickout: true,
-					toggleKey: "ctrlKey", // ctrl key removes from selection
-                    multipleKey: "shiftKey", // shift key adds to selection
+					hover:false,multiple:true, clickout: true, box:true
+					//toggleKey: "ctrlKey", // ctrl key removes from selection
+                    //multipleKey: "shiftKey", // shift key adds to selection
+                    //
                     });
 				var panelControls = [
 				    new OpenLayers.Control.Navigation(),
