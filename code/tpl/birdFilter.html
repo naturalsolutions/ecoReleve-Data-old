@@ -1,61 +1,115 @@
 
-<div id="separator"></div>
 <div id="birdsFilterContainer">
-<!--<button id="hideShowFilter">
-           < filter </button> -->
-<div id="hideShowFilter"></div>
-<div class="row-fluid" id="birdsFilterContainerRow">
-  <div class="span5" id="objectsIndivFilter">
-    <div id="serachHeader">
-    <img src="images/NS_search.png"><span>search</span>
-    </div>
-    <div id="birdsBlocFilter">
-      <div class="birdCaracFilter">
-         <label>identification</label>
-          <label class="labelform">id</label>
-              <input type="text" name="ID">
-              <label class="labelform">frequency</label>
-              <input type="text" name="frequency"  list="birdFrequencyList">
-              <datalist  id="birdFrequencyList"></datalist>
-              <label class="labelform">ptt</label>
-              <input type="text" name="PTT" list="birdPttList">
-              <datalist  id="birdPttList"></datalist>
-              <label class="labelform">release ring</label>
-              <input type="text" name="release" list="birdReleaseRingList">
-              <datalist  id="birdReleaseRingList"></datalist>
-              <label class="labelform">breeding ring</label>
-              <input type="text" name="breeding" list="birdBreedingRingList">
-              <datalist  id="birdBreedingRingList"></datalist>
-      </div>
-      <div class="birdCaracFilter">
-        <label>mark</label>
-         <label class="labelform">color</label>
-          <input type="text" name="color" list="birdMarkColorList">
-          <datalist  id="birdMarkColorList"></datalist>
-          <br/><br/><br/>
-         <label>characteristics</label>
-         <label class="labelform">sex</label>
-          <input type="text" name="sex" list="birdSexList">
-          <datalist  id="birdSexList"></datalist>
-           <label class="labelform">origin</label>  <!-- acompleter -->
-          <input type="text" name="origin" list="birdOriginList">
-          <datalist  id="birdOriginList"></datalist>
-          <label class="labelform">age</label>  <!-- acompleter -->
-          <input type="text" name="age" list="birdAgeList">
-          <datalist  id="birdAgeList"></datalist>
-      </div>
-        <div class="birdCaracFilter">
-         
-      </div>
-      <div class="birdCaracFilter">
-        <button id="indivFilterSubmit"><img src="images/NS_search.png"> search</button>
+  <!--<button id="hideShowFilter">
+  < filter </button>
+    -->
+    <div id="hideShowFilter"></div>
+    <div class="row-fluid" id="birdsFilterContainerRow">
+      <div class="span4" id="objectsIndivFilter">
+        <div id="serachHeader">
+          <ul>
+            <li class = "serachHeaderElem selected" id="serachHeaderElem1">
+              <img src="images/search2.png">
+                <span>search</span>
+            </li>
+            <li class = "serachHeaderElem" id="serachHeaderElem2">
+              <img src="images/saved_search2.png">
+              <span>saved</span>
+            </li>
+          </ul>
+        </div>
+        <div id="separator"></div>
+        <div id="indivCurrentSearch">
+            <div class="tabbable">
 
-        <!--<input type="button" value="search" id="indivFilterSubmit"> -->
-      </div>
-    </div>
-     <button id="indivFilterClear"><img src="images/clear.png"> clear all</button>   
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a href="#t1" data-toggle="tab" id="indivFitlOngletLab1">simple search</a>
+                  </li>
+                  <li>
+                    <a href="#t2" data-toggle="tab" id="indivFitlOngletLab2">advanced search</a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="t1">
+                    <div class="birdCaracFilter">
+                      <label>identification</label>
+                      <label class="labelform">specie</label>
+                      <input type="text" name="specie" list="speciesList">
+                      <datalist  id="speciesList"></datalist>
+                      <label class="labelform">release area</label>
+                      <input type="text" name="releaseArea"  list="releaseAreaList">
+                      <datalist  id="releaseAreaList"></datalist>
+                      <label class="labelform">release year</label>
+                      <input type="text" name="releaseYear" list="releaseYearList">
+                      <datalist  id="releaseYearList"></datalist>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="t2">
+                    <!--  <div id="birdsBlocFilter">
+                    -->
+                    <div class="birdCaracFilter">
+                      <label>identification</label>
+                      <label class="labelform">id</label>
+                      <input type="text" name="ID">
+                      <label class="labelform">frequency</label>
+                      <input type="text" name="frequency"  list="birdFrequencyList">
+                      <datalist  id="birdFrequencyList"></datalist>
+                      <label class="labelform">ptt</label>
+                      <input type="text" name="PTT" list="birdPttList">
+                      <datalist  id="birdPttList"></datalist>
+                      <label class="labelform">release ring</label>
+                      <input type="text" name="release" list="birdReleaseRingList">
+                      <datalist  id="birdReleaseRingList"></datalist>
+                      <label class="labelform">breeding ring</label>
+                      <input type="text" name="breeding" list="birdBreedingRingList">
+                      <datalist  id="birdBreedingRingList"></datalist>
+                    </div>
+                    <div class="birdCaracFilter">
+                      <label>mark</label>
+                      <label class="labelform">color</label>
+                      <input type="text" name="color" list="birdMarkColorList">
+                      <datalist  id="birdMarkColorList"></datalist>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <label>characteristics</label>
+                      <label class="labelform">sex</label>
+                      <input type="text" name="sex" list="birdSexList">
+                      <datalist  id="birdSexList"></datalist>
+                      <label class="labelform">origin</label>
+                      <!-- acompleter -->
+                      <input type="text" name="origin" list="birdOriginList">
+                      <datalist  id="birdOriginList"></datalist>
+                      <label class="labelform">age</label>
+                      <!-- acompleter -->
+                      <input type="text" name="age" list="birdAgeList">
+                      <datalist  id="birdAgeList"></datalist>
+                    </div>
+                    <div class="birdCaracFilter"></div>
+                    <!--<div class="birdCaracFilter">
+
+                    <!--<input type="button" value="search" id="indivFilterSubmit"></div>
+                </div>
+                -->
+                </div>
+              </div>
+            </div>
+            <div id="indivBtnFilterDiv">
+              <button id="indivFilterClear">
+               <!-- <img src="images/clear.png">--> clear all</button>
+              <button id="indivFilterSave">
+                <!-- <img src="images/clear.png">-->  save search</button>
+              <button id="indivFilterSubmit">
+                <img src="images/NS_search.png">search</button>
+            </div>
+        </div>
+        <div id="indivSavedSearch">
+        <ul id="indivSavedFiltersList" class="unstyled"></ul>
+        </div>
+
   </div>
-  <div class="span7">
+  <div class="span8" id="objectsIndGrid">
     <div id="birdFilterGrid" class="birdFilterGrid">
       <div id="grid" class="persoScroll">
         <div id="birdsGgridLabel">birds list</div>
@@ -65,6 +119,7 @@
       </div>
     </div>
   </div>
+  <div id="indivModalQuery"></div>
 
 </div>
 </div>

@@ -21,6 +21,7 @@ $bird 				birds
 			// load data
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
+			var coreUrl = app.config.coreUrl;
 			var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
 			this.indivUrl = indivUrl;
 			// load data for indiv grid
@@ -30,13 +31,21 @@ $bird 				birds
 					//columns: [0,1,2, 3, 4, 9],
 					container: "#gridContainer"
 				});
-				$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
-				$("#objectsIndivGrid").mCustomScrollbar({
+				//$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
+				$("#grid").mCustomScrollbar({
 					theme:"dark",
 					 horizontalScroll:true
 				});
 			});
-
+			// autocomplete for field species
+			var fieldSpecies = coreUrl + '/individuals/released/values?field_name=specie';
+			app.utils.getSimpledataListForBirdFilter ("#speciesList", fieldSpecies);
+			// autocomplete for release area
+			var fieldArea = coreUrl + '/individuals/released/values?field_name=releasedArea';
+			app.utils.getSimpledataListForBirdFilter ("#releaseAreaList", fieldArea);
+			// autocomplete for release year
+			var fieldYear = coreUrl + '/individuals/released/values?field_name=releasedYear';
+			app.utils.getSimpledataListForBirdFilter ("#releaseYearList", fieldYear);
 			// autocomplete for fields list
 			var fieldUrl = serverUrl + '/list/autocomplete?table_name=TViewIndividual'+ '&column_name=' ;
 			// field sex
@@ -75,28 +84,71 @@ $bird 				birds
 			// breeding ring
 			var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
 			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);
+			// get array to store serach criterias
+			var storedCriterias = localStorage.getItem('indivFilterStoredCriterias') || "";
+			if (!storedCriterias){
+				this.criterias =  [];
+			} else {
+				this.criterias = JSON.parse(storedCriterias);
+			}
 		},
 		events :{
 			'click #indivFilterSubmit' : 'getBirdsList',
 			'click tr': 'selectTableElement',
 			'click #indivFilterClear' : 'clearFields',
-			'click #hideShowFilter' : 'moveFilter'
+			'click #hideShowFilter' : 'moveFilter',
+			'click #indivFilterSave' : 'saveCriterias',
+			'click li#serachHeaderElem1' : 'selectSearchMode',
+			'click li#serachHeaderElem2' : 'selectSearchMode',
+			'click #indivSavedFiltersList li a' : 'selectSavedFilter',
+			'click #indivSavedFiltersList li img' : 'deleteSavedFilter'
 		},
 		getBirdsList : function() {
-			var windowWidth = $(window).width();
-			var windowHeigth = $(window).height();
-			var params = [] ;
-			var id = $('input[name="ID"]').val().trim();
-			var frequency = $('input[name="frequency"]').val().trim();
-			var ptt = $('input[name="PTT"]').val().trim();
-			var sex = $('input[name="sex"]').val().trim();
-			var release = $('input[name="release"]').val().trim();
-			var breeding = $('input[name="breeding"]').val().trim();
-			var age = $('input[name="age"]').val().trim();
-			var origin = $('input[name="origin"]').val().trim();
-			var color = $('input[name="color"]').val().trim();
-			
-
+			var params = [],
+			windowWidth = $(window).width(),
+			windowHeigth = $(window).height();
+			params = this.getParams();
+			var filterParams = params.join("&"); 
+			// update data indiv grid
+			var url = this.indivUrl + "&" + filterParams;
+			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
+				app.utils.initGridServer(collection, rowsNumber, url, {
+					pageSize: 50,
+					//columns: [2, 6, 7, 8],
+					container: "#gridContainer"
+				});
+				//$("#objectsIndivGrid").css({"height":(windowHeigth - 300), "max-width" : windowWidth / 2 });
+				/*("#grid").mCustomScrollbar({
+					theme:"dark",
+					 horizontalScroll:true,
+					 autoDraggerLength: true
+				});*/
+			});
+		},
+		getParams : function(){
+			var params = [],
+			specie = $('input[name="specie"]').val().trim(),
+			releaseArea = $('input[name="releaseArea"]').val().trim(),
+			releaseYear = $('input[name="releaseYear"]').val().trim(),
+			id = $('input[name="ID"]').val().trim(),
+			frequency = $('input[name="frequency"]').val().trim(),
+			ptt = $('input[name="PTT"]').val().trim(),
+			sex = $('input[name="sex"]').val().trim(),
+			release = $('input[name="release"]').val().trim(),
+			breeding = $('input[name="breeding"]').val().trim(),
+			age = $('input[name="age"]').val().trim(),
+			origin = $('input[name="origin"]').val().trim(),
+			color = $('input[name="color"]').val().trim();
+			// corriger noms de variabl
+			if(specie){
+				params.push("filters[]=ID:exact:" + specie);  
+			}
+			if(releaseArea){
+				params.push("filters[]=ID:exact:" + releaseAreaList);  
+			}
+			if(releaseYear){
+				params.push("filters[]=ID:exact:" + releaseYearList);  
+			}
 			if(id){
 				params.push("filters[]=ID:exact:" + id);  
 			}
@@ -124,22 +176,15 @@ $bird 				birds
 			if(color){
 				params.push("filters[]=mark_color:" + color);
 			}
-			var filterParams = params.join("&"); 
-			// update data indiv grid
-			var url = this.indivUrl + "&" + filterParams;
-			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
-				app.utils.initGridServer(collection, rowsNumber, url, {
-					pageSize: 50,
-					//columns: [2, 6, 7, 8],
-					container: "#gridContainer"
-				});
-				$("#objectsIndivGrid").css({"height":(windowHeigth - 300), "max-width" : windowWidth / 2 });
-				("#objectsIndivGrid").mCustomScrollbar({
-					theme:"dark",
-					 horizontalScroll:true,
-					 autoDraggerLength: true
-			});
-			});
+			return params;
+		},
+		saveCriterias : function() {
+			var params = this.getParams();
+			if (params.length>0){
+				this.addModalWindow(params);
+			} else {
+				alert("please input criterias to save.");
+			}
 		},
 		selectTableElement: function(e) {
 			var ele = e.target.parentNode.nodeName;
@@ -154,36 +199,156 @@ $bird 				birds
 			$("input").val("");
 		},
 		moveFilter : function() {	
-		    $("#objectsIndivFilter").toggle( "slide" );
-		}
+		    //$("#objectsIndivFilter").toggle( "slide" );
+		    var windowWidth = $(window).width();
+		    $("#objectsIndivFilter").toggle("slide", function() {
+		    	var displayed = $( "#objectsIndivFilter" ).attr("style");
+			    if (displayed ==="display: none;"){
+			    	//$("#argosHideShowFilter").text("filter >");
+			    	$("#hideShowFilter").addClass("selected");
+			    	$("#objectsIndivGrid").addClass("displayFull");
+			    	$("#objectsIndivFilter").removeClass("span4");
+			    	$("#objectsIndivFilter").addClass("span0");
+			    	$("#objectsIndGrid").removeClass("span8");
+			    	$("#objectsIndGrid").addClass("span11");
 
+			    } else {
+			    	//$("#argosHideShowFilter").text("< filter");
+			    	$("#objectsIndivGrid").removeClass("displayFull");
+			    	$("#hideShowFilter").removeClass("selected");
+			    	$("#objectsIndivFilter").removeClass("span0");
+			    	$("#objectsIndivFilter").addClass("span4");
+			    	$("#objectsIndGrid").removeClass("span11");
+			    	$("#objectsIndGrid").addClass("span8");
+			    }
+		    });
+		   
+		},
+		addModalWindow : function(params){
+		 /*var modal = '<div class="modal-dialog"><div class="modal-content">';
+		 	modal += '<div class="modal-header"> <h3 class="modal-title"><img src="images/import_.png" class="modal-title-picto">save search</h3></div>';
+		 	modal +='<div class="modal-body modal-body-perso"><b>query name</b><input name="indivQueryName" /> ';
+		 	modal +='</div><div class="modal-footer"></div></div></div>';
+		 	$("#indivModalQuery").html(modal);*/
+		 	var serachName = prompt("please input serach name", "");
+  			alert("search criterias saved.");
+  			var ln = this.criterias.length;
+  			var searchItem = {};
+  			searchItem.name = serachName;
+  			// id searchItem = ln + 1 
+  			searchItem.id = ln + 1 ;
+  			searchItem.query = params;
+  			this.criterias.push(searchItem);
+  			localStorage.setItem('indivFilterStoredCriterias',JSON.stringify(this.criterias));
+		},
+		selectSearchMode : function(e) {
+			var selectedElement = e.target; 
+			var nodeName = selectedElement.nodeName;
+			var liElement;
+			if (nodeName == "LI") {
+				liElement = selectedElement;
+			} else {
+				liElement = selectedElement.parentNode;
+			}
+			var idElement = $(liElement).attr("id");
+			$(".serachHeaderElem").removeClass("selected");
+			$(liElement).addClass("selected");
+			if (idElement ==="serachHeaderElem2"){
+				$("#indivCurrentSearch").addClass("masqued");
+				$("#indivSavedSearch").removeClass("masqued");
+				this.displaySavedCriterias();
+			} else {
+				$("#indivCurrentSearch").removeClass("masqued");
+				$("#indivSavedSearch").addClass("masqued");
+			}
+		},
+		selectSavedFilter : function(e) {
+			var selectedElement = e.target; 
+			var liElement = selectedElement.parentNode;
+			var filterId = $(liElement).attr('id');
+			// get params for selected filter
+			var params;
+			var ln = this.criterias.length;
+			for (var i = 0; i < ln; i++) {
+				// get item
+				var savedItemId= this.criterias[i].id;
+				if(savedItemId ==filterId){
+					params = this.criterias[i].query;
+					break;
+				}
+			}
+			// send query with saved criterias
+			var filterParams = params.join("&"); 
+			// update data indiv grid
+			var url = this.indivUrl + "&" + filterParams;
+			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
+				app.utils.initGridServer(collection, rowsNumber, url, {
+					pageSize: 50,
+					container: "#gridContainer"
+				});
+			});
+
+		},
+		deleteSavedFilter : function(e) {
+			var selectedElement = e.target; 
+			var liElement = selectedElement.parentNode.parentNode;
+			// get li id  => id of filter object
+			var filterId = $(liElement).attr('id');
+			// delete object from criterias list and update displayed list
+			var ln = this.criterias.length;
+			for (var i = 0; i < ln; i++) {
+				// get item
+				var savedItemId= this.criterias[i].id;
+				if(savedItemId ==filterId){
+					//alert ("savedItemId :" + savedItemId);
+					var elem = this.criterias.splice(i,1);
+					//update displayed list
+					this.displaySavedCriterias();
+					break;
+				}
+			}
+		},
+		displaySavedCriterias: function() {
+			$("#indivSavedFiltersList").empty();
+			var ln = this.criterias.length;
+			for (var i = 0; i < ln; i++) {
+				// get item
+				var savedItem= this.criterias[i];
+				var element = "<li id='" + savedItem.id + "'><a>" + savedItem.name + "</a><span><img src='images/corbeille_black.png' class='birdCritDel'></span></li>";
+				$("#indivSavedFiltersList").append(element);
+			}
+		}
 	});
 	app.views.Bird = app.views.BaseView.extend({
 		template: "birdDetails",
 		initialize : function(options) {
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
 			this.birdId = options.id;
 			this.intervalAnimation = 0.3; 
 		},
 		afterRender: function() {
 			var windowHeigth = $(window).height();
 			var windowWidth = $(window).width();
-			
+			var _this = this;
 			$("#birdDetails").css({"height": windowHeigth -50 });
 			// change map width if window is resized
 			$(window).bind('resize', function() {
 				windowWidth = $(this).width();
 				$("#map").css("width",windowWidth/2);
+				_this.map_view.map.updateSize();
 			});
 
 			$("#birdId").text(this.birdId);
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
 			var objectUrl = serverUrl + "/TViewIndividual/" + this.birdId;
-			app.utils.displayObjectPositions(this, objectUrl, this.birdId);
+			//var mapView = app.utils.displayObjectPositions(this, objectUrl, this.birdId);
+			//this.insertView(mapView);
 			var url = objectUrl + "/carac";
 			$.ajax({
 				url: url,
 				dataType: "json",
+				context : this,
 				success: function(data) {
 					$("#map").css("width",windowWidth/2);
 					var characteristic = data[0][0].TViewIndividual;
@@ -197,6 +362,8 @@ $bird 				birds
 					$("#birdBirthDate").text(birthDate);
 					$("#birdSexLabel").text(sex);
 					$("#birdOriginLabel").text(origin);
+					// get image for this specie
+					this.setSpecieImage(species);
 					if(sex ==="male"){
 						$("#birdSexPic").attr("src","images/sexe_m.png");
 					} else {
@@ -253,7 +420,8 @@ $bird 				birds
 					// sort collection by begin date 
 					historyItems.sort();
 					// init grid
-					app.utils.initGrid(historyItems, app.collections.HistoryItems, null, {pageSize: 50});
+					var gridView = app.utils.initGrid(historyItems, null, {pageSize: 50});
+					this.insertView(gridView);
 					$("#grid").css({"height":windowHeigth /2});
 
 					$("#grid").mCustomScrollbar({
@@ -262,12 +430,86 @@ $bird 				birds
 
 				}
 			});
-			
+			// map view
+			// apply slider look
+			$("#dateSlider").slider({});
+			var mapUrl = objectUrl + "?format=geojson";
+			var point = new NS.UI.Point({
+					latitude: 34,
+					longitude: 44,
+					label: ""
+			});
+			var mapView = app.utils.initMap(point, 3);
+			//this.map_view = mapView;
+			this.insertView(mapView);
+			this.map_view = mapView;
+			app.utils.timlineLayer(mapUrl, mapView, function() {
+				app.utils.animatedLayer(mapUrl, mapView);
+			});
+			$("#dateSlider").slider().on('slideStop', function() {
+					// get range of date and update layer
+					var interval = $("#dateSlider").data('slider').getValue();
+					_this.updateTimeLineLayer(interval);
+			});
+		},
+		remove: function(options) {
+			_.each(this._views, function(viewList, selector) {
+				_.each(viewList, function(view) {
+					view.remove();
+				});
+			});
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove indiv");
 		},
 		events : {
 			'click #animationStart': 'startAnimation',
 			'click #animationStop': 'stopAnimation',
-			'click #animationInit': 'initAnimation'
+			'click #animationInit': 'initAnimation',
+			'click img#indivDetailsExitImg' : "maskDetailsPanel",
+			'click #showIndivDetails' : "showDetailsPanel"
+		},
+		maskDetailsPanel : function(){
+			var windowWidth = $(window).width();
+			var _this = this;
+			$("#birdDetails").toggle("slide", function() {
+				$("#birdMap").css("width","100%");
+				$("#map").css("width",windowWidth);
+				// map.updateSize();
+				_this.map_view.map.updateSize();
+			});
+			$("#showIndivDetails").removeClass("masqued");
+		},
+		showDetailsPanel : function(){
+			//var windowWidth = $(window).width();
+			
+			
+			var _this = this;
+			$("#birdDetails").toggle("slide", function() {
+				$("#map").css("width","960px");
+				_this.map_view.map.updateSize();
+			});
+			$("#birdMap").attr("style","");
+			$("#showIndivDetails").addClass("masqued");
+
+		},
+		setSpecieImage : function(specieName){
+			var specie;
+			switch   (specieName) {
+			    case "Saker Falcon" :
+				case "Peregrine Falcon" :
+				case "Falcon" :
+				case "Gyr Falcon":
+				case "Barbary Falcon":
+				case "Hybrid Gyr_Peregrine Falcon":
+				case "Eurasian Griffon Vulture":
+				case "Desert Eagle Owl":
+					// set image
+					$("#birdSpecieImg").attr("src","images/faucon.png");
+					break;
+			   default:
+			   	   $("#birdSpecieImg").attr("src","images/houtarde.png");
+    }
+			
 		},
 		startAnimation: function() {
 			$("#dateIntervalDisplay").removeClass("masqued");
@@ -316,15 +558,35 @@ $bird 				birds
 			/*$("#animationStartDate").text("");
 			$("#animationEndDate").text("");
 			$("#dateIntervalDisplay").addClass("masqued");  */
+		},
+		updateTimeLineLayer: function(interval) {
+			var dateMin = interval[0];
+			var datMax = interval[1];
+			var filter = app.utils.timelineFilter;
+			var filterStrategy = app.utils.timelinefilterStrategy;
+			filter.lowerBoundary = dateMin;
+			filter.upperBoundary = datMax;
+			filterStrategy.setFilter(filter);
 		}
 	});
+	/*
 	app.views.ObjectMapBox = app.views.BaseView.extend({
 		//template: "objectMapBox" ,
 		template: "birdMap",  //template: "objectMap",
 		initialize: function(options) {
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
 			this.parentView = options.view;
 			this.url = options.url;
 			this.idSelectedIndiv = options.id;
+		},
+		remove: function(options) {
+			_.each(this._views, function(viewList, selector) {
+				_.each(viewList, function(view) {
+					view.remove();
+				});
+			});
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove map in indiv");
 		},
 		afterRender: function() {
 			// apply slider look
@@ -339,19 +601,10 @@ $bird 				birds
 				});
 				var mapView = app.utils.initMap(point, 3);
 				self.map_view = mapView;
+				self.insertView(mapView);
 				self.displayWaitControl();
 				// layer with clustored data
-				/*var ajaxCall = {
-					url: url,
-					format: "GEOJSON",
-					cluster: true
-				};
-				mapView.addLayer({
-					ajaxCall: ajaxCall,
-					layerName: "positions",
-					zoom: 3,
-					zoomToExtent: true
-				});*/
+
 				
 				//self.parentView.children.push(mapView);
 				app.utils.timlineLayer(url, mapView, function() {
@@ -389,5 +642,6 @@ $bird 				birds
 			filterStrategy.setFilter(filter);
 		}
 	});
+	*/
 		return app;
 })(ecoReleveData);

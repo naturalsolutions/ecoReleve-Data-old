@@ -1171,7 +1171,7 @@ app.utils.initializeDB = function(db){
 							externalGraphic: "images/positionMarker3.png",
 							graphicWidth: 15,
 							graphicHeight: 20,
-							graphicYOffset: -37,
+							graphicYOffset: -20,
 							graphicOpacity: 1
 						})
 					})
@@ -1593,7 +1593,6 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
-		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
 		var displayedColumns = app.utils.exportSelectedFieldsList;
 		var url = serverUrl + "/views/get/" + view + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
@@ -1611,14 +1610,28 @@ app.utils.initializeDB = function(db){
 		var urlFile = serverUrl + "/views/get/" + view + "/export" + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		$.ajax({
 			url: urlFile,
-			//dataType: "json",
-			success: function() {
-				$("#export-getGpx").removeAttr("disabled");
-				$('#export-getPdf').removeAttr("disabled");
-				$('#export-getCsv').removeAttr("disabled");
+			dataType: "json",
+			success: function(data) {
+				var fileName = data[0].filename;
+				
+				
+				if(fileName !== ""){
+					//var serverUrl = localStorage.getItem("serverUrl");
+					var gpxFileUrl = serverUrl + "/gps/"+fileName+".gpx";
+					var pdfFileUrl = serverUrl + "/pdf/"+fileName+".pdf";
+					var csvFileUrl = serverUrl + "/csv/"+fileName+".csv";
+
+					$('#export-getGpx').attr("href", gpxFileUrl);
+					$('#export-getPdf').attr("link", pdfFileUrl);
+					$('#export-getCsv').attr("href", csvFileUrl);
+
+					$("#export-getGpx").removeAttr("disabled");
+					$('#export-getPdf').removeAttr("disabled");
+					$('#export-getCsv').removeAttr("disabled");
+				}
 			},
 			error: function() {
-				alert("error in generating gpx file!");
+				alert("error in generating gpx, pdf and csv files!");
 			}
 		});
 	};
@@ -1642,6 +1655,24 @@ app.utils.initializeDB = function(db){
 		});
 
 	};
+	app.utils.getSimpledataListForBirdFilter = function(element, url){
+		$(element).empty();
+		var ajaxCall = $.ajax({
+			url: url,
+			dataType: "json",
+			success: function(data) {
+				var len = data.length;
+				for (var i = 0; i < len; i++) {
+					$('<option value=\"' + data[i] + '\"></option>').appendTo(element);
+				}
+			},
+			error: function() {
+				alert("error loading items, please check connexion to webservice");
+				ajaxCall.abort();
+			}
+		});
+
+	};
 	app.utils.getDataForGrid = function(url, callback) {
 		/*if(app.xhr){ 
         app.xhr.abort();
@@ -1650,7 +1681,7 @@ app.utils.initializeDB = function(db){
 			url: url,
 			dataType: "json",
 			beforeSend: function(){
-			    	 console.log("Before");
+			    $("#waitCtr").css('display', 'block');
 			},
 			success: function(data) {
 				// create schema model and dynamic fields for the grid
@@ -1673,22 +1704,22 @@ app.utils.initializeDB = function(db){
 						sortable: true
 					};
 				}
-				app.models.ExportGridModel = Backbone.Model.extend({}, {
+				var ExportGridModel = Backbone.Model.extend({}, {
 					// Declare schema and verbose name at model level
 					schema: schema,
 					verboseName: 'Data'
 				});
-				app.collections.AllDataCollection = Backbone.Collection.extend({
-					model: app.models.ExportGridModel
+				var AllDataCollection = Backbone.Collection.extend({
+					model:  ExportGridModel
 				});
-				app.collections.VisibleListInGrid = Backbone.Collection.extend({
+				/*app.collections.VisibleListInGrid = Backbone.Collection.extend({
 					model: app.models.ExportGridModel
-				});
-				var gridCollection = new app.collections.AllDataCollection();
+				});*/
+				var gridCollection = new  AllDataCollection();
 				var ln = dataValues.length;
 				for (var i = 0; i < ln; i++) {
 					var rowValue = dataValues[i];
-					var gridModel = new app.models.ExportGridModel();
+					var gridModel = new  ExportGridModel();
 					for (key in rowValue) {
 						var colNam = key;
 						var colValue;
@@ -1704,17 +1735,20 @@ app.utils.initializeDB = function(db){
 					gridCollection.add(gridModel);
 				}
 				callback(gridCollection, rowsNumber);
+				gridCollection = null;
+
 			},
 			complete: function(){
-			    	console.log("after");
+			    $("#waitCtr").css('display', 'none');
 			},
 			error: function() {
-				console.log("error loading birds list");
+				console.log("error loading");
 			}
 		});
 	};
-	app.utils.initGrid = function(list, VisibleList, columns, options) {
-		var visibleList = new VisibleList;
+	app.utils.initGrid = function(list, columns, options) {
+		//var visibleList = new VisibleList;
+		var visibleList = list;
 		// initier la grid
 		var pageSize = 10;
 		var pagerPosition = 'top';
@@ -1842,6 +1876,9 @@ app.utils.initializeDB = function(db){
 			delete grid.sortOrder;
 			reloadGrid();
 		});
+		grid.on('remove', function() {
+			visibleList = null;
+		});
 		grid.on('filter', function(fieldId, value) {
 			grid.filters[fieldId] = value;
 			grid.page = 1; // Page count will change, keeping current page will be meaning-less
@@ -1943,7 +1980,6 @@ app.utils.initializeDB = function(db){
 
 			var urlGrid = url + params;
 			app.utils.getDataForGrid(urlGrid, function(coll, rowsNumber) {
-
 				data = coll;
 				grid.size = rowsNumber;
 				gridCollection.reset(data.slice(0, grid.pageSize));
@@ -1993,6 +2029,9 @@ app.utils.initializeDB = function(db){
 		grid.on('pagesize', function(size) {
 			grid.pageSize = size;
 			reloadGrid();
+		});
+		grid.on('remove', function() {
+			gridCollection = null;
 		});
 		var container = options.container || 'div#grid';
 		// 5) render the grid (empty at the moment) and bind it to the DOM tree
@@ -2169,18 +2208,15 @@ app.utils.initializeDB = function(db){
 		});
 
 	}
-	app.utils.displayObjectPositions = function(view, objectUrl, idIndiv) {
-		/*$(".modal-backdrop").remove();
-    $("body").modal({
-        backdrop: "static"
-    });*/
-		var alertView = new app.views.ObjectMapBox({
+	/*app.utils.displayObjectPositions = function(view, objectUrl, idIndiv) {
+		var mapView = new app.views.ObjectMapBox({
 			view: view,
 			url: objectUrl,
 			id: idIndiv
 		});
-		$("#objMapDiv").append(alertView.render().$el);
-	}
+		$("#objMapDiv").append(mapView.render().$el);
+		return mapView ; 
+	}*/
 	app.utils.displayObjectHistory = function(view, objectType, url, idIndiv) {
 		var alertView = new app.views.ObjectHistoryBox({
 			view: view,

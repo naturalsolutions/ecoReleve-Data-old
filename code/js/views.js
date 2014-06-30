@@ -74,6 +74,7 @@ var ecoReleveData = (function(app) {
 				});
 			});
 			this.trigger('remove', this);
+			console.log("remove view");
 			//this.stopListening();
 			Backbone.View.prototype.remove.apply(this, arguments);
 		},
@@ -137,16 +138,18 @@ HomeView
 	app.views.HomeView = app.views.BaseView.extend({
 		template: 'home',
 		initialize: function() {
-
 			app.views.BaseView.prototype.initialize.apply(this, arguments);
 			this._dfds = {};
 			window.addEventListener('online', this.updateOnlineStatus);
 			window.addEventListener('offline', this.updateOnlineStatus);
-
 			/* var body_width = $(window).width(); 
 	        if (body_width < 1300 ){
 	            $("canvas").attr("width", "350px");
 	        }*/
+		},
+		remove: function(options) {
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove home page");
 		},
 		afterRender: function() {
 			 if (screenfull.enabled) {
@@ -175,24 +178,11 @@ HomeView
 				// Feb 1  2014 ...
 				$("#date").html(date);
 				// set site name in home page
-				$("#homeSiteName").text("Missour. Morocco");
+				$("#homeSiteName").text(app.config.siteName);
 	        }
 			
-
 			$("div.modal-backdrop").removeClass("modal-backdrop");
 
-			$(window).on('hashchange', function(e) {
-				// abroad ajax calls
-				if (window.mapAjaxCall.xhr) {
-					window.mapAjaxCall.xhr.abort();
-				}
-				if (app.xhr) {
-					app.xhr.abort();
-				}
-				console.log("route change...");
-				return false;
-			});
-			
 			// number of stored observations
 			var ln = app.collections.observations.length;
 			$("#homeNbObs").text(ln);

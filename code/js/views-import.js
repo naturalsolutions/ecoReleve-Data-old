@@ -71,15 +71,20 @@
 	});
 	app.views.ImportMap = app.views.BaseView.extend({
 		template: "import-filter",
+		initialize: function(options) {
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
+		},
 		afterRender: function(options) {
 			//try{
 			var col_a_masquer = [1];
 			var objOptions = {};
 			objOptions.editable = true;
 			objOptions.pagerPosition = 'bottom';
-			app.utils.initGrid(app.collections.selectedWaypoints, app.collections.Waypoints, col_a_masquer, objOptions);
+			var grid = app.utils.initGrid(app.collections.selectedWaypoints, col_a_masquer, objOptions);
+			this.insertView(grid);
 			app.utils.getItemsList("#import-activity", "/view/theme/list?import=yes", true);
 			var map_view = app.utils.initMap();
+			this.insertView(map_view);
 			map_view.addLayer({
 				layerName: "tracks"
 			});
@@ -108,6 +113,15 @@
 			/*
 			$('table').addClass('tablesaw');
 			$('table').attr('data-mode','swipe');*/
+		},
+		remove: function(options) {
+			_.each(this._views, function(viewList, selector) {
+				_.each(viewList, function(view) {
+					view.remove();
+				});
+			});
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove import map");
 		},
 		events: {
 			"selectedFeatures:change": "featuresChange",
@@ -219,6 +233,9 @@
 	});
 	app.views.importMetaData = app.views.BaseView.extend({
 		template: "import-metadata",
+		initialize: function(options) {
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
+		},
 		afterRender: function(options) {
 
 			app.utils.getUsersList("#import-worker1", "/user/fieldworkers", true);

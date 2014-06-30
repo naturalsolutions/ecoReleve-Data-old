@@ -4772,7 +4772,7 @@ OpenLayers.Control = OpenLayers.Class({
             this.events = null;
         }
         this.eventListeners = null;
-
+        console.log("map destroy");
         // eliminate circular references
         if (this.handler) {
             this.handler.destroy();
@@ -4792,6 +4792,7 @@ OpenLayers.Control = OpenLayers.Class({
             this.map = null;
         }
         this.div = null;
+         console.log("map div destroy");
     },
 
     /** 

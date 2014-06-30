@@ -5,7 +5,7 @@
 	app.views.Argos = app.views.BaseView.extend({
 		template: "argos",
 		initialize: function(options) {
-			this._views = {};
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
 		},
 		afterRender: function(options) {
 
@@ -38,7 +38,7 @@
 			} else {
 				var nbRows = app.utils.transmittersCollection.length;
 				$("#argosDataNb").text(nbRows);
-				var grid = app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
+				var grid = app.utils.initGrid(app.utils.transmittersCollection, null,{pageSize : nbRows});
 				this.insertView(grid);
 				$("#grid").css({"height":this.windowHeigth *4/5});
 				$("#grid").mCustomScrollbar({
@@ -60,17 +60,19 @@
 		},
 		getTransmittersCollection : function(){
 			var url = app.config.sensorUrl + '/argos/unchecked/list';
-	  		var _this = this;
+	  		//var _this = this;
 			$.ajax({
 				url: url,
 				dataType: "json",
+				context : this,
 				beforeSend: function(){
-			    	 console.log("Before");
+			    	  $("#waitCtr").css('display', 'block');
 			    },
 				success: function(data){
 					// créeer collection d'objets argos
 					app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
 					var transmitterIdList = [], individusId;
+					var _this = this;
 					$.each( data, function( key, value ) {
 						var transmitter = new app.models.ArgosTransmitter();
 						transmitter.set('reference', value.ptt);
@@ -92,22 +94,22 @@
 					});
 					var nbRows = app.utils.transmittersCollection.length;
 					$("#argosDataNb").text(nbRows);
-					var grd = app.utils.initGrid(app.utils.transmittersCollection, app.collections.ArgosTransmitters, null,{pageSize : nbRows});
-					_this.insertView(grd);
-					$("#grid").css({"height":_this.windowHeigth *4/5});
+					var grd = app.utils.initGrid(app.utils.transmittersCollection, null,{pageSize : nbRows});
+					this.insertView(grd);
+					$("#grid").css({"height":this.windowHeigth *4/5});
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
 					transmitterIdList.sort();
-					_this.indivIdList.sort();
-					app.utils.argosIndivList = _this.indivIdList;
+					this.indivIdList.sort();
+					app.utils.argosIndivList = this.indivIdList;
 					// datalist for PTT and Individual input fields 
 					app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
-					app.utils.fillDataListFromArray(_this.indivIdList, "#argosIndividualList");
-					_this.setStatusColor();
+					app.utils.fillDataListFromArray(this.indivIdList, "#argosIndividualList");
+					this.setStatusColor();
 				},
 				complete: function(){
-			    	//alert("after");
+			    	 $("#waitCtr").css('display', 'none');
 			    },
 			    error : function(){
 			    	//alert("error");
@@ -152,7 +154,7 @@
 			// display number of returned models
 			var nb = filtredCollection.length;
 			$("#argosDataNb").text(nb);
-			var grid = app.utils.initGrid(filtredCollection, app.collections.ArgosTransmitters, null,{pageSize : nb});
+			var grid = app.utils.initGrid(filtredCollection, null,{pageSize : nb});
 			this.insertView(grid);
 			$("#grid").css({"height":this.windowHeigth *4/5});
 			$("#grid").mCustomScrollbar({
@@ -196,7 +198,7 @@
 			});
 		},
 		importChecked : function(){
-			var _this = this;
+			//var _this = this;
 			var importList = [];
 			app.utils.transmittersCollection.each(function(model) {
 				var status = model.get('status');
@@ -217,13 +219,14 @@
 					type:"POST",
 					//dataType: "json",
 					data : data,
+					context : this,
 					success: function(data){
 						alert("data imported for checked locations !");
 						// clear array
 						importList.splice(0, importList.length);
 						// clear transmitter collection
 						app.utils.transmittersCollection.reset();
-						_this.getTransmittersCollection();
+						this.getTransmittersCollection();
 
 
 					},
@@ -254,6 +257,10 @@
 			// datalist for PTT and Individual input fields 
 			app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
 			app.utils.fillDataListFromArray(this.indivIdList, "#argosIndividualList");
+		},
+		remove: function(options) {
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove argos");
 		}
 		/*loadStats: function() {
 			var serverUrl = localStorage.getItem("serverUrl");
@@ -308,10 +315,19 @@
 	app.views.ArgosDetails= app.views.BaseView.extend({
 		template: "argosDetails",
 		initialize: function(options) {
+			app.views.BaseView.prototype.initialize.apply(this, arguments);
 			this.pttId = options.idTransmitter;
 			this.indivId = options.idIndiv;
 			this.locationsTodelete = [];
-			this._views = {};
+		},
+		remove: function(options) {
+			_.each(this._views, function(viewList, selector) {
+				_.each(viewList, function(view) {
+					view.remove();
+				});
+			});
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove argos deteils");
 		},
 		afterRender: function() {
 			this.windowHeigth = $(window).height();
@@ -321,10 +337,14 @@
 			} else {
 				url = app.config.sensorUrl + '/argos/unchecked?ptt=' + this.pttId;
 			}
-	  		var _this = this;
+	  		//var _this = this;
 	  		$.ajax({
 				url: url,
 				dataType: "json",
+			    context: this,
+			    beforeSend: function(){
+			    	$("#waitCtr").css('display', 'block');
+			    },
 				success: function(data){
 					var pttId = data.ptt.ptt,
 					manufacturer = data.ptt.manufacturer,
@@ -364,7 +384,7 @@
 					//$("#argosDetIndivStatus").text(indivStatus);
 					var locations = data.locations;
 					// new collection locations
-					_this.locationsCollection = new app.models.ArgosLocationCollection();
+					this.locationsCollection = new app.models.ArgosLocationCollection();
 					var locationModel ; 
 					var nb = locations.length;
 					for(var i=0; i<nb;i++){
@@ -384,11 +404,11 @@
 							locationModel.set( 'type','gps');
 						}
 						
-						_this.locationsCollection.add(locationModel);
+						this.locationsCollection.add(locationModel);
 					}
-					var nbRows =_this.locationsCollection.length;
-					var grid = app.utils.initGrid(_this.locationsCollection, app.models.ArgosLocationCollection, [8],{pageSize : nbRows});
-					_this.insertView(grid);
+					var nbRows =this.locationsCollection.length;
+					var grid = app.utils.initGrid(this.locationsCollection, [8],{pageSize : nbRows});
+					this.insertView(grid);
 					// add trush to del column
 					$("td.del").html("<img src='images/corbeille.png' class='deleteRow'>");
 					// display number of positions
@@ -400,8 +420,8 @@
 								longitude: locationModel.get('longitude'),
 								label: ""
 					});
-					_this.mapView = app.utils.initMap(point, 10);
-					_this.insertView(_this.mapView);
+					this.mapView = app.utils.initMap(point, 10);
+					this.insertView(this.mapView);
 					// add marker for station position
 					var defaultStyle =  new OpenLayers.Style({
 						  externalGraphic: "images/marker_red.png",
@@ -420,20 +440,23 @@
 						  'pointRadius': 20
 					});
 					var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle, 'delete' : deleteStyle, 'zoomSelect' : zoomtoselectStyle});	
-					_this.mapView.addLayer({layerName: "station", collection : _this.locationsCollection, styleMap :styleMap});
+					this.mapView.addLayer({layerName: "station", collection : this.locationsCollection, styleMap :styleMap});
 					// get a reference to this layer to be used later
-					var nbLayers  = _this.mapView.map.layers.length; 
-					_this.locationsLayer = _this.mapView.map.layers[nbLayers- 1];
-					$("#grid").css({"height":_this.windowHeigth *4/5});
+					var nbLayers  = this.mapView.map.layers.length; 
+					this.locationsLayer = this.mapView.map.layers[nbLayers- 1];
+					$("#grid").css({"height":this.windowHeigth *4/5});
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
 					// init object 'locations to delete'
-					_this.objLocationsToDelete = {};
-					_this.objLocationsToDelete.ptt = $("#argosDetPttId").text();
-					_this.objLocationsToDelete.ind_id = $("#argosDetIndivId").text();
-					_this.objLocationsToDelete.locations = [];
-				}
+					this.objLocationsToDelete = {};
+					this.objLocationsToDelete.ptt = $("#argosDetPttId").text();
+					this.objLocationsToDelete.ind_id = $("#argosDetIndivId").text();
+					this.objLocationsToDelete.locations = [];
+				},
+				complete: function(){
+			    	$("#waitCtr").css('display', 'none');
+			    }
 			});
 			$('.mapDisplay').css('float', 'right');
 		/*   to update  map container size*/
@@ -444,20 +467,29 @@
 			//$('#map').css('float', 'right');
 			var dataContainer = $("#main")[0]; 
 			var argosContentWidth = dataContainer.clientWidth;
+			
 			if (argosContentWidth < 1480){
 				var mapContainerSize = argosContentWidth - 820;
 				$('#map').css('width', mapContainerSize + 'px');
+				$('#argosMapLegend').css('width', mapContainerSize + 'px');
 			}
 			$(window).bind('resize', function() {
 				dataContainer = $("#main")[0]; 
 			 	argosContentWidth = dataContainer.clientWidth;
 			 	console.log("argosContentWidth: " + argosContentWidth);
-				
-				if (argosContentWidth < 1481){
-					var mapContainerSize = argosContentWidth - 820;
-					$('#map').css('width', mapContainerSize + 'px');
+			 	//var mapContainerSize;
+				if (argosContentWidth < 1300){
+				//mapContainerSize = argosContentWidth - 700;
+				$('#map').css('width',  '450px');
+				$('#argosMapLegend').css('width',  '440px');
+				}
+				else if (argosContentWidth < 1481){
+					//mapContainerSize = argosContentWidth - 820;
+					$('#map').css('width',  '550px');
+					$('#argosMapLegend').css('width',  '540px');
 				} else {
 					$('#map').css('width', 600 + 'px');
+					$('#argosMapLegend').css('width',  '590px');
 				}
 			});	
 			/*$(window).bind('resize', function() {
@@ -683,7 +715,7 @@
 				var tab = [];
 				tab[0] = objToImport;
 				var data = JSON.stringify(tab) ; 
-		  		var _this = this;
+		  		//var _this = this;
 		  		$.ajax({
 					url: url,
 					type:"POST",

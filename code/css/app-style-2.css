@@ -848,20 +848,45 @@ div.birdCaracFilter {
     vertical-align: top;
 
 }
-#indivFilterSubmit {
-	margin-top: 20px;
-	width: 160px;
-}
 #separator{
 	border-bottom: 1px solid #7b7b7b;
 	background-color: rgba(255, 0, 0, 0);
 	position: absolute;
 	width: 100%;
-	height: 45px;
+	height: 1px;
 	z-index: 1;
+	margin-top: -7px;
 }
 #serachHeader{
 	margin-left: 15px;
+}
+#indivSavedFiltersList {
+margin-left: 70px;
+margin-top: 20px;
+}
+#indivSavedFiltersList li {
+width: 80%;
+background-color: rgba(200,200,200,0.5);
+height: 3em;
+padding: 0.2em;
+font-size: 1em;
+border-bottom-color: black;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+}
+#indivSavedFiltersList li img {
+	float: right;
+}
+#indivSavedFiltersList li a {
+width: 80%;
+height: 80%;
+display: inline-block;
+color: black;
+}
+#indivSavedFiltersList li a:hover {
+color: black;
+text-decoration: none;
+cursor: pointer;
 }
 .importPhoto{
 	float: right;
@@ -874,6 +899,9 @@ div.birdCaracFilter {
 }
 #objectsIndivGrid table tr:hover{
 	color:grey;
+}
+#objectsIndivGrid.displayFull{
+	max-width: 2000px;
 }
 #objectsIndivGrid{
 color: #a3a1a1;
@@ -921,17 +949,71 @@ margin-bottom: 10px;
 	font-size: 20px;
 	margin-left: 10px;
 }
-#indivFilterClear {
-	margin-left: 20px;
-	margin-top: -85px;
-	font-size: 20px;
-	padding: 8px;
-	width: 160px;
+#indivFilterSubmit {
+	/*margin-top: 20px;*/
+	font-size: 18px;
+	width: 110px;
+	padding: 5px;
+	margin: 5px;
+}
+#indivFilterSubmit img{
+height: 35px;
+}
+#indivFilterClear, #indivFilterSave {
+	/*margin-left: 20px;
+	margin-top: -85px;*/
+	font-size: 18px;
+	width: 110px;
+	padding: 5px;
+	margin: 5px;
+	height: 49px;
+}
+.serachHeaderElem {
+display: inline-block;
+width: 100px;
+z-index: 2
+}
+.serachHeaderElem:hover{
+background-color: rgba(200,200,200,0.5);
+	cursor: pointer;
+}
+.serachHeaderElem.selected {
+	border-bottom: rgb(48, 46, 46);
+	border-style: solid;
+	border-top-style: none;
+	border-left-style: none;
+	border-right-style: none;
+}
+
+#indivFitlOngletLab1, #indivFitlOngletLab2 {
+	font-size: 16px;
+}
+#objectsIndivFilter #t1, #objectsIndivFilter #t2 {
+	text-align: center;
+}
+#objectsIndivFilter .tabbable {
+	margin-left: 50px;
+	margin-top: 0.5em;
+}
+#indivBtnFilterDiv{
+	margin: 5%;
+	margin-top:20px;
+	margin-bottom: 20px;
+}
+#objectsIndivFilter ul {
+	max-width: 500px;
 }
 #animationDiv {
 	height: 120px;
 	background-color: #a3a1a1;
 	text-align: center;
+}
+img#indivDetailsExitImg {
+float: right;
+}
+#showIndivDetails {
+position: absolute;
+top: 100px;   /*30px*/
 }
 #sliderContent {
 	padding-top: 30px;
@@ -962,7 +1044,7 @@ font-size: small;
 		width: 800px;
 	}
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1437px) {
 	div.birdCaracFilter {
     	width: 160px;
 	}
@@ -989,7 +1071,7 @@ label.labelform {
 }
 /********************** mydata ****************************************/
 .filterItem {
-  width: 220px;
+  width: 160px;
   margin: 10px;
   float: left;
 }
@@ -1180,6 +1262,10 @@ padding-top: 1em;
 .mapDisplay #map {
 	width:600px;
 	height:700px;
+	float: right;
+}
+.mapDisplay #argosMapLegend {
+	float: right;
 }
 #argosMapLegend {
 background-color: #A5A2A2;
@@ -1204,6 +1290,12 @@ padding: 5px;
 }
 .argosNav{
 background-color: #727171;
+}
+#waitCtr{
+	position: fixed;
+	z-index: 1000;
+	top: 300px;
+	left: 600px;
 }
 
 .badge {

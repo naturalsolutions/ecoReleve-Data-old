@@ -91,7 +91,7 @@ var ecoReleveData = (function(app) {
 				this.context = 'argos';
 				break;
 			case 'birds':
-				this.context = 'birds';
+				this.context = 'individuals';
 				break;
 			case 'importLoad':
 				this.context = '<a class="headerLink" href="#import">import</a> > load data';

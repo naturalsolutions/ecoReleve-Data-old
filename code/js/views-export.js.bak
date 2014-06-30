@@ -510,7 +510,7 @@ var ecoReleveData = (function(app) {
 						app.utils.exportSelectedFieldsList.push(field);
 						stationAdded = true;
 					} else if ((fieldUpper == "LAT") || (fieldUpper == "LON") || (fieldUpper == "DATE")) {
-						app.utils.exportSelectedFieldsList.push(fieldUpper);
+						app.utils.exportSelectedFieldsList.push(field);
 					} else if (fieldUpper == "SITE_NAME") {
 						// si champ station exite, il ne faut pas rajouter ce champ à la liste de champs a afficher
 						if (stationAdded === false) {
@@ -648,12 +648,12 @@ var ecoReleveData = (function(app) {
 		},
 		afterRender: function(options) {
 			var serverUrl = app.config.serverUrl;
-		/*	var gpxFileUrl = serverUrl + "/gps/data.gpx";
+			var gpxFileUrl = serverUrl + "/gps/data.gpx";
 			var pdfFileUrl = serverUrl + "/pdf/data.pdf";
 			var csvFileUrl = serverUrl + "/csv/data.csv";
 			$('#export-getGpx').attr("href", gpxFileUrl);
 			$('#export-getPdf').attr("link", pdfFileUrl);
-			$('#export-getCsv').attr("href", csvFileUrl);*/
+			$('#export-getCsv').attr("href", csvFileUrl);
 
 			$("#filterViewName").text(this.currentView);
 			var fieldsList = app.utils.exportSelectedFieldsList;

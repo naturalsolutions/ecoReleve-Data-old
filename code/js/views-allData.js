@@ -66,6 +66,7 @@
 					label: ""
 				});
 				this.map_view = app.utils.initMap(point, 3);
+				this.insertView(this.map_view);
 				this.map_view.addLayer({
 					layerName: "tracks"
 				});
@@ -78,6 +79,15 @@
 		            app.router.navigate('#', {trigger: true});
 		    }
 			
+		},
+		remove: function(options) {
+			/*_.each(this._views, function(viewList, selector) {
+				_.each(viewList, function(view) {
+					view.remove();
+				});
+			});*/
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			console.log("remove all data");
 		},
 		events: {
 			'change #select_id_proto': 'updateTable',

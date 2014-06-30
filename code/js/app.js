@@ -25,13 +25,15 @@ $().ready(function() {
 
 function init(){
 	 // Spinner management (visual feedback for ongoing requests)
-	$(document).ajaxStart(function () { $('body').addClass('loading'); });
-	$(document).ajaxStop(function () { $('body').removeClass('loading'); });
+	//$(document).ajaxStart(function () { $('body').addClass('loading'); });
+	//$(document).ajaxStop(function () { $('body').removeClass('loading'); });
    window.deferreds = [];
    // get server url 
 	 window.deferreds.push($.getJSON('config/server.json', function(data) {
 		app.config.serverUrl = data.serverUrl; 
 		app.config.sensorUrl = data.sensorUrl;
+		app.config.coreUrl = data.coreUrl;
+		app.config.siteName = data.siteName;
 	}));
     // Customize Underscore templates behaviour: 'with' statement is prohibited in JS strict mode
      _.templateSettings.variable = 'data';
@@ -106,6 +108,17 @@ function init(){
 	} else {
 		app.utils.idLastObs = 0;
 	}
+	$(window).on('hashchange', function(e) {
+				// abroad ajax calls
+		if (window.mapAjaxCall.xhr) {
+			window.mapAjaxCall.xhr.abort();
+		}
+		if (app.xhr) {
+			app.xhr.abort();
+		}
+		console.log("route change...");
+		return false;
+	});
 
 	// loading mapping scripts
 	/*head.load("js/libs/OpenLayers-2-14.js", function () {

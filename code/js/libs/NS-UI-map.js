@@ -121,6 +121,43 @@ NS.UI.MapView = Backbone.View.extend({
 			var mapZoom =  this.options.zoom || 0 ;
 			this.map.setCenter(center, mapZoom);
 		},
+		remove: function() {
+            this.trigger('remove', this);
+            console.log("map removed");
+            /**/
+            if(this.events) {
+            if(this.eventListeners) {
+                this.events.un(this.eventListeners);
+            }
+            this.events.destroy();
+            this.events = null;
+	        }
+	        this.eventListeners = null;
+	        console.log("map destroy");
+	        // eliminate circular references
+	        if (this.handler) {
+	            this.handler.destroy();
+	            this.handler = null;
+	        }
+	        if(this.handlers) {
+	            for(var key in this.handlers) {
+	                if(this.handlers.hasOwnProperty(key) &&
+	                   typeof this.handlers[key].destroy == "function") {
+	                    this.handlers[key].destroy();
+	                }
+	            }
+	            this.handlers = null;
+	        }
+	        if (this.map) {
+	            this.map.removeControl(this);
+	            this.map = null;
+	        }
+	        this.div = null;
+	         console.log("map div destroy");
+            /**/
+            Backbone.View.prototype.remove.apply(this, arguments);
+            var tm;
+        },
 		/******************** Methods *****************************************/
 		addLayer : function(options){
 			
