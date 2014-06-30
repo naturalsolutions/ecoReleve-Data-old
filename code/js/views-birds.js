@@ -331,12 +331,31 @@ $bird 				birds
 			var windowWidth = $(window).width();
 			var _this = this;
 			$("#birdDetails").css({"height": windowHeigth -50 });
+			$("#map").css("height",windowHeigth-170);
+			$("#map").css("width",windowWidth/2);
 			// change map width if window is resized
-			$(window).bind('resize', function() {
-				windowWidth = $(this).width();
-				$("#map").css("width",windowWidth/2);
-				_this.map_view.map.updateSize();
-			});
+			$(window).bind('resize', $.proxy(function(e) {
+				// detect if map is displayed to full screen or not
+				windowHeigth = $(e.currentTarget).height();
+				windowWidth = $(e.currentTarget).width();
+				var classMasqued =  $("#showIndivDetails").attr("class");
+				if(classMasqued){
+					$("#map").css("width",windowWidth/2);
+				} else{
+					$("#birdMap").css("width","100%");
+					$("#map").css("width",windowWidth);
+				}
+				$("#map").css("height",windowHeigth-170);
+				if (this.map_view.map){
+					this.map_view.map.updateSize();
+					// refrech vector layer
+					var nblayers = _this.map_view.map.layers.length;
+					// get the layer
+					var vectorLayer = _this.map_view.map.layers[nblayers - 1];
+					vectorLayer.refresh({force:true});
+				}
+				
+			}, this));
 
 			$("#birdId").text(this.birdId);
 			//var serverUrl = localStorage.getItem("serverUrl");
@@ -350,7 +369,7 @@ $bird 				birds
 				dataType: "json",
 				context : this,
 				success: function(data) {
-					$("#map").css("width",windowWidth/2);
+					//$("#map").css("width",windowWidth/2);
 					var characteristic = data[0][0].TViewIndividual;
 					var sex = characteristic.Sex || "";
 					var origin = characteristic.Origin || "";
@@ -480,12 +499,10 @@ $bird 				birds
 			$("#showIndivDetails").removeClass("masqued");
 		},
 		showDetailsPanel : function(){
-			//var windowWidth = $(window).width();
-			
-			
+			var windowWidth = $(window).width();
 			var _this = this;
 			$("#birdDetails").toggle("slide", function() {
-				$("#map").css("width","960px");
+				$("#map").css("width",windowWidth/2);
 				_this.map_view.map.updateSize();
 			});
 			$("#birdMap").attr("style","");
@@ -555,9 +572,6 @@ $bird 				birds
 			this.currentDate = app.utils.AnimStartDate;
 			window.clearInterval(this.animationTimer);
 			this.animationTimer = null;
-			/*$("#animationStartDate").text("");
-			$("#animationEndDate").text("");
-			$("#dateIntervalDisplay").addClass("masqued");  */
 		},
 		updateTimeLineLayer: function(interval) {
 			var dateMin = interval[0];
@@ -569,79 +583,6 @@ $bird 				birds
 			filterStrategy.setFilter(filter);
 		}
 	});
-	/*
-	app.views.ObjectMapBox = app.views.BaseView.extend({
-		//template: "objectMapBox" ,
-		template: "birdMap",  //template: "objectMap",
-		initialize: function(options) {
-			app.views.BaseView.prototype.initialize.apply(this, arguments);
-			this.parentView = options.view;
-			this.url = options.url;
-			this.idSelectedIndiv = options.id;
-		},
-		remove: function(options) {
-			_.each(this._views, function(viewList, selector) {
-				_.each(viewList, function(view) {
-					view.remove();
-				});
-			});
-			app.views.BaseView.prototype.remove.apply(this, arguments);
-			console.log("remove map in indiv");
-		},
-		afterRender: function() {
-			// apply slider look
-			$("#dateSlider").slider({});
-			var self = this;
-			setTimeout(function() {
-				var url = self.url + "?format=geojson";
-				var point = new NS.UI.Point({
-					latitude: 34,
-					longitude: 44,
-					label: ""
-				});
-				var mapView = app.utils.initMap(point, 3);
-				self.map_view = mapView;
-				self.insertView(mapView);
-				self.displayWaitControl();
-				// layer with clustored data
 
-				
-				//self.parentView.children.push(mapView);
-				app.utils.timlineLayer(url, mapView, function() {
-					app.utils.animatedLayer(url, mapView);
-				});
-				$("#dateSlider").slider().on('slideStop', function() {
-					// get range of date and update layer
-					var interval = $("#dateSlider").data('slider').getValue();
-					self.updateTimeLineLayer(interval);
-				});
-
-			}, 500);
-			var windowWidth = $(window).width(); 
-	        if (windowWidth > 1599 ){
-	            $("#map").css("width", "900px");
-	        }
-		},
-		displayWaitControl: function() {
-			var mapDiv = this.map_view.el;
-			var width = ((screen.width) / 2 - 200);
-			var height = ((screen.height) / 2 - 200);
-			var ele = "<div id ='waitControl' style='position: fixed; top:" + height + "px; left:" + width + "px;z-index: 1000;'><IMG SRC='images/PleaseWait.gif' /></div>";
-			var st = $("#waitControl").html();
-			if ($("#waitControl").length === 0) {
-				$(mapDiv).append(ele);
-			}
-		},
-		updateTimeLineLayer: function(interval) {
-			var dateMin = interval[0];
-			var datMax = interval[1];
-			var filter = app.utils.timelineFilter;
-			var filterStrategy = app.utils.timelinefilterStrategy;
-			filter.lowerBoundary = dateMin;
-			filter.upperBoundary = datMax;
-			filterStrategy.setFilter(filter);
-		}
-	});
-	*/
 		return app;
 })(ecoReleveData);

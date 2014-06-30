@@ -1021,6 +1021,9 @@ top: 100px;   /*30px*/
 #birdSexLabel, #birdOriginLabel, #birdAgeLabel, #birdSurveyType,#birdMonitStatus, #birdLastObs, #birdBirthDate, #transmittersVal{
 	color: white;
 }
+.blackText{
+	color: black;
+}
 /*  input    */
 #stationGetCoordinates {
 position: fixed;
