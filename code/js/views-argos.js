@@ -327,9 +327,10 @@
 				});
 			});
 			app.views.BaseView.prototype.remove.apply(this, arguments);
-			console.log("remove argos deteils");
+			$("section#main").removeClass("blackBackground");
 		},
 		afterRender: function() {
+			$("section#main").addClass("blackBackground");
 			this.windowHeigth = $(window).height();
 			var url;
 			if (this.indivId !='null'){

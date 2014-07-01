@@ -821,6 +821,7 @@ background-color: #313131;
 	background-image:url(../images/birdsFilter.jpg);
 	color: black;
 	background-repeat:no-repeat;
+	min-height: 500px;
 	/*width: 100%;*/
 }
 #objectsIndivGrid div.pagination.pagination-right,#birdDetails div.pagination.pagination-right {
@@ -848,6 +849,18 @@ div.birdCaracFilter {
     vertical-align: top;
 
 }
+.birdCritDel{
+height: 35px;
+width: 35px;
+}
+.birdCritDel:hover{
+cursor: pointer;
+}
+#birdsGgridLabel {
+vertical-align: middle;
+margin-top: 1em;
+font-size: 1.2em;
+}
 #separator{
 	border-bottom: 1px solid #7b7b7b;
 	background-color: rgba(255, 0, 0, 0);
@@ -864,9 +877,10 @@ div.birdCaracFilter {
 margin-left: 70px;
 margin-top: 20px;
 }
+
 #indivSavedFiltersList li {
 width: 80%;
-background-color: rgba(200,200,200,0.5);
+background-color: rgba(200,200,200,0.3);
 height: 3em;
 padding: 0.2em;
 font-size: 1em;
@@ -970,7 +984,7 @@ height: 35px;
 }
 .serachHeaderElem {
 display: inline-block;
-width: 100px;
+width: 150px;
 z-index: 2
 }
 .serachHeaderElem:hover{
@@ -984,9 +998,14 @@ background-color: rgba(200,200,200,0.5);
 	border-left-style: none;
 	border-right-style: none;
 }
-
+.serachHeaderElem span{
+font-size: 1.3em;
+}
+#serachHeader ul{
+	margin-top: 0.5em;
+}
 #indivFitlOngletLab1, #indivFitlOngletLab2 {
-	font-size: 16px;
+	font-size: 15px;
 }
 #objectsIndivFilter #t1, #objectsIndivFilter #t2 {
 	text-align: center;
@@ -995,6 +1014,44 @@ background-color: rgba(200,200,200,0.5);
 	margin-left: 50px;
 	margin-top: 0.5em;
 }
+#birdCaracFilterSimple{
+	width: 350px;
+	padding-bottom: 2em;
+}
+#birdCaracFilterSimple input{
+	width: 250px;
+}
+img#indivDetailsExitImg{
+	height: 25px;
+	width: 25px;
+}
+img#indivDetailsExitImg:hover, #showIndivDetails:hover{
+	cursor: pointer;
+}
+#indivCurrentSearch div#t2{
+	margin-left: -3em;
+}
+.spnSavedFilterVal{
+	vertical-align: middle;
+	display: inline-block;
+	width: 80%;
+	padding-left: 1em;
+}
+.spnSavedFilterVal:hover{
+	cursor: pointer;
+}
+#indivBtnFilterDiv{
+	margin-bottom: 2em;
+}
+#indivBtnFilterDiv button {
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+-o-border-radius: 20px;
+-ms-border-radius: 20px;
+border-radius: 20px;
+border-bottom-style: solid;
+border-color: rgb(151, 150, 150);
+}
 #indivBtnFilterDiv{
 	margin: 5%;
 	margin-top:20px;
@@ -1002,6 +1059,9 @@ background-color: rgba(200,200,200,0.5);
 }
 #objectsIndivFilter ul {
 	max-width: 500px;
+}
+#indivCurrentSearch{
+	text-align: center;
 }
 #animationDiv {
 	height: 120px;
@@ -1024,6 +1084,9 @@ top: 100px;   /*30px*/
 .blackText{
 	color: black;
 }
+#OpenLayers_Control_MaximizeDiv_innerImage{
+	right: 10px;
+}
 /*  input    */
 #stationGetCoordinates {
 position: fixed;
@@ -1041,6 +1104,12 @@ font-size: small;
 	color: white;
 	text-decoration: inherit;
 	cursor: pointer;
+}
+a.indivPositionAnimation:hover{
+cursor: pointer;
+}
+.blackBackground {
+background-color: #313131;
 }
 @media screen and (min-width: 1600px) {
 	#objMapDiv div#map{

@@ -319,7 +319,17 @@ var ecoReleveData = (function(app) {
 					latitude = parseFloat(latitude).toFixed(5);
 					longitude = parseFloat(longitude).toFixed(5);
 					var waypointName = $(this).find('name').text();
-					var waypointTime = moment($(this).find('time').text());
+					var waypointTime;
+					// if tag "cmt" exisits, take date from it, else use tag "time"
+					var waypointTimeTag = moment($(this).find('cmt').text());
+					// check if date is valid, else use time tag to get date
+					if(waypointTimeTag.isValid()){
+						waypointTime = moment(waypointTimeTag);
+					} else {
+						waypointTime = moment($(this).find('time').text());
+					}
+					
+					 
 					
 					// renseigner les métadonnées du modèle
 					id += 1;

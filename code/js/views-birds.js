@@ -10,6 +10,7 @@ $bird 				birds
 	app.views.Birds = app.views.BaseView.extend({
 		template: "birdFilter",
 		afterRender: function() {
+			$("section#main").addClass("blackBackground");
 			//$('.objectsIndivGrid').lionbars();
 			var windowWidth = $(window).width();
 			var windowHeigth = $(window).height();
@@ -100,7 +101,7 @@ $bird 				birds
 			'click #indivFilterSave' : 'saveCriterias',
 			'click li#serachHeaderElem1' : 'selectSearchMode',
 			'click li#serachHeaderElem2' : 'selectSearchMode',
-			'click #indivSavedFiltersList li a' : 'selectSavedFilter',
+			'click #indivSavedFiltersList li span.spnSavedFilterVal' : 'selectSavedFilter',
 			'click #indivSavedFiltersList li img' : 'deleteSavedFilter'
 		},
 		getBirdsList : function() {
@@ -311,12 +312,20 @@ $bird 				birds
 		displaySavedCriterias: function() {
 			$("#indivSavedFiltersList").empty();
 			var ln = this.criterias.length;
-			for (var i = 0; i < ln; i++) {
-				// get item
-				var savedItem= this.criterias[i];
-				var element = "<li id='" + savedItem.id + "'><a>" + savedItem.name + "</a><span><img src='images/corbeille_black.png' class='birdCritDel'></span></li>";
-				$("#indivSavedFiltersList").append(element);
+			if (ln ===0 ){
+				$("#indivSavedFiltersList").append("<p> no saved criterias</p>");
+			} else {
+				for (var i = 0; i < ln; i++) {
+					// get item
+					var savedItem= this.criterias[i];
+					var element = "<li id='" + savedItem.id + "'><span class='spnSavedFilterVal'>" + savedItem.name + "</span><span><img src='images/delete_grey.png' class='birdCritDel'></span></li>";
+					$("#indivSavedFiltersList").append(element);
+				}
 			}
+		},
+		remove: function(options) {
+			app.views.BaseView.prototype.remove.apply(this, arguments);
+			$("section#main").removeClass("blackBackground");
 		}
 	});
 	app.views.Bird = app.views.BaseView.extend({
@@ -325,6 +334,7 @@ $bird 				birds
 			app.views.BaseView.prototype.initialize.apply(this, arguments);
 			this.birdId = options.id;
 			this.intervalAnimation = 0.3; 
+			$("section#main").addClass("blackBackground");
 		},
 		afterRender: function() {
 			var windowHeigth = $(window).height();
@@ -368,6 +378,9 @@ $bird 				birds
 				url: url,
 				dataType: "json",
 				context : this,
+				beforeSend: function(){
+			    	  $("#waitCtr").css('display', 'block');
+			    },
 				success: function(data) {
 					//$("#map").css("width",windowWidth/2);
 					var characteristic = data[0][0].TViewIndividual;
@@ -447,7 +460,13 @@ $bird 				birds
 						theme:"dark"
 					});
 
-				}
+				},
+				complete: function(){
+			    	 $("#waitCtr").css('display', 'none');
+			    },
+			    error : function(){
+			    	alert("error in loading data.");
+			    }
 			});
 			// map view
 			// apply slider look
@@ -478,7 +497,7 @@ $bird 				birds
 				});
 			});
 			app.views.BaseView.prototype.remove.apply(this, arguments);
-			console.log("remove indiv");
+			$("section#main").removeClass("blackBackground");
 		},
 		events : {
 			'click #animationStart': 'startAnimation',
@@ -491,22 +510,24 @@ $bird 				birds
 			var windowWidth = $(window).width();
 			var _this = this;
 			$("#birdDetails").toggle("slide", function() {
-				$("#birdMap").css("width","100%");
-				$("#map").css("width",windowWidth);
-				// map.updateSize();
-				_this.map_view.map.updateSize();
+				
 			});
+			$("#birdMap").css("width","100%");
+			$("#map").css("width",windowWidth);
+			// map.updateSize();
+			_this.map_view.map.updateSize();
 			$("#showIndivDetails").removeClass("masqued");
 		},
 		showDetailsPanel : function(){
 			var windowWidth = $(window).width();
 			var _this = this;
 			$("#birdDetails").toggle("slide", function() {
-				$("#map").css("width",windowWidth/2);
-				_this.map_view.map.updateSize();
+				
 			});
 			$("#birdMap").attr("style","");
 			$("#showIndivDetails").addClass("masqued");
+			$("#map").css("width",windowWidth/2);
+			_this.map_view.map.updateSize();
 
 		},
 		setSpecieImage : function(specieName){
@@ -525,8 +546,7 @@ $bird 				birds
 					break;
 			   default:
 			   	   $("#birdSpecieImg").attr("src","images/houtarde.png");
-    }
-			
+    		}	
 		},
 		startAnimation: function() {
 			$("#dateIntervalDisplay").removeClass("masqued");

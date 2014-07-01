@@ -261,9 +261,10 @@ app.models.Waypoint = Backbone.Model.extend({
 		schema: {
 		id: {title: 'id', type: 'Text',sortable: true},
 		name: {title: 'name', type: 'Text',sortable: true},
+		waypointTime: {title: 'date', type: 'Date', sortable: true},
+		time:{title: 'time', type: 'Date', sortable: true},
 		latitude: {title: 'latitude', type: 'Number',sortable: true},
 		longitude: {title: 'longitude', type: 'Number',sortable: true},
-		waypointTime: {title: 'waypointTime', type: 'Date', sortable: true},
 		fieldActivity: {title: 'fieldActivity', type: 'Text', sortable: false}
 		//used: {title: 'used', type: 'Boolean'}
 	},
