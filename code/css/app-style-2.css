@@ -877,7 +877,6 @@ font-size: 1.2em;
 margin-left: 70px;
 margin-top: 20px;
 }
-
 #indivSavedFiltersList li {
 width: 80%;
 background-color: rgba(200,200,200,0.3);
@@ -890,6 +889,18 @@ border-bottom-width: 1px;
 }
 #indivSavedFiltersList li img {
 	float: right;
+}
+#indivCurrentSearch ul.nav-tabs li {
+	border-bottom: rgb(153, 148, 148);
+	border-bottom-style: solid;
+}
+#indivCurrentSearch ul.nav-tabs li.active  {
+	border-bottom: rgb(48, 46, 46);
+	border-bottom-style: solid;
+}
+#indivCurrentSearch ul.nav-tabs li.active a {
+background-color: rgba(0,0,0,0);
+border:"";
 }
 #indivSavedFiltersList li a {
 width: 80%;
@@ -985,7 +996,10 @@ height: 35px;
 .serachHeaderElem {
 display: inline-block;
 width: 150px;
-z-index: 2
+height: 40px;
+z-index: 2;
+border-bottom: rgb(153, 148, 148);
+border-bottom-style: solid;
 }
 .serachHeaderElem:hover{
 background-color: rgba(200,200,200,0.5);
@@ -1043,7 +1057,7 @@ img#indivDetailsExitImg:hover, #showIndivDetails:hover{
 #indivBtnFilterDiv{
 	margin-bottom: 2em;
 }
-#indivBtnFilterDiv button {
+.filterbtn {
 -moz-border-radius: 20px;
 -webkit-border-radius: 20px;
 -o-border-radius: 20px;
@@ -1055,7 +1069,7 @@ border-color: rgb(151, 150, 150);
 #indivBtnFilterDiv{
 	margin: 5%;
 	margin-top:20px;
-	margin-bottom: 20px;
+	margin-bottom: 3em;
 }
 #objectsIndivFilter ul {
 	max-width: 500px;
@@ -1165,6 +1179,7 @@ margin: 20px;
 }
 #myDataFilterBtn{
 	text-align: center;
+	margin-bottom: 2em;
 }
 hr {
 margin: 10px 0;
@@ -1230,7 +1245,6 @@ background-repeat: no-repeat;
 }
 #argosDataFilter {
 	margin: 0 auto;
-	margin-left: 45px;
 }
 #hideShowFilter {
 position: fixed;
@@ -1348,13 +1362,13 @@ padding: 5px;
 #hideShowFilter {
     display: block;
     position: absolute;
-    top: 55px;
+    top: 60px;
 	left: 0px;
     cursor: pointer;
     height: 35px;  /*40*/
     width: 35px;
     z-index: 1;
-    background: url('../images/closeBT.png') no-repeat scroll left bottom #FFF;
+    background: url('../images/closeBT2.png') no-repeat scroll left bottom #FFF;
     /*border-radius: px 0px 0px 4px;*/
 }
 #hideShowFilter.selected {

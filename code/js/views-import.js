@@ -100,6 +100,7 @@
 					
 			var styleMap = new OpenLayers.StyleMap({'default':defaultStyle,'select':selectStyle});	
 			*/
+			var tm = app.collections.waypointsList; 
 			map_view.addLayer({
 				collection: app.collections.waypointsList,
 				layerName: "waypoints",
@@ -320,29 +321,11 @@
 				alert("please select a valid worker name");
 				$('#importWorker3').val("");
 			}
-		},/*
-		getSelectedActivity: function() {
-			var val = $('#importActivity').val();
-			var selectedValue = $('#import-activity option').filter(function() {
-				return this.value == val;
-			});
-			if (selectedValue[0]) {
-				this.selectedActivity = selectedValue[0].value;
-			} else {
-				this.selectedActivity = "";
-				alert("please select a valid activity");
-				$('#importActivity').val("");
-			}
-		},*/
+		},
 		storeWaypoints: function() {
-			// add fieldActivity and fielduser to each model
-			/*for(var i=0; i<app.collections.selectedWaypoints.length; i++) {
-	             wptModel = app.collections.selectedWaypoints.models[i];
-	            wptModel.set("fieldActivity",this.selectedActivity);
-	            wptModel.set("fieldWorker1",this.selectedUser1);
-	            wptModel.set("fieldWorker2",this.selectedUser2);
-	        }*/
 			var self = this;
+			var fieldWorkersNumber = $("#import-fwnb option:selected").text();
+			alert(fieldWorkersNumber);
 			app.collections.selectedWaypoints.each(function(model) {
 				//model.set("fieldActivity", self.selectedActivity);
 				model.set("fieldWorker1", self.selectedUser1);
@@ -350,6 +333,7 @@
 				model.set("fieldWorker3", self.selectedUser3);
 				model.set("fieldWorker4", self.selectedUser4);
 				model.set("fieldWorker5", self.selectedUser5);
+				model.set("fieldWorkersNumber", fieldWorkersNumber);
 			});
 			//clear stored models in waypoint list to update store
 			//var tmp = new app.collections.Waypoints();

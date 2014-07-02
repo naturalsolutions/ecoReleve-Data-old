@@ -270,6 +270,7 @@ var ecoReleveData = (function(app) {
 						var waypointName = $(this).find('name').text();
 						var waypointTime = $(this).find('time').text();
 
+
 						// renseigner les métadonnées du modèle
 						id += 1;
 						var idwpt = "wpt" + id;
@@ -319,18 +320,18 @@ var ecoReleveData = (function(app) {
 					latitude = parseFloat(latitude).toFixed(5);
 					longitude = parseFloat(longitude).toFixed(5);
 					var waypointName = $(this).find('name').text();
-					var waypointTime;
+					var waypointTime, time;
 					// if tag "cmt" exisits, take date from it, else use tag "time"
 					var waypointTimeTag = moment($(this).find('cmt').text());
 					// check if date is valid, else use time tag to get date
 					if(waypointTimeTag.isValid()){
 						waypointTime = moment(waypointTimeTag);
+						time = moment(waypointTimeTag).format("HH:mm") ; 
 					} else {
-						waypointTime = moment($(this).find('time').text());
+						var dateValue = $(this).find('time').text();
+						waypointTime = moment(dateValue);
+						time = moment(dateValue).format("HH:mm"); 
 					}
-					
-					 
-					
 					// renseigner les métadonnées du modèle
 					id += 1;
 					var idwpt = "wpt" + id;
@@ -339,6 +340,7 @@ var ecoReleveData = (function(app) {
 					app.models.waypoint.set("latitude", latitude);
 					app.models.waypoint.set("longitude", longitude);
 					app.models.waypoint.set("waypointTime", waypointTime);
+					app.models.waypoint.set("time", time);
 					app.models.waypoint.set("fieldActivity", '');
 					//app.models.waypoint.set("used", false);
 					app.collections.waypointsList.add(app.models.waypoint);
