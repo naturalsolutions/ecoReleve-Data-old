@@ -371,9 +371,9 @@ NS.UI.MapView = Backbone.View.extend({
 					vector.styleMap = new OpenLayers.StyleMap({'default':layerStyle,'select':selectStyle});
 					if (!serverCluster) {	
 						var strategy = new OpenLayers.Strategy.AnimatedCluster({
-												            distance: 45,
-												            animationMethod: OpenLayers.Easing.Expo.easeOut,
-												            animationDuration: 10
+				            distance: 45,
+				            animationMethod: OpenLayers.Easing.Expo.easeOut,
+				            animationDuration: 10
 						});
 						strategy.setLayer(vector);
 						vector.strategies = [];
@@ -396,19 +396,6 @@ NS.UI.MapView = Backbone.View.extend({
 				vector.params = params;
 				// ajax call to get data
 				this.getData(this,vector, url,params);
-				/* $.ajax({
-		            url: url,
-		            dataType: "json",
-		            data: params
-				    }).done(function(data) {
-				        data = eval( data );
-				        var geojson_format = new OpenLayers.Format.GeoJSON({
-				            'internalProjection': self.map.baseLayer.projection,
-				            'externalProjection': new OpenLayers.Projection("EPSG:4326")
-				        });
-				        vector.removeAllFeatures();
-				        vector.addFeatures(geojson_format.read(data));
-				    });  */
 			}	
 			this.map.addLayer(vector);
 			var zoomToExtent = options.zoomToExtent || false ; 
@@ -429,27 +416,6 @@ NS.UI.MapView = Backbone.View.extend({
 				);
 				this.map.panTo(center);
 			}
-		/*	vector.events.register("loadend", vector, function(){
-		        var bounds = this.map.getDataExtent();
-				if(bounds){ 
-					this.map.panTo(bounds.getCenterLonLat());
-					this.map.zoomToExtent(bounds); 
-				}
-				//this.events.unregister("featuresadded", this, zoomToData);
-				$("#waitControl").remove(); 
-
-				
-		    }); */
-
-
-			/*
-			if (! options.point){
-				this.map.zoomToExtent(vector.getDataExtent());
-			}
-			else {
-				//	this.map.panTo(bounds.getCenterLonLat());
-			}*/
-
 			// check if layer is not the first one to add selection tools
 			if (!options.noSelect) {
 				vector.events.register("featuresadded", vector, zoomToData);
@@ -460,26 +426,6 @@ NS.UI.MapView = Backbone.View.extend({
 						if (featureId!==""){
 							this.map.selectedFeatures.push(featureId); 
 						}
-						/*if (vector.cluster){
-							$("#featuresId").val("");	
-						}*/
-						/*
-						//update list of stored selected features id in the hidden input
-						updateSelectedFeatures(this.map.selectedFeatures);
-						var displayPopup = feature.feature.layer.popup;
-						// add coordinates of selected feature to arrays
-						if (!displayPopup){*/
-							/*var lon = feature.feature.geometry.x;
-							var lat = feature.feature.geometry.y;
-							this.map.latitudes.push(lat);
-							this.map.longitudes.push(lon); 
-							updateBBOX(this.map.longitudes,this.map.latitudes ); */
-						
-						/*
-						} else {
-							createPopup(feature);
-						}
-						*/
 						$('#map').trigger('selectedFeatures:change');
 	                },
 	                'featureunselected': function(feature) {
@@ -487,25 +433,6 @@ NS.UI.MapView = Backbone.View.extend({
 						var displayPopup = feature.feature.layer.popup;
 						// remove id feature from selected features list if exists
 						removeItem(this.map.selectedFeatures, featureId);
-						
-						/*var featureId = feature.feature.attributes.id;
-						var displayPopup = feature.feature.layer.popup;
-						// remove id feature from selected features list if exists
-						removeItem(this.map.selectedFeatures, featureId);
-						//update list of stored selected features id in the hidden input
-						updateSelectedFeatures(this.map.selectedFeatures);
-						// add coordinates of selected feature to arrays
-						if (!displayPopup){  */
-							/*var lon = feature.feature.geometry.x;
-							var lat = feature.feature.geometry.y;
-							// remove values if exists
-							removeItem(this.map.latitudes, lat);
-							removeItem(this.map.longitudes, lon);
-							// update selecting BBOX
-							updateBBOX(this.map.longitudes,this.map.latitudes ); */
-						/*} else {
-							destroyPopup();
-						}*/
 						$('#map').trigger('selectedFeatures:change');
 
 						if (this.map.selectedFeatures.length === 0){
@@ -524,56 +451,58 @@ NS.UI.MapView = Backbone.View.extend({
 				this.map.events.register('moveend', this, function (event) {
 					var vector_layer ;
 					var bbox ="";
-					for(var i = 0; i < this.map.layers.length; i++ ){
-						if(((this.map.layers[i].name) !="OpenStreetMap") && ( ((this.map.layers[i].name) !="Imagery") ) && (((this.map.layers[i].name) !="OpenCycleMap") )) {
-							vector_layer = this.map.layers[i] ;
-							if (!vector_layer.fixedStrategy){
-								var bounds = this.map.getExtent(); 
-								var minLat = bounds.bottom;
-								var maxLat= bounds.top;
-								var minlong = bounds.left;
-								var maxLong = bounds.right;
+					if (this.map.layers){
+						for(var i = 0; i < this.map.layers.length; i++ ){
+							if(((this.map.layers[i].name) !="OpenStreetMap") && ( ((this.map.layers[i].name) !="Imagery") ) && (((this.map.layers[i].name) !="OpenCycleMap") )) {
+								vector_layer = this.map.layers[i] ;
+								if (!vector_layer.fixedStrategy){
+									var bounds = this.map.getExtent(); 
+									var minLat = bounds.bottom;
+									var maxLat= bounds.top;
+									var minlong = bounds.left;
+									var maxLong = bounds.right;
 
-								var minPoint=new OpenLayers.LonLat(minlong,minLat);
-								minPoint=minPoint.transform(
-									new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
-									//new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection  900913
-									new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
-								);
-								var maxPoint = new OpenLayers.LonLat(maxLong,maxLat);
-								maxPoint=maxPoint.transform(
-									new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
-									new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
-								);
-								var minLatWGS = minPoint.lat;
-								var minLonWGS = minPoint.lon;
-								var maxLatWGS = maxPoint.lat;
-								var maxLonWGS = maxPoint.lon;
+									var minPoint=new OpenLayers.LonLat(minlong,minLat);
+									minPoint=minPoint.transform(
+										new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+										//new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator Projection  900913
+										new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+									);
+									var maxPoint = new OpenLayers.LonLat(maxLong,maxLat);
+									maxPoint=maxPoint.transform(
+										new OpenLayers.Projection("EPSG:3857"), // transform from WGS 1984
+										new OpenLayers.Projection("EPSG:4326") // to Spherical Mercator Projection
+									);
+									var minLatWGS = minPoint.lat;
+									var minLonWGS = minPoint.lon;
+									var maxLatWGS = maxPoint.lat;
+									var maxLonWGS = maxPoint.lon;
 
-								bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
-								
-								if (this.map.selectedFeatures.length === 0){
-									$("#updateSelection").val(bbox);  
-									$(".updateSelection").val(bbox);  
+									bbox = minLonWGS   + "," + minLatWGS + "," + maxLonWGS + "," + maxLatWGS ;
+									
+									if (this.map.selectedFeatures.length === 0){
+										$("#updateSelection").val(bbox);  
+										$(".updateSelection").val(bbox);  
+									}
+
+									// convert values to decimal format "x.xx"	
+									minLatWGS = parseFloat(minLatWGS);
+		                    		minLatWGS = minLatWGS.toFixed(2);	
+		                    		minLonWGS = parseFloat(minLonWGS);
+		                    		minLonWGS = minLonWGS.toFixed(2);	
+		                    		maxLatWGS = parseFloat(maxLatWGS);
+		                    		maxLatWGS = maxLatWGS.toFixed(2);
+		                    		maxLonWGS = parseFloat(maxLonWGS);
+		                    		maxLonWGS = maxLonWGS.toFixed(2);	
+
+		                    		if (NS.UI.bbox){
+			                    		NS.UI.bbox.set("minLatWGS", minLatWGS || "");
+			                    		NS.UI.bbox.set("minLonWGS", minLonWGS || "");
+			                    		NS.UI.bbox.set("maxLatWGS", maxLatWGS || "");
+			                    		NS.UI.bbox.set("maxLonWGS", maxLonWGS || "");
+		                    		}
+
 								}
-
-								// convert values to decimal format "x.xx"	
-								minLatWGS = parseFloat(minLatWGS);
-	                    		minLatWGS = minLatWGS.toFixed(2);	
-	                    		minLonWGS = parseFloat(minLonWGS);
-	                    		minLonWGS = minLonWGS.toFixed(2);	
-	                    		maxLatWGS = parseFloat(maxLatWGS);
-	                    		maxLatWGS = maxLatWGS.toFixed(2);
-	                    		maxLonWGS = parseFloat(maxLonWGS);
-	                    		maxLonWGS = maxLonWGS.toFixed(2);	
-
-	                    		if (NS.UI.bbox){
-		                    		NS.UI.bbox.set("minLatWGS", minLatWGS || "");
-		                    		NS.UI.bbox.set("minLonWGS", minLonWGS || "");
-		                    		NS.UI.bbox.set("maxLatWGS", maxLatWGS || "");
-		                    		NS.UI.bbox.set("maxLonWGS", maxLonWGS || "");
-	                    		}
-
 							}
 						}
 					}

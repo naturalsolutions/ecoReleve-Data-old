@@ -23,68 +23,117 @@ $bird 				birds
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
 			var coreUrl = app.config.coreUrl;
-			var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
+			//var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
+			var indivUrl =  coreUrl + '/individuals/search';
 			this.indivUrl = indivUrl;
+
 			// load data for indiv grid
-			app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber) {
+			this.getBirdsAdv();
+			/*
+			var params = {
+                criteria:{},
+                limit:10
+			};
+			params =JSON.stringify(params);
+			app.utils.getDataForGridAdvanced(indivUrl,'POST', params, function(collection, rowsNumber) {
 				app.utils.initGridServer(collection, rowsNumber, indivUrl, {
 					pageSize: 50,
-					//columns: [0,1,2, 3, 4, 9],
+					//columns: [2, 6, 7, 8],
 					container: "#gridContainer"
 				});
-				//$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
 				$("#grid").mCustomScrollbar({
 					theme:"dark",
 					 horizontalScroll:true
 				});
-			});
+			
+
+			/*app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber){
+				app.utils.initGridServer(collection, rowsNumber, indivUrl,{
+					pageSize: 50,
+					//columns: [0,1,2, 3, 4, 9],
+					container: "#gridContainer"
+				});*/
+				//$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
+				
+			/*});*/
+
 			// autocomplete for field species
-			var fieldSpecies = coreUrl + '/individuals/released/values?field_name=specie';
+			var autocompleteUrl = coreUrl + '/individuals/search/values?limit=100&field_name='; 
+			var fieldSpecies = autocompleteUrl +'specie';
 			app.utils.getSimpledataListForBirdFilter ("#speciesList", fieldSpecies);
 			// autocomplete for release area
-			var fieldArea = coreUrl + '/individuals/released/values?field_name=releasedArea';
+			var fieldArea = autocompleteUrl + 'releaseArea';
 			app.utils.getSimpledataListForBirdFilter ("#releaseAreaList", fieldArea);
 			// autocomplete for release year
-			var fieldYear = coreUrl + '/individuals/released/values?field_name=releasedYear';
+			var fieldYear = autocompleteUrl + 'releaseYear';
 			app.utils.getSimpledataListForBirdFilter ("#releaseYearList", fieldYear);
 			// autocomplete for fields list
-			var fieldUrl = serverUrl + '/list/autocomplete?table_name=TViewIndividual'+ '&column_name=' ;
+			//var fieldUrl = serverUrl + '/list/autocomplete?table_name=TViewIndividual'+ '&column_name=' ;
 			// field sex
-			var fieldSexUrl = fieldUrl + 'id30%40TCaracThes_Sex_Precision'; 
-			app.utils.getdataListForBirdFilter ("#birdSexList", fieldSexUrl);
+			/*var fieldSexUrl = fieldUrl + 'id30%40TCaracThes_Sex_Precision'; 
+			app.utils.getdataListForBirdFilter ("#birdSexList", fieldSexUrl);*/
+
+			var fieldSexUrl2 = autocompleteUrl + 'sex'; 
+			app.utils.getSimpledataListForBirdFilter ("#birdSexList", fieldSexUrl2);
 			// field survey type
+			/*
 			var fieldSurveyUrl = fieldUrl + 'id61@TCaracThes_Survey_type_Precision';
 			app.utils.getdataListForBirdFilter ("#birdSurveyList", fieldSurveyUrl);
+			*/
+			var fieldSurveyUrl = autocompleteUrl + 'surveyType';
+			app.utils.getSimpledataListForBirdFilter ("#birdSurveyList", fieldSurveyUrl);
 			// field ptt
-			var fieldPttUrl = fieldUrl + 'id19@TCarac_PTT';
-			app.utils.getdataListForBirdFilter ("#birdPttList", fieldPttUrl);
+			/*var fieldPttUrl = fieldUrl + 'id19@TCarac_PTT';
+			app.utils.getdataListForBirdFilter ("#birdPttList", fieldPttUrl);*/
+			var fieldPttUrl = autocompleteUrl + 'ptt';
+			app.utils.getSimpledataListForBirdFilter ("#birdPttList", fieldPttUrl);
 			// frequency
-			var fieldFrequencyUrl = fieldUrl + 'id5@TCarac_Transmitter_Frequency';
-			app.utils.getdataListForBirdFilter ("#birdFrequencyList", fieldFrequencyUrl);
+			/*var fieldFrequencyUrl = fieldUrl + 'id5@TCarac_Transmitter_Frequency';
+			app.utils.getdataListForBirdFilter ("#birdFrequencyList", fieldFrequencyUrl);*/
+			var fieldFrequencyUrl = autocompleteUrl + 'frequency';
+			app.utils.getSimpledataListForBirdFilter ("#birdFrequencyList", fieldFrequencyUrl);
 			// monitoring
-			var fieldMonitoryUrl = fieldUrl + 'id60@TCaracThes_Monitoring_Status_Precision';
+			/*var fieldMonitoryUrl = fieldUrl + 'id60@TCaracThes_Monitoring_Status_Precision';
 			app.utils.getdataListForBirdFilter ("#birdMonitoryList", fieldMonitoryUrl);
+			*/
+			var fieldMonitoryUrl = autocompleteUrl + 'monitoringStatus';
+			app.utils.getSimpledataListForBirdFilter("#birdMonitoryList", fieldMonitoryUrl);
 			// chip code
-			var fieldChipCodeUrl = fieldUrl + 'id13@TCarac_Chip_Code';
-			app.utils.getdataListForBirdFilter ("#birdChipCodeList", fieldChipCodeUrl);
+			/*var fieldChipCodeUrl = fieldUrl + 'id13@TCarac_Chip_Code';
+			app.utils.getdataListForBirdFilter ("#birdChipCodeList", fieldChipCodeUrl);*/
+			var fieldChipCodeUrl = autocompleteUrl + 'chipCode';
+			app.utils.getSimpledataListForBirdFilter ("#birdChipCodeList", fieldChipCodeUrl);
 			// release ring color
-			var fieldReleaseRingColorUrl = fieldUrl + 'id8@TCaracThes_Release_Ring_Color_Precision';
-			app.utils.getdataListForBirdFilter ("#birdReleaseRingColorList", fieldReleaseRingColorUrl);
+			var fieldReleaseRingColorUrl = autocompleteUrl + 'releaseRingColor';
+			app.utils.getSimpledataListForBirdFilter("#birdReleaseRingColorList", fieldReleaseRingColorUrl);
+			/*var fieldReleaseRingColorUrl = fieldUrl + 'id8@TCaracThes_Release_Ring_Color_Precision';
+			app.utils.getdataListForBirdFilter ("#birdReleaseRingColorList", fieldReleaseRingColorUrl);*/
 			//color
-			var fieldColorUrl = fieldUrl + 'id14@TCaracThes_Mark_Color_1_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);
+			/*var fieldColorUrl = fieldUrl + 'id14@TCaracThes_Mark_Color_1_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);*/
+			var fieldColorUrl = autocompleteUrl + 'markColor1' ;
+			app.utils.getSimpledataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);
 			// age
-			var fieldAgeUrl = fieldUrl + 'id2@Thes_Age_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdAgeList", fieldAgeUrl);
+			/*var fieldAgeUrl = fieldUrl + 'id2@Thes_Age_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdAgeList", fieldAgeUrl);*/
+			var fieldAgeUrl = autocompleteUrl  + 'age' ;
+			app.utils.getSimpledataListForBirdFilter ("#birdAgeList", fieldAgeUrl);
 			// origin
-			var fieldOriginUrl = fieldUrl + 'id33@Thes_Origin_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdOriginList", fieldOriginUrl);
+			/*var fieldOriginUrl = fieldUrl + 'id33@Thes_Origin_Precision' ;
+			app.utils.getdataListForBirdFilter ("#birdOriginList", fieldOriginUrl);*/
+			var fieldOriginUrl = autocompleteUrl  + 'origin';
+			app.utils.getSimpledataListForBirdFilter ("#birdOriginList", fieldOriginUrl);
+			
 			// release ring
-			var fieldReleaseRingUrl = fieldUrl + 'id9@TCarac_Release_Ring_Code' ;
-			app.utils.getdataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);
+			/*var fieldReleaseRingUrl = fieldUrl + 'id9@TCarac_Release_Ring_Code' ;
+			app.utils.getdataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);*/
+			var fieldReleaseRingUrl = autocompleteUrl + 'releaseRingCode' ;
+			app.utils.getSimpledataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);
 			// breeding ring
-			var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
-			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);
+			/*var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
+			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);*/
+			var fieldBreedingRingUrl = autocompleteUrl + 'breedingRingCode' ;
+			app.utils.getSimpledataListForBirdFilter("#birdBreedingRingList", fieldBreedingRingUrl);
 			// get array to store serach criterias
 			var storedCriterias = localStorage.getItem('indivFilterStoredCriterias') || "";
 			if (!storedCriterias){
@@ -94,7 +143,7 @@ $bird 				birds
 			}
 		},
 		events :{
-			'click #indivFilterSubmit' : 'getBirdsList',
+			'click #indivFilterSubmit' :'getBirdsAdv', // 'getBirdsList',
 			'click tr': 'selectTableElement',
 			'click #indivFilterClear' : 'clearFields',
 			'click #hideShowFilter' : 'moveFilter',
@@ -126,7 +175,43 @@ $bird 				birds
 				});*/
 			});
 		},
+		getBirdsAdv : function(){
+			var url = this.indivUrl;
+			var criteria  = this.getParams();
+			var params = {
+                criteria:criteria,
+                limit:50
+			};
+			var type = 'POST';
+			params =JSON.stringify(params);
+			app.utils.getDataForGridAdvanced(url,type, params, function(collection, rowsNumber) {
+				app.utils.initGridServer(collection, rowsNumber, url, {
+					pageSize: 50,
+					//columns: [2, 6, 7, 8],
+					container: "#gridContainer"
+				});
+				if (!$('#grid').hasClass('mCustomScrollbar')) {
+        			$("#grid").mCustomScrollbar({
+						theme:"dark",
+						 horizontalScroll:true
+					});
+				}
+			});
+		},
 		getParams : function(){
+			var inputs = $("#indivCurrentSearch input");
+	    	var criteria  = {};
+		    inputs.each(function(){
+		        var name  = $(this).attr('name');
+		        var value = $(this).val();
+		        if (value){
+			        if ((name ==="id") || (name==="frequency")||(name==="ptt") ||(name==="releaseYear")){
+			        	value = parseInt(value,10);
+			        }
+			        criteria[name] = value;
+		        }
+	    	});
+			/*
 			var params = [],
 			specie = $('input[name="specie"]').val().trim(),
 			releaseArea = $('input[name="releaseArea"]').val().trim(),
@@ -177,11 +262,12 @@ $bird 				birds
 			if(color){
 				params.push("filters[]=mark_color:" + color);
 			}
-			return params;
+			*/
+			return criteria;
 		},
 		saveCriterias : function() {
 			var params = this.getParams();
-			if (params.length>0){
+			if (!jQuery.isEmptyObject(params)){
 				this.addModalWindow(params);
 			} else {
 				alert("please input criterias to save.");
@@ -191,7 +277,7 @@ $bird 				birds
 			var ele = e.target.parentNode.nodeName;
 			if (ele == "TR") {
 				var selectedModel = app.models.selectedModel;
-				var id = selectedModel.get("ID");
+				var id = selectedModel.get("id");
 				var route = '#bird/' + id;
 				app.router.navigate(route, {trigger: true});
 			}
@@ -238,7 +324,7 @@ $bird 				birds
   			searchItem.name = serachName;
   			// id searchItem = ln + 1 
   			searchItem.id = ln + 1 ;
-  			searchItem.query = params;
+  			searchItem.query = JSON.stringify(params);
   			this.criterias.push(searchItem);
   			localStorage.setItem('indivFilterStoredCriterias',JSON.stringify(this.criterias));
 		},
@@ -278,15 +364,25 @@ $bird 				birds
 					break;
 				}
 			}
+			var param = {
+                criteria:JSON.parse(params),
+                limit:50
+			};
 			// send query with saved criterias
-			var filterParams = params.join("&"); 
-			// update data indiv grid
-			var url = this.indivUrl + "&" + filterParams;
-			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
+			var url = this.indivUrl ;
+			param =JSON.stringify(param);
+			app.utils.getDataForGridAdvanced(url,'POST', param, function(collection, rowsNumber) {
 				app.utils.initGridServer(collection, rowsNumber, url, {
 					pageSize: 50,
+					//columns: [2, 6, 7, 8],
 					container: "#gridContainer"
 				});
+				if (!$('#grid').hasClass('mCustomScrollbar')) {
+        			$("#grid").mCustomScrollbar({
+						theme:"dark",
+						 horizontalScroll:true
+					});
+				}
 			});
 
 		},

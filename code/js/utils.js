@@ -1686,9 +1686,6 @@ app.utils.initializeDB = function(db){
 
 	};
 	app.utils.getDataForGrid = function(url, callback) {
-		/*if(app.xhr){ 
-        app.xhr.abort();
-    }*/
 		$.ajax({
 			url: url,
 			dataType: "json",
@@ -1748,6 +1745,77 @@ app.utils.initializeDB = function(db){
 				}
 				callback(gridCollection, rowsNumber);
 				gridCollection = null;
+
+			},
+			complete: function(){
+			    $("#waitCtr").css('display', 'none');
+			},
+			error: function() {
+				console.log("error loading");
+			}
+		});
+	};
+	app.utils.getDataForGridAdvanced = function(url,type, params, callback) {
+		$.ajax({
+			url: url,
+			type: type,
+			data: params,
+			dataType: "json",
+			beforeSend: function(){
+			    $("#waitCtr").css('display', 'block');
+			},
+			success: function(data) {
+				// create schema model and dynamic fields for the grid
+				var tm = data;
+				
+				var rowsNumber = data.length;
+				//var dataValues = data.values;
+				var firstRow = data[0];
+				//var listColumns = [];
+				var schema = {};
+				for (var key in firstRow) {
+					var type;
+					var colName = key;
+					/*if (colName.toUpperCase() == "DATE") {
+						type = "Date";
+					} else {
+						type = "Text";
+					}*/
+					schema[colName] = {
+						'title': colName,
+						type: 'Text',
+						sortable: true
+					};
+				}
+				var ExportGridModel = Backbone.Model.extend({}, {
+					// Declare schema and verbose name at model level
+					schema: schema,
+					verboseName: 'Data'
+				});
+				var AllDataCollection = Backbone.Collection.extend({
+					model:  ExportGridModel
+				});
+				var gridCollection = new  AllDataCollection();
+				for (var i = 0; i < rowsNumber; i++) {
+					var rowValue = data[i];
+					var gridModel = new  ExportGridModel();
+					for (key in rowValue) {
+						var colNam = key;
+						var colValue;
+						if (colNam.toUpperCase() == "DATE") {
+							var colVal = rowValue[key];
+							colValue = changeDateFormat(colVal);
+						} else {
+							colValue = rowValue[key];
+						}
+						gridModel.set(colNam, colValue);
+					}
+					//listColumns
+					gridCollection.add(gridModel);
+				}
+				callback(gridCollection, rowsNumber);
+				gridCollection = null;
+				
 
 			},
 			complete: function(){
