@@ -2,6 +2,10 @@
 =========
 A free and open source biodiversity data entry software
 
+Ecologists have struggled with environmental data management issues for many years now. It has become urgent to focus on building the technological solutions required for a more efficient process of data collection, exchange, and analysis.
+
+To address this issue, we have starting an ambitious open source effort based on open source components. 
+  
 ![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Logo/logo-LABS_DATA.jpg)
 
 We provide Software for Field Worker: that actually run the data collection and data entries
@@ -15,23 +19,24 @@ Screen shots
 Demo (SAFARI)
 ------------
 
-[ecoReleve data](http://82.96.149.133/html/ecoReleve/ecoReleve-data/)
+On request 
+
 
 Technologie used
 ------------
 -[PhoneGap] (http://phonegap.com/)
 
--[JQuery Mobile](http://jquerymobile.com/)
+-[OpenLayers] (http://ol3js.org/)
 
 -[Backbonejs](http://backbonejs.org/)
 
 Functionalities
 ------------
 
-ecoRelevé data is design to allow field data entry on tablet (IPad, Android and Window8).
+ecoRelevé data is design to allow field data entry on any devices (IOS, Android and Window).
 It stores data local and let you upload it to the Core module when ready.
 
-The data entry forms are fully customizable to allow users to design their own protocols.
+The data entry forms are fully customizable to allow users to design their own protocols. 
 
 
 Commercial Support
