@@ -264,7 +264,7 @@ NS.UI = (function(ns) {
                     case 'Date':
                         var d = attrs[fieldName];
 
-                        if (d !== undefined && _.isDate(new Date(d))) {
+                        if (d !== undefined && _.isDate(new Date(d)) && d !== null ) {
                             d = this.formater.format(new Date(d), this.dateFormat);
                         }
                         values[prefix + fieldName] = d;
