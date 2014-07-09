@@ -137,12 +137,9 @@ var ecoReleveData = (function(app) {
 				$("[name='FieldWorker3']").val(this.importedStation.get("fieldWorker3"));
 				$("[name='FieldWorker4']").val(this.importedStation.get("fieldWorker4"));
 				$("[name='FieldWorker5']").val(this.importedStation.get("fieldWorker5"));
-
 			}
 			// jquery UI datepicker , field date
 			$(inputDate).datepicker("setDate", currentDate);
-			
-	
 		},
 		events : {
 			"click #stationGetCoordinates" : "getActualPosition"
@@ -155,8 +152,10 @@ var ecoReleveData = (function(app) {
 			}
 		},
 		myPosition : function(position){
-			    $("[name='LAT']").val(position.coords.latitude) ;
-			    $("[name='LON']").val(position.coords.longitude);
+			var latitude = parseFloat(position.coords.latitude).toFixed(5);
+			var longitude = parseFloat(position.coords.longitude).toFixed(5);
+			$("[name='LAT']").val(latitude);
+			$("[name='LON']").val(longitude);
 			    //position.coords.altitude +"\n";
 		},
 		erreurPosition : function(error){

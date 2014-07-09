@@ -165,8 +165,7 @@ body{
 	height:100%;
 	width: 100%;
 	font-size: 15px;
-	margin-bottom: 70px;
-
+	/*margin-bottom: 70px;*/
 }
 div#content:first-child{
 	height:100%;
@@ -621,13 +620,6 @@ div.filterElement{
 	}
 	#argosGraph{
 		height: 300px;
-	}
-	/* import map*/
-	#importMapContainer {
-		min-width: 60%;
-	}
-	.pagination ul > li > a, .pagination ul > li > span {
-		padding: 4px 6px;
 	}
 	/* objects map */
 	#slider {

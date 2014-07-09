@@ -3,10 +3,8 @@
 	/***************************************************************************
 $bird 				birds
 ****************************************************************************/
-
 	var ecoReleveData = (function(app) {
 	"use strict";
-
 	app.views.Birds = app.views.BaseView.extend({
 		template: "birdFilter",
 		afterRender: function() {
@@ -14,6 +12,7 @@ $bird 				birds
 			//$('.objectsIndivGrid').lionbars();
 			var windowWidth = $(window).width();
 			var windowHeigth = $(window).height();
+			$("#objectsIndivFilter").css("height",windowHeigth-50);
 			$.supersized({
 				slides: [{
 					image: ''
@@ -193,7 +192,7 @@ $bird 				birds
 				if (!$('#grid').hasClass('mCustomScrollbar')) {
         			$("#grid").mCustomScrollbar({
 						theme:"dark",
-						 horizontalScroll:true
+						horizontalScroll:true
 					});
 				}
 			});
@@ -431,6 +430,7 @@ $bird 				birds
 			this.birdId = options.id;
 			this.intervalAnimation = 0.3; 
 			$("section#main").addClass("blackBackground");
+			$("section#main").addClass("fixVerticalScroll");
 		},
 		afterRender: function() {
 			var windowHeigth = $(window).height();
@@ -450,8 +450,15 @@ $bird 				birds
 				} else{
 					$("#birdMap").css("width","100%");
 					$("#map").css("width",windowWidth);
+
 				}
-				$("#map").css("height",windowHeigth-170);
+				// check if "animationDiv" is masqued to update map height
+				if ($('#animationDiv').hasClass('masqued')) {
+					$("#map").css("height",windowHeigth-50);
+				} else {
+					$("#map").css("height",windowHeigth-170);
+				}
+					
 				if (this.map_view.map){
 					this.map_view.map.updateSize();
 					// refrech vector layer
@@ -460,16 +467,17 @@ $bird 				birds
 					var vectorLayer = _this.map_view.map.layers[nblayers - 1];
 					vectorLayer.refresh({force:true});
 				}
-				
+				// update grid height
+				this.updateGridHeight();
 			}, this));
 
 			$("#birdId").text(this.birdId);
 			//var serverUrl = localStorage.getItem("serverUrl");
-			var serverUrl = app.config.serverUrl;
-			var objectUrl = serverUrl + "/TViewIndividual/" + this.birdId;
+			var serverUrl = app.config.coreUrl;
+			var objectUrl = serverUrl + "/individuals/history?id=" + this.birdId;
 			//var mapView = app.utils.displayObjectPositions(this, objectUrl, this.birdId);
 			//this.insertView(mapView);
-			var url = objectUrl + "/carac";
+			var url = objectUrl;
 			$.ajax({
 				url: url,
 				dataType: "json",
@@ -479,8 +487,8 @@ $bird 				birds
 			    },
 				success: function(data) {
 					//$("#map").css("width",windowWidth/2);
-					var characteristic = data[0][0].TViewIndividual;
-					var sex = characteristic.Sex || "";
+					var characteristic = data;
+					var sex = characteristic.Sex;
 					var origin = characteristic.Origin || "";
 					var species = characteristic.Species || "";
 					var birthDate = characteristic.Birth_date || "";
@@ -502,46 +510,39 @@ $bird 				birds
 					} else {
 						$("#birdOriginPic").attr("src","images/origin_release.png");
 					}
-					var age;
+				
+
+					var age = characteristic.Age || "";
+					var ptt = characteristic.PTT || "";
+					$('#transmittersVal').html("<b>ptt: </b>" + ptt);
+					$("#birdAgeLabel").text(age);
 
 					var historyItems = new app.collections.HistoryItems();
-					for (var k in data[0]) {
-						var item = data[0][k];
-						for (var j in item) {
-							if (j != 'TViewIndividual') {
-								var elem = item[j];
-								var element = elem[0];
-								var value = element["value_precision"] || element["value"];
-								var begin_date = element["begin_date"] || "";
-								var end_date = element["end_date"] || "";
-								var historyItem = new app.models.HistoryItem();
-								historyItem.set('characteristic', j);
-								historyItem.set('value', value);
-								historyItem.set('begin_date', begin_date);
-								historyItem.set('end_date', end_date);
-								historyItems.add(historyItem);
-								if (j ==="Age"){ 
-									 age = element["value_precision"];
-								}
-								if (j==="PTT"){
-									var ptt= element["value"];
-									$('#transmittersVal').html("<b>ptt: </b>" + ptt)	;
-								}
-							}
-							$("#birdAgeLabel").text(age);
-							$("#birdAgePic").attr("src","images/age_adult.png");
-							var selectedModel = app.models.selectedModel;
-							if (selectedModel){
-								var atr = selectedModel.attributes;
-								var lastObs = atr["last observation"];
-								var surveyType = atr["survey type"];
-								var transmitter = atr["transmitter"];
-								var monitoringStatus = atr["monitoring status"];
-								$("#birdLastObs").text(lastObs);
-								$("#birdSurveyType").text(surveyType);
-								if (monitoringStatus==="Lost"){
-									$("#birdMonitStatus").html("<img src='images/status_lost.png'/><span>" + monitoringStatus +"</span>");
-								}
+					for (var i in data.history) {
+						var item = data.history[i];
+						var label = item["characteristic"];
+						var value = item["value"];
+						var begin_date = item["from"];
+						var end_date = item["to"];
+						var historyItem = new app.models.HistoryItem();
+						historyItem.set('characteristic', label);
+						historyItem.set('value', value);
+						historyItem.set('begin_date', begin_date);
+						historyItem.set('end_date', end_date);
+						historyItems.add(historyItem);
+						$("#birdAgePic").attr("src","images/age_adult.png");
+						var selectedModel = app.models.selectedModel;
+						if (selectedModel){
+							var atr = selectedModel.attributes;
+							var lastObs = atr["last observation"];
+							var surveyType = atr["survey type"];
+							var transmitter = atr["transmitter"];
+							var monitoringStatus = atr["monitoring status"];
+							$("#birdLastObs").text(lastObs);
+							$("#birdSurveyType").text(surveyType);
+							if (monitoringStatus==="Lost"){
+								$("#birdMonitStatus").html("<img src='images/status_lost.png'/><span>" + monitoringStatus +"</span>");
+
 							}
 						}
 					}
@@ -550,11 +551,16 @@ $bird 				birds
 					// init grid
 					var gridView = app.utils.initGrid(historyItems, null, {pageSize: 50});
 					this.insertView(gridView);
-					$("#grid").css({"height":windowHeigth /2});
+					// update grid heigt to fit all space 
+					this.updateGridHeight();
 
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
 					});
+					//
+					if (!$('section#main').hasClass('blackBackground')) {
+						$("section#main").addClass("blackBackground");
+					}
 
 				},
 				complete: function(){
@@ -567,7 +573,8 @@ $bird 				birds
 			// map view
 			// apply slider look
 			$("#dateSlider").slider({});
-			var mapUrl = objectUrl + "?format=geojson";
+			//var mapUrl = objectUrl + "?format=geojson";
+			var mapUrl = app.config.coreUrl + "/individuals/stations?id=" + this.birdId ;
 			var point = new NS.UI.Point({
 					latitude: 34,
 					longitude: 44,
@@ -577,8 +584,13 @@ $bird 				birds
 			//this.map_view = mapView;
 			this.insertView(mapView);
 			this.map_view = mapView;
-			app.utils.timlineLayer(mapUrl, mapView, function() {
-				app.utils.animatedLayer(mapUrl, mapView);
+			app.utils.timlineLayer(mapUrl, mapView, function(nbFeatures) {
+				if (nbFeatures > 10){
+				app.utils.animatedLayer(nbFeatures, mapUrl, mapView);
+				} else {
+					$("#animationDiv").addClass("masqued");
+					$("#map").css("height",windowHeigth-50);
+				}
 			});
 			$("#dateSlider").slider().on('slideStop', function() {
 					// get range of date and update layer
@@ -587,6 +599,7 @@ $bird 				birds
 			});
 		},
 		remove: function(options) {
+			$(window).unbind("resize");
 			_.each(this._views, function(viewList, selector) {
 				_.each(viewList, function(view) {
 					view.remove();
@@ -594,6 +607,7 @@ $bird 				birds
 			});
 			app.views.BaseView.prototype.remove.apply(this, arguments);
 			$("section#main").removeClass("blackBackground");
+			$("section#main").removeClass("fixVerticalScroll");
 		},
 		events : {
 			'click #animationStart': 'startAnimation',
@@ -645,6 +659,7 @@ $bird 				birds
     		}	
 		},
 		startAnimation: function() {
+			var span = 5 * 86400;
 			$("#dateIntervalDisplay").removeClass("masqued");
 			var startDate = app.utils.AnimStartDate;
 			var endDate = app.utils.AnimEndDate;
@@ -658,18 +673,55 @@ $bird 				birds
 				this.currentDate = startDate;
 			}
 			var filter = app.utils.AnimFilter;
+			var rule1 = app.utils.Rule1 ;
+			var rule2 =	app.utils.Rule2;
+			var rule3 =	app.utils.Rule3;
 			var filterStrategy = app.utils.AnimfilterStrategy;
 			var self = this;
 			var next = function() {
 				if (self.currentDate < endDate) {
+					/*rule1.filter.lowerBoundary = self.currentDate;
+					rule1.filter.upperBoundary = self.currentDate + (5* 86400 ); 
+					*/
+					rule1.filter = new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: self.currentDate,
+								upperBoundary: (self.currentDate + (12 * 86400 )) //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							});
+						/*
+					rule2.filter.lowerBoundary = self.currentDate  + (5* 86400 )+1;
+					rule2.filter.upperBoundary = self.currentDate + interval; 
+					*/
+					rule2.filter =  new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: self.currentDate + (12* 86400 ) + 1,
+								upperBoundary: (self.currentDate + (14* 86400 ) ) //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							});
+
+					rule3.filter =  new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: self.currentDate + (14* 86400 ) + 1,
+								upperBoundary: (self.currentDate + interval ) //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							});
+
 					filter.lowerBoundary = self.currentDate;
 					filter.upperBoundary = self.currentDate + interval; // + interval
 					filterStrategy.setFilter(filter);
-					self.currentDate = self.currentDate + interval;
+					self.currentDate = self.currentDate + span;
 					var stDate = new Date(self.currentDate * 1000);
 					/*$("#animationStartDate").text(stDate.defaultView('YYYY/MM/DD')); // convert date format from timestamp to YYYY/MM/DD
 					var eDate = new Date((self.currentDate + interval) * 1000);
 					$("#animationEndDate").text(eDate.defaultView('YYYY/MM/DD'));*/
+					// get the layer
+					/*var nblayers = self.map_view.map.layers.length;
+					var vectorLayer = self.map_view.map.layers[nblayers - 1];
+					vectorLayer.refresh({force:true});*/
+					// pourcentage avancement lecture
+					var readerLevel = parseInt(((self.currentDate - startDate) * 100) / (endDate - startDate), 10);
+					$("#indivAnimLevel").text(readerLevel + " %");
 
 				} else {
 					self.stopAnimation(true);
@@ -697,7 +749,15 @@ $bird 				birds
 			filter.lowerBoundary = dateMin;
 			filter.upperBoundary = datMax;
 			filterStrategy.setFilter(filter);
-		}
+		},
+	    updateGridHeight : function(){
+	    	// update grid heigt to fit all space 
+			var mapHeight = $("#birdMap").height();
+			var usedSpaceHeight = $("#separatorDetails").height() + $("#birdInfosDiv").height() +
+			$("#birdInfosDetails").height() ;
+			var gridHeight = mapHeight - usedSpaceHeight - 130; 
+			$("#grid").css({"height":gridHeight});
+	    }
 	});
 
 		return app;

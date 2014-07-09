@@ -14,46 +14,86 @@
 					image: ''
 				}]
 			});
+		},
+		events: {
+			'click #importNext': 'typeFileSelection'
+		},
+		typeFileSelection: function(){
+			app.utils.fileTypeSelected = $("input[name=filetype]:checked").val();
+			app.router.navigate('#import-load', {
+					trigger: true
+				});
 		}
 	});
 	app.views.ImportLoad = app.views.BaseView.extend({
 		template: "import-load",
 		initialize: function(options) {},
 		events: {
-			'click #btnFileSelection': 'gpxFileSelection',
-			'click #importLoadNext': 'importMap'
+			'click #btnFileSelection': 'typeFileSelection',
+			'click #importLoadNext': 'importMap',
 		},
-		gpxFileSelection: function() {
+		typeFileSelection: function() {
 			var selected_file = document.querySelector('#file');
 			//var selected_file = $('#file').get(0).files[0];
 			selected_file.onchange = function() {
 				try {
 					var reader = new FileReader();
 					var xml;
-					var fileName = this.files[0].name;
+					var file = this.files[0];
+					var fileName = file.name;
 					var tab = fileName.split(".");
 					var fileType = tab[1];
 					fileType = fileType.toUpperCase();
-					if (fileType != "GPX") {
-						alert("File type is not supported. Please select a 'gpx' file");
-					} else {
-						var lastUpdate = this.files[0].lastModifiedDate;
-						var gpxFileName = localStorage.getItem("gpxFileName");
-						var gpxLastModif = localStorage.getItem("gpxLastModif");
+					if(app.utils.fileTypeSelected == "gps-gpx"){
+						if (fileType != "GPX") {
+							alert("File type is not supported. Please select a 'gpx' file");
+						} else {
+							var lastUpdate = this.files[0].lastModifiedDate;
+							var gpxFileName = localStorage.getItem("gpxFileName");
+							var gpxLastModif = localStorage.getItem("gpxLastModif");
 
-						/* if ((gpxFileName != "null") && (gpxFileName == fileName) && (gpxLastModif == lastUpdate )){
-	                     alert ("this file correspond to last loaded version !");
-	                    }    */
-						// else if (gpxLastModif != lastUpdate ){                          
-						reader.onload = function(e, fileName) {
-							xml = e.target.result;
-							app.utils.loadWaypointsFromFile(xml);
-						};
-						localStorage.setItem("gpxFileName", fileName);
-						localStorage.setItem("gpxLastModif", lastUpdate);
+							/* if ((gpxFileName != "null") && (gpxFileName == fileName) && (gpxLastModif == lastUpdate )){
+		                     alert ("this file correspond to last loaded version !");
+		                    }    */
+							// else if (gpxLastModif != lastUpdate ){                          
+							reader.onload = function(e, fileName) {
+								xml = e.target.result;
+								app.utils.loadWaypointsFromFile(xml);
+							};
+							localStorage.setItem("gpxFileName", fileName);
+							localStorage.setItem("gpxLastModif", lastUpdate);
+						}
+						reader.readAsText(selected_file.files[0]);
 					}
-					//}
-					reader.readAsText(selected_file.files[0]);
+					else if(app.utils.fileTypeSelected == "rfid"){
+						if (fileType != "TXT") {
+							alert("File type is not supported. Please select a 'txt' file");
+						}
+						else{
+							var serverUrl = app.config.sensorUrl;
+							var url = serverUrl + "/rfid/import";
+       						var data = new FormData();
+							reader.onload = function(e, fileName) {
+								data.append('data', e.target.result);
+								$.ajax({
+									type: "POST",
+									url: url,
+									data: data,
+									processData: false,
+						            contentType: false,
+									success: function (data) {
+										alert(data);
+									}, error: function (data) {
+										alert(data);
+									}
+								});
+							};	
+							
+							
+						}
+						reader.readAsText(selected_file.files[0]);
+					}
+					
 
 				} catch (e) {
 					alert("File API is not supported by this version of browser. Please update your browser and check again, or use another browser");
@@ -114,6 +154,43 @@
 			/*
 			$('table').addClass('tablesaw');
 			$('table').attr('data-mode','swipe');*/
+			var windowHeigth = $(window).height();
+			var windowWidth = $(window).width();
+			var tableWidth = $("table").width();
+			var mapWidth;
+			if(tableWidth < (windowWidth/2)){
+				mapWidth = windowWidth/2 - 10;
+			} else {
+				mapWidth = windowWidth - tableWidth - 40;
+			}
+			var _this = this;
+			$("#map").css("height",windowHeigth-90);
+			$("#map").css("width",mapWidth);
+			
+			// change map width if window is resized
+			$(window).bind('resize', $.proxy(function(e) {
+				// detect if map is displayed to full screen or not
+				windowHeigth = $(e.currentTarget).height();
+				windowWidth = $(e.currentTarget).width();
+				tableWidth = $("table").width();
+				if(tableWidth < (windowWidth/2)){
+				mapWidth = (windowWidth/2) - 10 ;
+				} else {
+					mapWidth = windowWidth - tableWidth - 40;
+				}
+				//alert(tableWidth);
+				$("#map").css("height",windowHeigth-90);
+				$("#map").css("width",mapWidth);
+				/*if (this.map_view.map){
+					this.map_view.map.updateSize();
+					// refrech vector layer
+					var nblayers = _this.map_view.map.layers.length;
+					// get the layer
+					var vectorLayer = _this.map_view.map.layers[nblayers - 1];
+					vectorLayer.refresh({force:true});
+				}*/
+				
+			}, this));
 		},
 		remove: function(options) {
 			_.each(this._views, function(viewList, selector) {

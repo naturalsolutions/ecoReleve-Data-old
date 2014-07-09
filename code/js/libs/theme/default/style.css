@@ -310,7 +310,7 @@ div.olControlSaveFeaturesItemInactive {
     position: absolute;
     top: 25px;
     right: 0;
-    width: 20em;
+    width: 23em;
     font-family: sans-serif;
     font-weight: bold;
     margin-top: 3px;
@@ -322,9 +322,9 @@ div.olControlSaveFeaturesItemInactive {
 }
 
 .olControlLayerSwitcher .layersDiv {
-    padding-top: 5px;
+    padding-top: 10px;
     padding-left: 10px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     padding-right: 10px;
     background-color: black;
 }

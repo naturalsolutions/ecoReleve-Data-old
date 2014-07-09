@@ -1,4 +1,3 @@
-
 	var ecoReleveData = (function(app) {
 	"use strict";
 	
@@ -37,8 +36,9 @@
 	  			this.getTransmittersCollection();
 			} else {
 				var nbRows = app.utils.transmittersCollection.length;
+				this.filtredTransmittersCollection = app.utils.transmittersCollection.clone();
 				$("#argosDataNb").text(nbRows);
-				var grid = app.utils.initGrid(app.utils.transmittersCollection, null,{pageSize : nbRows});
+				var grid = app.utils.initGrid(this.filtredTransmittersCollection, null,{pageSize : nbRows});
 				this.insertView(grid);
 				$("#grid").css({"height":this.windowHeigth *4/5});
 				$("#grid").mCustomScrollbar({
@@ -71,6 +71,7 @@
 				success: function(data){
 					// créeer collection d'objets argos
 					app.utils.transmittersCollection = new app.collections.ArgosTransmitters();
+					this.filtredTransmittersCollection = new app.collections.ArgosTransmitters();
 					var transmitterIdList = [], individusId;
 					var _this = this;
 					$.each( data, function( key, value ) {
@@ -90,12 +91,14 @@
 						// transmitterIdList to provide autocomplete to field 'PTT'
 						transmitterIdList.push(key);
 						app.utils.transmittersCollection.add(transmitter);
+						_this.filtredTransmittersCollection.add(transmitter);
 					 // console.log( key + ": " + value[0].ind_id  +  "  " + value[0].count  );
 					});
 					var nbRows = app.utils.transmittersCollection.length;
 					$("#argosDataNb").text(nbRows);
-					var grd = app.utils.initGrid(app.utils.transmittersCollection, null,{pageSize : nbRows});
-					this.insertView(grd);
+					var grid = app.utils.initGrid(this.filtredTransmittersCollection, null,{pageSize : nbRows});
+					this.insertView(grid);
+					this.gridView = grid;
 					$("#grid").css({"height":this.windowHeigth *4/5});
 					$("#grid").mCustomScrollbar({
 						theme:"dark"
@@ -115,7 +118,6 @@
 			    	//alert("error");
 			    }
 			});
-
 		},
 		moveFilter : function() {
 			
@@ -143,23 +145,31 @@
 			var filtredCollection;
 
 			if (pttId || indivId || status ) {
-				
 				filtredCollection = app.utils.transmittersCollection.getFiltredItems(pttId, indivId, status );
+				//app.utils.filtredTransmittersCollection.reset();
+				this.filtredTransmittersCollection.reset(filtredCollection);
+				//this.gridView.render();
 
 			} else {
+				filtredCollection = app.utils.transmittersCollection.getFiltredItems("", "","");
+				//app.utils.filtredTransmittersCollection.reset();
+				this.filtredTransmittersCollection.reset(filtredCollection);
 
-				filtredCollection = app.utils.transmittersCollection; 
 			}
-
+			//this.gridView.render();
+			//var tm = app.utils.filtredTransmittersCollection;
 			// display number of returned models
-			var nb = filtredCollection.length;
+			/*var nb = filtredCollection.length;
 			$("#argosDataNb").text(nb);
-			var grid = app.utils.initGrid(filtredCollection, null,{pageSize : nb});
+			this.gridView.options.collection = filtredCollection;
+			this.gridView.render();*/
+			/*var grid = app.utils.initGrid(filtredCollection, null,{pageSize : nb});
 			this.insertView(grid);
 			$("#grid").css({"height":this.windowHeigth *4/5});
 			$("#grid").mCustomScrollbar({
 							theme:"dark"
 			});
+			*/
 			this.setStatusColor();
 			
 		},
@@ -259,7 +269,13 @@
 			app.utils.fillDataListFromArray(this.indivIdList, "#argosIndividualList");
 		},
 		remove: function(options) {
+			if(this.filtredTransmittersCollection){
+				this.filtredTransmittersCollection.reset();
+				this.filtredTransmittersCollection = null;
+			}
+			
 			app.views.BaseView.prototype.remove.apply(this, arguments);
+
 			console.log("remove argos");
 		}
 		/*loadStats: function() {
@@ -454,6 +470,9 @@
 					this.objLocationsToDelete.ptt = $("#argosDetPttId").text();
 					this.objLocationsToDelete.ind_id = $("#argosDetIndivId").text();
 					this.objLocationsToDelete.locations = [];
+					// div legend with same width as div map
+					var mapWidth = $("#map").css('width');
+					$("#argosMapLegend").css('width', mapWidth );
 				},
 				complete: function(){
 			    	$("#waitCtr").css('display', 'none');

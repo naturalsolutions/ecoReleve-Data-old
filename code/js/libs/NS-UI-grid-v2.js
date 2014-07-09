@@ -353,6 +353,7 @@ NS.UI = (function(ns) {
                 this.stopListening(this.collection);
             this.collection = c;
             this.listenTo(c, 'reset', this.render);
+            this.listenTo(c, 'all', this.render);
         },
         _getSubHeaders: function(schema, prefix) {
             var context = {

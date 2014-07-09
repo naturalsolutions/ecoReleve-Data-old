@@ -486,8 +486,8 @@ app.collections.ArgosTransmitters = Backbone.Collection.extend({
   		else {
   			indivId = 0;
   		}
-	  	
-	  	var filtredCollection = this.models.filter(function(model) {
+	  	var filtredCollection = 
+	  	this.models.filter(function(model) {
 
 		    	var pttIdentifiant = model.get('reference');
 		    	var checkPttId = -1;
@@ -501,6 +501,10 @@ app.collections.ArgosTransmitters = Backbone.Collection.extend({
 		    		//individualId = individualId.toString();
 		    		if ((indivId === 0) || (individualId === indivId)) {checkIndivId = 0; }
 		    		//checkIndivId = individualId.indexOf(indivId);	
+		    	}
+		    	// if id indiv is not inputed
+		    	if(!indivId){
+		    		checkIndivId = 0;
 		    	}
 		    	var statusVal = model.get('status');
 		    	var checkStatus = -1;
@@ -523,6 +527,7 @@ app.collections.ArgosTransmitters = Backbone.Collection.extend({
 		    	(dateVal >= minDate) && // filter / date min
 		    	(dateVal <= maxDate); // filter / date max */
 		  	});
+	  this.trigger('change');
 	  return filtredCollection;
 	}
 });

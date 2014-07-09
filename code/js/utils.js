@@ -1125,7 +1125,7 @@ app.utils.initializeDB = function(db){
 					}
 				});
 				mapView.map.addLayer(vector_layer);
-				featurecollection = eval(featurecollection);
+				//featurecollection = eval(featurecollection);
 				vector_layer.addFeatures(geojson_format.read(featurecollection));
 			},
 			error: function() {
@@ -1134,8 +1134,9 @@ app.utils.initializeDB = function(db){
 		});
 
 	};
-	app.utils.animatedLayer = function(url, mapView) {
+	app.utils.animatedLayer = function(nbFeatures,url, mapView) {
 		var featurecollection;
+		//alert(nbFeatures);
 		var coordinates = [];
 		$.ajax({
 			url: url,
@@ -1143,11 +1144,18 @@ app.utils.initializeDB = function(db){
 			success: function(data) {
 				var features = data.features;
 				var ln = features.length;
-				data = eval(data);
+				//data = eval(data);
 				var startDate = features[0].properties.date;
 				var endDate = features[ln - 1].properties.date;
-				//var spanEl = $("#intervalOfTime");
-				// var interval = parseInt(spanEl.val(), 10) * 86400;
+				var startDay = moment.unix(startDate).format('YYYY-MM-DD');
+				var endDay = moment.unix(endDate).format('YYYY-MM-DD');
+				// display start day
+				$("#indivPosStartDate").text(startDay);
+				$("#indivPosEndDate").text(endDay);
+				// calculate number of months
+				var difference = Math.round((endDate - startDate)/(86400 * 30));
+				$("#indivNbDuration").text(difference);
+				
 				var interval = 30 * 86400;
 				var endDate2 = startDate + interval;
 				app.utils.AnimStartDate = startDate;
@@ -1167,50 +1175,104 @@ app.utils.initializeDB = function(db){
 				var filterStrategy = new OpenLayers.Strategy.Filter({
 					filter: filter
 				});
+				var rule = new OpenLayers.Rule({
+					filter: new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: startDate,
+								upperBoundary: startDate + (5* 86400 ) //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							}),
+					symbolizer : {pointRadius: 3,
+					            fillOpacity: 0.5,
+					            fillColor:"#000000",// "#1A6921",  // 1A6921  -> red
+					            strokeColor:"#000000", // "#1A6921",
+					            strokeWidth: 1}
+				});
+				var rule2 = new OpenLayers.Rule({
+					filter: new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: startDate + (5* 86400 )+1,
+								upperBoundary: startDate + (8* 86400 ),  //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							}),
+					symbolizer : {pointRadius: 5,
+					            fillOpacity: 0.7,
+					            fillColor: "#000000",// 1A6921  -> red
+					            strokeColor: "#000000",
+					            strokeWidth: 1}
+				});
+				var rule3 = new OpenLayers.Rule({
+					filter: new OpenLayers.Filter.Comparison({
+								type: OpenLayers.Filter.Comparison.BETWEEN,
+								property: "date",
+								lowerBoundary: startDate + (8* 86400 )+1,
+								upperBoundary: endDate2  //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+							}),
+					symbolizer : {pointRadius: 6,
+					            fillOpacity: 0.7,
+					            fillColor: "#000000",// 1A6921  -> red
+					            strokeColor: "#000000",
+					            strokeWidth: 1}
+				});
+				app.utils.Rule1 = rule;
+				app.utils.Rule2 = rule2;
+				app.utils.Rule3 = rule3;
+
+				/*var style = new OpenLayers.Style();
+				style.addRules([rule2 ]);*/
+				var style = new OpenLayers.Style(null, {
+					rules: [rule, rule2, rule3]
+					}); 
+
+
 				app.utils.AnimfilterStrategy = filterStrategy;
 				var vector_layer = new OpenLayers.Layer.Vector("animation", {
 					strategies: [filterStrategy],
+					//style : style,
 					styleMap: new OpenLayers.StyleMap({
-						"default": new OpenLayers.Style({
-							/*
+						"default": style
+
+						/*
+						{
 					            graphicName: "circle",
 					            pointRadius: 4,
 					            fillOpacity: 0.7,
-					            fillColor: "#E8154A",  // 1A6921  -> red
-					            strokeColor: "#E8154A",
+					            fillColor: "#1A6921",  // 1A6921  -> red
+					            strokeColor: "#1A6921",
 					            strokeWidth: 1
-					            */
-							externalGraphic: "images/positionMarker3.png",
+					            
+							/*externalGraphic: "images/positionMarker3.png",
 							graphicWidth: 15,
 							graphicHeight: 20,
 							graphicYOffset: -20,
-							graphicOpacity: 1
-						})
+							graphicOpacity: 1*/
+						//})
 					})
 				});
 
 				mapView.map.addLayer(vector_layer);
 				vector_layer.addFeatures(geojson_format.read(data));
-
 			},
 			error: function() {
-				alert("error loading data, please check connexion to webservice");
+				alert("error loading geo-data, please check connexion to webservice");
 			}
 		});
-
 	};
 	app.utils.timlineLayer = function(url, mapView, callback) {
 		var featurecollection;
 		var coordinates = [];
+		var nbFeatures = 0;
 		$.ajax({
 			url: url,
 			dataType: "json",
 			success: function(data) {
 				var features = data.features;
-				var ln = features.length;
-				data = eval(data);
+				nbFeatures = features.length;
+				// display nbpositions
+				$('#indivNbPositions').text(nbFeatures);
+				//data = eval(data);
 				var startDate = features[0].properties.date;
-				var endDate = features[ln - 1].properties.date;
+				var endDate = features[nbFeatures - 1].properties.date;
 
 				app.utils.timelineStartDate = startDate;
 				app.utils.timelineEndDate = endDate;
@@ -1237,8 +1299,8 @@ app.utils.initializeDB = function(db){
 							graphicName: "circle",
 							pointRadius: 4,
 							fillOpacity: 0.7,
-							fillColor: "#E8154A", // 1A6921  -> red
-							strokeColor: "#E8154A",
+							fillColor: "#217a15", // 1A6921  -> red
+							strokeColor: "#217a15",
 							strokeWidth: 1
 						})
 					})
@@ -1272,7 +1334,7 @@ app.utils.initializeDB = function(db){
 					$("#sliderContent").addClass("masqued");
 					$("#sliderMessage").removeClass("masqued");
 				}
-				callback();
+				callback(nbFeatures);
 			},
 			error: function() {
 				alert("error loading data, please check connexion to webservice");
@@ -2382,13 +2444,13 @@ app.utils.displayWaitControl = function (element){
 		$(element).append(ele);
 	}
 };
-	function isEmptyObject(obj) {
+function isEmptyObject(obj) {
 		var name;
 		for (name in obj) {
 			return false;
 		}
 		return true;
-	}
+}
 
 app.utils.array_unique =  function (arr) {
   return arr.reduce(function (p, c) {
