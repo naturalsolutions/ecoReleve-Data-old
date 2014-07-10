@@ -105,7 +105,7 @@ var ecoReleveData = (function(app) {
 				// generate operator
 				var operatorDiv = this.generateOperator(fieldType,fieldIdattr);
 				var inputDiv = this.generateInputField(fieldType,fieldIdattr);
-				var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-" + fieldIdattr + "'><div class='span4 name' >" + fieldName + "</div><div class='span1 operator'>" + operatorDiv + "</div><div class='span3'>";
+				var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-" + fieldIdattr + "'><div class='span4 name' >" + fieldName + "</div><div class='span1 operator'>" + operatorDiv + "</div><div class='span3 exportFilterRowVal'>";
 				fieldFilterElement += inputDiv + "</div><div class='span3'><span id='filterInfoInput'></span></div><div class='span1'><a cible='div-" + fieldIdattr + "' class='btnDelFilterField'><img src='img/Cancel.png'/></a></div></div>";
 				$("#export-filter-list").append(fieldFilterElement);
 				$("#export-filter-list").removeClass("masqued");

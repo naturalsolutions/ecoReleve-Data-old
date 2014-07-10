@@ -1208,7 +1208,7 @@ app.utils.initializeDB = function(db){
 								lowerBoundary: startDate + (8* 86400 )+1,
 								upperBoundary: endDate2  //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
 							}),
-					symbolizer : {pointRadius: 6,
+					symbolizer : {pointRadius: 8,
 					            fillOpacity: 0.7,
 					            fillColor: "#000000",// 1A6921  -> red
 					            strokeColor: "#000000",
@@ -1893,17 +1893,23 @@ app.utils.initializeDB = function(db){
 		var visibleList = list;
 		// initier la grid
 		var pageSize = 10;
+		var sortColumn, sortOrder;
 		var pagerPosition = 'top';
 		if (options){
 			pageSize = options.pageSize || 10;
 			pagerPosition = options.pagerPosition || 'top';
+			sortColumn = options.sortColumn || 'id';
+			sortOrder = options.sortOrder || 'asc';
 		}
 		var grid = new NS.UI.Grid({
 			collection: visibleList,
 			pageSize: pageSize,
 			pageSizes: [5, 10, 20, 50],
 			page: 1,
-			pagerPosition: pagerPosition //,
+			pagerPosition: pagerPosition,
+			sortColumn : sortColumn,
+			sortOrder : sortOrder
+			 //,
 			//	dateFormat: 'yyyy/mm/dd',
 		});
 		//show a first page

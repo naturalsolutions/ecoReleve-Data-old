@@ -444,16 +444,24 @@ app.models.HistoryItem = Backbone.Model.extend({
 		schema: {
 		characteristic: {title: 'characteristic', type: 'Text',sortable: true},
 		value: {title: 'value', type: 'Text',sortable: true},
-		begin_date: {title: 'begin date', type: 'Date',sortable: true},
-		end_date: {title: 'end date', type: 'Date',sortable: true}
+		begin_date: {title: 'begin date', type: 'Text',sortable: true},
+		end_date: {title: 'end date', type: 'Text',sortable: true}
 	},
 	verboseName: 'HistoryItem'
 
 });
 app.collections.HistoryItems = Backbone.Collection.extend({
   	model:  app.models.HistoryItem,
-    comparator: function(item) {
+    /*comparator: function(item) {
         return item.get('begin_date');
+    },*/
+    sort_key: 'id', // default sort key
+    comparator: function(item) {
+        return item.get(this.sort_key);
+    },
+    sortByField: function(fieldName) {
+        this.sort_key = fieldName;
+        this.sort();
     }
 });
 

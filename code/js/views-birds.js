@@ -19,43 +19,12 @@ $bird 				birds
 				}]
 			});
 			// load data
-			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
 			var coreUrl = app.config.coreUrl;
-			//var indivUrl = serverUrl + '/TViewIndividual/list?sortColumn=ID&sortOrder=desc';
 			var indivUrl =  coreUrl + '/individuals/search';
 			this.indivUrl = indivUrl;
-
 			// load data for indiv grid
-			this.getBirdsAdv();
-			/*
-			var params = {
-                criteria:{},
-                limit:10
-			};
-			params =JSON.stringify(params);
-			app.utils.getDataForGridAdvanced(indivUrl,'POST', params, function(collection, rowsNumber) {
-				app.utils.initGridServer(collection, rowsNumber, indivUrl, {
-					pageSize: 50,
-					//columns: [2, 6, 7, 8],
-					container: "#gridContainer"
-				});
-				$("#grid").mCustomScrollbar({
-					theme:"dark",
-					 horizontalScroll:true
-				});
-			
-
-			/*app.utils.getDataForGrid(indivUrl, function(collection, rowsNumber){
-				app.utils.initGridServer(collection, rowsNumber, indivUrl,{
-					pageSize: 50,
-					//columns: [0,1,2, 3, 4, 9],
-					container: "#gridContainer"
-				});*/
-				//$("#objectsIndivGrid").css({"height":(windowHeigth - 200), "max-width" : windowWidth / 2 });
-				
-			/*});*/
-
+			this.getBirdsList();
 			// autocomplete for field species
 			var autocompleteUrl = coreUrl + '/individuals/search/values?limit=100&field_name='; 
 			var fieldSpecies = autocompleteUrl +'specie';
@@ -66,71 +35,28 @@ $bird 				birds
 			// autocomplete for release year
 			var fieldYear = autocompleteUrl + 'releaseYear';
 			app.utils.getSimpledataListForBirdFilter ("#releaseYearList", fieldYear);
-			// autocomplete for fields list
-			//var fieldUrl = serverUrl + '/list/autocomplete?table_name=TViewIndividual'+ '&column_name=' ;
-			// field sex
-			/*var fieldSexUrl = fieldUrl + 'id30%40TCaracThes_Sex_Precision'; 
-			app.utils.getdataListForBirdFilter ("#birdSexList", fieldSexUrl);*/
-
-			var fieldSexUrl2 = autocompleteUrl + 'sex'; 
-			app.utils.getSimpledataListForBirdFilter ("#birdSexList", fieldSexUrl2);
-			// field survey type
-			/*
-			var fieldSurveyUrl = fieldUrl + 'id61@TCaracThes_Survey_type_Precision';
-			app.utils.getdataListForBirdFilter ("#birdSurveyList", fieldSurveyUrl);
-			*/
+			var fieldSexUrl = autocompleteUrl + 'sex'; 
+			app.utils.getSimpledataListForBirdFilter ("#birdSexList", fieldSexUrl);
 			var fieldSurveyUrl = autocompleteUrl + 'surveyType';
 			app.utils.getSimpledataListForBirdFilter ("#birdSurveyList", fieldSurveyUrl);
-			// field ptt
-			/*var fieldPttUrl = fieldUrl + 'id19@TCarac_PTT';
-			app.utils.getdataListForBirdFilter ("#birdPttList", fieldPttUrl);*/
 			var fieldPttUrl = autocompleteUrl + 'ptt';
 			app.utils.getSimpledataListForBirdFilter ("#birdPttList", fieldPttUrl);
-			// frequency
-			/*var fieldFrequencyUrl = fieldUrl + 'id5@TCarac_Transmitter_Frequency';
-			app.utils.getdataListForBirdFilter ("#birdFrequencyList", fieldFrequencyUrl);*/
 			var fieldFrequencyUrl = autocompleteUrl + 'frequency';
 			app.utils.getSimpledataListForBirdFilter ("#birdFrequencyList", fieldFrequencyUrl);
-			// monitoring
-			/*var fieldMonitoryUrl = fieldUrl + 'id60@TCaracThes_Monitoring_Status_Precision';
-			app.utils.getdataListForBirdFilter ("#birdMonitoryList", fieldMonitoryUrl);
-			*/
 			var fieldMonitoryUrl = autocompleteUrl + 'monitoringStatus';
 			app.utils.getSimpledataListForBirdFilter("#birdMonitoryList", fieldMonitoryUrl);
-			// chip code
-			/*var fieldChipCodeUrl = fieldUrl + 'id13@TCarac_Chip_Code';
-			app.utils.getdataListForBirdFilter ("#birdChipCodeList", fieldChipCodeUrl);*/
 			var fieldChipCodeUrl = autocompleteUrl + 'chipCode';
 			app.utils.getSimpledataListForBirdFilter ("#birdChipCodeList", fieldChipCodeUrl);
-			// release ring color
 			var fieldReleaseRingColorUrl = autocompleteUrl + 'releaseRingColor';
 			app.utils.getSimpledataListForBirdFilter("#birdReleaseRingColorList", fieldReleaseRingColorUrl);
-			/*var fieldReleaseRingColorUrl = fieldUrl + 'id8@TCaracThes_Release_Ring_Color_Precision';
-			app.utils.getdataListForBirdFilter ("#birdReleaseRingColorList", fieldReleaseRingColorUrl);*/
-			//color
-			/*var fieldColorUrl = fieldUrl + 'id14@TCaracThes_Mark_Color_1_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);*/
 			var fieldColorUrl = autocompleteUrl + 'markColor1' ;
 			app.utils.getSimpledataListForBirdFilter ("#birdMarkColorList", fieldColorUrl);
-			// age
-			/*var fieldAgeUrl = fieldUrl + 'id2@Thes_Age_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdAgeList", fieldAgeUrl);*/
 			var fieldAgeUrl = autocompleteUrl  + 'age' ;
 			app.utils.getSimpledataListForBirdFilter ("#birdAgeList", fieldAgeUrl);
-			// origin
-			/*var fieldOriginUrl = fieldUrl + 'id33@Thes_Origin_Precision' ;
-			app.utils.getdataListForBirdFilter ("#birdOriginList", fieldOriginUrl);*/
 			var fieldOriginUrl = autocompleteUrl  + 'origin';
 			app.utils.getSimpledataListForBirdFilter ("#birdOriginList", fieldOriginUrl);
-			
-			// release ring
-			/*var fieldReleaseRingUrl = fieldUrl + 'id9@TCarac_Release_Ring_Code' ;
-			app.utils.getdataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);*/
 			var fieldReleaseRingUrl = autocompleteUrl + 'releaseRingCode' ;
 			app.utils.getSimpledataListForBirdFilter ("#birdReleaseRingList", fieldReleaseRingUrl);
-			// breeding ring
-			/*var fieldBreedingRingUrl = fieldUrl + 'id12@TCarac_Breeding_Ring_Code' ;
-			app.utils.getdataListForBirdFilter ("#birdBreedingRingList", fieldBreedingRingUrl);*/
 			var fieldBreedingRingUrl = autocompleteUrl + 'breedingRingCode' ;
 			app.utils.getSimpledataListForBirdFilter("#birdBreedingRingList", fieldBreedingRingUrl);
 			// get array to store serach criterias
@@ -142,7 +68,7 @@ $bird 				birds
 			}
 		},
 		events :{
-			'click #indivFilterSubmit' :'getBirdsAdv', // 'getBirdsList',
+			'click #indivFilterSubmit' :'getBirdsList', // 'getBirdsList',
 			'click tr': 'selectTableElement',
 			'click #indivFilterClear' : 'clearFields',
 			'click #hideShowFilter' : 'moveFilter',
@@ -152,29 +78,7 @@ $bird 				birds
 			'click #indivSavedFiltersList li span.spnSavedFilterVal' : 'selectSavedFilter',
 			'click #indivSavedFiltersList li img' : 'deleteSavedFilter'
 		},
-		getBirdsList : function() {
-			var params = [],
-			windowWidth = $(window).width(),
-			windowHeigth = $(window).height();
-			params = this.getParams();
-			var filterParams = params.join("&"); 
-			// update data indiv grid
-			var url = this.indivUrl + "&" + filterParams;
-			app.utils.getDataForGrid(url, function(collection, rowsNumber) {
-				app.utils.initGridServer(collection, rowsNumber, url, {
-					pageSize: 50,
-					//columns: [2, 6, 7, 8],
-					container: "#gridContainer"
-				});
-				//$("#objectsIndivGrid").css({"height":(windowHeigth - 300), "max-width" : windowWidth / 2 });
-				/*("#grid").mCustomScrollbar({
-					theme:"dark",
-					 horizontalScroll:true,
-					 autoDraggerLength: true
-				});*/
-			});
-		},
-		getBirdsAdv : function(){
+		getBirdsList : function(){
 			var url = this.indivUrl;
 			var criteria  = this.getParams();
 			var params = {
@@ -288,24 +192,23 @@ $bird 				birds
 		    //$("#objectsIndivFilter").toggle( "slide" );
 		    var windowWidth = $(window).width();
 		    $("#objectsIndivFilter").toggle("slide", function() {
-		    	var displayed = $( "#objectsIndivFilter" ).attr("style");
-			    if (displayed ==="display: none;"){
-			    	//$("#argosHideShowFilter").text("filter >");
+		    	var displayed = $( "#objectsIndivFilter" ).css('display');
+			    if (displayed ==="none"){
 			    	$("#hideShowFilter").addClass("selected");
-			    	$("#objectsIndivGrid").addClass("displayFull");
-			    	$("#objectsIndivFilter").removeClass("span4");
+			    	$("#objectsIndivFilter").removeAttr("class");
 			    	$("#objectsIndivFilter").addClass("span0");
-			    	$("#objectsIndGrid").removeClass("span8");
-			    	$("#objectsIndGrid").addClass("span11");
+			    	$("#objectsIndGrid").removeAttr("class");
+			    	$("#objectsIndGrid").addClass("span12");
+			    	$("#hideShowFilter").css("left", "0px");
 
 			    } else {
-			    	//$("#argosHideShowFilter").text("< filter");
-			    	$("#objectsIndivGrid").removeClass("displayFull");
+			    	$("#objectsIndGrid").removeAttr("class");
 			    	$("#hideShowFilter").removeClass("selected");
-			    	$("#objectsIndivFilter").removeClass("span0");
-			    	$("#objectsIndivFilter").addClass("span4");
-			    	$("#objectsIndGrid").removeClass("span11");
-			    	$("#objectsIndGrid").addClass("span8");
+			    	$("#objectsIndivFilter").removeAttr("class");
+			    	$("#objectsIndivFilter").addClass("span3");
+			    	$("#objectsIndGrid").addClass("span9");
+			    	
+			    	$("#hideShowFilter").css("left", "405px");
 			    }
 		    });
 		   
@@ -469,6 +372,8 @@ $bird 				birds
 				}
 				// update grid height
 				this.updateGridHeight();
+				// update the size of animation div (map legend) by modifying span values
+				this.updateAnimationDivWidth(windowWidth);
 			}, this));
 
 			$("#birdId").text(this.birdId);
@@ -547,9 +452,13 @@ $bird 				birds
 						}
 					}
 					// sort collection by begin date 
-					historyItems.sort();
+					//historyItems.sort();
+
+					historyItems.sortByField('begin_date');
+					historyItems.models = historyItems.models.reverse();
+					
 					// init grid
-					var gridView = app.utils.initGrid(historyItems, null, {pageSize: 50});
+					var gridView = app.utils.initGrid(historyItems, null, {pageSize: 50, sortColumn : 'begin_date' , sortOrder : 'desc'});
 					this.insertView(gridView);
 					// update grid heigt to fit all space 
 					this.updateGridHeight();
@@ -597,6 +506,8 @@ $bird 				birds
 					var interval = $("#dateSlider").data('slider').getValue();
 					_this.updateTimeLineLayer(interval);
 			});
+			// update the size of animation div (map legend) by modifying span values
+			this.updateAnimationDivWidth(windowWidth);
 		},
 		remove: function(options) {
 			$(window).unbind("resize");
@@ -654,8 +565,12 @@ $bird 				birds
 					// set image
 					$("#birdSpecieImg").attr("src","images/faucon.png");
 					break;
+				case "Asian Houbara Bustard" :
+				case "North African Houbara Bustard" :
+					$("#birdSpecieImg").attr("src","images/houtarde.png");
+					break;
 			   default:
-			   	   $("#birdSpecieImg").attr("src","images/houtarde.png");
+			   	   $("#birdSpecieImg").attr("src","images/specie.png");
     		}	
 		},
 		startAnimation: function() {
@@ -721,6 +636,7 @@ $bird 				birds
 					vectorLayer.refresh({force:true});*/
 					// pourcentage avancement lecture
 					var readerLevel = parseInt(((self.currentDate - startDate) * 100) / (endDate - startDate), 10);
+					if (readerLevel > 100){readerLevel = 100;} // % cant be > 100
 					$("#indivAnimLevel").text(readerLevel + " %");
 
 				} else {
@@ -755,8 +671,22 @@ $bird 				birds
 			var mapHeight = $("#birdMap").height();
 			var usedSpaceHeight = $("#separatorDetails").height() + $("#birdInfosDiv").height() +
 			$("#birdInfosDetails").height() ;
-			var gridHeight = mapHeight - usedSpaceHeight - 130; 
+			var gridHeight = mapHeight - usedSpaceHeight - 180; 
 			$("#grid").css({"height":gridHeight});
+	    },
+	    updateAnimationDivWidth : function(windowWidth){
+	    	if(windowWidth < 1250){
+	    		$('#indivSliderContent').removeAttr('class');
+	    		$('#indivSliderContent').addClass('span7');
+	    		$('#indivAnimContent').removeAttr('class');
+	    		$('#indivAnimContent').addClass('span5');
+	    		
+	    	} else{
+	    		$('#indivSliderContent').removeAttr('class');
+	    		$('#indivSliderContent').addClass('span8');
+	    		$('#indivAnimContent').removeAttr('class');
+	    		$('#indivAnimContent').addClass('span4');
+	    	}
 	    }
 	});
 

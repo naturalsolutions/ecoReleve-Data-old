@@ -9,7 +9,7 @@
 
 				<div><span>ID : </span><span id="birdId"></span></div>
 				<div><img id="birdSpecieImg" src=""/></div>
-				<div id="divBirdName"><span id="birdSpecies"></span></div>
+				<div id="divBirdName"><span id="birdSpecies" class="whiteColor"></span></div>
 				<div>
 					
 				</div>
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="row-fluid">
-					<p id="transmittersVal"></p>
+					<p id="transmittersVal" class="whiteColor"></p>
 				</div>
 
 			</div>
@@ -38,37 +38,47 @@
 		<div class="row-fluid birdDetailsDiv" id="birdInfosDetails">
 			<div class="span2">
 				<img src="" id="birdSexPic">
-				<p id="birdSexLabel">-</p>
+				<p id="birdSexLabel" class="whiteColor">-</p>
 			</div>
 			<div class="span2">
 				<img src="" id="birdOriginPic">
-				<p id="birdOriginLabel">-</p>
+				<p id="birdOriginLabel" class="whiteColor">-</p>
 			</div>
 			<div class="span2">
 				<img src="" id="birdAgePic">
-				<p id="birdAgeLabel">-</p>
+				<p id="birdAgeLabel" class="whiteColor">-</p>
 			</div>
 			<div class="span3">
 				<div>birth date</div>
-				<p id="birdBirthDate">-</p>
+				<p id="birdBirthDate" class="whiteColor">-</p>
 			</div>
 			<div class="span3">
 				<div>last observation</div>
-				<p id="birdLastObs">-</p>
+				<p id="birdLastObs" class="whiteColor">-</p>
 			</div>
 		</div>
 		<div class="row-fluid birdDetailsDiv" id="birdDetailsStatus">
 			<div class="span4">
 				<div>survey type</div>
-				<p id="birdSurveyType">-</p>
+				<p id="birdSurveyType" class="whiteColor">-</p>
 			</div>
 			<div class="span4">
 				<div>monitoring status</div>
-				<p id="birdMonitStatus">-</p>
+				<p id="birdMonitStatus" class="whiteColor">-</p>
 			</div>
 			<div class="span4">
 				<div>individual status</div>
-				<p id="birdIndivStatus">-</p>
+				<p id="birdIndivStatus" class="whiteColor">-</p>
+			</div>
+		</div>
+		<div class="row-fluid birdDetailsDiv" id="birdDetailsPosDiv">
+			<div class="span6">
+				<div>number of positions</div>
+				<p id="indivNbPositions" class="whiteColor">-</p>
+			</div>
+			<div class="span6">
+				<div>duration (months)</div>
+				<p id="indivNbDuration" class="whiteColor">-</p>
 			</div>
 		</div>
 		<div id="grid"></div>
@@ -79,7 +89,7 @@
 			<div id="sliderContent">
 				<!--<p id="sliderwait"><img src="images/ajax-loader-linear.gif"/></p>  -->
 				<div class="row-fluid">
-					<div class="span8">	
+					<div class="span8" id="indivSliderContent">	
 						<p class="blackText" id="indivLabelSlider"><span id="indivLegendAllPosPicto" class="rondCorner">XX</span> filter positions by time interval</p>
 						<input id="dateSlider" type="text" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[0,1000]"/> <br/>
 						<span id="indivPosStartDate" class="blackText"></span>
@@ -88,18 +98,18 @@
 						
 						
 					</div>
-					<div class="span4">
+					<div class="span4" id="indivAnimContent">
 						<p class="blackText" id="indivTitleAnim"><span id="indivLegendAnimPicto" class="rondCorner">XX</span> display animated positions </p>
 						<span id="indivAnimControls">
 							<a class="indivPositionAnimation"><img src="images/play.png" id="animationStart"></a>
 							<a id="animationStop" class="indivPositionAnimation"><img src="images/play_pause.png"></a>
-							<a id="animationInit" class="indivPositionAnimation" ><img src="images/play_back.png"></a>
-							<span id="indivAnimLevel" class="blackText"></span><br/>
+							<a id="animationInit" class="indivPositionAnimation" ><img src="images/play_back.png"></a><br/>
+							<span id="indivAnimLevel"></span><br/>
 						</span>
-						<div class="blackText" id="indivPosInfos"> 
+						<!--<div class="blackText" id="indivPosInfos"> 
 							<span id="indivNbPositions"></span><span id="indivNbPositionsLabel"> positions, </span>
 							<span id="indivNbDuration"></span><span id="indivNbDurationLabel"> months</span>
-						</div>
+						</div> -->
 						
 					</div>
 			</div>
