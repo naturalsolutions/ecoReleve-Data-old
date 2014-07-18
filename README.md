@@ -14,7 +14,7 @@ We provide Software for Field Worker: that actually run the data collection and 
 
 Screen shots
 ------------
-![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Screen/Screen.png)
+![ecoReleve](https://static.squarespace.com/static/519a7bc0e4b08ccdf8f31445/t/53c9549ae4b0a11d417c1d12/1405703324816/?format=1000w)
 
 Demo (SAFARI)
 ------------
