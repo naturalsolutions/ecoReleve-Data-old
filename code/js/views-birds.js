@@ -114,58 +114,6 @@ $bird 				birds
 			        criteria[name] = value;
 		        }
 	    	});
-			/*
-			var params = [],
-			specie = $('input[name="specie"]').val().trim(),
-			releaseArea = $('input[name="releaseArea"]').val().trim(),
-			releaseYear = $('input[name="releaseYear"]').val().trim(),
-			id = $('input[name="ID"]').val().trim(),
-			frequency = $('input[name="frequency"]').val().trim(),
-			ptt = $('input[name="PTT"]').val().trim(),
-			sex = $('input[name="sex"]').val().trim(),
-			release = $('input[name="release"]').val().trim(),
-			breeding = $('input[name="breeding"]').val().trim(),
-			age = $('input[name="age"]').val().trim(),
-			origin = $('input[name="origin"]').val().trim(),
-			color = $('input[name="color"]').val().trim();
-			// corriger noms de variabl
-			if(specie){
-				params.push("filters[]=ID:exact:" + specie);  
-			}
-			if(releaseArea){
-				params.push("filters[]=ID:exact:" + releaseAreaList);  
-			}
-			if(releaseYear){
-				params.push("filters[]=ID:exact:" + releaseYearList);  
-			}
-			if(id){
-				params.push("filters[]=ID:exact:" + id);  
-			}
-			if (frequency){
-				params.push("filters[]=frequency:" + frequency);
-			}
-			if(ptt){
-				params.push("filters[]=PTT:" + ptt);
-			}
-			if(sex){
-				params.push("filters[]=sex:" + sex);
-			}
-			if(release){
-				params.push("filters[]=release ring:" + release);
-			}
-			if(breeding){
-				params.push("filters[]=breeding ring:" + breeding);
-			}
-			if(age){
-				params.push("filters[]=age:" + age);
-			}
-			if(origin){
-				params.push("filters[]=origin:" + origin);
-			}
-			if(color){
-				params.push("filters[]=mark_color:" + color);
-			}
-			*/
 			return criteria;
 		},
 		saveCriterias : function() {
@@ -190,7 +138,7 @@ $bird 				birds
 		},
 		moveFilter : function() {	
 		    //$("#objectsIndivFilter").toggle( "slide" );
-		    var windowWidth = $(window).width();
+		    //var windowWidth = $(window).width();
 		    $("#objectsIndivFilter").toggle("slide", function() {
 		    	var displayed = $( "#objectsIndivFilter" ).css('display');
 			    if (displayed ==="none"){
@@ -214,11 +162,6 @@ $bird 				birds
 		   
 		},
 		addModalWindow : function(params){
-		 /*var modal = '<div class="modal-dialog"><div class="modal-content">';
-		 	modal += '<div class="modal-header"> <h3 class="modal-title"><img src="images/import_.png" class="modal-title-picto">save search</h3></div>';
-		 	modal +='<div class="modal-body modal-body-perso"><b>query name</b><input name="indivQueryName" /> ';
-		 	modal +='</div><div class="modal-footer"></div></div></div>';
-		 	$("#indivModalQuery").html(modal);*/
 		 	var serachName = prompt("please input serach name", "");
   			alert("search criterias saved.");
   			var ln = this.criterias.length;
@@ -282,11 +225,10 @@ $bird 				birds
 				if (!$('#grid').hasClass('mCustomScrollbar')) {
         			$("#grid").mCustomScrollbar({
 						theme:"dark",
-						 horizontalScroll:true
+						horizontalScroll:true
 					});
 				}
 			});
-
 		},
 		deleteSavedFilter : function(e) {
 			var selectedElement = e.target; 
@@ -568,6 +510,25 @@ $bird 				birds
 				case "Asian Houbara Bustard" :
 				case "North African Houbara Bustard" :
 					$("#birdSpecieImg").attr("src","images/houtarde.png");
+					break;
+				case "Black-bellied Sandgrouse":
+					$("#birdSpecieImg").attr("src","images/Black-bellied Sandgrouse.png");
+					break;
+				case "Crocodile":
+					$("#birdSpecieImg").attr("src","images/crocodile.png");
+					break;
+				case "Horseshoe Snake":
+				case "Mograbin Diadem Snake":
+					$("#birdSpecieImg").attr("src","images/Snake.png");
+					break;
+				case "Pelican":
+					$("#birdSpecieImg").attr("src","images/Pelican.png");
+					break;
+				case "Rat (Atlantoxerus)":
+					$("#birdSpecieImg").attr("src","images/rat.png");
+					break;
+				case "Spur Thighed Tortoise (graeca)":
+					$("#birdSpecieImg").attr("src","images/tortoise.png");
 					break;
 			   default:
 			   	   $("#birdSpecieImg").attr("src","images/specie.png");

@@ -58,206 +58,6 @@ var ecoReleveData = (function(app) {
 									nbFields += 1;
 								});
 								break;
-							case ("field_number"):
-								generateNumericField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type numerique) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Number";
-									schema[name].title = field.get("display_label");
-									schema[name].initialData = field.get("defaultValue");
-									schema[name].fieldset = fieldsetName;
-									var minBound = field.get("min_bound");
-									var maxBound = field.get("max_bound");
-									// validator for min value & max value
-									var validatorslist = [];
-
-									if (minBound !== "") {
-										var min = {};
-										min.type = "minval";
-										min.minval = parseInt(minBound);
-										validatorslist.push(min);
-									}
-
-									if (maxBound !== "") {
-										var max = {};
-										max.type = "maxval";
-										max.maxval = parseInt(maxBound);
-										validatorslist.push(max);
-									}
-									schema[name].validators = validatorslist;
-									nbFields += 1;
-								});
-								break;
-							case ("field_text"):
-								// appeler la méthode qui va générer un modele de type texte et utiliser son callback pour rajouter 1 champ de meme type au modele "protocole"
-								generateTextField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Text";
-									schema[name].title = field.get("display_label");
-									schema[name].value = field.get("defaultValue");
-									schema[name].fieldset = fieldsetName;
-									// validation
-									if (field.get("required") == "true") {
-										schema[name].validators = ['required'];
-									}
-									nbFields += 1;
-									//schema[label].model = field ;
-								});
-								break;
-							case("field_varchar"): 
-								generateStringField (node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Text";
-									schema[name].title = field.get("display_label");
-									nbFields += 1;
-								});
-								break;
-							case("field_datetime"): 
-								generateStringField (node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Time";
-									schema[name].title = field.get("display_label");
-									nbFields += 1;
-								});
-								break;
-							case ("field_boolean"):
-								generateBooleanField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Boolean";
-									schema[name].title = field.get("display_label");
-									schema[name].fieldset = fieldsetName;
-									nbFields += 1;
-									// validation
-									/*if (field.get("required") =="true" ){
-											schema[name].validators = "['required']";
-										}*/
-									//schema[name].model = field ;
-								});
-								break;
-							case ("field_float"):
-								generateFloatField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Float";
-									schema[name].title = field.get("display_label");
-									schema[name].fieldset = fieldsetName;
-									nbFields += 1;
-
-								});
-								break;
-
-							case ("field_date"):
-								generateDateField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Date";
-									schema[name].title = field.get("display_label");
-									schema[name].fieldset = fieldsetName;
-									nbFields += 1;
-
-								});
-								break;
-							case ("field_photo"):
-								generatePhotoField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type texte) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Photo";
-									schema[name].name = name;
-									schema[name].title = field.get("display_label");
-									schema[name].template = "photo";
-									schema[name].fieldset = fieldsetName;
-									// add hidden field to store file url
-									schema["photo_url"] = {};
-									schema["photo_url"].title = "photo file path";
-									schema["photo_url"].type = "Hidden";
-									schema["photo_url"].validators = ['required'];
-									nbFields += 1;
-								});
-							break;
-						}
-					});
-				});
-
-				app.models.protocol.schema = schema;
-				// for localstorage => toJson
-				app.models.protocol.attributes.schema = schema;
-				// update protocol if exists
-				if (nbFields > 0) {
-					var prot = app.collections.protocolsList.get(id);
-					if (prot === undefined) {
-						app.collections.protocolsList.add(app.models.protocol);
-						app.models.protocol.save();
-					} else {
-						prot.destroy();
-						app.collections.protocolsList.add(app.models.protocol);
-						app.models.protocol.save();
-					}
-					//alert ("protocol '" + protName + "' successfully updated.");
-
-				} else {
-					alert("Protocol '" + protName + "' non updated ! check fields list and type.");
-				}
-
-			});
-		localStorage.setItem("xmlProtocolsIsloaded", "true");
-	};
-	/*
-	app.utils.generateProtocolFromXml = function(xml) {
-		$(xml).find('protocol').each(
-			function() {
-				// créer le modèle protocol
-				app.models.protocol = new app.models.Protocol();
-				var id = $(this).attr('id');
-				var protName = $(this).find('display_label:first').text();
-
-				app.models.protocol.set("id", id);
-				app.models.protocol.set("name", protName);
-				// key words
-				var keywords = [];
-				$(this).find('keyword').each(
-					function() {
-						var keyword = $(this).text();
-						keyword = app.utils.trim(keyword);
-						keywords.push(keyword);
-					});
-				app.models.protocol.set("keywords", keywords);
-				//créer le schema du modele à partir des champs
-				var schema = {};
-				var nbFields = 0;
-				$(this).find('fields').children().each(function() {
-					var myFieldSet = $(this);
-					var fieldsetName = $(this).attr("name");
-
-					$(this).children().each(function() {
-						var node = $(this);
-						var fieldtype = $(this).get(0).nodeName;
-						switch (fieldtype) {
-							case ("field_list"):
-								generateListField(node, function(field) {
-									var name = field.get("name");
-									// creer un champ dont le nom correspond au label et dont le type correspond au model "field" (champ de type liste) et le rajouter au schema du protocole
-									schema[name] = {};
-									schema[name].type = "Select";
-									schema[name].title = field.get("display_label");
-									schema[name].options = field.get("items");
-									schema[name].value = field.get("defaultValue");
-									schema[name].fieldset = fieldsetName;
-									schema[name].required = true;
-									nbFields += 1;
-								});
-								break;
 							case ("field_numeric"):
 								generateNumericField(node, function(field) {
 									var name = field.get("name");
@@ -317,6 +117,9 @@ var ecoReleveData = (function(app) {
 									schema[name].fieldset = fieldsetName;
 									nbFields += 1;
 									// validation
+									/*if (field.get("required") =="true" ){
+											schema[name].validators = "['required']";
+										}*/
 									//schema[name].model = field ;
 								});
 								break;
@@ -368,7 +171,6 @@ var ecoReleveData = (function(app) {
 			});
 		localStorage.setItem("xmlProtocolsIsloaded", "true");
 	};
-	*/
 	app.utils.getProtocolsFromServer = function(url) {
 		// call WS protocols
 		$.ajax({
@@ -600,52 +402,8 @@ var ecoReleveData = (function(app) {
 		dateEN.setFullYear(YYYY);
 		return dateEN;
 	}
+
 	function generateListField(node, callback) {
-		var fieldId = $(node).attr("id");
-		var name = $(node).find('label').text();
-		var label = $(node).find('display_label').text();
-		//var itemlist = $(node).find('itemlist').text();
-		//var itemlist = $(node).find('itemlist').html();
-		//var defaultValueId = $(node).find('default_value').attr("id");
-		var defaultValueId = $(node).find('defaultValue').attr('id');
-
-		var defaultvalueposition;
-
-		//var listVal = itemlist.split('|');
-		var options = [];
-		$(node).find('itemList[lang="en"]').children().each(function() {
-			var label = $(this).find('label').text();	
-			var value = $(this).find('value').text();
-			options.push(label);	
-		});
-
-		/*
-		for (var i = 0; i < listVal.length; i++) {
-			var valItem = listVal[i];
-			var valListe = valItem.split(';');
-			options.push(valListe[2]);
-			if (defaultValueId == valListe[0]) {
-				defaultvalueposition = i;
-			}
-		}
-		// placer la valeur par défaut en premier de la liste
-		var defval = options[defaultvalueposition];
-		var firstval = options[0];
-
-		options[0] = (defval === null) ? "" : defval;
-		options[defaultvalueposition] = firstval;
-		*/
-		// creer 1 modele champ de type liste
-		var listField = new app.models.ListField({
-			id: fieldId,
-			name: name,
-			display_label: label,
-			items: options
-		});
-		callback(listField);
-		// mettre la valeur par défaut en première position de la table
-	}
-	/*function generateListField(node, callback) {
 
 		var fieldId = $(node).attr("id");
 		var name = $(node).find('label').text();
@@ -683,7 +441,8 @@ var ecoReleveData = (function(app) {
 		});
 		callback(listField);
 		// mettre la valeur par défaut en première position de la table
-}*/
+	}
+
 	function generateTextField(node, callback) {
 
 		var fieldId = $(node).attr("id");
@@ -705,18 +464,7 @@ var ecoReleveData = (function(app) {
 
 		callback(textField);
 	}
-	function generateStringField(node, callback) {
 
-		var fieldId = $(node).attr("id");
-		var name = $(node).find('label').text();
-		var label = $(node).find('display_label').text();
-		var textField = new app.models.TextField({
-			id: fieldId,
-			name: name,
-			display_label: label,
-		});
-		callback(textField);
-	}
 	function generateNumericField(node, callback) {
 		var fieldId = $(node).attr("id");
 		var name = $(node).find('label:first').text();
@@ -739,30 +487,7 @@ var ecoReleveData = (function(app) {
 		});
 		callback(numField);
 	}
-	function generateFloatField (node, callback) {
-		var fieldId = $(node).attr("id");
-		var name = $(node).find('label:first').text();
-		var label = $(node).find('display_label').text();
-		// creer le modele champ numerique
-		var floatField = new app.models.NumericField({
-			id: fieldId,
-			name: name,
-			display_label: label,
-		});
-		callback(floatField);
-	}
-	function generateDateField (node, callback) {
-		var fieldId = $(node).attr("id");
-		var name = $(node).find('label:first').text();
-		var label = $(node).find('display_label').text();
-		// creer le modele champ numerique
-		var dateField = new app.models.DateField({
-			id: fieldId,
-			name: name,
-			display_label: label,
-		});
-		callback(dateField);
-	}
+
 	function generateBooleanField(node, callback) {
 		var fieldId = $(node).attr("id");
 		var name = $(node).find('label').text();
@@ -1163,11 +888,10 @@ app.utils.initializeDB = function(db){
 		$('#lTaxon').empty();
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
-		// TODO à retablir pour la vue
-		//var view_url = serverUrl + "/proto/proto_taxon_get?name_vue="+$('#select_views option:selected').attr('id');
+var view_url = serverUrl + "/proto/proto_taxon_get?name_vue="+$('#select_views option:selected').attr('id');
 		var proto_url = serverUrl + "/proto/proto_taxon_get?id_proto=" + $("#id_proto").attr("value"); //+"&search="+$("#iTaxon").attr("value");
 		$.ajax({
-			url:proto_url, // TODO view_url,
+			url: view_url,
 			dataType: "text",
 			success: function(xmlresp) {
 				var xmlDoc = $.parseXML(xmlresp),
@@ -1213,9 +937,7 @@ app.utils.initializeDB = function(db){
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
 		var url = serverUrl + "/station/list?format=geojson&limit=0";
-		var urlCount = serverUrl + "/station/list/count?" + "id_proto=" + params.id_proto + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
-		// TODO à retablir pour les vues
-		// var urlCount = serverUrl + "/station/list/count?" + "name_vue=" + params.name_vue + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
+		var urlCount = serverUrl + "/station/list/count?" + "name_vue=" + params.name_vue + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
 		//get count
 
 		app.xhr = $.ajax({
@@ -1322,8 +1044,8 @@ app.utils.initializeDB = function(db){
 	};
 	app.utils.continueUpdateLayer = function(mapView) {
 		var params = {
-			id_proto: $("#id_proto").attr("value"),
-			// TODO à retablir pour les vues name_vue: $('#select_views option:selected').attr('id'),
+			//id_proto: $("#id_proto").attr("value"),
+			name_vue: $('#select_views option:selected').attr('id'),
 			place: $("#place").attr("value"),
 			region: $("#region").attr("value"),
 			idate: $('#idate').text(),
@@ -1553,69 +1275,68 @@ app.utils.initializeDB = function(db){
 				// display nbpositions
 				$('#indivNbPositions').text(nbFeatures);
 				//data = eval(data);
-				if (nbFeatures > 0){
-					var startDate = features[0].properties.date;
-					var endDate = features[nbFeatures - 1].properties.date;
-					app.utils.timelineStartDate = startDate;
-					app.utils.timelineEndDate = endDate;
+				var startDate = features[0].properties.date;
+				var endDate = features[nbFeatures - 1].properties.date;
 
-					var geojson_format = new OpenLayers.Format.GeoJSON({
-						'internalProjection': mapView.map.baseLayer.projection,
-						'externalProjection': new OpenLayers.Projection("EPSG:4326")
-					});
-					var filter = new OpenLayers.Filter.Comparison({
-						type: OpenLayers.Filter.Comparison.BETWEEN,
-						property: "date",
-						lowerBoundary: startDate,
-						upperBoundary: endDate //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
-					});
-					app.utils.timelineFilter = filter;
-					var filterStrategy = new OpenLayers.Strategy.Filter({
-						filter: filter
-					});
-					app.utils.timelinefilterStrategy = filterStrategy;
-					var vector_layer = new OpenLayers.Layer.Vector("positions", {
-						strategies: [filterStrategy],
-						styleMap: new OpenLayers.StyleMap({
-							"default": new OpenLayers.Style({
-								graphicName: "circle",
-								pointRadius: 4,
-								fillOpacity: 0.7,
-								fillColor: "#217a15", // 1A6921  -> red
-								strokeColor: "#217a15",
-								strokeWidth: 1
-							})
+				app.utils.timelineStartDate = startDate;
+				app.utils.timelineEndDate = endDate;
+
+				var geojson_format = new OpenLayers.Format.GeoJSON({
+					'internalProjection': mapView.map.baseLayer.projection,
+					'externalProjection': new OpenLayers.Projection("EPSG:4326")
+				});
+				var filter = new OpenLayers.Filter.Comparison({
+					type: OpenLayers.Filter.Comparison.BETWEEN,
+					property: "date",
+					lowerBoundary: startDate,
+					upperBoundary: endDate //new Date(startDate.getTime() + (0))  // convert days number in milliseconds
+				});
+				app.utils.timelineFilter = filter;
+				var filterStrategy = new OpenLayers.Strategy.Filter({
+					filter: filter
+				});
+				app.utils.timelinefilterStrategy = filterStrategy;
+				var vector_layer = new OpenLayers.Layer.Vector("positions", {
+					strategies: [filterStrategy],
+					styleMap: new OpenLayers.StyleMap({
+						"default": new OpenLayers.Style({
+							graphicName: "circle",
+							pointRadius: 4,
+							fillOpacity: 0.7,
+							fillColor: "#217a15", // 1A6921  -> red
+							strokeColor: "#217a15",
+							strokeWidth: 1
 						})
-					});
+					})
+				});
 
-					mapView.map.addLayer(vector_layer);
-					vector_layer.addFeatures(geojson_format.read(data));
-					mapView.map.zoomToExtent(vector_layer.getDataExtent());
-					var zoomLevel = mapView.map.zoom;
-					if (zoomLevel > 11){
-						mapView.zoomTo(11);
-					}
-					$("#waitControl").remove(); 
-					// init date values
-					var stDate = new Date(startDate * 1000);
-					// convert date format
-					stDate = stDate.defaultView('YYYY/MM/DD');
-					$("#objectsIndivMapSliderStartDate").text(stDate);
-					var enDate = new Date(endDate * 1000);
-					// convert date format
-					enDate = enDate.defaultView('YYYY/MM/DD');
-					$("#objectsIndivMapSliderEndDate").text(enDate);
+				mapView.map.addLayer(vector_layer);
+				vector_layer.addFeatures(geojson_format.read(data));
+				mapView.map.zoomToExtent(vector_layer.getDataExtent());
+				var zoomLevel = mapView.map.zoom;
+				if (zoomLevel > 11){
+					mapView.zoomTo(11);
+				}
+				$("#waitControl").remove(); 
+				// init date values
+				var stDate = new Date(startDate * 1000);
+				// convert date format
+				stDate = stDate.defaultView('YYYY/MM/DD');
+				$("#objectsIndivMapSliderStartDate").text(stDate);
+				var enDate = new Date(endDate * 1000);
+				// convert date format
+				enDate = enDate.defaultView('YYYY/MM/DD');
+				$("#objectsIndivMapSliderEndDate").text(enDate);
 
-					if (stDate != enDate) {
-						$("#dateSlider").slider({});
-						$("#sliderwait").addClass("masqued");
-						$("#dateSlider").data('slider').min = startDate;
-						$("#dateSlider").data('slider').max = endDate;
-						$("#dateSlider").data('slider').step = 86400;
-					} else {
-						$("#sliderContent").addClass("masqued");
-						$("#sliderMessage").removeClass("masqued");
-					}
+				if (stDate != enDate) {
+					$("#dateSlider").slider({});
+					$("#sliderwait").addClass("masqued");
+					$("#dateSlider").data('slider').min = startDate;
+					$("#dateSlider").data('slider').max = endDate;
+					$("#dateSlider").data('slider').step = 86400;
+				} else {
+					$("#sliderContent").addClass("masqued");
+					$("#sliderMessage").removeClass("masqued");
 				}
 				callback(nbFeatures);
 			},
@@ -1814,7 +1535,7 @@ app.utils.initializeDB = function(db){
 			});
 		}
 	};
-	app.utils.getAreaList = function(element, url, isDatalist) {
+	/*app.utils.getAreaList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
 		//var serverUrl = localStorage.getItem("serverUrl");
@@ -1839,8 +1560,7 @@ app.utils.initializeDB = function(db){
 			}
 		});
 
-	};
-	/* TODO à retablir pour les vues
+	};*/
 		app.utils.getAreaList = function(element, url, isDatalist) {
 		$(element).empty();
 		$("#region").removeAttr("disabled");
@@ -1881,7 +1601,8 @@ app.utils.initializeDB = function(db){
 				alert("error loading area items, please check connexion to webservice ");
 			}
 		});
-	}; */
+
+	};
 	app.utils.fillDataListFromArray = function(array, elementId){
 		var ln = array.length;
 		for (var i=0; i<ln;i++ ){
@@ -1889,7 +1610,7 @@ app.utils.initializeDB = function(db){
 			$(elementId).append(option);
 		}
 	};
-	app.utils.getLocalityList = function(element, url, isDatalist) {
+	/*app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
 		//var serverUrl = localStorage.getItem("serverUrl");
@@ -1914,8 +1635,7 @@ app.utils.initializeDB = function(db){
 			}
 		});
 
-	};
-	/* TODO à retablir pour les vues
+	};*/
 		app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$("#place").removeAttr("disabled");
@@ -1957,7 +1677,7 @@ app.utils.initializeDB = function(db){
 			}
 		});
 
-	};*/
+	};
 	app.utils.generateFilter = function(viewName) {
 		// count nb rows
 		//var serverUrl = localStorage.getItem("serverUrl");

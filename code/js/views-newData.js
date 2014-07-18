@@ -375,6 +375,7 @@ var ecoReleveData = (function(app) {
 	app.views.ProtocolEntry = app.views.BaseView.extend({
 		template: 'inputProtocolEntry',
 		initialize: function(options) {
+
 			this.selectedProtocolId = options.id;
 			var currentModel = new app.models.Observation();
 			var currentProtocol = app.collections.protocolsList.get(this.selectedProtocolId);
@@ -398,6 +399,7 @@ var ecoReleveData = (function(app) {
 			this.currentModelName = currentProtocol.attributes.name;
 		},
 		afterRender: function() {
+
 			$(".protocol").append(this.formView.el);
 			// add hidden input to the form to store protocol name and id
 			var inputProtocolName = "<input type='hidden'  name='protocolName'  value='" + this.currentModelName + "''>";
@@ -450,11 +452,17 @@ var ecoReleveData = (function(app) {
 					url: url,
 					type: "POST",
 					data: data,
+					beforeSend: function(){
+					    $("#waitCtr").css('display', 'block');
+					},
 					success: function(dt) {
 						alert('success pushing data to server !');
 						app.router.navigate("#data-entryEnd", {
 							trigger: true
 						});
+					},
+					complete: function(){
+					    $("#waitCtr").css('display', 'none');
 					},
 					error : function(){
 						alert('error in pushing data to server !');

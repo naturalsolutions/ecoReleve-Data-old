@@ -1362,6 +1362,8 @@ hr {
 	background-image: url(../images/birdsFilter.jpg);
 	color: black;
 	background-repeat: no-repeat;
+	min-width: 200px;
+max-width: 300px;
 }
 #argosFilterContainer div.span5, #argosFilterContainer div.span7 {
 	display: table-cell;
@@ -1371,11 +1373,11 @@ hr {
 #argosDataFilter {
 	margin: 0 auto;
 }
-#hideShowFilter {
+/*#hideShowFilter {
 	position: fixed;
 	bottom: 5em;
 	padding: 5px;
-}
+}*/
 #argosAllGrid div.pagination.pagination-right, #birdDetails div.pagination.pagination-right {
 	display: none;
 }
@@ -1385,7 +1387,7 @@ hr {
 #argosAllGrid {
 	color: #a3a1a1;
 	padding: 1%;
-	margin-top: 5%;
+	margin-top: 2%;
 }
 #argosAllGrid thead {
 	color: black;
@@ -1406,12 +1408,12 @@ hr {
 }
 #argosFilterClear {
 	font-size: 18px;
-	padding: 8px;
-	width: 140px;
+	width: 120px;
 	margin: 20px;
+	height: 40px;
+	padding: 0.2em;
 }
 .argosBtn {
-	float: right;
 	padding-right: 0.5em;
 	padding-left: 0.5em;
 	margin-left: 0.5em;
@@ -1425,11 +1427,26 @@ hr {
 	background-color: #313131;
 	font-size: 1em;
 }
+.argosList {
+	position: fixed;
+	right: 5px;
+	top: 40px;
+}
+.argosDetailBtn {
+	float: right;
+}
+#argosGgridLabel {
+font-size: large;
+margin-top: 10px;
+margin-left: 2em;
+}
 #argosFilterSubmit {
 	font-size: 18px;
-	width: 120px;
+	width: 90px;
 	padding-right: 8px;
-	margin-right: 0.5em;
+	border-color: black;
+	height: 40px;
+	padding: 0.2em;
 }
 #argosImportPttList {
 	margin-right: 1em;
@@ -1491,22 +1508,25 @@ hr {
 }
 
 /* hide show filter */
-#hideShowFilter {
+#hideShowFilter, #argosHideShowFilter {
 	display: block;
 	position: absolute;
-	/*top: 60px;
-	left: 0px;*/
-	top: 0px;
-	left: 405px;
 	cursor: pointer;
 	height: 35px; /* 40 */
 	width: 35px;
 	z-index: 1;
 	background: url('../images/closeBT2.png') no-repeat scroll left bottom #FFF;
-	/* border-radius: px 0px 0px 4px;
-	*/
+	padding: 5px;
 }
-#hideShowFilter.selected {
+#hideShowFilter{
+	top: 0px;
+	left: 405px;
+}
+#argosHideShowFilter {
+	top: 0px;
+	left: 405px;
+}
+#hideShowFilter.selected, #argosHideShowFilter.selected {
 	background-position: left top;
 }
 .argosNav {

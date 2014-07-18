@@ -78,9 +78,10 @@ function init(){
 	// load stored protocols
 	app.collections.protocolsList = new app.collections.Protocols();
 	app.collections.protocolsList.fetch().then(function(){
-		if (app.collections.protocolsList.length === 0){
+		//if (app.collections.protocolsList.length === 0){
+			app.collections.protocolsList.reset();
 			app.utils.loadProtocols("config/XML_ProtocolDef_eReleve.xml");
-		}
+		//}
 	});
 	// load observations
 	app.collections.observations = new app.collections.Observations();
@@ -130,12 +131,14 @@ function init(){
 	
 
   });
+	
+
 }
-	function loadScript(src) {
+/*	function loadScript(src) {
     	var scriptElement = document.createElement('script');
         scriptElement.src = src;
    		document.body.appendChild(scriptElement);
 	}
-
+*/
 return app;
 })(ecoReleveData);

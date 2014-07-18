@@ -36,7 +36,7 @@
 						$("#select_id_proto option[id='12']").attr('selected', 'selected');
 					}
 				});
-				// TODO debut list des vues à retablir
+				// debut list des vues à retablir
 				/*
 				var self = this
 				$.ajax({
@@ -91,12 +91,10 @@
 					layerName: "tracks"
 				});
 				$("label, input,button, select ").css("font-size", "15px");
-				// TODO a commenter pour les vues
 				//datalist of taxons
-				app.utils.fillTaxaList();
-				// get area list (TODO a commenter pour les vues) 
+				//app.utils.fillTaxaList();
+				// get area list 
 				//this.getAreaList();
-
 			} catch (e) {
 		            app.router.navigate('#', {trigger: true});
 		    }
@@ -115,7 +113,7 @@
 			'change #select_id_proto': 'updateTable',
 			//'change input.cluster' : 'updateMap',
 			'click #btnReset': 'resetdate',
-			//'change #select_views': 'updateTable_view',  TODO pour les vues
+			'change #select_views': 'updateTable_view',
 			'click #btnW': 'updateDateWeek',
 			'click #btnM': 'updateDateMonth',
 			'click #btnY': 'updateDateYear',
@@ -299,7 +297,7 @@
 			// check if you need to use selected features id ( else : use BBOX)
 			var params = 'id_proto=' + $("#id_proto").attr("value") + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
 		// vue	
-		// TODO a établir pour les vues
+		// a établir pour les vues
 		//var params = 'name_vue=' + $('#select_views option:selected').attr('id')+ "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
 
 			var paramsMap = "";

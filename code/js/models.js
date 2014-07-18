@@ -35,7 +35,7 @@ app.collections.Protocols = Backbone.Collection.extend({
 // fields
 app.models.ListField = Backbone.Model.extend({
 	schema: {
-		id: 'Number',
+		id: 'List',
 		name : 'Text',
 		display_label:'Text',
 		items : 'Object'
@@ -44,7 +44,7 @@ app.models.ListField = Backbone.Model.extend({
  
 app.models.TextField = Backbone.Model.extend({
 	schema: {
-		id: 'Number',
+		id: 'Text',
 		name : Text,
 		display_label:Text,
 		multiline: Text,
@@ -66,7 +66,7 @@ app.models.NumericField = Backbone.Model.extend({
 });
 app.models.BooleanField = Backbone.Model.extend({
 	schema: {
-		id: 'Number',
+		id: 'Boolean',
 		name : Text,
 		display_label:Text,
 		defaultValue:Text,
@@ -76,6 +76,13 @@ app.models.BooleanField = Backbone.Model.extend({
 app.models.PhotoField= Backbone.Model.extend({
 	schema: {
 		id: 'Number',
+		name : Text,
+		display_label:Text
+	}
+});
+app.models.DateField= Backbone.Model.extend({
+	schema: {
+		id: 'Date',
 		name : Text,
 		display_label:Text
 	}

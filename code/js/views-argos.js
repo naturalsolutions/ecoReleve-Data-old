@@ -47,12 +47,19 @@
 				this.setStatusColor();
 				// datalists for filter autocomplete
 				this.getListsForFilter();
+				// set filter div height
+				$("#argosFilter").css("height",this.windowHeigth-50);
+				//
 			}
+			// update #argosHideShowFilter position 
+			this.updateBtnPosition();
+			$(window).bind('resize', $.proxy(function(e) {
+				this.updateBtnPosition();
+			}, this));
 			// color data items by 'status' value
-			
 		}, 
 		events : {
-			"click #hideShowFilter" : "moveFilter",
+			"click #argosHideShowFilter" : "moveFilter",
 			"click #argosFilterSubmit" : "getMyDataList",
 			"click #argosFilterClear" : "clearFields",
 			"click tr": "selectTableElement",
@@ -120,20 +127,25 @@
 			});
 		},
 		moveFilter : function() {
-			
-			//alert(displayed);
+			var self = this;
 		    $("#argosFilter").toggle("slide", function() {
-		    	var displayed = $( "#argosFilter" ).attr("style");
-			    if (displayed ==="display: none;"){
-			    	//$("#argosHideShowFilter").text("filter >");
-			    	$("#hideShowFilter").addClass("selected");
+		    	var displayed = $("#argosFilter").css('display');
+			    if (displayed ==="none"){
+			    	$("#argosHideShowFilter").addClass("selected");
+			    	$("#argosFilter").removeAttr("class");
+			    	$("#argosFilter").addClass("span0");
+			    	$("#argosFilterGrid").removeAttr("class");
+			    	$("#argosFilterGrid").addClass("span11");
+			    	$("#argosHideShowFilter").css("left", "0px");
 			    } else {
-			    	//$("#argosHideShowFilter").text("< filter");
-			    	$("#hideShowFilter").removeClass("selected");
+			    	$("#argosHideShowFilter").removeClass("selected");
+			    	$("#argosFilter").removeAttr("class");
+			    	$("#argosFilterGrid").removeAttr("class");
+			    	$("#argosFilter").addClass("span3");
+			    	$("#argosFilterGrid").addClass("span9");
+			    	self.updateBtnPosition();
 			    }
 		    });
-		    
-		   // argosHideShowFilter
 		},
 		getMyDataList : function(){
 			var pttId = $('input[name="pttId"]').val().trim();
@@ -268,7 +280,12 @@
 			app.utils.fillDataListFromArray(transmitterIdList, "#argosTransmittersdList");
 			app.utils.fillDataListFromArray(this.indivIdList, "#argosIndividualList");
 		},
+		updateBtnPosition : function(){
+			var filterPanelWidth = $("#argosFilter").width();
+			$("#argosHideShowFilter").css("left", (filterPanelWidth - 45) + "px");
+		},
 		remove: function(options) {
+			$(window).unbind("resize");
 			if(this.filtredTransmittersCollection){
 				this.filtredTransmittersCollection.reset();
 				this.filtredTransmittersCollection = null;
