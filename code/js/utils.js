@@ -647,6 +647,7 @@ var ecoReleveData = (function(app) {
 	}
 	/*function generateListField(node, callback) {
 
+
 		var fieldId = $(node).attr("id");
 		var name = $(node).find('label').text();
 		var label = $(node).find('display_label').text();
@@ -1163,11 +1164,15 @@ app.utils.initializeDB = function(db){
 		$('#lTaxon').empty();
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
-		// TODO à retablir pour la vue
-		//var view_url = serverUrl + "/proto/proto_taxon_get?name_vue="+$('#select_views option:selected').attr('id');
-		var proto_url = serverUrl + "/proto/proto_taxon_get?id_proto=" + $("#id_proto").attr("value"); //+"&search="+$("#iTaxon").attr("value");
+		var url = "";
+		if(app.utils.typeSearchSelected === 'views'){
+			url = serverUrl + "/proto/proto_taxon_get?name_vue="+$('#select_views option:selected').attr('id');
+		}
+		else if(app.utils.typeSearchSelected === 'protocol'){
+		    url = serverUrl + "/proto/proto_taxon_get?id_proto=" + $("#id_proto").attr("value"); //+"&search="+$("#iTaxon").attr("value")
+		}
 		$.ajax({
-			url:proto_url, // TODO view_url,
+			url: url,
 			dataType: "text",
 			success: function(xmlresp) {
 				var xmlDoc = $.parseXML(xmlresp),
@@ -1186,8 +1191,8 @@ app.utils.initializeDB = function(db){
 	};
 	app.utils.getUpdateParams = function() {
 		var params = {};
-		//params.id_proto = $("#id_proto").attr("value");
-		name_vue = $('#select_views option:selected').attr('id'),
+		params.id_proto = $("#id_proto").attr("value");
+		params.name_vue = $('#select_views option:selected').attr('id'),
 		params.place = $("#place").attr("value");
 		params.region = $("#region").attr("value");
 		params.idate = $('#idate').text();
@@ -1201,21 +1206,35 @@ app.utils.initializeDB = function(db){
 				mapView.map.removeLayer(mapView.map.layers[i]);
 			}
 		}
-		var params = {
-			id_proto: $("#id_proto").attr("value"),
-			place: $("#place").attr("value"),
-			region: $("#region").attr("value"),
-			idate: $('#idate').text(),
+		var params = {};
+		var urlCount = "";
+		if(app.utils.typeSearchSelected === 'protocol'){
+			params = {
+				id_proto: $("#id_proto").attr("value"),
+				place: $("#place").attr("value"),
+				region: $("#region").attr("value"),
+				idate: $('#idate').text(),
 			//cluster : $('.cluster:checked').val(),
-			taxonsearch: $("#iTaxon").attr("value"),
+				taxonsearch: $("#iTaxon").attr("value"),
 			//zoom: 3
-		};
+			};
+			urlCount = "id_proto="+ params.id_proto;
+		}else if(app.utils.typeSearchSelected === 'views'){
+			params = {
+				name_vue: $('#select_views option:selected').attr('id'),
+				place: $("#place").attr("value"),
+				region: $("#region").attr("value"),
+				idate: $('#idate').text(),
+			//cluster : $('.cluster:checked').val(),
+				taxonsearch: $("#iTaxon").attr("value"),
+			//zoom: 3
+			};
+			urlCount = "name_vue=" + params.name_vue;
+		}
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
 		var url = serverUrl + "/station/list?format=geojson&limit=0";
-		var urlCount = serverUrl + "/station/list/count?" + "id_proto=" + params.id_proto + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
-		// TODO à retablir pour les vues
-		// var urlCount = serverUrl + "/station/list/count?" + "name_vue=" + params.name_vue + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
+		urlCount = serverUrl + "/station/list/count?" + urlCount + "&place=" + params.place + "&region=" + params.region + "&idate=" + params.idate + "&taxonsearch=" + params.taxonsearch;
 		//get count
 
 		app.xhr = $.ajax({
@@ -1323,7 +1342,7 @@ app.utils.initializeDB = function(db){
 	app.utils.continueUpdateLayer = function(mapView) {
 		var params = {
 			id_proto: $("#id_proto").attr("value"),
-			// TODO à retablir pour les vues name_vue: $('#select_views option:selected').attr('id'),
+			name_vue: $('#select_views option:selected').attr('id'),
 			place: $("#place").attr("value"),
 			region: $("#region").attr("value"),
 			idate: $('#idate').text(),
@@ -1816,33 +1835,6 @@ app.utils.initializeDB = function(db){
 	};
 	app.utils.getAreaList = function(element, url, isDatalist) {
 		$(element).empty();
-		$('<option value=""></option>').appendTo(element);
-		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl = app.config.serverUrl;
-		url = serverUrl + url;
-		$.ajax({
-			url: url,
-			dataType: "json",
-			success: function(data) {
-				var len = data.length;
-				for (var i = 0; i < len; i++) {
-					var area = data[i].TStationsJoin.Area;
-					if (isDatalist) {
-						$('<option value=\"' + area + '\">' + "</option>").appendTo(element);
-					} else {
-						$('<option value=\"' + area + '\">' + area + "</option>").appendTo(element);
-					}
-				}
-			},
-			error: function() {
-				alert("error loading items, please check connexion to webservice");
-			}
-		});
-
-	};
-	/* TODO à retablir pour les vues
-		app.utils.getAreaList = function(element, url, isDatalist) {
-		$(element).empty();
 		$("#region").removeAttr("disabled");
 		$('<option value=""></option>').appendTo(element);
 		var serverUrl = app.config.serverUrl;
@@ -1881,7 +1873,7 @@ app.utils.initializeDB = function(db){
 				alert("error loading area items, please check connexion to webservice ");
 			}
 		});
-	}; */
+	}; 
 	app.utils.fillDataListFromArray = function(array, elementId){
 		var ln = array.length;
 		for (var i=0; i<ln;i++ ){
@@ -1889,7 +1881,7 @@ app.utils.initializeDB = function(db){
 			$(elementId).append(option);
 		}
 	};
-	app.utils.getLocalityList = function(element, url, isDatalist) {
+	/*app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
 		//var serverUrl = localStorage.getItem("serverUrl");
@@ -1914,9 +1906,9 @@ app.utils.initializeDB = function(db){
 			}
 		});
 
-	};
-	/* TODO à retablir pour les vues
-		app.utils.getLocalityList = function(element, url, isDatalist) {
+	};*/
+
+	app.utils.getLocalityList = function(element, url, isDatalist) {
 		$(element).empty();
 		$("#place").removeAttr("disabled");
 		$('<option value=""></option>').appendTo(element);
@@ -1957,7 +1949,7 @@ app.utils.initializeDB = function(db){
 			}
 		});
 
-	};*/
+	};
 	app.utils.generateFilter = function(viewName) {
 		// count nb rows
 		//var serverUrl = localStorage.getItem("serverUrl");

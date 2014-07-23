@@ -21,6 +21,8 @@
 				//var serverUrl = localStorage.getItem("serverUrl");
 				var serverUrl = app.config.serverUrl;
 				//procole list for input select
+				var self = this;
+				app.utils.typeSearchSelected = $("input[name=type_search]:checked").val();
 				$.ajax({
 					url: serverUrl + "/proto/proto_list",
 					dataType: "text",
@@ -34,11 +36,12 @@
 							$('<option id=\"' + $(this).attr('id') + '\" value=\"' + $(this).text() + '\">' + $(this).text() + '</option>').appendTo('#select_id_proto');
 						});
 						$("#select_id_proto option[id='12']").attr('selected', 'selected');
+						if(app.utils.typeSearchSelected === 'protocol'){
+							app.utils.fillTaxaList();
+							self.getAreaList();
+						}
 					}
 				});
-				// TODO debut list des vues à retablir
-				/*
-				var self = this
 				$.ajax({
 					url: serverUrl + "/views/views_list",
 					dataType: "text",
@@ -50,12 +53,12 @@
 							$('<option id=\"' + $(this).attr('id') + '\" value=\"' + $(this).text() + '\">' + $(this).text() + '</option>').appendTo('#select_views');
 						});
 						$("#select_views option[id='V_Qry_Argos_AllIndivs_AllStations']").attr('selected', 'selected');
-						app.utils.fillTaxaList();
-						self.getAreaList();
+						if(app.utils.typeSearchSelected === 'views'){
+							app.utils.fillTaxaList();
+							self.getAreaList();
+						}
 					}
 				});
-				//  fin list des vues 
-				*/
 				var dataContainer = $("#main")[0]; //var myDataTable = $("#myDataTable")[0];
 				var widthDataContainer = dataContainer.clientWidth;
 				var widthallDataContent = widthDataContainer - 260;
@@ -112,10 +115,10 @@
 			console.log("remove all data");
 		},
 		events: {
-			'change #select_id_proto': 'updateTable',
-			//'change input.cluster' : 'updateMap',
+			'change #select_id_proto': 'updateTable_proto',
+			'change #select_views': 'updateTable_view',
+			'change input[name=type_search]' : 'updateTable',
 			'click #btnReset': 'resetdate',
-			//'change #select_views': 'updateTable_view',  TODO pour les vues
 			'click #btnW': 'updateDateWeek',
 			'click #btnM': 'updateDateMonth',
 			'click #btnY': 'updateDateYear',
@@ -134,11 +137,23 @@
 			'click #allDataLoadTrack': 'loadTrack'
 		},
 		getAreaList: function() {
-			var idProtocol = $("#id_proto").attr("value");
-			app.utils.getAreaList("#alldata-regionList", "/station/area?id_proto=" + idProtocol, true);
-			app.utils.getLocalityList("#alldata-localityList", "/station/locality?id_proto=" + idProtocol, true);
+			//Protocol
+			if(app.utils.typeSearchSelected === 'protocol'){
+				var idProtocol = $("#id_proto").attr("value");
+				app.utils.getAreaList("#alldata-regionList", "/station/area?id_proto=" + idProtocol, true);
+				app.utils.getLocalityList("#alldata-localityList", "/station/locality?id_proto=" + idProtocol, true); 
+			}
+			//views
+			else if(app.utils.typeSearchSelected === 'views'){
+				var name_vue = $('#select_views option:selected').attr('id');
+				app.utils.getAreaList("#alldata-regionList", "/station/area?name_vue=" + name_vue, true);
+				app.utils.getLocalityList("#alldata-localityList", "/station/locality?name_vue=" + name_vue, true); 
+
+			}	
 		},
-		updateTable: function() {
+
+		updateTable_proto: function() {
+
 			//this.updateControls();
 			$("#iTaxon").val("");
 			$("#place").val("");
@@ -152,6 +167,14 @@
 			$("#iTaxon").val("");
 			$("#place").val("");
 			$("#region").val("");
+			app.utils.fillTaxaList();
+			this.getAreaList();
+		},
+		updateTable: function() {
+			$("#iTaxon").val("");
+			$("#place").val("");
+			$("#region").val("");
+			app.utils.typeSearchSelected = $("input[name=type_search]:checked").val();
 			app.utils.fillTaxaList();
 			this.getAreaList();
 		},
@@ -246,7 +269,7 @@
 				$("#dateinter").attr("disabled", "disabled");
 		},
 		search: function() {
-			this.displayWaitControl();
+			//this.displayWaitControl();
 			// $("#map").css("height","795px");
 			this.updateControls();
 			var datedep = $("#datedep").attr('value');
@@ -254,8 +277,19 @@
 			if (datedep !== "" || datearr !== "") {
 				$('#idate').text(datedep + ";" + datearr);
 			}
-			/*$('#idate').text(datedep+";"+ datearr);*/
-			var params = 'id_proto=' + $("#id_proto").attr("value") + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
+			
+			var params = "";
+			//Protocole
+			if(app.utils.typeSearchSelected === 'protocol'){
+
+				params = 'id_proto=' + $("#id_proto").attr("value") + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
+			}
+			//Vue
+			else if(app.utils.typeSearchSelected === 'views'){
+				params = 'name_vue=' + $('#select_views option:selected').attr('id') + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
+			}
+			
+			
 			app.utils.filldatable(params);
 			app.utils.updateLayer(this.map_view);
 			/*     $("img#mapunselectfeatures").css("position" , "absolute");
@@ -297,11 +331,15 @@
 		},
 		updateTableForSelecedFeatures: function(evt) {
 			// check if you need to use selected features id ( else : use BBOX)
-			var params = 'id_proto=' + $("#id_proto").attr("value") + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
-		// vue	
-		// TODO a établir pour les vues
-		//var params = 'name_vue=' + $('#select_views option:selected').attr('id')+ "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
-
+			var params = "";
+			if(app.utils.typeSearchSelected === 'protocol'){
+				params = 'id_proto=' + $("#id_proto").attr("value") + "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
+			}
+			//views
+			else if(app.utils.typeSearchSelected === 'views'){
+				params = 'name_vue=' + $('#select_views option:selected').attr('id')+ "&place=" + $("#place").attr("value") + "&region=" + $("#region").attr("value") + "&idate=" + $('#idate').text() + "&taxonsearch=" + $("#iTaxon").attr("value");
+			}
+			
 			var paramsMap = "";
 			var idSelected = $("#featuresId").val();
 			if (idSelected === "") {
@@ -392,7 +430,6 @@
 			$("#allDataMapAlert").empty();
 			$("#allDataMapAlert").removeClass("dialogBoxAlert");
 			$("div.modal-backdrop").removeClass("modal-backdrop");
-
 			// $("#alldataAlert").addClass("masqued");
 			$("#waitControl").remove();
 		},

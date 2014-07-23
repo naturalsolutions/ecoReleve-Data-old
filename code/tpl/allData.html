@@ -11,9 +11,11 @@
 	</fieldset>
 	<fieldset>
 		<legend class="critLegend">what</legend>
-		<span>protocol: <input type='text' value='12' id="id_proto"><br/>
-		<select id="select_id_proto"/></span><br/>
-		<span style="display:none" >views: <br/><select id="select_views"/><br/></span>
+		<input type="radio" name="type_search" value="protocol">&nbsp;protocol <br/>
+		<input type='text' value='12' id="id_proto">
+		<select id="select_id_proto"/><br/>
+		<input type="radio" name="type_search" value="views" checked>&nbsp;views <br/>
+		<select id="select_views"/><br/>
 		taxon: <br/><input list="lTaxon" type="text" id="iTaxon" />
 		<datalist id="lTaxon"/>
 	</fieldset>
