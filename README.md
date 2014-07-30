@@ -10,16 +10,14 @@ To address this issue, we have starting an ambitious open source effort based on
 
 We provide Software for Field Worker: that actually run the data collection and data entries
 
-
+#[Demo here] (http://vps85427.ovh.net/ecoReleve-data)
 
 Screen shots
 ------------
 ![ecoReleve](https://static.squarespace.com/static/519a7bc0e4b08ccdf8f31445/t/53c9549ae4b0a11d417c1d12/1405703324816/?format=1000w)
 
-Demo 
-------------
 
-#[Demo server ] (http://vps85427.ovh.net/ecoReleve-data)
+
 
 Technologie used
 ------------
