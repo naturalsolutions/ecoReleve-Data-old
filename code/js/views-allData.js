@@ -19,12 +19,12 @@
 				$('#idate').hide();
 				$('#allDataCluster').hide();
 				//var serverUrl = localStorage.getItem("serverUrl");
-				var serverUrl = app.config.serverUrl;
+				var coreUrl = app.config.coreUrl;
 				//procole list for input select
 				var self = this;
 				app.utils.typeSearchSelected = $("input[name=type_search]:checked").val();
 				$.ajax({
-					url: serverUrl + "/proto/proto_list",
+					url: coreUrl + "/protocoles/list",
 					dataType: "text",
 					success: function(xmlresp) {
 						var xmlDoc = $.parseXML(xmlresp),
@@ -43,7 +43,7 @@
 					}
 				});
 				$.ajax({
-					url: serverUrl + "/views/views_list",
+					url: coreUrl + "/views/list",
 					dataType: "text",
 					success: function(xmlresp) {
 						var xmlDoc = $.parseXML(xmlresp),

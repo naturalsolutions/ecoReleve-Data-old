@@ -13,7 +13,7 @@ var ecoReleveData = (function(app) {
 				}]
 			});
 
-			app.utils.getItemsList("#export-themes", "/views/themes_list");
+			app.utils.getItemsList("#export-themes", "/theme/list?export=yes");
 		},
 		events: {
 			'change #export-themes': 'updateViewsList',
@@ -146,14 +146,18 @@ var ecoReleveData = (function(app) {
 
 				var fieldName = $(this).find("div.name").text();
 				var condition = $(this).find("input.fieldval").val();
-				/*var operator = $(this).find("div.operator").text();
-	            if (operator !="LIKE"){*/
 				var operator = $(this).find("select.filter-select-operator option:selected").text();
-				/*} else {
-	                operator = " LIKE ";
-	            }   */
 
-				if (operator == "LIKE") {
+				if (operator == "IN") {
+					query += fieldName+'='+operator +','+condition.replace(';','|')+'&';
+				}
+				else if (operator == "IS NOT NULL" || operator == "IS NULL") {
+					query += fieldName+'='+operator+'&';
+				}
+				else{
+					query += fieldName+'='+operator +','+condition+'&';
+				}
+				/*if (operator == "LIKE") {
 					operator = " LIKE ";
 				}
 				if (operator == "IN") {
@@ -163,7 +167,7 @@ var ecoReleveData = (function(app) {
 					operator =" "+operator;//.replace(/ /g,'');
 				}
 
-				query += fieldName + operator + condition + ",";
+				query += fieldName + operator + condition + ",";*/
 			});
 			// delete last character "&"
 			query = query.substring(0, query.length - 1);
@@ -294,9 +298,10 @@ var ecoReleveData = (function(app) {
 
 			// add geodata to base layer
 			this.displayWaitControl();
-			var serverUrl = app.config.serverUrl;
-			var url = serverUrl + "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
+			//var serverUrl = app.config.serverUrl;
+			//var url = serverUrl + "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&format=geojson&limit=0";
 
+			var url = app.config.coreUrl + "/views/filter/" + this.currentView + "/geo?" + this.filterValue + "&format=geojson&limit=0";
 			/*
 	        var protocol = new NS.UI.Protocol({ url : url, format: "GEOJSON" , strategies:["BBOX"], cluster:true, params:{round:"0"}});
 	        this.map_view.addLayer({protocol : protocol , layerName : "Observations", noSelect : false});
@@ -398,7 +403,7 @@ var ecoReleveData = (function(app) {
 			var selectedview = this.currentView;
 			var bboxVal = $("input#updateSelection").val();
 			var filterVal = this.filterValue;
-			var query = "filter=" + filterVal + "&bbox=" + bboxVal;
+			var query = filterVal + "&bbox=" + bboxVal;
 			app.utils.getResultForGeoFilter(query, selectedview);
 		},
 		getResult: function() {
@@ -673,7 +678,7 @@ var ecoReleveData = (function(app) {
 			});
 			// map view
 			this.displayedCols = app.utils.exportSelectedFieldsList;
-			this.url = serverUrl + "/views/get/" + this.currentView + "?filter=" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + this.displayedCols;
+			this.url = app.config.coreUrl + "/views/filter/" + this.currentView + "/geo?" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + this.displayedCols;
 			//add id field to field list to display on the map
 			this.displayedCols.unshift("Id");
 			$('#map').css({

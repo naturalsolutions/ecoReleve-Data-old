@@ -67,7 +67,7 @@ function init(){
 	app.collections.fieldActivityList = new app.collections.FieldActivities();
 	app.collections.fieldActivityList.fetch().then(function () {
 		if (app.collections.fieldActivityList.length === 0){
-			app.utils.getFieldActivityListForStrorage("/view/theme/list?import=yes");
+			app.utils.getFieldActivityListForStrorage("/theme/list");
 		}
 	});
 	// get station list

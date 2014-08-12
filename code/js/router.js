@@ -46,7 +46,8 @@
 			//'argos/id:transmitter/indiv/id:indivId' : 'argosDetails',
 			'argos/*parameters' : 'argosDetails',
 			"birds": "birds",
-			"bird/:id" :"bird"
+			"bird/:id" :"bird",
+			"rfid":"rfid"
 			
 
 			//"exportFilter" : "exportFilter"
@@ -740,6 +741,9 @@
 		},
 		myObs : function(id){
 			this.setView(new app.views.MyObs({id: id}));
+		},
+		rfid : function() {
+			this.setView(new app.views.Rfid());
 		}
 	});
 

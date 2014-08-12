@@ -122,7 +122,7 @@
 			objOptions.pagerPosition = 'bottom';
 			var grid = app.utils.initGrid(app.collections.selectedWaypoints, col_a_masquer, objOptions);
 			this.insertView(grid);
-			app.utils.getItemsList("#import-activity", "/view/theme/list?import=yes", true);
+			app.utils.getItemsList("#import-activity", "/theme/list", true);
 			var map_view = app.utils.initMap();
 			this.insertView(map_view);
 			map_view.addLayer({

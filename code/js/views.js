@@ -169,7 +169,6 @@ HomeView
 					}]
 				});
 	        	this.serverUrl = app.config.serverUrl;
-	        	//localStorage.getItem('serverUrl');
 				this.loadStats();
 				var d = (new Date() + '').split(' ');
 				// ["Mon", "Feb", "1", "2014"....
@@ -261,12 +260,12 @@ HomeView
 				var myChart = new Chart(document.getElementById("graph").getContext("2d")).Line(gData, null);
 				$("#homeGraphLegend").html("<h3>number of observations</h3>");
 			} else {
-			var url = this.serverUrl + "/station/count/month";
+			var url = app.config.coreUrl + "/stations/graph";
 			app.xhr = $.ajax({
 					url: url,
 					dataType: "json",
 					success: function(data) {
-						var stat = data[0][0];
+						var stat = data;
 						var pieData = [];
 						var labels = [];
 						var barData = [];
@@ -334,13 +333,13 @@ HomeView
 				});
 			}
 			// update individuals number
-			var indivUrl = this.serverUrl + "/TViewIndividual/list/count";
+			var indivUrl = app.config.coreUrl + "/individuals/count";
 			$.ajax({
 				url: indivUrl,
 				dataType: "json",
 				success: function(data) {
-					var stat = data[0].count;
-					$("#infos span").text(stat);
+					//var stat = data[0].count;
+					$("#infos span").text(data);
 				}
 			});
 

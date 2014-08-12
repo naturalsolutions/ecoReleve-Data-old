@@ -1689,9 +1689,7 @@ app.utils.initializeDB = function(db){
 	app.utils.getItemsList = function(element, url, isDatalist) {
 		$(element).empty();
 		$('<option value=""></option>').appendTo(element);
-		//$('#export-themes').css({"display": "inline-block","height": "40px","width": "300px"});
-		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl = app.config.serverUrl;
+		var serverUrl = app.config.coreUrl;
 		url = serverUrl + url;
 		$.ajax({
 			url: url,
@@ -1699,8 +1697,8 @@ app.utils.initializeDB = function(db){
 			success: function(data) {
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
-					var label = data[i].MapSelectionManager.Caption;
-					var value = data[i].MapSelectionManager.TProt_PK_ID;
+					var label = data[i].caption;
+					var value = data[i].id;
 					if (isDatalist) {
 						$('<option value=\"' + label + '\">' + "</option>").appendTo(element);
 					} else {
@@ -1742,19 +1740,15 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getUsersListForStrorage = function(url) {
-		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl = app.config.serverUrl;
-
-		url = serverUrl + url;
+		url = app.config.coreUrl + url;
 		$.ajax({
 			url: url,
 			dataType: "json",
 			success: function(data) {
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
-					var user = data[i];
-					var label = user[0].Nom;
-					var id = user[0].ID;
+					var label = data[i].Nom;
+					var id = data[i].ID;
 					app.collections.users.add({
 						"idUser": id,
 						"label": label
@@ -1768,17 +1762,15 @@ app.utils.initializeDB = function(db){
 		});
 	};
 	app.utils.getFieldActivityListForStrorage = function(url) {
-		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl =app.config.serverUrl;
-		url = serverUrl + url;
+		url = app.config.coreUrl + url;
 		$.ajax({
 			url: url,
 			dataType: "json",
 			success: function(data) {
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
-					var label = data[i].MapSelectionManager.Caption;
-					var value = data[i].MapSelectionManager.TProt_PK_ID;
+					var label = data[i].caption;
+					var value = data[i].id;
 					app.collections.fieldActivityList.add({
 						"idActivity": value,
 						"label": label
@@ -1815,17 +1807,24 @@ app.utils.initializeDB = function(db){
 		if (id !== "") {
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
-			var viewsUrl = serverUrl + "/views/views_list?id_theme=" + id;
+			var viewsUrl = app.config.coreUrl + "/views/list?id_theme=" + id;
 			$.ajax({
 				url: viewsUrl,
-				dataType: "json",
+				dataType: "text",
 				success: function(data) {
-					var len = data.length;
+					/*var len = data.length;
 					for (var i = 0; i < len; i++) {
 						var value = data[i].MapSelectionManager.TSMan_sp_name;
 						var label = data[i].MapSelectionManager.TSMan_Description;
 						$('<li class="exportViewsList" value=\"' + value + '\">' + label + "</li>").appendTo('#export-views');
-					}
+					}*/
+						var xmlDoc = $.parseXML(data),
+						$xml = $(xmlDoc),
+						$views = $xml.find("view");
+
+						$views.each(function() {
+							$('<li class="exportViewsList" value=\"' + $(this).attr('id') + '\">' + $(this).text() + '</li>').appendTo('#export-views');
+						});
 				},
 				error: function() {
 					alert("error loading views, please check connexion to webservice");
@@ -1953,14 +1952,14 @@ app.utils.initializeDB = function(db){
 	app.utils.generateFilter = function(viewName) {
 		// count nb rows
 		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl = app.config.serverUrl;
-		var viewUrl = serverUrl + "/views/get/" + viewName + "/count";
+		//var serverUrl = app.config.serverUrl;
+		var viewUrl = app.config.coreUrl + "/views/" + viewName + "/count";
 		app.xhr = "";
 		$.ajax({
 			url: viewUrl,
 			dataType: "json",
-			success: function(data) {
-				var count = data[0].count;
+			success: function(count) {
+				//var count = data[0].count;
 				count += " records";
 				$("#countViewRows").text(count);
 				getFieldsListForSelectedView(viewName);
@@ -1973,7 +1972,7 @@ app.utils.initializeDB = function(db){
 	var getFieldsListForSelectedView = function(viewName) {
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
-		var viewUrl = serverUrl + "/views/detail/" + viewName;
+		var viewUrl = app.config.coreUrl + "/views/details/" + viewName;
 		app.xhr = "";
 		$.ajax({
 			url: viewUrl,
@@ -1981,10 +1980,10 @@ app.utils.initializeDB = function(db){
 			success: function(data) {
 				var fieldsList = [];
 				app.utils.exportFieldsList = [];
-				for (var prop in data) {
-					var optionItem = "<option type='" + data[prop].type + "'>" + prop + "</option>";
+				for (var i = 0; i < data.length; i++) {
+					var optionItem = "<option type='" + data[i].type + "'>" + data[i].name + "</option>";
 					$("#export-view-fields").append(optionItem);
-					app.utils.exportFieldsList.push(prop);
+					app.utils.exportFieldsList.push(data[i].name);
 				}
 				$("#filter-btn").removeClass("masqued");
 			}
@@ -1994,31 +1993,31 @@ app.utils.initializeDB = function(db){
 		$("#" + element + "").html();
 		$("#" + element + "").html('<img src="images/ajax-loader-linear.gif" />');
 		//var serverUrl = localStorage.getItem("serverUrl");
-		var serverUrl = app.config.serverUrl;
-		var viewUrl = serverUrl + "/views/get/" + view + "/count?filter=" + query;
+		//var serverUrl = app.config.serverUrl;
+		var viewUrl = app.config.coreUrl + "/views/filter/" + view + "/count?" + query;
 		$.ajax({
 			url: viewUrl,
 			dataType: "json",
-			success: function(data) {
-				var count = data[0].count;
+			success: function(count) {
 				$("#filter-query-result").html(' <br/><p>filtred count:<span> ' + count + ' records</span></p>');
 			},
 			error: function() {
 				$("#filter-query-result").html(' <h4>error</h4>');
 			}
 		});
-	};
+	}; 
 	app.utils.getResultForGeoFilter = function(query, view) {
 		$("#geo-query-result").html();
 		$("#geo-query-result").html('<img src="images/ajax-loader-linear.gif" />');
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
-		var viewUrl = serverUrl + "/views/get/" + view + "/count?" + query;
+		//var viewUrl = serverUrl + "/views/get/" + view + "/count?" + query;
+		var viewUrl = app.config.coreUrl + "/views/filter/" + view + "/count?" + query;
 		$.ajax({
 			url: viewUrl,
 			dataType: "json",
-			success: function(data) {
-				var count = data[0].count;
+			success: function(count) {
+				//var count = data[0].count;
 				$("#geo-query-result").html(' <br/><br/>filtred count : ' + count + '');
 			},
 			error: function() {
@@ -2029,7 +2028,7 @@ app.utils.initializeDB = function(db){
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
 		var serverUrl = app.config.serverUrl;
 		var displayedColumns = app.utils.exportSelectedFieldsList;
-		var url = serverUrl + "/views/get/" + view + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
+		var url = app.config.coreUrl + "/views/filter/" + view + "/result?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		BBview.url = url;
 		app.utils.getDataForGrid(url, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
@@ -2041,17 +2040,19 @@ app.utils.initializeDB = function(db){
 			$("#spanGeneratingGpx").html("");
 		});
 		// generate files "pdf" and "gpx"
-		var urlFile = serverUrl + "/views/get/" + view + "/export" + "?filter=" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
+		var urlFile = app.config.coreUrl + "/views/filter/" + view + "/export" + "?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		$.ajax({
 			url: urlFile,
 			dataType: "json",
-			success: function(data) {
-				var fileName = data[0].filename;
+			success: function(fileName) {
+				//var fileName = data[0].filename;
 				
 				
 				if(fileName !== ""){
+					//mettre a jour les liens
+					//les fichiers sont stockés ecoreleve-sensor/Files
 					//var serverUrl = localStorage.getItem("serverUrl");
-					var gpxFileUrl = serverUrl + "/gps/"+fileName+".gpx";
+					/*var gpxFileUrl = serverUrl + "/gps/"+fileName+".gpx";
 					var pdfFileUrl = serverUrl + "/pdf/"+fileName+".pdf";
 					var csvFileUrl = serverUrl + "/csv/"+fileName+".csv";
 
@@ -2061,7 +2062,7 @@ app.utils.initializeDB = function(db){
 
 					$("#export-getGpx").removeAttr("disabled");
 					$('#export-getPdf').removeAttr("disabled");
-					$('#export-getCsv').removeAttr("disabled");
+					$('#export-getCsv').removeAttr("disabled");*/
 				}
 			},
 			error: function() {
