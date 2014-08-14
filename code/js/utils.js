@@ -2183,7 +2183,7 @@ app.utils.initializeDB = function(db){
 			url: url,
 			type: type,
 			data: params,
-			dataType: "json",
+			contentType: 'application/json; charset=utf-8',
 			beforeSend: function(){
 			    $("#waitCtr").css('display', 'block');
 			},
