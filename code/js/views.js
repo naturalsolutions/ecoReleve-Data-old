@@ -346,9 +346,13 @@ HomeView
 		},
 		getArgosLocations: function() {
 			var url = app.config.sensorUrl + '/argos/unchecked/count';
-			$.get( url, function(data) {
-				$("#homeArgosNb").html(data);
-			});
+			$.ajax({
+            url:url, 
+            dataType:"json",
+            success: function(data) {
+               $("#homeArgosNb").text(data.count);
+            }
+         });
 		},
 		convertMonth: function(month) {
 			var monthUpper = month.toUpperCase();
