@@ -1,0 +1,44 @@
+﻿<div class="row-fluid">
+	<div class="span8">
+		<div>
+			<img style="height:15px; width:15px;" src="images/positionAnimation.png"/>
+			<label for="span">filter positions by date interval</label> 
+			<div id="objectsIndivMapSlider">
+				<div id="sliderMessage" class="masqued">
+					<p> the functionnality is disabled, limited set of data.</p>
+				</div>
+				<div id="sliderContent">
+					<p id="sliderwait"><img src="images/ajax-loader-linear.gif"/></p>
+					<span id="objectsIndivMapSliderStartDate"></span> <input id="dateSlider" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[0,1000]"/> <span id="objectsIndivMapSliderEndDate"></span>
+				</div>
+			</div>
+		</div>  
+		<div id="map" style="width:1000px; height:600px"></div>
+	</div>
+	<div class="span4">
+		<div id="objAnimConent">
+			<img style="height=20px; width:15px;" src="images/positionMarker3.png"/>
+			<label for="span">animation: select an interval of time (days)</label>
+		     	<div id="objectsIndivMapAnim">   
+			        <select id="intervalOfTime" name="span">
+			            <option value="5">5</option>
+			            <option value="10">10</option>
+			            <option value="15" selected>15</option>
+			            <option value="20">20</option>
+			            <option value="30">30</option>
+			        </select>
+			        <input type="button" id="animationStart" value="start">
+			        <input type="button" id="animationStop" value="stop">
+			        <input type="button" id="animationInit" value="init"><br><br>
+			        <div id ="dateIntervalDisplay" class="masqued">
+			        	<label>start date : </label><span id="animationStartDate"></span>
+			        	<label>end date : </label><span id="animationEndDate"></span>
+			    	</div>
+		   		 </div>
+		</div>
+		  	
+
+
+
+	</div>
+</div>

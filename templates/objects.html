@@ -1,0 +1,60 @@
+﻿<div id="objectsInfosPanel" class="non-printable">
+	<div id="objectsInfosPanelClose">
+		<img src="images/close.png" />
+	</div>
+	<div id="objectsInfosPanelContent">
+		<div class="tabbable">
+			<!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs" id="objectDetailsPanel"></ul>
+			<div class="tab-content" id="objectDetailsPanelContent"></div>
+		</div>
+		<div id="objectsInfosPanelHistory"/>
+	</div>
+</div>
+<div  class="objectButton" id="objectAddButton"></div>
+<div class="tabbable">
+	<!-- Only required for left/right tabs -->
+	<ul class="nav nav-tabs">
+		<!--<li class="active">
+			<a href="#t1" data-toggle="tab" class="objTab">Individual</a>
+		</li>   -->
+		<li class="active">
+			<a href="#t2" data-toggle="tab" class="objTab">Radio</a>
+		</li>
+		<li>
+			<a href="#t3" data-toggle="tab" class="objTab">Satellite</a>
+		</li>
+		<!--<li>
+			<a href="#t4" data-toggle="tab" class="objTab">Field sensor</a>
+		</li>-->
+		<li>
+			<a href="#t5" data-toggle="tab" class="objTab">Rfid</a>
+		</li>
+		<li>
+			<a href="#t6" data-toggle="tab" class="objTab">Camera trap</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane " id="t1">
+			<div id="objectsIndivGrid" class="gridDiv"></div>
+		</div>
+		<div class="tab-pane active" id="t2">
+			<div id="objectsRadioGrid" class="gridDiv" ></div>
+		</div>
+		<div class="tab-pane" id="t3">
+			<div id="objectsSatGrid" class="gridDiv"></div>
+		</div>
+		<!--<div class="tab-pane" id="t4">
+			<div id="objectsField_sensorGrid" class="gridDiv"></div>
+		</div> -->
+		<div class="tab-pane" id="t5">
+			<div id="objectsField_rfidGrid" class="gridDiv"></div>
+		</div>
+		<div class="tab-pane" id="t6">
+			<div id="objectsField_cameraGrid" class="gridDiv"></div>
+		</div>
+	</div>
+</div>
+<div id="objectsMapContainer">
+	<div id='map' style='width:200px; height:150px'></div>
+</div>

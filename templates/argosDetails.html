@@ -1,0 +1,133 @@
+
+<div  class="mapDisplay">
+	<div id="map"></div>
+	<div id="argosMapLegend">
+		<div class="row-fluid">
+			<div class="span5">
+				<img src="images/marker_red.png"><span class="argosMapLegendLabel">individual locations</span>
+			</div>
+			<div class="span7">
+				<img src="images/marker_grey.png"><span class="argosMapLegendLabel">selected locations on the map</span>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span5">
+				<img src="images/marker_yellow.png"><span class="argosMapLegendLabel">deleted locations</span>
+			</div>
+			<div class="span7">
+				<img src="images/marker_green.png"><span class="argosMapLegendLabel">focus (selected location on the grid)</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row-fluid" id="birdDetailsContainer">
+	<div id="birdDetails"  class="span7">
+		<div id="separatorDetails">
+			<a href="#argos"><img src="images/back_white.png"></a><span>search results</span>
+			<button id="argosCheckImportNextIndiv" class="argosBtn argosNav argosDetailBtn">next indiv > </button>
+			<button id="argosCheckImportPtt" class="argosBtn argosDetailBtn">check & import </button>
+			<button id="argosCheckPtt" class="argosBtn argosDetailBtn">check</button>
+			<button id="argosCheckImportPrevIndiv" class="argosBtn argosNav argosDetailBtn">< prev indiv </button>
+		</div>
+		<div class="row-fluid">
+			<!--<div class="span6">
+
+				<div><span>ID : </span><span id="birdId"></span></div>
+				<div><img src="images/houtarde.png"/></div>
+				<div id="divBirdName"><span id="birdSpecies"></span></div>
+				<div>
+					
+				</div>
+			</div>-->
+			
+			<div class="row-fluid" id="argosDetPttDet">
+				<div class="span1">
+					<img src="images/transmitters_picto.png" class="myObsPicto">
+				</div>
+				<div class="span11">
+					<div class="row-fluid">
+						<div class="span4">	
+
+							<div class="inlineBlocAlign">
+									<span>ptt id</span><br/>
+									<span id="argosDetPttId" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<span>ptt type</span><br/>
+									<span id="argosDetPttType" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<span>ptt model</span><br/>
+									<span id="argosDetPttModel" class="whiteColor"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid borderStyled" id="argosDetIndivDet">
+				<div class="span1">
+					<img src="images/houtarde_picto.png" class="myObsPicto">
+				</div>
+				<div class="span11">
+					<div class="row-fluid">
+						<div class="span4">	
+
+							<div class="inlineBlocAlign">
+									<span>individual id</span><br/>
+									<span id="argosDetIndivId" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<span class="hideForUnknownIndiv">specie</span><br/>
+									<span id="argosDetIndivSpecie" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<span class="hideForUnknownIndiv">origin</span><br/>
+									<span id="argosDetIndivOrigin" class="whiteColor"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span4">	
+
+							<div class="inlineBlocAlign">
+									<span class="hideForUnknownIndiv">sex</span><br/>
+									<span id="argosDetIndivSex" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<span class="hideForUnknownIndiv">age</span><br/>
+									<span id="argosDetIndivAge" class="whiteColor"></span>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="inlineBlocAlign">
+									<!--<span class="hideForUnknownIndiv">status</span><br/>
+									<span id="argosDetIndivStatus" class="whiteColor"></span>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row-fluid borderStyled" id="argosDetLocationsDet">
+				<div class="span1">
+					<img src="images/observation.png" class="myObsPicto">
+					<span id="argosNbPositions" class="greenColor"></span><br/><span id="argosDetPositionsLabel">positions</span>
+				</div>
+				<div class="span11">
+					<div id="grid"></div>
+				</div>
+		</div>
+	</div>
+</div>
+
