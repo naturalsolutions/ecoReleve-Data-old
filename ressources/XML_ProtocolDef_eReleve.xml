@@ -1,0 +1,2225 @@
+<?xml version="1.0" ?>
+<Protocol_Form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Pocket_XSD_V3-1.xsd">
+	<protocol id="3">
+		<name>
+			<display_label>Station Description</display_label>
+			<label lang="fr">TProtocol_Station_Description</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Station_Description</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Landscape</label>
+						<display_label lang="fr">Name Landscape</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_VegetationType</label>
+						<display_label lang="fr">Name VegetationType</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Name_Flora_Main_Species_1</label>
+						<display_label lang="fr">Name Flora Main Species 1</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="4">
+					<name>
+						<label lang="fr">Name_Flora_Main_Species_2</label>
+						<display_label lang="fr">Name Flora Main Species 2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Name_Flora_Main_Species_3</label>
+						<display_label lang="fr">Name Flora Main Species 3</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Substrat</label>
+						<display_label lang="fr">Name Substrat</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="7">
+					<name>
+						<label lang="fr">Name_Topography</label>
+						<display_label lang="fr">Name Topography</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="8">
+					<name>
+						<label lang="fr">Name_Exposition</label>
+						<display_label lang="fr">Name Exposition</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="9">
+					<name>
+						<label lang="fr">Name_Slope_Class</label>
+						<display_label lang="fr">Name Slope Class</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_float id="10">
+					<name>
+						<label lang="fr">Area</label>
+						<display_label lang="fr">Area</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="11">
+					<name>
+						<label lang="fr">Cover</label>
+						<display_label lang="fr">Cover</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_text id="12">
+					<name>
+						<label lang="fr">Name_Moisture</label>
+						<display_label lang="fr">Name Moisture</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="13">
+					<name>
+						<label lang="fr">Name_Density_herbs</label>
+						<display_label lang="fr">Name Density herbs</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="14">
+					<name>
+						<label lang="fr">Name_Density_bushes</label>
+						<display_label lang="fr">Name Density bushes</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="15">
+					<name>
+						<label lang="fr">Name_Density_trees</label>
+						<display_label lang="fr">Name Density trees</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="16">
+					<name>
+						<label lang="fr">Name_Greeness_herbs</label>
+						<display_label lang="fr">Name Greeness herbs</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="17">
+					<name>
+						<label lang="fr">Name_Greeness_bushes</label>
+						<display_label lang="fr">Name Greeness bushes</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="18">
+					<name>
+						<label lang="fr">Name_Greeness_trees</label>
+						<display_label lang="fr">Name Greeness trees</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="19">
+					<name>
+						<label lang="fr">Phenology_Vegetative_herbs</label>
+						<display_label lang="fr">Phenology Vegetative herbs</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="20">
+					<name>
+						<label lang="fr">Phenology_Flowering_herbs</label>
+						<display_label lang="fr">Phenology Flowering herbs</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="21">
+					<name>
+						<label lang="fr">Phenology_Seeding_herbs</label>
+						<display_label lang="fr">Phenology Seeding herbs</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="22">
+					<name>
+						<label lang="fr">Phenology_Vegetative_bushes</label>
+						<display_label lang="fr">Phenology Vegetative bushes</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="23">
+					<name>
+						<label lang="fr">Phenology_Flowering_bushes</label>
+						<display_label lang="fr">Phenology Flowering bushes</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="24">
+					<name>
+						<label lang="fr">Phenology_Seeding_bushes</label>
+						<display_label lang="fr">Phenology Seeding bushes</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="25">
+					<name>
+						<label lang="fr">Phenology_Vegetative_trees</label>
+						<display_label lang="fr">Phenology Vegetative trees</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="26">
+					<name>
+						<label lang="fr">Phenology_Flowering_trees</label>
+						<display_label lang="fr">Phenology Flowering trees</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="27">
+					<name>
+						<label lang="fr">Phenology_Seeding_trees</label>
+						<display_label lang="fr">Phenology Seeding trees</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="28">
+					<name>
+						<label lang="fr">Last_Rain_event</label>
+						<display_label lang="fr">Last Rain event</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="29">
+					<name>
+						<label lang="fr">Houbara_Suitable</label>
+						<display_label lang="fr">Houbara Suitable</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="30">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="1">
+		<name>
+			<display_label>Simplified Habitat</display_label>
+			<label lang="fr">TProtocol_Simplified_Habitat</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Simplified_Habitat</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Habitat</label>
+						<display_label lang="fr">Name Habitat</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Habitat2</label>
+						<display_label lang="fr">Name Habitat2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Name_Geomorphology</label>
+						<display_label lang="fr">Name Geomorphology</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_list id="4">
+				<name>
+					<label lang="fr">Name_Flora_Main_Species_1</label>
+					<display_label lang="fr">Name Flora Main Species 1</display_label>
+				</name>
+				<required>false</required>
+				<readOnly>false</readOnly>
+				<items>
+				<itemList lang="en">
+					<item id="0">
+					<label>Acanthus L.</label>
+					<value>Acanthus L.</value>
+					</item>
+					<item id="1">
+					<label>Acanthus mollis L.</label>
+					<value>Acanthus mollis L.</value>
+					</item>
+					<item id="2">
+					<label>Asystasia Blume</label>
+					<value>Asystasia Blume</value>
+					</item>
+					<item id="3">
+					<label>Barleria acanthoides Vahl</label>
+					<value>Barleria acanthoides Vahl</value>
+					</item>
+					<defaultValue>1</defaultValue>
+				</itemList>
+				<itemList lang="fr">
+				<item id="0">
+				<label>Acanthus L.</label>
+				<value>Acanthus L.</value>
+				</item>
+				<item id="1">
+				<label>Acanthus mollis L.</label>
+				<value>Acanthus mollis L.</value>
+				</item>
+				<item id="2">
+				<label>Asystasia Blume</label>
+				<value>Asystasia Blume</value>
+				</item>
+				<item id="3">
+				<label>Barleria acanthoides Vahl</label>
+				<value>Barleria acanthoides Vahl</value>
+				</item>
+				<defaultValue>1</defaultValue>
+				</itemList>
+				</items>
+				<expanded>false</expanded>
+				<multiple>false</multiple>
+				</field_list>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Name_Flora_Main_Species_2</label>
+						<display_label lang="fr">Name Flora Main Species 2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Flora_Main_Species_3</label>
+						<display_label lang="fr">Name Flora Main Species 3</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_number id="7">
+					<name>
+						<label lang="fr">Vegetation_cover</label>
+						<display_label lang="fr">Vegetation cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="8">
+					<name>
+						<label lang="fr">Perennial_cover</label>
+						<display_label lang="fr">Perennial cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_text id="9">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="10">
+					<name>
+						<label lang="fr">Cultivated_1</label>
+						<display_label lang="fr">Cultivated 1</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="11">
+					<name>
+						<label lang="fr">Cultivated_2</label>
+						<display_label lang="fr">Cultivated 2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="12">
+					<name>
+						<label lang="fr">Cultivated_3</label>
+						<display_label lang="fr">Cultivated 3</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="10">
+		<name>
+			<display_label>Building and Activities</display_label>
+			<label lang="fr">TProtocol_Building_and_Activities</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Building_and_Activities</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_number id="1">
+					<name>
+						<label lang="fr">Element_Nb</label>
+						<display_label lang="fr">Element Nb</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Impact</label>
+						<display_label lang="fr">Name Impact</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="17">
+		<name>
+			<display_label>Bird Biometry</display_label>
+			<label lang="fr">TProtocol_Bird_Biometry</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Bird_Biometry</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Sex</label>
+						<display_label lang="fr">Name Sex</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Age</label>
+						<display_label lang="fr">Name Age</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_float id="3">
+					<name>
+						<label lang="fr">Weight</label>
+						<display_label lang="fr">Weight</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="4">
+					<name>
+						<label lang="fr">Half_Culmen</label>
+						<display_label lang="fr">Half Culmen</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="5">
+					<name>
+						<label lang="fr">Skull</label>
+						<display_label lang="fr">Skull</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="6">
+					<name>
+						<label lang="fr">Wings</label>
+						<display_label lang="fr">Wings</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="7">
+					<name>
+						<label lang="fr">Tarso_Metatarsus</label>
+						<display_label lang="fr">Tarso Metatarsus</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="8">
+					<name>
+						<label lang="fr">Feather_Occipital</label>
+						<display_label lang="fr">Feather Occipital</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="9">
+					<name>
+						<label lang="fr">Feather_Black_Display</label>
+						<display_label lang="fr">Feather Black Display</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="10">
+					<name>
+						<label lang="fr">Feather_White_Display</label>
+						<display_label lang="fr">Feather White Display</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_varchar id="11">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_varchar>
+				<field_number id="12">
+					<name>
+						<label lang="fr">Adiposity_note</label>
+						<display_label lang="fr">Adiposity note</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="13">
+					<name>
+						<label lang="fr">Muscle_note</label>
+						<display_label lang="fr">Muscle note</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="14">
+					<name>
+						<label lang="fr">Feather_thirdPrimaryFlight_length</label>
+						<display_label lang="fr">Feather thirdPrimaryFlight length</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_boolean id="15">
+					<name>
+						<label lang="fr">Sampled</label>
+						<display_label lang="fr">Sampled</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_float id="16">
+					<name>
+						<label lang="fr">Tail</label>
+						<display_label lang="fr">Tail</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="17">
+					<name>
+						<label lang="fr">Sternum</label>
+						<display_label lang="fr">Sternum</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="18">
+					<name>
+						<label lang="fr">Feather_Black_White</label>
+						<display_label lang="fr">Feather Black White</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="19">
+					<name>
+						<label lang="fr">Bill_length_feather</label>
+						<display_label lang="fr">Bill length feather</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="20">
+					<name>
+						<label lang="fr">Bill_length_nostril</label>
+						<display_label lang="fr">Bill length nostril</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_boolean id="21">
+					<name>
+						<label lang="fr">Bird_collected</label>
+						<display_label lang="fr">Bird collected</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="12">
+		<name>
+			<display_label>Chiroptera capture</display_label>
+			<label lang="fr">TProtocol_Chiroptera_capture</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Chiroptera_capture</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_varchar id="1">
+					<name>
+						<label lang="fr">Name_Taxon</label>
+						<display_label lang="fr">Name Taxon</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_varchar>
+				<field_boolean id="2">
+					<name>
+						<label lang="fr">Dead</label>
+						<display_label lang="fr">Dead</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_number id="3">
+					<name>
+						<label lang="fr">Number</label>
+						<display_label lang="fr">Number</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_datetime id="4">
+					<name>
+						<label lang="fr">Hour</label>
+						<display_label lang="fr">Hour</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_datetime>
+				<field_varchar id="5">
+					<name>
+						<label lang="fr">Name_Age</label>
+						<display_label lang="fr">Name Age</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_varchar>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Sex</label>
+						<display_label lang="fr">Name Sex</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_boolean id="7">
+					<name>
+						<label lang="fr">Picture</label>
+						<display_label lang="fr">Picture</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="8">
+					<name>
+						<label lang="fr">Recatch</label>
+						<display_label lang="fr">Recatch</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="9">
+					<name>
+						<label lang="fr">Recorded</label>
+						<display_label lang="fr">Recorded</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="10">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_float id="11">
+					<name>
+						<label lang="fr">FA</label>
+						<display_label lang="fr">FA</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="12">
+					<name>
+						<label lang="fr">Tib</label>
+						<display_label lang="fr">Tib</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="13">
+					<name>
+						<label lang="fr">D3</label>
+						<display_label lang="fr">D3</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="14">
+					<name>
+						<label lang="fr">D3_1</label>
+						<display_label lang="fr">D3 1</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="15">
+					<name>
+						<label lang="fr">D3_2</label>
+						<display_label lang="fr">D3 2</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="16">
+					<name>
+						<label lang="fr">D3_3</label>
+						<display_label lang="fr">D3 3</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="17">
+					<name>
+						<label lang="fr">D4</label>
+						<display_label lang="fr">D4</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="18">
+					<name>
+						<label lang="fr">D4_1</label>
+						<display_label lang="fr">D4 1</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="19">
+					<name>
+						<label lang="fr">D4_2</label>
+						<display_label lang="fr">D4 2</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="20">
+					<name>
+						<label lang="fr">D5</label>
+						<display_label lang="fr">D5</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="21">
+					<name>
+						<label lang="fr">D5_1</label>
+						<display_label lang="fr">D5 1</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="22">
+					<name>
+						<label lang="fr">D5_2</label>
+						<display_label lang="fr">D5 2</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="23">
+					<name>
+						<label lang="fr">CM3</label>
+						<display_label lang="fr">CM3</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="24">
+					<name>
+						<label lang="fr">D1</label>
+						<display_label lang="fr">D1</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="25">
+					<name>
+						<label lang="fr">Claw_D1</label>
+						<display_label lang="fr">Claw D1</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="26">
+					<name>
+						<label lang="fr">tragus_Lenght</label>
+						<display_label lang="fr">tragus Lenght</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="27">
+					<name>
+						<label lang="fr">Weight</label>
+						<display_label lang="fr">Weight</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_text id="28">
+					<name>
+						<label lang="fr">CommentsBiometry</label>
+						<display_label lang="fr">CommentsBiometry</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="29">
+					<name>
+						<label lang="fr">Name_Rep_Male</label>
+						<display_label lang="fr">Name Rep Male</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="30">
+					<name>
+						<label lang="fr">Name_Rep_Female</label>
+						<display_label lang="fr">Name Rep Female</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="31">
+					<name>
+						<label lang="fr">Name_Maturity_Female</label>
+						<display_label lang="fr">Name Maturity Female</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="32">
+					<name>
+						<label lang="fr">CommentsPhysiology</label>
+						<display_label lang="fr">CommentsPhysiology</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="33">
+					<name>
+						<label lang="fr">Sampled</label>
+						<display_label lang="fr">Sampled</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="13">
+		<name>
+			<display_label>Chiroptera detection</display_label>
+			<label lang="fr">TProtocol_Chiroptera_detection</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Chiroptera_detection</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_varchar id="1">
+					<name>
+						<label lang="fr">Name_Taxon</label>
+						<display_label lang="fr">Name Taxon</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_varchar>
+				<field_number id="2">
+					<name>
+						<label lang="fr">Number</label>
+						<display_label lang="fr">Number</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_datetime id="3">
+					<name>
+						<label lang="fr">Time</label>
+						<display_label lang="fr">Time</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_datetime>
+				<field_text id="4">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_text id="5">
+					<name>
+						<label lang="fr">File_name</label>
+						<display_label lang="fr">File name</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Call_type</label>
+						<display_label lang="fr">Name Call type</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_float id="7">
+					<name>
+						<label lang="fr">Flutter_0_min</label>
+						<display_label lang="fr">Flutter 0 min</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="8">
+					<name>
+						<label lang="fr">Flutter_0_max</label>
+						<display_label lang="fr">Flutter 0 max</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_text id="9">
+					<name>
+						<label lang="fr">Name_Activity_type</label>
+						<display_label lang="fr">Name Activity type</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_boolean id="10">
+					<name>
+						<label lang="fr">Recorded</label>
+						<display_label lang="fr">Recorded</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="11">
+					<name>
+						<label lang="fr">Name_Record_type</label>
+						<display_label lang="fr">Name Record type</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="8">
+		<name>
+			<display_label>Phytosociology habitat</display_label>
+			<label lang="fr">TProtocol_Phytosociology_habitat</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Phytosociology_habitat</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Milieu</label>
+						<display_label lang="fr">Name Milieu</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Habitat2</label>
+						<display_label lang="fr">Name Habitat2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Name_Exposition</label>
+						<display_label lang="fr">Name Exposition</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="4">
+					<name>
+						<label lang="fr">Name_Topography</label>
+						<display_label lang="fr">Name Topography</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Name_Slope_Class</label>
+						<display_label lang="fr">Name Slope Class</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_float id="6">
+					<name>
+						<label lang="fr">Area</label>
+						<display_label lang="fr">Area</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="7">
+					<name>
+						<label lang="fr">Vegetation_cover</label>
+						<display_label lang="fr">Vegetation cover</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_text id="8">
+					<name>
+						<label lang="fr">Name_Hydrography</label>
+						<display_label lang="fr">Name Hydrography</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="9">
+					<name>
+						<label lang="fr">Name_Substrat</label>
+						<display_label lang="fr">Name Substrat</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="10">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="11">
+					<name>
+						<label lang="fr">Name_micro_habitat</label>
+						<display_label lang="fr">Name micro habitat</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="12">
+					<name>
+						<label lang="fr">Name_PH_class</label>
+						<display_label lang="fr">Name PH class</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="13">
+					<name>
+						<label lang="fr">Name_soil_texture</label>
+						<display_label lang="fr">Name soil texture</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_text id="14">
+					<name>
+						<label lang="fr">Name_vegetation_series</label>
+						<display_label lang="fr">Name vegetation series</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_number id="15">
+					<name>
+						<label lang="fr">stratum_MossLichen_cover</label>
+						<display_label lang="fr">stratum MossLichen cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="16">
+					<name>
+						<label lang="fr">stratum_Herbaceous_cover</label>
+						<display_label lang="fr">stratum Herbaceous cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="17">
+					<name>
+						<label lang="fr">stratum_Shrubby_cover</label>
+						<display_label lang="fr">stratum Shrubby cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_number id="18">
+					<name>
+						<label lang="fr">stratum_Arboreal_cover</label>
+						<display_label lang="fr">stratum Arboreal cover</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_float id="19">
+					<name>
+						<label lang="fr">stratum_Arboreal_height_avg</label>
+						<display_label lang="fr">stratum Arboreal height avg</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="20">
+					<name>
+						<label lang="fr">stratum_Shrubby_height_avg</label>
+						<display_label lang="fr">stratum Shrubby height avg</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="21">
+					<name>
+						<label lang="fr">stratum_Herbaceous_height_avg</label>
+						<display_label lang="fr">stratum Herbaceous height avg</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+				<field_float id="22">
+					<name>
+						<label lang="fr">stratum_MossLichen_height_avg</label>
+						<display_label lang="fr">stratum MossLichen height avg</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_float>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="9">
+		<name>
+			<display_label>Phytosociology releve</display_label>
+			<label lang="fr">TProtocol_Phytosociology_releve</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Phytosociology_releve</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Taxon</label>
+						<display_label lang="fr">Name Taxon</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="2">
+					<name>
+						<label lang="fr">Sampled</label>
+						<display_label lang="fr">Sampled</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="3">
+					<name>
+						<label lang="fr">Picture</label>
+						<display_label lang="fr">Picture</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="4">
+					<name>
+						<label lang="fr">Name_Global_Abondance_Dom</label>
+						<display_label lang="fr">Name Global Abondance Dom</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Name_Global_Sociability</label>
+						<display_label lang="fr">Name Global Sociability</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Phenology_BBCH1</label>
+						<display_label lang="fr">Name Phenology BBCH1</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="7">
+					<name>
+						<label lang="fr">Name_Phenology_BBCH2</label>
+						<display_label lang="fr">Name Phenology BBCH2</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="8">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+				<field_boolean id="9">
+					<name>
+						<label lang="fr">Cultivated</label>
+						<display_label lang="fr">Cultivated</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="7">
+		<name>
+			<display_label>Sighting conditions</display_label>
+			<label lang="fr">TProtocol_Sighting_conditions</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Sighting_conditions</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_number id="1">
+					<name>
+						<label lang="fr">Obs_duration_old</label>
+						<display_label lang="fr">Obs duration old</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Weather</label>
+						<display_label lang="fr">Name Weather</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Name_Wind_Force</label>
+						<display_label lang="fr">Name Wind Force</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_number id="4">
+					<name>
+						<label lang="fr">Temperature</label>
+						<display_label lang="fr">Temperature</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_datetime id="6">
+					<name>
+						<label lang="fr">Start_time</label>
+						<display_label lang="fr">Start time</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_datetime>
+				<field_datetime id="7">
+					<name>
+						<label lang="fr">End_time</label>
+						<display_label lang="fr">End time</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_datetime>
+				<field_datetime id="8">
+					<name>
+						<label lang="fr">Observation_Duration</label>
+						<display_label lang="fr">Observation Duration</display_label>
+					</name>
+					<description></description>
+					<constraints></constraints>
+				</field_datetime>
+				<field_boolean id="9">
+					<name>
+						<label lang="fr">Visibility</label>
+						<display_label lang="fr">Visibility</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_boolean id="10">
+					<name>
+						<label lang="fr">Observation_Incomplete</label>
+						<display_label lang="fr">Observation Incomplete</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="11">
+					<name>
+						<label lang="fr">Name_Observation_Tool</label>
+						<display_label lang="fr">Name Observation Tool</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+					<default_value/>
+				</field_text>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="30">
+		<name>
+			<display_label>Station equipment</display_label>
+			<label lang="fr">TProtocol_Station_equipment</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Station_equipment</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">name_action_type</label>
+						<display_label lang="fr">name action type</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">name_sensor_type</label>
+						<display_label lang="fr">name sensor type</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="6">
+		<name>
+			<display_label>Track clue</display_label>
+			<label lang="fr">TProtocol_Track_clue</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Track_clue</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Track_clue</label>
+						<display_label lang="fr">Name Track clue</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">name_taxon</label>
+						<display_label lang="fr">name taxon</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_number id="4">
+					<name>
+						<label lang="fr">Number_Track_clue</label>
+						<display_label lang="fr">Number Track clue</display_label>
+					</name>
+					<description>
+						<label lang="fr">Nombre</label>
+					</description>
+					<constraints>
+						<max_bound>100</max_bound>
+						<min_bound>0</min_bound>
+						<precision>1</precision>
+					</constraints>
+				</field_number>
+				<field_boolean id="5">
+					<name>
+						<label lang="fr">Sampled</label>
+						<display_label lang="fr">Sampled</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+	<protocol id="20">
+		<name>
+			<display_label>Vertebrate individual death</display_label>
+			<label lang="fr">TProtocol_Vertebrate_individual_death</label>
+		</name>
+		<description>
+			<keywords>
+				<keyword>TProtocol_Vertebrate_Individual_Death</keyword>
+			</keywords>
+			<label lang="fr"/>
+		</description>
+		<multispecies>false</multispecies>
+		<monitoring>false</monitoring>
+		<fields>
+			<fieldset name="all">
+				<field_text id="1">
+					<name>
+						<label lang="fr">Name_Remains</label>
+						<display_label lang="fr">Name Remains</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="2">
+					<name>
+						<label lang="fr">Name_Death_Time</label>
+						<display_label lang="fr">Name Death Time</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="3">
+					<name>
+						<label lang="fr">Name_Death_Reason</label>
+						<display_label lang="fr">Name Death Reason</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="4">
+					<name>
+						<label lang="fr">Sure_reason</label>
+						<display_label lang="fr">Sure reason</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+
+					<default_value>false</default_value>
+				</field_boolean>
+				<field_text id="5">
+					<name>
+						<label lang="fr">Comments</label>
+						<display_label lang="fr">Comments</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_text id="6">
+					<name>
+						<label lang="fr">Name_Taxon</label>
+						<display_label lang="fr">Name Taxon</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+						<string_length>50</string_length>
+						<multiline>true</multiline>
+					</constraints>
+
+					<default_value/>
+				</field_text>
+				<field_boolean id="7">
+					<name>
+						<label lang="fr">Sampled</label>
+						<display_label lang="fr">Sampled</display_label>
+					</name>
+					<description></description>
+					<constraints>
+						<required>true</required>
+					</constraints>
+					<default_value>false</default_value>
+				</field_boolean>
+			</fieldset>
+		</fields>
+	</protocol>
+</Protocol_Form>

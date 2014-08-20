@@ -7,29 +7,20 @@ define([
 ], function($, Backbone, config, localforage, localforage_backbone){
     'use strict';
     return Backbone.Collection.extend({
-        sync: Backbone.localforage.sync('UsersList'),
+        sync: Backbone.localforage.sync('FieldActivities'),
         model: Backbone.Model.extend({
             sync: Backbone.localforage.sync()
         }),
 
-        //model: app.models.User,
         save: function() {
             this.each(function(model) {
                 model.save();
             });
         },
 
-        load: function (options) {
-            //this.sync("read", this, options);
-            this.sync('read', this, {
-                success: function(){
-                    console.log('collection loaded!');
-                }
-            });
-        },
-
         loadFromDB: function(url) {
             url = config.coreUrl + url;
+            var me = this;
             $.ajax({
                 context: this,
                 url: url,
@@ -38,10 +29,10 @@ define([
             .done( function(data) {
                 var len = data.length;
                 for (var i = 0; i < len; i++) {
-                    var label = data[i].Nom;
-                    var id = data[i].ID;
+                    var label = data[i].caption;
+                    var value = data[i].id;
                     this.add({
-                        "idUser": id,
+                        "idActivity": value,
                         "label": label
                     });
                 }
@@ -51,6 +42,5 @@ define([
                 alert("error loading items, please check connexion to webservice");
             });
         }
-        //localStorage : new Store('usersList')
     });
 });

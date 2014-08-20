@@ -5,7 +5,7 @@ define([
     'views/home'
 ], function($, _, Backbone, HomeView){
     'use strict';﻿
-    var router = Backbone.Router.extend({
+    return Backbone.Router.extend({
         routes: {
             "": "home",
             "stationType": "stationType",
@@ -752,5 +752,4 @@ define([
 			this.setView(new app.views.Rfid());
 		}
     });
-    return router;
 });
