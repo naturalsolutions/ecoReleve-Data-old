@@ -1,83 +1,88 @@
-define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
+define([
+    'jquery',
+    'underscore',
+    'backbone',
+    'views/home'
+], function($, _, Backbone, HomeView){
     'use strict';﻿
-
-    var Router = Backbone.Router.extend({
+    var router = Backbone.Router.extend({
         routes: {
             "": "home",
             "stationType": "stationType",
-			"newStation": "newStation",
-			//"entryStation": "entryStation",
-			"importedStation": "importedStation",
+            "newStation": "newStation",
+            //"entryStation": "entryStation",
+            "importedStation": "importedStation",
+            "stationFromGpx": "stationFromGpx",
+            "stationInfos": "stationInfos",
+            "stationInfos/:id": "monitoredStation",
+            "proto-choice": "protoChoice",
+            "data-entry/:id": "dataEntry",
+            "data-entryEnd": "dataEntryEnd",
+            "map": "mapMyPosition",
+            "mydata/:id": "myObs",
+            "mydata": "myData",
+            "msgBox": "alert",
+            "updateData": "updateData",
+            "uploadData": "uploadData",
+            "config": "configuration",
+            "configurl": "configurl",
+            "configProtos": "configProtos",
+            "dataEdit/:id": "dataEdit",
+            "indiv": "indiv",
+            "allData": "allData",
+            "export": "export",
+            "export/:view": "exportFilter",
+            "export/:view/filter": "exportMap",
+            //"export/:view/:filter":"exportMap",
+            "export/:view/": "exportMap",
+            "export/:view/fields": "exportFields",
+            "export/:view/result": "exportResult",
+            "export/:view/ResultOnMapView": "ResultOnMapView",
+            "import": "import",
+            "import-load": "importLoad",
+            "import-map": "importMap",
+            "import-meta": "importMetadata",
+            "import-end": "importEndStep",
+            "objects": "objects",
+            "argos": "argos",
+            //"argos/:id": "argosDetails",
+            //'argos/id:transmitter/indiv/id:indivId' : 'argosDetails',
+            'argos/*parameters' : 'argosDetails',
+            "birds": "birds",
+            "bird/:id" :"bird",
+            "rfid":"rfid"
+            //"exportFilter" : "exportFilter"
+        },
 
-			"stationFromGpx": "stationFromGpx",
-			"stationInfos": "stationInfos",
-			"stationInfos/:id": "monitoredStation",
+        _currentView: null,
 
-			"proto-choice": "protoChoice",
-			"data-entry/:id": "dataEntry",
-			"data-entryEnd": "dataEntryEnd",
-			"map": "mapMyPosition",
-			"mydata/:id": "myObs",
-			"mydata": "myData",
-			"msgBox": "alert",
-			"updateData": "updateData",
-			"uploadData": "uploadData",
-			"config": "configuration",
-			"configurl": "configurl",
-			"configProtos": "configProtos",
-			"dataEdit/:id": "dataEdit",
-			"indiv": "indiv",
-			"allData": "allData",
-			"export": "export",
-			"export/:view": "exportFilter",
-			"export/:view/filter": "exportMap",
-			//"export/:view/:filter":"exportMap",
-			"export/:view/": "exportMap",
-			"export/:view/fields": "exportFields",
-			"export/:view/result": "exportResult",
-			"export/:view/ResultOnMapView": "ResultOnMapView",
-			"import": "import",
-			"import-load": "importLoad",
-			"import-map": "importMap",
-			"import-meta": "importMetadata",
-			"import-end": "importEndStep",
-			"objects": "objects",
-			"argos": "argos",
-			//"argos/:id": "argosDetails",
-			//'argos/id:transmitter/indiv/id:indivId' : 'argosDetails',
-			'argos/*parameters' : 'argosDetails',
-			"birds": "birds",
-			"bird/:id" :"bird",
-			"rfid":"rfid"
+        setView: function(view) {
+            if (this._currentView) {
+                this._currentView.remove();
+                this._currentView.off();
+            }
+            this._currentView = view;
+            $('section#main').html(view.el);
+            view.render();
+        },
 
+        home: function() {
+            this.setView(new HomeView());
+        },
 
-			//"exportFilter" : "exportFilter"
+        stationType: function() {
+            this.setView(new app.views.StationTypeView());
+        },
 
-		},
-		_currentView: null,
+        newStation: function() {
+            this.setView(new app.views.NewStation());
+        },
 
-		setView: function(view) {
-			if (this._currentView) {
-				this._currentView.remove();
-				this._currentView.off();
-			}
-			this._currentView = view;
-			$('section#main').html(view.el);
-			view.render();
-		},
-		home: function() {
-			this.setView(new app.views.HomeView());
-		},
-		stationType: function() {
-			this.setView(new app.views.StationTypeView());
-		},
-		newStation: function() {
-			this.setView(new app.views.NewStation());
-		},
-		importedStation: function() {
-			this.setView(new app.views.ImportedStation());
-		},
-		entryStation: function() {
+        importedStation: function() {
+            this.setView(new app.views.ImportedStation());
+        },
+
+        entryStation: function() {
 			this.setView(new app.views.StationPositionView());
 
 			//try {
@@ -109,7 +114,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			var len = app.collections.waypointsList.length;
 			if (len === 0) {
 				alert("There is not stored stations! Please load them from a gpx file (update data / gpx) ");
-				app.router.navigate('#entryStation', {
+				this.navigate('#entryStation', {
 					trigger: true
 				});
 			} else {
@@ -162,7 +167,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			app.utils.getTime('time_now');
 			/*}catch (e) {
 
-				app.router.navigate('', {trigger: true});
+				this.navigate('', {trigger: true});
 			}*/
 		},
 		monitoredStation: function(id) {
@@ -234,7 +239,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			waypointModel.set("used", true);
 			waypointModel.save();
 			app.global.selectedStationId = id;
-			app.router.navigate('stationInfos', {
+			this.navigate('stationInfos', {
 				trigger: true
 			});
 
@@ -330,7 +335,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 				'background': '#ffc40d'
 			});
 			/*}catch (e) {
-				app.router.navigate('#', {trigger: true});
+				this.navigate('#', {trigger: true});
 			}*/
 		},
 		alert: function() {
@@ -375,7 +380,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 					$("#gpxImportDate").text("");
 				}
 			} catch (e) {
-				app.router.navigate('#', {
+				this.navigate('#', {
 					trigger: true
 				});
 			}
@@ -417,7 +422,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 					'background': 'red'
 				});
 			} catch (e) {
-				app.router.navigate('#', {
+				this.navigate('#', {
 					trigger: true
 				});
 			}
@@ -456,7 +461,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 					alert("Please configurate the server url");
 				}
 			} catch (e) {
-				app.router.navigate('#', {
+				this.navigate('#', {
 					trigger: true
 				});
 			}
@@ -502,7 +507,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 				var serverUrl = localStorage.getItem("serverUrl");
 				if ((serverUrl === undefined) || (serverUrl === null)) {
 					alert("Please configurate the server url");
-					app.router.navigate('#config', {
+					this.navigate('#config', {
 						trigger: true
 					});
 					$("#configInfos").text("");
@@ -515,7 +520,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			} else {
 				alert("you are not connected ! Please check your connexion ");
 				$("#configInfos").text("");
-				app.router.navigate('#config', {
+				this.navigate('#config', {
 					trigger: true
 				});
 			}
@@ -636,7 +641,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 
 				if ((serverUrl === undefined) || (serverUrl === null)) {
 					alert("Please configurate the server url");
-					app.router.navigate('#config', {
+					this.navigate('#config', {
 						trigger: true
 					});
 					$("#configInfos").text("");
@@ -647,7 +652,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			} else {
 				alert("you are not connected ! Please check your connexion ");
 				/*$("#configInfos").text("");
-				app.router.navigate('#config', {
+				this.navigate('#config', {
 					trigger: true
 				});*/
 			}
@@ -666,7 +671,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 				this.setView(new app.views.ExportView());
 			} else {
 				alert("you are not connected ! Please check your connexion ");
-				app.router.navigate('#', {
+				this.navigate('#', {
 					trigger: true
 				});
 			}
@@ -747,5 +752,5 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
 			this.setView(new app.views.Rfid());
 		}
     });
-    return new Router();
+    return router;
 });

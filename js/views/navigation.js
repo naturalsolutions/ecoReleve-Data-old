@@ -1,13 +1,19 @@
-define(['jquery', 'backbone', 'views/base_view'], function($, Backbone, BaseView){
+define([
+    'jquery',
+    'underscore',
+    'backbone',
+    'views/base_view',
+    'text!templates/navigation.html'
+], function($, _, Backbone, BaseView, template){
     'use strict';
     return BaseView.extend({
-        template: 'navigation',
+        template: _.template(template),
         events: {
             'click a': 'clickFollowLink'
         },
 
         initialize: function () {
-            this.listenTo(this.model, 'route', this.update);
+            //this.listenTo(this.model, 'route', this.update);
             BaseView.prototype.initialize.apply(this, arguments);
         },
 
@@ -42,6 +48,10 @@ define(['jquery', 'backbone', 'views/base_view'], function($, Backbone, BaseView
             this.$el.on('click', this, this.clickCancelNav);
             $("header.navbar.navbar-static-top").css("position","static");
             $(".allDataFilterPanel").css("z-index",0);
+        },
+
+        render: function(){
+            this.$el.html(this.template(this.serialize()));
         },
 
         clickFollowLink: function (e) {

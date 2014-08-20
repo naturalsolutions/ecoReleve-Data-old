@@ -5,19 +5,19 @@
         baseUrl: 'js/lib',
         paths: {
             app: '../app',
+            collections: '../collections',
             config: '../config',
             router: '../router',
             templates: '../../templates',
-            text: '../text',
+            text: '../tools/text',
             views: '../views',
             jquery: 'jquery/jquery-1.11.1',
             underscore: 'underscore/underscore-1.6.0',
-            backbone: 'backbone/backbone'
+            backbone: 'backbone/backbone-1.1.2'
         }
     });
 
     require(['app'], function(app){
-        console.log('Initialize app');
         app.init();
     });
 })();

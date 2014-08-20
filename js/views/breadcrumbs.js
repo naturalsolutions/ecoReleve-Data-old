@@ -8,7 +8,6 @@ define([
     'use strict';
     return BaseView.extend({
         template: _.template(template),
-        el: $("#breadcrumbs_tpl"),
 
         initialize: function () {
             this.context = '';
@@ -19,7 +18,7 @@ define([
             } else {
                 this.appName = "home";
             }
-            this.listenTo(this.model, 'route', this.update);
+            //this.listenTo(this.model, 'route', this.update);
             BaseView.prototype.initialize.apply(this, arguments);
         },
 

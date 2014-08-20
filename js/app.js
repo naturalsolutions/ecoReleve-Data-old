@@ -2,12 +2,13 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'collections/users',
     'config',
     'router',
     'views/breadcrumbs',
     'views/navigation',
     'views/current_user'
-], function($, _, Backbone, config, router, Breadcrumbs, Navigation, CurrentUser){
+], function($, _, Backbone, Users, config, router, Breadcrumbs, Navigation, CurrentUser){
     'use strict';
     var app = {
         dao: {},
@@ -27,23 +28,23 @@ define([
             // Customize Underscore templates behaviour: 'with' statement is prohibited in JS strict mode
             //_.templateSettings.variable = 'data';
             this.instances.breadCrumbs = new Breadcrumbs({model: router});
-            this.instances.breadCrumbs.render();
             this.instances.mainNav = new Navigation({model: router});
+
 
             // Current user
             this.instances.userView = new CurrentUser();
             this.instances.userView.$el.appendTo('.navbar .navbar-inner');
-            this.instances.mainNav.render();
+            this.instances.userView.render();
             this.instances.mainNav.$el.appendTo('#main-nav');
+            this.instances.mainNav.render();
             this.instances.breadCrumbs.$el.insertBefore('#static-menu');
             this.instances.breadCrumbs.render();
-            this.instances.userView.render();
             Backbone.history.start();
             window.mapAjaxCall = false;
             window.mapAjaxCall.xhr = false;
 
             // get users list if not exists
-            this.collections.users = new this.collections.Users();
+            this.collections.users = new Users();
             // get fieldActivity
             this.collections.users.fetch().then(function () {
                 if (this.collections.users.length === 0){
