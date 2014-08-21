@@ -9,7 +9,8 @@ define([
     return BaseView.extend({
         template: _.template(template),
         serialize: function() {
-            return {name: "Olivier Rovellotti"};
+            console.log('serializing');
+            return {firstname: "Olivier", lastname: 'Rovellotti'};
         },
         render: function(){
             this.$el.html(this.template(this.serialize()));

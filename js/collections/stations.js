@@ -2,8 +2,8 @@ define([
     'backbone',
     'models/station',
     'localforage',
-    'localforage_backbone'
-], function(Backbone, Station, localforage, localforage_backbone){
+    'localforagebackbone'
+], function(Backbone, Station, localforage, localforagebackbone){
     'use strict';
     return Backbone.Collection.extend({
         model: Station,

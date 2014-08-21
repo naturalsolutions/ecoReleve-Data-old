@@ -3,7 +3,7 @@ define([
 ], function(Backbone){
     'use strict';
 
-    var field = {
+    return {
         BooleanField: Backbone.Model.extend({
             schema: {
                 id: 'Boolean',
@@ -63,6 +63,4 @@ define([
             }
         })
     };
-
-    return field;
 });

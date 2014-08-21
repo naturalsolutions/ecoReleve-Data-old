@@ -19,7 +19,7 @@ define([
 
         model: new Backbone.Model({
             config: config,
-            date: moment().format()
+            date: moment().format('dddd, MMMM Do YYYY')
         }),
 
         initialize: function() {
@@ -36,7 +36,6 @@ define([
         },
 
         render: function(){
-            console.log('render home');
             var compiledTemplate = this.template({model: this.model});
             this.$el.html(compiledTemplate);
         },

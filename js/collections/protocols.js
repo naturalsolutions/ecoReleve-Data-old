@@ -2,10 +2,10 @@ define([
     'jquery',
     'backbone',
     'localforage',
-    'localforage_backbone',
+    'localforagebackbone',
     'models/protocol',
     'models/field'
-], function($, Backbone, localforage, localforage_backbone, Protocol, field){
+], function($, Backbone, localforage, localforagebackbone, Protocol, field){
     'use strict';
 
     function generateListField(node, callback) {

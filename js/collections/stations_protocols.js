@@ -1,10 +1,10 @@
 define([
     'backbone',
     'localforage',
-    'localforage_backbone',
+    'localforagebackbone',
     'moment',
-    'models/station_protocol',
-], function(Backbone, localforage, localforage_backbone, moment, StationProtocol){
+    'models/stationprotocol',
+], function(Backbone, localforage, localforagebackbone, moment, StationProtocol){
     'use strict';
     return Backbone.Collection.extend({
         model: StationProtocol,

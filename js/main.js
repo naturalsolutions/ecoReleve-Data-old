@@ -13,6 +13,9 @@ var ecoReleveData = (function(){
             chart: 'chart/1.0.1-beta4/Chart',
             collections: '../collections',
             config: '../config',
+            layouts: '../layouts',
+            // Libs
+            marionette: 'marionette/2.1.0/backbone.marionette',
             models: '../models',
             router: '../router',
             templates: '../../templates',
@@ -23,12 +26,13 @@ var ecoReleveData = (function(){
             moment: 'moment/moment-2.8.1',
             underscore: 'underscore/underscore-1.6.0',
             backbone: 'backbone/backbone-1.1.2',
-            localforage_backbone: 'localforage-backbone/localforage.backbone-0.4.0',
+            localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
         }
     });
 
     require(['app'], function(app){
-        app.init();
+        //app.init();
+        app.start();
         ecoReleveData = app;
     });
 })();

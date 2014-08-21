@@ -1,8 +1,8 @@
 define([
     'backbone',
     'localforage',
-    'localforage_backbone'
-], function(Backbone, localforage, localforage_backbone){
+    'localforagebackbone'
+], function(Backbone, localforage, localforagebackbone){
     'use strict';
     return Backbone.Model.extend({
         sync: Backbone.localforage.sync(),

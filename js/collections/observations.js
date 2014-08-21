@@ -1,9 +1,9 @@
 define([
     'backbone',
     'localforage',
-    'localforage_backbone',
+    'localforagebackbone',
     'models/observation',
-], function(Backbone, localforage, localforage_backbone, Observation){
+], function(Backbone, localforage, localforagebackbone, Observation){
     'use strict';
     return Backbone.Collection.extend({
         sync: Backbone.localforage.sync('ObservationsList'),

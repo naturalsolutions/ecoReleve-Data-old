@@ -3,8 +3,8 @@ define([
     'backbone',
     'config',
     'localforage',
-    'localforage_backbone'
-], function($, Backbone, config, localforage, localforage_backbone){
+    'localforagebackbone'
+], function($, Backbone, config, localforage, localforagebackbone){
     'use strict';
     return Backbone.Collection.extend({
         sync: Backbone.localforage.sync('FieldActivities'),
