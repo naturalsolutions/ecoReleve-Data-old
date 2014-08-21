@@ -10,14 +10,15 @@ var ecoReleveData = (function(){
         },
         paths: {
             app: '../app',
-            chart: 'chart/1.0.1-beta4/Chart',
             collections: '../collections',
             config: '../config',
+            controller: '../controller',
             layouts: '../layouts',
-            // Libs
-            marionette: 'marionette/2.1.0/backbone.marionette',
             models: '../models',
             router: '../router',
+            // Libs
+            chart: 'chart/1.0.1-beta4/Chart',
+            marionette: 'marionette/2.1.0/backbone.marionette',
             templates: '../../templates',
             text: '../tools/text',
             views: '../views',

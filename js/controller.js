@@ -1,13 +1,14 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
     'marionette',
-    'views/info',
-    'text!templates/home_new.html'
-], function($, _, Backbone, Marionette, InfoView, homeTemplate) {
-
+], function(Marionette) {
     'use strict';
-    return {};
+    return Marionette.Controller.extend( {
+        initialize: function(app) {
+            this.app = app;
+        },
+
+        home: function() {
+            this.app.main.show(this.app.layouts.home);
+        }
     });
 });

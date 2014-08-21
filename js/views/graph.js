@@ -1,18 +1,18 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
     'chart',
     'config',
     'marionette',
     'moment'
-], function($, _, Backbone, Chart, config, Marionette, moment) {
+], function($, _, Chart, config, Marionette, moment) {
     'use strict';
 
-    return Backbone.Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
         template: false,
 
         onRender: function() {
+            var elt = $('#graph .graph-container');
             //caching graph data for a day
             var dataGraph = localStorage.getItem("ecoreleveChart");
             // get current day and compare it with stored day
@@ -22,7 +22,7 @@ define([
             var storedDay = localStorage.getItem("ecoreleveChartDay");
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
-                var myChart = new Chart(this.$el.get(0).getContext("2d")).Line(gData, null);
+                var myChart = new Chart(this.elt.get(0).getContext("2d")).Line(gData, null);
                 $("#homeGraphLegend").html("<h3>number of observations</h3>");
             } else {
                 var url = config.coreUrl + "/stations/graph";
@@ -60,7 +60,7 @@ define([
                     // ["Mon", "Feb", "1", "2014"....
                     var day_ = d[2];
                     localStorage.setItem("ecoreleveChartDay", day_);
-                    var myChart = new Chart(this.$el.get(0).getContext('2d')).Line(gData, {});
+                    var myChart = new Chart(this.elt.get(0).getContext('2d')).Line(gData, {});
                 }).fail( function(data) {
                     console.log("error in loading data");
                 });

@@ -19,44 +19,30 @@ define([
     'views/navigation',
     'views/current_user',
     'marionette',
+    'controller',
     'text!templates/current_user.html'
 ], function(
     $, _, Backbone, Chart, Observations, Protocols, Users, FieldActivities,
     Stations, StationsProtocols, HomeLayout, config, Router, localforage, Breadcrumbs,
-    GraphView, InfoView, Navigation, CurrentUser, marionette, currentUser){
+    GraphView, InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
     'use strict';
 
     Chart.defaults.global.responsive = true;
 
     var newApp = new Backbone.Marionette.Application();
+
     newApp.addRegions({
         main: '#main'
     });
 
-    var router = new Backbone.Marionette.AppRouter( {
-        appRoutes: {
-            "": "home"
-        },
-        controller: {
-            home: function(){
-                var layout = new HomeLayout();
-                newApp.main.show(layout);
-
-                var infoView = new InfoView();
-                layout.info.show(infoView);
-
-                var graphView = new GraphView(
-                    {el: '#graph .graph-container'}
-                );
-                layout.graph.show(graphView);
-                setTimeout(function () {$('#graph .graph-container').hide()}, 2000);
-            }
-        }
-    });
-    /*
     newApp.addInitializer( function() {
-        Backbone.history.start();
-    });*/
+        this.layouts = {
+            home: new HomeLayout()
+        }
+        var router = new Router( {
+            controller: new Controller(newApp)
+        });
+    });
 
     newApp.on('start', function(options) {
         Backbone.history.start();

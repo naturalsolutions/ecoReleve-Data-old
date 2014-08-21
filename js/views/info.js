@@ -1,12 +1,11 @@
 define([
-    'jquery',
     'underscore',
     'backbone',
     'config',
     'marionette',
     'moment',
     'text!templates/info.html'
-], function($, _, Backbone, config, Marionette, moment, infoTemplate) {
+], function(_, Backbone, config, Marionette, moment, infoTemplate) {
     'use strict';
     return Backbone.Marionette.ItemView.extend({
         model: new Backbone.Model({
