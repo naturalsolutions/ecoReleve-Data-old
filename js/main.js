@@ -8,6 +8,14 @@ var ecoReleveData = (function(){
                 noGlobal: true
             }
         },
+        shim:{
+            'bootstrap': {
+                deps: ['jquery']
+            },
+            'metro': {
+                deps: ['jquery', 'jquery_ui']
+            }
+        },
         paths: {
             app: '../app',
             collections: '../collections',
@@ -17,6 +25,7 @@ var ecoReleveData = (function(){
             models: '../models',
             router: '../router',
             // Libs
+            bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
             templates: '../../templates',
@@ -24,6 +33,8 @@ var ecoReleveData = (function(){
             views: '../views',
             localforage: 'localforage/localforage-0.9.2',
             jquery: 'jquery/jquery-1.11.1',
+            jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
+            metro: 'metro/metro.min',
             moment: 'moment/moment-2.8.1',
             underscore: 'underscore/underscore-1.6.0',
             backbone: 'backbone/backbone-1.1.2',

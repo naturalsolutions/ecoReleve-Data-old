@@ -2,6 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'bootstrap',
     'chart',
     'collections/observations',
     'collections/protocols',
@@ -12,9 +13,9 @@ define([
     'layouts/home',
     'config',
     'router',
+    'metro',
     'localforage',
     'views/breadcrumbs',
-    'views/graph',
     'views/info',
     'views/navigation',
     'views/current_user',
@@ -22,9 +23,9 @@ define([
     'controller',
     'text!templates/current_user.html'
 ], function(
-    $, _, Backbone, Chart, Observations, Protocols, Users, FieldActivities,
-    Stations, StationsProtocols, HomeLayout, config, Router, localforage, Breadcrumbs,
-    GraphView, InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
+    $, _, Backbone, bootstrap, Chart, Observations, Protocols, Users, FieldActivities,
+    Stations, StationsProtocols, HomeLayout, config, Router, metro, localforage, Breadcrumbs,
+    InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
     'use strict';
 
     Chart.defaults.global.responsive = true;
