@@ -9,11 +9,15 @@ var ecoReleveData = (function(){
             }
         },
         shim:{
-            'bootstrap': {
+            bootstrap: {
                 deps: ['jquery']
             },
-            'metro': {
+            metro: {
                 deps: ['jquery', 'jquery_ui']
+            },
+            marionette: {
+                deps : ['jquery', 'underscore', 'backbone'],
+                exports : 'Marionette'
             }
         },
         paths: {
@@ -21,7 +25,9 @@ var ecoReleveData = (function(){
             collections: '../collections',
             config: '../config',
             controller: '../controller',
+            event_manager: '../event-manager',
             layouts: '../layouts',
+            controllers: '../controllers',
             models: '../models',
             router: '../router',
             // Libs

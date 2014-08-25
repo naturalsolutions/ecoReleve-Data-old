@@ -1,14 +1,20 @@
 define([
     'marionette',
-], function(Marionette) {
+    'views/login'
+], function(Marionette, LoginView) {
     'use strict';
     return Marionette.Controller.extend( {
-        initialize: function(app) {
-            this.app = app;
+        initialize: function(options) {
+            this.mainRegion = options.mainRegion;
         },
 
         home: function() {
-            this.app.main.show(this.app.layouts.home);
+            this.mainRegion.show(this.app.layouts.home);
+        },
+
+        login: function() {
+            var loginView = new LoginView();
+            this.mainRegion.show(loginView);
         }
     });
 });

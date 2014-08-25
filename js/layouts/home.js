@@ -26,11 +26,7 @@ define([
             if(this.views.graph === undefined){
                 this.views.graph = new GraphView();
             }
-            this.views.graph.drawGraph(this.$el.find('#graph canvas'))
             this.info.show(this.views.info);
-            this.views.graph.drawGraph(this.$el.find('#graph canvas'))
-            this.views.graph.drawGraph(this.$el.find('#graph canvas'))
-            this.views.graph.drawGraph(this.$el.find('#graph canvas'))
         }
     });
 });

@@ -38,11 +38,11 @@ define([
             .done( function(data) {
                 var len = data.length;
                 for (var i = 0; i < len; i++) {
-                    var label = data[i].Nom;
-                    var id = data[i].ID;
+                    var label = data[i].fullname;
+                    var id = data[i].PK_id;
                     this.add({
-                        "idUser": id,
-                        "label": label
+                        "user_id": id,
+                        "fullname": label
                     });
                 }
                 this.save();

@@ -1,5 +1,6 @@
 define([
     'jquery',
+    'jquery_ui',
     'underscore',
     'backbone',
     'bootstrap',
@@ -23,7 +24,7 @@ define([
     'controller',
     'text!templates/current_user.html'
 ], function(
-    $, _, Backbone, bootstrap, Chart, Observations, Protocols, Users, FieldActivities,
+    $, jquery_ui, _, Backbone, bootstrap, Chart, Observations, Protocols, Users, FieldActivities,
     Stations, StationsProtocols, HomeLayout, config, Router, metro, localforage, Breadcrumbs,
     InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
     'use strict';
@@ -33,15 +34,16 @@ define([
     var newApp = new Backbone.Marionette.Application();
 
     newApp.addRegions({
-        main: '#main'
+        mainRegion: '#mainRegion'
     });
 
+    newApp.vent.on("login", function() {console.log('Login success')});
+
     newApp.addInitializer( function() {
-        this.layouts = {
-            home: new HomeLayout()
-        }
         var router = new Router( {
-            controller: new Controller(newApp)
+            controller: new Controller( {
+                mainRegion: newApp.mainRegion
+            }),
         });
     });
 
