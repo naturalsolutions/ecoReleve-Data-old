@@ -18,6 +18,9 @@ var ecoReleveData = (function(){
             marionette: {
                 deps : ['jquery', 'underscore', 'backbone'],
                 exports : 'Marionette'
+            },
+            sha1: {
+                exports: "sha1"
             }
         },
         paths: {
@@ -34,6 +37,7 @@ var ecoReleveData = (function(){
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
+            sha1: 'sha1/sha1',
             templates: '../../templates',
             text: '../tools/text',
             views: '../views',

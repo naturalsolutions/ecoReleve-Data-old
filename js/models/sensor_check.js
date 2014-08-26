@@ -10,7 +10,7 @@ define([
 
     'use strict';
 
-    return Marionette.LayoutView.extend( {
+    return Backbone.Model.extend( {
         className:"home",
         views: {},
         template: _.template(homeTemplate),

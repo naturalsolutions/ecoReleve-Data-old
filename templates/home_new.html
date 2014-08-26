@@ -1,7 +1,85 @@
-<div id="home">
-    <div id="graph" class="col-lg-6">
+<div id="home-top" class="row">
+    <div id="graph" class="col-lg-4">
         <canvas></canvas>
     </div>
-    <div id="info" class="col-lg-4 col-lg-offset-2">
+    <div id="info" class="col-lg-4 col-lg-offset-4">
     </div>
-<div>
+</div>
+<div id="home-bottom" class="row">
+        <div class="col-lg-4">
+            <ul class="thumbnails">
+                <li class="tile tile-yellow icon connected">
+                    <a href="#import" >
+                        <img src="images/import_.png" />
+                        <h2>Import</h2>
+                    </a>
+                </li>
+                <li class="tile tile-orangePerso icon connected">
+                    <a id="argosTile">
+                        <img src="images/argos_picto.png" />
+                        <h2>cloud import</h2>
+                        <div class="badge bg-red" id="homeArgosNb"></div>
+                    </a>
+                </li>
+                <li class="tile tile-double tile-orange icon">
+                    <!-- tile-red  -->
+                    <a href="#stationType" >
+                        <img src="images/input_data_picto.png" />
+                        <h2>manual entry</h2>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <ul class="thumbnails">
+                <li class="tile tile-lime icon connected">
+                    <a href="#objects" >
+                        <img src="images/objects_picto.png" />
+                        <h2>objects</h2>
+                    </a>
+                </li>
+                <li class="tile tile-yellowPerso icon connected">
+                    <a href="#birds" >
+                        <img src="images/indiv_picto.png" />
+                        <h2>individuals</h2>
+                    </a>
+                </li>
+                <li class="tile tile-double tile-green icon connected">
+                    <a href="#allData" >
+                        <img src="images/Map-data.png" />
+                        <h2>Map</h2>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <ul class="thumbnails ajustedTile">
+                <li class="tile tile-teal  icon connected ">
+                    <a href="#export" >
+                        <img src="images/export_.png" />
+                        <h2>export</h2>
+                    </a>
+                </li>
+                <li class="tile tile-teal  icon connected ">
+                    <a href="#rfid" >
+                        <img src="images/export_.png" />
+                        <h2>Site Monitoring</h2>
+                    </a>
+                </li>
+            </ul>
+            <ul class="thumbnails ajustedTile">
+
+                <li class="tile tile-blue-perso  icon connected" >
+                    <a href="#mydata" id="homeMyDataTuile">
+                        <!--<span id="homeNbObs"></span><br/>-->
+                        <img src="images/my-data2.png" />
+                        <h2>data queue</h2>
+                        <div class="badge bg-red" id="homeNbObs"></div>
+
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>

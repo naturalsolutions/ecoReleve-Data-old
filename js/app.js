@@ -37,8 +37,6 @@ define([
         mainRegion: '#mainRegion'
     });
 
-    newApp.vent.on("login", function() {console.log('Login success')});
-
     newApp.addInitializer( function() {
         var router = new Router( {
             controller: new Controller( {

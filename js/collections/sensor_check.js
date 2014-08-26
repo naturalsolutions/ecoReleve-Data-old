@@ -1,24 +1,15 @@
 define([
-    "event_manager",
     'marionette',
-    'views/graph',
-    'views/info',
-    'chart',
+    'models/sensor_check',
     'config',
-    'text!templates/home_new.html'
-], function(eventManager, Marionette, GraphView, InfoView, Chart, config, homeTemplate) {
+    'text!templates/sensor_check_grid.html'
+], function(Marionette, model, config, template) {
 
     'use strict';
 
-    return Marionette.LayoutView.extend( {
-        className:"home",
-        views: {},
-        template: _.template(homeTemplate),
-        regions: {
-            graph: "#graph",
-            info: "#info",
-            tiles: "#tiles"
-        },
+    return Backbone.Collection.extend( {
+        template: template,
+        url: config.sensorUrl + 'sensor/unchecked'
 
         ui: {
             argosTile: "#argosTile"
