@@ -29,7 +29,7 @@ define([
     InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
     'use strict';
 
-    Chart.defaults.global.responsive = true;
+    //Chart.defaults.global.responsive = true;
 
     var newApp = new Backbone.Marionette.Application();
 

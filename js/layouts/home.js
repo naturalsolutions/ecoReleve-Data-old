@@ -1,19 +1,16 @@
 define([
     "event_manager",
-    'marionette',
-    'views/graph',
-    'views/info',
-    'chart',
-    'config',
-    'text!templates/home_new.html'
+    "marionette",
+    "views/graph",
+    "views/info",
+    "chart",
+    "config",
+    "text!templates/home_new.html"
 ], function(eventManager, Marionette, GraphView, InfoView, Chart, config, homeTemplate) {
-
-    'use strict';
-
+    "use strict";
     return Marionette.LayoutView.extend( {
-        className:"home",
-        views: {},
-        template: _.template(homeTemplate),
+        className:"container-fluid",
+        template: homeTemplate,
         regions: {
             graph: "#graph",
             info: "#info",
@@ -25,22 +22,24 @@ define([
         },
 
         events: {
-            "click #argosTile": "checkArgos"
+            "click #argosTile": "argos",
+            "click #rfidTile": "rfid"
         },
 
         initialize: function() {
-            this.views.info = new InfoView();
         },
 
         onRender: function(){
-            if(typeof this.views.graph === "undefined"){
-                this.views.graph = new GraphView();
-            }
-            this.info.show(this.views.info);
+            this.info.show(new InfoView());
+            this.graph.show(new GraphView());
         },
 
-        checkArgos: function() {
-            eventManager.trigger("home:show:argos", this.ui.argosTile);
+        argos: function() {
+            eventManager.trigger("show:argos");
+        },
+
+        rfid: function() {
+            eventManager.trigger("show:rfid");
         }
     });
 });

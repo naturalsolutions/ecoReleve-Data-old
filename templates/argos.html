@@ -1,52 +1,60 @@
-<section id="filter">
-	<div class="row-fluid" id="arogsFilterContainerRow">
-		<div class="span3" id="argosFilter">
-			<div id="serachHeader">
-				<img src="images/NS_search.png">
-				<span>search</span>
-			</div>
-			<div id="argosDataFilter">
-				<div class="filterItem">
-					<label>ptt</label>
-					<hr/>
-					<label class="labelform">id</label>
-					<input type="text" name="pttId" list="argosTransmittersdList">
-					<datalist  id="argosTransmittersdList"></datalist>
-					<label class="labelform">type</label>
-					<input type="text" name="name">
-					<datalist  id=" "></datalist>
-
-				</div>
-				<div class="filterItem">
-					<label>individual</label>
-					<hr/>
-					<br/>
-					<input type="text" name="indivId" list="argosIndividualList">
-					<datalist  id="argosIndividualList"></datalist>
-				</div>
-				<div class="filterItem">
-					<label>status</label>
-					<hr/>
-					<br/>
-					<input type="text" name="status" list="statusList">
-					<datalist  id="statusList">
-						<option value="please verify"></option>
-						<option value="checked"></option>
-						<option value="imported"></option>
-						<option value="error"></option>
-					</datalist>
-				</div>
-			</div>
-			<div id="myDataFilterBtn">
-				<button id="argosFilterClear" class="filterbtn">
-					<!--<img src="images/clear.png"> -->clear search</button>
-				<button id="argosFilterSubmit" class="filterbtn">
-					<!--<img src="images/NS_search.png">-->search</button>
-			</div>
+<script type="text/template">
+<div id="filters" class="col-lg-2">
+	<form role="form">
+		<div class="form-group center-block">
+			<h3>Filters</h3>
 		</div>
-	</div>
-</section>
-<section class="span9" id="grid">
+		<div class="form-group">
+			<label class="control-label" for="ptt">Ptt:</label>
+			<input id="ptt" list="ptt_list" type="text"
+				class="form-control" placeholder="Ptt"
+				autocomplete="off"/>
+			<datalist id="ptt_list">
+				<% _.each(items, function(item) { %>
+				<option> <%= item.ptt %> </option>
+				<% }); %>
+			</datalist>
+		</div>
+		<div class="form-group" id="pwd-group">
+			<label class="control-label" for="ind">Individual:</label>
+			<input id="ind" list="ind_list" type="text"
+				class="form-control" placeholder="Individual"/>
+			<datalist id="ind_list">
+				<% _.each(items, function(item) { %>
+				<option> <%= item.ind_id %> </option>
+				<% }); %>
+			</datalist>
+		</div>
+		<div class="form-group row">
+			<button id="filter-btn" type="submit"
+				class="col-lg-3 col-lg-offset-2 btn btn-primary">Filter</button>
+			<button id="clear-btn" type="submit"
+				class="col-lg-3 col-lg-offset-2 btn btn-primary">Clear</button>
+		</div>
+	</form>
+</div>
+<section id="grid" class="col-lg-10">
+	<h3>Data</h3>
+	<table class="table" id="data-table">
+		<thead>
+			<tr>
+				<th>ptt</th>
+				<th>ind_id</th>
+				<th>remarks</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% var i = 0; _.each(items, function(item) { %>
+				<tr data-id="<%= i %>"
+					class="<%= !item.ind_id ? 'danger' : '' %>"
+				>
+					<td > <%= item.ptt %> </td>
+					<td > <%= item.ind_id %> </td>
+					<td > <%= item.ind_id ? 'verify' : 'error' %> </td>
+				</tr>
+			<% i++; }); %>
+		</tbody>
+	</table>
 	<div class="persoScroll">
 		<div id="argosGgridLabel">
 			<span id="argosDataNb"></span> unchecked data from Argos database
@@ -57,3 +65,4 @@
 		</div>
 	</div>
 </section>
+</script>

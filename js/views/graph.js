@@ -9,9 +9,13 @@ define([
     return Marionette.ItemView.extend( {
         template: false,
 
-        drawGraph: function($canvas) {
-            console.log('draw graph')
-            var canvas = $canvas.get(0)
+        onRender: function() {
+            this.drawGraph();
+        },
+
+        drawGraph: function() {
+            var canvas = $("<canvas height=300 width=400 class='center-block hidden-xs'></canvas>");
+            this.$el.append(canvas);
             //caching graph data for a day
             var dataGraph = localStorage.getItem("ecoreleveChart");
             // get current day and compare it with stored day
@@ -21,7 +25,7 @@ define([
             var storedDay = localStorage.getItem("ecoreleveChartDay");
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
-                var myChart = new Chart(canvas.getContext("2d")).Line(gData, {});
+                var myChart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
                 $("#homeGraphLegend").html("<h3>number of observations</h3>");
             } else {
                 var url = config.coreUrl + "/stations/graph";
@@ -59,7 +63,7 @@ define([
                     // ["Mon", "Feb", "1", "2014"....
                     var day_ = d[2];
                     localStorage.setItem("ecoreleveChartDay", day_);
-                    var myChart = new Chart(canvas.getContext('2d')).Line(gData, {});
+                    var myChart = new Chart(canvas[0].getContext('2d')).Line(gData, {});
                 }).fail( function(data) {
                     console.log("error in loading data");
                 });

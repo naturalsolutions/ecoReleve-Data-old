@@ -6,8 +6,7 @@ define([
 
     return Backbone.Marionette.AppRouter.extend( {
         appRoutes: {
-            "": "login",
-            ":route": "login",
+            "*route": "login"
         }
     });
 });

@@ -7,14 +7,14 @@ define([
     'text!templates/info.html'
 ], function(_, Backbone, config, Marionette, moment, infoTemplate) {
     'use strict';
-    return Backbone.Marionette.ItemView.extend({
+    return Marionette.ItemView.extend({
         model: new Backbone.Model({
             siteName: config.siteName,
             date: moment().format('dddd, MMMM Do YYYY'),
             nbIndiv: 0
         }),
-        
-        template: _.template(infoTemplate),
+
+        template: infoTemplate,
 
         initialize: function() {
             this.listenTo(this.model, "change", this.render);
