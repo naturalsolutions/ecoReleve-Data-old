@@ -34,13 +34,15 @@ define([
     var newApp = new Backbone.Marionette.Application();
 
     newApp.addRegions({
-        mainRegion: '#mainRegion'
+        navRegion: "#nav-region",
+        mainRegion: "#main-region"
     });
 
     newApp.addInitializer( function() {
         var router = new Router( {
             controller: new Controller( {
-                mainRegion: newApp.mainRegion
+                mainRegion: newApp.mainRegion,
+                navRegion: newApp.navRegion
             }),
         });
     });

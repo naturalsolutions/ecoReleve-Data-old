@@ -1,10 +1,18 @@
 <script type="text/template">
-    <div class="row">
-        <div class="col-lg-2 text-right col-lg-offset-4">
-            <label for="file-input">Choose a file:</label>
-        </div>
-        <div class="col-lg-2">
-            <input type="file" id="file-input">
+    <div class="col-sm-4 col-sm-offset-4">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input type="file" id="input-file"/>
+            </div>
+            <div class="form-group">
+                <button id="btn-import" type="submit" class="btn btn-primary">
+                    Import
+                </button>
+            </div>
+        </form>
+        <div class="spacer"/>
+        <div class="progress">
+            <div class="progress-bar" style="width: 0%;"></div>
         </div>
     </div>
 </script>

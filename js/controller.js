@@ -7,13 +7,15 @@ define([
     "layouts/argos-detail",
     "layouts/home",
     "layouts/rfid",
+    "views/navigation",
     "views/rfid-import"
 ], function(config, eventManager, Marionette, LoginView, ArgosLayout,
-    ArgosDetailLayout, HomeLayout, RfidLayout, RfidImportView) {
+    ArgosDetailLayout, HomeLayout, RfidLayout, NavigationView, RfidImportView) {
     "use strict";
     return Marionette.Controller.extend( {
         initialize: function(options) {
             this.mainRegion = options.mainRegion;
+            this.navRegion = options.navRegion;
             this.listenTo(eventManager, "show:login", this.login);
             this.listenTo(eventManager, "login:success", this.home);
             this.listenTo(eventManager, "show:argos", this.argos);
@@ -46,20 +48,29 @@ define([
             Backbone.history.navigate("");
         },
 
+        insertNav: function() {
+            if(!this.navRegion.hasView()) {
+                this.navRegion.show(new NavigationView());
+            }
+        },
+
         login: function(route) {
             $.ajax({
                 context: this,
                 url: config.coreUrl + '/security/has_access'
             }).done( function() {
                 if(typeof this[route] === "function") {
+                    this.insertNav();
                     this[route]();
                 }
                 else {
+                    this.insertNav();
                     this.home();
                 }
             }).fail( function() {
                 var loginView = new LoginView();
                 this.mainRegion.show(loginView);
+                this.navRegion.empty();
             });
         },
 

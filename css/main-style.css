@@ -6,6 +6,10 @@ a:hover, tr:hover {
     cursor: pointer;
 }
 
-.only-one {
-    margin-top: 250px;
+.full-width {
+    width: 100%;
+}
+
+.spacer {
+    height: 1rem;
 }
