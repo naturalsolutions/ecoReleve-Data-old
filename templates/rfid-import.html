@@ -1,6 +1,16 @@
 <script type="text/template">
     <div class="col-sm-4 col-sm-offset-4">
-        <form class="form-inline" role="form">
+        <form class="form" role="form">
+            <div class="form-group">
+                <label for="input-ant" class="form-control">Choose the antenna:</label>
+                <input id="input-ant" list="ant-list" type="text"
+                    class="form-control" placeholder="Antenna"/>
+                <datalist id="ant-list">
+                    <% _.each(items, function(item) { %>
+                    <option> <%= item.id %> </option>
+                    <% }); %>
+                </datalist>
+            </div>
             <div class="form-group">
                 <input type="file" id="input-file"/>
             </div>

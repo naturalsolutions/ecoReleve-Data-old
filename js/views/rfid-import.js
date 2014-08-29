@@ -13,7 +13,8 @@ define([
         className: "full-width",
         template: template,
         events: {
-            "click #btn-import": "importFile"
+            "click #btn-import": "importFile",
+            "click #input-file": "hideProgress"
         },
 
         ui: {
@@ -21,7 +22,25 @@ define([
             progressBar: ".progress-bar"
         },
 
+        initialize: function() {
+            $.ajax({
+                url: config.coreUrl + '',
+                data: data,
+                processData: false,
+                contentType: false
+            }).done( function(data) {
+                    alert(data);
+            }).fail( function(data) {
+                alert(data);
+            });
+        },
+
         onRender: function() {
+            this.hideProgress();
+        },
+
+        hideProgress: function() {
+            this.ui.progressBar.width('0%');
             this.ui.progress.hide();
         },
 
