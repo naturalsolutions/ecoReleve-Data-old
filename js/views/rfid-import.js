@@ -10,6 +10,7 @@ define([
     "use strict";
 
     return Marionette.ItemView.extend({
+        collection: new Backbone.Collection(),
         className: "full-width",
         template: template,
         events: {
@@ -23,16 +24,13 @@ define([
         },
 
         initialize: function() {
+            this.listenTo(this.collection, "reset", this.render)
             $.ajax({
-                url: config.coreUrl + '',
-                data: data,
-                processData: false,
-                contentType: false
+                context: this,
+                url: config.coreUrl + "rfid",
             }).done( function(data) {
-                    alert(data);
-            }).fail( function(data) {
-                alert(data);
-            });
+                this.collection.reset(data);
+            })
         },
 
         onRender: function() {
@@ -49,9 +47,10 @@ define([
             event.preventDefault();
             var reader = new FileReader();
             var file = $("#input-file").get(0).files[0] || null;
-            var url = config.sensorUrl + "rfid/import";
+            var url = config.coreUrl + "rfid/import";
             var data = new FormData();
             var self = this;
+
             reader.onprogress = function(data) {
                 if (data.lengthComputable) {
                     var progress = parseInt(data.loaded / data.total * 100).toString();
@@ -73,6 +72,7 @@ define([
                     alert(data);
                 });
             };
+            
             if(file) {
                 this.ui.progress.show();
                 reader.readAsText(file);

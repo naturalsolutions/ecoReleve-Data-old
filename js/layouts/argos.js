@@ -23,7 +23,7 @@ define([
         },
 
         initialize: function() {
-            var url = config.sensorUrl + "/argos/unchecked/list";
+            var url = config.sensorUrl + "argos/unchecked/list";
             this.collection = new Backbone.Collection();
             this.data = new Backbone.Collection();
             this.listenTo(this.collection, "reset", this.render)

@@ -25,7 +25,7 @@ define([
         },
 
         initialize: function() {
-            var url = config.coreUrl + "/user";
+            var url = config.coreUrl + "user";
             this.listenTo(this.collection, "reset", this.render)
             $.ajax({
                 context: this,
@@ -40,7 +40,7 @@ define([
         login: function(elt) {
             elt.preventDefault();
             var user = this.collection.findWhere({fullname: $('#username').val()});
-            var url = config.coreUrl + "/security/login";
+            var url = config.coreUrl + "security/login";
             if (user) {
                 $.ajax({
                     context: this,
