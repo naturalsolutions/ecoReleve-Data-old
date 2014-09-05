@@ -9,18 +9,21 @@ define([
     "collections/users",
     "text!templates/login.html"
 ], function($, _, Backbone, config, eventManager, Marionette, sha1, Users, template) {
+
     "use strict";
+
     return Marionette.ItemView.extend( {
         className: "col-sm-4 col-sm-offset-4",
         collection: new Backbone.Collection(),
         template: template,
 
         events: {
-            "submit": "login"
+            "submit": "login",
+            "focus #password": "clear"
         },
 
         ui: {
-            err: "#err",
+            err: "#help-password",
             pwd: "#pwd-group"
         },
 
@@ -59,6 +62,11 @@ define([
         fail: function() {
             this.ui.pwd.addClass("has-error");
             this.ui.err.text('Incorrect password');
+        },
+
+        clear: function() {
+            this.ui.pwd.removeClass("has-error");
+            this.ui.err.text("");
         }
     });
 });

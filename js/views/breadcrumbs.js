@@ -1,13 +1,15 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'views/base_view',
-    'text!templates/breadcrumbs.html'
-], function($, _, Backbone, BaseView, template){
-    'use strict';
-    return BaseView.extend({
-        template: _.template(template),
+    "jquery",
+    "underscore",
+    "backbone",
+    "marionette",
+    "text!templates/breadcrumbs.html"
+], function($, _, Backbone, Marionette, template){
+
+    "use strict";
+
+    return Marionette.ItemView.extend({
+        template: template,
 
         initialize: function () {
             this.context = '';
@@ -18,8 +20,6 @@ define([
             } else {
                 this.appName = "home";
             }
-            //this.listenTo(this.model, 'route', this.update);
-            BaseView.prototype.initialize.apply(this, arguments);
         },
 
         serialize: function () {

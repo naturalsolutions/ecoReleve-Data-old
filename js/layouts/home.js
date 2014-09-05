@@ -17,13 +17,11 @@ define([
             tiles: "#tiles"
         },
 
-        ui: {
-            argosTile: "#argosTile"
-        },
-
         events: {
             "click #argosTile": "argos",
-            "click #rfidTile": "rfid"
+            "click #indivTile": "indiv",
+            "click #rfidTile": "rfid",
+            "click #monitoredSiteTile" : "monitoredSite"
         },
 
         initialize: function() {
@@ -36,6 +34,14 @@ define([
 
         argos: function() {
             eventManager.trigger("show:argos");
+        },
+
+        indiv: function() {
+            eventManager.trigger("show:indiv");
+        },
+
+        monitoredSite: function() {
+            eventManager.trigger("show:monitoredSite");
         },
 
         rfid: function() {

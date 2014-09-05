@@ -20,7 +20,7 @@ define([
             this.listenTo(this.model, "change", this.render);
             $.ajax({
                 context: this,
-                url: config.coreUrl + '/individuals/count',
+                url: config.coreUrl + 'individuals/count',
                 dataType: 'json'
             }).done( function(data) {
                 this.model.set('nbIndiv', data);

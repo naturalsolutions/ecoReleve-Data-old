@@ -1,4 +1,5 @@
 define([
+    "backbone",
     "config",
     "event_manager",
     "marionette",
@@ -6,22 +7,26 @@ define([
     "layouts/argos",
     "layouts/argos-detail",
     "layouts/home",
-    "layouts/rfid",
-    "views/navigation",
-    "views/rfid-import"
-], function(config, eventManager, Marionette, LoginView, ArgosLayout,
-    ArgosDetailLayout, HomeLayout, RfidLayout, NavigationView, RfidImportView) {
+    "modules/individual/individual-layout",
+    "modules/rfid/rfid-layout",
+    "layouts/header",
+], function(Backbone, config, eventManager, Marionette, LoginView, ArgosLayout,
+    ArgosDetailLayout, HomeLayout, IndivLayout, RfidLayout, HeaderLayout) {
+
     "use strict";
+
     return Marionette.Controller.extend( {
         initialize: function(options) {
             this.mainRegion = options.mainRegion;
-            this.navRegion = options.navRegion;
+            this.headerRegion = options.headerRegion;
+            this.listenTo(eventManager, "logout", this.logout);
             this.listenTo(eventManager, "show:login", this.login);
-            this.listenTo(eventManager, "login:success", this.home);
+            this.listenTo(eventManager, "login:success", this.login);
             this.listenTo(eventManager, "show:argos", this.argos);
+            this.listenTo(eventManager, "show:indiv", this.indiv);
+            this.listenTo(eventManager, "show:monitoredSite",
+                this.monitoredSite);
             this.listenTo(eventManager, "show:rfid", this.rfid);
-            this.listenTo(eventManager, "show:rfid:deploy", this.rfidDeploy);
-            this.listenTo(eventManager, "show:rfid:import", this.rfid_import);
             this.listenTo(eventManager, "show:argos:detail", this.argos_detail);
         },
 
@@ -48,29 +53,49 @@ define([
             Backbone.history.navigate("");
         },
 
-        insertNav: function() {
-            if(!this.navRegion.hasView()) {
-                this.navRegion.show(new NavigationView());
+        indiv: function() {
+            var layout = new IndivLayout();
+            this.mainRegion.show(layout);
+            Backbone.history.navigate("individual");
+        },
+
+        monitoredSite: function() {
+            var layout = new MonitoredSiteLayout();
+            this.mainRegion.show(layout);
+            Backbone.history.navigate("monitored_site");
+        },
+
+        insertHeader: function() {
+            if(!this.headerRegion.hasView()) {
+                this.headerRegion.show(new HeaderLayout());
             }
         },
 
         login: function(route) {
             $.ajax({
                 context: this,
-                url: config.coreUrl + '/security/has_access'
+                url: config.coreUrl + 'security/has_access'
             }).done( function() {
+                this.insertHeader();
                 if(typeof this[route] === "function") {
-                    this.insertNav();
                     this[route]();
                 }
                 else {
-                    this.insertNav();
                     this.home();
                 }
             }).fail( function() {
-                var loginView = new LoginView();
-                this.mainRegion.show(loginView);
-                this.navRegion.empty();
+                Backbone.history.navigate("login");
+                this.headerRegion.empty();
+                this.mainRegion.show(new LoginView());
+            });
+        },
+
+        logout: function() {
+            $.ajax({
+                context: this,
+                url: config.coreUrl + 'security/logout'
+            }).done( function() {
+                this.login();
             });
         },
 
@@ -78,18 +103,6 @@ define([
             var layout = new RfidLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate("rfid");
-        },
-
-        rfidDeploy: function() {
-            var layout = new RfidLayout();
-            this.mainRegion.show(layout);
-            Backbone.history.navigate("rfid_deploy");
-        },
-
-        rfid_import: function() {
-            var view = new RfidImportView();
-            this.mainRegion.show(view);
-            Backbone.history.navigate("rfid_import");
         }
     });
 });

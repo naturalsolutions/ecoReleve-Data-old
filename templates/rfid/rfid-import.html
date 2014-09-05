@@ -1,18 +1,22 @@
 <script type="text/template">
     <div class="col-sm-4 col-sm-offset-4">
         <form class="form" role="form">
-            <div class="form-group">
-                <label for="input-ant" class="control-label">Choose the antenna:</label>
-                <input id="input-ant" list="ant-list" type="text"
-                    class="form-control" placeholder="Antenna"/>
-                <datalist id="ant-list">
+            <div class="form-group" id="group-mod">
+                <label for="input-mod" class="control-label">
+                    Choose a RFID module:
+                </label>
+                <input id="input-mod" list="mod-list" type="text"
+                    class="form-control" placeholder="Identifier"/>
+                <datalist id="mod-list">
                     <% _.each(items, function(item) { %>
-                    <option> <%= item.id %> </option>
+                    <option> <%= item.identifier %> </option>
                     <% }); %>
                 </datalist>
+                <span id="help-mod" class="help-block"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group-file">
                 <input type="file" id="input-file"/>
+                <span id="help-file" class="help-block"></span>
             </div>
             <div class="form-group">
                 <button id="btn-import" type="submit" class="btn btn-primary">
@@ -21,7 +25,7 @@
             </div>
         </form>
         <div class="spacer"/>
-        <div class="progress">
+        <div class="progress" style="display: none;">
             <div class="progress-bar" style="width: 0%;"></div>
         </div>
     </div>

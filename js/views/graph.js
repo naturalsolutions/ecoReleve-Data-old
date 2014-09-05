@@ -28,7 +28,7 @@ define([
                 var myChart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
                 $("#homeGraphLegend").html("<h3>number of observations</h3>");
             } else {
-                var url = config.coreUrl + "/stations/graph";
+                var url = config.coreUrl + "stations/graph";
                 $.ajax({
                     url: url,
                     dataType: "json"

@@ -4,13 +4,6 @@ define([
     'underscore',
     'backbone',
     'bootstrap',
-    'chart',
-    'collections/observations',
-    'collections/protocols',
-    'collections/users',
-    'collections/field_activities',
-    'collections/stations',
-    'collections/stations_protocols',
     'layouts/home',
     'config',
     'router',
@@ -24,8 +17,7 @@ define([
     'controller',
     'text!templates/current_user.html'
 ], function(
-    $, jquery_ui, _, Backbone, bootstrap, Chart, Observations, Protocols, Users, FieldActivities,
-    Stations, StationsProtocols, HomeLayout, config, Router, metro, localforage, Breadcrumbs,
+    $, jquery_ui, _, Backbone, bootstrap, HomeLayout, config, Router, metro, localforage, Breadcrumbs,
     InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
     'use strict';
 
@@ -34,7 +26,7 @@ define([
     var newApp = new Backbone.Marionette.Application();
 
     newApp.addRegions({
-        navRegion: "#nav-region",
+        headerRegion: "#header-region",
         mainRegion: "#main-region"
     });
 
@@ -42,7 +34,7 @@ define([
         var router = new Router( {
             controller: new Controller( {
                 mainRegion: newApp.mainRegion,
-                navRegion: newApp.navRegion
+                headerRegion: newApp.headerRegion
             }),
         });
     });

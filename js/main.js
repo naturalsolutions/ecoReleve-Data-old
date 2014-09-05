@@ -32,6 +32,7 @@ var ecoReleveData = (function(){
             layouts: '../layouts',
             controllers: '../controllers',
             models: '../models',
+            modules: '../modules',
             router: '../router',
             // Libs
             bootstrap: 'bootstrap/3.2.0/bootstrap',
