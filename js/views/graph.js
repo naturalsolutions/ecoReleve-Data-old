@@ -9,6 +9,10 @@ define([
     return Marionette.ItemView.extend( {
         template: false,
 
+        initialize: function() {
+            this.chart = {};
+        },
+
         onRender: function() {
             this.drawGraph();
         },
@@ -25,7 +29,7 @@ define([
             var storedDay = localStorage.getItem("ecoreleveChartDay");
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
-                var myChart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
+                this.chart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
                 $("#homeGraphLegend").html("<h3>number of observations</h3>");
             } else {
                 var url = config.coreUrl + "stations/graph";
@@ -63,11 +67,15 @@ define([
                     // ["Mon", "Feb", "1", "2014"....
                     var day_ = d[2];
                     localStorage.setItem("ecoreleveChartDay", day_);
-                    var myChart = new Chart(canvas[0].getContext('2d')).Line(gData, {});
+                    this.chart = new Chart(canvas[0].getContext('2d')).Line(gData, {});
                 }).fail( function(data) {
                     console.log("error in loading data");
                 });
             }
+        },
+
+        onDestroy: function() {
+            this.chart.destroy();
         }
     });
 });

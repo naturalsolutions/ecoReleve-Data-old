@@ -1,0 +1,55 @@
+define([
+    "jquery",
+    "underscore",
+    "backbone",
+    'marionette',
+    'moment',
+    'radio',
+    'models/point',
+    'utils/datalist',
+    'utils/map',
+    'config',
+    'text!templates/individual/map.html'
+], function($, _, Backbone, Marionette, Moment, Radio, Point, datalist, map, config, template) {
+
+    "use strict";
+
+    return Marionette.ItemView.extend({
+        template: template,
+
+        events: {
+        },
+
+        initialize: function(options) {
+            this.indivId = options.indivId;
+        },
+
+        onRender: function() {
+            var mapUrl = config.coreUrl + "/individuals/stations?id=" +this.indivId ;
+            var point = new Point({
+                    latitude: 34,
+                    longitude: 44,
+                    label: ""
+            });
+            var mapView = map.init(this.$el.find("#map"), point, 3);
+            //this.map_view = mapView;
+            this.map_view = mapView;
+            /*app.utils.timlineLayer(mapUrl, mapView, function(nbFeatures) {
+                if (nbFeatures > 10){
+                app.utils.animatedLayer(nbFeatures, mapUrl, mapView);
+                } else {
+                    $("#animationDiv").addClass("masqued");
+                    $("#map").css("height",windowHeigth-50);
+                }
+            });
+            $("#dateSlider").slider().on('slideStop', function() {
+                    // get range of date and update layer
+                    var interval = $("#dateSlider").data('slider').getValue();
+                    _this.updateTimeLineLayer(interval);
+            });
+            // update the size of animation div (map legend) by modifying span values
+            this.updateAnimationDivWidth(windowWidth);
+            */
+        },
+    });
+});

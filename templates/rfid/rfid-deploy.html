@@ -8,15 +8,11 @@
                 <div class="col-sm-7">
                     <input id="input-mod" list="mod-list" type="text"
                         class="form-control" placeholder="RFID module"/>
-                    <datalist id="mod-list">
-                        <% modules.forEach( function(module) { %>
-                        <option> <%= module.get('identifier') %> </option>
-                        <% }); %>
-                    </datalist>
+                    <datalist id="mod-list"/>
                     <span class="help-block" id="help-mod"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group-type">
                 <label for="input-type" class="control-label col-sm-5">
                     Monitored site type:
                 </label>
@@ -24,9 +20,10 @@
                     <input id="input-type" list="type-list" type="text"
                         class="form-control" placeholder="Type" disabled/>
                     <datalist id="type-list"/>
+                    <span class="help-block"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group-name">
                 <label for="input-name" class="control-label col-sm-5">
                     Monitored site name:
                 </label>
@@ -34,9 +31,10 @@
                     <input id="input-name" list="name-list" type="text"
                         class="form-control" placeholder="Name" disabled/>
                     <datalist id="name-list"/>
+                    <span class="help-block"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group-begin">
                 <label for="input-begin" class="control-label col-sm-5">
                     From:
                 </label>
@@ -44,9 +42,10 @@
                     <input id="input-begin" type="text"
                         class="form-control" placeholder="yyyy-mm-dd HH:MM:SS"
                         disabled />
+                    <span class="help-block"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group-end">
                 <label for="input-end" class="control-label col-sm-5">
                     To:
                 </label>
@@ -54,6 +53,7 @@
                     <input id="input-end" type="text"
                         class="form-control" placeholder="yyyy-mm-dd HH:MM:SS"
                         disabled />
+                    <span class="help-block"/>
                 </div>
             </div>
             <div class="form-group">

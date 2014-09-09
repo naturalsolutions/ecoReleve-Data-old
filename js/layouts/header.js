@@ -1,21 +1,21 @@
 define([
-    "event_manager",
-    "marionette",
-    "views/user",
-    "text!templates/header.html"
-], function(eventManager, Marionette, UserView, template) {
+    'marionette',
+    'radio',
+    'views/user',
+    'text!templates/header.html'
+], function(Marionette, Radio, UserView, template) {
 
-    "use strict";
+    'use strict';
 
     return Marionette.LayoutView.extend( {
         template: template,
         regions: {
-            breadcrumbsRegion: "#breadcrumbs",
-            userRegion: "#user",
+            breadcrumbsRegion: '#breadcrumbs',
+            userRegion: '#user',
         },
 
         events: {
-            "click #logout": "logout"
+            'click #logout': 'logout'
         },
 
         onShow: function() {
@@ -24,7 +24,7 @@ define([
 
         logout: function(evt) {
             evt.preventDefault();
-            eventManager.trigger("logout");
+            Radio.channel('route').trigger('logout');
         }
     });
 });

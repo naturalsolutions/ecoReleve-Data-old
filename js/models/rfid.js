@@ -1,10 +1,10 @@
 define([
-    "jquery",
-    "backbone",
-    "config"
+    'jquery',
+    'backbone',
+    'config'
 ], function($, Backbone, config){
     'use strict';
     return Backbone.Model.extend({
-        urlRoot: config.coreUrl + "rfid"
+        urlRoot: config.coreUrl + 'rfid'
     });
 });

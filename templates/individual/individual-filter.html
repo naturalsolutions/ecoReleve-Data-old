@@ -1,126 +1,131 @@
 <script type="text/template">
-    <div id="birdsFilterContainer">
-      <!--<button id="hideShowFilter">
-      < filter </button>
-        -->
-        <div id="hideShowFilter"></div>
-        <div class="row-fluid" id="birdsFilterContainerRow">
-          <div class="span3" id="objectsIndivFilter">
-            <div id="serachHeader">
-              <ul>
-                <li class = "serachHeaderElem selected" id="serachHeaderElem1">
-                  <img src="images/search2.png">
-                    <span>search</span>
-                </li>
-                <li class = "serachHeaderElem" id="serachHeaderElem2">
-                  <img src="images/saved_search2.png">
-                  <span>saved</span>
-                </li>
-              </ul>
-            </div>
-            <div id="separator"></div>
-            <div id="indivCurrentSearch">
-                <div class="tabbable">
-
-                    <ul class="nav nav-tabs">
-                      <li class="active">
-                        <a href="#t1" data-toggle="tab" id="indivFitlOngletLab1">simple search</a>
-                      </li>
-                      <li>
-                        <a href="#t2" data-toggle="tab" id="indivFitlOngletLab2">advanced search</a>
-                      </li>
-                    </ul>
-                    <div class="tab-content">
-                      <div class="tab-pane active" id="t1">
-                        <div class="birdCaracFilter" id="birdCaracFilterSimple">
-                          <label>identification</label>
-                          <label class="labelform">species</label>
-                          <input type="text" name="specie" list="speciesList">
-                          <datalist  id="speciesList"></datalist>
-                          <label class="labelform">release area</label>
-                          <input type="text" name="releaseArea"  list="releaseAreaList">
-                          <datalist  id="releaseAreaList"></datalist>
-                          <label class="labelform">release year</label>
-                          <input type="text" name="releaseYear" list="releaseYearList">
-                          <datalist  id="releaseYearList"></datalist>
-                        </div>
-                      </div>
-                      <div class="tab-pane" id="t2">
-                        <!--  <div id="birdsBlocFilter">
-                        -->
-                        <div class="birdCaracFilter">
-                          <label>identification</label>
-                          <label class="labelform">id</label>
-                          <input type="text" name="id">
-                          <label class="labelform">frequency</label>
-                          <input type="text" name="frequency"  list="birdFrequencyList">
-                          <datalist  id="birdFrequencyList"></datalist>
-                          <label class="labelform">ptt</label>
-                          <input type="text" name="ptt" list="birdPttList">
-                          <datalist  id="birdPttList"></datalist>
-                          <label class="labelform">release ring</label>
-                          <input type="text" name="releaseRingCode" list="birdReleaseRingList">
-                          <datalist  id="birdReleaseRingList"></datalist>
-                          <label class="labelform">breeding ring</label>
-                          <input type="text" name="breedingRingCode" list="birdBreedingRingList">
-                          <datalist  id="birdBreedingRingList"></datalist>
-                        </div>
-                        <div class="birdCaracFilter">
-                          <label>mark</label>
-                          <label class="labelform">color</label>
-                          <input type="text" name="markColor1" list="birdMarkColorList">
-                          <datalist  id="birdMarkColorList"></datalist>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <label>characteristics</label>
-                          <label class="labelform">sex</label>
-                          <input type="text" name="sex" list="birdSexList">
-                          <datalist  id="birdSexList"></datalist>
-                          <label class="labelform">origin</label>
-                          <!-- acompleter -->
-                          <input type="text" name="origin" list="birdOriginList">
-                          <datalist  id="birdOriginList"></datalist>
-                          <label class="labelform">age</label>
-                          <!-- acompleter -->
-                          <input type="text" name="age" list="birdAgeList">
-                          <datalist  id="birdAgeList"></datalist>
-                        </div>
-                        <div class="birdCaracFilter"></div>
-                        <!--<div class="birdCaracFilter">
-
-                        <!--<input type="button" value="search" id="indivFilterSubmit"></div>
-                    </div>
-                    -->
-                    </div>
-                  </div>
-                </div>
-                <div id="indivBtnFilterDiv">
-                  <button id="indivFilterClear" class="filterbtn">
-                   <!-- <img src="images/clear.png">--> clear all</button>
-                  <button id="indivFilterSave" class="filterbtn">
-                    <!-- <img src="images/clear.png">-->  save search</button>
-                  <button id="indivFilterSubmit" class="filterbtn">
-                    <!--<img src="images/NS_search.png">-->search</button>
-                </div>
-            </div>
-            <div id="indivSavedSearch">
-            <ul id="indivSavedFiltersList" class="unstyled"></ul>
-            </div>
-
-      </div>
-      <div class="span9" id="objectsIndGrid">
-        <div id="birdFilterGrid" class="birdFilterGrid">
-          <div id="grid" class="persoScroll">
-            <div id="birdsGgridLabel">birds list</div>
-            <div id="objectsIndivGrid" class="gridDiv">
-              <div id="gridContainer"></div>
-            </div>
-          </div>
+    <div class="panel-group" id="filter-accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading top-level">
+            <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#filter-accordion" href="#filter-collapse">
+                Filters
+            </a>
+            </h4>
         </div>
-      </div>
-      <div id="indivModalQuery"></div>
-
+    <div id="filter-collapse" class="panel-collapse collapse in">
+    <form role="form">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Characteristics
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                    <input id="id" list="id_list" type="text"
+                        class="form-control" placeholder="ID"/>
+                    <datalist id="id_list"/>
+                    <input id="age" list="age_list" type="text"
+                        class="form-control" placeholder="Age"/>
+                    <datalist id="age_list"/>
+                    <input id="sex" list="sex_list" type="text"
+                        class="form-control" placeholder="Sex"/>
+                    <datalist id="sex_list"/>
+                    <input id="origin" list="origin_list" type="text"
+                        class="form-control" placeholder="Origin"/>
+                    <datalist id="origin_list"/>
+                    <input id="specie" list="specie_list" type="text"
+                        class="form-control" placeholder="Specie"/>
+                    <datalist id="specie_list"/>
+                    <input id="breeding_ring" list="breeding_ring_list" type="text"
+                        class="form-control" placeholder="Breeding ring"/>
+                    <datalist id="breeding_ring_list"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group" id="accordion2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    Objects
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <input id="ptt" list="ptt_list" type="text"
+                            class="form-control" placeholder="PTT"/>
+                        <datalist id="ptt_list"/>
+                        <input id="frequency" list="frequency_list" type="text"
+                            class="form-control" placeholder="Frequency"/>
+                        <datalist id="frequency_list"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group" id="accordion3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+                    Release infos
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                    <input id="release_ring" list="release_ring_list" type="text"
+                        class="form-control" placeholder="Release ring"/>
+                    <datalist id="release_ring_list"/>
+                    <input id="release_area" list="release_area_list" type="text"
+                        class="form-control" placeholder="Release area"/>
+                    <datalist id="release_area_list"/>
+                    <input id="release_year" list="release_year_list" type="text"
+                        class="form-control" placeholder="Release year"/>
+                    <datalist id="release_year_list"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6" style="display: none;">
+                <button id="filter-btn" type="submit"
+                    class="btn-block btn btn-primary">
+                    Filter
+                </button>
+            </div>
+            <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+                <button id="clear-btn"
+                    class="btn-block btn btn-primary">
+                    Clear
+                </button>
+            </div>
+            <div class="col-sm-5">
+                <button id="save-btn" class="btn-block btn btn-primary">
+                    Save
+                </button>
+            </div>
+            </div>
+        </div>
+    </form>
     </div>
     </div>
+    </div>
+    <div class="panel-group" id="saved-accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading top-level">
+            <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#saved-accordion" href="#saved-collapse">
+                Saved filters
+            </a>
+            </h4>
+        </div>
+    <div id="saved-collapse" class="panel-collapse collapse">
+        <div id="indivSavedSearch"/>
+    </div>
+    </div>
+    </div>
+    <div id="indivModalQuery"></div>
 </script>

@@ -1,10 +1,11 @@
 <script type="text/template">
     <form class="login-form" role="form">
-        <div class="form-group">
+        <div class="form-group" id="login-group">
             <label class="control-label" for="username">Username:</label>
             <input id="username" list="username_list" type="text"
                 class="form-control" placeholder="Username"
                 autocomplete="off"/>
+            <span class="help-block"></span>
             <datalist id="username_list">
                 <% _.each(items, function(user) { %>
                 <option> <%= user.fullname %> </option>

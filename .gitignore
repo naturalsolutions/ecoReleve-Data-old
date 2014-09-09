@@ -1,3 +1,5 @@
 code/config/server.json
 code/web.config
 code/config/XML_ProtocolDef_eReleve.xml
+bower_components/*
+web.config

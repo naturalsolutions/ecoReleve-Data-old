@@ -1,5 +1,5 @@
 var ecoReleveData = (function(){
-    "use strict";
+    'use strict';
 
     require.config({
         baseUrl: 'js/lib',
@@ -9,6 +9,10 @@ var ecoReleveData = (function(){
             }
         },
         shim:{
+            backgrid: {
+                deps: ['jquery', 'underscore', 'backbone'],
+                exports: 'Backgrid'
+            },
             bootstrap: {
                 deps: ['jquery']
             },
@@ -19,8 +23,14 @@ var ecoReleveData = (function(){
                 deps : ['jquery', 'underscore', 'backbone'],
                 exports : 'Marionette'
             },
+            openlayers: {
+                exports: 'OpenLayers'
+            },
             sha1: {
-                exports: "sha1"
+                exports: 'sha1'
+            },
+            vegas: {
+                deps:['jquery']
             }
         },
         paths: {
@@ -29,15 +39,20 @@ var ecoReleveData = (function(){
             config: '../config',
             controller: '../controller',
             event_manager: '../event-manager',
+            google: '../utils/google-maps-loader',
             layouts: '../layouts',
             controllers: '../controllers',
             models: '../models',
             modules: '../modules',
             router: '../router',
+            utils: '../utils',
             // Libs
+            backgrid: '../../bower_components/backgrid/lib/backgrid',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
+            openlayers: 'openlayers/openlayers',
+            radio: '../../bower_components/backbone.radio/build/backbone.radio',
             sha1: 'sha1/sha1',
             templates: '../../templates',
             text: '../tools/text',
@@ -50,6 +65,7 @@ var ecoReleveData = (function(){
             underscore: 'underscore/underscore-1.6.0',
             backbone: 'backbone/backbone-1.1.2',
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
+            vegas: '../../bower_components/vegas/dist/jquery.vegas'
         }
     });
 

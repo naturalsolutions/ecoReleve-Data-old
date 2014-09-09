@@ -1,13 +1,11 @@
 define([
     'jquery',
-    'jquery_ui',
     'underscore',
     'backbone',
     'bootstrap',
     'layouts/home',
     'config',
     'router',
-    'metro',
     'localforage',
     'views/breadcrumbs',
     'views/info',
@@ -17,13 +15,13 @@ define([
     'controller',
     'text!templates/current_user.html'
 ], function(
-    $, jquery_ui, _, Backbone, bootstrap, HomeLayout, config, Router, metro, localforage, Breadcrumbs,
-    InfoView, Navigation, CurrentUser, marionette, Controller, currentUser){
+    $, _, Backbone, bootstrap, HomeLayout, config, Router, localforage, Breadcrumbs,
+    InfoView, Navigation, CurrentUser, Marionette, Controller, currentUser){
     'use strict';
 
     //Chart.defaults.global.responsive = true;
 
-    var newApp = new Backbone.Marionette.Application();
+    var newApp = new Marionette.Application();
 
     newApp.addRegions({
         headerRegion: "#header-region",

@@ -13,10 +13,12 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
+
         events: {
             'click #btn-add': "add",
             'focus #input-identifier' : "clear"
         },
+
         ui: {
             group: "#group-identifier",
             help: "#help-identifier"

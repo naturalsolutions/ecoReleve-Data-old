@@ -1,16 +1,15 @@
 define([
-    "event_manager",
     "marionette",
+    'radio',
+    'vegas',
     "views/graph",
     "views/info",
-    "chart",
-    "config",
     "text!templates/home_new.html"
-], function(eventManager, Marionette, GraphView, InfoView, Chart, config, homeTemplate) {
+], function(Marionette, Radio, vegas, GraphView, InfoView, template) {
     "use strict";
     return Marionette.LayoutView.extend( {
         className:"container-fluid",
-        template: homeTemplate,
+        template: template,
         regions: {
             graph: "#graph",
             info: "#info",
@@ -24,28 +23,32 @@ define([
             "click #monitoredSiteTile" : "monitoredSite"
         },
 
-        initialize: function() {
-        },
-
         onRender: function(){
+            $.vegas ({
+                src: 'images/home_fond.jpg'
+            });
             this.info.show(new InfoView());
             this.graph.show(new GraphView());
         },
 
+        onDestroy: function() {
+            $('.vegas-background').hide();
+        },
+
         argos: function() {
-            eventManager.trigger("show:argos");
+            Radio.channel('route').trigger('argos');
         },
 
         indiv: function() {
-            eventManager.trigger("show:indiv");
+            Radio.channel('route').trigger('indiv');
         },
 
         monitoredSite: function() {
-            eventManager.trigger("show:monitoredSite");
+            Radio.channel('route').trigger('monitoredSite');
         },
 
         rfid: function() {
-            eventManager.trigger("show:rfid");
+            Radio.channel('route').trigger('rfid');
         }
     });
 });

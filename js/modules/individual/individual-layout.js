@@ -1,52 +1,31 @@
 define([
-    "jquery",
-    "underscore",
-    "backbone",
-    "event_manager",
+    'moment',
     'marionette',
+    'radio',
     'config',
-    'modules/individual/layouts/search-panel',
-    'modules/individual/views/individual-list',
-    'text!templates/individual/individual.html'
-], function($, _, Backbone, eventManager, Marionette, config, AddView,
-    DeployView, ImportView, ValidateView, template) {
+    'modules/individual/views/individual-filter',
+    'modules/individual/views/individual-grid',
+    'text!templates/left3-main9.html'
+], function(moment, Marionette, Radio, config, FilterView, GridView, template) {
 
-    "use strict";
+    'use strict';
 
     return Marionette.LayoutView.extend({
-        className: "container-fluid",
+        className: 'container-fluid',
         template: template,
 
         regions: {
-            leftRegion: "#left-panel",
-            mainRegion: "#main-panel"
+            left: '#left-panel',
+            main: '#main-panel'
         },
 
-        events: {
-            'click #deploy'   : 'showDeploy',
-            'click #import'   : 'showImport',
-            'click #add'      : 'showAdd',
-            'click #validate' : 'showValidate'
+        onShow: function() {
+            this.left.show(new FilterView());
+            this.main.show(new GridView());
         },
 
-        showDeploy: function() {
-            this.mainRegion.show(new DeployView());
-            Backbone.history.navigate("rfid_deploy");
-        },
-
-        showImport: function() {
-            this.mainRegion.show(new ImportView());
-            Backbone.history.navigate("rfid_import");
-        },
-
-        showAdd: function() {
-            this.mainRegion.show(new AddView());
-            Backbone.history.navigate("rfid_add");
-        },
-
-        showValidate: function() {
-            this.mainRegion.show(new ValidateView());
-            Backbone.history.navigate("rfid_validate");
+        onBeforeDestroy: function() {
+            Radio.channel('individual').reset();
         }
     });
 });

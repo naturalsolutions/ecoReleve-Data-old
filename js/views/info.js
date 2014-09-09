@@ -5,19 +5,22 @@ define([
     'marionette',
     'moment',
     'text!templates/info.html'
-], function(_, Backbone, config, Marionette, moment, infoTemplate) {
+], function(_, Backbone, config, Marionette, moment, template) {
     'use strict';
     return Marionette.ItemView.extend({
+        template: template,
+
         model: new Backbone.Model({
             siteName: config.siteName,
             date: moment().format('dddd, MMMM Do YYYY'),
             nbIndiv: 0
         }),
 
-        template: infoTemplate,
+        modelEvents: {
+            'change': 'render'
+        },
 
         initialize: function() {
-            this.listenTo(this.model, "change", this.render);
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'individuals/count',
