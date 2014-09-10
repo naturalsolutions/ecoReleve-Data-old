@@ -26,7 +26,7 @@ define([
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
                 this.chart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
-                $("#homeGraphLegend").html("<h3>number of observations</h3>");
+                $("#homeGraphLegend").html("<h3>Number of new stations</h3>");
             } else {
                 var url = config.coreUrl + "stations/graph";
                 $.ajax({
@@ -46,8 +46,6 @@ define([
                         labels.push(month);
                         lineData.push(parseInt(value));
                     }
-                    labels = labels.reverse();
-                    lineData = lineData.reverse();
                     var gData = {
                         labels: labels,
                         datasets: [{

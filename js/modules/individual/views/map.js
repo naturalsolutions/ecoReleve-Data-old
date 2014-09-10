@@ -18,13 +18,19 @@ define([
         template: template,
 
         events: {
-            'resize window' : 'updateSize'
+            'resize window' : 'updateSize',
+            'click #showIndivDetails': 'showDetail'
         },
 
         initialize: function(options) {
+            this.radio = Radio.channel('individual');
             this.indivId = options.indivId;
             $('#main-panel').addClass('no-padding');
             $(window).on('resize', $.proxy(this, 'updateSize'));
+        },
+
+        showDetail: function() {
+            this.radio.trigger('show-detail');
         },
 
         onRemove: function() {
@@ -35,7 +41,8 @@ define([
         updateSize: function() {
             if(this.map_view) {
                 var height = $(window).height() - $('#header-region').height();
-                this.$el.find("#map").height(height)
+                this.$el.find("#map").height(height);
+                this.map_view.updateSize();
             }
         },
 

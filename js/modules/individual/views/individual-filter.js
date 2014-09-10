@@ -22,7 +22,7 @@ define([
             'submit': 'catch',
             'click #save-btn' : 'saveCriterias',
             'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
-            'click .glyphicon-remove' : 'deleteSavedFilter'
+            'click .glyphicon-remove' : 'deleteSavedFilter',
         },
 
         initialize: function() {
