@@ -9,10 +9,6 @@ define([
     return Marionette.ItemView.extend( {
         template: false,
 
-        initialize: function() {
-            this.chart = {};
-        },
-
         onRender: function() {
             this.drawGraph();
         },
@@ -34,6 +30,7 @@ define([
             } else {
                 var url = config.coreUrl + "stations/graph";
                 $.ajax({
+                    context: this,
                     url: url,
                     dataType: "json"
                 }).done( function(data) {

@@ -2,7 +2,7 @@
     padding-top: 75px;
 }
 
-a:hover, tr:hover {
+a:hover, tr:hover, li:hover {
     cursor: pointer;
 }
 
@@ -14,21 +14,34 @@ a:hover, tr:hover {
     height: 1rem;
 }
 
+/* Home */
+.tile {
+border-width: 0;
+}
+@media screen and (max-width: 1366px) {
+    .tile.tile-medium {
+    width: 140px;
+    height: 140px;
+    }
+}
+
+/* Backgrid */
+.backgrid-container {
+    height: 100%;
+}
+
+.no-padding {
+    padding: 0;
+}
+
 /* Navbar */
 .navbar {
     margin-bottom: 0;
 }
 
+/* Left panel */
 #left-panel {
     margin-top: 20px;
-}
-
-#main-panel {
-    margin-top: 20px;
-}
-
-.main-panel .map-container {
-    margin: 0;
 }
 
 /* Individual search */
@@ -38,9 +51,30 @@ a:hover, tr:hover {
 }
 
 .panel-heading.top-level > h4 > a {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: 400;
 }
 
 .glyphicon-remove {
     float: right;
+}
+
+.indiv-search-label span, .indiv-search-icon span {
+    display: inline-block;
+}
+
+.indiv-search-label span {
+    width: 80%;
+}
+
+.indiv-search-icon span {
+    width: 20%;
+    padding-right: 5%;
+}
+
+/* ul */
+ul.unstyled > li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }

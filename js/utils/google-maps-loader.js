@@ -40,7 +40,6 @@ define(['jquery'],function($) {
             function(){},
             function(err) {
                 google_maps_loaded_def.reject();
-                console.log('error chargement google');
                 //throw err; // maybe freak out a little?
         });
     }

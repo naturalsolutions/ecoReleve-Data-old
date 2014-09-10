@@ -21,7 +21,7 @@ define([
             'focus input': 'fill',
             'submit': 'catch',
             'click #save-btn' : 'saveCriterias',
-            'click #indivSavedSearch > ul > li' : 'selectSavedFilter',
+            'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
             'click .glyphicon-remove' : 'deleteSavedFilter'
         },
 
@@ -72,9 +72,9 @@ define([
             } else {
                 var html = "<ul class='unstyled'>";
                 for(var i=0; i < this.criterias.length;i++) {
-                    html += "<li id='" + i + "'><span>" +
+                    html += "<li id='" + i + "'><span class='indiv-search-label'>" +
                     this.criterias[i].name +
-                    "</span><span class='glyphicon glyphicon-remove'/></li>";
+                    "</span><span class='indiv-search-icon glyphicon glyphicon-remove'/></li>";
                 }
                 html += "</ul>";
                 this.$el.find("#indivSavedSearch").html(html);
@@ -95,7 +95,7 @@ define([
                 var name  = this.id;
                 var value = $(this).val();
                 if (value){
-                    criteria[name] = parseInt(value) ? parseInt(value) : value;
+                    criteria[name] = parseInt(Number(value)) ? parseInt(Number(value)) : value;
                 }
             });
             return criteria;
@@ -112,13 +112,13 @@ define([
 
         addModalWindow : function(params){
             var searchName = prompt("Please input serach name : ", "");
-            alert("Search criterias saved.");
             var searchItem = {};
             searchItem.name = searchName;
             // id searchItem = ln + 1
             searchItem.query = JSON.stringify(params);
             this.criterias.push(searchItem);
             localStorage.setItem('indivFilterStoredCriterias',JSON.stringify(this.criterias));
+            alert("Search criterias saved.");
             this.updateSaved();
         },
 
@@ -132,7 +132,7 @@ define([
             }
             this.filter = crit;
             this.radio.trigger('update', {filter:this.filter});
-            $('.collapse').collapse();
+            //$('.collapse').collapse();
         },
 
         deleteSavedFilter : function(e) {

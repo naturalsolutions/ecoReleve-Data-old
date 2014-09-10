@@ -5,96 +5,68 @@
     <div id="info" class="col-lg-4 col-lg-offset-2">
     </div>
 </div>
-<div id="home-bottom">
-        <div class="row">
-            <div class="col-sm-2">
-                <div class="thumbnail tile tile-medium tile-yellow icon connected">
-                    <a href="#import" >
-                        <img src="images/import_.png" />
-                        <h2>Import</h2>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="thumbnail tile tile-medium tile-orange icon connected">
-                    <a id="argosTile">
-                        <img src="images/argos_picto.png" />
-                        <h2>cloud import</h2>
-                        <div class="badge bg-red" id="homeArgosNb"></div>
-                    </a>
-                </div>
+<div id="home-bottom" class="ui three column stackable grid">
+        <div class="column">
+            <div class="ui celled grid">
+                 <div class="row">
+                    <div class="two wide column">
+                        <a class="ui orange fluid icon button" href="#stationType"><i class="huge icon reneco entrykey"></i>manual entry</a>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="one wide column">
+                        <a class="ui yellow fluid icon button" href="#import"><i class="huge icon reneco import"></i>import</a>
+                    </div>
+                    <div class="one wide column">
+                        <a class="ui red fluid icon button" id="argosTile"><i class="huge icon reneco sensorimport"></i>sensor import</a>
+                    </div>
+                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="tile tile-wide tile-orange icon">
-                    <!-- tile-red  -->
-                    <a href="#stationType" >
-                        <img src="images/input_data_picto.png" />
-                        <h2>manual entry</h2>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <ul class="thumbnails">
-                <li class="tile tile-medium tile-lime icon connected">
-                    <a href="#objects" >
-                        <img src="images/objects_picto.png" />
-                        <h2>objects</h2>
-                    </a>
-                </li>
-                <li class="tile tile-medium tile-yellowPerso icon connected">
-                    <a id="indivTile" >
-                        <img src="images/indiv_picto.png" />
-                        <h2>Individuals</h2>
-                    </a>
-                </li>
-                <li class="tile tile-wide tile-green icon connected">
-                    <a href="#allData" >
-                        <img src="images/Map-data.png" />
-                        <h2>Map</h2>
-                    </a>
-                </li>
 
-            </ul>
-        </div>
-        <div class="col-lg-4">
-            <ul class="thumbnails ajustedTile">
-                <li class="tile tile-medium tile-teal  icon connected ">
-                    <a href="#export" >
-                        <img src="images/export_.png" />
-                        <h2>export</h2>
-                    </a>
-                </li>
-                <li class="tile tile-medium tile-teal  icon connected ">
-                    <a id="rfidTile" >
-                        <img src="images/export_.png" />
-                        <h2>Rfid</h2>
-                    </a>
-                </li>
-            </ul>
-            <ul class="thumbnails ajustedTile">
-                <li class="tile tile-medium tile-blue-perso  icon connected" >
-                    <a href="#mydata" id="homeMyDataTuile">
-                        <!--<span id="homeNbObs"></span><br/>-->
-                        <img src="images/my-data2.png" />
-                        <h2>data queue</h2>
-                        <div class="badge bg-red" id="homeNbObs"></div>
-                    </a>
-                </li>
+        <div class="column">
+            <div class="ui celled grid">
+                 <div class="row">
+                    <div class="one wide column">
+                        <a class="ui lime fluid icon button" href="#objects"><i class="huge icon reneco sensors"></i>sensors</a>
+                    </div>
+                    <div class="one wide column">
+                        <a class="ui olive fluid icon button" id="indivTile"><i class="huge icon reneco individuals"></i>individuals</a>
+                    </div>
+                 </div>
 
-            </ul>
+                 <div class="row">
+                    <div class="two wide column">
+                        <a class="ui green fluid icon button" href="#allData"><i class="huge icon reneco map"></i>map</a>
+                    </div>
+                 </div>
+
+            </div>
         </div>
-        <div class="col-lg-4">
-            <ul class="thumbnails ajustedTile">
-                <li class="tile tile-medium tile-teal  icon connected">
-                    <a id="monitoredSiteTile">
-                        <img src="images/export_.png" />
-                        <h2>Monitored Site</h2>
-                    </a>
-                </li>
-            </ul>
+
+        <div class="column">
+
+
+            <div class="ui celled grid">
+
+                 <div class="row">
+                    <div class="one wide column">
+                        <a class="ui green fluid icon button" href="#objects"><i class="huge icon reneco export"></i>export</a>
+                    </div>
+                    <div class="one wide column">
+                        <a class="ui blue fluid icon button" id="rfidTile"><i class="huge icon reneco mydata"></i>rfid</a>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="one wide column">
+                        <a class="ui blue fluid icon button" href="#objects"><i class="huge icon reneco mydata"></i>monitored site</a>
+                    </div>
+                    <div class="one wide column">
+                        <a class="ui lime fluid icon button" href="#mydata"><i class="huge icon reneco mydata"></i>my data</a>
+                    </div>
+                 </div>
+            </div>
         </div>
     </div>
+<div id="credits">&copy; Auble Camille</div>
 </script>
