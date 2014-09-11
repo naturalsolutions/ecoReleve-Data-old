@@ -10,9 +10,11 @@ define([
     'modules/individual/layouts/individual-list',
     'modules/individual/layouts/individual-detail',
     'modules/rfid/rfid-layout',
+    'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
-    ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout, HeaderLayout) {
+    ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
+    TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -26,6 +28,7 @@ define([
             this.listenTo(radio, 'login:success', this.login);
             this.listenTo(radio, 'argos', this.argos);
             radio.on('show:argos:detail', this.argos_detail);
+            radio.on('transmitter', this.transmitter);
             this.listenTo(radio, 'indiv', this.individual);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
@@ -117,6 +120,12 @@ define([
             var layout = new RfidLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('rfid');
+        },
+
+        transmitter: function() {
+            var layout = new TransmitterLayout();
+            this.mainRegion.show(layout);
+            Backbone.history.navigate('transmitter');
         }
     });
 });

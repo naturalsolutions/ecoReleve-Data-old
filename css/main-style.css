@@ -76,6 +76,11 @@ h2.panel-title {
     margin-top: 10px;
 }
 
+#indivSavedSearch li {
+    padding-right: 5%;
+}
+
+
 .indiv-search-label span, .indiv-search-icon span {
     display: inline-block;
 }

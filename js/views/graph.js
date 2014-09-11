@@ -3,19 +3,19 @@ define([
     'chart',
     'config',
     'marionette',
-    'moment'
-], function($, Chart, config, Marionette, moment) {
+    'moment',
+    'text!templates/graph.html'
+], function($, Chart, config, Marionette, moment, template) {
     'use strict';
     return Marionette.ItemView.extend( {
-        template: false,
+        template: template,
 
         onRender: function() {
             this.drawGraph();
         },
 
         drawGraph: function() {
-            var canvas = $("<canvas height=300 width=400 class='center-block hidden-xs'></canvas>");
-            this.$el.append(canvas);
+            var canvas = this.$el.find('canvas');
             //caching graph data for a day
             var dataGraph = localStorage.getItem("ecoreleveChart");
             // get current day and compare it with stored day
@@ -26,7 +26,6 @@ define([
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
                 this.chart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
-                $("#homeGraphLegend").html("<h3>Number of new stations</h3>");
             } else {
                 var url = config.coreUrl + "stations/graph";
                 $.ajax({

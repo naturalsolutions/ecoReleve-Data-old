@@ -1,34 +1,37 @@
 define([
-    "marionette",
+    'marionette',
     'radio',
     'vegas',
-    "views/graph",
-    "views/info",
-    "text!templates/home_new.html"
+    'views/graph',
+    'views/info',
+    'text!templates/home_new.html'
 ], function(Marionette, Radio, vegas, GraphView, InfoView, template) {
-    "use strict";
+    'use strict';
     return Marionette.LayoutView.extend( {
-        className:"container-fluid",
+        className:'container-fluid',
         template: template,
         regions: {
-            graph: "#graph",
-            info: "#info",
-            tiles: "#tiles"
+            graph: '#graph',
+            info: '#info',
+            tiles: '#tiles'
         },
 
         events: {
-            "click #argosTile": "argos",
-            "click #indivTile": "indiv",
-            "click #rfidTile": "rfid",
-            "click #monitoredSiteTile" : "monitoredSite"
+            'click #argosTile': 'argos',
+            'click #indivTile': 'indiv',
+            'click #rfidTile': 'rfid',
+            'click #monitoredSiteTile' : 'monitoredSite'
+        },
+
+        onShow: function() {
+            this.info.show(new InfoView());
+            this.graph.show(new GraphView());
         },
 
         onRender: function(){
             $.vegas ({
                 src: 'images/home_fond.jpg'
             });
-            this.info.show(new InfoView());
-            this.graph.show(new GraphView());
         },
 
         onDestroy: function() {
