@@ -1,52 +1,54 @@
 define([
-    "jquery",
-    "underscore",
-    "backbone",
-    "event_manager",
+    'jquery',
+    'underscore',
+    'backbone',
     'marionette',
+    'radio',
     'views/graph',
     'config',
     'text!templates/argos/argos_detail.html'
-], function($, _, Backbone, eventManager, Marionette, GraphView, config, template) {
-    "use strict";
+], function($, _, Backbone, Marionette, Radio, GraphView, config, template) {
+
+    'use strict';
+
     return Marionette.LayoutView.extend( {
-        className: "container-fluid",
+        className: 'container-fluid',
         regions: {
-            info: "#info",
-            map: "#map"
+            info: '#info',
+            map: '#map'
         },
         template: template,
         events : {
-            "click tr": "selectTableElement",
-            "click img.deleteRow" : "deleteRow",
-            "click #argosCheckPtt" : "check",
-            "click #argosCheckImportPtt" : "checkImport",
-            "click img.reloadRow" : "reloadRow",
-            "selectedFeatures:change": "featuresChange",
-            "click #argosCheckImportNextIndiv" : "navigationNextIndiv",
-            "click #argosCheckImportPrevIndiv" : "navigationPrevIndiv",
-            "click #back": "backToList"
+            'click tr': 'selectTableElement',
+            'click img.deleteRow' : 'deleteRow',
+            'click #argosCheckPtt' : 'check',
+            'click #argosCheckImportPtt' : 'checkImport',
+            'click img.reloadRow' : 'reloadRow',
+            'selectedFeatures:change': 'featuresChange',
+            'click #argosCheckImportNextIndiv' : 'navigationNextIndiv',
+            'click #argosCheckImportPrevIndiv' : 'navigationPrevIndiv',
+            'click #back': 'backToList'
         },
 
         initialize: function(options) {
             if(!options.idToShow){
-                eventManager.trigger("show:argos");
+                Radio.channel('route').trigger('show:argos');
             }
             else {
                 this.collection = options.collection;
                 var id = options.idToShow;
-                this.pttId = this.collection.at(id).get("ptt");
-                this.indivId = this.collection.at(id).get("ind_id");
+                this.pttId = this.collection.at(id).get('ptt');
+                this.indivId = this.collection.at(id).get('ind_id');
                 this.currentId = id;
             }
         },
 
         backToList: function() {
-            eventManager.trigger("show:argos");
+            Radio.channel('route').trigger('show:argos');
         },
 
         afterRender: function() {
-            $("section#main").addClass("blackBackground");
+            $('section#main').addClass('blackBackground');
             this.windowHeigth = $(window).height();
             var url;
             if (this.indivId !='null'){
@@ -57,10 +59,10 @@ define([
               //var _this = this;
               $.ajax({
                 url: url,
-                dataType: "json",
+                dataType: 'json',
                 context: this,
                 beforeSend: function(){
-                    $("#waitCtr").css('display', 'block');
+                    $('#waitCtr').css('display', 'block');
                 },
                 success: function(data){
                     var pttId = data.ptt.ptt,
@@ -74,9 +76,9 @@ define([
                     indivStatus = data.indiv.status;
 
                     // display ptt data
-                    $("#argosDetPttId").text(pttId);
-                    $("#argosDetPttType").text(manufacturer);
-                    $("#argosDetPttModel").text(model);
+                    $('#argosDetPttId').text(pttId);
+                    $('#argosDetPttType').text(manufacturer);
+                    $('#argosDetPttModel').text(model);
                     // display individual data
                     if (indivId){
                         $("#argosDetIndivId").text(indivId);

@@ -2,11 +2,11 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "event_manager",
     'marionette',
+    'radio',
     'config',
     'text!templates/argos/argos.html'
-], function($, _, Backbone, eventManager, Marionette, config, argosTemplate) {
+], function($, _, Backbone, Marionette, Radio, config, argosTemplate) {
     "use strict";
     return Marionette.LayoutView.extend ({
         className: "container-fluid",
@@ -59,7 +59,7 @@ define([
         detail: function(e) {
             var row = $(e.currentTarget);
             var id = row.attr("data-id");
-            eventManager.trigger("show:argos:detail", {
+            Radio.channel('route').trigger("show:argos:detail", {
                 collection: this.data.clone(),
                 idToShow: id
             });

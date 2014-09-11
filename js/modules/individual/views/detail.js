@@ -14,6 +14,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
+        className:'detailsIndivPanel',
 
         events: {
             'click #hideIndivDetails': 'hideDetail',
@@ -28,7 +29,6 @@ define([
             this.radio = Radio.channel('individual');
             this.radio.comply('loaded', this.completeCard, this);
             $('body').css('background-color', 'black');
-            $('#left-panel').css('color', 'white');
         },
 
         completeCard: function(options) {

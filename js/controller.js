@@ -1,18 +1,17 @@
 define([
     'backbone',
     'config',
-    'event_manager',
     'marionette',
     'radio',
     'views/login',
     'modules/argos/argos-layout',
     'modules/argos/argos-detail',
     'layouts/home',
-    'modules/individual/individual-layout',
+    'modules/individual/layouts/individual-list',
     'modules/individual/layouts/individual-detail',
     'modules/rfid/rfid-layout',
     'layouts/header',
-], function(Backbone, config, eventManager, Marionette, Radio, LoginView, ArgosLayout,
+], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout, HeaderLayout) {
 
     'use strict';
@@ -26,12 +25,12 @@ define([
             this.listenTo(radio, 'login', this.login);
             this.listenTo(radio, 'login:success', this.login);
             this.listenTo(radio, 'argos', this.argos);
+            radio.on('show:argos:detail', this.argos_detail);
             this.listenTo(radio, 'indiv', this.individual);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);
             this.listenTo(radio, 'rfid', this.rfid);
-            this.listenTo(eventManager, 'show:argos:detail', this.argos_detail);
         },
 
         argos: function() {

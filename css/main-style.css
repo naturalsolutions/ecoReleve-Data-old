@@ -89,6 +89,53 @@ h2.panel-title {
     padding-right: 5%;
 }
 
+/* Individual details */
+
+#birdInfosDetails {
+    padding-left:0;
+    padding-right:0;
+}
+
+.birdDetailsDiv {
+border-top: 1px solid #7b7b7b;
+padding-top: 5px;
+/*background-color: rgba(255, 0, 0, 0);*/
+}
+
+#birdId {
+color: white;
+}
+
+.whiteColor {
+color: white;
+}
+
+#separatorDetails {
+border-bottom: 1px solid #7b7b7b;
+/*background-color: rgba(255, 0, 0, 0);*/
+height: 60px;
+padding-top: 10px;
+margin-bottom: 10px;
+}
+
+#separatorDetails span:first-of-type {
+font-size: 15px;
+margin-left: 10px;
+}
+
+#divBirdName {
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.row.birdDetailsDiv {
+margin-right: 0;
+}
+
+.detailsIndivPanel {
+    color:#a3a1a1;
+}
+
 #hideIndivDetails {
     float:right;
 }
