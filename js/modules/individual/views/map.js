@@ -56,7 +56,7 @@ define([
             var mapView = map.init('bird', this.$el.find('#map'), point, 3);
             this.map_view = mapView;
             var url = config.coreUrl + 'individuals/stations?id=' + this.indivId;
-            this.map_view.loadGeoJSON(url, 'Positions');
+            this.map_view.loadGeoJSON(url, 'Positions', 'individual');
             /*app.utils.timlineLayer(mapUrl, mapView, function(nbFeatures) {
                 if (nbFeatures > 10){
                 app.utils.animatedLayer(nbFeatures, mapUrl, mapView);

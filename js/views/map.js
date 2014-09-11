@@ -2,8 +2,9 @@ define([
 	'backbone',
 	'google',
 	'openlayers',
+	'radio',
 	'models/point'
-], function(Backbone, GoogleMapsLoader, OpenLayers, Point) {
+], function(Backbone, GoogleMapsLoader, OpenLayers, Radio, Point) {
 
 	'use strict';
 
@@ -284,7 +285,7 @@ define([
 			var tm;
 		},
 		/******************** Methods *****************************************/
-		loadGeoJSON: function(url, layerName) {
+		loadGeoJSON: function(url, layerName, channelName) {
 			var featurecollection;
 			var coordinates = [];
 			var nbFeatures = 0;
@@ -303,6 +304,10 @@ define([
 				url: url,
 				dataType: "json"
 			}).done( function(data) {
+				Radio.channel(channelName).command('loaded', {
+					lastObs: data.features[0].properties.date,
+					nbObs: data.features.length
+				});
 				var geojson_format = new OpenLayers.Format.GeoJSON({
 					'internalProjection': this.map.baseLayer.projection,
 					'externalProjection': new OpenLayers.Projection("EPSG:4326")

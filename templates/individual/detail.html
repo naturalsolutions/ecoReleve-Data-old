@@ -1,103 +1,100 @@
 <script type="text/template">
-    <h3>Details</h3>
     <div id="separatorDetails">
-        <a href="#birds"><img src="images/back_white.png"></a><span>search results</span>
-        <img id="indivDetailsExitImg" src="images/exit.png">
+        <a href="#individual"><img src="images/back_white.png"></a><span>Back to search</span>
+        <span id="hideIndivDetails" class="glyphicon big glyphicon-chevron-left"/>
     </div>
-    <div class="row-fluid" id="birdInfosDiv">
-        <div class="span6">
+    <div class="row" id="birdInfosDiv">
+        <div class="col-sm-6">
             <div><span>ID : </span>
             <span id="birdId">
                 <%= id %>
             </span></div>
             <div><img id="birdSpecieImg" src=""/></div>
             <div id="divBirdName"><span id="birdSpecies" class="whiteColor">
-                <%= specie %>
+                <%= species %>
             </span></div>
             <div>
 
             </div>
         </div>
-        <div class="span6">
-            <div class="row-fluid">
-                <div class="span6">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
                     <img src="images/transmitters.png" id=" "/>
                     <div><span>PTT: </span>
                     <span><%= ptt %></span></div>
                 </div>
-                <div class="span3">
+                <div class="col-sm-3">
                     <img src="images/rings.png" id=" ">
                     <p id=" ">rings</p>
                 </div>
-                <div class="span3">
+                <div class="col-sm-3">
                     <img src="images/markers.png" id=" ">
                     <p id=" ">markers</p>
                 </div>
             </div>
-            <div class="row-fluid">
+            <div class="row">
                 <p id="transmittersVal" class="whiteColor"></p>
             </div>
 
         </div>
     </div>
-    <div class="row-fluid birdDetailsDiv" id="birdInfosDetails">
-        <div class="span2">
+    <div class="row birdDetailsDiv" id="birdInfosDetails">
+        <div class="col-sm-1">
             <img src="" id="birdSexPic">
             <p id="birdSexLabel" class="whiteColor">
                 <%= sex %>
             </p>
         </div>
-        <div class="span2">
+        <div class="col-sm-1">
             <img src="" id="birdOriginPic">
             <p id="birdOriginLabel" class="whiteColor">
                 <%= origin %>
             </p>
         </div>
-        <div class="span2">
+        <div class="col-sm-1">
             <img src="" id="birdAgePic">
             <p id="birdAgeLabel" class="whiteColor">
                 <%= age %>
             </p>
         </div>
-        <div class="span3">
+        <div class="col-sm-3">
             <div>birth date</div>
             <p id="birdBirthDate" class="whiteColor">
                 <%= birth_date %>
             </p>
         </div>
-        <div class="span3">
+        <div class="col-sm-3">
             <div>last observation</div>
-            <p id="birdLastObs" class="whiteColor">
-                TODO
-            </p>
+            <p id="indivLastObs" class="whiteColor"/>
         </div>
     </div>
-    <div class="row-fluid birdDetailsDiv" id="birdDetailsStatus">
-        <div class="span4">
+    <div class="row birdDetailsDiv" id="birdDetailsStatus">
+        <div class="col-sm-4">
             <div>survey type</div>
             <p id="birdSurveyType" class="whiteColor">
                 <%= survey_type %>
             </p>
         </div>
-        <div class="span4">
+        <div class="col-sm-4">
             <div>monitoring status</div>
             <p id="birdMonitStatus" class="whiteColor">
                 <%= monitoring_status %>
             </p>
         </div>
-        <div class="span4">
+        <div class="col-sm-4">
             <div>individual status</div>
             <p id="birdIndivStatus" class="whiteColor">
                 <%= status %>
             </p>
         </div>
     </div>
-    <div class="row-fluid birdDetailsDiv" id="birdDetailsPosDiv">
-        <div class="span6">
+    <div class="row birdDetailsDiv" id="birdDetailsPosDiv">
+        <div class="col-sm-6">
             <div>number of positions</div>
-            <p id="indivNbPositions" class="whiteColor">-</p>
+            <p id="indivNbObs" class="whiteColor">-</p>
         </div>
-        <div class="span6">
+        <div class="col-sm-6">
             <div>duration (months)</div>
             <p id="indivNbDuration" class="whiteColor">-</p>
         </div>

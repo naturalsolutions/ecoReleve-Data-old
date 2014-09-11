@@ -62,6 +62,14 @@ define([
             }
         },
 
+        onShow: function(evt) {
+            $('#left-panel').css('padding-right', '0');
+        },
+
+        onDestroy: function(evt) {
+            $('#left-panel').css('padding-right', '15');
+        },
+
         onRender: function() {
             this.updateSaved();
         },

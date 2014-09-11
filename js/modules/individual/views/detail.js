@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'marionette',
+    'moment',
     'radio',
     'utils/datalist',
     'config',
     'text!templates/individual/detail.html'
-], function($, _, Backbone, Marionette, Radio, datalist, config, template) {
+], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
 
     'use strict';
 
@@ -15,7 +16,7 @@ define([
         template: template,
 
         events: {
-            'click #indivDetailsExitImg': 'hideDetail',
+            'click #hideIndivDetails': 'hideDetail',
         },
 
         modelEvents: {
@@ -25,8 +26,16 @@ define([
         initialize: function() {
             this.model.fetch();
             this.radio = Radio.channel('individual');
+            this.radio.comply('loaded', this.completeCard, this);
             $('body').css('background-color', 'black');
             $('#left-panel').css('color', 'white');
+        },
+
+        completeCard: function(options) {
+            this.$el.find('#indivLastObs').text(
+                moment.unix(options.lastObs).format("YYYY-MM-DD")
+            );
+            this.$el.find('#indivNbObs').html(options.nbObs);
         },
 
         hideDetail: function() {
@@ -64,9 +73,12 @@ define([
                 collection: history
             });
 
-            this.setSpecieImage(this.model.get('specie'));
+            this.setSpecieImage(this.model.get('species'));
             $('#birdSexPic').attr('src','images/sexe_' + this.model.get('sex') + '.png');
             $('#birdOriginPic').attr('src','images/origin_' + this.model.get('origin') + '.png');
+            if (this.model.get('age') === 'adult'){
+                $("#birdAgePic").attr("src","images/age_adult.png");
+            }
             $("#history").append(this.grid.render().el);
         },
 
@@ -74,9 +86,9 @@ define([
             $('body').css('background-color', 'white');
         },
 
-        setSpecieImage: function(specie) {
+        setSpecieImage: function(species) {
             var file = null;
-            switch (specie) {
+            switch (species) {
                 case 'Saker Falcon' :
                 case 'Peregrine Falcon' :
                 case 'Falcon' :

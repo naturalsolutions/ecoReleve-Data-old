@@ -57,8 +57,8 @@ define([
                 cell: 'string'
             }, {
                 editable: false,
-                name: 'specie',
-                label: 'SPECIE',
+                name: 'species',
+                label: 'SPECIES',
                 cell: 'string'
             }, {
                 editable: false,

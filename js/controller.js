@@ -57,10 +57,15 @@ define([
             Backbone.history.navigate('');
         },
 
-        individual: function() {
-            var layout = new IndivLayout();
-            this.mainRegion.show(layout);
-            Backbone.history.navigate('individual');
+        individual: function(page) {
+            if(page){
+                this.individualDetail({id:page})
+            }
+            else{
+                var layout = new IndivLayout();
+                this.mainRegion.show(layout);
+                Backbone.history.navigate('individual');
+            }
         },
 
         individualDetail: function(args) {
@@ -81,14 +86,14 @@ define([
             }
         },
 
-        login: function(route) {
+        login: function(route, page) {
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'security/has_access'
             }).done( function() {
                 this.insertHeader();
                 if(typeof this[route] === 'function') {
-                    this[route]();
+                    page ? this[route](page) : this[route]();
                 }
                 else {
                     this.home();

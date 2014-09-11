@@ -13,7 +13,7 @@ define([
             ptt: null,
             sex: null,
             origin: null,
-            specie: null,
+            species: null,
             status: null,
             survey_type: null
         },
