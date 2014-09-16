@@ -25,7 +25,7 @@ define([
         initialize: function(options) {
             this.radio = Radio.channel('individual');
             this.indivId = options.indivId;
-            $('#main-panel').addClass('no-padding');
+            $('#main-panel').css('padding', '0');
             $(window).on('resize', $.proxy(this, 'updateSize'));
         },
 

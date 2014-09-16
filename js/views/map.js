@@ -304,9 +304,10 @@ define([
 				url: url,
 				dataType: "json"
 			}).done( function(data) {
+				var l = data.features.length;
 				Radio.channel(channelName).command('loaded', {
-					lastObs: data.features[0].properties.date,
-					nbObs: data.features.length
+					lastObs: data.features[l-1].properties.date,
+					nbObs: l
 				});
 				var geojson_format = new OpenLayers.Format.GeoJSON({
 					'internalProjection': this.map.baseLayer.projection,

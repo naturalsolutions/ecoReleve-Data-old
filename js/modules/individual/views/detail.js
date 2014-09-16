@@ -80,6 +80,9 @@ define([
                 $("#birdAgePic").attr("src","images/age_adult.png");
             }
             $("#history").append(this.grid.render().el);
+            var height = $(window).height() - $('#header-region').height();
+            height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
+            this.$el.find('#history').height(height);
         },
 
         onDestroy: function() {

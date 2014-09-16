@@ -32,6 +32,7 @@ border-width: 0;
 /* Backgrid */
 .backgrid-container {
     height:100%;
+    min-height:50px;
 }
 
 .backgrid-container tr:hover {
@@ -50,7 +51,12 @@ border-width: 0;
 
 /* Left panel */
 #left-panel {
-    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/* Main panel */
+#main-panel {
+    padding-top: 20px;
 }
 
 /* Individual search */
@@ -119,8 +125,7 @@ color: white;
 border-bottom: 1px solid #7b7b7b;
 /*background-color: rgba(255, 0, 0, 0);*/
 height: 60px;
-padding-top: 10px;
-margin-bottom: 10px;
+padding: 10px 0;
 }
 
 #separatorDetails span:first-of-type {

@@ -17,12 +17,13 @@ define([
 
         events: {
             'click #clear-btn' : 'clear',
-            'change input': 'update',
-            'focus input': 'fill',
+            'change :text': 'update',
+            'focus :text': 'fill',
             'submit': 'catch',
             'click #save-btn' : 'saveCriterias',
             'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
             'click .glyphicon-remove' : 'deleteSavedFilter',
+            'click :checkbox' : 'setNull'
         },
 
         initialize: function() {
@@ -110,6 +111,12 @@ define([
                 }
             });
             return criteria;
+        },
+
+        setNull: function(evt) {
+            var id = evt.target.id.split('-')[1];
+            var value = evt.target.value
+            console.log(id);
         },
 
         saveCriterias : function() {

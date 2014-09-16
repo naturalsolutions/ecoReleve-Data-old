@@ -24,9 +24,8 @@ define([
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'individuals/count',
-                dataType: 'json'
             }).done( function(data) {
-                this.model.set('nbIndiv', data);
+                this.model.set('nbIndiv', data.count);
             });
         }
     });

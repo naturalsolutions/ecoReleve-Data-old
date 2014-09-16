@@ -91,10 +91,8 @@ define([
         },
 
         onShow: function() {
-            var margin = 20;
-            this.$el.css('margin-top', margin + 'px');
             var height = $(window).height();
-            height -= $('#header-region').height() + margin;
+            height -= $('#header-region').height() + $('#main-panel').outerHeight();
             this.$el.height(height);
         },
 
