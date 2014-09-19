@@ -5,13 +5,13 @@ define([
     "event_manager",
     'marionette',
     'config',
-    'modules/rfid/views/rfid-add',
-    'modules/rfid/views/rfid-deploy',
-    'modules/rfid/views/rfid-import',
-    'modules/rfid/views/rfid-validate',
-    'text!templates/rfid/rfid.html'
-], function($, _, Backbone, eventManager, Marionette, config, AddView,
-    DeployView, ImportView, ValidateView, template) {
+    'modules2/rfid/layouts/rfid-deploy',
+    'modules2/rfid/views/rfid-add',
+    'modules2/rfid/views/rfid-import',
+    'modules2/rfid/views/rfid-validate',
+    'text!modules2/rfid/templates/rfid.html'
+], function($, _, Backbone, eventManager, Marionette, config, DeployView, AddView,
+    ImportView, ValidateView, template) {
 
     "use strict";
 

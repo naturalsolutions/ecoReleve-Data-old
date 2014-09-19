@@ -21,15 +21,14 @@ define([
 
         initialize: function() {
             this.radio = Radio.channel('individual');
-            this.listenTo(this.radio, 'update', this.update);
+            this.radio.comply('update', this.update, this);
 
             var Individual = Backbone.Model.extend({});
             var Individuals = Backbone.Collection.extend({
                 model: Individual,
                 url: config.coreUrl + 'individuals/search'
             });
-            this.individuals = new Individuals();
-            this.listenTo(this.individuals, 'reset', this.render);
+            var individuals = new Individuals();
 
             var columns = [{
                 name: 'id',
@@ -70,10 +69,10 @@ define([
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
-                collection: this.individuals
+                collection: individuals,
             });
 
-            this.individuals.fetch({
+            individuals.fetch({
                 reset: true,
                 data:JSON.stringify({limit:50}),
                 contentType:'application/json',
@@ -82,7 +81,7 @@ define([
         },
 
         update: function(args) {
-            this.individuals.fetch({
+            this.grid.collection.fetch({
                 reset: true,
                 data:JSON.stringify({criteria:args.filter, limit:50}),
                 contentType:'application/json',
@@ -94,14 +93,17 @@ define([
             var height = $(window).height();
             height -= $('#header-region').height() + $('#main-panel').outerHeight();
             this.$el.height(height);
-        },
-
-        onRender: function() {
             $('#gridContainer').append(this.grid.render().el);
         },
 
         onDestroy: function(){
-            delete this.individuals;
+            this.grid.remove();
+            this.grid.stopListening();
+            this.grid.collection.reset();
+            this.grid.columns.reset();
+            delete this.grid.collection;
+            delete this.grid.columns;
+            delete this.grid;
         },
 
         detail: function(evt) {

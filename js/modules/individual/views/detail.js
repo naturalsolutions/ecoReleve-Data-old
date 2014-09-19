@@ -87,6 +87,14 @@ define([
 
         onDestroy: function() {
             $('body').css('background-color', 'white');
+            this.radio.stopComplying('loaded');
+            this.grid.remove();
+            this.grid.stopListening();
+            this.grid.collection.reset();
+            this.grid.columns.reset();
+            delete this.grid.collection;
+            delete this.grid.columns;
+            delete this.grid;
         },
 
         setSpecieImage: function(species) {

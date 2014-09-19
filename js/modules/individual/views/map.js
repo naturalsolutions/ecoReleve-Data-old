@@ -33,9 +33,10 @@ define([
             this.radio.trigger('show-detail');
         },
 
-        onRemove: function() {
+        onDestroy: function() {
             $('#main-panel').removeClass('no-padding');
             $(window).off('resize', $.proxy(this, 'updateSize'));
+            this.map_view.remove();
         },
 
         updateSize: function() {

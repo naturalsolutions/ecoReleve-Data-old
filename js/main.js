@@ -23,6 +23,9 @@ var ecoReleveData = (function(){
                 deps : ['jquery', 'underscore', 'backbone'],
                 exports : 'Marionette'
             },
+            ol3: {
+                exports: 'ol'
+            },
             openlayers: {
                 exports: 'OpenLayers'
             },
@@ -44,6 +47,7 @@ var ecoReleveData = (function(){
             controllers: '../controllers',
             models: '../models',
             modules: '../modules',
+            modules2: '../../modules',
             router: '../router',
             utils: '../utils',
             // Libs
@@ -52,6 +56,7 @@ var ecoReleveData = (function(){
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
             openlayers: 'openlayers/openlayers',
+            ol3: 'openlayers/3.0.0/build/ol',
             radio: '../../bower_components/backbone.radio/build/backbone.radio',
             sha1: 'sha1/sha1',
             templates: '../../templates',

@@ -276,6 +276,7 @@ define([
 			}
 			if (this.map) {
 				this.map.removeControl(this);
+				this.map.destroy();
 				this.map = null;
 			}
 			this.div = null;

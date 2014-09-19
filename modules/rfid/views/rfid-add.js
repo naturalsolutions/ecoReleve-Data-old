@@ -6,7 +6,7 @@ define([
     'marionette',
     'config',
     "models/rfid",
-    'text!templates/rfid/rfid-add.html'
+    'text!modules2/rfid/templates/rfid-add.html'
 ], function($, _, Backbone, eventManager, Marionette, config, Rfid, template) {
 
     "use strict";

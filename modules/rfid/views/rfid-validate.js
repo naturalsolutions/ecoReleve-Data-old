@@ -5,7 +5,7 @@ define([
     "event_manager",
     'marionette',
     'config',
-    'text!templates/rfid/rfid-validate.html'
+    'text!modules2/rfid/templates/rfid-validate.html'
 ], function($, _, Backbone, eventManager, Marionette, config, template) {
 
     "use strict";
@@ -15,7 +15,7 @@ define([
         events: {
             "click #btn-validate": "validate"
         },
-        
+
         validate: function(evt) {
             evt.preventDefault();
             $.ajax({

@@ -1,13 +1,17 @@
 define([
+    'config',
     'moment'
-], function(moment) {
+], function(config, moment) {
 
     'use strict';
 
     return {
+        loadAndFormat: function(string) {
+            return moment(string, moment.ISO_8601).format(config.dateFormats[1]);
+        },
+
         isValid: function(datetime) {
-            var dateFormats = ['YYYY-MM-DD', 'YYYY-MM-DD HH:mm:ss'];
-            return moment(datetime, dateFormats, true).isValid();
+            return moment(datetime, config.dateFormats, true).isValid();
         }
     };
 });

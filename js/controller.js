@@ -9,7 +9,7 @@ define([
     'layouts/home',
     'modules/individual/layouts/individual-list',
     'modules/individual/layouts/individual-detail',
-    'modules/rfid/rfid-layout',
+    'modules2/rfid/layouts/rfid-layout',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,

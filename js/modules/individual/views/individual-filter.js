@@ -41,14 +41,13 @@ define([
 
         catch: function(evt) {
             evt.preventDefault();
-            this.update();
         },
 
         clear: function(evt) {
             evt.preventDefault();
             $("form").trigger("reset");
             this.filter = {};
-            this.radio.trigger('update', {filter:{}});
+            this.radio.command('update', {filter:{}});
             $('body').animate({scrollTop: 0}, 400);
         },
 
@@ -96,7 +95,7 @@ define([
             var crit = evt.target.id;
             var val = evt.target.value;
             this.filter[crit] = val;
-            this.radio.trigger('update', {filter:this.filter});
+            this.radio.command('update', {filter:this.filter});
             $('body').animate({scrollTop: 0}, 400);
         },
 
@@ -116,7 +115,6 @@ define([
         setNull: function(evt) {
             var id = evt.target.id.split('-')[1];
             var value = evt.target.value
-            console.log(id);
         },
 
         saveCriterias : function() {
@@ -151,7 +149,7 @@ define([
                 $('#'+name).val(crit[name]);
             }
             this.filter = crit;
-            this.radio.trigger('update', {filter:this.filter});
+            this.radio.command('update', {filter:this.filter});
         },
 
         deleteSavedFilter : function(e) {

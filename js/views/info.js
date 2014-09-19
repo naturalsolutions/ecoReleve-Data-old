@@ -27,6 +27,10 @@ define([
             }).done( function(data) {
                 this.model.set('nbIndiv', data.count);
             });
+        },
+
+        onDestroy: function() {
+            delete this.model;
         }
     });
 });

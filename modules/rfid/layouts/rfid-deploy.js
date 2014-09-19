@@ -1,17 +1,22 @@
 define([
     'underscore',
+    'jquery',
     'backbone',
     'marionette',
     'moment',
+    'radio',
     'config',
+    'collections/monitoredsites',
+    'modules2/rfid/views/rfid-map',
+    'models/monitoredsite',
     'utils/datalist',
     'utils/datetime',
-    'text!templates/rfid/rfid-deploy.html'
-], function(_, Backbone, Marionette, moment, config, datalist, datetime, template) {
+    'text!modules2/rfid/templates/rfid-deploy.html'
+], function(_, $, Backbone, Marionette, moment, Radio, config, MonitoredSites, Map, MonitoredSite, datalist, datetime, template) {
 
     'use strict';
 
-    return Marionette.ItemView.extend({
+    return Marionette.LayoutView.extend({
         template: template,
 
         events: {
@@ -19,6 +24,11 @@ define([
             'focus input': 'clearErrors',
             'change #input-mod': 'updateForm',
             'change #input-type': 'updateName',
+            'change #input-name': 'updateMap',
+        },
+
+        regions: {
+            map: "#map-container"
         },
 
         ui: {
@@ -33,7 +43,7 @@ define([
         },
 
         initialize: function() {
-            this.sites = new Backbone.Collection();
+            this.sites = new MonitoredSites();
             this.action = '';
             this.listenTo(this.sites, 'reset', this.updateName);
 
@@ -41,6 +51,18 @@ define([
             datalist.fill( {
                 url: config.coreUrl + 'rfid/identifier'
             }, '#mod-list');
+            // Get the site distinct types.
+            datalist.fill({
+                url: config.coreUrl + 'monitoredSite/type'
+            }, '#type-list');
+            // Get the monitored sites.
+            this.sites.fetch();
+        },
+
+        onShow: function() {
+            this.$el.find('#input-begin').attr('placeholder', config.dateLabel);
+            this.$el.find('#input-end').attr('placeholder', config.dateLabel);
+            this.map.show(new Map());
         },
 
         onDestroy: function() {
@@ -48,11 +70,26 @@ define([
             delete this.sites;
         },
 
+        updateMap: function(e) {
+            var type = this.ui.type.val();
+            var name = this.ui.name.val();
+            if(type && name) {
+                var monitoredSite = this.sites.findWhere({
+                    type: type,
+                    name: name
+                });
+                var position = monitoredSite.get('positions')[0];
+                var lat = position.lat;
+                var lon = position.lon;
+                Radio.channel('rfid').command('moveCenter', [lon, lat]);
+            }
+        },
+
         updateName: function(e) {
             var html = '';
             var type = this.ui.type.val();
             if(type !== '') {
-                _.each(this.sites.where({name_Type:type}), function(site) {
+                _.each(this.sites.where({type:type}), function(site) {
                     html += '<option>' + site.get('name') + '</option>';
                 });
             }
@@ -101,11 +138,8 @@ define([
             this.ui.btn.prop('disabled', false);
             this.ui.btn.text('Pose');
             this.action = 'pose';
-            // Get the site distinct types.
-            datalist.fill({
-                url: config.coreUrl + 'monitoredSite/type'
-            }, '#type-list');
             // Get the sites, show their names.
+            /*
             $.ajax({
                 url: config.coreUrl + 'monitoredSite',
                 contentType: 'application/json',
@@ -118,6 +152,7 @@ define([
             }).done( function(data) {
                 this.sites.reset(data);
             });
+            */
         },
 
         updateForm: function(evt) {
@@ -138,12 +173,13 @@ define([
                         this.ui.name.prop('disabled', true);
                         this.ui.name.prop('value', site.name);
                         this.ui.begin.prop('disabled', true);
-                        this.ui.begin.prop('value', equip.begin_date);
+                        this.ui.begin.prop('value', datetime.loadAndFormat(equip.begin_date));
                         this.ui.end.prop('disabled', false);
                         this.ui.end.prop('value', null);
                         this.ui.btn.prop('disabled', false);
                         this.ui.btn.text('Remove');
                         this.action = 'remove';
+                        this.updateMap();
                     }
                     else {
                         this.enableAll();
