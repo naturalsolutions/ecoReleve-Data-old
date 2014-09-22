@@ -21,6 +21,7 @@ define([
             'focus :text': 'fill',
             'submit': 'catch',
             'click #save-btn' : 'saveCriterias',
+            'click #export-btn' : 'export',
             'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
             'click .glyphicon-remove' : 'deleteSavedFilter',
             'click :checkbox' : 'setNull'
@@ -41,6 +42,24 @@ define([
 
         catch: function(evt) {
             evt.preventDefault();
+        },
+
+        export: function(evt) {
+            $.ajax({
+                url: config.coreUrl + 'individuals/search/export',
+                data: JSON.stringify({criteria:this.filter}),
+                contentType:'application/json',
+                type:'POST'
+            }).done(function(data) {
+                //TODO: use a blob object because of Chrome bug with large file.
+                var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data);
+                var link = document.createElement('a');
+                link.href = uri;
+                link.download = 'individual_search_export.csv';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link)
+            });
         },
 
         clear: function(evt) {

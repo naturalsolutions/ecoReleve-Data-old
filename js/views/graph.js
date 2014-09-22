@@ -69,7 +69,9 @@ define([
         },
 
         onDestroy: function() {
-            this.chart.destroy();
+            if(this.chart) {
+                this.chart.destroy();
+            }
         }
     });
 });
