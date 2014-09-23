@@ -18,6 +18,11 @@ a:hover, tr:hover, li:hover {
     height: 1rem;
 }
 
+/* Left panel detail */
+.black-bg {
+    background-color: black;
+}
+
 /* Home */
 .tile {
 border-width: 0;

@@ -10,11 +10,12 @@ define([
     'modules/individual/layouts/individual-list',
     'modules/individual/layouts/individual-detail',
     'modules2/rfid/layouts/rfid-layout',
+    'modules2/gsm/layouts/gsm-detail',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    TransmitterLayout, HeaderLayout) {
+    GSMDetailLayout, TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -29,6 +30,7 @@ define([
             this.listenTo(radio, 'argos', this.argos);
             radio.on('show:argos:detail', this.argos_detail);
             radio.on('transmitter', this.transmitter);
+            radio.comply('gsm', this.gsm, this);
             this.listenTo(radio, 'indiv', this.individual);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
@@ -50,6 +52,17 @@ define([
             }
             else {
                 this.login('argos');
+            }
+        },
+
+        gsm: function(obj) {
+            if (obj) {
+                var layout = new GSMDetailLayout(obj);
+                this.mainRegion.show(layout);
+                Backbone.history.navigate('gsm_detail');
+            }
+            else {
+                this.login('gsm');
             }
         },
 

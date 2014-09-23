@@ -7,7 +7,7 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!templates/individual/detail.html'
+    'text!modules2/gsm/templates/gsm-detail.html'
 ], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
 
     'use strict';
@@ -25,11 +25,14 @@ define([
         },
 
         initialize: function() {
-            this.model.fetch();
-            this.radio = Radio.channel('individual');
-            this.radio.comply('loaded', this.completeCard, this);
+            this.radio = Radio.channel('gsm-detail');
+            this.radio.comply('addToSelected', this.updateGrid, this);
         },
 
+        updateGrid: function(id) {
+            console.log(id);
+        },
+        /*
         completeCard: function(options) {
             this.$el.find('#indivLastObs').text(
                 moment.unix(options.lastObs).format("YYYY-MM-DD")
@@ -138,5 +141,6 @@ define([
             }
             $('#birdSpecieImg').attr('src','images/'+ file);
         },
+        */
     });
 });

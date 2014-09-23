@@ -51,10 +51,9 @@ define([
                 contentType:'application/json',
                 type:'POST'
             }).done(function(data) {
-                //TODO: use a blob object because of Chrome bug with large file.
-                var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data);
+                var url = URL.createObjectURL(new Blob([data], {'type':'text/csv'}));
                 var link = document.createElement('a');
-                link.href = uri;
+                link.href = url;
                 link.download = 'individual_search_export.csv';
                 document.body.appendChild(link);
                 link.click();
