@@ -2,36 +2,98 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'backgrid',
     'marionette',
     'moment',
     'radio',
     'utils/datalist',
     'config',
     'text!modules2/gsm/templates/gsm-detail.html'
-], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
+], function($, _, Backbone, Backgrid, Marionette, moment, Radio, datalist, config, template) {
 
     'use strict';
 
     return Marionette.ItemView.extend({
         template: template,
-        className:'detailsIndivPanel',
+        className:'detailsGsmPanel',
 
         events: {
-            'click #hideIndivDetails': 'hideDetail',
-        },
-
-        modelEvents: {
-            'change': 'render'
+            'click .backgrid-container tr': 'updateMap'
         },
 
         initialize: function() {
             this.radio = Radio.channel('gsm-detail');
-            this.radio.comply('addToSelected', this.updateGrid, this);
+            this.radio.comply('updateGrid', this.updateGrid, this);
         },
 
         updateGrid: function(id) {
-            console.log(id);
+            console.log('detail' + id);
         },
+
+        updateMap: function(evt) {
+            var tr = $(evt.target).parent();
+            var id = tr.find('td').first().text();
+            Radio.channel('gsm-detail').command('updateMap', id);
+        },
+
+        onShow: function() {
+            var gsm = 12;
+            var Locations = Backbone.Collection.extend({
+                url: config.coreUrl + 'dataGsm/' + gsm + '/unchecked?format=json'
+            });
+
+            var locations = new Locations();
+
+            var myCell = Backgrid.NumberCell.extend({
+                decimals: 3
+            });
+
+            var columns = [{
+                name: "id",
+                label: "ID",
+                editable: false,
+                renderable: false,
+                cell: "integer"
+            }, {
+                name: "date_",
+                label: "Date",
+                editable: false,
+                cell: Backgrid.DatetimeCell
+            }, {
+                editable: false,
+                name: "lat",
+                label: "LAT",
+                cell: myCell
+            }, {
+                editable: false,
+                name: "lon",
+                label: "LON",
+                cell: myCell
+            }, {
+                editable: false,
+                name: "dist",
+                label: "DIST (km)",
+                cell: myCell
+            }, {
+                editable: true,
+                name: "import",
+                label: "IMPORT",
+                cell: "boolean"
+            }];
+
+            // Initialize a new Grid instance
+            this.grid = new Backgrid.Grid({
+                columns: columns,
+                collection: locations
+            });
+
+            $("#locations").append(this.grid.render().el);
+            var height = $(window).height() - $('#header-region').height();
+            height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
+            this.$el.find('#locations').height(height);
+            locations.fetch({reset: true});
+        },
+
         /*
         completeCard: function(options) {
             this.$el.find('#indivLastObs').text(
@@ -42,49 +104,6 @@ define([
 
         hideDetail: function() {
             this.radio.trigger('hide-detail');
-        },
-
-        onRender: function() {
-            var history = new Backbone.Collection(this.model.get('history'));
-
-            var columns = [{
-                name: "name",
-                label: "Name",
-                editable: false,
-                cell: 'string'
-            }, {
-                editable: false,
-                name: "value",
-                label: "Value",
-                cell: "string"
-            }, {
-                editable: false,
-                name: "from",
-                label: "From",
-                cell: "string"
-            }, {
-                editable: false,
-                name: "to",
-                label: "To",
-                cell: "string"
-            }];
-
-            // Initialize a new Grid instance
-            this.grid = new Backgrid.Grid({
-                columns: columns,
-                collection: history
-            });
-
-            this.setSpecieImage(this.model.get('species'));
-            $('#birdSexPic').attr('src','images/sexe_' + this.model.get('sex') + '.png');
-            $('#birdOriginPic').attr('src','images/origin_' + this.model.get('origin') + '.png');
-            if (this.model.get('age') === 'adult'){
-                $("#birdAgePic").attr("src","images/age_adult.png");
-            }
-            $("#history").append(this.grid.render().el);
-            var height = $(window).height() - $('#header-region').height();
-            height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
-            this.$el.find('#history').height(height);
         },
 
         onDestroy: function() {
