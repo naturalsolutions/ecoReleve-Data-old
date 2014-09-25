@@ -40,7 +40,9 @@ define([
             this.interaction.getFeatures().push(feature);
             // center map to selected point
             var center = [lon, lat];
-            this.map.getView().setCenter(ol.proj.transform(center, 'EPSG:4326', 'EPSG:3857'));
+            //this.map.getView().setCenter(ol.proj.transform(center, 'EPSG:4326', 'EPSG:3857'));
+            this.moveCenter(center);
+
         }
     });
 });
