@@ -18,7 +18,8 @@ define([
         className:'detailsGsmPanel',
 
         events: {
-            'click .backgrid-container tr': 'updateMap'
+            'click .backgrid-container tr': 'updateMap',
+            'click #importChecked' : 'importChecked'
         },
 
         initialize: function() {
@@ -27,13 +28,25 @@ define([
         },
 
         updateGrid: function(id) {
-            console.log('detail' + id);
+            //console.log('detail' + id);
         },
 
         updateMap: function(evt) {
             var tr = $(evt.target).parent();
             var id = tr.find('td').first().text();
-            Radio.channel('gsm-detail').command('updateMap', id);
+            var currentModel = this.locations.where({id: parseInt(id)})[0];
+           // console.log(currentModel);
+            Radio.channel('gsm-detail').command('updateMap', currentModel);
+        },
+        importChecked : function() {
+            var importList = [];
+            this.locations.each(function(model) {
+                var location ={};
+                location.id= model.get('id');
+                location.import = model.get('import');
+                importList.push(location);
+            });
+            console.log(importList);
         },
 
         onShow: function() {
@@ -42,7 +55,7 @@ define([
                 url: config.coreUrl + 'dataGsm/' + gsm + '/unchecked?format=json'
             });
 
-            var locations = new Locations();
+            this.locations = new Locations();
 
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 3
@@ -84,14 +97,14 @@ define([
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
-                collection: locations
+                collection: this.locations
             });
 
             $("#locations").append(this.grid.render().el);
             var height = $(window).height() - $('#header-region').height();
             height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
             this.$el.find('#locations').height(height);
-            locations.fetch({reset: true});
+            this.locations.fetch({reset: true});
         },
 
         /*
