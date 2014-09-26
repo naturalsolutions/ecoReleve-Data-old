@@ -2,10 +2,7 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-            	<i class="large reneco relevesmall icon"></i>
-            	eco-releve
-            </a>
+            <a class="navbar-brand" href="#">ecoReleve-Data</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

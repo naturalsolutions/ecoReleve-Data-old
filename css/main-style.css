@@ -27,12 +27,12 @@ a:hover, tr:hover, li:hover {
 .tile {
 border-width: 0;
 }
-@media screen and (max-width: 1366px) {
+/*@media screen and (max-width: 1366px) {
     .tile.tile-medium {
     width: 140px;
     height: 140px;
     }
-}
+}*/
 
 /* Backgrid */
 .backgrid-container {

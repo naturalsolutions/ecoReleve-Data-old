@@ -8,7 +8,7 @@ define([
 ], function(Marionette, Radio, vegas, GraphView, InfoView, template) {
     'use strict';
     return Marionette.LayoutView.extend( {
-        className:'container-fluid',
+        className:'container',
         template: template,
         regions: {
             graph: '#graph',

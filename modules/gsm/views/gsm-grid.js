@@ -27,21 +27,7 @@ define([
             this.radio = Radio.channel('gsm-detail');
             this.radio.comply('updateGrid', this.updateGrid, this);
             this.gsmID = options.gsmID;
-        },
 
-        updateGrid: function(id) {
-            console.log('detail' + id);
-        },
-
-        updateMap: function(evt) {
-            if($(evt.target).is("td")) {
-                var tr = $(evt.target).parent();
-                var id = tr.find('td').first().text();
-                Radio.channel('gsm-detail').command('updateMap', id);
-            }
-        },
-
-        onShow: function() {
             var Locations = PageableCollection.extend({
                 url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked?format=json',
                 mode: 'client',
@@ -50,8 +36,23 @@ define([
                 }
             });
 
-            var locations = new Locations();
+            this.locations = new Locations();
+        },
 
+        updateGrid: function(id) {
+            //console.log('detail' + id);
+        },
+
+        updateMap: function(evt) {
+            if($(evt.target).is("td")) {
+                var tr = $(evt.target).parent();
+                var id = tr.find('td').first().text();
+                var currentModel = this.locations.findWhere({id: Number(id)});
+                Radio.channel('gsm-detail').command('updateMap', currentModel);
+            }
+        },
+
+        onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 3
             });
@@ -99,14 +100,14 @@ define([
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
-                collection: locations
+                collection: this.locations
             });
 
             this.$el.find("#locations").append(this.grid.render().el);
 
             // Initialize a new Paginator instance
             this.paginator = new Backgrid.Extension.Paginator({
-                collection: locations
+                collection: this.locations
             });
 
             this.$el.append(this.paginator.render().el);
@@ -114,7 +115,7 @@ define([
                 $('#header-region').height() - this.paginator.$el.height() -
                 $('#info-container').outerHeight();
             this.$el.height(height);
-            locations.fetch({reset: true});
+            this.locations.fetch({reset: true});
         },
 
         /*
