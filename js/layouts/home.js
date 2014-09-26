@@ -21,6 +21,7 @@ define([
             'click #gsmTile': 'gsm',
             'click #indivTile': 'indiv',
             'click #rfidTile': 'rfid',
+            'click #transmitterTile': 'transmitter',
             'click #monitoredSiteTile' : 'monitoredSite'
         },
 
@@ -57,6 +58,10 @@ define([
 
         rfid: function() {
             Radio.channel('route').trigger('rfid');
+        },
+
+        transmitter: function() {
+            Radio.channel('route').trigger('transmitter');
         }
     });
 });

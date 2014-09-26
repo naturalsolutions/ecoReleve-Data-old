@@ -57,7 +57,7 @@ define([
         },
 
         gsm: function(page) {
-            if (Number(page) > 0) {
+            if (Number(page)) {
                 var layout = new GSMDetailLayout({gsmID:page});
                 this.mainRegion.show(layout);
                 Backbone.history.navigate('gsm/' + page);
@@ -76,7 +76,7 @@ define([
         },
 
         individual: function(page) {
-            if(page){
+            if(Number(page)){
                 this.individualDetail({id:page})
             }
             else{
