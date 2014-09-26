@@ -30,7 +30,7 @@ define([
             this.listenTo(radio, 'login:success', this.login);
             this.listenTo(radio, 'argos', this.argos);
             radio.on('show:argos:detail', this.argos_detail);
-            radio.on('transmitter', this.transmitter);
+            radio.on('transmitter', this.transmitter, this);
             radio.comply('gsm', this.gsm, this);
             this.listenTo(radio, 'indiv', this.individual);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
