@@ -26,13 +26,17 @@ define([
             this.loadGeoJSON(config.coreUrl + 'dataGsm/12/unchecked?format=geojson');
         },
 
+        onRender: function() {
+            this.$el.height($(window).height() - $("#header-region").height() -
+                $("#info-container").height());
+        },
+
         onRemove: function() {
             Radio.channel('gsm-detail').stopComplying('moveCenter');
         },
 
         updateMap: function(id) {
             var feature = this.map.getLayers().item(1).getSource().getFeatureById(id);
-            console.log(feature);
             this.interaction.getFeatures().clear();
             this.interaction.getFeatures().push(feature);
         }

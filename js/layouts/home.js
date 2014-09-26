@@ -44,7 +44,7 @@ define([
         },
 
         gsm: function() {
-            Radio.channel('route').command('gsm', {gsm_id:134});
+            Radio.channel('route').command('gsm');
         },
 
         indiv: function() {

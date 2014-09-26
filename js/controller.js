@@ -11,11 +11,12 @@ define([
     'modules/individual/layouts/individual-detail',
     'modules2/rfid/layouts/rfid-layout',
     'modules2/gsm/layouts/gsm-detail',
+    'modules2/gsm/layouts/gsm-list',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, TransmitterLayout, HeaderLayout) {
+    GSMDetailLayout, GSMListLayout, TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -55,14 +56,16 @@ define([
             }
         },
 
-        gsm: function(obj) {
-            if (obj) {
-                var layout = new GSMDetailLayout(obj);
+        gsm: function(page) {
+            if (Number(page) > 0) {
+                var layout = new GSMDetailLayout({gsmID:page});
                 this.mainRegion.show(layout);
-                Backbone.history.navigate('gsm_detail');
+                Backbone.history.navigate('gsm/' + page);
             }
             else {
-                this.login('gsm');
+                var layout = new GSMListLayout();
+                this.mainRegion.show(layout);
+                Backbone.history.navigate('gsm');
             }
         },
 
