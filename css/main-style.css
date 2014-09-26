@@ -167,3 +167,10 @@ ul.unstyled > li {
     margin: 0;
     list-style: none;
 }
+
+/* Tiles */
+.tile h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-top: -13px;
+}
