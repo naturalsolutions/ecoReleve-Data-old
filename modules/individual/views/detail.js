@@ -80,7 +80,7 @@ define([
             }
             $("#history").append(this.grid.render().el);
             var height = $(window).height() - $('#header-region').height();
-            height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
+            height -= $('#details').height();
             this.$el.find('#history').height(height);
         },
 
