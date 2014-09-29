@@ -30,6 +30,12 @@ Technologie used
 
 -[Backbonejs](http://backbonejs.org/)
 
+-[Boostrap] (http://getbootstrap.com/)
+
+-[Python] (https://www.python.org/)
+
+-[SqlAlchemy] (http://www.sqlalchemy.org/)
+
 Functionalities
 ------------
 
