@@ -3,8 +3,8 @@ define([
     'radio',
     'config',
     'models/individual',
-    'modules/individual/views/detail',
-    'modules/individual/views/map',
+    'modules2/individual/views/detail',
+    'modules2/individual/views/map',
     'text!templates/left5-main7.html'
 ], function(Marionette, Radio, config, Individual, DetailView,
     MapView, template) {

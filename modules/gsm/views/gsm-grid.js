@@ -54,7 +54,8 @@ define([
 
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
-                decimals: 3
+                decimals: 3,
+                orderSeparator: ' '
             });
 
             var columns = [{
@@ -91,6 +92,11 @@ define([
                 label: "DIST (km)",
                 cell: myCell
             }, {
+                editable: false,
+                name: "speed",
+                label: "SPEED (km/h)",
+                cell: myCell
+            }, {
                 editable: true,
                 name: "import",
                 label: "IMPORT",
@@ -116,6 +122,17 @@ define([
                 $('#info-container').outerHeight();
             this.$el.height(height);
             this.locations.fetch({reset: true});
+        },
+
+        importChecked : function() {
+            var importList = [];
+            this.locations.each(function(model) {
+                var location ={};
+                location.id= model.get('id');
+                location.import = model.get('import');
+                importList.push(location);
+            });
+            console.log(importList);
         },
 
         /*

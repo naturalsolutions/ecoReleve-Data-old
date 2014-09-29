@@ -7,7 +7,7 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!templates/individual/detail.html'
+    'text!modules2/individual/templates/detail.html'
 ], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
 
     'use strict';

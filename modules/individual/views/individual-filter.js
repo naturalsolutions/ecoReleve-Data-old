@@ -3,12 +3,11 @@ define([
     "underscore",
     "backbone",
     'marionette',
-    'moment',
     'radio',
     'utils/datalist',
     'config',
-    'text!templates/individual/individual-filter.html'
-], function($, _, Backbone, Marionette, Moment, Radio, datalist, config, template) {
+    'text!modules2/individual/templates/individual-filter.html'
+], function($, _, Backbone, Marionette, Radio, datalist, config, template) {
 
     "use strict";
 
@@ -27,9 +26,8 @@ define([
             'click :checkbox' : 'setNull'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.radio = Radio.channel('individual');
-            this.filter = {};
 
             // Saved filters
             var storedCriterias = localStorage.getItem('indivFilterStoredCriterias') || "";
@@ -38,6 +36,9 @@ define([
             } else {
                 this.criterias = JSON.parse(storedCriterias);
             }
+
+            // Current filter
+            this.filter = options.currentFilter || {};
         },
 
         catch: function(evt) {
@@ -65,6 +66,7 @@ define([
             evt.preventDefault();
             $("form").trigger("reset");
             this.filter = {};
+            sessionStorage.clear('individual:currentFilter');
             this.radio.command('update', {filter:{}});
             $('body').animate({scrollTop: 0}, 400);
         },
@@ -82,7 +84,16 @@ define([
             }
         },
 
+        setInputTextFromFilter: function(filter) {
+            for (var name in filter) {
+                this.$el.find('input#'+name).val(filter[name]);
+            }
+        },
+
         onShow: function(evt) {
+            if(!$.isEmptyObject(this.filter)) {
+                this.setInputTextFromFilter(this.filter);
+            }
             $('#left-panel').css('padding-right', '0');
         },
 
@@ -113,6 +124,7 @@ define([
             var crit = evt.target.id;
             var val = evt.target.value;
             this.filter[crit] = val;
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
             this.radio.command('update', {filter:this.filter});
             $('body').animate({scrollTop: 0}, 400);
         },
@@ -163,10 +175,8 @@ define([
             var liElement = selectedElement.parentNode;
             var id = parseInt($(liElement).attr('id'));
             var crit = JSON.parse(this.criterias[id].query);
-            for (var name in crit) {
-                $('#'+name).val(crit[name]);
-            }
             this.filter = crit;
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
             this.radio.command('update', {filter:this.filter});
         },
 
