@@ -19,7 +19,7 @@ define([
         events: {
             'click #argosTile': 'argos',
             'click #gsmTile': 'gsm',
-            'click #indivTile': 'indiv',
+            'click #indivTile': 'individual',
             'click #rfidTile': 'rfid',
             'click #transmitterTile': 'transmitter',
             'click #monitoredSiteTile' : 'monitoredSite'
@@ -48,8 +48,8 @@ define([
             Radio.channel('route').command('gsm');
         },
 
-        indiv: function() {
-            Radio.channel('route').trigger('indiv');
+        individual: function() {
+            Radio.channel('route').command('individual');
         },
 
         monitoredSite: function() {

@@ -18,6 +18,7 @@ define([
 
         events: {
             'click #hideIndivDetails': 'hideDetail',
+            'click #backToSearch': 'backToSearch',
         },
 
         modelEvents: {
@@ -28,6 +29,10 @@ define([
             this.model.fetch();
             this.radio = Radio.channel('individual');
             this.radio.comply('loaded', this.completeCard, this);
+        },
+
+        backToSearch: function() {
+            Radio.channel('route').command('individual');
         },
 
         completeCard: function(options) {

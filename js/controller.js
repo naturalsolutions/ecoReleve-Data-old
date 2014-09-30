@@ -32,7 +32,7 @@ define([
             radio.on('show:argos:detail', this.argos_detail);
             radio.on('transmitter', this.transmitter, this);
             radio.comply('gsm', this.gsm, this);
-            this.listenTo(radio, 'indiv', this.individual);
+            radio.comply('individual', this.individual, this);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);

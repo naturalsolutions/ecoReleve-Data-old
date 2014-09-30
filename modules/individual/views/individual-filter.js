@@ -16,15 +16,15 @@ define([
         template: template,
 
         events: {
-            'click #clear-btn' : 'clear',
+            'click #clear-btn': 'clear',
             'change :text': 'update',
             'focus :text': 'fill',
             'submit': 'catch',
-            'click #save-btn' : 'saveCriterias',
-            'click #export-btn' : 'export',
-            'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
-            'click .glyphicon-remove' : 'deleteSavedFilter',
-            'click input[type=checkbox]' : 'setNull'
+            'click #save-btn': 'saveCriterias',
+            'click #export-btn': 'export',
+            'click #indivSavedSearch .indiv-search-label': 'selectSavedFilter',
+            'click .glyphicon-remove': 'deleteSavedFilter',
+            'click input[type=checkbox]': 'setNull'
         },
 
         initialize: function(options) {
@@ -65,11 +65,16 @@ define([
 
         clear: function(evt) {
             evt.preventDefault();
-            $("form").trigger("reset");
+            evt.stopPropagation();
+            this.clearForm();
             this.filter = {};
             sessionStorage.clear('individual:currentFilter');
-            this.radio.command('update', {filter:{}});
-            $('body').animate({scrollTop: 0}, 400);
+            this.updateGrid();
+        },
+
+        clearForm: function() {
+            this.$el.find('form').trigger('reset');
+            this.$el.find('input').prop('disabled', false);
         },
 
         fill: function(evt) {
@@ -86,9 +91,17 @@ define([
         },
 
         setInputTextFromFilter: function(filter) {
+            this.clearForm();
             for (var name in filter) {
-                this.$el.find('input#'+name).val(filter[name]);
+                if(filter[name]) {
+                    this.$el.find('input#'+name).val(filter[name]);
+                }
+                else {
+                    this.$el.find('input[type=checkbox]#checkbox-' + name).prop('checked', true);
+                    this.$el.find('input#' + name).prop('disabled', true);
+                }
             }
+            this.updateGrid();
         },
 
         onShow: function(evt) {
@@ -124,8 +137,10 @@ define([
         update: function(evt) {
             var crit = evt.target.id;
             var val = evt.target.value;
-            this.filter[crit] = val;
-            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
+            this.setFilter(crit, val)
+        },
+
+        updateGrid: function() {
             this.radio.command('update', {filter:this.filter});
             $('body').animate({scrollTop: 0}, 400);
         },
@@ -135,9 +150,14 @@ define([
             var criteria  = {};
             inputs.each(function(){
                 var name  = this.id;
-                var value = $(this).val();
-                if (value){
-                    criteria[name] = parseInt(Number(value)) || value;
+                if($(this).is(':disabled')) {
+                    criteria[name] = null;
+                }
+                else {
+                    var value = $(this).val();
+                    if (value){
+                        criteria[name] = parseInt(Number(value)) || value;
+                    }
                 }
             });
             return criteria;
@@ -148,7 +168,7 @@ define([
             var checked = $(evt.target).is(':checked');
             var input = $('input#' + id);
             forms.resetInput(input);
-            input.attr('disabled', checked);
+            input.prop('disabled', checked);
             if(checked){
                 this.setFilter(id, null);
             }
@@ -201,7 +221,7 @@ define([
             var crit = JSON.parse(this.criterias[id].query);
             this.filter = crit;
             sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
-            this.radio.command('update', {filter:this.filter});
+            this.setInputTextFromFilter(this.filter);
         },
 
         deleteSavedFilter : function(e) {
