@@ -5,9 +5,10 @@ define([
     'marionette',
     'radio',
     'utils/datalist',
+    'utils/forms',
     'config',
     'text!modules2/individual/templates/individual-filter.html'
-], function($, _, Backbone, Marionette, Radio, datalist, config, template) {
+], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template) {
 
     "use strict";
 
@@ -23,7 +24,7 @@ define([
             'click #export-btn' : 'export',
             'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
             'click .glyphicon-remove' : 'deleteSavedFilter',
-            'click :checkbox' : 'setNull'
+            'click input[type=checkbox]' : 'setNull'
         },
 
         initialize: function(options) {
@@ -144,7 +145,30 @@ define([
 
         setNull: function(evt) {
             var id = evt.target.id.split('-')[1];
-            var value = evt.target.value
+            var checked = $(evt.target).is(':checked');
+            var input = $('input#' + id);
+            forms.resetInput(input);
+            input.attr('disabled', checked);
+            if(checked){
+                this.setFilter(id, null);
+            }
+            else {
+                this.removeFilter(id);
+            }
+        },
+
+        setFilter: function(key, value) {
+            this.filter[key] = value;
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
+            this.radio.command('update', {filter:this.filter});
+            $('body').animate({scrollTop: 0}, 400);
+        },
+
+        removeFilter: function(key) {
+            delete this.filter[key];
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
+            this.radio.command('update', {filter:this.filter});
+            $('body').animate({scrollTop: 0}, 400);
         },
 
         saveCriterias : function() {
