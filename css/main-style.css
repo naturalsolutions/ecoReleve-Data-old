@@ -23,6 +23,10 @@ a:hover, tr:hover, li:hover {
     background-color: rgb(34, 34, 34);
 }
 
+select {
+    min-width: 120px;
+}
+
 /* Home */
 .tile {
 border-width: 0;

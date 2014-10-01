@@ -21,18 +21,50 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <input id="species" list="species_list" type="text"
-                            class="form-control" placeholder="Species"/>
-                        <datalist id="species_list"/>
-                        <input id="origin" list="origin_list" type="text"
-                            class="form-control" placeholder="Origin"/>
-                        <datalist id="origin_list"/>
-                        <input id="release_area" list="release_area_list" type="text"
-                            class="form-control" placeholder="Release area"/>
-                        <datalist id="release_area_list"/>
-                        <input id="release_year" list="release_year_list" type="text"
-                            class="form-control" placeholder="Release year"/>
-                        <datalist id="release_year_list"/>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-species">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="species" list="species_list" type="text"
+                                class="form-control" placeholder="Species"/>
+                            <datalist id="species_list"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-origin">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="origin" list="origin_list" type="text"
+                                class="form-control" placeholder="Origin"/>
+                            <datalist id="origin_list"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-release_area">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="release_area" list="release_area_list" type="text"
+                                class="form-control" placeholder="Release area"/>
+                            <datalist id="release_area_list"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-release_year">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="release_year" list="release_year_list" type="text"
+                                class="form-control" placeholder="Release year"/>
+                            <datalist id="release_year_list"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,12 +80,28 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <input id="age" list="age_list" type="text"
-                            class="form-control" placeholder="Age"/>
-                        <datalist id="age_list"/>
-                        <input id="sex" list="sex_list" type="text"
-                            class="form-control" placeholder="Sex"/>
-                        <datalist id="sex_list"/>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-age">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="age" list="age_list" type="text"
+                                class="form-control" placeholder="Age"/>
+                            <datalist id="age_list"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-sex">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="sex" list="sex_list" type="text"
+                                class="form-control" placeholder="Sex"/>
+                            <datalist id="sex_list"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,12 +117,25 @@
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <input id="status" list="status_list" type="text"
-                            class="form-control" placeholder="Individual status"/>
-                        <datalist id="status_list"/>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-survey_type"> null
+                                <select id="select-status">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="status" list="status_list" type="text"
+                                class="form-control" placeholder="Individual status"/>
+                            <datalist id="status_list"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-survey_type">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                </select>
                             </div>
                             <input id="survey_type" list="survey_type_list" type="text"
                                 class="form-control" placeholder="Type of survey"/>
@@ -82,7 +143,12 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-monitoring_status"> null
+                                <select id="select-monitoring_status">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                </select>
                             </div>
                             <input id="monitoring_status" list="monitoring_status_list" type="text"
                                 class="form-control" placeholder="Monitoring status"/>
@@ -105,23 +171,40 @@
                     <div class="panel-body">
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-frequency"> null
+                                <select id="select-frequency">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                </select>
                             </div>
                             <input id="frequency" list="frequency_list" type="text"
                                 class="form-control" placeholder="Frequency"/>
                             <datalist id="frequency_list"/>
                         </div>
                         <div class="input-group">
-                        <div class="input-group-addon">
-                            <input type="checkbox" id="checkbox-ptt"> null
-                        </div>
-                        <input id="ptt" list="ptt_list" type="text"
-                            class="form-control" placeholder="PTT"/>
-                        <datalist id="ptt_list"/>
+                            <div class="input-group-addon">
+                                <select id="select-ptt">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                </select>
+                            </div>
+                            <input id="ptt" list="ptt_list" type="text"
+                                class="form-control" placeholder="PTT"/>
+                            <datalist id="ptt_list"/>
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-chip_code"> null
+                                <select id="select-chip_code">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                    <option>begin with</option>
+                                    <option>not begin with</option>
+                                </select>
                             </div>
                             <input id="chip_code" list="chip_code_list" type="text"
                                 class="form-control" placeholder="Chip code"/>
@@ -129,7 +212,14 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-breeding_ring"> null
+                                <select id="select-breeding_ring">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                    <option>begin with</option>
+                                    <option>not begin with</option>
+                                </select>
                             </div>
                             <input id="breeding_ring" list="breeding_ring_list" type="text"
                                 class="form-control" placeholder="Breeding ring"/>
@@ -137,7 +227,14 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-release_ring"> null
+                                <select id="select-release_ring">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                    <option>begin with</option>
+                                    <option>not begin with</option>
+                                </select>
                             </div>
                             <input id="release_ring" list="release_ring_list" type="text"
                                 class="form-control" placeholder="Release ring"/>
@@ -145,7 +242,14 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-mark1"> null
+                                <select id="select-mark1">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                    <option>begin with</option>
+                                    <option>not begin with</option>
+                                </select>
                             </div>
                             <input id="mark1" list="mark1_list" type="text"
                                 class="form-control" placeholder="Mark 1 code"/>
@@ -153,15 +257,30 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <input type="checkbox" id="checkbox-mark2"> null
+                                <select id="select-mark2">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                    <option>null</option>
+                                    <option>not null</option>
+                                    <option>begin with</option>
+                                    <option>not begin with</option>
+                                </select>
                             </div>
                             <input id="mark2" list="mark2_list" type="text"
                                 class="form-control" placeholder="Mark 2 code"/>
                             <datalist id="mark2_list"/>
                         </div>
-                        <input id="id" list="id_list" type="text"
-                            class="form-control" placeholder="ID"/>
-                        <datalist id="id_list"/>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <select id="select-id">
+                                    <option>is</option>
+                                    <option>is not</option>
+                                </select>
+                            </div>
+                            <input id="id" list="id_list" type="text"
+                                class="form-control" placeholder="ID"/>
+                            <datalist id="id_list"/>
+                        </div>
                     </div>
                 </div>
             </div>

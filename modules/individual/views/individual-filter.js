@@ -17,14 +17,14 @@ define([
 
         events: {
             'click #clear-btn': 'clear',
-            'change :text': 'update',
-            'focus :text': 'fill',
+            'change input[type=text]': 'update',
+            'change select': 'update',
+            'focus input[type=text]': 'fill',
             'submit': 'catch',
             'click #save-btn': 'saveCriterias',
             'click #export-btn': 'export',
             'click #indivSavedSearch .indiv-search-label': 'selectSavedFilter',
             'click .glyphicon-remove': 'deleteSavedFilter',
-            'click input[type=checkbox]': 'setNull'
         },
 
         initialize: function(options) {
@@ -93,13 +93,20 @@ define([
         setInputTextFromFilter: function(filter) {
             this.clearForm();
             for (var name in filter) {
-                if(filter[name]) {
-                    this.$el.find('input#'+name).val(filter[name]);
+                var value = filter[name].value;
+                var op = filter[name].op;
+                var input = this.$el.find('input#' + name);
+                var select = this.$el.find('select#select-' + name);
+                // value is not null
+                if(value) {
+                    input.val(value);
                 }
+                // value is null
                 else {
-                    this.$el.find('input[type=checkbox]#checkbox-' + name).prop('checked', true);
-                    this.$el.find('input#' + name).prop('disabled', true);
+                    forms.resetInput(input);
+                    input.prop('disabled', true);
                 }
+                select.val(op);
             }
             this.updateGrid();
         },
@@ -135,60 +142,92 @@ define([
         },
 
         update: function(evt) {
-            var crit = evt.target.id;
-            var val = evt.target.value;
-            this.setFilter(crit, val)
+            // Input
+            if (evt.target.type === 'text') {
+                var name = evt.target.id;
+                var input = $(evt.target);
+                var value = evt.target.value;
+                var op = $('select#select-' + name).val();
+            }
+            // Select
+            else {
+                var name = evt.target.id.split('-')[1];
+                var input = $('input#' + name);
+                var value = input.val();
+                var op = evt.target.value;
+            }
+            switch(op) {
+                case 'is':
+                case 'is not':
+                case 'begin with':
+                case 'not begin with':
+                    input.prop('disabled', false);
+                    (value === '') ? this.removeFilter(name) : this.setFilter(name, value, op);
+                    break;
+                case 'null':
+                case 'not null':
+                    forms.resetInput(input);
+                    input.prop('disabled', true);
+                    this.setFilter(name, null, op);
+                    break;
+                default:
+                    break;
+            }
         },
 
         updateGrid: function() {
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
             this.radio.command('update', {filter:this.filter});
             $('body').animate({scrollTop: 0}, 400);
         },
 
         getParams : function(){
-            var inputs = $("input");
+            var inputs = $('input[type=text]');
             var criteria  = {};
-            inputs.each(function(){
-                var name  = this.id;
-                if($(this).is(':disabled')) {
-                    criteria[name] = null;
+            inputs.toArray().forEach(function(element){
+                var input = element;
+                var value = element.value;
+                var name = element.id;
+                var op = $('select#select-' + name).val();
+                //TODO: put the switch in a function ?
+                switch(op) {
+                    case 'is':
+                    case 'is not':
+                    case 'begin with':
+                    case 'not begin with':
+                        if(value !== '') {
+                            criteria[name] = {
+                                value: value,
+                                op: op
+                            };
+                        }
+                        break;
+                    case 'null':
+                    case 'not null':
+                        criteria[name] = {
+                            value: null,
+                            op: op
+                        };
+                        break;
+                    default:
+                        break;
                 }
-                else {
-                    var value = $(this).val();
-                    if (value){
-                        criteria[name] = parseInt(Number(value)) || value;
-                    }
-                }
-            });
+            }, this);
             return criteria;
         },
 
-        setNull: function(evt) {
-            var id = evt.target.id.split('-')[1];
-            var checked = $(evt.target).is(':checked');
-            var input = $('input#' + id);
-            forms.resetInput(input);
-            input.prop('disabled', checked);
-            if(checked){
-                this.setFilter(id, null);
-            }
-            else {
-                this.removeFilter(id);
-            }
-        },
-
-        setFilter: function(key, value) {
-            this.filter[key] = value;
-            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
-            this.radio.command('update', {filter:this.filter});
-            $('body').animate({scrollTop: 0}, 400);
+        setFilter: function(key, value, op) {
+            this.filter[key] = {};
+            this.filter[key]['value'] = value;
+            this.filter[key]['op'] = op;
+            this.updateGrid();
         },
 
         removeFilter: function(key) {
-            delete this.filter[key];
-            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
-            this.radio.command('update', {filter:this.filter});
-            $('body').animate({scrollTop: 0}, 400);
+            if(this.filter[key]) {
+                delete this.filter[key];
+                this.updateGrid();
+            }
         },
 
         saveCriterias : function() {
