@@ -21,8 +21,7 @@ define([
             'click #gsmTile': 'gsm',
             'click #indivTile': 'indiv',
             'click #rfidTile': 'rfid',
-            'click #monitoredSiteTile' : 'monitoredSite',
-			'click #importTile' : 'import'
+            'click #monitoredSiteTile' : 'monitoredSite'
         },
 
         onShow: function() {
@@ -47,9 +46,7 @@ define([
         gsm: function() {
             Radio.channel('route').command('gsm', {gsm_id:134});
         },
-		import: function() {
-            Radio.channel('route').trigger('import');
-        },
+
         indiv: function() {
             Radio.channel('route').trigger('indiv');
         },

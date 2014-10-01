@@ -11,12 +11,11 @@ define([
     'modules/individual/layouts/individual-detail',
     'modules2/rfid/layouts/rfid-layout',
     'modules2/gsm/layouts/gsm-detail',
-	'modules2/import/layouts/import-layout',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, ImportLayout,TransmitterLayout, HeaderLayout) {
+    GSMDetailLayout, TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -37,8 +36,6 @@ define([
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);
             this.listenTo(radio, 'rfid', this.rfid);
-			this.listenTo(radio, 'import', this.importGpx);
-            this.listenTo(radio, 'home', this.home);
         },
 
         argos: function() {
@@ -77,7 +74,7 @@ define([
 
         individual: function(page) {
             if(page){
-                this.individualDetail({id:page});
+                this.individualDetail({id:page})
             }
             else{
                 var layout = new IndivLayout();
@@ -92,12 +89,7 @@ define([
             Backbone.history.navigate('individual/' + args.id);
         },
 
-        importGpx: function() {
-            var layout = new ImportLayout();
-            this.mainRegion.show(layout);
-            Backbone.history.navigate('import');
-        },
-		monitoredSite: function() {
+        monitoredSite: function() {
             var layout = new MonitoredSiteLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('monitored_site');

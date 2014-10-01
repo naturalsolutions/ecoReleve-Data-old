@@ -34,13 +34,6 @@ var ecoReleveData = (function(){
             },
             vegas: {
                 deps:['jquery']
-            },
-            fuelux:{
-                deps:['jquery','bootstrap'],
-                exports: 'Fuelux'
-            }, backboneLocalstorage :{
-                deps:['backbone'],
-                exports: 'backboneLocalstorage'
             }
         },
         paths: {
@@ -59,9 +52,6 @@ var ecoReleveData = (function(){
             utils: '../utils',
             // Libs
             backgrid: '../../bower_components/backgrid/lib/backgrid',
-            'backgrid.paginator': 'backgrid.paginator/backgrid.paginator',
-            'backbone.paginator': 'backbone.paginator/2.0.2/backbone.paginator',
-            'backboneLocalstorage' : 'backbone.localstorage/backbone.localStorage-min',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
@@ -80,8 +70,7 @@ var ecoReleveData = (function(){
             underscore: 'underscore/underscore-1.6.0',
             backbone: 'backbone/backbone-1.1.2',
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
-            vegas: '../../bower_components/vegas/dist/jquery.vegas',
-            fuelux : '../../bower_components/fuelux/dist/js/fuelux'
+            vegas: '../../bower_components/vegas/dist/jquery.vegas'
         }
     });
 
