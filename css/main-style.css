@@ -167,3 +167,124 @@ ul.unstyled > li {
     margin: 0;
     list-style: none;
 }
+
+/* import  */
+.ui.segment {
+position: relative;
+background-color: #fff;
+-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.1),0 2px 1px 0 rgba(0,0,0,.05);
+box-shadow: 0 0 0 1px rgba(0,0,0,.1),0 2px 1px 0 rgba(0,0,0,.05);
+margin: 1em 0;
+padding: 1em;
+border-radius: .25em;
+border: none;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+.ui.form .grouped.fields:last-child {
+margin-bottom: 0;
+}
+.ui.form .grouped.fields {
+margin: 0 0 1em;
+}
+.ui.form .fields {
+clear: both;
+}
+.ui.basic.segment {
+position: relative;
+background-color: transparent;
+-webkit-box-shadow: none;
+box-shadow: none;
+border-radius: 0;
+}
+.basic.ui.right.floated.segment {
+margin-right: 0;
+margin-top: 0;
+padding-right: 0;
+}
+.ui.right.floated.segment {
+float: right;
+}
+.ui.floated.segment, .ui.left.floated.segment {
+float: left;
+}
+.ui.segment:last-child {
+margin-bottom: 0;
+}
+/*
+.ui.green.button {
+-webkit-box-shadow: 0 0 rgba(0,0,0,.1) inset;
+box-shadow: 0 0 rgba(0,0,0,.1) inset;
+}
+.ui.green.button, .ui.green.buttons .button {
+background-color: #2ecc40;
+color: #fff;
+text-shadow: none;
+background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,.05)),to(rgba(0,0,0,.1)));
+background-image: -webkit-linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.1));
+background-image: linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.1));
+}
+*/
+.radio > input[type=radio] {
+position: absolute;
+opacity: 1;
+left: 1em;
+}
+
+
+/*
+.ui.checkbox input {
+position: absolute;
+top: 0;
+left: 0;
+opacity: 0;
+outline: 0;
+z-index: -1;
+}
+input[type=checkbox], input[type=radio] {
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+padding: 0;
+}
+button, input {
+line-height: normal;
+}
+.ui.radio.checkbox .box:before, .ui.radio.checkbox label:before {
+border-radius: 500rem;
+-webkit-transform: none;
+-ms-transform: none;
+transform: none;
+}
+.ui.checkbox .box:after, .ui.checkbox .box:before, .ui.checkbox label:after, .ui.checkbox label:before {
+font-family: Checkbox;
+}
+.ui.checkbox .box:before, .ui.checkbox label:before {
+position: absolute;
+line-height: 1;
+width: 16px;
+height: 16px;
+top: 0;
+left: 0;
+content: '';
+background: #fff;
+border-radius: .25em;
+-webkit-transition: background-color .3s ease,border .3s ease,-webkit-box-shadow .3s ease;
+transition: background-color .3s ease,border .3s ease,box-shadow .3s ease;
+border: 1px solid rgba(0,0,0,.1);
+}
+
+.ui.radio.checkbox .box:after, .ui.radio.checkbox label:after {
+content: '\e801';
+}
+.ui.checkbox input:checked~.box:after, .ui.checkbox input:checked~label:after {
+opacity: 1;
+}
+.ui.radio.checkbox .box:after, .ui.radio.checkbox label:after {
+border: none;
+top: 3px;
+left: 0;
+font-size: 9px;
+}
+.ui.checkbox label:hover, .ui.checkbox+label:hover {
+color: rgba(0,0,0,.8);
+}

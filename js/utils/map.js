@@ -1,4 +1,4 @@
-define([
+ define([
     'models/point',
     'google',
     'views/map'
