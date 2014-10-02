@@ -26,6 +26,11 @@ define([
             this.loadGeoJSON(config.coreUrl + 'dataGsm/12/unchecked?format=geojson');
         },
 
+        onRender: function() {
+            this.$el.height($(window).height() - $("#header-region").height() -
+                $("#info-container").height());
+        },
+
         onRemove: function() {
             Radio.channel('gsm-detail').stopComplying('moveCenter');
         },
@@ -35,12 +40,10 @@ define([
             var lat = model.get('lat');
             var lon = model.get('lon');
             var feature = this.map.getLayers().item(1).getSource().getFeatureById(id);
-            //console.log(feature);
             this.interaction.getFeatures().clear();
             this.interaction.getFeatures().push(feature);
             // center map to selected point
             var center = [lon, lat];
-            //this.map.getView().setCenter(ol.proj.transform(center, 'EPSG:4326', 'EPSG:3857'));
             this.moveCenter(center);
 
         }

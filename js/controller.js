@@ -7,16 +7,17 @@ define([
     'modules/argos/argos-layout',
     'modules/argos/argos-detail',
     'layouts/home',
-    'modules/individual/layouts/individual-list',
-    'modules/individual/layouts/individual-detail',
+    'modules2/individual/layouts/individual-list',
+    'modules2/individual/layouts/individual-detail',
     'modules2/rfid/layouts/rfid-layout',
     'modules2/gsm/layouts/gsm-detail',
+    'modules2/gsm/layouts/gsm-list',
 	'modules2/import/layouts/import-layout',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, ImportLayout,TransmitterLayout, HeaderLayout) {
+    GSMDetailLayout, GSMListLayout, ImportLayout, TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -30,9 +31,9 @@ define([
             this.listenTo(radio, 'login:success', this.login);
             this.listenTo(radio, 'argos', this.argos);
             radio.on('show:argos:detail', this.argos_detail);
-            radio.on('transmitter', this.transmitter);
+            radio.on('transmitter', this.transmitter, this);
             radio.comply('gsm', this.gsm, this);
-            this.listenTo(radio, 'indiv', this.individual);
+            radio.comply('individual', this.individual, this);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);
@@ -58,14 +59,16 @@ define([
             }
         },
 
-        gsm: function(obj) {
-            if (obj) {
-                var layout = new GSMDetailLayout(obj);
+        gsm: function(page) {
+            if (Number(page)) {
+                var layout = new GSMDetailLayout({gsmID:page});
                 this.mainRegion.show(layout);
-                Backbone.history.navigate('gsm_detail');
+                Backbone.history.navigate('gsm/' + page);
             }
             else {
-                this.login('gsm');
+                var layout = new GSMListLayout();
+                this.mainRegion.show(layout);
+                Backbone.history.navigate('gsm');
             }
         },
 
@@ -76,8 +79,8 @@ define([
         },
 
         individual: function(page) {
-            if(page){
-                this.individualDetail({id:page});
+            if(Number(page)){
+                this.individualDetail({id:page})
             }
             else{
                 var layout = new IndivLayout();

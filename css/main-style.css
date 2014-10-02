@@ -20,7 +20,11 @@ a:hover, tr:hover, li:hover {
 
 /* Left panel detail */
 .black-bg {
-    background-color: black;
+    background-color: rgb(34, 34, 34);
+}
+
+select {
+    min-width: 120px;
 }
 
 /* Home */
@@ -287,4 +291,11 @@ font-size: 9px;
 }
 .ui.checkbox label:hover, .ui.checkbox+label:hover {
 color: rgba(0,0,0,.8);
+}
+=======
+/* Tiles */
+.tile h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-top: -13px;
 }

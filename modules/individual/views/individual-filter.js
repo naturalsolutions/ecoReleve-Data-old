@@ -3,12 +3,12 @@ define([
     "underscore",
     "backbone",
     'marionette',
-    'moment',
     'radio',
     'utils/datalist',
+    'utils/forms',
     'config',
-    'text!templates/individual/individual-filter.html'
-], function($, _, Backbone, Marionette, Moment, Radio, datalist, config, template) {
+    'text!modules2/individual/templates/individual-filter.html'
+], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template) {
 
     "use strict";
 
@@ -16,20 +16,19 @@ define([
         template: template,
 
         events: {
-            'click #clear-btn' : 'clear',
-            'change :text': 'update',
-            'focus :text': 'fill',
+            'click #clear-btn': 'clear',
+            'change input[type=text]': 'update',
+            'change select': 'update',
+            'focus input[type=text]': 'fill',
             'submit': 'catch',
-            'click #save-btn' : 'saveCriterias',
-            'click #export-btn' : 'export',
-            'click #indivSavedSearch .indiv-search-label' : 'selectSavedFilter',
-            'click .glyphicon-remove' : 'deleteSavedFilter',
-            'click :checkbox' : 'setNull'
+            'click #save-btn': 'saveCriterias',
+            'click #export-btn': 'export',
+            'click #indivSavedSearch .indiv-search-label': 'selectSavedFilter',
+            'click .glyphicon-remove': 'deleteSavedFilter',
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.radio = Radio.channel('individual');
-            this.filter = {};
 
             // Saved filters
             var storedCriterias = localStorage.getItem('indivFilterStoredCriterias') || "";
@@ -38,6 +37,9 @@ define([
             } else {
                 this.criterias = JSON.parse(storedCriterias);
             }
+
+            // Current filter
+            this.filter = options.currentFilter || {};
         },
 
         catch: function(evt) {
@@ -63,10 +65,16 @@ define([
 
         clear: function(evt) {
             evt.preventDefault();
-            $("form").trigger("reset");
+            evt.stopPropagation();
+            this.clearForm();
             this.filter = {};
-            this.radio.command('update', {filter:{}});
-            $('body').animate({scrollTop: 0}, 400);
+            sessionStorage.clear('individual:currentFilter');
+            this.updateGrid();
+        },
+
+        clearForm: function() {
+            this.$el.find('form').trigger('reset');
+            this.$el.find('input').prop('disabled', false);
         },
 
         fill: function(evt) {
@@ -82,7 +90,31 @@ define([
             }
         },
 
+        setInputTextFromFilter: function(filter) {
+            this.clearForm();
+            for (var name in filter) {
+                var value = filter[name].value;
+                var op = filter[name].op;
+                var input = this.$el.find('input#' + name);
+                var select = this.$el.find('select#select-' + name);
+                // value is not null
+                if(value) {
+                    input.val(value);
+                }
+                // value is null
+                else {
+                    forms.resetInput(input);
+                    input.prop('disabled', true);
+                }
+                select.val(op);
+            }
+            this.updateGrid();
+        },
+
         onShow: function(evt) {
+            if(!$.isEmptyObject(this.filter)) {
+                this.setInputTextFromFilter(this.filter);
+            }
             $('#left-panel').css('padding-right', '0');
         },
 
@@ -110,29 +142,92 @@ define([
         },
 
         update: function(evt) {
-            var crit = evt.target.id;
-            var val = evt.target.value;
-            this.filter[crit] = val;
+            // Input
+            if (evt.target.type === 'text') {
+                var name = evt.target.id;
+                var input = $(evt.target);
+                var value = evt.target.value;
+                var op = $('select#select-' + name).val();
+            }
+            // Select
+            else {
+                var name = evt.target.id.split('-')[1];
+                var input = $('input#' + name);
+                var value = input.val();
+                var op = evt.target.value;
+            }
+            switch(op) {
+                case 'is':
+                case 'is not':
+                case 'begin with':
+                case 'not begin with':
+                    input.prop('disabled', false);
+                    (value === '') ? this.removeFilter(name) : this.setFilter(name, value, op);
+                    break;
+                case 'null':
+                case 'not null':
+                    forms.resetInput(input);
+                    input.prop('disabled', true);
+                    this.setFilter(name, null, op);
+                    break;
+                default:
+                    break;
+            }
+        },
+
+        updateGrid: function() {
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
             this.radio.command('update', {filter:this.filter});
             $('body').animate({scrollTop: 0}, 400);
         },
 
         getParams : function(){
-            var inputs = $("input");
+            var inputs = $('input[type=text]');
             var criteria  = {};
-            inputs.each(function(){
-                var name  = this.id;
-                var value = $(this).val();
-                if (value){
-                    criteria[name] = parseInt(Number(value)) || value;
+            inputs.toArray().forEach(function(element){
+                var input = element;
+                var value = element.value;
+                var name = element.id;
+                var op = $('select#select-' + name).val();
+                //TODO: put the switch in a function ?
+                switch(op) {
+                    case 'is':
+                    case 'is not':
+                    case 'begin with':
+                    case 'not begin with':
+                        if(value !== '') {
+                            criteria[name] = {
+                                value: value,
+                                op: op
+                            };
+                        }
+                        break;
+                    case 'null':
+                    case 'not null':
+                        criteria[name] = {
+                            value: null,
+                            op: op
+                        };
+                        break;
+                    default:
+                        break;
                 }
-            });
+            }, this);
             return criteria;
         },
 
-        setNull: function(evt) {
-            var id = evt.target.id.split('-')[1];
-            var value = evt.target.value
+        setFilter: function(key, value, op) {
+            this.filter[key] = {};
+            this.filter[key]['value'] = value;
+            this.filter[key]['op'] = op;
+            this.updateGrid();
+        },
+
+        removeFilter: function(key) {
+            if(this.filter[key]) {
+                delete this.filter[key];
+                this.updateGrid();
+            }
         },
 
         saveCriterias : function() {
@@ -163,11 +258,9 @@ define([
             var liElement = selectedElement.parentNode;
             var id = parseInt($(liElement).attr('id'));
             var crit = JSON.parse(this.criterias[id].query);
-            for (var name in crit) {
-                $('#'+name).val(crit[name]);
-            }
             this.filter = crit;
-            this.radio.command('update', {filter:this.filter});
+            sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
+            this.setInputTextFromFilter(this.filter);
         },
 
         deleteSavedFilter : function(e) {

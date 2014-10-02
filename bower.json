@@ -1,0 +1,26 @@
+{
+  "name": "ecoReleve-Data",
+  "version": "0.0.1",
+  "homepage": "https://github.com/NaturalSolutions/ecoReleve-Data",
+  "authors": [
+    "Natural Solutions contact@natural-solutions.eu"
+  ],
+  "description": "ecoReleve-Data",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backgrid-paginator": "~0.3.5",
+    "backgrid": "~0.3.5",
+    "metro-bootstrap": "*",
+    "openlayers": "*",
+    "vegas": "~1.3.4",
+    "backbone.radio": "~0.6.0"
+  }
+}

@@ -19,10 +19,11 @@ define([
         events: {
             'click #argosTile': 'argos',
             'click #gsmTile': 'gsm',
-            'click #indivTile': 'indiv',
+            'click #indivTile': 'individual',
             'click #rfidTile': 'rfid',
             'click #monitoredSiteTile' : 'monitoredSite',
-			'click #importTile' : 'import'
+			'click #importTile' : 'import',
+            'click #transmitterTile': 'transmitter'
         },
 
         onShow: function() {
@@ -45,13 +46,15 @@ define([
         },
 
         gsm: function() {
-            Radio.channel('route').command('gsm', {gsm_id:134});
+            Radio.channel('route').command('gsm');
         },
+
 		import: function() {
             Radio.channel('route').trigger('import');
         },
-        indiv: function() {
-            Radio.channel('route').trigger('indiv');
+
+        individual: function() {
+            Radio.channel('route').command('individual');
         },
 
         monitoredSite: function() {
@@ -60,6 +63,10 @@ define([
 
         rfid: function() {
             Radio.channel('route').trigger('rfid');
+        },
+
+        transmitter: function() {
+            Radio.channel('route').trigger('transmitter');
         }
     });
 });

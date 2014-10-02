@@ -38,7 +38,8 @@ var ecoReleveData = (function(){
             fuelux:{
                 deps:['jquery','bootstrap'],
                 exports: 'Fuelux'
-            }, backboneLocalstorage :{
+            },
+            backboneLocalstorage :{
                 deps:['backbone'],
                 exports: 'backboneLocalstorage'
             }
@@ -61,7 +62,7 @@ var ecoReleveData = (function(){
             backgrid: '../../bower_components/backgrid/lib/backgrid',
             'backgrid.paginator': 'backgrid.paginator/backgrid.paginator',
             'backbone.paginator': 'backbone.paginator/2.0.2/backbone.paginator',
-            'backboneLocalstorage' : 'backbone.localstorage/backbone.localStorage-min',
+            backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: 'chart/1.0.1-beta4/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',

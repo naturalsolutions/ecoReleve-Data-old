@@ -7,7 +7,7 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!templates/individual/detail.html'
+    'text!modules2/individual/templates/detail.html'
 ], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
 
     'use strict';
@@ -18,6 +18,7 @@ define([
 
         events: {
             'click #hideIndivDetails': 'hideDetail',
+            'click #backToSearch': 'backToSearch',
         },
 
         modelEvents: {
@@ -28,6 +29,10 @@ define([
             this.model.fetch();
             this.radio = Radio.channel('individual');
             this.radio.comply('loaded', this.completeCard, this);
+        },
+
+        backToSearch: function() {
+            Radio.channel('route').command('individual');
         },
 
         completeCard: function(options) {
@@ -80,7 +85,7 @@ define([
             }
             $("#history").append(this.grid.render().el);
             var height = $(window).height() - $('#header-region').height();
-            height -= $('#details').height() + $('#left-panel').outerHeight(true) - $('#left-panel').height();
+            height -= $('#details').height();
             this.$el.find('#history').height(height);
         },
 

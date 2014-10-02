@@ -3,9 +3,9 @@ define([
     'radio',
     'config',
     'models/individual',
-    'modules/individual/views/detail',
-    'modules/individual/views/map',
-    'text!templates/left5-main7.html'
+    'modules2/individual/views/detail',
+    'modules2/individual/views/map',
+    'text!modules2/individual/templates/detail-layout.html'
 ], function(Marionette, Radio, config, Individual, DetailView,
     MapView, template) {
 
@@ -16,7 +16,7 @@ define([
         template: template,
 
         regions: {
-            left: '#left-panel',
+            detail: '#detail-panel',
             main: '#main-panel'
         },
 
@@ -27,12 +27,12 @@ define([
 
         hideDetail: function() {
             var callback = $.proxy(this, 'updateSize', 'hide');
-            this.left.$el.toggle(callback);
+            this.detail.$el.toggle(callback);
         },
 
         showDetail: function() {
             var callback = $.proxy(this, 'updateSize', 'show');
-            this.left.$el.toggle(callback);
+            this.detail.$el.toggle(callback);
         },
 
         updateSize: function(type) {
@@ -55,7 +55,7 @@ define([
         onShow: function() {
             this.listenTo(this.radio, 'hide-detail', this.hideDetail);
             this.listenTo(this.radio, 'show-detail', this.showDetail);
-            this.left.show(new DetailView( {
+            this.detail.show(new DetailView( {
                 model: new Individual({id: this.indiv})
             }));
             this.main.show(new MapView({

@@ -7,7 +7,7 @@ define([
     'marionette',
     'radio',
     'config',
-    'text!templates/individual/individual-list.html'
+    'text!modules2/individual/templates/individual-list.html'
 ], function(moment, $, _, Backbone, Backgrid, Marionette, Radio, config, template) {
 
     'use strict';
@@ -19,7 +19,7 @@ define([
             'click tbody > tr': 'detail',
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.radio = Radio.channel('individual');
             this.radio.comply('update', this.update, this);
 
@@ -72,9 +72,11 @@ define([
                 collection: individuals,
             });
 
+            var filter = options.currentFilter || {};
+
             individuals.fetch({
                 reset: true,
-                data:JSON.stringify({limit:50}),
+                data:JSON.stringify({criteria:filter, limit:50}),
                 contentType:'application/json',
                 type:'POST'
             });
