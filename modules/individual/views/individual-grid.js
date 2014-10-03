@@ -3,12 +3,14 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'backbone.paginator',
     'backgrid',
+    'backgrid.paginator',
     'marionette',
     'radio',
     'config',
     'text!modules2/individual/templates/individual-list.html'
-], function(moment, $, _, Backbone, Backgrid, Marionette, Radio, config, template) {
+], function(moment, $, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, Radio, config, template) {
 
     'use strict';
 
@@ -23,47 +25,120 @@ define([
             this.radio = Radio.channel('individual');
             this.radio.comply('update', this.update, this);
 
-            var Individual = Backbone.Model.extend({});
-            var Individuals = Backbone.Collection.extend({
-                model: Individual,
-                url: config.coreUrl + 'individuals/search'
+            var Individuals = PageableCollection.extend({
+                sortCriteria: {'id':'asc'},
+                url: config.coreUrl + 'individuals/search',
+                mode: 'server',
+                state:{
+                    pageSize: 25,
+                },
+                queryParams: {
+                    limit: function() {return this.state.currentPage * this.state.pageSize;},
+                    offset: function() {return (this.state.currentPage - 1) * this.state.pageSize;},
+                    criteria: function() {return JSON.stringify(this.searchCriteria);},
+                    order_by: function() {return JSON.stringify(this.sortCriteria);},
+                },
+                fetch: function(options) {
+                    options.type = 'POST';
+                    PageableCollection.prototype.fetch.call(this, options);
+                }
             });
+
             var individuals = new Individuals();
 
+            var myHeaderCell = Backgrid.HeaderCell.extend({
+                onClick: function (e) {
+                    e.preventDefault();
+
+                    var column = this.column;
+                    var collection = this.collection;
+                    var sortCriteria = collection.sortCriteria || {};
+                    switch(column.get('direction')){
+                        case null:
+                            column.set('direction', 'ascending');
+                            sortCriteria[column.get('name')] = 'asc';
+                            break;
+                        case 'ascending':
+                            column.set('direction', 'descending');
+                            sortCriteria[column.get('name')] = 'desc';
+                            break;
+                        case 'descending':
+                            column.set('direction', null);
+                            delete sortCriteria[column.get('name')];
+                            break;
+                        default:
+                            break;
+                    }
+                    collection.sortCriteria = sortCriteria;
+                    collection.fetch({reset: true});
+                },
+            });
+
+            var myHeaderCell2 = Backgrid.HeaderCell.extend({
+                onClick: function (e) {
+                    e.preventDefault();
+
+                    var column = this.column;
+                    var collection = this.collection;
+                    var sortCriteria = collection.sortCriteria || {};
+                    switch(column.get('direction')){
+                        case 'ascending':
+                            column.set('direction', 'descending');
+                            sortCriteria[column.get('name')] = 'desc';
+                            break;
+                        case 'descending':
+                            column.set('direction', null);
+                            delete sortCriteria[column.get('name')];
+                            break;
+                        default:
+                            break;
+                    }
+                    collection.sortCriteria = sortCriteria;
+                    collection.fetch({reset: true});
+                },
+            });
+
             var columns = [{
+                direction: 'ascending',
                 name: 'id',
                 label: 'ID',
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
-                })
+                }),
+                headerCell: myHeaderCell2
             }, {
-                editable: false,
                 name: 'ptt',
                 label: 'PTT',
+                editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
-                })
+                }),
+                headerCell: myHeaderCell
             }, {
-                editable: false,
                 name: 'age',
                 label: 'AGE',
-                cell: 'string'
-            }, {
                 editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
+            }, {
                 name: 'origin',
                 label: 'ORIGIN',
-                cell: 'string'
-            }, {
                 editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
+            }, {
                 name: 'species',
                 label: 'SPECIES',
-                cell: 'string'
-            }, {
                 editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
+            }, {
                 name: 'sex',
                 label: 'SEX',
-                cell: 'string'
+                editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
             }];
 
             // Initialize a new Grid instance
@@ -72,23 +147,17 @@ define([
                 collection: individuals,
             });
 
-            var filter = options.currentFilter || {};
+            individuals.searchCriteria = options.currentFilter || {};
+            individuals.fetch( {reset: true,} );
 
-            individuals.fetch({
-                reset: true,
-                data:JSON.stringify({criteria:filter, limit:50}),
-                contentType:'application/json',
-                type:'POST'
+            this.paginator = new Backgrid.Extension.Paginator({
+                collection: individuals
             });
         },
 
         update: function(args) {
-            this.grid.collection.fetch({
-                reset: true,
-                data:JSON.stringify({criteria:args.filter, limit:50}),
-                contentType:'application/json',
-                type:'POST'
-            });
+            this.grid.collection.searchCriteria = args.filter;
+            this.grid.collection.fetch( {reset: true,});
         },
 
         onShow: function() {
@@ -96,6 +165,7 @@ define([
             height -= $('#header-region').height() + $('#main-panel').outerHeight();
             this.$el.height(height);
             $('#gridContainer').append(this.grid.render().el);
+            this.$el.append(this.paginator.render().el);
         },
 
         onDestroy: function(){
