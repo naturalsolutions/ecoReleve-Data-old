@@ -33,10 +33,14 @@ define([
                     pageSize: 25,
                 },
                 queryParams: {
-                    limit: function() {return this.state.currentPage * this.state.pageSize;},
                     offset: function() {return (this.state.currentPage - 1) * this.state.pageSize;},
                     criteria: function() {return JSON.stringify(this.searchCriteria);},
-                    order_by: function() {return JSON.stringify(this.sortCriteria);},
+                    order_by: function() {
+                        var criteria = [];
+                        for(var crit in this.sortCriteria){
+                            criteria.push(crit + ':' + this.sortCriteria[crit]);
+                        }
+                        return JSON.stringify(criteria);},
                 },
                 fetch: function(options) {
                     options.type = 'POST';
@@ -52,7 +56,7 @@ define([
 
                     var column = this.column;
                     var collection = this.collection;
-                    var sortCriteria = collection.sortCriteria || {};
+                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.id === 'undefined') ? collection.sortCriteria : {};
                     switch(column.get('direction')){
                         case null:
                             column.set('direction', 'ascending');
@@ -69,44 +73,19 @@ define([
                         default:
                             break;
                     }
-                    collection.sortCriteria = sortCriteria;
-                    collection.fetch({reset: true});
-                },
-            });
-
-            var myHeaderCell2 = Backgrid.HeaderCell.extend({
-                onClick: function (e) {
-                    e.preventDefault();
-
-                    var column = this.column;
-                    var collection = this.collection;
-                    var sortCriteria = collection.sortCriteria || {};
-                    switch(column.get('direction')){
-                        case 'ascending':
-                            column.set('direction', 'descending');
-                            sortCriteria[column.get('name')] = 'desc';
-                            break;
-                        case 'descending':
-                            column.set('direction', null);
-                            delete sortCriteria[column.get('name')];
-                            break;
-                        default:
-                            break;
-                    }
-                    collection.sortCriteria = sortCriteria;
+                    collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'id': 'asc'};
                     collection.fetch({reset: true});
                 },
             });
 
             var columns = [{
-                direction: 'ascending',
                 name: 'id',
                 label: 'ID',
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
                 }),
-                headerCell: myHeaderCell2
+                headerCell: myHeaderCell
             }, {
                 name: 'ptt',
                 label: 'PTT',
@@ -157,7 +136,9 @@ define([
 
         update: function(args) {
             this.grid.collection.searchCriteria = args.filter;
-            this.grid.collection.fetch( {reset: true,});
+            // Go to page 1
+            this.grid.collection.state.currentPage = 1;
+            this.grid.collection.fetch({reset: true,});
         },
 
         onShow: function() {

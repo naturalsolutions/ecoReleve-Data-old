@@ -16,6 +16,9 @@ var ecoReleveData = (function(){
             bootstrap: {
                 deps: ['jquery']
             },
+            chart: {
+                exports : 'Chart'
+            },
             metro: {
                 deps: ['jquery', 'jquery_ui']
             },
@@ -64,7 +67,7 @@ var ecoReleveData = (function(){
             'backbone.paginator': 'backbone.paginator/2.0.2/backbone.paginator',
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
-            chart: 'chart/1.0.1-beta4/Chart',
+            chart: '../../bower_components/chartjs/Chart',
             marionette: 'marionette/2.1.0/backbone.marionette',
             openlayers: 'openlayers/openlayers',
             ol3: 'openlayers/3.0.0/build/ol-debug',
