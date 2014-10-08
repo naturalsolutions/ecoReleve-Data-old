@@ -83,13 +83,11 @@ var ecoReleveData = (function(){
             moment: 'moment/moment-2.8.1',
             underscore: 'underscore/underscore-1.6.0',
             backbone: 'backbone/backbone-1.1.2',
-            vegas: '../../bower_components/vegas/dist/jquery.vegas',
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             vegas: '../../bower_components/vegas/dist/jquery.vegas',
-            fuelux : '../../bower_components/fuelux/dist/js/fuelux'
-            
+            fuelux : '../../bower_components/fuelux/dist/js/fuelux',
             nicescroll:'nicescroll/jquery.nicescroll'
-            
+
         }
     });
 
