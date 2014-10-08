@@ -1,0 +1,126 @@
+body.login-page{
+  opacity: 0;
+}
+
+
+body.login-page{
+    transition: all 0.2s linear;
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.85);
+    background-size: cover;
+    background-attachment: fixed;
+
+    /* countries */
+    &.FR{
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    &.MA{
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    h1{
+        color: white;
+        padding: 25px;
+        text-align: center;
+        font-weight: bold;
+        margin: 0px;
+    }
+    h2{
+        color: white;
+        text-align: center;
+        font-weight: 300;
+        margin: 0px;
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .login-form{
+        position: absolute;
+        height: 450px;
+        margin: auto;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        background: rgba(0,0,0,0.7);
+
+
+
+        .form-group{
+            margin: 0px;
+        }
+
+        div.wrapper{
+            width: 70%;
+            border: 1px solid white;
+            border-radius: 2px;
+            input{
+                background: transparent;
+                color: white;
+                
+                box-shadow: none;
+                border: none;
+                height: 55px;
+                border-radius: 0px;
+            }
+            input:-webkit-autofill {
+                -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+                -webkit-text-fill-color: #333;
+            }
+            input:-webkit-autofill:focus {
+                -webkit-box-shadow: 0 0 0 50px white inset;
+                -webkit-text-fill-color: #333;
+            }
+            .help-block{
+                transition:all .5s ease;
+                margin: 0px;
+                background: @red-h;
+                color: white;
+                padding-left: 15px;
+                line-height: 50px;
+            }
+            
+        }
+
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    white;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+           color:    white;
+           opacity:  1;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+           color:    white;
+           opacity:  1;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+           color:    white;
+        }
+
+        .btn-primary{
+            width: 70%;
+            margin-top: 20px;
+            background: white;
+            border: none;
+            box-shadow: 0px;
+            border-radius: 2px;
+            color: @blue-d;
+        }
+
+
+    }
+    .rotate3d{
+        transition: all .3s ease;
+        transform: perspective( 1000px ) rotateY( 90deg );
+    }
+}
+
+
+
