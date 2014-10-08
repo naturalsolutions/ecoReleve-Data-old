@@ -3,21 +3,39 @@ define([
     'config',
     'marionette',
     'radio',
-    'views/login',
+    'modules2/header/layouts/header',
+
+    'modules2/login/views/login',
+
+    'modules2/home/layouts/home',
+
     'modules/argos/argos-layout',
     'modules/argos/argos-detail',
-    'layouts/home',
+
     'modules2/individual/layouts/individual-list',
     'modules2/individual/layouts/individual-detail',
+
     'modules2/rfid/layouts/rfid-layout',
+
     'modules2/gsm/layouts/gsm-detail',
     'modules2/gsm/layouts/gsm-list',
+
+    'modules2/transmitter/layouts/transmitter-list',
+
+
 	'modules2/import/layouts/import-layout',
-    'modules/transmitter/layouts/transmitter-list',
-    'layouts/header',
-], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
-    ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, GSMListLayout, ImportLayout, TransmitterLayout, HeaderLayout) {
+
+
+], function(Backbone, config, Marionette, Radio, 
+    HeaderLayout, 
+    LoginView, 
+    HomeLayout,
+    ArgosLayout,ArgosDetailLayout, 
+    IndivLayout, IndivDetailLayout,
+    RfidLayout,
+    GSMDetailLayout, GSMListLayout, 
+    TransmitterLayout, 
+    ImportLayout) {
 
     'use strict';
 
@@ -38,8 +56,11 @@ define([
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);
             this.listenTo(radio, 'rfid', this.rfid);
+
 			this.listenTo(radio, 'import', this.importGpx);
             this.listenTo(radio, 'home', this.home);
+
+
         },
 
         argos: function() {

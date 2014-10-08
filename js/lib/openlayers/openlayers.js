@@ -135,7 +135,7 @@ var OpenLayers = {
      *   <link rel="stylesheet" href="/path/to/default/style.css"  type="text/css">
      * (end code)
      */
-    ImgPath : ''
+    ImgPath : 'assets/img/'
 };
 /* ======================================================================
     OpenLayers/BaseTypes/Class.js

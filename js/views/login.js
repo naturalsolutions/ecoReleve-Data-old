@@ -13,7 +13,6 @@ define([
     'use strict';
 
     return Marionette.ItemView.extend( {
-        className: 'col-sm-4 col-sm-offset-4',
         collection: new Backbone.Collection(),
         template: template,
 
@@ -43,6 +42,16 @@ define([
 
         onRender: function() {
             $('#username').trigger('focus');
+            $('body').addClass('login-page');
+
+            jQuery.ajax({
+                url: '//freegeoip.net/json/', 
+                type: 'POST', 
+                dataType: 'jsonp',
+                success: function(location) {
+                        $('body').addClass(location.country_code);
+                }
+            });
         },
 
         checkUsername: function() {
@@ -50,12 +59,15 @@ define([
             if (!user) {
                 this.fail('#login-group', 'Invalid username');
             }
+
         },
 
         login: function(elt) {
+            console.log('login');
             elt.preventDefault();
             elt.stopPropagation();
             var user = this.collection.findWhere({fullname: $('#username').val()});
+            console.log(user);
             var url = config.coreUrl + 'security/login';
             if (user) {
                 $.ajax({
@@ -67,13 +79,22 @@ define([
                         password: sha1.hash($('#password').val())
                     }
                 }).done( function() {
-                    Radio.channel('route').trigger('login:success');
+
+
+                    $('.login-form').addClass('rotate3d');
+                    setTimeout(function() {
+                        Radio.channel('route').trigger('login:success');
+                        $('body').removeClass('login-page');
+                    },500);
+                    
                 }).fail( function () {
                     this.fail('#pwd-group', 'Invalid password');
+                    this.shake();
                 });
-            }
+            }   
             else {
                 this.fail('#login-group', 'Invalid username');
+                this.shake();
             }
         },
 
@@ -86,6 +107,14 @@ define([
             var group = $(evt.target).parent();
             group.removeClass('has-error');
             group.find(".help-block").text('');
+        },
+
+        shake: function(){
+            $('.login-form').addClass('animated shake');
+            setTimeout(function() {
+                $('.login-form').removeClass('animated shake');
+            },1000);
         }
     });
 });
+
