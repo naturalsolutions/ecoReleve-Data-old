@@ -1,8 +1,8 @@
 <script type="text/template">
     <div id="details">
         <div id="separatorDetails">
-            <a id="backToSearch"><img src="images/back_white.png"></a><span>Back to search</span>
-            <span id="hideIndivDetails" class="glyphicon big glyphicon-chevron-left"/>
+            <a id="backToSearch"><img src="assets/img/back_white.png"></a><span>Back to search</span>
+            <span id="hideIndivDetails" class="glyphicon pointer big glyphicon-chevron-left"/>
         </div>
         <div class="row" id="birdInfosDiv">
             <div class="col-sm-6">
@@ -21,16 +21,16 @@
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-sm-4">
-                        <img src="images/transmitters.png" id=" "/>
+                        <i class="icon small reneco emitters"></i>
                         <div><span>PTT: </span>
                         <span><%= ptt %></span></div>
                     </div>
                     <div class="col-sm-4">
-                        <img src="images/rings.png" id=" ">
+                        <i class="icon small reneco rings"></i>
                         <p id=" ">rings</p>
                     </div>
                     <div class="col-sm-4">
-                        <img src="images/markers.png" id=" ">
+                        <i class="icon small reneco markers"></i>
                         <p id=" ">markers</p>
                     </div>
                 </div>
@@ -42,19 +42,20 @@
         </div>
         <div class="row birdDetailsDiv" id="birdInfosDetails">
             <div class="col-sm-2">
-                <img src="" id="birdSexPic">
+                <i class="icon small reneco" id="icon-sex"></i>
                 <p id="birdSexLabel" class="whiteColor">
                     <%= sex %>
                 </p>
             </div>
             <div class="col-sm-2">
-                <img src="" id="birdOriginPic">
+                <i class="icon small reneco" id="icon-origin"></i>
                 <p id="birdOriginLabel" class="whiteColor">
                     <%= origin %>
                 </p>
             </div>
             <div class="col-sm-2">
-                <img src="" id="birdAgePic">
+                <i class="icon small reneco" id="icon-age"></i>
+
                 <p id="birdAgeLabel" class="whiteColor">
                     <%= age %>
                 </p>

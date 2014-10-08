@@ -21,6 +21,7 @@
     "metro-bootstrap": "*",
     "openlayers": "*",
     "vegas": "~1.3.4",
-    "backbone.radio": "~0.6.0"
+    "backbone.radio": "~0.6.0",
+    "less": "~1.7.5"
   }
 }

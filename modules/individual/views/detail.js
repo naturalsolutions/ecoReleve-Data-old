@@ -77,12 +77,12 @@ define([
                 collection: history
             });
 
+
             this.setSpecieImage(this.model.get('species'));
-            $('#birdSexPic').attr('src','images/sexe_' + this.model.get('sex') + '.png');
-            $('#birdOriginPic').attr('src','images/origin_' + this.model.get('origin') + '.png');
-            if (this.model.get('age') === 'adult'){
-                $("#birdAgePic").attr("src","images/age_adult.png");
-            }
+            this.setFontIcons();
+
+
+
             $("#history").append(this.grid.render().el);
             var height = $(window).height() - $('#header-region').height();
             height -= $('#details').height();
@@ -99,6 +99,28 @@ define([
             delete this.grid.collection;
             delete this.grid.columns;
             delete this.grid;
+        },
+
+        setFontIcons: function(){
+
+            if (this.model.get('sex') === 'female'){
+                $("#icon-sex").addClass('female');
+            }else{
+                $("#icon-sex").addClass('male');
+            }
+
+            if (this.model.get('origin') === 'release'){
+                $("#icon-origin").addClass('elevage');
+            }else{
+                $("#icon-origin").addClass('free');
+            }
+
+            if (this.model.get('age') === 'adult'){
+                $("#icon-age").addClass('adult');
+            }else{
+                $("#icon-age").addClass('child');
+            }
+
         },
 
         setSpecieImage: function(species) {
@@ -139,9 +161,9 @@ define([
                     file = 'tortoise.png';
                     break;
                default:
-                      file = 'specie.png';
+                    file = 'specie.png';
             }
-            $('#birdSpecieImg').attr('src','images/'+ file);
+            $('#birdSpecieImg').attr('src','assets/img/spacies/'+ file);
         },
     });
 });

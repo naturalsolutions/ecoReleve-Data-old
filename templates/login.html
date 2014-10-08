@@ -1,22 +1,28 @@
-<script type="text/template">
-    <form class="login-form" role="form">
-        <div class="form-group" id="login-group">
-            <label class="control-label" for="username">Username:</label>
-            <input id="username" list="username_list" type="text"
-                class="form-control" placeholder="Username"
-                autocomplete="off"/>
-            <span class="help-block"></span>
-            <datalist id="username_list">
-                <% _.each(items, function(user) { %>
-                <option> <%= user.fullname %> </option>
-                <% }); %>
-            </datalist>
-        </div>
-        <div class="form-group" id="pwd-group">
-            <label class="control-label" for="user_password">Password:</label>
-            <input id="password" type="password" class="form-control" placeholder="Password"/>
-            <span id="help-password" class="help-block"></span>
-        </div>
-        <button id="login-btn" type="submit" class="center-block form-control btn btn-primary">Sign in</button>
-    </form>
+<script type="text/template" id="test">
+    <div class="center-block login-form col-lg-3 col-md-4 col-sm-5 col-xs-12 clear">
+        <h1>RENECO</h1>
+        <h2>FOR WILDLIFE PRESERVATION</h2>
+        <form class="" role="form">
+
+            <div class="wrapper center-block">
+            <div class="form-group" id="login-group">
+                <input id="username" list="username_list" type="text"
+                    class="form-control" placeholder="Username"
+                    autocomplete="off"/>
+                <span class="help-block"></span>
+                <datalist id="username_list">
+                    <% _.each(items, function(user) { %>
+                    <option> <%= user.fullname %> </option>
+                    <% }); %>
+                </datalist>
+            </div>
+            <div class="form-group" id="pwd-group">
+                <input id="password" type="password" class="form-control" placeholder="Password"/>
+                <span id="help-password" class="help-block"></span>
+            </div>
+
+            </div>
+            <button id="login-btn" type="submit" class="center-block form-control btn btn-primary">Sign in</button>
+        </form>
+    </div>
 </script>
