@@ -82,9 +82,8 @@ var ecoReleveData = (function(){
             backbone: 'backbone/backbone-1.1.2',
             vegas: '../../bower_components/vegas/dist/jquery.vegas',
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
-            vegas: '../../bower_components/vegas/dist/jquery.vegas',
-            fuelux : '../../bower_components/fuelux/dist/js/fuelux'
-            
+            fuelux : '../../bower_components/fuelux/dist/js/fuelux',
+
             nicescroll:'nicescroll/jquery.nicescroll'
             
         }
