@@ -38,6 +38,8 @@ var ecoReleveData = (function(app) {
 			});
 		}
 	});
+
+
 	app.views.ExportFilterView = app.views.BaseView.extend({
 		template: 'export-filter',
 		initialize: function(options) {
@@ -649,6 +651,8 @@ var ecoReleveData = (function(app) {
 			this.currentView = options.view;
 			this.filterValue = app.views.filterValue;
 			this.bbox = app.views.bbox;
+			$('#export-getCsv').removeAttr( "disabled" );
+			$('#export-getPdf').removeAttr( "disabled" );
 		},
 		afterRender: function(options) {
 			var serverUrl = app.config.serverUrl;
@@ -658,7 +662,7 @@ var ecoReleveData = (function(app) {
 			$('#export-getGpx').attr("href", gpxFileUrl);
 			$('#export-getPdf').attr("link", pdfFileUrl);
 			$('#export-getCsv').attr("href", csvFileUrl);*/
-
+		
 			$("#filterViewName").text(this.currentView);
 			var fieldsList = app.utils.exportSelectedFieldsList;
 			if (app.utils.exportSelectedFieldsList[0] == "Id") {
@@ -759,6 +763,7 @@ var ecoReleveData = (function(app) {
 			'click #exportDataMap': 'dataOnMap',
 			'click #export-getPdf': "getPdfFile",
 			'click #export-getCsv': 'getCsvFile',
+			'click #export-getGpx' :'getGPXFile',
 			'click button.close': 'exitExp',
 			'change #map-field-selection': 'updateMap',
 			'click #map-label-hposition-off': "moveHlabelOff",
@@ -781,13 +786,92 @@ var ecoReleveData = (function(app) {
 			//app.views.main.setView(".layoutContent", new app.Views.ExportColumnsSelection({view: currentView ,filter:filterValue, bbox: bboxVal}));
 			// app.views.main.render();
 		},
+
 		getPdfFile: function() {
-			var url = $('#export-getPdf').attr("link");
-			window.open(url, 'list export in pdf');
+			var displayedCols=app.utils.exportSelectedFieldsList;
+			displayedCols.remove("Id");
+			console.log(displayedCols);
+			var that=this;
+			var urlFile = app.config.coreUrl + "/views/filter/" + this.currentView + "/export" + "?" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + displayedCols;
+			$.ajax({
+				url: urlFile,
+				contentType:'application/json',
+				data: JSON.stringify({type_export:'pdf'}),
+				type:'POST',
+				success: function(data) {
+					//var fileName = data[0].filename;
+					console.log('succes');
+					var url = URL.createObjectURL(new Blob([data], {'type':'application/pdf'}));
+	                var link = document.createElement('a');
+	                link.href = url;
+	                link.download = that.currentView+'_exports.pdf';
+	                document.body.appendChild(link);
+	                link.click();
+	                document.body.removeChild(link);
+				},
+				error: function() {
+					console.log('error on pdf creation');
+				}
+			});
 		},
 		getCsvFile: function() {
+			var displayedCols=app.utils.exportSelectedFieldsList;
+			displayedCols.remove("Id");
+			console.log(this.displayedCols);
+			var that=this;
+			var urlFile = app.config.coreUrl + "/views/filter/" + this.currentView + "/export" + "?" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + displayedCols;
+			$.ajax({
+				url: urlFile,
+				contentType:'application/json',
+				data: JSON.stringify({type_export:'csv'}),
+				type:'POST',
+				success: function(data) {
+					//var fileName = data[0].filename;
+					console.log('succes');
+					var url = URL.createObjectURL(new Blob([data], {'type':'text/csv'}));
+	                var link = document.createElement('a');
+	                link.href = url;
+	                link.download = that.currentView+'_exports.csv';
+	                document.body.appendChild(link);
+	                link.click();
+	                document.body.removeChild(link);
+				},
+				error: function() {
+					console.log('error on csv creation');
+				}
+			});
 
 		},
+
+		getGPXFile: function() {
+			var displayedCols=app.utils.exportSelectedFieldsList;
+			displayedCols.remove("Id");
+			console.log(this.displayedCols);
+			var that=this;
+			var urlFile = app.config.coreUrl + "/views/filter/" + this.currentView + "/export" + "?" + this.filterValue + "&bbox=" + this.bbox + "&columns=" + displayedCols;
+			$.ajax({
+				url: urlFile,
+				contentType:'application/json',
+				data: JSON.stringify({type_export:'gpx'}),
+				type:'POST',
+				success: function(data) {
+					//var fileName = data[0].filename;
+					console.log('succes');
+					var url = URL.createObjectURL(new Blob([data], {'type':'application/gpx+xml'}));
+	                var link = document.createElement('a');
+	                link.href = url;
+	                link.download = that.currentView+'_exports.gpx';
+	                document.body.appendChild(link);
+	                link.click();
+	                document.body.removeChild(link);
+				},
+				error: function() {
+					console.log('error on pdf creation');
+				}
+			});
+
+		},
+
 		backToFistStep: function() {
 			if (app.xhr) {
 				app.xhr.abort();
