@@ -1,0 +1,105 @@
+{
+  "name": "Simplified Habitat",
+  "description": "Simplified Habitat",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Name_Habitat": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "habitat"
+    },
+	"Name_Habitat2": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "habitat 2"
+    },
+    "Name_Geomorphology": {
+      "validators": [],
+      "type": "Text",
+      "title": "geomorphology"
+    },
+    "Name_Flora_Main_Species_1": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 1"
+    },
+	"Name_Flora_Main_Species_2": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 2"
+    },
+	"Name_Flora_Main_Species_3": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 3"
+    },
+	"Vegetation_cover": {
+      "validators": [],
+      "type": "Number",
+      "title": "vegetation cover"
+    },
+	"Perennial_cover": {
+      "validators": [],
+      "type": "Number",
+      "title": "perennial cover"
+    },
+	"Comments": {
+      "validators": [],
+      "type": "Text",
+      "title": "comments"
+    },
+    "Cultivated_2": {
+      "validators": [],
+      "options": [
+        {
+          "val": "0",
+          "label": "false"
+        },
+        {
+          "val": "1",
+          "label": "true"
+        }
+      ],
+      "type": "Radio",
+      "title": "cultivated 1"
+    },
+       "Cultivated_1": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "cultivated 2"
+    },
+	   "Cultivated_1": {
+      "validators": [],
+      "options": [
+		{
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "cultivated 1"
+    }
+  },
+  "fieldset": []
+}
+

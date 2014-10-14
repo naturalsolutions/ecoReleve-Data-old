@@ -1,0 +1,142 @@
+﻿{
+  "name": "Bird Biometry",
+  "description": "TProtocol_Bird_Biometry",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Name_Sex": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "sex"
+    },
+    "Name_Age": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "age"
+    },
+    "Weight": {
+      "validators": [],
+      "type": "Number",
+      "title": "weight"
+    },
+    "Half_Culmen": {
+      "validators": [],
+      "type": "Number",
+      "title": "half culmen"
+    },
+    "Skull": {
+      "validators": [],
+      "type": "Number",
+      "title": "skull"
+    },
+    "Wings": {
+      "validators": [],
+      "type": "Number",
+      "title": "wings"
+    },
+    "Tarso_Metatarsus": {
+      "validators": [],
+      "type": "Number",
+      "title": "tarso metatarsus"
+    },
+    "Feather_Occipital": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather occipital"
+    },
+    "Feather_Black_Display": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather black display"
+    },
+    "Feather_White_Display": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather white display"
+    },
+    "Comments": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments"
+    },
+    "Adiposity_note": {
+      "validators": [],
+      "type": "Number",
+      "title": "adiposity note"
+    },
+    "Muscle_note": {
+      "validators": [],
+      "type": "Number",
+      "title": "muscle note"
+    },
+    "Feather_thirdPrimaryFlight_length": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather third primary flight length"
+    },
+    "Sampled": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "sampled"
+    },
+    "Tail": {
+      "validators": [],
+      "type": "Number",
+      "title": "tail"
+    },
+    "Sternum": {
+      "validators": [],
+      "type": "Number",
+      "title": "sternum"
+    },
+    "Feather_Black_White": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather black white"
+    },
+    "Bill_length_feather": {
+      "validators": [],
+      "type": "Number",
+      "title": "bill length feather"
+    },
+    "Bill_length_nostril": {
+      "validators": [],
+      "type": "Number",
+      "title": "bill length nostril"
+    },
+    "Bird_collected": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "bird collected"
+    }
+  },
+  "fieldset": []
+}
+

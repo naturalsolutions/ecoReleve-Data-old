@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'reneco-font';
-	src:url('fonts/reneco-font.eot?-vdxyx7');
-	src:url('fonts/reneco-font.eot?#iefix-vdxyx7') format('embedded-opentype'),
-		url('fonts/reneco-font.woff?-vdxyx7') format('woff'),
-		url('fonts/reneco-font.ttf?-vdxyx7') format('truetype'),
-		url('fonts/reneco-font.svg?-vdxyx7#reneco-font') format('svg');
+	src:url('fonts/reneco-font.eot?hu54mv');
+	src:url('fonts/reneco-font.eot?#iefixhu54mv') format('embedded-opentype'),
+		url('fonts/reneco-font.woff?hu54mv') format('woff'),
+		url('fonts/reneco-font.ttf?hu54mv') format('truetype'),
+		url('fonts/reneco-font.svg?hu54mv#reneco-font') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,210 +23,234 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-i.reneco.user:before {
+.reneco.layers:before {
+	content: "\e648";
+}
+.reneco.rings:before {
+	content: "\e645";
+}
+.reneco.markers:before {
+	content: "\e646";
+}
+.reneco.male:before {
+	content: "\e647";
+}
+.reneco.user:before {
 	content: "\e605";
 }
-i.reneco.users:before {
+.reneco.users:before {
 	content: "\e600";
 }
-i.reneco.distance:before {
+.reneco.distance:before {
 	content: "\e601";
 }
-i.reneco.protocol:before {
+.reneco.protocol:before {
 	content: "\e602";
 }
-i.reneco.time:before {
+.reneco.time:before {
 	content: "\e603";
 }
-i.reneco.bird:before {
+.reneco.bird:before {
 	content: "\e604";
 }
-i.reneco.settings:before {
+.reneco.settings:before {
 	content: "\e606";
 }
-i.renecoi.reneco_icons-66:before {
+.reneco.reneco_icons-66:before {
 	content: "\e607";
 }
-i.reneco.validated:before {
+.reneco.validated:before {
 	content: "\e608";
 }
-i.reneco.syncing:before {
+.reneco.syncing:before {
 	content: "\e609";
 }
-i.reneco.leftarrow:before {
+.reneco.leftarrow:before {
 	content: "\e60a";
 }
-i.reneco.rightarrow:before {
+.reneco.rightarrow:before {
 	content: "\e60b";
 }
-i.reneco.add:before {
+.reneco.add:before {
 	content: "\e60c";
 }
-i.reneco.close:before {
+.reneco.close:before {
 	content: "\e60d";
 }
-i.reneco.search:before {
+.reneco.search:before {
 	content: "\e60e";
 }
-i.reneco.favorite:before {
+.reneco.favorite:before {
 	content: "\e60f";
 }
-i.reneco.timeoutline:before {
+.reneco.timeoutline:before {
 	content: "\e610";
 }
-i.reneco.time3:before {
+.reneco.time3:before {
 	content: "\e611";
 }
-i.reneco.pin:before {
+.reneco.pin:before {
 	content: "\e612";
 }
-i.reneco.rewind:before {
+.reneco.rewind:before {
 	content: "\e613";
 }
-i.reneco.play:before {
+.reneco.play:before {
 	content: "\e614";
 }
-i.reneco.forward:before {
+.reneco.forward:before {
 	content: "\e615";
 }
-i.reneco.emitters:before {
+.reneco.emitters:before {
 	content: "\e616";
 }
-i.reneco.protocol2:before {
+.reneco.protocol2:before {
 	content: "\e617";
 }
-i.reneco.edit:before {
+.reneco.edit:before {
 	content: "\e618";
 }
-i.reneco.sheet:before {
+.reneco.sheet:before {
 	content: "\e619";
 }
-i.reneco.sheet2:before {
+.reneco.sheet2:before {
 	content: "\e61a";
 }
-i.reneco.pin2:before {
+.reneco.pin2:before {
 	content: "\e61b";
 }
-i.reneco.female:before {
+.reneco.female:before {
 	content: "\e61c";
 }
-i.reneco.id:before {
+.reneco.id:before {
 	content: "\e61d";
 }
-i.reneco.search2:before {
+.reneco.search2:before {
 	content: "\e61e";
 }
-i.reneco.fingerprint:before {
+.reneco.individual:before {
 	content: "\e61f";
 }
-i.renecoi.reneco_icons-39:before {
+.reneco.graphs:before {
 	content: "\e620";
 }
-i.reneco.menu:before {
+.reneco.menu:before {
 	content: "\e621";
 }
-i.reneco.elevage:before {
+.reneco.elevage:before {
 	content: "\e622";
 }
-i.reneco.free:before {
+.reneco.free:before {
 	content: "\e623";
 }
-i.reneco.observation:before {
+.reneco.observation:before {
 	content: "\e624";
 }
-i.reneco.selectarea:before {
+.reneco.selectarea:before {
 	content: "\e625";
 }
-i.reneco.drag:before {
+.reneco.drag:before {
 	content: "\e626";
 }
-i.reneco.calendar:before {
+.reneco.calendar:before {
 	content: "\e627";
 }
-i.reneco.satellite:before {
+.reneco.satellite:before {
 	content: "\e628";
 }
-i.reneco.report:before {
+.reneco.report:before {
 	content: "\e629";
 }
-i.reneco.fit:before {
+.reneco.fit:before {
 	content: "\e62a";
 }
-i.reneco.bird2:before {
+.reneco.bird2:before {
 	content: "\e62b";
 }
-i.reneco.child:before {
+.reneco.child:before {
 	content: "\e62c";
 }
-i.reneco.adult:before {
+.reneco.adult:before {
 	content: "\e62d";
 }
-i.reneco.trash:before {
+.reneco.trash:before {
 	content: "\e62e";
 }
-i.reneco.sensors:before {
+.reneco.sensors:before {
 	content: "\e62f";
 }
-i.reneco.individuals:before {
+.reneco.individuals:before {
 	content: "\e630";
 }
-i.reneco.entrykey:before {
+.reneco.entrykey:before {
 	content: "\e632";
 }
-i.reneco.entry:before {
+.reneco.entry:before {
 	content: "\e631";
 }
-i.reneco.export:before {
+.reneco.export:before {
 	content: "\e633";
 }
-i.reneco.import:before {
+.reneco.import:before {
 	content: "\e634";
 }
-i.reneco.mydata:before {
+.reneco.mydata:before {
 	content: "\e635";
 }
-i.reneco.sensorimport:before {
+.reneco.sensorimport:before {
 	content: "\e636";
 }
-i.reneco.importfromsensor:before {
+.reneco.importfromsensor:before {
 	content: "\e637";
 }
-i.reneco.exportfromsensor:before {
+.reneco.exportfromsensor:before {
 	content: "\e638";
 }
-i.reneco.map:before {
+.reneco.map:before {
 	content: "\e639";
 }
-i.reneco.collectionbig:before {
+.reneco.collectionbig:before {
 	content: "\e63a";
 }
-i.reneco.relevebig:before {
+.reneco.relevebig:before {
 	content: "\e63b";
 }
-i.reneco.trackbig:before {
+.reneco.trackbig:before {
 	content: "\e63c";
 }
-i.reneco.securitybig:before {
+.reneco.securitybig:before {
 	content: "\e63d";
 }
-i.reneco.thesaurusbig:before {
+.reneco.thesaurusbig:before {
 	content: "\e63e";
 }
-i.reneco.homebig:before {
+.reneco.homebig:before {
 	content: "\e63f";
 }
-i.reneco.homesmall:before {
+.reneco.homesmall:before {
 	content: "\e640";
 }
-i.reneco.relevesmall:before {
+.reneco.relevesmall:before {
 	content: "\e641";
 }
-i.reneco.tracksmall:before {
+.reneco.tracksmall:before {
 	content: "\e642";
 }
-i.reneco.thesaurussmall:before {
+.reneco.thesaurussmall:before {
 	content: "\e643";
 }
-i.reneco.securitysmall:before {
+.reneco.securitysmall:before {
 	content: "\e644";
+}
+.reneco.site:before {
+	content: "\e649";
+}
+.reneco.comment:before {
+	content: "\e64a";
+}
+.reneco.write:before {
+	content: "\e64b";
+}
+.reneco.fieldactivity:before {
+	content: "\e64c";
 }

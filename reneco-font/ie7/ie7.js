@@ -13,6 +13,10 @@
 		el.innerHTML = '<span style="font-family: \'reneco-font\'">' + entity + '</span>' + html;
 	}
 	var icons = {
+		'reneco.layers': '&#xe648;',
+		'reneco.rings': '&#xe645;',
+		'reneco.markers': '&#xe646;',
+		'reneco.male': '&#xe647;',
 		'reneco.user': '&#xe605;',
 		'reneco.users': '&#xe600;',
 		'reneco.distance': '&#xe601;',
@@ -44,8 +48,8 @@
 		'reneco.female': '&#xe61c;',
 		'reneco.id': '&#xe61d;',
 		'reneco.search2': '&#xe61e;',
-		'reneco.fingerprint': '&#xe61f;',
-		'reneco.reneco_icons-39': '&#xe620;',
+		'reneco.individual': '&#xe61f;',
+		'reneco.graphs': '&#xe620;',
 		'reneco.menu': '&#xe621;',
 		'reneco.elevage': '&#xe622;',
 		'reneco.free': '&#xe623;',
@@ -82,6 +86,10 @@
 		'reneco.tracksmall': '&#xe642;',
 		'reneco.thesaurussmall': '&#xe643;',
 		'reneco.securitysmall': '&#xe644;',
+		'reneco.site': '&#xe649;',
+		'reneco.comment': '&#xe64a;',
+		'reneco.write': '&#xe64b;',
+		'reneco.fieldactivity': '&#xe64c;',
 		'0': 0
 		},
 		els = document.getElementsByTagName('*'),

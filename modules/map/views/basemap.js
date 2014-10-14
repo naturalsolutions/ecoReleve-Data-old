@@ -52,10 +52,9 @@ define([
 
                 var feature = new ol.Feature({
                   geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')),
-                  label: label,
-                  id : id
+                  label: label
                 });
-
+                feature.setId(id);
                 /*var iconStyle = new ol.style.Style({
                   image: new ol.style.Icon( ({  // @type {olx.style.IconOptions} /
                     anchor: [0.5, 46],

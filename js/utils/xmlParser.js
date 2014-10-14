@@ -1,7 +1,8 @@
 define([
     'backbone',
-    'moment'
-], function(backbone, moment) {
+    'moment',
+    'collections/waypoints'
+], function(backbone, moment, Waypoints) {
     'use strict';
     return {
         gpxParser: function(xml) {
@@ -10,7 +11,7 @@ define([
 				//var WaypointList =  backbone.Collection.extend({model: Waypoint});
 				//var waypointList = new WaypointList();
 				
-				var Waypoint = Backbone.Model.extend({
+				/*var Waypoint = Backbone.Model.extend({
 	                //sync: LocalforageBackbone.sync()
 	            });
 	            
@@ -32,7 +33,9 @@ define([
 	                    while (this.length > 0);  
 	                }
 	            });
-	            var waypointList = new WaypointList();
+	            */
+	            var Waypoint =  backbone.Model.extend();
+	            var waypointList = new Waypoints();
 
 
 

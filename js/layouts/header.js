@@ -15,7 +15,8 @@ define([
         },
 
         events: {
-            'click #logout': 'logout'
+            'click #logout': 'logout',
+            'click .navbar-brand'  :'home'
         },
 
         onShow: function() {
@@ -25,6 +26,11 @@ define([
         logout: function(evt) {
             evt.preventDefault();
             Radio.channel('route').trigger('logout');
+        },
+
+        home: function(evt) {
+            evt.preventDefault();
+            Radio.channel('route').trigger('home');
         }
     });
 });

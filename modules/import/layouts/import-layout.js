@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'backboneLocalstorage',
+    //'backboneLocalstorage',
     'event_manager',
     'marionette',
     'text!modules2/import/templates/import.html',
@@ -11,8 +11,9 @@ define([
      'modules2/import/views/import-map',
      'modules2/import/views/import-grid',
     'radio',
+    'collections/waypoints',
      'utils/xmlParser'
-    ], function($, _, Backbone, backboneLocalstorage,eventManager, Marionette, template,config,fuelux,Map,Grid, Radio, xmlParser) {
+    ], function($, _, Backbone, eventManager, Marionette, template,config,fuelux,Map,Grid, Radio, Waypoints, xmlParser) {
     "use strict";
     return Marionette.LayoutView.extend ({
         className: "container",
@@ -36,36 +37,14 @@ define([
         },
 
         initialize: function() {
-            /*var Waypoint = Backbone.Model.extend({
-                sync: LocalforageBackbone.sync()
-            });*/
-            
-            this.WaypointList = Backbone.Collection.extend({
-                //model:  Waypoint,
-                localStorage : new Store('waypointList'),
-                //sync: LocalforageBackbone.sync('waypointList'),
-                save: function() {
-                    this.each(function(model) {
-                        model.save();
-                    });
-                },
-                destroy : function(){
-                    do{
-                        this.each(function(model){
-                                model.destroy();
-                        });
-                    }
-                    while (this.length > 0);  
-                }
-            });
-            var waypointList = new this.WaypointList();
-
+            this.waypointList = new Waypoints();
             this.radio = Radio.channel('import-gpx');
             this.selectedUser1 = "";
             this.selectedUser2 = "";
             this.selectedUser3 = "";
             this.selectedUser4 = "";
             this.selectedUser5 = "";
+            //$('#mapContainer').css('height', '400px');
         },
         clear: function(elt) {
             elt.preventDefault();
@@ -108,7 +87,7 @@ define([
                 });
 
                 // create a new collection for models to import
-                var filteredCollection  = new this.WaypointList(this.waypointList.where({import: true}));
+                var filteredCollection  = new Waypoints(this.waypointList.where({import: true}));
                 console.log(filteredCollection);
                 // now, it will save on localStorage.myCollectionStorage
                 filteredCollection.save();
@@ -143,8 +122,10 @@ define([
             $('#import-load').removeClass('masqued');*/
         },
         onBeforeDestroy: function() {
-            this.radio.reset();
-            this.waypointList.destroy();
+            if(this.radio){
+                this.radio.reset();
+            }
+           // this.waypointList.destroy();
         },
         typeFileSelection : function(){
             var self = this;

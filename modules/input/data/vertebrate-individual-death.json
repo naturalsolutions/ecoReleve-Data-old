@@ -1,0 +1,76 @@
+{
+  "name": "Vertebrate individual death",
+  "description": "TProtocol_Vertebrate_individual_death",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Name_Remains": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "remains"
+    },
+    "Name_Death_Time": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "death time"
+    },
+    "Name_Death_Reason": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "death reason"
+    },
+    "Sure_reason": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "sure reason"
+    },
+    "Comments": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments"
+    },
+    "Name_Taxon": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "taxon"
+    },
+    "Sampled": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "sampled"
+    }
+  },
+  "fieldset": []
+}
+

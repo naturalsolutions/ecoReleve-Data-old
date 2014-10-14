@@ -1,0 +1,246 @@
+﻿{
+  "name": "Chiroptera capture",
+  "description": "TProtocol_Chiroptera_capture",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Name_Taxon": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "taxon"
+    },
+    "Dead": {
+      "validators": [],
+      "options": [
+        {
+          "val": "0",
+          "label": "false"
+        },
+        {
+          "val": "1",
+          "label": "true"
+        }
+      ],
+      "type": "Radio",
+      "title": "dead"
+    },
+    "Number": {
+      "validators": [],
+      "type": "Number",
+      "title": "number"
+    },
+    "Hour": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "hour"
+    },
+    "Name_Age": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "age"
+    },
+    "Name_Sex": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "sex"
+    },
+    "Picture": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "picture"
+    },
+    "Recatch": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "recatch"
+    },
+    "Recorded": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "recorded"
+    },
+    "Comments": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments"
+    },
+    "FA": {
+      "validators": [],
+      "type": "Number",
+      "title": "FA"
+    },
+    "Tib": {
+      "validators": [],
+      "type": "Number",
+      "title": "Tib"
+    },
+    "D3": {
+      "validators": [],
+      "type": "Number",
+      "title": "D3"
+    },
+    "D3_1": {
+      "validators": [],
+      "type": "Number",
+      "title": "D3_1"
+    },
+    "D3_2": {
+      "validators": [],
+      "type": "Number",
+      "title": "D3_2"
+    },
+    "D3_3": {
+      "validators": [],
+      "type": "Number",
+      "title": "D3_3"
+    },
+    "D4": {
+      "validators": [],
+      "type": "Number",
+      "title": "D4"
+    },
+    "D4_1": {
+      "validators": [],
+      "type": "Number",
+      "title": "D4_1"
+    },
+    "D4_2": {
+      "validators": [],
+      "type": "Number",
+      "title": "D4_2"
+    },
+    "D5": {
+      "validators": [],
+      "type": "Number",
+      "title": "D5"
+    },
+    "D5_1": {
+      "validators": [],
+      "type": "Number",
+      "title": "D5_1"
+    },
+    "D5_2": {
+      "validators": [],
+      "type": "Number",
+      "title": "D5_2"
+    },
+    "CM3": {
+      "validators": [],
+      "type": "Number",
+      "title": "CM3"
+    },
+    "D1": {
+      "validators": [],
+      "type": "Number",
+      "title": "D1"
+    },
+    "Claw_D1": {
+      "validators": [],
+      "type": "Number",
+      "title": "Claw_D1"
+    },
+    "tragus_Lenght": {
+      "validators": [],
+      "type": "Number",
+      "title": "tragus lenght"
+    },
+    "Weight": {
+      "validators": [],
+      "type": "Number",
+      "title": "weight"
+    },
+    "CommentsBiometry": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments biometry"
+    },
+    "Name_Rep_Male": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "rep male"
+    },
+    "Name_Rep_Female": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "rep female"
+    },
+    "Name_Maturity_Female": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "maturity female"
+    },
+    "CommentsPhysiology": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments physiology"
+    },
+    "Sampled": {
+      "validators": [],
+      "options": [
+        {
+          "val": "0",
+          "label": "false"
+        },
+        {
+          "val": "1",
+          "label": "true"
+        }
+      ],
+      "type": "Radio",
+      "title": "sampled"
+    }
+  },
+  "fieldset": []
+}
+

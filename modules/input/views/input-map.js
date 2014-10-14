@@ -10,8 +10,7 @@ define([
     return BaseMap.extend({
 
         initialize: function() {
-            //*Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
-            Radio.channel('import-gpx').comply('updateMap', this.updateMap, this);
+            Radio.channel('input').comply('updateMap', this.updateMap, this);
         },
 
         onShow: function() {
@@ -62,9 +61,13 @@ define([
               }
             });
         },
+        onRender: function() {
+            this.$el.height($(window).height() - $("#header-region").height() - 200);
+                //$("#info-container").height());
+        },
 
         onRemove: function() {
-            Radio.channel('import-gpx').stopComplying('moveCenter');
+            Radio.channel('input').stopComplying('moveCenter');
         },
 
         updateMap: function(model) {
@@ -77,7 +80,7 @@ define([
             this.interaction.getFeatures().push(feature);
             var center = [lon, lat];
             this.moveCenter(center);
-            this.map.getView().setZoom(8);
+            this.map.getView().setZoom(9);
         }
     });
 });

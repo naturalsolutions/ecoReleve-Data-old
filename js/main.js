@@ -42,7 +42,17 @@ var ecoReleveData = (function(){
             backboneLocalstorage :{
                 deps:['backbone'],
                 exports: 'backboneLocalstorage'
+            },
+            bbForms  : {
+                deps:['backbone']
+               // exports: 'nsForms'
             }
+            /*,
+            nsForms : {
+                deps:['backbone','layoutManager'],
+                exports: 'nsForms'
+            }*/
+
         },
         paths: {
             app: '../app',
@@ -82,7 +92,10 @@ var ecoReleveData = (function(){
             backbone: 'backbone/backbone-1.1.2',
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             vegas: '../../bower_components/vegas/dist/jquery.vegas',
-            fuelux : '../../bower_components/fuelux/dist/js/fuelux'
+            fuelux : '../../bower_components/fuelux/dist/js/fuelux',
+           // nsForms : 'ns.ui/ns-forms',
+            //layoutManager : 'backbone.layoutmanager/backbone.layoutmanager',
+            bbForms : 'backbone.forms/backbone-forms.min'
         }
     });
 

@@ -13,11 +13,12 @@ define([
     'modules2/gsm/layouts/gsm-detail',
     'modules2/gsm/layouts/gsm-list',
 	'modules2/import/layouts/import-layout',
+    'modules2/input/layouts/input-station',
     'modules/transmitter/layouts/transmitter-list',
     'layouts/header',
 ], function(Backbone, config, Marionette, Radio, LoginView, ArgosLayout,
     ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, GSMListLayout, ImportLayout, TransmitterLayout, HeaderLayout) {
+    GSMDetailLayout, GSMListLayout, ImportLayout, InputLayout, TransmitterLayout, HeaderLayout) {
 
     'use strict';
 
@@ -39,6 +40,7 @@ define([
                 this.monitoredSite);
             this.listenTo(radio, 'rfid', this.rfid);
 			this.listenTo(radio, 'import', this.importGpx);
+            this.listenTo(radio, 'input', this.inputData);
             this.listenTo(radio, 'home', this.home);
         },
 
@@ -80,7 +82,7 @@ define([
 
         individual: function(page) {
             if(Number(page)){
-                this.individualDetail({id:page})
+                this.individualDetail({id:page});
             }
             else{
                 var layout = new IndivLayout();
@@ -99,6 +101,11 @@ define([
             var layout = new ImportLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('import');
+        },
+        inputData : function() {
+            var layout = new InputLayout();
+            this.mainRegion.show(layout);
+            Backbone.history.navigate('input');
         },
 		monitoredSite: function() {
             var layout = new MonitoredSiteLayout();
@@ -123,6 +130,7 @@ define([
                 }
                 else {
                     this.home();
+                    
                 }
             }).fail( function() {
                 Backbone.history.navigate('login');

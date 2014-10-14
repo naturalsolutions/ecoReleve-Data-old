@@ -23,7 +23,8 @@ define([
             'click #rfidTile': 'rfid',
             'click #monitoredSiteTile' : 'monitoredSite',
 			'click #importTile' : 'import',
-            'click #transmitterTile': 'transmitter'
+            'click #transmitterTile': 'transmitter',
+            'click #inputTile' : 'dataEntry'
         },
 
         onShow: function() {
@@ -51,6 +52,10 @@ define([
 
 		import: function() {
             Radio.channel('route').trigger('import');
+        },
+
+        dataEntry : function() {
+            Radio.channel('route').trigger('input');
         },
 
         individual: function() {

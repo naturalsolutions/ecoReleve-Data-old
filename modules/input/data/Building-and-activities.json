@@ -1,0 +1,26 @@
+﻿{
+  "name": "Building and Activities",
+  "description": "TProtocol_Building_and_Activities",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Element_Nb": {
+      "validators": [],
+      "type": "Number",
+      "title": "element nb"
+    },
+    "Name_Impact": {
+      "validators": [],
+      "type": "Text",
+      "title": "impact"
+    },
+    "Comments": {
+      "validators": [],
+      "type": "Text",
+      "title": "comments"
+    }
+  },
+  "fieldset": []
+}
+
