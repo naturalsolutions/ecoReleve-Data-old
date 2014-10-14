@@ -47,6 +47,7 @@ define([
         },
 
         export: function(evt) {
+            evt.preventDefault();
             $.ajax({
                 url: config.coreUrl + 'individuals/search/export',
                 data: JSON.stringify({criteria:this.filter}),
@@ -59,7 +60,7 @@ define([
                 link.download = 'individual_search_export.csv';
                 document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link)
+                document.body.removeChild(link);
             });
         },
 

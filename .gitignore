@@ -4,3 +4,7 @@ code/config/XML_ProtocolDef_eReleve.xml
 bower_components/*
 web.config
 /js/config.js
+node_modules/*
+ecoReleve-Data.sublime-project
+ecoReleve-Data.sublime-workspace
+assets/fonts/*

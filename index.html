@@ -6,148 +6,62 @@
     <meta name="description" content="ecoReleve data">
     <meta name="author" content="Natural Solutions - Khaled TALBI, Thomas PEEL">
     <meta name="keywords" content="ecoreleve data ecoreleve-data">
-    <!--link rel="stylesheet" type="text/css" href="css/bootstrap/cosmo/bootstrap.css"/-->
+
+
+
+    <!-- backgrid & open layers -->
+
     <link rel="stylesheet" type="text/css" href="bower_components/backgrid/lib/backgrid.css"/>
-    <link rel="stylesheet" type="text/css" href="bower_components/metro-bootstrap/dist/css/metro-bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="css/openlayers/ol.css"/>
     <link rel="stylesheet" type="text/css" href="bower_components/backgrid-paginator/backgrid-paginator.css"/>
     <link rel="stylesheet" type="text/css" href="bower_components/vegas/dist/jquery.vegas.css"/>
     <link rel="stylesheet" type="text/css" href="bower_components/fuelux/dist/css/fuelux.css"/>
     <!--<link rel="stylesheet" type="text/css" href="css/semantic.css"/>-->
+
+
+    <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Exo+2:400,100,200,300,500,600&subset=latin,cyrillic,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="reneco-font/style.css"/>
-    <link rel="stylesheet" type="text/css" href="css/erd.css"/>
-    <link rel="stylesheet" type="text/css" href="css/main-style.css"/>
+    <!-- metro-bootsrap :: remove? -->
+    <link rel="stylesheet" type="text/css" href="bower_components/metro-bootstrap/dist/css/metro-bootstrap.css"/>
+
+    <!-- prod: compile *.less & add 2 require -->
+    <!-- <link rel="stylesheet/less" href="assets/less/styles.less" type="text/css"> -->
+
+    <link rel="stylesheet" href="assets/css/styles.css">
+
     <link rel="stylesheet" type="text/css" href="css/input-module.css"/>
-    <!--link rel="stylesheet" type="text/css" href="css/metro/metro-bootstrap.min.css"/-->
-    <!--link rel="stylesheet" type="text/css" href="css/metro/metro-bootstrap-responsive.css"/-->
-    <!--<link href="css/darkstrap-v0.9.0.css" rel="stylesheet"/>
-    <link href="css/FancySlidingForm/css/style.css" rel="stylesheet" />-->
-    <!--link href="stylesheets/jquery-ui-1.10.4.custom.min.css" rel="stylesheet"/-->
-    <link href="css/forms/default.css" rel="stylesheet" />
-    <!--<link href="css/jquery.dataTables.css" rel="stylesheet" />-->
-    <!--link href="stylesheets/app-style-1.css" rel="stylesheet"/-->
-    <!--link href="stylesheets/app-style-2.css" rel="stylesheet" type="text/css"/-->
-    <link rel="stylesheet" href="css/map_enhanced_controls.css" type="text/css">
-    <!--<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />-->
-    <!--<link href="css/grid.css" rel="stylesheet" type="text/css" />-->
-    <!--link href="stylesheets/supersized.css" rel="stylesheet" type="text/css" /-->
-    <link href="stylesheets/slider.css" rel="stylesheet" type="text/css" />  <!-- slider map indivi (objects)-->
-    <link href="stylesheets/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
-    <!--<link href="css/lionbars.css" rel="stylesheet" type="text/css" />-->
-    <!--link href="stylesheets/eric.css" rel="stylesheet" type="text/css" /-->
-    <!--<link href="css/tablesaw-dialog.css" rel="stylesheet" type="text/css" />
-    <link href="css/tablesaw.css" rel="stylesheet" type="text/css" />-->
     <script data-main="js/main" src="js/lib/require/require.js"></script>
+    <script>
+    less = {
+        env: "development",
+        logLevel: 2,
+        async: false,
+        fileAsync: false,
+        poll: 1000,
+        functions: {},
+        dumpLineNumbers: "comments",
+        relativeUrls: false,
+        rootpath: ""
+    };
+    </script>
+
+<!--     <script src="bower_components/less/dist/less-1.7.5.js"></script>
+         -->
     <title>ecoReleve Data</title>
+
 </head>
 <body>
         <header id="header-region">
         </header>
-
         <!-- central area, for application screen -->
         <section id="main-region">
             <div class="ui active dimmer">
+                <div class="loader"></div>
                 <div class="ui large text loader">Loading</div>
             </div>
         </section>
+
+        <footer>
+            <div class="credits">&copy; Natural Solutions</div>
+        </footer>
 </body>
-
-    <!-- Modal dialog structure -->
-    <div id="modalDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalDialogLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="modalDialogLabel"></h3>
-        </div>
-        <div class="modal-body">
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn no" data-dismiss="modal" aria-hidden="true"></button>
-            <button type="button" class="btn btn-primary yes"></button>
-        </div>
-    </div>
-    <div id ='waitCtr' style='position: fixed; z-index: 1000; display:none'><IMG SRC='img/loader/wait.gif' /></div>
-    <!--	<script src="js/libs/head.load.min.js"></script>  -->
-    <!--<script src="js/libs/head.load.min.js"></script> -->
-    <!--<script src="js/libs/jquery-1.8.0.js"></script>-->
-    <!--<script src="js/libs/openlayers.min.js"></script>-->
-    <!--<script defer src="js/libs/OpenLayers-2-14-min.js"></script>
-    <script defer src="js/libs/OpenLayers-2-14.js"></script> -->
-    <!--<script src="js/libs/backbone.localStorage-min.js"></script>-->
-    <!--<script src="js/libs/backbone-forms.js"></script>
-    <script src="js/libs/backbone-forms-list.min.js"></script>-->
-    <!--<script src="js/libs/cordova-2.5.0-min.js"></script>
-    <script src="js/libs/jquery.dataTables.min.js"></script>
-    <script src="js/libs/jquery.dataTables.js"></script>
-    <script src="js/libs/sliding.form.js"></script>-->
-    <!-- <script src="js/libs/NS-UI-grid2.js"></script> -->
-    <!--<script src="js/libs/tablesaw-dialog.js"></script>
-    <script src="js/libs/tablesaw.js"></script>
-    <script src="js/libs/html2canvas.js"></script>
-    <script src="js/libs/jspdf.min.js"></script>
-    <script src="js/libs/svgToPdf.js"></script> -->
-    <!--<script src="js/libs/jquery.lionbars.0.3.js"></script> -->
-    <!--
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-tooltip.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-alert.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-button.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-carousel.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-collapse.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-modal.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-popover.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-scrollspy.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-tab.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-transition.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap-typeahead.js"></script>
-    -->
-    <!--<script type="text/javascript" src="metro-Bootstrap/docs/metro-bootstrap/metro-docs.js"></script>-->
-
-<!--
-    <script src="js/libs/jquery-1.7.1.min.js"></script>
-    <script defer src="js/libs/openlayersBbox.js"></script>
-    <script defer src="js/libs/AnimatedCluster.js"></script>
-    <script defer src="js/libs/OpenLayers.debug.js"></script>
-    <script src="js/libs/underscore-1-4-4.js"></script>
-    <script src="js/libs/backbone.layoutmanager.js"></script>
-    <script src="js/libs/Backbone.ModalDialog.js"></script>
-    <script src="js/libs/backbone-1.js"></script>
-    <script src="js/libs/jquery-ui-1.10.4.custom.min.js"></script>
-    <script src="js/libs/jquery.form.js"></script>
-    <script src="js/libs/NS-UI-forms2.js"></script>
-    <script src="js/libs/NS-UI-grid-v2.js"></script>
-    <script src="js/libs/Chart.js"></script>
-    <script src="js/libs/localforage.js"></script>
-    <script src="js/libs/backbone.localforage.js"></script>
-    <script src="js/libs/supersized.3.2.7.min.js"></script>
-    <script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
-    <script src="js/libs/jquery.nasonry.min.js"></script>
-    <script src="js/libs/moment-min.js"></script>
-    <script src="js/libs/screenfull.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/views.js"></script>
-    <script src="js/views-allData.js"></script>
-    <script src="js/views-argos.js"></script>
-    <script src="js/views-birds.js"></script>
-    <script src="js/views-export.js"></script>
-    <script src="js/views-import.js"></script>
-    <script src="js/views-newData.js"></script>
-    <script src="js/views-objects.js"></script>
-    <script src="js/views-mydata.js"></script>
-    <script src="js/models.js"></script>
-    <script src="js/router.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/views-rfid.js"></script>
-    <script src="js/libs/NS-UI-map.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/bootstrap.js"></script>
-    <script type="text/javascript" src="js/libs/bootstrap-slider.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/jquery.validate.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/jquery.validate.unobtrusive.js"></script>
-    <script type="text/javascript" src="metro-Bootstrap/docs/jquery.unobtrusive-ajax.js"></script>
--->
-
-
-</body>
-
 </html>

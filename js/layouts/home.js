@@ -33,13 +33,14 @@ define([
         },
 
         onRender: function(){
-            $.vegas ({
+            $('body').addClass('home-page');
+/*            $.vegas ({
                 src: 'images/home_fond.jpg'
-            });
+            });*/
         },
 
         onDestroy: function() {
-            $('.vegas-background').hide();
+            $('body').removeClass('home-page');
         },
 
         argos: function() {

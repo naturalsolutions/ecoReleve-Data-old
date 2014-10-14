@@ -2028,8 +2028,10 @@ app.utils.initializeDB = function(db){
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
 		var serverUrl = app.config.serverUrl;
 		var displayedColumns = app.utils.exportSelectedFieldsList;
+
 		var url = app.config.coreUrl + "/views/filter/" + view + "/result?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		BBview.url = url;
+
 		app.utils.getDataForGrid(url, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, url, {
@@ -2039,36 +2041,7 @@ app.utils.initializeDB = function(db){
 			//$("#export-getGpx").removeAttr("disabled");
 			$("#spanGeneratingGpx").html("");
 		});
-		// generate files "pdf" and "gpx"
-		var urlFile = app.config.coreUrl + "/views/filter/" + view + "/export" + "?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
-		$.ajax({
-			url: urlFile,
-			dataType: "json",
-			success: function(fileName) {
-				//var fileName = data[0].filename;
-				
-				
-				if(fileName !== ""){
-					//mettre a jour les liens
-					//les fichiers sont stockés ecoreleve-sensor/Files
-					//var serverUrl = localStorage.getItem("serverUrl");
-					/*var gpxFileUrl = serverUrl + "/gps/"+fileName+".gpx";
-					var pdfFileUrl = serverUrl + "/pdf/"+fileName+".pdf";
-					var csvFileUrl = serverUrl + "/csv/"+fileName+".csv";
 
-					$('#export-getGpx').attr("href", gpxFileUrl);
-					$('#export-getPdf').attr("link", pdfFileUrl);
-					$('#export-getCsv').attr("href", csvFileUrl);
-
-					$("#export-getGpx").removeAttr("disabled");
-					$('#export-getPdf').removeAttr("disabled");
-					$('#export-getCsv').removeAttr("disabled");*/
-				}
-			},
-			error: function() {
-				alert("error in generating gpx, pdf and csv files!");
-			}
-		});
 	};
 	app.utils.getdataListForBirdFilter = function(element, url){
 		$(element).empty();

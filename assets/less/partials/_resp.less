@@ -1,0 +1,71 @@
+@media screen and (min-width: 1600px){
+	#home-top {
+	padding-top: 3%;
+	}
+	#home-bottom {
+	padding-top: 5%;
+	}
+}
+
+@media screen and (max-width: 1366px) {
+	#homeContent {
+		top: -5px;
+	}
+	.thumbnails > li.tile, .thumbnails > li.tile a {
+		width: 140px;
+		height: 140px;
+	}
+	.thumbnails > li.tile.tile-double {
+		width: 310px;
+	}
+	#homeMyDataTuile img{
+		margin-top: 1px;
+		height: 60px;
+		width: 50px;
+	}
+	#homeMyDataTuile h2 {
+		margin-top: -7px;
+	}
+}
+
+@media screen and (max-width: 750px){
+	#argosTile {
+	}
+	#user_name span{
+		display: none;
+	}
+	.steps .description{
+		display: none;
+	}
+	ui.ordered.steps .step:before{
+		font-size: 1em;
+		padding-right: 0;
+	}
+}
+
+@media screen and (max-width: 640px){
+	#home-bottom {
+		margin-top: 10%;
+	}
+	.steps .description{
+		display: none;
+	}
+	ui.ordered.steps .step:before{
+		font-size: 1em;
+		padding-right: 0;
+	}
+}
+
+@media screen and (max-width: @screen-sm) {
+	.tile.tile-wide, .tile.tile-double, .tile.tile-medium{
+		width: 100%;
+	}
+
+	.tile.tile-medium, .tile.tile-wide, .tile.tile-double{
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+	#user_name span{
+		display: none;
+	}
+}
