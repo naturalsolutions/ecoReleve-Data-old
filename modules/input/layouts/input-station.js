@@ -5,13 +5,14 @@ define([
     //'modules2/input/views/ns-forms',
     'bbForms',
     'models/station',
+    'models/position',
     'collections/waypoints',
     'modules2/input/views/input-grid',
     'modules2/input/views/input-map',
     'modules2/input/views/input-forms',
     'text!modules2/input/templates/input-station.html',
     'text!modules2/input/templates/new-station.html'
-], function(Marionette, Radio, config, BbForms, Station,Waypoints,Grid, 
+], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
     Map, Forms, template, stationTemplate) {
 
     'use strict';
@@ -31,7 +32,10 @@ define([
             'click #inputGetStData' : 'commitForm',
             'change input.stationtype' : 'stationType',
             'click #btnNext' : 'nextStep',
-            'click #btnPrev' : 'prevStep'
+            'click #btnPrev' : 'prevStep',
+            'click #addFieldWorkerInput' : 'addInput',
+            'change input[name="LAT"]' : 'getCoordinates',
+            'change input[name="LON"]' : 'getCoordinates'
         },
 
         initialize:function(options) {
@@ -71,6 +75,9 @@ define([
                          // display map
                         var map = new Map();
                         this.stationMap.show(map);
+                        // init map
+                        var position = new Position();
+                        map.addModel(position);
                          $('#inputGetStData').removeClass('masqued');
                     }
                     else if (this.stType =='imported'){
@@ -171,6 +178,53 @@ define([
             var formsView = new Forms({ model : newStation});
             this.formsRegion.show(formsView);
 
+        },
+        addInput : function(){
+            // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
+            var nbInsertedWorkersFields = parseInt($('#station-fieldWorkers').attr('insertedWorkersNb'));
+            // insert input if nb fieldworkers < 5
+            if (nbInsertedWorkersFields < 5){
+                var nbFdW = nbInsertedWorkersFields + 1;
+                //generate input id from latest inserted id (exemple : c27_FieldWorker1 -> c27_FieldWorker2)
+                var lastId = $('#station-fieldWorkers input[name="FieldWorker1"').attr('id');
+                var newId = lastId.substring(0, lastId.length -1) + nbFdW;
+
+                var inputElement = '<div class="float-div"><label>observer' + nbFdW + '</label><div data-editors="FieldWorker'+ 
+                nbFdW  +'">' +
+                '<input id="' + newId +'" name="FieldWorker' +  nbFdW + '" type="text"> ' +      
+                '</div></div>';
+                console.log(inputElement);
+                // append element to fieldset
+                var ele = $(this.form.el).find('#station-fieldWorkers')[0];
+                $(ele).append(inputElement);
+               // $('#station-fieldWorkers').append(inputElement);
+                // increment stored value concerning nb fieldworkers
+                $('#station-fieldWorkers').attr('insertedWorkersNb',nbFdW);
+            }
+        },
+        getCoordinates : function(e){
+           // check inputed values
+           var value = parseFloat($(e.target).val());
+           if(!value) {
+                alert('please input a correct value.');
+           }
+           else{
+                var latitude = parseFloat($('input[name="LAT"]').val());
+                var longitude = parseFloat($('input[name="LON"]').val());
+                // if the 2 values are inputed update map location
+                if(latitude && longitude){
+                    console.log("longitude: "+ longitude + " , latitude: "+ latitude);
+                    var position = new Position();
+                    position.set("latitude",latitude);
+                    position.set("longitude",longitude);
+                    position.set("label","current station");
+                    position.set("id","_");
+                    console.log(position);
+                    Radio.channel('input').command('movePoint', position);
+                }
+           }
         }
     });
 });
+
+//<div data-editors="FieldWorker1"><input id="c27_FieldWorker1" name="FieldWorker1" type="text"></div>

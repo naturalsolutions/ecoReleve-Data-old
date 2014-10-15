@@ -11,8 +11,8 @@ define([
 
         initialize: function() {
             Radio.channel('input').comply('updateMap', this.updateMap, this);
+            Radio.channel('input').comply('movePoint', this.movePoint, this);
         },
-
         onShow: function() {
             BaseMap.prototype.onShow.apply(this, []);
             this.interaction = new ol.interaction.Select({
@@ -65,13 +65,10 @@ define([
             this.$el.height($(window).height() - $("#header-region").height() - 200);
                 //$("#info-container").height());
         },
-
         onRemove: function() {
-            Radio.channel('input').stopComplying('moveCenter');
+            Radio.channel('input').stopComplying('updateMap');
         },
-
         updateMap: function(model) {
-
             var id = model.get('id');
             var lat = model.get('latitude');
             var lon = model.get('longitude');
@@ -81,6 +78,34 @@ define([
             var center = [lon, lat];
             this.moveCenter(center);
             this.map.getView().setZoom(9);
+        },
+        movePoint : function(model){
+            //var id = model.get('id');
+            var lat = model.get('latitude');
+            var lon = model.get('longitude');
+            var source = this.map.getLayers().item(1).getSource();
+            var feature = source.getFeatures()[0];
+            source.removeFeature(feature);
+            //console.log("feature: ");
+            //console.log(feature);
+            //this.map.getLayers().item(1).getSource();
+            var geometry =  new ol.geom.Point(ol.proj.transform([lat, lon], 'EPSG:4326', 'EPSG:3857'));
+            var ft = new ol.Feature({
+                  geometry: geometry,
+                  label: "position"
+            });
+            source.addFeature(ft);
+            console.log("geometry : ");
+            console.log(geometry );
+            //feature.setGeometry(geometry);
+            this.interaction.getFeatures().clear();
+            this.interaction.getFeatures().push(ft);
+            console.log("feature: ");
+            console.log(feature);
+            var center = [lon, lat];
+            this.moveCenter(center);
+            this.map.getView().setZoom(9);
+
         }
     });
 });

@@ -1,8 +1,13 @@
 ﻿{
   "name": "Bird Biometry",
   "description": "TProtocol_Bird_Biometry",
+  "id" : "17",
   "keywords": [
-    "test"
+    "Bird trapping",
+	"Release",
+	"Individual rehabilitation",
+	"Reptile trapping",
+	"Mammal trapping"
   ],
   "schema": {
     "Name_Sex": {

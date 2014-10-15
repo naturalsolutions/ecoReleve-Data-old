@@ -44,30 +44,32 @@ define([
         },
         addCollection : function(collection){
             var features=[];
+            var self = this;
             collection.each(function(model) {
+                var feature = self.getFeature(model);
+                features.push(feature);
+            }); 
+            this.addLayer(features);
+        },
+        getFeature: function(model){
                 var id = model.get('id');
                 var latitude = model.get('latitude');
                 var longitude = model.get('longitude');
                 var label = model.get('name');
-
                 var feature = new ol.Feature({
                   geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')),
                   label: label
                 });
                 feature.setId(id);
-                /*var iconStyle = new ol.style.Style({
-                  image: new ol.style.Icon( ({  // @type {olx.style.IconOptions} /
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 0.75,
-                    src: 'data/icon.png'
-                  }))
-                });
-
-                feature.setStyle(iconStyle);*/
-                features.push(feature);
-            }); 
+                return(feature);
+        },
+        addModel : function(model){
+            var feature = this.getFeature(model);
+            var features=[];
+            features[0] = feature;
+            this.addLayer(features);
+        },
+        addLayer: function(features){
             var vectorSource = new ol.source.Vector({
               features: features
             });

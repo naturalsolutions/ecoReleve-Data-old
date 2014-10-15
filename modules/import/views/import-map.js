@@ -62,13 +62,10 @@ define([
               }
             });
         },
-
         onRemove: function() {
-            Radio.channel('import-gpx').stopComplying('moveCenter');
+            Radio.channel('import-gpx').stopComplying('updateMap');
         },
-
         updateMap: function(model) {
-
             var id = model.get('id');
             var lat = model.get('latitude');
             var lon = model.get('longitude');
