@@ -4,32 +4,23 @@ define([
     'marionette',
     'radio',
     'modules2/header/layouts/header',
-
     'modules2/login/views/login',
-
     'modules2/home/layouts/home',
-
     'modules/argos/argos-layout',
     'modules/argos/argos-detail',
-
     'modules2/individual/layouts/individual-list',
     'modules2/individual/layouts/individual-detail',
-
     'modules2/rfid/layouts/rfid-layout',
-
     'modules2/gsm/layouts/gsm-detail',
     'modules2/gsm/layouts/gsm-list',
-
     'modules2/transmitter/layouts/transmitter-list',
-
-
 	'modules2/import/layouts/import-layout',
-    'modules2/input/layouts/input-station',
-    'modules/transmitter/layouts/transmitter-list'
+    'modules2/input/layouts/input-station'
+    //'modules/transmitter/layouts/transmitter-list'
 
-], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, ArgosLayout,
-    ArgosDetailLayout, HomeLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, GSMListLayout, ImportLayout, InputLayout, TransmitterLayout) {
+], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, HomeLayout, ArgosLayout,
+    ArgosDetailLayout, IndivLayout, IndivDetailLayout, RfidLayout,
+    GSMDetailLayout, GSMListLayout, TransmitterLayout, ImportLayout, InputLayout) {
 
     'use strict';
 

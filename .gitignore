@@ -8,3 +8,4 @@ node_modules/*
 ecoReleve-Data.sublime-project
 ecoReleve-Data.sublime-workspace
 assets/fonts/*
+node_modules/*
