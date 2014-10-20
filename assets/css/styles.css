@@ -7160,6 +7160,9 @@ div.error {
   margin: 5px;
   vertical-align: top;
 }
+.masqued {
+  display: none;
+}
 /* tmp */
 .big {
   font-size: 1.5rem;
