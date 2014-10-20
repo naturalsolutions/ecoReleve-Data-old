@@ -10,6 +10,7 @@ define([
 
         initialize: function() {
             Radio.channel('rfid').comply('moveCenter', this.moveCenter, this);
+            Radio.channel('rfid').comply('addOverlay', this.addOverlay, this);
         },
 
         onRender: function() {
