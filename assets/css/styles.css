@@ -6734,6 +6734,10 @@ i.reneco.user:before {
 >>>>>>> origin/requirejs-integration:assets/fonts/reneco-font/reneco-font.less
 	content: "\e605";
 }*/
+.reneco.markers:before {
+  content: "\e646";
+}
+
 .reneco.users:before {
   content: "\e600";
 }

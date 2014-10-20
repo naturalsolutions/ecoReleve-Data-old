@@ -23,10 +23,13 @@
 				//procole list for input select
 				var self = this;
 				app.utils.typeSearchSelected = $("input[name=type_search]:checked").val();
+				console.log("before get protocole");
 				$.ajax({
 					url: coreUrl + "/protocoles/list",
 					dataType: "text",
 					success: function(xmlresp) {
+						console.log("in protocol/list success");
+						console.log(xmlresp);
 						var xmlDoc = $.parseXML(xmlresp),
 							$xml = $(xmlDoc),
 							$protocoles = $xml.find("protocole");
@@ -40,6 +43,9 @@
 							app.utils.fillTaxaList();
 							self.getAreaList();
 						}
+					},
+					error: function () {
+						console.log("error loading protocoles/list");
 					}
 				});
 				$.ajax({
@@ -57,6 +63,9 @@
 							app.utils.fillTaxaList();
 							self.getAreaList();
 						}
+					},
+					error: function(){
+						console.log("error loading views/list");
 					}
 				});
 				var dataContainer = $("#main")[0]; //var myDataTable = $("#myDataTable")[0];
@@ -146,8 +155,8 @@
 			//views
 			else if(app.utils.typeSearchSelected === 'views'){
 				var name_vue = $('#select_views option:selected').attr('id');
-				app.utils.getAreaList("#alldata-regionList", "/station/area?name_vue=" + name_vue, true);
-				app.utils.getLocalityList("#alldata-localityList", "/station/locality?name_vue=" + name_vue, true); 
+				app.utils.getAreaList("#alldata-regionList", "/station/area/"+name_vue, true);
+				app.utils.getLocalityList("#alldata-localityList", "/station/locality/"+name_vue, true); 
 
 			}	
 		},
