@@ -29,11 +29,6 @@
       "type": "Number",
       "title": "weight"
     },
-    "Half_Culmen": {
-      "validators": [],
-      "type": "Number",
-      "title": "half culmen"
-    },
     "Skull": {
       "validators": [],
       "type": "Number",
@@ -42,12 +37,37 @@
     "Wings": {
       "validators": [],
       "type": "Number",
-      "title": "wings"
+      "title": "wing"
     },
     "Tarso_Metatarsus": {
       "validators": [],
       "type": "Number",
-      "title": "tarso metatarsus"
+      "title": "tarsus"
+    },
+    "Muscle_note": {
+      "validators": [],
+      "type": "Number",
+      "title": "muscle"
+    },
+    "Adiposity_note": {
+      "validators": [],
+      "type": "Number",
+      "title": "adiposity"
+    },
+    "Half_Culmen": {
+      "validators": [],
+      "type": "Number",
+      "title": "half culmen"
+    },
+    "Bill_length_feather": {
+      "validators": [],
+      "type": "Number",
+      "title": "bill length feather"
+    },
+    "Bill_length_nostril": {
+      "validators": [],
+      "type": "Number",
+      "title": "bill length nostril"
     },
     "Feather_Occipital": {
       "validators": [],
@@ -64,27 +84,40 @@
       "type": "Number",
       "title": "feather white display"
     },
-    "Comments": {
-      "validators": [
-        "required"
-      ],
-      "type": "Text",
-      "title": "comments"
-    },
-    "Adiposity_note": {
-      "validators": [],
-      "type": "Number",
-      "title": "adiposity note"
-    },
-    "Muscle_note": {
-      "validators": [],
-      "type": "Number",
-      "title": "muscle note"
-    },
     "Feather_thirdPrimaryFlight_length": {
       "validators": [],
       "type": "Number",
       "title": "feather third primary flight length"
+    },
+    "Feather_Black_White": {
+      "validators": [],
+      "type": "Number",
+      "title": "feather black white"
+    },
+    "Tail": {
+      "validators": [],
+      "type": "Number",
+      "title": "tail"
+    },
+    "Sternum": {
+      "validators": [],
+      "type": "Number",
+      "title": "sternum"
+    },
+    "Bird_collected": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "bird collected"
     },
     "Sampled": {
       "validators": [],
@@ -101,47 +134,34 @@
       "type": "Radio",
       "title": "sampled"
     },
-    "Tail": {
-      "validators": [],
-      "type": "Number",
-      "title": "tail"
-    },
-    "Sternum": {
-      "validators": [],
-      "type": "Number",
-      "title": "sternum"
-    },
-    "Feather_Black_White": {
-      "validators": [],
-      "type": "Number",
-      "title": "feather black white"
-    },
-    "Bill_length_feather": {
-      "validators": [],
-      "type": "Number",
-      "title": "bill length feather"
-    },
-    "Bill_length_nostril": {
-      "validators": [],
-      "type": "Number",
-      "title": "bill length nostril"
-    },
-    "Bird_collected": {
-      "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
+    "Comments": {
+      "validators": [
+        "required"
       ],
-      "type": "Radio",
-      "title": "bird collected"
+      "type": "Text",
+      "title": "comments"
     }
   },
-  "fieldset": []
+  "fieldsets": [
+    {
+      "fields": ["Name_Sex","Name_Age","Weight","Skull","Wings","Tarso_Metatarsus","Muscle_note","Adiposity_note"],
+      "legend": "General"
+    },
+    {
+      "fields": ["Half_Culmen","Bill_length_feather","Bill_length_nostril"],
+      "legend": "Bill"
+    },
+    {
+      "fields": ["Feather_Occipital", "Feather_Black_Display","Feather_White_Display","Feather_thirdPrimaryFlight_length","Feather_Black_White"],
+      "legend": "Feather"
+    },
+    {
+      "fields": ["Tail","Sternum","Bird_collected","Sampled","Comments"],
+      "legend": "Other"
+    }
+  ]
 }
+
+
+
 

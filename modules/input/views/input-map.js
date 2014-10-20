@@ -77,15 +77,15 @@ define([
             this.interaction.getFeatures().push(feature);
             var center = [lon, lat];
             this.moveCenter(center);
-            this.map.getView().setZoom(9);
+            //this.map.getView().setZoom(9);
         },
         movePoint : function(model){
             //var id = model.get('id');
             var lat = model.get('latitude');
             var lon = model.get('longitude');
             var source = this.map.getLayers().item(1).getSource();
-            var feature = source.getFeatures()[0];
-            source.removeFeature(feature);
+            //var feature = source.getFeatures()[0];
+            source.clear();
             //console.log("feature: ");
             //console.log(feature);
             //this.map.getLayers().item(1).getSource();
@@ -98,10 +98,10 @@ define([
             console.log("geometry : ");
             console.log(geometry );
             //feature.setGeometry(geometry);
-            this.interaction.getFeatures().clear();
-            this.interaction.getFeatures().push(ft);
+            //this.interaction.getFeatures().clear();
+            //this.interaction.getFeatures().push(ft);
             console.log("feature: ");
-            console.log(feature);
+            //console.log(feature);
             var center = [lon, lat];
             this.moveCenter(center);
             this.map.getView().setZoom(9);

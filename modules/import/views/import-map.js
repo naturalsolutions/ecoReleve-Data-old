@@ -74,7 +74,7 @@ define([
             this.interaction.getFeatures().push(feature);
             var center = [lon, lat];
             this.moveCenter(center);
-            this.map.getView().setZoom(8);
+            //this.map.getView().setZoom(8);
         }
     });
 });
