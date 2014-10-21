@@ -25,7 +25,7 @@ define([
             var storedDay = localStorage.getItem("ecoreleveChartDay");
             if (dataGraph && (day == storedDay)) {
                 var gData = JSON.parse(dataGraph);
-                this.chart = new Chart(canvas[0].getContext("2d")).Line(gData, {});
+                this.chart = new Chart(canvas[0].getContext("2d")).Line(gData, {scaleShowLabels: false, scaleFontColor: "transparent"});
             } else {
                 var url = config.coreUrl + "stations/graph";
                 $.ajax({
@@ -48,8 +48,8 @@ define([
                     var gData = {
                         labels: labels,
                         datasets: [{
-                            fillColor: "rgba(100,100,100,0.7)",
-                            strokeColor: "rgba(220,220,220,1)",
+                            fillColor: "transparent",
+                            strokeColor: "rgba(100,100,100,0.7)",
                             data: lineData
                         }]
                     };
@@ -61,7 +61,7 @@ define([
                     // ["Mon", "Feb", "1", "2014"....
                     var day_ = d[2];
                     localStorage.setItem("ecoreleveChartDay", day_);
-                    this.chart = new Chart(canvas[0].getContext('2d')).Line(gData, {});
+                    this.chart = new Chart(canvas[0].getContext('2d')).Line(gData,  {scaleShowLabels: false});
                 }).fail( function(data) {
                     console.log("error in loading data");
                 });

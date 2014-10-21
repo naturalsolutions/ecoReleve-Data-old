@@ -21,11 +21,13 @@ define([
         },
 
         initialize: function() {
+            this.$el.hide();
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'individuals/count',
             }).done( function(data) {
                 this.model.set('nbIndiv', data.count);
+                this.$el.fadeIn();
             });
         },
 

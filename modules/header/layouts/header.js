@@ -22,17 +22,16 @@ define([
         onShow: function() {
 
             this.userRegion.show(new UserView());
-            /*$(document).ready(
-                function() {                      
-                    $('html').niceScroll();
-                    $('#gridContainer').niceScroll();
-                }
-              );*/
+
         },
 
         logout: function(evt) {
             evt.preventDefault();
             Radio.channel('route').trigger('logout');
+        },
+
+        onRender: function(){
+
         }
     });
 });

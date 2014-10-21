@@ -15,12 +15,13 @@ define([
     'modules2/gsm/layouts/gsm-list',
     'modules2/transmitter/layouts/transmitter-list',
 	'modules2/import/layouts/import-layout',
-    'modules2/input/layouts/input-station'
+    'modules2/input/layouts/input-station',
+    'modules2/export/layouts/export-layout'
     //'modules/transmitter/layouts/transmitter-list'
 
 ], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, HomeLayout, ArgosLayout,
     ArgosDetailLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, GSMListLayout, TransmitterLayout, ImportLayout, InputLayout) {
+    GSMDetailLayout, GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout) {
 
     'use strict';
 
@@ -45,6 +46,8 @@ define([
 			this.listenTo(radio, 'import', this.importGpx);
             this.listenTo(radio, 'input', this.inputData);
             this.listenTo(radio, 'home', this.home);
+
+            radio.comply('export', this.export, this);
 
 
         },
@@ -163,6 +166,12 @@ define([
             var layout = new TransmitterLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('transmitter');
+        },
+
+        export: function(){
+            var layout= new ExportLayout();
+            this.mainRegion.show(layout);
+            Backbone.history.navigate('export');
         }
     });
 });

@@ -27,6 +27,7 @@ define([
             this.indivId = options.indivId;
             $('#main-panel').css('padding', '0');
             $(window).on('resize', $.proxy(this, 'updateSize'));
+
         },
 
         showDetail: function() {
@@ -41,7 +42,8 @@ define([
 
         updateSize: function() {
             if(this.map_view) {
-                var height = $(window).height() - $('#header-region').height();
+
+                var height = $("#detail-panel").height();
                 this.$el.find("#map").height(height);
                 this.map_view.updateSize();
             }

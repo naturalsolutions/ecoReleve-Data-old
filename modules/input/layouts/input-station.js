@@ -18,7 +18,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'input-container',
+        className: 'container',
         template: template,
 
         regions: {

@@ -107,6 +107,7 @@ var ecoReleveData = (function(){
             nicescroll:'nicescroll/jquery.nicescroll',
             dateTimePicker: '../../bower_components/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker'
         }
+
     });
 
     require(['app'], function(app){

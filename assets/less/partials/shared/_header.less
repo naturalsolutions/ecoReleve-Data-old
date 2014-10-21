@@ -1,8 +1,30 @@
 header{
 	z-index: 1000!important;
-
+	background: @vert1;
+	color: white;
 	.navbar{
 		border-radius: 0px;
+		border: 0px;
+		border: none;
+	}
+
+	a{
+		color: white;
+		position: relative;
+		vertical-align:middle;
+		&:focus{
+			color: white;
+		}
+	}
+	span{
+		vertical-align: top;
+	}
+	a:hover{
+		background: @vert2!important;
+		color: white;
+		&:focus{
+			color: white;
+		}
 	}
 }
 
