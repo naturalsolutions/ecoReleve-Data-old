@@ -6599,7 +6599,6 @@ button.close {
 i.icon.reneco {
   /* 	display: block;
 	 */
-  opacity: 0.75;
   font-family: 'reneco-font';
   font-style: normal;
   font-weight: normal;
@@ -6617,8 +6616,12 @@ i.icon.reneco.huge {
 i.icon.reneco.small {
   font-size: 2.5em;
 }
+html {
+  height: 100%;
+}
 body {
   font-family: 'Exo 2', 'sans-serif';
+  height: 100%;
 }
 h1,
 h2,
@@ -6631,6 +6634,9 @@ tr:hover,
 li:hover {
   cursor: pointer;
 }
+.fluid-img {
+  width: 100%;
+}
 .container {
   margin: 50px auto;
 }
@@ -6641,17 +6647,10 @@ li:hover {
 .glyphicon.pointer {
   cursor: pointer;
 }
-#showIndivDetails {
-  padding: 10px;
-  cursor: pointer;
-}
 /* Individual search */
 .panel-heading.top-level {
   background-color: #222222;
   color: white;
-}
-.masqued {
-  display: none;
 }
 .panel-heading.top-level > h1 > a {
   font-size: 1.5rem;
@@ -6680,50 +6679,6 @@ h2.panel-title {
   width: 20%;
   padding-right: 5%;
 }
-/* Individual details */
-#birdInfosDetails {
-  padding-left: 0;
-  padding-right: 0;
-}
-.birdDetailsDiv {
-  border-top: 1px solid #7b7b7b;
-  padding-top: 5px;
-  /*background-color: rgba(255, 0, 0, 0);*/
-}
-#birdId {
-  color: white;
-}
-.whiteColor {
-  color: white;
-}
-#separatorDetails {
-  border-bottom: 1px solid #7b7b7b;
-  /*background-color: rgba(255, 0, 0, 0);*/
-  height: 60px;
-  padding: 10px 0;
-}
-#separatorDetails span:first-of-type {
-  font-size: 15px;
-  margin-left: 10px;
-}
-#divBirdName {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.row.birdDetailsDiv {
-  margin-right: 0;
-}
-.detailsIndivPanel {
-  color: #a3a1a1;
-}
-#hideIndivDetails {
-  float: right;
-}
-#showIndivDetails {
-  position: fixed;
-  margin-top: 20px;
-  z-index: 1;
-}
 /* fonts */
 @font-face {
   font-family: 'reneco-font';
@@ -6745,33 +6700,22 @@ h2.panel-title {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/*
-<<<<<<< HEAD:reneco-font/style.css
 .reneco.layers:before {
-	content: "\e648";
+  content: "\e648";
 }
 .reneco.rings:before {
-	content: "\e645";
+  content: "\e645";
 }
 .reneco.markers:before {
-	content: "\e646";
+  content: "\e646";
 }
 .reneco.male:before {
-	content: "\e647";
+  content: "\e647";
 }
 .reneco.user:before {
-=======
-
-
-
-
-
-i.reneco.rings:before {
-	content: "\e645";
+  content: "\e605";
 }
-i.reneco.markers:before {
-	content: "\e646";
-}
+<<<<<<< HEAD
 i.reneco.male:before {
 	content: "\e647";
 }
@@ -6779,6 +6723,8 @@ i.reneco.user:before {
 >>>>>>> origin/requirejs-integration:assets/fonts/reneco-font/reneco-font.less
 	content: "\e605";
 }*/
+=======
+>>>>>>> f45df040d0c48a940ceb5ab539c9a8bb96025dac
 .reneco.users:before {
   content: "\e600";
 }
@@ -7025,9 +6971,31 @@ input[type="radio"] {
 /* shared */
 header {
   z-index: 1000!important;
+  background: #2ecc40;
+  color: white;
 }
 header .navbar {
   border-radius: 0px;
+  border: 0px;
+  border: none;
+}
+header a {
+  color: white;
+  position: relative;
+  vertical-align: middle;
+}
+header a:focus {
+  color: white;
+}
+header span {
+  vertical-align: top;
+}
+header a:hover {
+  background: #42d052 !important;
+  color: white;
+}
+header a:hover:focus {
+  color: white;
 }
 footer .credits {
   position: fixed;
@@ -7159,35 +7127,49 @@ body.home-page {
   background-position: center;
   background-attachment: fixed;
   background-size: cover;
+  /* Tiles */
 }
-/* Tiles */
-.tile {
+body.home-page canvas {
+  margin: 0 !important;
+  opacity: 0.9;
+  transition: .5s opacity ease;
+  position: relative;
+  left: -20px;
+}
+body.home-page canvas:hover {
+  opacity: 1;
+}
+body.home-page h2 {
+  font-size: 30px;
+}
+body.home-page h3 {
+  font-size: 30px;
+  padding-left: 10px;
+}
+body.home-page .tile {
   opacity: 1;
   border: 4px solid transparent;
   position: relative;
 }
-.tile:hover {
+body.home-page .tile:hover {
   opacity: 0.8;
 }
-.tile h2 {
+body.home-page .tile h2 {
   font-size: 16px;
   font-weight: normal;
   padding: 10px;
 }
-.tile.tile-double {
+body.home-page .tile.tile-double {
   width: 320px;
 }
-.tile.tile-wide {
+body.home-page .tile.tile-wide {
   width: 320px;
 }
-.tile.tile-medium,
-.tile.tile-wide,
-.tile.tile-double {
+body.home-page .tile.tile-medium,
+body.home-page .tile.tile-wide,
+body.home-page .tile.tile-double {
   margin-right: 10px;
   margin-left: 10px;
-}
-canvas {
-  margin: 0 !important;
 }
 .backgrid-selected-row {
   color: white;
@@ -7205,6 +7187,128 @@ div.error {
   margin: 5px;
   vertical-align: top;
 }
+.masqued {
+  display: none;
+}
+/* Individual details */
+#birdInfosDetails {
+  padding-left: 0;
+  padding-right: 0;
+}
+.birdDetailsDiv {
+  padding-top: 5px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+}
+.sep {
+  border-top: 1px solid #7b7b7b;
+}
+#birdId {
+  color: white;
+}
+.whiteColor {
+  color: white;
+}
+#separatorDetails {
+  border-bottom: 1px solid #7b7b7b;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  height: 60px;
+  padding: 10px 0;
+}
+#separatorDetails span:first-of-type {
+  font-size: 15px;
+  margin-left: 10px;
+}
+#divBirdName {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.row.birdDetailsDiv {
+  margin-right: 0;
+}
+.detailsIndivPanel {
+  color: #a3a1a1;
+  padding: 0px 15px;
+}
+#hideIndivDetails {
+  float: right;
+}
+.white {
+  color: white!important;
+}
+.uppercase {
+  text-transform: uppercase!important;
+  font-weight: 800;
+}
+.indiv-bg .backgrid .sort-caret {
+  color: white;
+}
+.indiv-bg .backgrid .descending .sort-caret {
+  border-top: 4px solid white;
+}
+.indiv-bg .backgrid .ascending .sort-caret {
+  border-bottom: 4px solid white;
+}
+.indiv-bg thead tr th {
+  background: transparent;
+}
+.indiv-bg thead tr th a {
+  color: white;
+  text-transform: uppercase;
+}
+.indiv-bg thead tr td {
+  border: none;
+}
+.indiv-bg .backgrid td {
+  border: none;
+  border-bottom: none;
+  border-bottom: 0px;
+}
+#showIndivDetails {
+  padding: 25px 10px;
+  cursor: pointer;
+  text-align: center;
+  position: fixed;
+  width: 50px;
+  z-index: 1;
+  background: #1a1a1a;
+  height: 100%;
+  transition: opacity .2s ease;
+  opacity: 1;
+}
+#showIndivDetails span {
+  text-align: center;
+  color: #A3A1A1;
+}
+#showIndivDetails.masqued {
+  opacity: 0!important;
+}
+#history {
+  max-height: 253px;
+}
+.rotate {
+  display: block;
+  position: absolute;
+  margin: 0;
+  padding: 30px 0px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.caption {
+  color: #666666;
+  font-size: 12px;
+}
+.center {
+  text-align: center;
+}
+.no-padding {
+  padding-left: 0px!important;
+}
+#hideIndivDetails {
+  padding-top: 10px;
+}
 /* tmp */
 .big {
   font-size: 1.5rem;
@@ -7217,7 +7321,7 @@ div.error {
 }
 /* Left panel detail */
 .black-bg {
-  background-color: #222222;
+  background: #1a1a1a;
 }
 /* Backgrid */
 .backgrid-container {
@@ -10834,19 +10938,34 @@ html > body > .ui-pnotify {
   }
 }
 @media screen and (max-width: 768px) {
-  .tile.tile-wide,
-  .tile.tile-double,
-  .tile.tile-medium {
+  body.home-page .container {
+    margin-top: 0px;
+  }
+  body.home-page .tile.tile-wide,
+  body.home-page .tile.tile-double,
+  body.home-page .tile.tile-medium {
     width: 100%;
   }
-  .tile.tile-medium,
-  .tile.tile-wide,
-  .tile.tile-double {
+  body.home-page .tile.tile-medium,
+  body.home-page .tile.tile-wide,
+  body.home-page .tile.tile-double {
     margin-right: 0px;
     margin-left: 0px;
   }
-  #user_name span {
+  body.home-page #user_name span {
     display: none;
+  }
+  body.home-page #argosTile,
+  body.home-page #objectsTile,
+  body.home-page #gsmTile,
+  body.home-page #rfidTile,
+  body.home-page #transmitterTile {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .home-page .container {
+    width: 750px!important;
   }
 }
 /*# sourceMappingURL=styles.css.map */

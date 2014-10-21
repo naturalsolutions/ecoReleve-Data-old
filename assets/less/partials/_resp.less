@@ -56,16 +56,38 @@
 	}
 }
 
-@media screen and (max-width: @screen-sm) {
-	.tile.tile-wide, .tile.tile-double, .tile.tile-medium{
-		width: 100%;
-	}
 
-	.tile.tile-medium, .tile.tile-wide, .tile.tile-double{
-		margin-right: 0px;
-		margin-left: 0px;
-	}
-	#user_name span{
-		display: none;
+@media screen and (max-width: @screen-sm) {
+	body.home-page{
+		.container{
+			margin-top: 0px;
+		}
+		.tile.tile-wide, .tile.tile-double, .tile.tile-medium{
+			width: 100%;
+		}
+
+		.tile.tile-medium, .tile.tile-wide, .tile.tile-double{
+			margin-right: 0px;
+			margin-left: 0px;
+		}
+		#user_name span{
+			display: none;
+		}
+		#argosTile, #objectsTile, #gsmTile, #rfidTile, #transmitterTile{
+			display: none;
+		}
+
+
 	}
 }
+
+
+@media screen and (min-width: @screen-sm) and (max-width: 1199px) {
+	.home-page{
+		.container{
+			width: 750px!important;
+		}		
+
+	}
+}
+

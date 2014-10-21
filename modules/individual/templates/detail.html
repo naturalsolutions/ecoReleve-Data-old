@@ -1,106 +1,122 @@
 <script type="text/template">
     <div id="details">
         <div id="separatorDetails">
-            <a id="backToSearch"><img src="assets/img/back_white.png"></a><span>Back to search</span>
+            <a id="backToSearch"><img src="assets/img/back_white.png"></a><span class="white">Back to search</span>
             <span id="hideIndivDetails" class="glyphicon pointer big glyphicon-chevron-left"/>
         </div>
-        <div class="row" id="birdInfosDiv">
-            <div class="col-sm-6">
-                <div><span>ID : </span>
-                <span id="birdId">
-                    <%= id %>
-                </span></div>
-                <div><img id="birdSpecieImg" src=""/></div>
-                <div id="divBirdName"><span id="birdSpecies" class="whiteColor">
-                    <%= species %>
-                </span></div>
-                <div>
 
+
+        <div class="row" id="birdInfosDiv">
+            <br>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                        <div>
+                            <span>ID : </span>
+                            <span id="birdId"><%= id %></span>
+                        </div>
+                        <br>
+                        <div><p class="center"><img id="birdSpecieImg" src=""/></p></div>
+                        <div id="divBirdName">
+                            <span id="birdSpecies" class="white">
+                                <%= species %>
+                            </span>
+                        </div>
+
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="icon small reneco white" id="icon-sex"></i>
+                            <p id="birdSexLabel">
+                                <%= sex %>
+                            </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <i class="icon small reneco white" id="icon-origin"></i>
+                            <p id="birdOriginLabel">
+                                <%= origin %>
+                            </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <i class="icon small reneco white" id="icon-age"></i>
+
+                            <p id="birdAgeLabel">
+                                <%= age %>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
+
+
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <i class="icon small reneco emitters"></i>
-                        <div><span>PTT: </span>
+                        <div><span class="white uppercase">PTT: </span>
                         <span><%= ptt %></span></div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <i class="icon small reneco rings"></i>
-                        <p id=" ">rings</p>
+                        <p id=" " class="white uppercase">rings</p>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <i class="icon small reneco markers"></i>
-                        <p id=" ">markers</p>
+                        <p id=" " class="white uppercase">markers</p>
+                    </div>
+                    <div class="row">
+                        <p id="transmittersVal" class="white"></p>
+                    </div>                    
+                </div>
+
+                <div class="row birdDetailsDiv" id="birdInfosDetails">
+                    <br>
+                    <div class="col-xs-6">
+                        <span class="caption">Birth Date</span>
+                        <p id="birdBirthDate" class="white">
+                            <%= birth_date %>
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <span class="caption">Last Observation</span>
+                        <p id="indivLastObs" class="white"/>
                     </div>
                 </div>
-                <div class="row">
-                    <p id="transmittersVal" class="whiteColor"></p>
+
+                <div class="row birdDetailsDiv" id="birdDetailsPosDiv">
+                    <div class="col-xs-6">
+                        <span class="caption">number of positions</span>
+                        <p id="indivNbObs" class="white">-</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <span class="caption">duration (months)</span>
+                        <p id="indivNbDuration" class="white"></p>
+                    </div>
                 </div>
+            </div>
 
-            </div>
         </div>
-        <div class="row birdDetailsDiv" id="birdInfosDetails">
-            <div class="col-sm-2">
-                <i class="icon small reneco" id="icon-sex"></i>
-                <p id="birdSexLabel" class="whiteColor">
-                    <%= sex %>
-                </p>
-            </div>
-            <div class="col-sm-2">
-                <i class="icon small reneco" id="icon-origin"></i>
-                <p id="birdOriginLabel" class="whiteColor">
-                    <%= origin %>
-                </p>
-            </div>
-            <div class="col-sm-2">
-                <i class="icon small reneco" id="icon-age"></i>
 
-                <p id="birdAgeLabel" class="whiteColor">
-                    <%= age %>
-                </p>
-            </div>
-            <div class="col-sm-3">
-                <div>birth date</div>
-                <p id="birdBirthDate" class="whiteColor">
-                    <%= birth_date %>
-                </p>
-            </div>
-            <div class="col-sm-3">
-                <div>last observation</div>
-                <p id="indivLastObs" class="whiteColor"/>
-            </div>
-        </div>
+
+
+
         <div class="row birdDetailsDiv" id="birdDetailsStatus">
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div>survey type</div>
-                <p id="birdSurveyType" class="whiteColor">
+                <p id="birdSurveyType" class="white">
                     <%= survey_type %>
                 </p>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div>monitoring status</div>
-                <p id="birdMonitStatus" class="whiteColor">
+                <p id="birdMonitStatus" class="white">
                     <%= monitoring_status %>
                 </p>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div>individual status</div>
-                <p id="birdIndivStatus" class="whiteColor">
+                <p id="birdIndivStatus" class="white">
                     <%= status %>
                 </p>
             </div>
         </div>
-        <div class="row birdDetailsDiv" id="birdDetailsPosDiv">
-            <div class="col-sm-6">
-                <div>number of positions</div>
-                <p id="indivNbObs" class="whiteColor">-</p>
-            </div>
-            <div class="col-sm-6">
-                <div>duration (months)</div>
-                <p id="indivNbDuration" class="whiteColor">-</p>
-            </div>
-        </div>
+
     </div>
     <div id="history" class='backgrid-container'></div>
 </script>

@@ -5,8 +5,9 @@ define([
     'marionette',
     'utils/protocols',
     'bbForms',
-    'text!modules2/input/templates/input-forms.html'
-], function(Marionette, Protocols, BbForms,template) {
+    'text!modules2/input/templates/input-forms.html',
+    'text!modules2/input/templates/form-bird-biometry.html'
+], function(Marionette, Protocols, BbForms,template, tplBirdBiometry) {
     'use strict';
      return Marionette.ItemView.extend({
         template : template,
@@ -83,13 +84,27 @@ define([
             $('#input-forms').append('<div class="tab-content" id="tabProtsCoentent"></div>');
 
             for (var i=0; i< protocolsModels.length;i++){
+                var form;
                 var protocolName = protocolsModels[i].get('name');
-                var form = new BbForms({
-                     model: protocolsModels[i],
-                     //idPrefix : null
-                     idPrefix : 'prtocol-' + i + '-',
-                     protocolName : protocolName
-                }).render();
+                
+                // if protocol == 'bird biometry', use customized template
+                if (protocolName =='Bird Biometry'){
+                    var tpl = $(tplBirdBiometry).html();
+                    form = new BbForms({
+                        model: protocolsModels[i],
+                        idPrefix : 'prtocol-' + i + '-',
+                        protocolName : protocolName,
+                        template:  _.template(tpl)
+                    }).render();
+                } else {
+                    form = new BbForms({
+                        model: protocolsModels[i],
+                         //idPrefix : null
+                        idPrefix : 'prtocol-' + i + '-',
+                        protocolName : protocolName
+                    }).render();
+
+                }
                 // add this form to view forms list to use it later when commit/validate form
                 this.forms.push(form);
                 var activeTab ="";
@@ -101,7 +116,7 @@ define([
                 var tabId = 'tab_' + i;
                 $('#tabProtsCoentent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
                 $('#' + tabId).append(formContent);
-                $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="inputProtocolValidation">validate</button></div>');
+                $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="inputProtocolValidation">save</button></div>');
             }
             // hide loader
             $('#myLoader').loader('destroy');

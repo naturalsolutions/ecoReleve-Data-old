@@ -119,6 +119,7 @@ var ecoReleveData = (function(){
             bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',
             pnotify: '../../bower_components/pnotify/pnotify.core'
         }
+
     });
 
     require(['app'], function(app){

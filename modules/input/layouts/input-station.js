@@ -11,14 +11,14 @@ define([
     'modules2/input/views/input-map',
     'modules2/input/views/input-forms',
     'text!modules2/input/templates/input-station.html',
-    'text!modules2/input/templates/new-station.html'
+    'text!modules2/input/templates/form-new-station.html'
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
     Map, Forms, template, stationTemplate) {
 
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'input-container',
+        className: 'container',
         template: template,
 
         regions: {
@@ -26,7 +26,9 @@ define([
            gridRegion : '#gridImportedWaypoints',
            mapRegin : '#mapImportedWaypoints',
            formsRegion : '#stationDetails',
-           stationMap : '#station-map'
+           stationMapRegion : '#station-map',
+           stationDetailsMapRegion : '#mapStDetails',
+           stationDetailsPanelRegion :'#stationPanel'
         },
         events : {
             'click #inputGetStData' : 'commitForm',
@@ -74,7 +76,7 @@ define([
                          this.gridRegion.reset();
                          // display map
                         var map = new Map();
-                        this.stationMap.show(map);
+                        this.stationMapRegion.show(map);
                         // init map
                         var position = new Position();
                         map.addModel(position);
@@ -88,7 +90,7 @@ define([
                         var ln = lastImportedStations.length;
                         if (ln > 0){
                             // delete map used in new station if exisits
-                            this.stationMap.reset();
+                            this.stationMapRegion.reset();
                             $('#station-form').empty().append('<h4>Please, select a station on the grid </h4>');
                             var mygrid = new Grid({collections : lastImportedStations});
                             this.gridRegion.show(mygrid);
@@ -111,9 +113,17 @@ define([
                }
         },
         prevStep :  function() {
-             var step = $('#inputWizard').wizard('selectedItem').step;
-               console.log("step to : " + step);
-             $('#btnNext').removeClass('disabled');
+            var step = $('#inputWizard').wizard('selectedItem').step;
+            console.log("step to : " + step);
+               // if step = 2 inser map view in stationMapRegion
+            /*if (step == 2 )  { 
+                this.stationDetailsMapRegion.reset();
+                var map = new Map();
+                this.stationMapRegion.show(map);
+            }*/
+   
+
+            $('#btnNext').removeClass('disabled');
         },
         onShow: function() {
 
@@ -127,13 +137,9 @@ define([
               
             });
 
-            /*var bbform =  new Forms();         
-            this.form.show(bbform);*/
-           /* var tm = NsForm;
-           this.form.show(new NsForm());*/
-           /* this.info.show(new Info());
-            this.grid.show(new Grid({gsmID:this.gsmID}));
-            this.map.show(new Map());*/
+            // manage hide /show station details panel in step 3
+            this.listenTo(this.radio, 'hide-detail', this.hideDetail);
+            this.listenTo(this.radio, 'show-detail', this.showDetail);
         },
         commitForm : function() {
             //this.form.commit();
@@ -145,7 +151,16 @@ define([
                 // add details station region to next step container
                 var formsView = new Forms({ model : currentStation});
                 this.formsRegion.show(formsView);
-
+                // create a position from current station and add map view in next step
+                var position = new Position();
+                position.set("latitude",currentStation.get('LAT'));
+                position.set("longitude",currentStation.get('LON'));
+                position.set("label","current station");
+                position.set("id","_");
+                /*this.stationMapRegion.reset();
+                var map = new Map();
+                this.stationDetailsMapRegion.show(map);
+                map.addModel(position);*/
                 $('#inputWizard').wizard('next');
                 $('#btnNext').removeClass('disabled');
             } else {
@@ -182,24 +197,13 @@ define([
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
             var nbInsertedWorkersFields = parseInt($('#station-fieldWorkers').attr('insertedWorkersNb'));
-            // insert input if nb fieldworkers < 5
             if (nbInsertedWorkersFields < 5){
                 var nbFdW = nbInsertedWorkersFields + 1;
-                //generate input id from latest inserted id (exemple : c27_FieldWorker1 -> c27_FieldWorker2)
-                var lastId = $('#station-fieldWorkers input[name="FieldWorker1"').attr('id');
-                var newId = lastId.substring(0, lastId.length -1) + nbFdW;
-
-                var inputElement = '<div class="float-div"><label>observer' + nbFdW + '</label><div data-editors="FieldWorker'+ 
-                nbFdW  +'">' +
-                '<input id="' + newId +'" name="FieldWorker' +  nbFdW + '" type="text"> ' +      
-                '</div></div>';
-                console.log(inputElement);
-                // append element to fieldset
-                var ele = $(this.form.el).find('#station-fieldWorkers')[0];
-                $(ele).append(inputElement);
-               // $('#station-fieldWorkers').append(inputElement);
-                // increment stored value concerning nb fieldworkers
-                $('#station-fieldWorkers').attr('insertedWorkersNb',nbFdW);
+                // element to show ( masqued by default)
+                var ele = '#FieldWorker' + nbFdW + '-field';
+                $(ele).removeClass('masqued');
+                // update stored value for nb displayed fields 
+                $('#station-fieldWorkers').attr('insertedWorkersNb', nbFdW);
             }
         },
         getCoordinates : function(e){
@@ -223,8 +227,28 @@ define([
                     Radio.channel('input').command('movePoint', position);
                 }
            }
+
+        },
+        hideDetail: function() {
+            var callback = $.proxy(this, 'updateSize', 'hide');
+            this.stationDetailsPanelRegion.$el.toggle(callback);
+        },
+        showDetail: function() {
+            var callback = $.proxy(this, 'updateSize', 'show');
+            this.stationDetailsPanelRegion.$el.toggle(callback);
+        },
+        updateSize: function(type) {
+            if(type === 'hide'){
+                $("#stationPanel").removeClass('masqued');
+                //this.main.$el.removeClass('col-lg-7'); // TODO
+                //this.main.$el.addClass('col-lg-12'); // TODO
+            } else {
+                $("#stationPanel").addClass('masqued'); 
+                //this.main.$el.removeClass('col-lg-12'); // TODO
+                //this.main.$el.addClass('col-lg-7'); // TODO
+            }
+            $(window).trigger('resize');
         }
     });
 });
 
-//<div data-editors="FieldWorker1"><input id="c27_FieldWorker1" name="FieldWorker1" type="text"></div>

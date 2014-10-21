@@ -2,9 +2,10 @@
      <div class="fuelux">
         <div class="wizard" data-initialize="wizard" id="inputWizard">
             <ul class="steps">
-                <li data-step="1" class="active"><span class="badge">1</span>station<span class="chevron"></span></li>
-                <li data-step="2"><span class="badge">2</span>details<span class="chevron"></span></li>
-                <li data-step="3"><span class="badge">3</span>protocol<span class="chevron"></span></li>
+                <li data-step="1" class="active"><span class="badge">1</span>start<span class="chevron"></span></li>
+                <li data-step="2"><span class="badge">2</span>station<span class="chevron"></span></li>
+                <li data-step="3"><span class="badge">3</span>protocols<span class="chevron"></span></li>
+                <li data-step="4"><span class="badge">4</span>end<span class="chevron"></span></li>
             </ul>
             <div class="actions">
                 <button class="btn btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
@@ -18,7 +19,7 @@
                                 <legend for="male">select an action</legend>
                                 <div class="field">
                                     <div class="ui radio checkbox">
-                                        <input type="radio" name="stationtype" class="stationtype" value="new" checked id ="st1">
+                                        <input type="radio"  name="stationtype" class="stationtype" value="new" checked id ="st1">
                                         <label for="st1">new station</label>
                                     </div>
                                 </div>
@@ -42,7 +43,7 @@
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4">
                             <div id="station-form"></div>
-                            <div><button id="inputGetStData">get data</button></div>
+                            <div><button id="inputGetStData">save</button></div>
                         </div>
                         <div id="station-map" class="col-xs-8 col-sm-8 col-md-8"></div>
                     </div>
@@ -55,6 +56,15 @@
                 </div>
                 <div class="step-pane sample-pane " data-step="3">
                     <div id="stationDetails"></div>
+                </div>
+                <div class="step-pane sample-pane " data-step="4">
+                    <div id="stationDetails">
+                        <label> Data are stored for this location</label>
+                        <ul>
+                            <li> continue input data with a another station</li>
+                            <li><a href="#"> exit input data</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

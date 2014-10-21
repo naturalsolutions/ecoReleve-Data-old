@@ -84,9 +84,12 @@ define([
 
 
             $("#history").append(this.grid.render().el);
-            var height = $(window).height() - $('#header-region').height();
+
+            
+            var height = $(window).height() - $('#header-region').height() - 20;
             height -= $('#details').height();
             this.$el.find('#history').height(height);
+            this.$el.find('#history').css('margin-bottom', '20px');
         },
 
         onDestroy: function() {
