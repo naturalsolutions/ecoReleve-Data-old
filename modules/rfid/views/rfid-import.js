@@ -5,8 +5,11 @@ define([
     "event_manager",
     'marionette',
     'config',
-    'text!modules2/rfid/templates/rfid-import.html'
-], function($, _, Backbone, eventManager, Marionette, config, template) {
+    'radio',
+    'text!modules2/rfid/templates/rfid-import.html',
+    'bootstrap_slider',
+    'pnotify'
+], function($, _, Backbone, eventManager, Marionette, config, Radio, template, bootstrap_slider, pnotify) {
     "use strict";
 
     return Marionette.ItemView.extend({
@@ -35,7 +38,8 @@ define([
                 url: config.coreUrl + "rfid",
             }).done( function(data) {
                 this.collection.reset(data);
-            })
+            });
+
         },
 
         importFile: function(event) {
@@ -69,10 +73,29 @@ define([
                         data: data,
                         processData: false,
                         contentType: false
-                    }).done( function(data) {
-                            alert(data);
+                    }).done(function(data) {
+                        var notif = new PNotify({
+                            title: 'Ready to import',
+                            type: 'info',
+                            delay: 6000,
+                            animation: {
+                                effect_in: 'show',
+                                effect_out: 'slide'
+                            }
+                        });
+                        Radio.channel('rfid').command('showValidate',{});
+                            
                     }).fail( function(data) {
-                        alert(data.responseText);
+                       new PNotify({
+                            title: 'Import error',
+                            text: 'Please verify your file or contact administrator',
+                            type: 'error',
+                            delay: 6000,
+                            animation: {
+                                effect_in: 'show',
+                                effect_out: 'slide'
+                            }
+                        });
                     });
                 };
 

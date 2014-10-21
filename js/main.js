@@ -10,6 +10,16 @@ var ecoReleveData = (function(){
         },
         shim:{
 
+            pnotify: {
+                deps:['bootstrap','jquery'],
+                exports: 'pnotify'
+            },
+
+            bootstrap_slider: {
+                deps: ['bootstrap','jquery'],
+                exports: 'bootstrap_slider'
+            },
+
             dateTimePicker : {
                 deps: ['jquery', 'moment','bootstrap']  ,
                 exports: 'dateTimePicker'              
@@ -105,7 +115,9 @@ var ecoReleveData = (function(){
             fuelux : '../../bower_components/fuelux/dist/js/fuelux',
             bbForms : 'backbone.forms/backbone-forms.min',
             nicescroll:'nicescroll/jquery.nicescroll',
-            dateTimePicker: '../../bower_components/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker'
+            dateTimePicker: '../../bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
+            bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',
+            pnotify: '../../bower_components/pnotify/pnotify.core'
         }
     });
 
@@ -115,3 +127,5 @@ var ecoReleveData = (function(){
         ecoReleveData = app;
     });
 })();
+
+

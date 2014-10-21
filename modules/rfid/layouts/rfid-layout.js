@@ -5,12 +5,13 @@ define([
     "event_manager",
     'marionette',
     'config',
+    'radio',
     'modules2/rfid/layouts/rfid-deploy',
     'modules2/rfid/views/rfid-add',
     'modules2/rfid/views/rfid-import',
     'modules2/rfid/views/rfid-validate',
     'text!modules2/rfid/templates/rfid.html'
-], function($, _, Backbone, eventManager, Marionette, config, DeployView, AddView,
+], function($, _, Backbone, eventManager, Marionette, config,Radio, DeployView, AddView,
     ImportView, ValidateView, template) {
 
     "use strict";
@@ -28,6 +29,9 @@ define([
             'click #import'   : 'showImport',
             'click #add'      : 'showAdd',
             'click #validate' : 'showValidate'
+        },
+        initialize: function() {
+             Radio.channel('rfid').comply('showValidate', this.showValidate, this);
         },
 
         showDeploy: function() {
