@@ -15,7 +15,14 @@ Demo
 
 ![ecoReleve](https://static.squarespace.com/static/519a7bc0e4b08ccdf8f31445/t/53c9549ae4b0a11d417c1d12/1405703324816/?format=1000w)
 
-###**[Online demo here] (http://vps85427.ovh.net/ecoReleve-data)**
+###**[Online demo here] (http://vps98188.ovh.net/ecoReleve)**
+
+Installation
+------------
+1. Clone the reposirory
+2. Run **bower install**
+3. Make the folder available through your web server
+4. Allow directory browsing on the folder **modules/input/data/**
 
 Technologie used
 ------------
