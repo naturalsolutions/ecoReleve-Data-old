@@ -53,6 +53,10 @@ define([
                 }
             });
         },
+		
+		onDestroy: function() {
+			$('body').removeClass('login-page');
+		},
 
         checkUsername: function() {
             var user = this.collection.findWhere({fullname: $('#username').val()});
@@ -84,7 +88,6 @@ define([
                     $('.login-form').addClass('rotate3d');
                     setTimeout(function() {
                         Radio.channel('route').trigger('login:success');
-                        $('body').removeClass('login-page');
                     },500);
                     
                 }).fail( function () {
