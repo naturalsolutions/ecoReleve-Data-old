@@ -1,35 +1,34 @@
 define([
-    "jquery",
-    "underscore",
-    "backbone",
-    "event_manager",
+    'jquery',
+    'underscore',
+    'backbone',
     'marionette',
     'config',
-    "models/rfid",
+    'models/rfid',
     'text!modules2/rfid/templates/rfid-add.html'
-], function($, _, Backbone, eventManager, Marionette, config, Rfid, template) {
+], function($, _, Backbone, Marionette, config, Rfid, template) {
 
-    "use strict";
+    'use strict';
 
     return Marionette.ItemView.extend({
         template: template,
 
         events: {
-            'click #btn-add': "add",
-            'focus #input-identifier' : "clear"
+            'click #btn-add': 'add',
+            'focus #input-identifier' : 'clear'
         },
 
         ui: {
-            group: "#group-identifier",
-            help: "#help-identifier"
+            group: '#group-identifier',
+            help: '#help-identifier'
         },
 
         add: function(e) {
             e.preventDefault();
-            var text = $("#input-identifier").val();
-            if(text === "") {
-                this.ui.group.addClass("has-error");
-                this.ui.help.text("Required");
+            var text = $('#input-identifier').val();
+            if(text === '') {
+                this.ui.group.addClass('has-error');
+                this.ui.help.text('Required');
             }
             else {
                 var model = new Rfid({
@@ -44,8 +43,8 @@ define([
         },
 
         clear: function() {
-            this.ui.group.removeClass("has-error");
-            this.ui.help.text("");
+            this.ui.group.removeClass('has-error');
+            this.ui.help.text('');
         }
     });
 });

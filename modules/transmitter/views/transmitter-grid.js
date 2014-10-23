@@ -2,12 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'event_manager',
     'marionette',
     'radio',
     'config',
     'text!modules2/transmitter/templates/transmitter-list.html'
-], function($, _, Backbone, eventManager, Marionette, Radio, config, template) {
+], function($, _, Backbone, Marionette, Radio, config, template) {
 
     'use strict';
 

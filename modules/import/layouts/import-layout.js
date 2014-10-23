@@ -2,21 +2,21 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    //'backboneLocalstorage',
-    'event_manager',
     'marionette',
     'text!modules2/import/templates/import.html',
-     'config',
-     'fuelux',
-     'modules2/import/views/import-map',
-     'modules2/import/views/import-grid',
+    'config',
+    'fuelux',
+    'modules2/import/views/import-map',
+    'modules2/import/views/import-grid',
     'radio',
     'collections/waypoints',
-     'utils/xmlParser'
-    ], function($, _, Backbone, eventManager, Marionette, template,config,fuelux,Map,Grid, Radio, Waypoints, xmlParser) {
-    "use strict";
+    'utils/xmlParser'
+], function($, _, Backbone, Marionette, template,config,fuelux,Map,Grid, Radio, Waypoints, xmlParser) {
+
+    'use strict';
+
     return Marionette.LayoutView.extend ({
-        className: "container",
+        className: 'container',
         template: template,
         regions: {
             gridRegion: '#gridContainer',
@@ -39,11 +39,11 @@ define([
         initialize: function() {
             this.waypointList = new Waypoints();
             this.radio = Radio.channel('import-gpx');
-            this.selectedUser1 = "";
-            this.selectedUser2 = "";
-            this.selectedUser3 = "";
-            this.selectedUser4 = "";
-            this.selectedUser5 = "";
+            this.selectedUser1 = '';
+            this.selectedUser2 = '';
+            this.selectedUser3 = '';
+            this.selectedUser4 = '';
+            this.selectedUser5 = '';
             //$('#mapContainer').css('height', '400px');
         },
         clear: function(elt) {
@@ -74,16 +74,16 @@ define([
             if(step ==5){
                //console.log('fin, sauvegarde data');
                // get date from form
-                var fieldWorkersNumber = $("#import-fwnb option:selected").text();
+                var fieldWorkersNumber = $('#import-fwnb option:selected').text();
                 var user1 = $('#importWorker1').val();
                 this.waypointList.each(function(model) {
-                    //model.set("fieldActivity", self.selectedActivity);
-                    model.set("fieldWorker1", user1);
-                    model.set("fieldWorker2", $('#importWorker2').val());
-                    model.set("fieldWorker3", $('#importWorker2').val());
-                    model.set("fieldWorker4", $('#importWorker3').val());
-                    model.set("fieldWorker5", $('#importWorker4').val());
-                    model.set("fieldWorkersNumber", fieldWorkersNumber);
+                    //model.set('fieldActivity', self.selectedActivity);
+                    model.set('fieldWorker1', user1);
+                    model.set('fieldWorker2', $('#importWorker2').val());
+                    model.set('fieldWorker3', $('#importWorker2').val());
+                    model.set('fieldWorker4', $('#importWorker3').val());
+                    model.set('fieldWorker5', $('#importWorker4').val());
+                    model.set('fieldWorkersNumber', fieldWorkersNumber);
                 });
 
                 // create a new collection for models to import
@@ -137,17 +137,17 @@ define([
                     var xml;
                     var file = this.files[0];
                     var fileName = file.name;
-                    var tab = fileName.split(".");
+                    var tab = fileName.split('.');
                     var fileType = tab[1];
                     fileType = fileType.toUpperCase();
-                    if (fileType != "GPX") {
-                        alert("File type is not supported. Please select a 'gpx' file");
+                    if (fileType != 'GPX') {
+                        alert('File type is not supported. Please select a "gpx" file');
                     } else {
                         $('.btn-next').removeAttr('disabled');
-                        var lastUpdate = this.files[0].lastModifiedDate;  
+                        var lastUpdate = this.files[0].lastModifiedDate;
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
-                            // get waypoints collection 
+                            // get waypoints collection
                             self.waypointList =  xmlParser.gpxParser(xml);
                             // display parsing message
                             var nbWaypoints = self.waypointList.length;
@@ -163,7 +163,7 @@ define([
                     }
                     reader.readAsText(selected_file.files[0]);
                 } catch (e) {
-                    alert("File API is not supported by this version of browser. Please update your browser and check again, or use another browser");
+                    alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
                      $('.btn-next').attr('disabled', 'disabled');
                 }
             };
@@ -176,9 +176,9 @@ define([
             if (selectedValue[0]) {
                 this.selectedUser1 = selectedValue[0].value;
             } else {
-                this.selectedUser1 = "";
-                alert("please select a valid worker name");
-                $('#importWorker1').val("");
+                this.selectedUser1 = '';
+                alert('please select a valid worker name');
+                $('#importWorker1').val('');
             }
         }
     });

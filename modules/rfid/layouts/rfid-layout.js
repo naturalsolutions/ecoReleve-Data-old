@@ -1,8 +1,7 @@
 define([
-    "jquery",
-    "underscore",
-    "backbone",
-    "event_manager",
+    'jquery',
+    'underscore',
+    'backbone',
     'marionette',
     'config',
     'radio',
@@ -11,17 +10,17 @@ define([
     'modules2/rfid/views/rfid-import',
     'modules2/rfid/views/rfid-validate',
     'text!modules2/rfid/templates/rfid.html'
-], function($, _, Backbone, eventManager, Marionette, config,Radio, DeployView, AddView,
+], function($, _, Backbone, Marionette, config, Radio, DeployView, AddView,
     ImportView, ValidateView, template) {
 
-    "use strict";
+    'use strict';
 
     return Marionette.LayoutView.extend({
-        className: "container-fluid",
+        className: 'container-fluid',
         template: template,
 
         regions: {
-            mainRegion: "#main-panel"
+            mainRegion: '#main-panel'
         },
 
         events: {
@@ -36,22 +35,22 @@ define([
 
         showDeploy: function() {
             this.mainRegion.show(new DeployView());
-            Backbone.history.navigate("rfid_deploy");
+            Backbone.history.navigate('rfid_deploy');
         },
 
         showImport: function() {
             this.mainRegion.show(new ImportView());
-            Backbone.history.navigate("rfid_import");
+            Backbone.history.navigate('rfid_import');
         },
 
         showAdd: function() {
             this.mainRegion.show(new AddView());
-            Backbone.history.navigate("rfid_add");
+            Backbone.history.navigate('rfid_add');
         },
 
         showValidate: function() {
             this.mainRegion.show(new ValidateView());
-            Backbone.history.navigate("rfid_validate");
+            Backbone.history.navigate('rfid_validate');
         }
     });
 });

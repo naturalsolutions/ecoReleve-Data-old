@@ -17,7 +17,7 @@ var ecoReleveData = (function(){
 
             dateTimePicker : {
                 deps: ['jquery', 'moment','bootstrap']  ,
-                exports: 'dateTimePicker'              
+                exports: 'dateTimePicker'
             },
 
             backgrid: {
@@ -73,7 +73,6 @@ var ecoReleveData = (function(){
             collections: '../collections',
             config: '../config',
             controller: '../controller',
-            event_manager: '../event-manager',
             google: '../utils/google-maps-loader',
             layouts: '../layouts',
             controllers: '../controllers',
@@ -89,6 +88,7 @@ var ecoReleveData = (function(){
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: '../../bower_components/chartjs/Chart',
+            dropzone: '../../bower_components/dropzone/downloads/dropzone-amd-module',
             marionette: 'marionette/2.1.0/backbone.marionette',
             openlayers: 'openlayers/openlayers',
             ol3: 'openlayers/3.0.0/build/ol-debug',
@@ -121,5 +121,3 @@ var ecoReleveData = (function(){
         ecoReleveData = app;
     });
 })();
-
-
