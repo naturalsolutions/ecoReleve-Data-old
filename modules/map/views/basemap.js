@@ -46,7 +46,7 @@ define([
 
             this.overlay=new ol.Overlay ({
                   position: ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857'),
-                  element: $('<i class="large glyphicon glyphicon-map-marker"></img>').css({'font-size':'25px'})
+                  element: $('<i class="large glyphicon glyphicon-map-marker"></img>').css({'font-size':'25px', 'left':'-12px', 'top':'-25px'})
               });
             this.map.addOverlay(this.overlay);
         },
