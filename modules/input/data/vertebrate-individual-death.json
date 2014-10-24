@@ -2,7 +2,7 @@
   "name": "Vertebrate individual death",
   "description": "TProtocol_Vertebrate_individual_death",
   "keywords": [
-    "test"
+    "Vertebrate death"
   ],
   "schema": {
     "Name_Remains": {
@@ -71,6 +71,6 @@
       "title": "sampled"
     }
   },
-  "fieldset": []
+  "fieldsets": []
 }
 

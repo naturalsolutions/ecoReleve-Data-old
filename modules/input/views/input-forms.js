@@ -3,10 +3,12 @@ define([
    // 'underscore',
     //'backbone',
     'marionette',
+    'radio',
     'utils/protocols',
     'bbForms',
-    'text!modules2/input/templates/input-forms.html'
-], function(Marionette, Protocols, BbForms,template) {
+    'text!modules2/input/templates/input-forms.html',
+    'text!modules2/input/templates/form-bird-biometry.html'
+], function(Marionette, Radio, Protocols, BbForms,template, tplBirdBiometry) {
     'use strict';
      return Marionette.ItemView.extend({
         template : template,
@@ -62,10 +64,16 @@ define([
                 // load file
                 window.deferreds.push($.getJSON(filePath, function(data) {
                     var Protocol = Backbone.Model.extend({
-                        schema : data.schema
+                        schema : data.schema,
+                        //fieldsets : data.fieldsets,
+                        keywords : data.keywords
                     });
                     var protocol = new Protocol();
                     protocol.set('name',data.name);
+                    if (data.fieldsets.length > 0 ){
+                        protocol.set('fieldsets',data.fieldsets);
+                        protocol.fieldsets = data.fieldsets;
+                    }
 
                     self.protocolsModels.push(protocol);
                 }));
@@ -83,13 +91,36 @@ define([
             $('#input-forms').append('<div class="tab-content" id="tabProtsCoentent"></div>');
 
             for (var i=0; i< protocolsModels.length;i++){
+                var form;
                 var protocolName = protocolsModels[i].get('name');
-                var form = new BbForms({
-                     model: protocolsModels[i],
-                     //idPrefix : null
-                     idPrefix : 'prtocol-' + i + '-',
-                     protocolName : protocolName
-                }).render();
+                
+                // if protocol == 'bird biometry', use customized template
+                /*if (protocolName =='Bird Biometry'){
+                    var tpl = $(tplBirdBiometry).html();
+                    var fieldsets  = protocolsModels[i].fieldsets;
+                      form = new BbForms({
+                        model: protocolsModels[i],
+                        idPrefix : 'prtocol-' + i + '-',
+                        protocolName : protocolName,
+                        fieldsets    : fieldsets
+                       // template:  _.template(tpl)
+                    }).render();
+                } else {*/
+                    var fieldsets  = protocolsModels[i].fieldsets;
+
+                      form = new BbForms({
+                        model: protocolsModels[i],
+                         //idPrefix : null
+                        idPrefix : 'prtocol-' + i + '-',
+                        protocolName : protocolName//,
+                       // fieldsets    : fieldsets
+                    });
+
+                    /*if(fieldsets){
+                        form.fieldsets = fieldsets ;
+                    }*/
+                    form.render();
+                //}
                 // add this form to view forms list to use it later when commit/validate form
                 this.forms.push(form);
                 var activeTab ="";
@@ -97,11 +128,15 @@ define([
                 var formContent = form.el;
                 // activate first element of tab
                 if(i===0){activeTab ="active";}
-                $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span></span>'+ protocolName +'</a></li>');
+                $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a></li>');
                 var tabId = 'tab_' + i;
                 $('#tabProtsCoentent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
                 $('#' + tabId).append(formContent);
-                $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="inputProtocolValidation">validate</button></div>');
+                $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+                // create responsive input fields by adding bootstrap class to div blocs
+                $('fieldset>div').addClass('col-sm-4');
+                $('fieldset>div').addClass('form-field');
+                $('fieldset>div input').addClass('col-sm-10');
             }
             // hide loader
             $('#myLoader').loader('destroy');
@@ -117,11 +152,13 @@ define([
                 console.log(currentInstance);
                 //change look of selected tab element
                 var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-               
+                var pictoElement = $(spn).find('i')[0];
+                $(pictoElement).removeClass();
                 if(!errors){
-                    $(spn).text('-');
+                    $(pictoElement).addClass('icon small reneco validated');
+                    Radio.channel('input').command('inputForms');
                 } else {
-                    $(spn).text('-x-');
+                    $(pictoElement).addClass('icon small reneco close');
                 }
             } else {
                 console.log('pas de formulaire pour ce protocole');

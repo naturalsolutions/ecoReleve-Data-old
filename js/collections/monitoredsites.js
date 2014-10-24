@@ -7,6 +7,6 @@ define([
     'use strict';
     return Backbone.Collection.extend({
         model: MonitoredSite,
-        url: config.coreUrl + 'monitoredSite'
+        //url: config.coreUrl + 'monitoredSite'
     });
 });

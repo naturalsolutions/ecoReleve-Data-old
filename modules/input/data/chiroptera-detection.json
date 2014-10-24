@@ -1,0 +1,90 @@
+﻿{
+  "name": "Chiroptera detection",
+  "description": "TProtocol_Chiroptera_detection",
+  "keywords": [
+    "Chiroptera survey"
+  ],
+  "schema": {
+    "Name_Taxon": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "taxon"
+    },
+    "Number": {
+      "validators": [],
+      "type": "Number",
+      "title": "number"
+    },
+    "Time": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "time"
+    },
+    "File_name": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "file name"
+    },
+    "Name_Call_type": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "name call type"
+    },
+    "Flutter_0_min": {
+      "validators": [],
+      "type": "Number",
+      "title": "flutter 0 min"
+    },
+    "Flutter_0_max": {
+      "validators": [],
+      "type": "Number",
+      "title": "flutter 0 max"
+    },
+    "Name_Activity_type": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "activity type"
+    },
+    "Recorded": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "recorded"
+    },
+    "Name_Record_type": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "record type"
+    },
+    "Comments": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "comments"
+    }
+  },
+  "fieldsets": []
+}
+
