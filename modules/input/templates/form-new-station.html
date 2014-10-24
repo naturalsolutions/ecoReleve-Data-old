@@ -11,7 +11,7 @@
 	    </div>
 	    <div class='float-div'>
 	    	<label>station id*</label>
-	    	<div><input disabled='disabled'/></div>
+	    	<div><input disabled='disabled' class='form-control'/></div>
 	    </div>
     </div>
   </fieldset>
@@ -20,14 +20,23 @@
   	<div>
   		<div class='float-div'>
 	    	<label>date*</label>
-	    	<div data-editors="Date_"></div>
+
+	    	<div class="input-group date" id="dateTimePicker" data-editors="Date_">
+ 
+                    <span class="input-group-addon">
+                        <span class="glyphicon-calendar glyphicon"></span>
+                    </span>
+            </div>
+            <!--
+	    	<div data-editors="Date_" class="date input-group" id="dateTimePicker"></div><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+	    	-->
 	    	<div id='error-Date_' class='error'></div>
 	    </div>
-	    <div class='float-div'>
+	    <!--<div class='float-div'>
 	    	<label>time*</label>
 	    	<div data-editors="time_"></div>
 	    	<div id='error-time_' class='error'></div>
-	    </div>
+	    </div>-->
   	</div>
   </fieldset>
     <fieldset>
@@ -44,6 +53,9 @@
 	    	<div data-editors="LON"></div>
 	    	<div id='error-LON' class='error'></div>
 	    </div>
+	    <div class='float-div'>
+	    	<i class="icon small reneco site" id="getPosition"></i>
+	    </div>
   	</div>
   </fieldset>
     <fieldset id='station-fieldWorkers' insertedWorkersNb="1">
@@ -54,9 +66,26 @@
 	    	<div data-editors="FieldActivity_Name"></div>
 	    </div>
 	    <div class='float-div'>
-	    	<label>observers*</label>
-	    	<div data-editors="FieldWorker1"></div><div id="addFieldWorkerInput">+</div>
+	    	<label>observer 1*</label><br/>
+	    	<div data-editors="FieldWorker1" class='float-div'></div>
+	    	<div id="addFieldWorkerInput" class='float-div'><i class="icon small reneco add"></i></div>
 	    	<div id='error-FieldWorker1' class='error'></div>
+	    </div>
+	   	<div class='float-div masqued' id='FieldWorker2-field'>
+	    	<label>observer 2</label>
+	    	<div data-editors="FieldWorker2"></div>
+	    </div>
+	   	<div class='float-div masqued' id='FieldWorker3-field'>
+	    	<label>observer 3</label>
+	    	<div data-editors="FieldWorker3"></div>
+	    </div>
+	   	<div class='float-div masqued' id='FieldWorker4-field'>
+	    	<label>observer 4</label>
+	    	<div data-editors="FieldWorker4"></div>
+	    </div>
+	   	<div class='float-div masqued' id='FieldWorker5-field'>
+	    	<label>observer 5</label>
+	    	<div data-editors="FieldWorker5"></div>
 	    </div>
   	</div>
   </fieldset>

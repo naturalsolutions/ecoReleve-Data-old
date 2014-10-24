@@ -1837,10 +1837,13 @@ app.utils.initializeDB = function(db){
 		$("#region").removeAttr("disabled");
 		$('<option value=""></option>').appendTo(element);
 		var serverUrl = app.config.serverUrl;
+		
 		url = serverUrl + url;
+		console.log(url);
 		$.ajax({
 			url: url,
 			dataType: "json",
+			contentType:'application/json',
 			success: function(data) {
 				if (data === null){
 					$("#region").attr("disabled", "disabled");
@@ -1848,8 +1851,8 @@ app.utils.initializeDB = function(db){
 				else{
 					var len = data.length;
 					for (var i = 0; i < len; i++) {
-						var area = "";
-						if (url.toLowerCase().indexOf("name_vue") >= 0){
+						var area = data[i];
+						/*if (url.toLowerCase().indexOf("name_vue") >= 0){
 							area = data[i].AppModel.Area;;
 							if (area === undefined){
 								area = data[i].AppModel.Region;
@@ -1859,7 +1862,7 @@ app.utils.initializeDB = function(db){
 							}
 						}else{
 							area = data[i].TStationsJoin.Area;
-						}
+						}*/
 						if (isDatalist) {
 							$('<option value=\"' + area + '\">' + "</option>").appendTo(element);
 						} else {
@@ -1867,9 +1870,10 @@ app.utils.initializeDB = function(db){
 						}
 					}
 				}
+				console.log("success getAreaList");
 			},
 			error: function() {
-				alert("error loading area items, please check connexion to webservice ");
+				alert("error loading area items, please check connexion to webservice in getAreaList");
 			}
 		});
 	}; 
@@ -1914,6 +1918,7 @@ app.utils.initializeDB = function(db){
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
+		console.log(url)
 		$.ajax({
 			url: url,
 			dataType: "json",
@@ -1921,10 +1926,12 @@ app.utils.initializeDB = function(db){
 				if (data === null){
 					$("#place").attr("disabled", "disabled");
 				}else{
+					console.log(data);
 				    var len = data.length;
+				    console.log(len);
 					for (var i = 0; i < len; i++) {
-						var locality = "";
-						if (url.toLowerCase().indexOf("name_vue") >= 0){
+						var locality = data[i];
+						/*if (url.toLowerCase().indexOf("name_vue") >= 0){
 							locality = data[i].AppModel.Locality;
 							if (locality === undefined){
 								locality = data[i].AppModel.Place;
@@ -1934,7 +1941,7 @@ app.utils.initializeDB = function(db){
 							}
 						}else{
 							locality = data[i].TStationsJoin.Locality;
-						}
+						}*/
 						if (isDatalist) {
 							$('<option value=\"' + locality + '\">' + "</option>").appendTo(element);
 						} else {
@@ -1942,9 +1949,11 @@ app.utils.initializeDB = function(db){
 						}
 					}
 				}
+				console.log("success getlocalityList");
+				
 			},
 			error: function() {
-				alert("error loading items, please check connexion to webservice");
+				alert("error loading items, please check connexion to webservice in getLocalityList");
 			}
 		});
 

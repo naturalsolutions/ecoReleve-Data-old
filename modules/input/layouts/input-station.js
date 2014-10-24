@@ -11,9 +11,10 @@ define([
     'modules2/input/views/input-map',
     'modules2/input/views/input-forms',
     'text!modules2/input/templates/input-station.html',
-    'text!modules2/input/templates/new-station.html'
+    'text!modules2/input/templates/form-new-station.html',
+    'text!modules2/input/templates/activity.html'
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
-    Map, Forms, template, stationTemplate) {
+    Map, Forms, template, stationTemplate, activityTpl) {
 
     'use strict';
 
@@ -26,7 +27,9 @@ define([
            gridRegion : '#gridImportedWaypoints',
            mapRegin : '#mapImportedWaypoints',
            formsRegion : '#stationDetails',
-           stationMap : '#station-map'
+           stationMapRegion : '#station-map',
+           stationDetailsMapRegion : '#mapStDetails',
+           stationDetailsPanelRegion :'#stationPanel'
         },
         events : {
             'click #inputGetStData' : 'commitForm',
@@ -35,7 +38,9 @@ define([
             'click #btnPrev' : 'prevStep',
             'click #addFieldWorkerInput' : 'addInput',
             'change input[name="LAT"]' : 'getCoordinates',
-            'change input[name="LON"]' : 'getCoordinates'
+            'change input[name="LON"]' : 'getCoordinates',
+            'click #getPosition' : 'getCurrentPosition',
+            'click #inputMoveToSation' : 'stationStep'
         },
 
         initialize:function(options) {
@@ -43,8 +48,7 @@ define([
             this.stType ='new';
             this.radio = Radio.channel('input');
             Radio.channel('input').comply('generateStation', this.generateStation, this);
-           /* this.radio = Radio.channel('gsm-detail');
-            this.gsmID = options.gsmID;*/
+            Radio.channel('input').comply('inputForms', this.inputValidate, this);
         },
 
         onBeforeDestroy: function() {
@@ -74,11 +78,20 @@ define([
                          this.gridRegion.reset();
                          // display map
                         var map = new Map();
-                        this.stationMap.show(map);
+                        this.stationMapRegion.show(map);
                         // init map
                         var position = new Position();
                         map.addModel(position);
-                         $('#inputGetStData').removeClass('masqued');
+                        $('#inputGetStData').removeClass('masqued');
+                        $('#dateTimePicker').datetimepicker({
+                        });
+                        $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss');
+                        // add field activity dataset
+                        var fieldActivityList = $(activityTpl).html();  
+                        $('#station-form').append(fieldActivityList);
+                        // associate datalist to input 'FieldActivity_Name'
+                        $('input[name="FieldActivity_Name"]').attr('list','activity');
+
                     }
                     else if (this.stType =='imported'){
                         // need to select a point -> desactivate next
@@ -88,7 +101,7 @@ define([
                         var ln = lastImportedStations.length;
                         if (ln > 0){
                             // delete map used in new station if exisits
-                            this.stationMap.reset();
+                            this.stationMapRegion.reset();
                             $('#station-form').empty().append('<h4>Please, select a station on the grid </h4>');
                             var mygrid = new Grid({collections : lastImportedStations});
                             this.gridRegion.show(mygrid);
@@ -111,9 +124,9 @@ define([
                }
         },
         prevStep :  function() {
-             var step = $('#inputWizard').wizard('selectedItem').step;
-               console.log("step to : " + step);
-             $('#btnNext').removeClass('disabled');
+            var step = $('#inputWizard').wizard('selectedItem').step;
+            console.log("step to : " + step);
+            $('#btnNext').removeClass('disabled');
         },
         onShow: function() {
 
@@ -127,13 +140,9 @@ define([
               
             });
 
-            /*var bbform =  new Forms();         
-            this.form.show(bbform);*/
-           /* var tm = NsForm;
-           this.form.show(new NsForm());*/
-           /* this.info.show(new Info());
-            this.grid.show(new Grid({gsmID:this.gsmID}));
-            this.map.show(new Map());*/
+            // manage hide /show station details panel in step 3
+            this.listenTo(this.radio, 'hide-detail', this.hideDetail);
+            this.listenTo(this.radio, 'show-detail', this.showDetail);
         },
         commitForm : function() {
             //this.form.commit();
@@ -145,7 +154,12 @@ define([
                 // add details station region to next step container
                 var formsView = new Forms({ model : currentStation});
                 this.formsRegion.show(formsView);
-
+                // create a position from current station and add map view in next step
+                var position = new Position();
+                position.set("latitude",currentStation.get('LAT'));
+                position.set("longitude",currentStation.get('LON'));
+                position.set("label","current station");
+                position.set("id","_");
                 $('#inputWizard').wizard('next');
                 $('#btnNext').removeClass('disabled');
             } else {
@@ -182,24 +196,13 @@ define([
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
             var nbInsertedWorkersFields = parseInt($('#station-fieldWorkers').attr('insertedWorkersNb'));
-            // insert input if nb fieldworkers < 5
             if (nbInsertedWorkersFields < 5){
                 var nbFdW = nbInsertedWorkersFields + 1;
-                //generate input id from latest inserted id (exemple : c27_FieldWorker1 -> c27_FieldWorker2)
-                var lastId = $('#station-fieldWorkers input[name="FieldWorker1"').attr('id');
-                var newId = lastId.substring(0, lastId.length -1) + nbFdW;
-
-                var inputElement = '<div class="float-div"><label>observer' + nbFdW + '</label><div data-editors="FieldWorker'+ 
-                nbFdW  +'">' +
-                '<input id="' + newId +'" name="FieldWorker' +  nbFdW + '" type="text"> ' +      
-                '</div></div>';
-                console.log(inputElement);
-                // append element to fieldset
-                var ele = $(this.form.el).find('#station-fieldWorkers')[0];
-                $(ele).append(inputElement);
-               // $('#station-fieldWorkers').append(inputElement);
-                // increment stored value concerning nb fieldworkers
-                $('#station-fieldWorkers').attr('insertedWorkersNb',nbFdW);
+                // element to show ( masqued by default)
+                var ele = '#FieldWorker' + nbFdW + '-field';
+                $(ele).removeClass('masqued');
+                // update stored value for nb displayed fields 
+                $('#station-fieldWorkers').attr('insertedWorkersNb', nbFdW);
             }
         },
         getCoordinates : function(e){
@@ -219,12 +222,89 @@ define([
                     position.set("longitude",longitude);
                     position.set("label","current station");
                     position.set("id","_");
-                    console.log(position);
+                    //this.getPosModel(latitude,longitude);
                     Radio.channel('input').command('movePoint', position);
                 }
            }
+
+        },
+        hideDetail: function() {
+            var callback = $.proxy(this, 'updateSize', 'hide');
+            this.stationDetailsPanelRegion.$el.toggle(callback);
+        },
+        showDetail: function() {
+            var callback = $.proxy(this, 'updateSize', 'show');
+            this.stationDetailsPanelRegion.$el.toggle(callback);
+        },
+        updateSize: function(type) {
+            if(type === 'hide'){
+                $("#stationPanel").removeClass('masqued');
+                //this.main.$el.removeClass('col-lg-7'); // TODO
+                //this.main.$el.addClass('col-lg-12'); // TODO
+            } else {
+                $("#stationPanel").addClass('masqued'); 
+                //this.main.$el.removeClass('col-lg-12'); // TODO
+                //this.main.$el.addClass('col-lg-7'); // TODO
+            }
+            $(window).trigger('resize');
+        },
+        getPosModel: function(lat, lon){
+            var position = new Position();
+            position.set("latitude",lat);
+            position.set("longitude",lon);
+            position.set("label","current station");
+            position.set("id","_");
+            return (position);
+        },
+        getCurrentPosition : function(){
+            if(navigator.geolocation) {
+                var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);
+            } else {
+                alert("Ce navigateur ne supporte pas la géolocalisation");
+            }
+        },
+        myPosition : function(position){
+            var latitude = parseFloat((position.coords.latitude).toFixed(5));
+            var longitude = parseFloat((position.coords.longitude).toFixed(5));
+            $("[name='LAT']").val(latitude);
+            $("[name='LON']").val(longitude);
+            //var pos = this.getPosModel(latitude,longitude);
+            // update map
+            var pos = new Position();
+            pos.set("latitude",latitude);
+            pos.set("longitude",longitude);
+            pos.set("label","current station");
+            pos.set("id","_");
+             Radio.channel('input').command('movePoint', pos);
+                //position.coords.altitude +"\n";
+        },
+        erreurPosition : function(error){
+            var info = "Erreur lors de la géolocalisation : ";
+            switch(error.code) {
+            case error.TIMEOUT:
+                info += "Timeout !";
+            break;
+            case error.PERMISSION_DENIED:
+            info += "Vous n’avez pas donné la permission";
+            break;
+            case error.POSITION_UNAVAILABLE:
+                info += "La position n’a pu être déterminée";
+            break;
+            case error.UNKNOWN_ERROR:
+            info += "Erreur inconnue";
+            break;
+            }
+            alert(info);
+        },
+        inputValidate : function(){
+            //alert('ok');
+
+        },
+        stationStep : function(){
+            $('#inputWizard').wizard('selectedItem', { step: 2 });
+            // clear input fields for the new station
+            $('input').val('');
         }
     });
 });
 
-//<div data-editors="FieldWorker1"><input id="c27_FieldWorker1" name="FieldWorker1" type="text"></div>
