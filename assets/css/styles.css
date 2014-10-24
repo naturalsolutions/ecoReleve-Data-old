@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-=======
-@charset "UTF-8";
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300);
->>>>>>> 5ba4ec9786cbac674d3657253294db012cd645d8
 /*!
  * metro-bootstrap v3.2.0.1
  *
@@ -13714,8 +13710,6 @@ ul.unstyled > li {
   margin: 0;
   list-style: none;
 }
-<<<<<<< HEAD
-=======
 /* vendors */
 /* Mimic table appearance */
 div.table {
@@ -13756,7 +13750,6 @@ div.table .file-row:nth-child(odd) {
   display: block;
 }
 /* resp */
->>>>>>> 5ba4ec9786cbac674d3657253294db012cd645d8
 @media screen and (min-width: 1600px) {
   #home-top {
     padding-top: 3%;
@@ -13835,22 +13828,16 @@ div.table .file-row:nth-child(odd) {
   body.home-page #transmitterTile {
     display: none;
   }
-<<<<<<< HEAD
   .fuelux .wizard > .steps li {
     padding: 0 0px 0 25px!important;
   }
-=======
->>>>>>> 5ba4ec9786cbac674d3657253294db012cd645d8
 }
 @media screen and (min-width: 768px) and (max-width: 1199px) {
   .home-page .container {
     width: 750px!important;
   }
 }
-<<<<<<< HEAD
 .plouf {
   width: 768px;
 }
-=======
->>>>>>> 5ba4ec9786cbac674d3657253294db012cd645d8
 /*# sourceMappingURL=styles.css.map */
