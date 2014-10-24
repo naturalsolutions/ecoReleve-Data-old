@@ -16,7 +16,9 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend ({
-        className: 'container',
+
+        className: 'import-container',
+
         template: template,
         regions: {
             gridRegion: '#gridContainer',
