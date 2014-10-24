@@ -33,6 +33,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['less', 'watch:css']);
+    grunt.registerTask('default', ['less', 'watch:css', 'watch:js']);
 };
 

@@ -98,6 +98,7 @@ define([
         },
 
         onDestroy: function(){
+            
             $('body').removeClass('login-page');
         },
 
