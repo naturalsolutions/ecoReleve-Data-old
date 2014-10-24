@@ -53,10 +53,6 @@ define([
                 }
             });
         },
-		
-		onDestroy: function() {
-			$('body').removeClass('login-page');
-		},
 
         checkUsername: function() {
             var user = this.collection.findWhere({fullname: $('#username').val()});
