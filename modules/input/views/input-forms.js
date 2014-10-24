@@ -8,7 +8,9 @@ define([
     'bbForms',
     'text!modules2/input/templates/input-forms.html',
     'text!modules2/input/templates/form-bird-biometry.html'
+
 ], function(Marionette, Radio, Protocols, BbForms,template, tplBirdBiometry) {
+
     'use strict';
      return Marionette.ItemView.extend({
         template : template,
@@ -95,6 +97,7 @@ define([
                 var protocolName = protocolsModels[i].get('name');
                 
                 // if protocol == 'bird biometry', use customized template
+
                 /*if (protocolName =='Bird Biometry'){
                     var tpl = $(tplBirdBiometry).html();
                     var fieldsets  = protocolsModels[i].fieldsets;
@@ -121,6 +124,7 @@ define([
                     }*/
                     form.render();
                 //}
+
                 // add this form to view forms list to use it later when commit/validate form
                 this.forms.push(form);
                 var activeTab ="";
@@ -137,6 +141,7 @@ define([
                 $('fieldset>div').addClass('col-sm-4');
                 $('fieldset>div').addClass('form-field');
                 $('fieldset>div input').addClass('col-sm-10');
+
             }
             // hide loader
             $('#myLoader').loader('destroy');

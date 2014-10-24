@@ -3,39 +3,60 @@ body.home-page{
 	background-position: center;
 	background-attachment: fixed;
 	background-size: cover;
-}
 
-/* Tiles */
-.tile{
-	opacity: 1;
-	border: 4px solid transparent;
-	position: relative;
 
-	&:hover{
-		opacity: 0.8;
+	canvas{
+	    margin:0 !important;
+	    opacity: 0.9;
+	    transition: .5s opacity ease;
+	    position: relative;
+	    left: -20px;
+	    &:hover{
+	    	opacity: 1;
+	    }
 	}
+
+
 	h2{
-		font-size: 16px;
-		font-weight: normal;
-		padding: 10px;
+		font-size: 30px;
 	}
-	&.tile-double{
-		width: 320px;
+
+	h3{
+		font-size: 30px;
+		padding-left: 10px;
 	}
-	&.tile-wide{
-		width: 320px;
+
+	/* Tiles */
+	.tile{
+		opacity: 1;
+		border: 4px solid transparent;
+		position: relative;
+
+		&:hover{
+			opacity: 0.8;
+		}
+		h2{
+			font-size: 16px;
+			font-weight: normal;
+			padding: 10px;
+		}
+		&.tile-double{
+			width: 320px;
+		}
+		&.tile-wide{
+			width: 320px;
+		}
+		&.tile-medium{
+			
+		}
+
 	}
-	&.tile-medium{
-		
+
+	.tile.tile-medium, .tile.tile-wide, .tile.tile-double{
+		margin-right: 10px;
+		margin-left: 10px;
 	}
 
 }
 
-.tile.tile-medium, .tile.tile-wide, .tile.tile-double{
-	margin-right: 10px;
-	margin-left: 10px;
-}
 
-canvas{
-    margin:0 !important;
-}

@@ -19,6 +19,7 @@ define([
 
         onRemove: function() {
             Radio.channel('rfid').stopComplying('moveCenter');
+            Radio.channel('rfid').stopComplying('addOverlay');
         }
     });
 });

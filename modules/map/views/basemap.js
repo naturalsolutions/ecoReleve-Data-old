@@ -23,8 +23,10 @@ define([
             /*layers[3] = new ol.layer.Tile({ source: new ol.source.OSM() });*/
             this.map = new ol.Map({
                 target: 'map',
+
                 controls: ol.control.defaults().extend([ new ol.control.ScaleLine({ units:'metric' }) ]),
                 layers: layers,
+
                 view: new ol.View({
                     center: ol.proj.transform([-4.01,33.06], 'EPSG:4326', 'EPSG:3857'),
                     maxZoom: 10,
@@ -53,7 +55,9 @@ define([
 
             this.overlay=new ol.Overlay ({
                   position: ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857'),
-                  element: $('<i class="large glyphicon glyphicon-map-marker"></img>').css({'font-size':'25px'})
+
+                  element: $('<i class="large glyphicon glyphicon-map-marker"></img>').css({'font-size':'25px', 'left':'-12px', 'top':'-25px'})
+
               });
             this.map.addOverlay(this.overlay);
         },

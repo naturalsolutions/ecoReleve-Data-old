@@ -1,0 +1,48 @@
+<script type="text/template">  
+
+    <div class="modal-body">
+      <div class="col-xs-6">
+
+      <div id="export-filter-result">
+        <h4 class="blackText">initial count : <span id="countViewRows"><img src="assets/img/export/ajax-loader-linear.gif" /></span></h4>
+        <div id="export-filter-content"></div>
+      </div>
+
+
+
+      <h3>Please add criteria to filter the results</h3>
+      <br>
+
+
+      <!--<div id="filter-btn" class="masqued"><a class="btn" id="export-add-filter"> add criterias <i class="icon-plus"></i></a></div>  -->
+
+
+      <div id="export-field-selection" >
+        <label for="male">select a field and add a criteria</label>
+        <select id="export-view-fields"></select> 
+
+
+        <!--<button id="export-field-select-btn"> Ok </button> -->
+      </div>
+
+      </div>
+      <div class="col-xs-6">
+
+
+      <div id="export-filter-list" class="masqued">
+      </div>
+
+      
+
+        <div id="filter-query" class="masqued" ><button id="filter-query-btn">check result</button><span id="filter-query-result" ></span></div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="modal-footer">
+    <input id="filterForView"  type="hidden" value="" />
+    </div>
+</script>

@@ -7,8 +7,8 @@ define([
     "use strict";
 
     return Marionette.ItemView.extend({
-        tagName: "p",
-        className: "navbar-text",
+        tagName: "span",
+        className: "userName",
         template: _.template("<%= fullname %>"),
         modelEvents: {
             "change" : "render"

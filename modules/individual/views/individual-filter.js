@@ -22,14 +22,13 @@ define([
             'focus input[type=text]': 'fill',
             'submit': 'catch',
             'click #save-btn': 'saveCriterias',
-            'click #export-btn': 'export',
             'click #indivSavedSearch .indiv-search-label': 'selectSavedFilter',
             'click .glyphicon-remove': 'deleteSavedFilter',
         },
 
         initialize: function(options) {
             this.radio = Radio.channel('individual');
-
+            this.radio.comply('export', this.export, this);
             // Saved filters
             var storedCriterias = localStorage.getItem('indivFilterStoredCriterias') || "";
             if (!storedCriterias){
@@ -46,8 +45,8 @@ define([
             evt.preventDefault();
         },
 
-        export: function(evt) {
-            evt.preventDefault();
+        export: function() {
+        
             $.ajax({
                 url: config.coreUrl + 'individuals/search/export',
                 data: JSON.stringify({criteria:this.filter}),
@@ -116,11 +115,13 @@ define([
             if(!$.isEmptyObject(this.filter)) {
                 this.setInputTextFromFilter(this.filter);
             }
-            $('#left-panel').css('padding-right', '0');
+            this.$el.parent().addClass('no-padding');
+            $('#left-panel').css('padding-top', '0');
         },
 
         onDestroy: function(evt) {
             $('#left-panel').css('padding-right', '15');
+            $('#left-panel').css('padding-top', '20');
         },
 
         onRender: function() {

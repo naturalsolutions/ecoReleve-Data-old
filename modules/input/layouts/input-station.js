@@ -13,13 +13,14 @@ define([
     'text!modules2/input/templates/input-station.html',
     'text!modules2/input/templates/form-new-station.html',
     'text!modules2/input/templates/activity.html'
+
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
     Map, Forms, template, stationTemplate, activityTpl) {
 
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'input-container',
+        className: 'container',
         template: template,
 
         regions: {
@@ -126,6 +127,7 @@ define([
         prevStep :  function() {
             var step = $('#inputWizard').wizard('selectedItem').step;
             console.log("step to : " + step);
+
             $('#btnNext').removeClass('disabled');
         },
         onShow: function() {
@@ -160,6 +162,7 @@ define([
                 position.set("longitude",currentStation.get('LON'));
                 position.set("label","current station");
                 position.set("id","_");
+
                 $('#inputWizard').wizard('next');
                 $('#btnNext').removeClass('disabled');
             } else {

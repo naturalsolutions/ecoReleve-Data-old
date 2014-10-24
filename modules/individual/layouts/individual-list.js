@@ -5,13 +5,13 @@ define([
     'config',
     'modules2/individual/views/individual-filter',
     'modules2/individual/views/individual-grid',
-    'text!templates/left3-main9.html'
+    'text!templates/left4-main8.html'
 ], function(moment, Marionette, Radio, config, FilterView, GridView, template) {
 
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container-fluid',
+        className: 'container-fluid no-padding',
         template: template,
 
         regions: {

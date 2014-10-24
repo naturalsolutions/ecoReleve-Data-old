@@ -1,16 +1,29 @@
 <script type="text/template">
-    <div class="col-sm-4 col-sm-offset-4">
-        <p class="text-justify">
-            Warning, this tool will affect all not imported data. One location per
-            individual per hour will be added.
+    <div class="col-sm-5 col-sm-offset-3">
+        <p class="well text-danger text-center">
+            Warning, this tool will affect all not imported data.
         </p>
+         <div > 
+            <p id="sliderVal" class="text-center">
+                Select location per individual per <b>60</b> minutes : 
+            </p>
+            <div class="text-center">
+                <div id="bt-slider"  data-slider-min="15" data-slider-max="120" data-slider-step="5" data-slider-value="60"/>
+            </div>
+        </div>
+        <div class="spacer"/>
+        <div class="spacer"/>
         <form class="form" role="form">
-            <div class="form-group col-sm-6 col-sm-offset-3">
-                <button id="btn-validate" type="submit"
-                    class="btn btn-primary btn-block">
-                    Validate
+            <div class="form-group text-center">
+               <button id="btn-validate" type="submit"
+                            class="small btn btn-group btn-labeled btn-success">
+                             Validate
+                            <span class="btn-label">
+                                <i class="icon glyphicon glyphicon-import "/>
+                            </span>
                 </button>
             </div>
         </form>
     </div>
 </script>
+

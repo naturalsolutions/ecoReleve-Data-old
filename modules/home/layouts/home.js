@@ -22,12 +22,19 @@ define([
             'click #transmitterTile': 'transmitter',
             'click #monitoredSiteTile' : 'monitoredSite',
             'click #manualTile' : 'dataEntry',
-            'click #importTile' : 'import'
+            'click #importTile' : 'import',
+            'click #myDataTile' : 'export'
+        },
+        initialize: function(){
+
         },
 
         onShow: function() {
+
             this.info.show(new InfoView());
             this.graph.show(new GraphView());
+            
+
         },
 
         onRender: function(){
@@ -69,6 +76,10 @@ define([
         },
         dataEntry : function() {
             Radio.channel('route').trigger('input');
+        },
+
+        export: function(){
+            Radio.channel('route').command('export');
         }
     });
 });

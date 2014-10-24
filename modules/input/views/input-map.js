@@ -88,6 +88,7 @@ define([
             var nblayers =  this.map.getLayers().getLength();
             // vector layer is the latest one 
             var source = this.map.getLayers().item(nblayers - 1).getSource();
+
             //var feature = source.getFeatures()[0];
             source.clear();
             //console.log("feature: ");
