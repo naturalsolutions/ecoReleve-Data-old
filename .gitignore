@@ -10,3 +10,5 @@ ecoReleve-Data.sublime-workspace
 assets/fonts/*
 assets/css/styles.css
 node_modules/*
+styles.css.map
+npm-debug.log

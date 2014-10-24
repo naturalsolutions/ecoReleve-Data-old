@@ -6715,16 +6715,6 @@ h2.panel-title {
 .reneco.user:before {
   content: "\e605";
 }
-<<<<<<< HEAD
-i.reneco.male:before {
-	content: "\e647";
-}
-i.reneco.user:before {
->>>>>>> origin/requirejs-integration:assets/fonts/reneco-font/reneco-font.less
-	content: "\e605";
-}*/
-=======
->>>>>>> f45df040d0c48a940ceb5ab539c9a8bb96025dac
 .reneco.users:before {
   content: "\e600";
 }
@@ -10882,6 +10872,44 @@ html > body > .ui-pnotify {
 .ui-pnotify.stack-bottomleft {
   bottom: 25px;
   top: auto;
+}
+/* Mimic table appearance */
+div.table {
+  display: table;
+}
+div.table .file-row {
+  display: table-row;
+}
+div.table .file-row > div {
+  display: table-cell;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+  padding: 8px;
+}
+div.table .file-row:nth-child(odd) {
+  background: #f9f9f9;
+}
+/* The total progress gets shown by event listeners */
+#total-progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+/* Hide the progress bar when finished */
+#previews .file-row.dz-success .progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+/* Hide the delete button initially */
+#previews .file-row .delete {
+  display: none;
+}
+/* Hide the start and cancel buttons and show the delete button */
+#previews .file-row.dz-success .start,
+#previews .file-row.dz-success .cancel {
+  display: none;
+}
+#previews .file-row.dz-success .delete {
+  display: block;
 }
 /* resp */
 @media screen and (min-width: 1600px) {
