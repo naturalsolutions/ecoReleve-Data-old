@@ -69,7 +69,9 @@ define([
             var id = model.get('id');
             var lat = model.get('latitude');
             var lon = model.get('longitude');
-            var feature = this.map.getLayers().item(1).getSource().getFeatureById(id);
+            var nblayers =  this.map.getLayers().getLength();
+            // vector layer is the latest one 
+            var feature = this.map.getLayers().item(nblayers - 1).getSource().getFeatureById(id);
             this.interaction.getFeatures().clear();
             this.interaction.getFeatures().push(feature);
             var center = [lon, lat];

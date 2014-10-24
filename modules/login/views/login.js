@@ -53,10 +53,6 @@ define([
                 }
             });
         },
-		
-		onDestroy: function() {
-			$('body').removeClass('login-page');
-		},
 
         checkUsername: function() {
             var user = this.collection.findWhere({fullname: $('#username').val()});
@@ -99,6 +95,10 @@ define([
                 this.fail('#login-group', 'Invalid username');
                 this.shake();
             }
+        },
+
+        onDestroy: function(){
+            $('body').removeClass('login-page');
         },
 
         fail: function(elt, text) {

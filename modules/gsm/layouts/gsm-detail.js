@@ -33,7 +33,7 @@ define([
         onShow: function() {
             this.info.show(new Info());
             this.grid.show(new Grid({gsmID:this.gsmID}));
-            this.map.show(new Map());
+            this.map.show(new Map({gsmID:this.gsmID}));
         },
     });
 });

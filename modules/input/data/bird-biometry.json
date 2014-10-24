@@ -135,9 +135,6 @@
       "title": "sampled"
     },
     "Comments": {
-      "validators": [
-        "required"
-      ],
       "type": "Text",
       "title": "comments"
     }

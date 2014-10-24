@@ -9,7 +9,8 @@ define([
 
     return BaseMap.extend({
 
-        initialize: function() {
+        initialize: function(options) {
+            this.gsmID = options.gsmID;
             Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
             Radio.channel('gsm-detail').comply('updateMap', this.updateMap, this);
         },
@@ -23,7 +24,7 @@ define([
             this.interaction.getFeatures().on('add', function(e) {
                 Radio.channel('gsm-detail').command('updateGrid', e.element.id_);
             });
-            this.loadGeoJSON(config.coreUrl + 'dataGsm/12/unchecked?format=geojson');
+            this.loadGeoJSON(config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked?format=geojson');
         },
 
         onRender: function() {

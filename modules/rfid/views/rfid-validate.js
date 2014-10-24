@@ -5,11 +5,11 @@ define([
     'marionette',
     'config',
     'text!modules2/rfid/templates/rfid-validate.html',
-    'pnotify'
-], function($, _, Backbone, Marionette, config, template, pnotify) {
+    'sweetAlert'
+    
+], function($, _, Backbone, Marionette, config, template,sweetAlert) {
 
     'use strict';
-
     return Marionette.ItemView.extend({
         template: template,
         events: {
@@ -33,17 +33,10 @@ define([
             $.ajax({
                 url: config.coreUrl + 'rfid/validate'
             }).done( function(data) {
-                new PNotify({
-                    title: 'Import succeed',
-                    text: 'The file was imported with code : \n'+data,
-                    type: 'info'
-                });
+                sweetAlert('Good job!', 'The file was imported with code : \n'+data, 'success');
+                //alert('The file was imported with code : \n'+data);
             }).fail( function(data) {
-                new PNotify({
-                    title: 'Import error',
-                    text: 'Please verify your file or contact administrator',
-                    type: 'error'
-                });
+               alert('Please verify your file or contact administrator');
 
             })
         }

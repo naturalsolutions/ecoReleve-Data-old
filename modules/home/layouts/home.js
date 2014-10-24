@@ -33,6 +33,7 @@ define([
 
             this.info.show(new InfoView());
             this.graph.show(new GraphView());
+             $('.credits').show();
             
 
         },
@@ -46,6 +47,7 @@ define([
 
         onDestroy: function() {
             $('body').removeClass('home-page');
+            $('.credits').hide();
         },
 
         argos: function() {

@@ -19,6 +19,7 @@ define([
 
         events :{
             'click tbody > tr': 'detail',
+            'click #export-btn': 'export',
         },
 
         initialize: function(options) {
@@ -53,7 +54,7 @@ define([
             var myHeaderCell = Backgrid.HeaderCell.extend({
                 onClick: function (e) {
                     e.preventDefault();
-
+                    var that=this;
                     var column = this.column;
                     var collection = this.collection;
                     var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.id === 'undefined') ? collection.sortCriteria : {};
@@ -74,7 +75,7 @@ define([
                             break;
                     }
                     collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'id': 'asc'};
-                    collection.fetch({reset: true});
+                    collection.fetch({reset: true,});
                 },
             });
 
@@ -125,31 +126,51 @@ define([
                 columns: columns,
                 collection: individuals,
             });
-
+            var that=this;
             individuals.searchCriteria = options.currentFilter || {};
-            individuals.fetch( {reset: true,} );
+            individuals.fetch( {reset: true,   success : function(resp){ 
+                        that.$el.find('#indiv-count').html(individuals.state.totalRecords+' individuals');
+                        }
+            } );
 
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: individuals
             });
         },
 
+         export: function(evt) {
+            evt.preventDefault();
+            this.radio.command('export',{});
+
+        },
+
         update: function(args) {
+            var that=this;
             this.grid.collection.searchCriteria = args.filter;
             // Go to page 1
             this.grid.collection.state.currentPage = 1;
-            this.grid.collection.fetch({reset: true,});
+            this.grid.collection.fetch({reset: true, success:function(){
+                that.$el.find('#indiv-count').html(that.grid.collection.state.totalRecords+' individuals');
+            }
+
+            });
         },
 
         onShow: function() {
+            this.$el.parent().addClass('no-padding');
+            $('#main-panel').css({'padding-top': '0'});
+            this.$el.addClass('grid');
             var height = $(window).height();
             height -= $('#header-region').height() + $('#main-panel').outerHeight();
-            this.$el.height(height);
+            this.$el.find('#grid-row').height(height);
+            height = $(window).height();
+            this.$el.height(height-$('#header-region').height());
             $('#gridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
         },
 
         onDestroy: function(){
+            $('#main-panel').css('padding-top', '20');
             this.grid.remove();
             this.grid.stopListening();
             this.grid.collection.reset();
