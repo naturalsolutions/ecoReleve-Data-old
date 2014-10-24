@@ -11066,11 +11066,23 @@ div.error {
   border-bottom: 0px;
   text-align: left;
 }
+.filter-bg-image {
+  background-image: url('../img/birds_filter_fond.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.filter-bg-image div {
+  background-color: none !important;
+}
 /* tmp */
 .smallest {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 .very-small {
+  font-size: 1.5rem;
+}
+.medium {
   font-size: 2rem;
 }
 .full-width {

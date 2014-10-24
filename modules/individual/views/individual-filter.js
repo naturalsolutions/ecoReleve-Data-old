@@ -116,7 +116,12 @@ define([
                 this.setInputTextFromFilter(this.filter);
             }
             this.$el.parent().addClass('no-padding');
+            var height=$(window).height();
+            this.$el.height(height);
             $('#left-panel').css('padding-top', '0');
+            this.$el.addClass('filter-bg-image');
+
+            this.$el.find('.panel').add('.panel-body').css({'background-color' : 'rgba(0,0,0,0)'});
         },
 
         onDestroy: function(evt) {
