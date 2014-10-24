@@ -1,5 +1,8 @@
 @charset "UTF-8";
+<<<<<<< HEAD
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300);
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 /*!
  * metro-bootstrap v3.2.0.1
  *
@@ -6639,7 +6642,11 @@ li:hover {
   width: 100%;
 }
 .container {
+<<<<<<< HEAD
   margin: 50px auto;
+=======
+  padding-top: 50px;
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 }
 .clear {
   clear: both;
@@ -10665,6 +10672,7 @@ button.ol-full-screen-true:after {
   color: #999999;
   cursor: default;
 }
+<<<<<<< HEAD
 .sweet-overlay {
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
@@ -11421,6 +11429,8 @@ button.ol-full-screen-true:after {
   -moz-animation: pulseWarningIns 0.75s infinite alternate;
   animation: pulseWarningIns 0.75s infinite alternate;
 }
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 /* ui */
 select {
   min-width: 120px;
@@ -11448,6 +11458,19 @@ input[type="radio"] {
   color: white;
   text-align: center;
 }
+<<<<<<< HEAD
+=======
+div.fuelux div.actions button {
+  background: #42d052;
+  color: white;
+}
+div.fuelux div.actions button.btn-default.disabled {
+  background: #42d052;
+}
+div.fuelux div.actions button.btn-default.disabled:focus {
+  background: #42d052;
+}
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 /* shared */
 header {
   z-index: 1000!important;
@@ -11524,7 +11547,11 @@ body.login-page {
   width: 100%;
   padding: 0;
   margin: 0;
+<<<<<<< HEAD
   background: rgba(0, 0, 0, 0.85);
+=======
+  background: url(../img/bg-login.jpg);
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
   background-size: cover;
   background-attachment: fixed;
   /* countries */
@@ -11538,11 +11565,21 @@ body.login-page.MA {
   background-attachment: fixed;
 }
 body.login-page h1 {
+<<<<<<< HEAD
   color: white;
   padding: 25px;
   text-align: center;
   font-weight: bold;
   margin: 0px;
+=======
+  display: block;
+  min-height: 100px;
+  color: white;
+  margin: 25px;
+  text-align: center;
+  font-weight: bold;
+  margin: 0px 50px;
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 }
 body.login-page h2 {
   color: white;
@@ -11554,7 +11591,11 @@ body.login-page h2 {
 }
 body.login-page .login-form {
   position: absolute;
+<<<<<<< HEAD
   height: 450px;
+=======
+  height: 400px;
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
   margin: auto;
   top: 0;
   bottom: 0;
@@ -11562,13 +11603,29 @@ body.login-page .login-form {
   right: 0;
   padding-top: 25px;
   padding-bottom: 25px;
+<<<<<<< HEAD
   background: rgba(0, 0, 0, 0.7);
 }
+=======
+  /* background: -webkit-linear-gradient(@login_bluec, @login_blued, @login_blued); For Safari 5.1 to 6.0
+        background: -o-linear-gradient(@login_bluec, @login_blued, @login_blued); For Opera 11.1 to 12.0
+        background: -moz-linear-gradient(@login_bluec, @login_blued, @login_blued); For Firefox 3.6 to 15
+        background: linear-gradient(@login_bluec, @login_blued, @login_blued);  */
+  /* Standard syntax */
+  background: rgba(0, 0, 0, 0.7);
+}
+body.login-page .login-form form {
+  padding: 0px 25px;
+}
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 body.login-page .login-form .form-group {
   margin: 0px;
 }
 body.login-page .login-form div.wrapper {
+<<<<<<< HEAD
   width: 70%;
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
   border: 1px solid white;
   border-radius: 2px;
 }
@@ -11616,7 +11673,10 @@ body.login-page .login-form :-ms-input-placeholder {
   color: white;
 }
 body.login-page .login-form .btn-primary {
+<<<<<<< HEAD
   width: 70%;
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
   margin-top: 20px;
   background: white;
   border: none;
@@ -11735,12 +11795,15 @@ div.error {
 .row.birdDetailsDiv {
   margin-right: 0;
 }
+<<<<<<< HEAD
 .row.birdDetailsRow {
   padding: 10px 0px;
   margin: 10px 0px;
   border-top: 1px solid #7b7b7b;
   border-bottom: 1px solid #7b7b7b;
 }
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 .detailsIndivPanel {
   color: #a3a1a1;
   padding: 0px 15px;
@@ -11766,7 +11829,10 @@ div.error {
 }
 .indiv-bg thead tr th {
   background: transparent;
+<<<<<<< HEAD
   text-align: left;
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 }
 .indiv-bg thead tr th a {
   color: white;
@@ -11847,7 +11913,11 @@ div.error {
   background: transparent;
 }
 .grid-list thead tr th a {
+<<<<<<< HEAD
   color: #C0C0C0;
+=======
+  color: #2a6496;
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
   text-transform: uppercase;
   text-align: left;
 }
@@ -11860,6 +11930,7 @@ div.error {
   border-bottom: 0px;
   text-align: left;
 }
+<<<<<<< HEAD
 .backgrid-paginator a {
   color: #C0C0C0;
 }
@@ -11892,6 +11963,14 @@ div.error {
 }
 .medium {
   font-size: 2rem !important;
+=======
+/* tmp */
+.smallest {
+  font-size: 1.5rem;
+}
+.very-small {
+  font-size: 2rem;
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 }
 .full-width {
   width: 100%;
@@ -11943,12 +12022,15 @@ div.error {
   padding-bottom: 0px;
   border: 0px;
 }
+<<<<<<< HEAD
 .btn-grey {
   background-color: grey;
 }
 .btn-margin {
   margin: 20px 10px;
 }
+=======
+>>>>>>> 9c9d7007c04f5cc4c3defc16f76ff59d3c74831a
 /* ul */
 ul.unstyled > li {
   padding: 0;

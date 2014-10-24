@@ -10,7 +10,8 @@ body.login-page{
     width: 100%;
     padding: 0;
     margin: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: url(../img/bg-login.jpg);
+    //background: rgba(0, 0, 0, 0.85);
     background-size: cover;
     background-attachment: fixed;
 
@@ -24,11 +25,14 @@ body.login-page{
         background-attachment: fixed;
     }
     h1{
+        display: block;
+        min-height: 100px;
         color: white;
-        padding: 25px;
+        margin: 25px;
         text-align: center;
         font-weight: bold;
-        margin: 0px;
+        //background: url(../img/reneco.png) no-repeat center;
+        margin: 0px 50px;  
     }
     h2{
         color: white;
@@ -41,7 +45,7 @@ body.login-page{
 
     .login-form{
         position: absolute;
-        height: 450px;
+        height: 400px;
         margin: auto;
         top:0;
         bottom: 0;
@@ -49,16 +53,22 @@ body.login-page{
         right: 0;
         padding-top: 25px;
         padding-bottom: 25px;
+        /* background: -webkit-linear-gradient(@login_bluec, @login_blued, @login_blued); For Safari 5.1 to 6.0
+        background: -o-linear-gradient(@login_bluec, @login_blued, @login_blued); For Opera 11.1 to 12.0
+        background: -moz-linear-gradient(@login_bluec, @login_blued, @login_blued); For Firefox 3.6 to 15
+        background: linear-gradient(@login_bluec, @login_blued, @login_blued);  *//* Standard syntax */
         background: rgba(0,0,0,0.7);
 
-
+        form{
+            padding: 0px 25px;
+        }
 
         .form-group{
             margin: 0px;
         }
-
+        
         div.wrapper{
-            width: 70%;
+            //width: 70%;
             border: 1px solid white;
             border-radius: 2px;
             input{
@@ -105,7 +115,7 @@ body.login-page{
         }
 
         .btn-primary{
-            width: 70%;
+            //width: 70%;
             margin-top: 20px;
             background: white;
             border: none;
