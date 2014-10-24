@@ -158,11 +158,13 @@ define([
 
         onShow: function() {
             this.$el.parent().addClass('no-padding');
-            $('#main-panel').css('padding-top', '0');
+            $('#main-panel').css({'padding-top': '0'});
             this.$el.addClass('grid');
             var height = $(window).height();
             height -= $('#header-region').height() + $('#main-panel').outerHeight();
             this.$el.find('#grid-row').height(height);
+            height = $(window).height();
+            this.$el.height(height-$('#header-region').height());
             $('#gridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
         },

@@ -9,6 +9,9 @@ var ecoReleveData = (function(){
             }
         },
         shim:{
+            sweetAlert: {
+                exports:'sweetAlert'
+            },
 
             bootstrap_slider: {
                 deps: ['bootstrap','jquery'],
@@ -111,7 +114,9 @@ var ecoReleveData = (function(){
             bbForms : 'backbone.forms/backbone-forms.min',
             nicescroll:'nicescroll/jquery.nicescroll',
             dateTimePicker: '../../bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
-            bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',        }
+            bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',  
+            sweetAlert: '../../bower_components/sweetalert/lib/sweet-alert.min'   
+        }
 
     });
 
