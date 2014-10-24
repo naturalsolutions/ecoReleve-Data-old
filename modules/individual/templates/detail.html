@@ -1,7 +1,7 @@
 <script type="text/template">
     <div id="details">
         <div id="separatorDetails">
-            <a id="backToSearch"><img src="assets/img/back_white.png"></a><span class="white">Back to search</span>
+            <a id="backToSearch"><img src="assets/img/back_white.png"></a><span class="white">Search results</span>
             <span id="hideIndivDetails" class="glyphicon pointer big glyphicon-chevron-left"/>
         </div>
 
@@ -65,7 +65,17 @@
                     </div>                    
                 </div>
 
-                <div class="row birdDetailsDiv" id="birdInfosDetails">
+                <div class="row birdDetailsDiv" id="birdDetailsPosDiv">
+                    <div class="col-xs-6">
+                        <span class="caption">number of positions</span>
+                        <p id="indivNbObs" class="white">-</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <span class="caption">duration (months)</span>
+                        <p id="indivNbDuration" class="white"></p>
+                    </div>
+                </div>
+                 <div class="row birdDetailsDiv" id="birdInfosDetails">
                     <br>
                     <div class="col-xs-6">
                         <span class="caption">Birth Date</span>
@@ -78,17 +88,6 @@
                         <p id="indivLastObs" class="white"/>
                     </div>
                 </div>
-
-                <div class="row birdDetailsDiv" id="birdDetailsPosDiv">
-                    <div class="col-xs-6">
-                        <span class="caption">number of positions</span>
-                        <p id="indivNbObs" class="white">-</p>
-                    </div>
-                    <div class="col-xs-6">
-                        <span class="caption">duration (months)</span>
-                        <p id="indivNbDuration" class="white"></p>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -96,7 +95,7 @@
 
 
 
-        <div class="row birdDetailsDiv" id="birdDetailsStatus">
+        <div class="row birdDetailsRow" id="birdDetailsStatus">
             <div class="col-xs-4">
                 <div>survey type</div>
                 <p id="birdSurveyType" class="white">

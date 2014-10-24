@@ -44,7 +44,7 @@ define([
         },
 
         updateMap: function(evt) {
-            if($(evt.target).is("td")) {
+            if($(evt.target).is('td')) {
                 var tr = $(evt.target).parent();
                 var id = tr.find('td').first().text();
                 var currentModel = this.locations.findWhere({id: Number(id)});
@@ -59,48 +59,48 @@ define([
             });
 
             var columns = [{
-                name: "id",
-                label: "ID",
+                name: 'id',
+                label: 'ID',
                 editable: false,
                 renderable: false,
-                cell: "integer"
+                cell: 'integer'
             }, {
-                name: "date_",
-                label: "Date",
+                name: 'date',
+                label: 'DATE',
                 editable: false,
                 cell: Backgrid.DatetimeCell
             }, {
                 editable: false,
-                name: "lat",
-                label: "LAT",
+                name: 'lat',
+                label: 'LAT',
                 cell: myCell
             }, {
                 editable: false,
-                name: "lon",
-                label: "LON",
+                name: 'lon',
+                label: 'LON',
                 cell: myCell
             }, {
                 editable: false,
-                name: "ele",
-                label: "ELE (m)",
+                name: 'ele',
+                label: 'ELE (m)',
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
                 })
             }, {
                 editable: false,
-                name: "dist",
-                label: "DIST (km)",
+                name: 'dist',
+                label: 'DIST (km)',
                 cell: myCell
             }, {
                 editable: false,
-                name: "speed",
-                label: "SPEED (km/h)",
+                name: 'speed',
+                label: 'SPEED (km/h)',
                 cell: myCell
             }, {
                 editable: true,
-                name: "import",
-                label: "IMPORT",
-                cell: "boolean"
+                name: 'import',
+                label: 'IMPORT',
+                cell: 'boolean'
             }];
 
             // Initialize a new Grid instance
@@ -109,7 +109,7 @@ define([
                 collection: this.locations
             });
 
-            this.$el.find("#locations").append(this.grid.render().el);
+            this.$el.find('#locations').append(this.grid.render().el);
 
             // Initialize a new Paginator instance
             this.paginator = new Backgrid.Extension.Paginator({
