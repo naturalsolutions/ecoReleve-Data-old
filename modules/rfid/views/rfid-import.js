@@ -7,15 +7,10 @@ define([
     'radio',
     'text!modules2/rfid/templates/rfid-import.html',
     'bootstrap_slider',
-<<<<<<< HEAD
     
-], function($, _, Backbone, eventManager, Marionette, config, Radio, template, bootstrap_slider) {
-    "use strict";
-=======
-    'pnotify'
-], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, pnotify) {
+], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider) {
     'use strict';
->>>>>>> 131fe7b649ae6235fd5a8bef7440cf39d8d5e6fc
+
 
     return Marionette.ItemView.extend({
         collection: new Backbone.Collection(),

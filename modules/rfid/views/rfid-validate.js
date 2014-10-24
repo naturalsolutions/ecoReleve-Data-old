@@ -5,16 +5,10 @@ define([
     'marionette',
     'config',
     'text!modules2/rfid/templates/rfid-validate.html',
-<<<<<<< HEAD
     
-], function($, _, Backbone, eventManager, Marionette, config, template) {
-=======
-    'pnotify'
-], function($, _, Backbone, Marionette, config, template, pnotify) {
->>>>>>> 131fe7b649ae6235fd5a8bef7440cf39d8d5e6fc
+], function($, _, Backbone, Marionette, config, template) {
 
     'use strict';
-
     return Marionette.ItemView.extend({
         template: template,
         events: {
