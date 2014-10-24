@@ -2,9 +2,7 @@
   "name": "Building and Activities",
   "description": "TProtocol_Building_and_Activities",
   "keywords": [
-    "Anthropogenic impacts",
-    "Point-count: characteristics",
-    "Houbara Standardized Circular Observation"
+    "test"
   ],
   "schema": {
     "Element_Nb": {
@@ -23,6 +21,6 @@
       "title": "comments"
     }
   },
-  "fieldsets": []
+  "fieldset": []
 }
 

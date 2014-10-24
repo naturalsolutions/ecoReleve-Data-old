@@ -73,7 +73,6 @@ function init(){
 	// get station list
 	app.collections.stations = new app.collections.Stations();
 	app.collections.stations.fetch().then(function() {
-		console.log(this);
 		console.log("stations loaded ! ");
 	});
 	// load stored protocols

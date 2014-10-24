@@ -11,6 +11,6 @@ define([
             type: null,
             positions:[]
         },
-        //urlRoot: config.coreUrl + 'monitoredSite'
+        urlRoot: config.coreUrl + 'monitoredSite'
     });
 });

@@ -2,24 +2,7 @@
   "name": "Simplified Habitat",
   "description": "Simplified Habitat",
   "keywords": [
-    "Point-count: Vertebrate contact",
-    "Nest monitoring",
-    "Displaying male search",
-    "Point-count: characteristics",
-    "Ground radio-tracking",
-    "Invertebrates monitoring",
-    "Invertebrates inventory",
-    "Houbara Circular Observation",
-    "Battue",
-    "Display site confirmation",
-    "Displaying male radio-tracking",
-    "Display specific studies",
-    "General vertebrate contact",
-    "Houbara Standardized Circular Observation",
-    "Houbara line transect",
-    "Driving",
-    "Ungulates Standardized Circular Observation",
-    "Ungulates line transect"
+    "test"
   ],
   "schema": {
     "Name_Habitat": {
@@ -117,6 +100,6 @@
       "title": "cultivated 1"
     }
   },
-  "fieldsets": []
+  "fieldset": []
 }
 

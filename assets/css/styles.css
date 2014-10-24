@@ -6700,21 +6700,40 @@ h2.panel-title {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/*
+<<<<<<< HEAD:reneco-font/style.css
 .reneco.layers:before {
-  content: "\e648";
+	content: "\e648";
 }
 .reneco.rings:before {
-  content: "\e645";
+	content: "\e645";
 }
 .reneco.markers:before {
-  content: "\e646";
+	content: "\e646";
 }
 .reneco.male:before {
-  content: "\e647";
+	content: "\e647";
 }
 .reneco.user:before {
-  content: "\e605";
+=======
+
+
+
+
+
+i.reneco.rings:before {
+	content: "\e645";
 }
+i.reneco.markers:before {
+	content: "\e646";
+}
+i.reneco.male:before {
+	content: "\e647";
+}
+i.reneco.user:before {
+>>>>>>> origin/requirejs-integration:assets/fonts/reneco-font/reneco-font.less
+	content: "\e605";
+}*/
 .reneco.users:before {
   content: "\e600";
 }
@@ -6975,32 +6994,6 @@ footer .credits {
   font-size: 0.8em;
   opacity: 0.3;
 }
-#toolbox {
-  position: absolute;
-  bottom: 50px;
-  /*top:8px; */
-  right: 8px;
-  padding: 3px;
-  border-radius: 4px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.4);
-  z-index: 100;
-}
-#layerswitcher {
-  margin: 0;
-  padding: 10px;
-  border-radius: 4px;
-  background: rgba(0, 60, 136, 0.5);
-  list-style-type: none;
-}
-#layerswitcherBtn {
-  position: absolute;
-  bottom: 53px;
-  /* top: 8px; */
-  right: 15px;
-  background: rgba(255, 255, 255, 0.4);
-  z-index: 100;
-}
 /* pages */
 body.login-page {
   opacity: 0;
@@ -7166,13 +7159,6 @@ div.error {
   display: inline-block;
   margin: 5px;
   vertical-align: top;
-}
-.masqued {
-  display: none;
-}
-.import-container {
-  width: 100%;
-  margin-top: 10px;
 }
 /* tmp */
 .big {

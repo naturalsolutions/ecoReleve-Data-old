@@ -11,8 +11,7 @@ define([
     'models/monitoredsite',
     'utils/datalist',
     'utils/datetime',
-    'text!modules2/rfid/templates/rfid-deploy.html',
-    'dateTimePicker'
+    'text!modules2/rfid/templates/rfid-deploy.html'
 ], function(_, $, Backbone, Marionette, moment, Radio, config, MonitoredSites, Map, MonitoredSite, datalist, datetime, template) {
 
     'use strict';
@@ -23,12 +22,9 @@ define([
         events: {
             'click #btn-action': 'pose',
             'focus input': 'clearErrors',
-            'input #input-mod': 'updateForm',
-            'input #input-type': 'updateName',
-            'input #input-name': 'updateMap',
-            'change #input-begin': 'updateType',
-            'change #dateTimePicker': 'updateType'
-            
+            'change #input-mod': 'updateForm',
+            'change #input-type': 'updateName',
+            'change #input-name': 'updateMap',
         },
 
         regions: {
@@ -49,51 +45,29 @@ define([
         initialize: function() {
             this.sites = new MonitoredSites();
             this.action = '';
-            var that=this;
-            this.listenTo(this.sites, 'reset', this.updateName);           
+            this.listenTo(this.sites, 'reset', this.updateName);
 
             // Get the RFID modules.
             datalist.fill( {
                 url: config.coreUrl + 'rfid/identifier'
             }, '#mod-list');
             // Get the site distinct types.
-            /*datalist.fill({
+            datalist.fill({
                 url: config.coreUrl + 'monitoredSite/type'
-            }, '#type-list');*/
+            }, '#type-list');
             // Get the monitored sites.
-            //this.sites.fetch();
-           
+            this.sites.fetch();
         },
 
         onShow: function() {
             this.$el.find('#input-begin').attr('placeholder', config.dateLabel);
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
             this.map.show(new Map());
-
         },
 
         onDestroy: function() {
             delete this.modules;
             delete this.sites;
-        },
-
-        updateType: function(e) {
-            var that=this;
-            $.ajax({
-                context: this,
-                url: config.coreUrl + 'rfid/byDate',
-                data: {'date' :this.ui.begin.val()} ,
-            }).done( function(data) {
-                
-                that.sites.reset(data['siteName_type']);
-                that.sites.typeList=data['siteType'];
-                var html=''; 
-                that.sites.typeList.forEach( function(type) {
-                    html += '<option class="option_list">' + type + '</option>';
-                });
-                that.ui.typeList.html(html);
-            });
-            
         },
 
         updateMap: function(e) {
@@ -104,15 +78,10 @@ define([
                     type: type,
                     name: name
                 });
-                var position = monitoredSite.get('positions');
-                console.log(position);
+                var position = monitoredSite.get('positions')[0];
                 var lat = position.lat;
                 var lon = position.lon;
-                console.log('lat  '+lat+'  long '+lon);
                 Radio.channel('rfid').command('moveCenter', [lon, lat]);
-                Radio.channel('rfid').command('addOverlay', [lon, lat]);
-
-
             }
         },
 
@@ -120,7 +89,6 @@ define([
             var html = '';
             var type = this.ui.type.val();
             if(type !== '') {
-                console.log('in uoName');
                 _.each(this.sites.where({type:type}), function(site) {
                     html += '<option>' + site.get('name') + '</option>';
                 });
@@ -170,8 +138,6 @@ define([
             this.ui.btn.prop('disabled', false);
             this.ui.btn.text('Pose');
             this.action = 'pose';
-            $('#dateTimePicker').datetimepicker({
-            });
             // Get the sites, show their names.
             /*
             $.ajax({
@@ -274,7 +240,6 @@ define([
                 valid = false;
             }
             return valid;
-        }, 
-
+        }
     });
 });

@@ -16,7 +16,7 @@ define([
     ], function($, _, Backbone, eventManager, Marionette, template,config,fuelux,Map,Grid, Radio, Waypoints, xmlParser) {
     "use strict";
     return Marionette.LayoutView.extend ({
-        className: 'import-container',
+        className: "container",
         template: template,
         regions: {
             gridRegion: '#gridContainer',
