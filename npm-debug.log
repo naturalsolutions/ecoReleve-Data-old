@@ -1,0 +1,156 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'grunt',
+1 verbose cli   '.' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose config Skipping project config: C:\Users\Rom/.npmrc. (matches userconfig)
+6 verbose cache add [ 'grunt', null ]
+7 verbose cache add name=undefined spec="grunt" args=["grunt",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'grunt',
+8 verbose parsed url   path: 'grunt',
+8 verbose parsed url   href: 'grunt' }
+9 verbose cache add [ '.', null ]
+10 verbose cache add name=undefined spec="." args=[".",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: '.',
+11 verbose parsed url   path: '.',
+11 verbose parsed url   href: '.' }
+12 silly lockFile 20ff3fd8-grunt grunt
+13 verbose lock grunt C:\Users\Rom\AppData\Roaming\npm-cache\20ff3fd8-grunt.lock
+14 silly lockFile 3a52ce78- .
+15 verbose lock . C:\Users\Rom\AppData\Roaming\npm-cache\3a52ce78-.lock
+16 silly lockFile 20ff3fd8-grunt grunt
+17 silly lockFile 20ff3fd8-grunt grunt
+18 verbose addNamed [ 'grunt', '' ]
+19 verbose addNamed [ null, '*' ]
+20 silly lockFile 55f1ff24-grunt grunt@
+21 verbose lock grunt@ C:\Users\Rom\AppData\Roaming\npm-cache\55f1ff24-grunt.lock
+22 silly lockFile 3a52ce78- .
+23 silly lockFile 3a52ce78- .
+24 silly addNameRange { name: 'grunt', range: '*', hasData: false }
+25 error addLocal Could not install .
+26 verbose request where is /grunt
+27 verbose request registry https://registry.npmjs.org/
+28 verbose request id 1f322dc829812fd6
+29 verbose url raw /grunt
+30 verbose url resolving [ 'https://registry.npmjs.org/', './grunt' ]
+31 verbose url resolved https://registry.npmjs.org/grunt
+32 verbose request where is https://registry.npmjs.org/grunt
+33 info trying registry request attempt 1 at 10:07:57
+34 verbose etag "57GKY6TV14E162H6YAW3PRRVW"
+35 http GET https://registry.npmjs.org/grunt
+36 http 304 https://registry.npmjs.org/grunt
+37 silly registry.get cb [ 304,
+37 silly registry.get   { date: 'Tue, 21 Oct 2014 08:07:54 GMT',
+37 silly registry.get     server: 'Apache',
+37 silly registry.get     via: '1.1 varnish',
+37 silly registry.get     'last-modified': 'Tue, 21 Oct 2014 08:07:29 GMT',
+37 silly registry.get     'cache-control': 'max-age=60',
+37 silly registry.get     etag: '"57GKY6TV14E162H6YAW3PRRVW"',
+37 silly registry.get     age: '35',
+37 silly registry.get     'x-served-by': 'cache-fra1237-FRA',
+37 silly registry.get     'x-cache': 'HIT',
+37 silly registry.get     'x-cache-hits': '3',
+37 silly registry.get     'x-timer': 'S1413878874.752730,VS0,VE0',
+37 silly registry.get     vary: 'Accept',
+37 silly registry.get     'content-length': '0',
+37 silly registry.get     'keep-alive': 'timeout=10, max=50',
+37 silly registry.get     connection: 'Keep-Alive' } ]
+38 verbose etag https://registry.npmjs.org/grunt from cache
+39 silly addNameRange number 2 { name: 'grunt', range: '*', hasData: true }
+40 silly addNameRange versions [ 'grunt',
+40 silly addNameRange   [ '0.1.0',
+40 silly addNameRange     '0.1.1',
+40 silly addNameRange     '0.1.2',
+40 silly addNameRange     '0.2.0',
+40 silly addNameRange     '0.2.1',
+40 silly addNameRange     '0.2.2',
+40 silly addNameRange     '0.2.3',
+40 silly addNameRange     '0.2.4',
+40 silly addNameRange     '0.2.5',
+40 silly addNameRange     '0.2.6',
+40 silly addNameRange     '0.2.7',
+40 silly addNameRange     '0.2.8',
+40 silly addNameRange     '0.2.9',
+40 silly addNameRange     '0.2.10',
+40 silly addNameRange     '0.2.11',
+40 silly addNameRange     '0.2.12',
+40 silly addNameRange     '0.2.13',
+40 silly addNameRange     '0.2.14',
+40 silly addNameRange     '0.2.15',
+40 silly addNameRange     '0.3.0',
+40 silly addNameRange     '0.3.1',
+40 silly addNameRange     '0.3.2',
+40 silly addNameRange     '0.3.3',
+40 silly addNameRange     '0.3.4',
+40 silly addNameRange     '0.3.5',
+40 silly addNameRange     '0.3.6',
+40 silly addNameRange     '0.3.7',
+40 silly addNameRange     '0.3.8',
+40 silly addNameRange     '0.3.9',
+40 silly addNameRange     '0.3.10',
+40 silly addNameRange     '0.3.11',
+40 silly addNameRange     '0.3.12',
+40 silly addNameRange     '0.3.13',
+40 silly addNameRange     '0.3.14',
+40 silly addNameRange     '0.3.15',
+40 silly addNameRange     '0.3.16',
+40 silly addNameRange     '0.3.17',
+40 silly addNameRange     '0.4.0',
+40 silly addNameRange     '0.4.1',
+40 silly addNameRange     '0.4.2',
+40 silly addNameRange     '0.4.3',
+40 silly addNameRange     '0.4.4',
+40 silly addNameRange     '0.4.5',
+40 silly addNameRange     '0.3.13-a',
+40 silly addNameRange     '0.4.0-a',
+40 silly addNameRange     '0.4.0-rc1',
+40 silly addNameRange     '0.4.0-rc2',
+40 silly addNameRange     '0.4.0-rc3',
+40 silly addNameRange     '0.4.0-rc4',
+40 silly addNameRange     '0.4.0-rc5',
+40 silly addNameRange     '0.4.0-rc6',
+40 silly addNameRange     '0.4.0-rc7',
+40 silly addNameRange     '0.4.0-rc8' ] ]
+41 verbose addNamed [ 'grunt', '0.4.5' ]
+42 verbose addNamed [ '0.4.5', '0.4.5' ]
+43 silly lockFile 81abf7ad-grunt-0-4-5 grunt@0.4.5
+44 verbose lock grunt@0.4.5 C:\Users\Rom\AppData\Roaming\npm-cache\81abf7ad-grunt-0-4-5.lock
+45 silly lockFile 81abf7ad-grunt-0-4-5 grunt@0.4.5
+46 silly lockFile 81abf7ad-grunt-0-4-5 grunt@0.4.5
+47 silly lockFile 55f1ff24-grunt grunt@
+48 silly lockFile 55f1ff24-grunt grunt@
+49 error Error: ENOENT, open 'C:\Users\Rom\Works\ecoReleve-Data\package.json'
+50 error If you need help, you may report this *entire* log,
+50 error including the npm and node versions, at:
+50 error     <http://github.com/npm/npm/issues>
+51 error System Windows_NT 6.1.7601
+52 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "grunt" "."
+53 error cwd C:\Users\Rom\Works\ecoReleve-Data
+54 error node -v v0.10.32
+55 error npm -v 1.4.28
+56 error path C:\Users\Rom\Works\ecoReleve-Data\package.json
+57 error code ENOENT
+58 error errno 34
+59 verbose exit [ 34, true ]

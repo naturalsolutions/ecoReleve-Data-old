@@ -1,9 +1,11 @@
 define([
+    'dropzone',
+    'jquery',
     'marionette',
     'radio',
     'config',
     'text!modules2/gsm/templates/gsm-list.html'
-], function(Marionette, Radio, config, template) {
+], function(Dropzone, $, Marionette, Radio, config, template) {
 
     'use strict';
 
@@ -47,6 +49,9 @@ define([
             this.$el.find("#gsm-list").append(this.grid.render().el);
 
             data.fetch({reset: true});
+
+            // Initialize a drop zone for import
+            var dropzone = new Dropzone('div#gsm-dropzone', {url: config.coreUrl + 'gsm/upload'});
         },
 
         showDetail: function(evt) {

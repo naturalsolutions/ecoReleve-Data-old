@@ -171,6 +171,9 @@ define([
             this.ui.btn.text('Pose');
             this.action = 'pose';
             $('#dateTimePicker').datetimepicker({
+
+                use24hours: true
+
             });
             // Get the sites, show their names.
             /*

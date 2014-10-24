@@ -11,14 +11,16 @@ define([
     'modules2/input/views/input-map',
     'modules2/input/views/input-forms',
     'text!modules2/input/templates/input-station.html',
-    'text!modules2/input/templates/form-new-station.html'
+    'text!modules2/input/templates/form-new-station.html',
+    'text!modules2/input/templates/activity.html'
+
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
-    Map, Forms, template, stationTemplate) {
+    Map, Forms, template, stationTemplate, activityTpl) {
 
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container',
+        className: 'input-container',
         template: template,
 
         regions: {
@@ -37,7 +39,9 @@ define([
             'click #btnPrev' : 'prevStep',
             'click #addFieldWorkerInput' : 'addInput',
             'change input[name="LAT"]' : 'getCoordinates',
-            'change input[name="LON"]' : 'getCoordinates'
+            'change input[name="LON"]' : 'getCoordinates',
+            'click #getPosition' : 'getCurrentPosition',
+            'click #inputMoveToSation' : 'stationStep'
         },
 
         initialize:function(options) {
@@ -45,8 +49,7 @@ define([
             this.stType ='new';
             this.radio = Radio.channel('input');
             Radio.channel('input').comply('generateStation', this.generateStation, this);
-           /* this.radio = Radio.channel('gsm-detail');
-            this.gsmID = options.gsmID;*/
+            Radio.channel('input').comply('inputForms', this.inputValidate, this);
         },
 
         onBeforeDestroy: function() {
@@ -80,7 +83,16 @@ define([
                         // init map
                         var position = new Position();
                         map.addModel(position);
-                         $('#inputGetStData').removeClass('masqued');
+                        $('#inputGetStData').removeClass('masqued');
+                        $('#dateTimePicker').datetimepicker({
+                        });
+                        $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss');
+                        // add field activity dataset
+                        var fieldActivityList = $(activityTpl).html();  
+                        $('#station-form').append(fieldActivityList);
+                        // associate datalist to input 'FieldActivity_Name'
+                        $('input[name="FieldActivity_Name"]').attr('list','activity');
+
                     }
                     else if (this.stType =='imported'){
                         // need to select a point -> desactivate next
@@ -115,13 +127,6 @@ define([
         prevStep :  function() {
             var step = $('#inputWizard').wizard('selectedItem').step;
             console.log("step to : " + step);
-               // if step = 2 inser map view in stationMapRegion
-            /*if (step == 2 )  { 
-                this.stationDetailsMapRegion.reset();
-                var map = new Map();
-                this.stationMapRegion.show(map);
-            }*/
-   
 
             $('#btnNext').removeClass('disabled');
         },
@@ -157,10 +162,7 @@ define([
                 position.set("longitude",currentStation.get('LON'));
                 position.set("label","current station");
                 position.set("id","_");
-                /*this.stationMapRegion.reset();
-                var map = new Map();
-                this.stationDetailsMapRegion.show(map);
-                map.addModel(position);*/
+
                 $('#inputWizard').wizard('next');
                 $('#btnNext').removeClass('disabled');
             } else {
@@ -223,7 +225,7 @@ define([
                     position.set("longitude",longitude);
                     position.set("label","current station");
                     position.set("id","_");
-                    console.log(position);
+                    //this.getPosModel(latitude,longitude);
                     Radio.channel('input').command('movePoint', position);
                 }
            }
@@ -248,6 +250,63 @@ define([
                 //this.main.$el.addClass('col-lg-7'); // TODO
             }
             $(window).trigger('resize');
+        },
+        getPosModel: function(lat, lon){
+            var position = new Position();
+            position.set("latitude",lat);
+            position.set("longitude",lon);
+            position.set("label","current station");
+            position.set("id","_");
+            return (position);
+        },
+        getCurrentPosition : function(){
+            if(navigator.geolocation) {
+                var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);
+            } else {
+                alert("Ce navigateur ne supporte pas la géolocalisation");
+            }
+        },
+        myPosition : function(position){
+            var latitude = parseFloat((position.coords.latitude).toFixed(5));
+            var longitude = parseFloat((position.coords.longitude).toFixed(5));
+            $("[name='LAT']").val(latitude);
+            $("[name='LON']").val(longitude);
+            //var pos = this.getPosModel(latitude,longitude);
+            // update map
+            var pos = new Position();
+            pos.set("latitude",latitude);
+            pos.set("longitude",longitude);
+            pos.set("label","current station");
+            pos.set("id","_");
+             Radio.channel('input').command('movePoint', pos);
+                //position.coords.altitude +"\n";
+        },
+        erreurPosition : function(error){
+            var info = "Erreur lors de la géolocalisation : ";
+            switch(error.code) {
+            case error.TIMEOUT:
+                info += "Timeout !";
+            break;
+            case error.PERMISSION_DENIED:
+            info += "Vous n’avez pas donné la permission";
+            break;
+            case error.POSITION_UNAVAILABLE:
+                info += "La position n’a pu être déterminée";
+            break;
+            case error.UNKNOWN_ERROR:
+            info += "Erreur inconnue";
+            break;
+            }
+            alert(info);
+        },
+        inputValidate : function(){
+            //alert('ok');
+
+        },
+        stationStep : function(){
+            $('#inputWizard').wizard('selectedItem', { step: 2 });
+            // clear input fields for the new station
+            $('input').val('');
         }
     });
 });
