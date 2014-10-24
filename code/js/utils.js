@@ -1996,8 +1996,7 @@ app.utils.initializeDB = function(db){
 				}
 				$("#filter-btn").removeClass("masqued");
 			}
-		});
-	};
+		}); };
 	app.utils.getFiltredResult = function(element, query, view) {
 		$("#" + element + "").html();
 		$("#" + element + "").html('<img src="images/ajax-loader-linear.gif" />');

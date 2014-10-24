@@ -84,7 +84,6 @@ define([
                     $('.login-form').addClass('rotate3d');
                     setTimeout(function() {
                         Radio.channel('route').trigger('login:success');
-                        $('body').removeClass('login-page');
                     },500);
                     
                 }).fail( function () {
@@ -96,6 +95,10 @@ define([
                 this.fail('#login-group', 'Invalid username');
                 this.shake();
             }
+        },
+
+        onDestroy: function(){
+            $('body').removeClass('login-page');
         },
 
         fail: function(elt, text) {

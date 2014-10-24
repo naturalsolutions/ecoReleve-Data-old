@@ -48,7 +48,6 @@ define([
                     this.generateProtocols(filesList);
               }
             });
-
         },
         generateProtocols :function(list){
             window.deferreds = [];
