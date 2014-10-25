@@ -51,7 +51,6 @@ define([
                     this.generateProtocols(filesList);
               }
             });
-
         },
         generateProtocols :function(list){
             window.deferreds = [];
@@ -140,7 +139,7 @@ define([
                 // create responsive input fields by adding bootstrap class to div blocs
                 $('fieldset>div').addClass('col-sm-4');
                 $('fieldset>div').addClass('form-field');
-                $('fieldset>div input').addClass('col-sm-10');
+                $('fieldset>div input').addClass('');
 
             }
             // hide loader
@@ -160,10 +159,10 @@ define([
                 var pictoElement = $(spn).find('i')[0];
                 $(pictoElement).removeClass();
                 if(!errors){
-                    $(pictoElement).addClass('icon small reneco validated');
+                    $(pictoElement).addClass('icon reneco validated');
                     Radio.channel('input').command('inputForms');
                 } else {
-                    $(pictoElement).addClass('icon small reneco close');
+                    $(pictoElement).addClass('icon reneco close');
                 }
             } else {
                 console.log('pas de formulaire pour ce protocole');

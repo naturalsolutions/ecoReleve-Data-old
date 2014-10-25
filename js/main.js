@@ -9,6 +9,9 @@ var ecoReleveData = (function(){
             }
         },
         shim:{
+            sweetAlert: {
+                exports:'sweetAlert'
+            },
 
             bootstrap_slider: {
                 deps: ['bootstrap','jquery'],
@@ -69,6 +72,7 @@ var ecoReleveData = (function(){
 
         },
         paths: {
+            
             app: '../app',
             collections: '../collections',
             config: '../config',
@@ -109,9 +113,12 @@ var ecoReleveData = (function(){
             vegas: '../../bower_components/vegas/dist/jquery.vegas',
             fuelux : '../../bower_components/fuelux/dist/js/fuelux',
             bbForms : 'backbone.forms/backbone-forms.min',
-            nicescroll:'nicescroll/jquery.nicescroll',
+/*            nicescroll:'nicescroll/jquery.nicescroll',
+*/
             dateTimePicker: '../../bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
-            bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',        }
+            bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',  
+            sweetAlert: '../../bower_components/sweetalert/lib/sweet-alert.min'   
+        }
 
     });
 

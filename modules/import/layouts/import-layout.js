@@ -17,7 +17,7 @@ define([
 
     return Marionette.LayoutView.extend ({
 
-        className: 'import-container',
+        className: 'import-container container',
 
         template: template,
         regions: {
@@ -182,6 +182,11 @@ define([
                 alert('please select a valid worker name');
                 $('#importWorker1').val('');
             }
-        }
+        },
+
+        onRender: function(){
+            $('ul.steps').css('marginLeft', '0px');
+        },
+
     });
 });

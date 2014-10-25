@@ -20,7 +20,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'input-container',
+        className: 'input-container container',
         template: template,
 
         regions: {
@@ -259,6 +259,10 @@ define([
             position.set("id","_");
             return (position);
         },
+        onRender: function(){
+            $('ul.steps').css('marginLeft', '0px');
+        },
+
         getCurrentPosition : function(){
             if(navigator.geolocation) {
                 var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);

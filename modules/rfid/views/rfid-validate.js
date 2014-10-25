@@ -5,8 +5,9 @@ define([
     'marionette',
     'config',
     'text!modules2/rfid/templates/rfid-validate.html',
+    'sweetAlert'
     
-], function($, _, Backbone, Marionette, config, template) {
+], function($, _, Backbone, Marionette, config, template,sweetAlert) {
 
     'use strict';
     return Marionette.ItemView.extend({
@@ -32,7 +33,8 @@ define([
             $.ajax({
                 url: config.coreUrl + 'rfid/validate'
             }).done( function(data) {
-                alert('The file was imported with code : \n'+data);
+                sweetAlert('Good job!', 'The file was imported with code : \n'+data, 'success');
+                //alert('The file was imported with code : \n'+data);
             }).fail( function(data) {
                alert('Please verify your file or contact administrator');
 

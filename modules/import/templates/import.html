@@ -2,15 +2,16 @@
     <div class="fuelux">
         <div class="wizard" data-initialize="wizard" id="importWizard">
             <ul class="steps">
-                <li data-step="1" class="active"><span class="badge">1</span>format<span class="chevron"></span></li>
-                <li data-step="2"><span class="badge">2</span>data<span class="chevron"></span></li>
-                <li data-step="3"><span class="badge">3</span>map<span class="chevron"></span></li>
-                <li data-step="4"><span class="badge">4</span>metadata<span class="chevron"></span></li>
-                <li data-step="5"><span class="badge">5</span>finish<span class="chevron"></span></li>
+                <li data-step="1" class="active"><span class="badge">1</span><span class="hidden-xs">format</span><span class="chevron"></span></li>
+                <li data-step="2"><span class="badge">2</span><span class="hidden-xs">data</span><span class="chevron"></span></li>
+                <li data-step="3"><span class="badge">3</span><span class="hidden-xs">map</span><span class="chevron"></span></li>
+                <li data-step="4"><span class="badge">4</span><span class="hidden-xs">metadata</span><span class="chevron"></span></li>
+                <li data-step="5"><span class="badge">5</span><span class="hidden-xs">finish</span><span class="chevron"></span></li>
             </ul>
+
             <div class="actions">
-                <button class="btn btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
-                <button class="btn btn-default btn-next" data-last="Complete">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button class="btn btn-lg btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
+                <button class="btn btn-lg btn-default btn-next" data-last="Complete">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
             <div class="step-content">
                 <div class="step-pane active sample-pane " data-step="1">
@@ -19,13 +20,13 @@
                             <div class="grouped fields">
                                 <legend for="male">select a type of data</legend>
                                 <div class="field">
-                                    <div class="ui radio checkbox">
+                                    <div class="ui radio-inline checkbox">
                                         <input type="radio" name="filetype1" value="gps-gpx" checked>
                                         <label>GPS GPX</label>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <div class="ui radio checkbox">
+                                    <div class="ui radio-inline checkbox">
                                         <input type="radio" name="filetype1" value="gps-csv" disabled>
                                         <label>CSV</label>
                                     </div>
@@ -123,6 +124,7 @@
                     <button id="importEnd"> Complete </button>
                 </div>
             </div>
+
         </div>
     </div>
 </script>

@@ -1,0 +1,45 @@
+div.fuelux{
+	.wizard{
+		overflow: visible;
+		& > .actions{
+			bottom: -90px;
+			background-color: transparent!important;
+			left: 0;
+			width: 100%;
+			line-height: 0px;
+			border: none;
+			margin-bottom: 20px;
+
+			padding: 0px;
+			//padding: 0px (@grid-gutter-width/2);
+			button{
+				background: @vert2;
+				color: white;
+				border: none;
+				&.btn-default{
+					&.disabled{
+						background: @vert2;
+						&:focus{
+							background: @vert2;
+						}
+					}	
+				}
+				&.btn-next{
+					float: right;
+					span{
+						margin-left: 15px;
+					}
+				}
+				&.btn-prev{
+					span{
+						margin-right: 15px;
+					}
+				}
+			}
+		}
+	}	
+
+}
+.fuelux .wizard .step-content{
+	padding: 5%;
+}
