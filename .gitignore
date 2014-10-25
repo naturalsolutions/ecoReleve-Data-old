@@ -9,6 +9,7 @@ ecoReleve-Data.sublime-project
 ecoReleve-Data.sublime-workspace
 assets/fonts/*
 assets/css/styles.css
+assets/css/styles.css.map
 node_modules/*
 css/*
 fonts/*
