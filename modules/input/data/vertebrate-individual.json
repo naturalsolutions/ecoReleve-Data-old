@@ -1,0 +1,68 @@
+﻿{
+  "name": "Vertebrate individual",
+  "description": "Vertebrate individual",
+  "parent" : "Vertebrate group",
+  "keywords": [
+    "Bird trapping",
+    "Reptile trapping",
+    "Mammal trapping"
+  ],
+  "schema": {
+    "Fk_TInd_ID": {
+      "validators": [],
+      "type": "Number",
+      "title": "indiv id"
+    },
+    "frequency": {
+      "validators": [],
+      "type": "Number",
+      "title": "frequency"
+    },
+    "Name_signal_type": {
+      "validators": [],
+      "type": "Text",
+      "title": "signal"
+    },
+    "name_sex": {
+      "validators": ["required"],
+      "type": "Text",
+      "title": "sex"
+    },
+    "name_age": {
+      "validators": [],
+      "type": "Text",
+      "title": "age"
+    },
+    "Sampled": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "sampled"
+    },
+    "Name_Posture": {
+      "validators": [],
+      "type": "Text",
+      "title": "posture"
+    },
+    "Name_Behaviour": {
+      "validators": [],
+      "type": "Text",
+      "title": "behaviour"
+    },
+    "Comments": {
+      "type": "Text",
+      "title": "comments"
+    }
+  },
+  "fieldsets": []
+}
+

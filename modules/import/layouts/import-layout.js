@@ -57,6 +57,7 @@ define([
             // display map & grid
             console.log(step);
             if(step ==2){
+                this.getUsers();
                 $('.btn-next').attr('disabled', 'disabled');
             }
             if(step ==3){
@@ -187,6 +188,23 @@ define([
         onRender: function(){
             $('ul.steps').css('marginLeft', '0px');
         },
+        getUsers : function(){
+            var url = config.coreUrl + 'user';
+            $.ajax({
+                context: this,
+                url: url,
+                dataType: 'json'
+            }).done( function(data) {
+                this.generateDatalist(data);
+            });
+        },
+        generateDatalist : function(data){
+            var UsersList = '';
+            data.forEach(function(user) {
+                UsersList += '<option>' + user.fullname + '</option>';
+            });
+            $('#import-worker1').append(UsersList);
+        }
 
     });
 });

@@ -112,7 +112,7 @@ var ecoReleveData = (function(){
 
             vegas: '../../bower_components/vegas/dist/jquery.vegas',
             fuelux : '../../bower_components/fuelux/dist/js/fuelux',
-            bbForms : 'backbone.forms/backbone-forms.min',
+            bbForms : 'backbone.forms/backbone-forms',
 /*            nicescroll:'nicescroll/jquery.nicescroll',
 */
             dateTimePicker: '../../bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',

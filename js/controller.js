@@ -15,7 +15,7 @@ define([
     'modules2/gsm/layouts/gsm-list',
     'modules2/transmitter/layouts/transmitter-list',
 	'modules2/import/layouts/import-layout',
-    'modules2/input/layouts/input-station',
+    'modules2/input/layouts/input-data',
     'modules2/export/layouts/export-layout'
     //'modules/transmitter/layouts/transmitter-list'
 
