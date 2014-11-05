@@ -63,7 +63,7 @@ define([
                 label: 'ID',
                 editable: false,
                 renderable: false,
-                cell: 'integer'
+                cell: 'string'
             }, {
                 name: 'date',
                 label: 'DATE',

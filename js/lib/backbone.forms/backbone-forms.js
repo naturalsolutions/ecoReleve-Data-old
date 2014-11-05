@@ -2150,6 +2150,7 @@ Form.editors.NestedModel = Form.editors.Object.extend({
 
     //Wrap the data in a model if it isn't already a model instance
     var modelInstance = (data.constructor === nestedModel) ? data : new nestedModel(data);
+    //var modelInstance =   nestedModel;
 
     this.nestedForm = new NestedForm({
       model: modelInstance,
