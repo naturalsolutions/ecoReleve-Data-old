@@ -17,22 +17,35 @@ module.exports = function(grunt) {
             options: {
               compress: false,
               sourceMap: true,
-              sourceMapFilename: 'styles.css.map',
-              sourceMapRootpath: ''
+              sourceMapFilename: 'assets/css/styles.css.map',
+              sourceMapURL: 'styles.css.map'
+
             }
           }
         },
         watch: {
+          configFiles: {
+              files: [ 'Gruntfile.js', 'config/*.js' ],
+              options: {
+                reload: true
+              }
+            },
             css: {
                 files: ['assets/less/**/*.less'],
                 tasks: ['less'],
                 options: {
-                  livereload: true,
+                  livereload: false,
                 },
-            }
+            },
+            script: {
+              files: [ '**/*.js', 'config/*.js' ],
+              options: {
+                livereload: true
+              }
+            },
         }
     });
 
-    grunt.registerTask('default', ['less', 'watch:css', 'watch:js']);
+    grunt.registerTask('default', ['less', 'watch:css']);
 };
 

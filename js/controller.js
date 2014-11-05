@@ -47,7 +47,7 @@ define([
             this.listenTo(radio, 'input', this.inputData);
             this.listenTo(radio, 'home', this.home);
 
-            //radio.comply('export', this.export, this);
+            radio.comply('export', this.export, this);
 
 
         },

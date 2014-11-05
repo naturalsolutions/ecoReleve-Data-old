@@ -7,56 +7,63 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!modules2/export/templates/export-step2.html',
-
+    'text!modules2/export/templates/export-step2-filters.html',
     'bbForms',
     'models/export_filter',
-    'text!modules2/export/tools/tpl-filters.html'
-
-], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template, BbForms, FilterModel, tplFilters) {
+    'text!modules2/export/tools/tpl-filters.html',
+    'ol3'
+], function($, _, Backbone , Marionette, moment, Radio,
+ datalist, config, template, BbForms, FilterModel, tplFilters, ol) {
 
     'use strict';
 
     return Marionette.ItemView.extend({
         template: template,
         events: {
-            //selectField
             'change #export-view-fields': 'selectField',
-            //selectOperator
-            //'click #export-field-select-btn': 'selectField',
-            //Check Button
-            'click #filter-query-btn': 'filterQuery',
+            'click #filter-query-btn': 'check',
         },
 
+
+
         initialize: function(options) {
-
             this.radio = Radio.channel('exp');
+
+
             this.selectedFields = [];
-
             this.filterList=[];
-
-            this.filters_coll = new Backbone.Collection;
+            this.filterInfosList= {};
+            //this.filters_coll = new Backbone.Collection;
             this.labels="";
             this.viewName= options.viewName;
 
-            $("#filterViewName").text(this.viewName);
 
             this.generateFilter();
+            this.getFieldsListForSelectedView(this.viewName);
 
+
+
+
+        },
+        onShow: function(){
+            $("#filterViewName").text(this.viewName);
         },
         onBeforeDestroy: function() {
             this.radio.reset(); 
         },
+
         generateFilter : function() {
             var viewUrl = config.coreUrl + "/views/" + this.viewName + "/count";
             var jqxhr = $.ajax({
                 url: viewUrl,
                 context: this,
-                dataType: "json"
+                dataType: "json",
             }).done(function(count){
+                console.log('plouf');
                 count += " records";
+
                 $("#countViewRows").text(count);
-                this.getFieldsListForSelectedView(this.viewName); //call
+                 //call
             }).fail(function(msg){
                 $("#countViewRows").text("error !");
             });
@@ -86,158 +93,113 @@ define([
 
         selectField: function() {
             var fieldName = $("#export-view-fields option:selected").text();
-            var fieldId = fieldName.replace("@", "-");
+            //var fieldId = fieldName.replace("@", "-");
 
-            var operatorsOptions;
 
-            var fieldType = $("#export-view-fields option:selected").attr('type');
-
-            var type = $("#export-view-fields option:selected").attr('type');
-
-            switch(type){
-                case "string": 
-                    operatorsOptions= ['<', '>', '<>', '=', ''];
-                    break;
-                default:
-                    break;
-            }
-
-            //var filterModel = new FilterModel();
-            console.log('test'+filterModel);
-
-/*            filterModel.set();
-*/
+            /**
+            *
+            * Instanciate a new FilterModel // Filter
+            *
+            **/
+            
             
             var filterModel = new FilterModel({
+                Column: fieldName,
                 Operator: operatorsOptions,
-                Value: 'Your input data'
+                Value: 'Default Data'
             });
 
-            console.log(filterModel);
+            //console.log(filterModel);
             
+            /**
+            *
+            * Instanciate a new BbForm
+            *
+            **/
+            
+
+
             var form = new BbForms({
                 template: _.template(tplFilters),
                 model: filterModel,
                 templateData: {filterName: fieldName }
             }).render();
 
-            $('#filter-query').append(form.el);
-            console.log(filterModel.get("label"));
-
-/*            form.on('Operator:change', function(form, titleEditor, extra) {
-                  console.log(':: Value changed to "' + titleEditor.getValue() + '".');
-             });*/
-
-            this.filterList.push(form);
-
-            console.log(filterModel.get("label"));
-
-            $('#export-filter-list').append(form.el);
-
-
-            var ln = this.selectedFields.length;
-            var isSelected = false;
-            if (fieldName === "") {
-                isSelected = true;
-            } else {
-                if (ln > 0) {
-                    for (var i = 0; i < ln; i++) {
-                        if (this.selectedFields[i] == fieldId) {
-                            isSelected = true;
-                            return;
-                        }
-                    }
-                }
-            }
-
 
             
 
 
-            if (isSelected === false) {
-                var fieldType = $("#export-view-fields option:selected").attr('type');
 
-
-
-                var fieldIdattr = fieldName.replace("@", "-");
-                // generate operator
-                var operatorDiv = this.generateOperator(fieldType,fieldIdattr);
-                var inputDiv = this.generateInputField(fieldType,fieldIdattr);
-
-
-
-
-                var fieldFilterElement = "<div class ='row-fluid filterElement' id='div-" + fieldIdattr + "'><div class='span4 name' >" + fieldName + "</div><div class='span1 operator'>" + operatorDiv + "</div><div class='span3 exportFilterRowVal'>";
-
-
-                fieldFilterElement += inputDiv + "</div><div class='span3'><span id='filterInfoInput'></span></div><div class='span1'><a cible='div-" + fieldIdattr + "' class='btnDelFilterField'><img src='assets/img/export/Cancel.png'/></a></div></div>";
-
-
-                $("#export-filter-list").append(fieldFilterElement);
-                $("#export-filter-list").removeClass("masqued");
-                $('#filter-query').removeClass("masqued");
-
-
-                this.selectedFields.push(fieldIdattr);
-
-                
-
-
-
-            }
-        },
-
-        generateOperator: function(type, id) {
-
-
-
-
-            var operatorDiv;
-            switch (type) {
-                case "string":
-                    operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option><option>IS NOT NULL</option><option>IS NULL</option></select>"; //"LIKE";
-                    break;
-                case "integer":
-                    operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option><option>IS NOT NULL</option><option>IS NULL</option></select>";
-                    break;
-                    /*case "datetime":
-            operatorDiv = "<select class='filter-select-operator'><option>&gt;</option><option>&lt;</option></select>";
-              break;*/
-                case "text":
-                    operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>=</option><option>LIKE</option><option>IN</option><option>IS NOT NULL</option><option>IS NULL</option></select>"; //"LIKE";
+            /**
+            *
+            * Set options per type
+            *
+            **/
+            var operatorsOptions;
+            var type = $("#export-view-fields option:selected").attr('type');
+            switch(type){
+                case "string": 
+                    operatorsOptions= ['>', '<>', '='];
+                    form.fields.Operator.editor.setOptions(operatorsOptions);
                     break;
                 default:
-                    operatorDiv = "<select id='"+id+"' class='filter-select-operator'><option>&gt;</option><option>&lt;</option><option>=</option><option>&lt;&gt;</option><option>&gt;=</option><option>&lt;=</option><option>IS NOT NULL</option><option>IS NULL</option></select>";
-            }
-            return operatorDiv;
-        },
-
-
-
-        generateInputField: function(type, id) {
-            var inputDiv = "";
-            switch (type) {
-                case "datetime":
-                    inputDiv = "<input id='in_"+id+"' type='date' placeholder='YYYY-MM-DD' class='fieldval'/>";
                     break;
-                default:
-                    inputDiv = "<input id='in_"+id+"' type='text' class='fieldval'/>";
             }
-            return inputDiv;
+
+
+            $('#filter-query').append(form.el);
+            this.filterList.push(form);
+
+            form.on('Operator:change', function(form, titleEditor, extra) {
+                  console.log(':: Value changed to "' + titleEditor.getValue() + '".');
+
+            });
+
+
+
+            //console.log(filterModel.get("label"));
+
+            /*ergo*/
+            $('#export-filter-list').append(form.el).removeClass('masqued');
+            $('#filter-query').removeClass("masqued");
         },
 
 
         /*check*/
         filterQuery: function() {
+            var currentFilter;
 
+
+            /**
+            *
+            * Push filters
+            *
+            **/
             
             for (var i = 0; i < this.filterList.length; i++) {
-                console.log(this.filterList[i]);
+                var currentForm=this.filterList[i];
+                //console.log(currentForm.getValue());
+                if(!currentForm.validate()){
+                    this.filterInfosList.filters.push(currentForm.getValue());
+                }
             };
+
+
+
+            /**
+            *
+            * Ajax Call
+            *
+            **/
+            
+
+
+
+
 
             var fieldName, operator, condition;
 
-            this.filters_coll.reset();
+            //this.filters_coll.reset();
 
             var query = "";
             var self = this;
@@ -250,56 +212,87 @@ define([
                 operator = $(this).find("select.filter-select-operator option:selected").text();
 
 
-
+                /*
                 self.filters_coll.push({
                     label: fieldName,
                     operator: condition,
                     value: operator
                 });
-
-
-                if (operator == "IN") {
-                    query += fieldName+'='+operator +','+condition.replace(';','|')+'&';
-                }
-                else if (operator == "IS NOT NULL" || operator == "IS NULL") {
-                    query += fieldName+'='+operator+'&';
-                }
-                else{
-                    query += fieldName+'='+operator +','+condition+'&';
-                    //query += Anne=>,2012&
-                }
-                /*if (operator == "LIKE") {
-                    operator = " LIKE ";
-                }
-                if (operator == "IN") {
-                    operator = " IN ";
-                }
-                if (operator == "IS NOT NULL" || operator == "IS NULL") {
-                    operator =" "+operator;//.replace(/ /g,'');
-                }
-
-                query += fieldName + operator + condition + ",";*/
+                */
             });
 
 
             // delete last character "&"
-
             
-            query = query.substring(0, query.length - 1);
-            var selectedView = this.viewName;
-            $("#filterForView").val(query);
-            this.getFiltredResult("filter-query-result", query, selectedView);
-            this.query = query;
+            
+            
+
             
 
 
-            this.radio.command('shared', {
-                filters: this.filters_coll,
-                query: this.query
-             });
+        },
+
+        removeFilter: function(){
+
+        },
+
+        check: function(){
+            this.filterInfosList= {
+                viewName: this.viewName,
+                filters: []
+            } 
+
+            /**
+            *
+            * push filter if it passes validation
+            *
+            **/
+
+            var currentForm;
+            for (var i = 0; i < this.filterList.length; i++) {
+                currentForm=this.filterList[i];
+                //console.log(currentForm.getValue());
+                if(!currentForm.validate()){
+                    this.filterInfosList.filters.push(currentForm.getValue());
+                }
+            };
+
+
+            /**
+            *
+            * Call
+            *
+            **/
+            
+
+            var viewUrl = config.coreUrl + "/views/filter/" + this.viewName + "/count" ;
+            $.ajax({
+                url: viewUrl,
+                data: JSON.stringify({criteria:this.filterInfosList}),
+                contentType:'application/json',
+                type:'POST',
+                context: this,
+            }).done(function(count){
+                console.log('success: '+count);
+                $('#geo-query-result').html(count);
+                this.validate();
+            }).fail(function(msg){
+                console.log(msg);
+            });
+
+
+        },
 
 
 
+        validate: function(){
+            this.radio.command('filters', {
+                filters: this.filterInfosList,
+            });
+            this.radio.command('filters2map', {
+                filters: this.filterInfosList,
+            });
+            $('.btn-next').removeAttr('disabled');
         },
 
 
@@ -320,5 +313,23 @@ define([
             });
         },
 
+
+
+
+        /**
+        *
+        * Map
+        *
+        **/
+
+
     });
+
+
+    /**
+    *
+    * Map
+    *
+    **/
+    
 });

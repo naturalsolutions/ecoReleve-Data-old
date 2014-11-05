@@ -4,11 +4,10 @@
 <div class="fuelux">
     <div class="wizard" data-initialize="wizard" id="importWizard">
         <ul class="steps">
-            <li data-step="1" class="active"><span class="badge">1</span>format<span class="chevron"></span></li>
-            <li data-step="2"><span class="badge">2</span>data<span class="chevron"></span></li>
-            <li data-step="3"><span class="badge">3</span>map<span class="chevron"></span></li>
+            <li data-step="1" class="active"><span class="badge">1</span>Themes & views<span class="chevron"></span></li>
+            <li data-step="2"><span class="badge">2</span>Criteria<span class="chevron"></span></li>
+            <li data-step="3"><span class="badge">3</span>Export<span class="chevron"></span></li>
             <li data-step="4"><span class="badge">4</span>metadata<span class="chevron"></span></li>
-            <li data-step="5"><span class="badge">5</span>finish<span class="chevron"></span></li>
         </ul>
 
         <div class="step-content">
@@ -16,30 +15,40 @@
             </div>
 
             <div class="step-pane sample-pane bg-info " data-step="2" id="step2">
+                <div id="step2-filters" class="col-xs-6 col-border">
+
+                </div>
+                <div id="step2-map" class="col-xs-6 no-padding">
+
+                </div>
             </div>
 
             <div class="step-pane sample-pane" data-step="3" id="step3">
+                <div id="step3-columns" class="col-xs-6 col-border">
+
+                </div>
+                <div id="step3-preview" class="col-xs-6 no-padding">
+
+                </div>
             </div>
 
-            <div class="step-pane sample-pane" data-step="4">
+            <div class="step-pane sample-pane" data-step="4" id="step4">
             </div>
 
-
-            <div class="step-pane sample-pane" data-step="5">
-            </div>
 
             <div class="clear"></div>
             <br>
 
-            <div class="actions col-lg- pull-right">
-                <button class="btn btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
-                <button class="btn btn-default btn-next" data-last="Complete">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
-            </div>
+
             <div class="clear"></div>
 
         </div>
     </div>
 
+</div>
+<div class="actions col-lg- pull-right">
+    <button class="btn btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
+    <button class="btn btn-default btn-next" data-last="Complete">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
 </div>
 </div>
 </script>

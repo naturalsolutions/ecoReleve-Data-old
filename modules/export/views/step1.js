@@ -17,7 +17,7 @@ define([
     return Marionette.ItemView.extend({
         template: template,
         events: {
-            'change #export-themes': 'updateViewsList',
+            'click #export-themes li': 'getViewsList',
    /*         'click button.close': 'exitExp',
             'click .exportViewsList': 'step2',*/
         },
@@ -30,74 +30,71 @@ define([
         },
         onShow: function() {
             //datalist.fill('#export-themes', '/themes/list?export=yes');
-            this.getItemList("#export-themes", "/theme/list?export=yes");
+            this.getItemList();
         },
-        updateViewsList: function(e) {
-            var viewID = $("#export-themes option:selected").attr('value');
-            this.getViewsList(viewID);
-        },
-        getViewsList:  function(id) {
-            $('#export-views').empty();
-            if (id !== "") {
-                //var serverUrl = localStorage.getItem("serverUrl");
-                var serverUrl = config.serverUrl;
-                var viewsUrl = config.coreUrl + "/views/list?id_theme=" + id;
-                $.ajax({
-                    url: viewsUrl,
-                    dataType: "text",
-                    success: function(data) {
-                        /*var len = data.length;
-                        for (var i = 0; i < len; i++) {
-                            var value = data[i].MapSelectionManager.TSMan_sp_name;
-                            var label = data[i].MapSelectionManager.TSMan_Description;
-                            $('<li class="exportViewsList" value=\"' + value + '\">' + label + "</li>").appendTo('#export-views');
-                        }*/
-                            var xmlDoc = $.parseXML(data),
-                            $xml = $(xmlDoc),
-                            $views = $xml.find("view");
 
-                            $views.each(function() {
-                                $('<li id="exportViewsList" class="list-group-item" value=\"' + $(this).attr('id') + '\">' + $(this).text() + '</li>').appendTo('#export-views');
-                            });
-                    },
-                    error: function() {
-                        alert("error loading views, please check connexion to webservice");
-                    }
-                });
-            }
-        },
-        selectCurrentView: function(e) {
-            var viewName = $(e.target).get(0).attributes["value"].nodeValue;
-            // this.setView(new app.views.ExportFilterView({viewName: viewName}));
-            var route = "#export/" + viewName;
-        },
         //obsolete : remplace by datalist.fill()
-        getItemList: function(element, url, isDatalist){
-            $(element).empty();
-            $('<option value=""></option>').appendTo(element);
-            var serverUrl = config.coreUrl;
-            url = serverUrl + url;
+        getItemList: function(isDatalist){
+            var element= $('#export-themes');
+            $('#export-themes').empty();
+
+            var url = config.coreUrl + '/theme/list?export=yes';
+
             $.ajax({
                 url: url,
                 dataType: "json",
-                success: function(data) {
-                    var len = data.length;
-                    for (var i = 0; i < len; i++) {
-                        var label = data[i].caption;
-                        var value = data[i].id;
-                        if (isDatalist) {
-                            $('<option value=\"' + label + '\">' + "</option>").appendTo(element);
-                        } else {
-                            $('<option value=\"' + value + '\">' + label + "</option>").appendTo(element);
-                        }
+                context: this,
+            }).done(function(data){
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    var label = data[i].caption;
+                    var value = data[i].id;
+                    if (isDatalist) {
+                        $('<li>'+label+ '</li>').appendTo(element);
+                    } else {
+                        $('<li class="list-group-item" value=\"' + value + '\">' + label + "</li>").appendTo(element);
                     }
-                },
-                error: function() {
-                    alert("error loading items, please check connexion to webservice");
                 }
+            }).fail(function(msg){
+                alert("error loading items, please check connexion to webservice");
             });
 
         },
+
+
+        getViewsList:  function(e) {
+            var id=e.currentTarget.getAttribute("value");
+            $('#export-views').empty();
+
+            var url = config.coreUrl + "/views/list?id_theme=" + id;
+
+
+            if (id !== "") {
+                
+                $.ajax({
+                    url: url,
+                    dataType: "text",
+                    context: this,
+                }).done(function(data){
+                    var xmlDoc = $.parseXML(data),
+                    $xml = $(xmlDoc),
+                    $views = $xml.find("view");
+
+                    $views.each(function() {
+                        $('<li id="exportViewsList" class="list-group-item" value=\"' + $(this).attr('id') + '\">' + $(this).text() + '</li>').appendTo('#export-views');
+                    });
+                }).fail(function(msg){
+                        alert("error loading views, please check connexion to webservice");
+                });
+
+
+            }
+
+        },
+
+
+
+
 
 
 

@@ -49,9 +49,11 @@ define([
             this.radio = Radio.channel('input');
             Radio.channel('input').comply('generateStation', this.generateStation, this);
             Radio.channel('input').comply('inputForms', this.inputValidate, this);
+            $('body').addClass('input-demo');
         },
         onBeforeDestroy: function() {
             //this.radio.reset();
+            $('body').removeClass('input-demo');
         },
         stationType : function(e) {
             var stType = $(e.target).val();

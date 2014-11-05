@@ -644,6 +644,9 @@ var ecoReleveData = (function(app) {
 			});
 		}
 	});
+
+
+	
 	//$exportresult
 	app.views.ExportResult = app.views.BaseView.extend({
 		template: "export-result",

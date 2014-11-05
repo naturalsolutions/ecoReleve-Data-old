@@ -260,8 +260,35 @@ define([
                     $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
                    // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
                     tabOrder += 1;
-                //}
                 }
+
+                // add this form to view forms list to use it later when commit/validate form
+                this.forms.push(form);
+                var activeTab ="";
+                //console.log(form);
+                var formContent = form.el;
+                // activate first element of tab
+                if(i===0){activeTab ="active";}
+
+                $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a></li>');
+                var tabId = 'tab_' + i;
+
+
+
+                $('#tabProtsCoentent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
+
+
+                $('#' + tabId).append(formContent);
+
+
+                $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="small btn btn-labeled btn-success pull-right inputProtocolValidation">save <span class="btn-label"><i class="icon reneco validated"></i></span></button></div>');
+
+
+                // create responsive input fields by adding bootstrap class to div blocs
+                $('fieldset>div').addClass('col-sm-4');
+                $('fieldset>div').addClass('form-field');
+                $('fieldset>div input[type=text],input[type=number],select').addClass('form-control');
+
             }
             // hide loader
             $('#myLoader').loader('destroy');
