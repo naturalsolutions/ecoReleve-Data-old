@@ -6,10 +6,21 @@ define([
     'use strict';
     return Backbone.Model.extend({
 	    schema: {
-	        Operator: { type: 'Select', title:'Operator', options: ['>', '<', '='] },
-	        Value: { type: 'Text', title:null},
-	        IsNull: { type: 'Checkboxes', title: 'Is null', options: ['']},
-	        IsNotNull: { type: 'Checkboxes', title: 'Is not null', options: ['']}
+	    	Column: {type: 'Hidden', title:'Column'},
+	        Operator: { type: 'Select', title: null, options: ['>', '<', '='], editorClass: 'form-control' },
+	        Value: { type: 'Number', validators: ['required'],  title:null, editorClass: 'form-control' },
+	        /*
+	        Radios: {
+	        	type: 'Radio',
+	        	options: [
+	        	    { label: 'Is Null'},
+	        	    { labelHTML: 'Is Not Null'}
+	        	]
+	        }*/
+	        /*
+	        IsNull: { type: 'Checkboxes', title: null, options: ['']},
+	        IsNotNull: { type: 'Checkboxes', title: null, options: ['']},
+	        */
 
 	    },
 	    defaults:{

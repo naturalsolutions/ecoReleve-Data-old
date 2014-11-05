@@ -1,0 +1,267 @@
+/* colors */
+@blue:                  #2E8BCC;
+@green:                 #339933;
+@red:                   #E51400;
+@yellow:                #ffc40d;
+@pink:                  #E671B8;
+@purple:                #7B4F9D;
+@lime:                  #8CBF26;
+@magenta: 			    #FF0097;
+@teal: 				    #00ABA9;
+@white:					#FFFFFF;
+
+// Flat colors
+// Reference: http://flatuicolors.com/
+// -------------------------
+@turquoise: 			#1abc9c;
+@green-sea: 			#16a085;
+@emerald: 				#2ecc71;
+@nephritis: 			#27ae60;
+@peter-river: 			#3498db;
+@belize-hole: 			#2980b9;
+@amethyst: 				#9b59b6;
+@wisteria: 				#8e44ad;
+@wet-asphalt: 			#34495e;
+@midnight-blue: 		#2c3e50;
+@sun-flower:			#f1c40f;
+@orange:				#f39c12;
+@carrot:				#e67e22;
+@pumpkin:				#d35400;
+@alizarin:				#e74c3c;
+@pomegranate:			#c0392b;
+@clouds:				#ecf0f1;
+@silver:				#bdc3c7;
+@concrete:				#95a5a6;
+@asbestos:				#7f8c8d;
+
+
+
+
+/* approx.. */
+@small_tile: 150px;
+@margin: 15px;
+@big_tile: @small_tile*2+@margin;
+@height_tile: 150px;
+
+
+.custom{
+	cursor: pointer;
+	text-align: center;
+	height: @height_tile;
+	background: blue;
+	float: left;
+	margin: 0px 0px @margin @margin;
+	color: white;
+	line-height: 1.5;
+	opacity: 1;
+	.transition(opacity 0.5s);
+	border-radius: 3px;
+	&.small_tile{
+		width: @small_tile;
+	}
+	&.big_tile{
+		width: @big_tile;
+	}
+	&.last{
+		margin-left: @margin*4;
+	}
+	&.first{
+		margin-left: @margin*2;
+	}
+	h3{
+		margin-top: -20px;
+		font-size: 16px!important;
+		font-weight: normal;
+		padding: 10px;
+	}
+	&:hover{
+		opacity: 0.7;
+	}
+}
+
+
+
+@media screen and (min-width: @screen-sm) and (max-width: 1199px){
+	body.home-page{
+		.container{
+			margin-top: 0px;
+		}
+		div.wrapper{
+			width: 515px;
+			margin: 0 auto;
+		}
+		.custom{
+			&.first{
+				margin-left: 15px;
+			} 
+			&.last{
+				margin-left: 15px;
+			}
+		}
+	}
+}
+
+
+@media screen and (max-width: @screen-sm){
+	.home-page{
+		.container{
+			margin-top: 0px;
+		}
+		.wrapper{
+			width: 100%;
+		}
+		.custom{
+			&.small_tile, &.big-tile, &.last, &.first{
+				margin-left: 0px!important;
+				width: 100%;
+			}
+
+		}
+
+
+	}
+}
+
+
+.tile-blue
+{
+    background-color: @blue;
+}
+.tile-green
+{
+    background-color: @green;
+}
+.tile-red
+{
+    background-color: @red;
+}
+.tile-yellow
+{
+    background-color: @yellow;
+}
+.tile-orange
+{
+    background-color: @orange;
+}
+.tile-pink
+{
+    background-color: @pink;
+}
+.tile-purple
+{
+    background-color: @purple;
+}
+.tile-lime
+{
+    background-color: @lime;
+}
+.tile-magenta
+{
+    background-color: @magenta;
+}
+.tile-teal
+{
+    background-color: @teal;
+}
+.tile-turquoise 	
+{
+    background-color: @turquoise;
+}
+.tile-green-sea 	
+{
+    background-color: @green-sea;
+}
+.tile-emerald 		
+{
+    background-color: @emerald;
+}
+.tile-nephritis 	
+{
+    background-color: @nephritis;
+}
+.tile-peter-river 	
+{
+    background-color: @peter-river;
+}
+.tile-belize-hole 	
+{
+    background-color: @belize-hole;
+}
+.tile-amethyst
+{
+    background-color: @amethyst;
+}
+.tile-wisteria 		
+{
+    background-color: @wisteria;
+}
+.tile-wet-asphalt 	
+{
+    background-color: @wet-asphalt;
+}
+.tile-midnight-blue 
+{
+    background-color: @midnight-blue;
+}
+.tile-sun-flower	
+{
+    background-color: @sun-flower;
+}
+.tile-carrot		
+{
+    background-color: @carrot;
+}
+.tile-pumpkin		
+{
+    background-color: @pumpkin;
+}
+.tile-alizarin		
+{
+    background-color: @alizarin;
+}
+.tile-pomegranate	
+{
+    background-color: @pomegranate;
+}
+/* .tile-clouds		
+{
+    background-color: @clouds;
+    color: @tile-light-text-color;
+    h1, h2, h3, h4, h5, h6 { 
+        color: @tile-light-text-color;
+    }
+}
+ */
+/* .tile-clouds .tile-label {
+    color: @tile-light-text-color;
+} */
+
+.tile-silver		
+{
+    background-color: @silver;
+}
+.tile-concrete		
+{
+    background-color: @concrete;
+}
+.tile-asbestos	
+{
+    background-color: @asbestos;
+}
+
+/* .tile-info
+{
+    background-color: @tile-info-bg;
+}
+.tile-danger
+{
+    background-color: @tile-danger-bg;
+}
+.tile-warning
+{
+    background-color: @tile-warning-bg;
+}
+.tile-success
+{
+    background-color: @tile-success-bg;
+} */

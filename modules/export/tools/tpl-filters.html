@@ -1,8 +1,13 @@
-	<form>
-		<label for=""><%= filterName %></label>
-		<span data-fields="Operator"></span>
-		<span data-fields="Value"></span>
-		<span data-fields="IsNull"></span>
-		<span data-fields="IsNotNull"></span>
-		<h1></h1>
+<div class="row">
+	<form id="<%= filterName %>" class="filter form-horizontal">
+		<span data-editors="Column" ></span>
+		<span>&nbsp; <%= filterName %></span>
+		<br>
+		<span class="col-xs-3" data-editors="Operator"></span>
+		<span class="col-xs-3" data-editors="Value"></span>
+		<br>
+		<div class="clear"></div>
+<!-- 		<span class="col-xs-2" data-editors="Radios"></span>
+		 -->
 	</form>
+</div>
