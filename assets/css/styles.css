@@ -13224,6 +13224,28 @@ div.error {
 .masqued {
   display: none;
 }
+/*
+i.icon.reneco.close {
+	color: red;
+	float: left;
+	margin-right: 0.5em;
+}
+i.icon.reneco.validated{
+	color: green;
+	float: left;
+	margin-right: 0.5em;
+}
+div.subProtoContainer form {
+padding-top: 2em;
+padding-bottom: 2em;
+border-color: rgb(184, 170, 170);
+border-width: 1px;
+border-style: solid;
+}
+#add-proto{
+	float:right;
+}
+*/
 .input-demo {
   /*
 	.inputProtocolValidation{
@@ -13245,18 +13267,22 @@ div.error {
 .input-demo .col-sm-4.form-field {
   min-height: 90px;
 }
-.input-demo #stationDetails {
+.input-demo .bg-hack {
   background: -webkit-linear-gradient(left, #333333, #333333 25%, #ffffff 25%, #ffffff);
+}
+.input-demo .bg-hack #stationPanel {
   color: white;
 }
 .input-demo .nav.nav-tabs {
   height: 100px;
-}
-.input-demo .nav.nav-tabs a {
-  color: white;
-}
-.input-demo .nav.nav-tabs a:hover {
-  color: #ffffff;
+  /*
+		a{
+			color: white;
+			&:hover{
+				color: white
+			}
+		}
+		*/
 }
 /* Individual details */
 #birdInfosDetails {
