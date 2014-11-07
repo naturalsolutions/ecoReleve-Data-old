@@ -7,22 +7,34 @@
     "Houbara Standardized Circular Observation"
   ],
   "schema": {
+    "FK_TSta_ID" : {
+      "validators": [],
+      "type": "Hidden",
+      "title": "FK_TSta_ID"
+    },
     "Element_Nb": {
       "validators": [],
       "type": "Number",
-      "title": "element nb"
+      "title": "Element nb"
     },
     "Name_Impact": {
       "validators": [],
       "type": "Text",
-      "title": "impact"
+      "title": "Impact",
+      "editorAttrs": { "startId": "884219051" },
+      "editorClass": "autocompTree"
     },
     "Comments": {
       "validators": [],
-      "type": "Text",
-      "title": "comments"
+      "type": "TextArea",
+      "title": "Comments"
     }
   },
-  "fieldsets": []
+  "fieldsets": [
+    {
+      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments"],
+      "legend": ""
+    }
+  ]
 }
 

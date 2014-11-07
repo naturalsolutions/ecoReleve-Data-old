@@ -63,6 +63,12 @@ var ecoReleveData = (function(){
             bbForms  : {
                 deps:['backbone']
                // exports: 'nsForms'
+            },
+            fancytree :  {
+                 deps:['jquery','jquery_ui']
+            },
+            autocompTree : {
+                 deps:['fancytree']
             }
             /*,
             nsForms : {
@@ -117,7 +123,9 @@ var ecoReleveData = (function(){
 */
             dateTimePicker: '../../bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
             bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',  
-            sweetAlert: '../../bower_components/sweetalert/lib/sweet-alert.min'   
+            sweetAlert: '../../bower_components/sweetalert/lib/sweet-alert.min',
+            fancytree : 'NS.UI.autocompTree/Scripts/jquery.fancytree-all',
+            autocompTree : 'NS.UI.autocompTree/Scripts/jquery.autocompTree'  
         }
 
     });

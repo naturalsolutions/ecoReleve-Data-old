@@ -11,27 +11,33 @@
     "Fk_TInd_ID": {
       "validators": [],
       "type": "Number",
-      "title": "indiv id"
+      "title": "Indiv id"
     },
     "frequency": {
       "validators": [],
       "type": "Number",
-      "title": "frequency"
+      "title": "Frequency"
     },
     "Name_signal_type": {
       "validators": [],
       "type": "Text",
-      "title": "signal"
+      "title": "Signal",
+      "editorAttrs": { "startId": "25" },
+      "editorClass": "autocompTree"
     },
     "name_sex": {
-      "validators": ["required"],
+      "validators": [],
       "type": "Text",
-      "title": "sex"
+      "title": "Sex",
+      "editorAttrs": { "startId": "18872" },
+      "editorClass": "autocompTree"
     },
     "name_age": {
       "validators": [],
       "type": "Text",
-      "title": "age"
+      "title": "Age",
+      "editorAttrs": { "startId": "18876" },
+      "editorClass": "autocompTree"
     },
     "Sampled": {
       "validators": [],
@@ -46,21 +52,25 @@
         }
       ],
       "type": "Radio",
-      "title": "sampled"
+      "title": "Sampled"
     },
     "Name_Posture": {
       "validators": [],
       "type": "Text",
-      "title": "posture"
+      "title": "Posture",
+      "editorAttrs": { "startId": "34" },
+      "editorClass": "autocompTree"
     },
     "Name_Behaviour": {
       "validators": [],
       "type": "Text",
-      "title": "behaviour"
+      "title": "Behaviour",
+      "editorAttrs": { "startId": "1032620" },
+      "editorClass": "autocompTree"
     },
     "Comments": {
-      "type": "Text",
-      "title": "comments"
+      "type": "TextArea",
+      "title": "Comments"
     }
   },
   "fieldsets": []

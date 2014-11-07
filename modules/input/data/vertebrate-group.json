@@ -10,7 +10,9 @@
     "Name_Taxon": {
       "validators": [ "required"],
       "type": "Text",
-      "title": "taxon"
+      "title": "taxon",
+      "editorAttrs": { "startId": "8" },
+      "editorClass": "autocompTree"
     },
     "Id_taxon": {
       "validators": [],
@@ -90,7 +92,9 @@
     "Name_Behaviour": {
       "validators": [],
       "type": "Text",
-      "title": "behaviour"
+      "title": "behaviour",
+      "editorAttrs": { "startId": "1032620" },
+      "editorClass": "autocompTree"
     },
     "Id_Behaviour": {
       "validators": [],
@@ -140,7 +144,8 @@
     "timestamp": {
       "validators": [],
       "type": "Text",
-      "title": "obs time"
+      "title": "obs time",
+      "editorAttrs": { "placeholder":"HH:MM" }
     }
   },
   "fieldsets": [

@@ -601,11 +601,56 @@ Form.validators = (function() {
       if (value !== attrs[options.field]) return err;
     };
   };
-
-
+validators.min = function(options) {
+    if (!options.value) throw new Error('Missing required "value" options for "min" validator');
+    
+    options = _.extend({
+      type: 'min',
+      message: this.errMessages.min
+    }, options);
+    
+    return function min(value, attrs) {
+      options.value <= value;
+      
+      var err = {
+        type: options.type,
+        message: "min value is " +  options.value//_.isFunction(options.message) ? options.message(options) : options.message
+      };
+      
+      //Don't check empty values (add a 'required' validator for this)
+      if (value === null || value === undefined || value === '') return;
+      
+      if (value < options.value) return err;
+    };
+};
+validators.max = function(options) {
+    if (!options.value) throw new Error('Missing required "value" options for "max" validator');
+    
+    options = _.extend({
+      type: 'max',
+      message: this.errMessages.max
+    }, options);
+    
+    return function max(value, attrs) {
+      options.value >= value;
+      
+      var err = {
+        type: options.type,
+        message: "max value is " +  options.value//_.isFunction(options.message) ? options.message(options) : options.message
+      };
+      
+      //Don't check empty values (add a 'required' validator for this)
+      if (value === null || value === undefined || value === '') return;
+      
+      if (value > options.value) return err;
+    };
+};
   return validators;
 
 })();
+
+
+
 
 
 //==================================================================================================
