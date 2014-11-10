@@ -332,8 +332,32 @@ define([
                 var pictoElement = $(spn).find('i')[0];
                 $(pictoElement).removeClass();
                 if(errors.length == 0){
-                    $(pictoElement).addClass('icon reneco validated braindead');
-                    Radio.channel('input').command('inputForms');
+                    //Radio.channel('input').command('inputForms',{'TSta_PK_ID':'none', 'protocolName':currentProtocol, 'protocolForm':currentInstance.attributes});
+                    // check if there are subforms and insert parent form and sub forms in an array 
+                    var formsList = [];
+                    // add current station id
+                    currentInstance.attributes["FK_TSta_ID"]=this.model.get('id');
+                    // clear object
+                    delete currentInstance.attributes["fieldsets"];
+                    formsList.push(currentInstance.attributes);
+
+                    if(currentForm.model.subProtoForms) {
+                        var nbSubForms = currentForm.model.subProtoForms.length;
+                        // for each sub form get a simple object fields values to send by ajax
+                        for (var i=0; i<nbSubForms;i++){
+                            var subFormModel = currentForm.model.subProtoForms[i].model;
+                            // form content
+                            var subFormContent = subFormModel.attributes;
+                            // add current station id
+                            subFormContent["FK_TSta_ID"]=this.model.get('id');
+                            // add subform values to list forms to push 
+                            formsList.push(subFormContent);
+                        }
+                    }
+                    //Radio.channel('input').command('inputForms', currentInstance.attributes);
+                    Radio.channel('input').command('inputForms', formsList);
+
+
                     // change validation statut of current protocol in 'protocolsValidation' array
                     //this.changeValidationStatus(currentProtocolName);
                 } else {
