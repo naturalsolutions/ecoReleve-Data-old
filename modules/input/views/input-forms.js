@@ -231,9 +231,9 @@ define([
                             // insert nested fields (sub protocols) container 
                            // $('#' + tabId).append('<div protocolName ="' + protocolName +'" class="nestedContainer"></div>');
                             // create responsive input fields by adding bootstrap class to div blocs
-                            $('fieldset>div').addClass('col-sm-4');
+                            $('.bg-hack fieldset>div').addClass('col-sm-4');
                             $('fieldset>div').addClass('form-field');
-                            $('fieldset>div input').addClass('col-sm-10');
+                            $('fieldset>div input[type=text],input[type=number],select').addClass('form-control');
                             // check if protocol have sub protocols and insert form for sub proto
                             var nestedModelName = selectedProtocol.get('nestedModel'); // if value exisits
                             if (nestedModelName){
@@ -357,10 +357,11 @@ define([
                     //Radio.channel('input').command('inputForms', currentInstance.attributes);
                     Radio.channel('input').command('inputForms', formsList);
 
+
                     // change validation statut of current protocol in 'protocolsValidation' array
                     //this.changeValidationStatus(currentProtocolName);
                 } else {
-                    $(pictoElement).addClass('icon small reneco close');
+                    $(pictoElement).addClass('icon reneco close braindead');
                 }
             } else {
                     console.log('pas de formulaire pour ce protocole');
