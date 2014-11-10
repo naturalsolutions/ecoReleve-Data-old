@@ -85,10 +85,11 @@ define([
                     var position = new Position();
                     map.addModel(position);
                     $('#inputGetStData').removeClass('masqued');
-                    $('#dateTimePicker').datetimepicker({
-                    });
-                    $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss');
-                    // add field activity dataset
+                    
+                    $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
+					$('#dateTimePicker').datetimepicker({
+                    });                    
+// add field activity dataset
                     var fieldActivityList = $(activityTpl).html();  
                     $('#station-form').append(fieldActivityList);
                     // associate datalist to input 'FieldActivity_Name'
@@ -151,16 +152,37 @@ define([
             var currentStation = this.form.model;
             //console.log(currentStation);
             if(!errors){
-                // add details station region to next step container
-                var formsView = new Forms({ model : currentStation});
-                this.formsRegion.show(formsView);
                 // create a position from current station and add map view in next step
                 var position = new Position();
                 position.set("latitude",currentStation.get('LAT'));
                 position.set("longitude",currentStation.get('LON'));
                 position.set("label","current station");
                 position.set("id","_");
-                $('#inputWizard').wizard('next');
+                var self=this;
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/insert',
+                    data:  currentStation.attributes,
+                    type:'POST',
+                    success: function(data){
+                           console.log(data);
+                           self.form.model.set('id',data);
+                           console.log(self.form.model);
+                           if (data==null) $('#btnNext').addClass('disabled');
+						   else {
+								// add details station region to next step container
+                                var formsView = new Forms({ model : currentStation});
+                                self.formsRegion.show(formsView);
+                                $('#btnNext').removeClass('disabled');
+						   }
+                           console.log('this staton exists');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        //alert(xhr.status);
+                        //alert(thrownError);
+                        alert('error in generating new station. Please check fields data.');
+
+                    }
+                });
                 //$('#btnNext').removeClass('disabled');
             } else {
                 console.log(errors);
@@ -297,8 +319,30 @@ define([
             }
             alert(info);
         },
-        inputValidate : function(){
-            //alert('ok');
+        inputValidate : function(data){
+            //data["FK_TSta_ID"]=this.form.model.get('id');
+            //delete data["fieldsets"];
+            var nbProtos = data.length;
+            for (var i=0; i< nbProtos;i++){
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/addProtocol',
+                    data:  data[i],
+                    type:'POST',
+                    success: function(data){
+                        console.log('add Protocol');
+                        //change look of selected tab element
+                        var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                        var pictoElement = $(spn).find('i')[0];
+                        $(pictoElement).addClass('icon small reneco validated');
+                    },
+                   error: function (xhr, ajaxOptions, thrownError) {
+                        //alert(xhr.status);
+                        //alert(thrownError);
+                        alert('error in generating protocol data');
+                    }
+                });
+            }
+
         },
         stationStep : function(){
             $('#inputWizard').wizard('selectedItem', { step: 2 });
