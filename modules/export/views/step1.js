@@ -18,16 +18,19 @@ define([
         template: template,
         events: {
             'click #export-themes li': 'getViewsList',
-   /*         'click button.close': 'exitExp',
-            'click .exportViewsList': 'step2',*/
+            'click #exportViewsList': 'enableNext',
         },
         initialize: function(options) {
         	this.radio = Radio.channel('exp');
         	//$('body').append(form.el);
         },
+
+        /*
         onBeforeDestroy: function() {
             this.radio.reset();
         },
+		*/
+
         onShow: function() {
             //datalist.fill('#export-themes', '/themes/list?export=yes');
             this.getItemList();
@@ -58,7 +61,6 @@ define([
             }).fail(function(msg){
                 alert("error loading items, please check connexion to webservice");
             });
-
         },
 
 
@@ -68,9 +70,7 @@ define([
 
             var url = config.coreUrl + "/views/list?id_theme=" + id;
 
-
             if (id !== "") {
-                
                 $.ajax({
                     url: url,
                     dataType: "text",
@@ -86,10 +86,18 @@ define([
                 }).fail(function(msg){
                         alert("error loading views, please check connexion to webservice");
                 });
-
-
             }
+        },
 
+
+
+        enableNext: function(e){
+            this.viewName = $(e.target).get(0).attributes["value"].value;
+            $(e.target).addClass('validated');
+            $('.btn-next').removeAttr('disabled');
+            this.radio.command('viewName', {
+                viewName: this.viewName,
+            });
         },
 
 

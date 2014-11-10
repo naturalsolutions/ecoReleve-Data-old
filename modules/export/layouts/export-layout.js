@@ -25,9 +25,8 @@ define([
         template: template,
 
         regions: {
-            mainRegion: '#first-container',
-            second:'#second-container',
             step_1_Container: '#step1',
+
             step_2_Filters_Container: '#step2-filters',
             step_2_Map_Container: '#step2-map',
 
@@ -35,13 +34,11 @@ define([
             step_3_Preview_Container: '#step3-preview',
 
             step_4_Container: '#step4',
-
         },
 
         events: {
             'click button.btn-next' : 'nextStep',
-            'click #btnPrev' : 'prevStep',
-            'click #exportViewsList': 'forceNext',
+            'click button.btn-prev' : 'prevStep',
         },
 
         viewName:'',
@@ -49,15 +46,31 @@ define([
 
         initialize: function(options){
         	this.radio = Radio.channel('exp');
-        	this.radio.comply('filters', this.initFilters, this);
 
+        	this.radio.comply('filters', this.initFilters, this);
             this.radio.comply('columns', this.initColumns, this);
             this.radio.comply('box', this.initBox, this);
+            this.radio.comply('viewName', this.initViewName, this);
 
             this.filters_coll;
             this.columns, this.box;
 
+            $('body').addClass('export-layout');
+
             //Stepper.prototype.initialize.call(this);
+        },
+        resetRadio: function(){
+    		this.radio = Radio.channel('exp');
+
+    		this.radio.comply('filters', this.initFilters, this);
+    	    this.radio.comply('columns', this.initColumns, this);
+    	    this.radio.comply('box', this.initBox, this);
+    	    this.radio.comply('viewName', this.initViewName, this);
+
+        },
+        initViewName: function(args){
+        	this.viewName=args.viewName;
+        	console.log(this.viewName);
         },
         initFilters: function(args){
             this.filters_coll=args.filters;
@@ -74,47 +87,29 @@ define([
 
         onBeforeDestroy: function() {
             this.radio.reset();
+            $('body').removeClass('export-layout');
         },
 
         onShow: function() {
         	$('.btn-next').attr('disabled', 'disabled');
-
             this.step_1_Container.show( new Step1());
             //$('.btn-next').attr('disabled', 'disabled');
         },
 
         alerte: function(args){
-        	//var names = args.filters.pluck("label");
-        	
-
-            //alert(args);
-        },
-
-
-
-
-        /*Go2Step2*/
-        forceNext: function(e){
-
-            //init
-            this.viewName = $(e.target).get(0).attributes["value"].value;
-            //$('#importWizard').wizard('next');
-            this.nextStep();
+            alert(args);
         },
 
         prevStep: function(){
-            var step = $('#importWizard').wizard('selectedItem').step;
-            $('.btn-next').attr('disabled', 'disabled');
-            if(step ==2){
-                this.step_2_Container.show( new Step2({viewName:this.viewName}));
-            }
+        	console.log('prev');
+        	$('#importWizard').wizard('prev');
         },
+
+
         nextStep: function(){
             $('#importWizard').wizard('next');
             var step = $('#importWizard').wizard('selectedItem').step;
             $('.btn-next').attr('disabled', 'disabled');
-
-
 
             if(step == 2){
                 this.step_2_Filters_Container.show( new Step2(
@@ -131,7 +126,8 @@ define([
                 //this.filters = $("#filterForView").val();
                 this.step_3_Columns_Container.show( new Step3_Columns({
                     viewName:this.viewName,
-                    filters: this.filters_coll
+                    filters: this.filters_coll,
+                    
                 }));
                 this.step_3_Preview_Container.show( new Step3_Preview({
                 	viewName:this.viewName,
@@ -148,6 +144,7 @@ define([
                 }));
 
             }
+            this.resetRadio();
         },
 
     });

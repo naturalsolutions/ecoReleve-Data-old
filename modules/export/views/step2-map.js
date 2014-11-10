@@ -29,7 +29,6 @@ define([
 
 
         initialize: function(options) {
-            console.log('step3');
             this.radio = Radio.channel('exp');
             this.radio.comply('filters2map', this.updateFilters, this);
 
@@ -50,18 +49,19 @@ define([
 
             this.boxCriteria;
             this.columnCriteria;
+            this.geoJson;
 
             this.getGeoJson();
             //this.initColumns();
-
-
-
-
         },
+
+        /*
+        onBeforeDestroy: function() {
+            this.radio.reset();
+        },*/
+
         updateFilters: function(args){
           this.filterInfosList=args.filters;
-
-          console.log('update');
           var url = config.coreUrl + "/views/filter/" + this.viewName + "/geo?"+"&format=geojson&limit=0";
 
           $.ajax({
@@ -72,7 +72,7 @@ define([
               context: this,
           }).done(function(data){
               this.geoJson= data;
-              console.log('success reload: '+data);
+              console.log('reload : success');
               this.updateMap();
               //$('#filter-query-result').html(count);
           }).fail(function(msg){
@@ -109,8 +109,6 @@ define([
               context: this,
           }).done(function(data){
               this.geoJson= data;
-              console.log('success: '+data);
-              console.log(data);
               this.initMap();
               //$('#filter-query-result').html(count);
           }).fail(function(msg){
@@ -186,17 +184,19 @@ define([
           var context=this;
           boundingBox.on('boxend', function() {
               var featuresinBox = [];
+              var count=0;
               bbTmp= boundingBox.getGeometry().extent;
-              context.boxCriteria=bbTmp;
+              context.boxCriteria=ol.proj.transform(bbTmp, 'EPSG:3857', 'EPSG:4326');
               for (var i=0;i<context.features.length;i++) {
                   fCoord= context.features[i].getGeometry().getCoordinates();
                   if (ol.extent.containsCoordinate( bbTmp, fCoord))
                   {
                       featuresinBox.push(context.features[i]);
+                      count+=context.features[i].values_.count;
                   }
               }
-              console.log(featuresinBox);
-              $('#geo-query-result').html(featuresinBox.length);
+              $('#geo-query-result').html(count);
+              context.validateBox();
           });
 
         },
@@ -206,12 +206,9 @@ define([
           $('.btn-next').removeAttr('disabled');
         },
 
-        onShow: function(){
-           
+        validateBox: function(){
+        	this.radio.command('box', { box: this.boxCriteria });
         },
 
-        onRender: function(){
-
-        },
     });
 });

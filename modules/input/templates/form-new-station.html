@@ -1,95 +1,96 @@
 <script type="text/template" id="newStationTpl">
 <form>
-	<h3>new station</h3>
-  <fieldset>
-  	<legend>identification</legend>
-  	<div>
-	    <div class='float-div'>
+	<div class="col-xs-12"><h3>New station</h3></div>
+	<div class="clear"></div>
+
+
+	<fieldset>
+		<legend>identification</legend>
+	    <div class='col-xs-6'>
 	    	<label>station name*</label>
 	    	<div data-editors="Name"></div>
 	    	<div id='error-Name' class='error'></div>
 	    </div>
-	    <div class='float-div'>
+	    <div class='col-xs-6'>
 	    	<label>station id*</label>
 	    	<div><input disabled='disabled' class='form-control'/></div>
 	    </div>
-    </div>
-  </fieldset>
-  <fieldset>
-  	<legend>date of creation</legend>
-  	<div>
-  		<div class='float-div'>
-	    	<label>date*</label>
+	</fieldset>
+  	<fieldset>
+	  	<legend>date of creation</legend>
+	  	<div>
+	  		<div class='col-xs-12'>
+		    	<label>date*</label>
 
-	    	<div class="input-group date" id="dateTimePicker" data-editors="Date_">
- 
-                    <span class="input-group-addon">
-                        <span class="glyphicon-calendar glyphicon"></span>
-                    </span>
-            </div>
-
-            <!--
-	    	<div data-editors="Date_" class="date input-group" id="dateTimePicker"></div><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
-	    	-->
-	    	<div id='error-Date_' class='error'></div>
-	    </div>
-	    <!--<div class='float-div'>
-	    	<label>time*</label>
-	    	<div data-editors="time_"></div>
-	    	<div id='error-time_' class='error'></div>
-	    </div>-->
-  	</div>
-  </fieldset>
-    <fieldset>
-  	<legend>position</legend>
-  	<div>
-  		<div class='float-div'>
+		    	<div class="input-group date" id="dateTimePicker" data-editors="Date_">
+	 
+	                <span class="input-group-addon">
+	                    <span class="glyphicon-calendar glyphicon"></span>
+	                </span>
+	            </div>
+		    	<div id='error-Date_' class='error'></div>
+		    </div>
+	  	</div>
+ 	</fieldset>
+	<fieldset>
+		<legend>position</legend>
+			<div class='col-xs-5'>
 	    	<label>latitude*</label>
 	    	<div data-editors="LAT"></div>
 	    	<div id='error-LAT' class='error'></div>
 
 	    </div>
-	    <div class='float-div'>
+	    <div class='col-xs-5'>
 	    	<label>longitude*</label>
 	    	<div data-editors="LON"></div>
 	    	<div id='error-LON' class='error'></div>
 	    </div>
-	    <div class='float-div'>
-	    	<i class="icon mini reneco site" id="getPosition"></i>
+	    <div class='col-xs-2'>
+	    	<br>
+	    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
 	    </div>
-  	</div>
-  </fieldset>
+	</fieldset>
     <fieldset id='station-fieldWorkers' insertedWorkersNb="1">
   	<legend>field caracteristics</legend>
   	<div>
-  		<div class='float-div'>
+  		<div class='col-xs-5'>
 	    	<label>field activity*</label>
 	    	<div data-editors="FieldActivity_Name"></div>
 	    	<div id='error-FieldActivity_Name' class='error'></div>
 	    </div>
-	    <div class='float-div'>
+
+		<div class="col-xs-5">
 	    	<label>observer 1*</label><br/>
-	    	<div data-editors="FieldWorker1" class='float-div'></div>
-	    	<div id="addFieldWorkerInput" class='float-div'><i class="icon mini reneco add"></i></div>
+	    	<div data-editors="FieldWorker1"></div>
 	    	<div id='error-FieldWorker1' class='error'></div>
+		</div>
+
+
+	    <div id="addFieldWorkerInput" class='col-xs-2'>
+	    	<br>
+	    	<i class="icon-action icon mini reneco add"></i>
 	    </div>
-	   	<div class='float-div masqued' id='FieldWorker2-field'>
+
+
+	   	<div class='col-xs-5 masqued' id='FieldWorker2-field'>
 	    	<label>observer 2</label>
 	    	<div data-editors="FieldWorker2"></div>
 	    </div>
-	   	<div class='float-div masqued' id='FieldWorker3-field'>
+	   	<div class='col-xs-5 masqued' id='FieldWorker3-field'>
 	    	<label>observer 3</label>
 	    	<div data-editors="FieldWorker3"></div>
 	    </div>
-	   	<div class='float-div masqued' id='FieldWorker4-field'>
+	   	<div class='col-xs-5 masqued' id='FieldWorker4-field'>
 	    	<label>observer 4</label>
 	    	<div data-editors="FieldWorker4"></div>
 	    </div>
-	   	<div class='float-div masqued' id='FieldWorker5-field'>
+	   	<div class='col-xs-5 masqued' id='FieldWorker5-field'>
 	    	<label>observer 5</label>
 	    	<div data-editors="FieldWorker5"></div>
 	    </div>
   	</div>
+  	<br>
   </fieldset>
+  <br><br><br>
 </form>
 </script>

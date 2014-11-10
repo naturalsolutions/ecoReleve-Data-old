@@ -12,10 +12,14 @@ div.fuelux{
 
 			padding: 0px;
 			//padding: 0px (@grid-gutter-width/2);
+
 			button{
-				background: @vert2;
+				background: #5cb85c;
 				color: white;
 				border: none;
+				&:hover{
+					background: #449d44;
+				}
 				&.btn-default{
 					&.disabled{
 						background: @vert2;
@@ -24,25 +28,38 @@ div.fuelux{
 						}
 					}	
 				}
+				
 				&.btn-next{
 					float: right;
-					span{
-						margin-left: 15px;
-					}
 				}
 				&.btn-prev{
-					span{
-						margin-right: 15px;
-					}
 				}
 			}
 		}
 	}
 	div.wrapper{
-		padding: 5%;
+		padding: 10px;
 	}	
 
 }
 .fuelux .wizard .step-content{
 	padding: 0px;
+}
+
+
+.btn-custom{
+	padding: 0px;
+	vertical-align: middle;
+	border-radius: 3px;
+	overflow: hidden;
+	text-transform: uppercase;
+	span.picto{
+		background: rgba(0,0,0,0.2);
+		padding: 10px 15px;
+		margin:0px!important;
+	}
+	span.ctrl{
+		margin: 0px!important;
+		padding: 0px 10px;
+	}
 }

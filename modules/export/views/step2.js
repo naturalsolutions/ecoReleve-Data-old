@@ -24,16 +24,13 @@ define([
             'click #filter-query-btn': 'check',
         },
 
-
-
         initialize: function(options) {
+        	console.log('step2');
             this.radio = Radio.channel('exp');
-
 
             this.selectedFields = [];
             this.filterList=[];
             this.filterInfosList= {};
-            //this.filters_coll = new Backbone.Collection;
             this.labels="";
             this.viewName= options.viewName;
 
@@ -41,16 +38,15 @@ define([
             this.generateFilter();
             this.getFieldsListForSelectedView(this.viewName);
 
-
-
-
         },
         onShow: function(){
             $("#filterViewName").text(this.viewName);
         },
-        onBeforeDestroy: function() {
-            this.radio.reset(); 
+        
+        onBeforeDestroy: function(){
         },
+        
+        
 
         generateFilter : function() {
             var viewUrl = config.coreUrl + "/views/" + this.viewName + "/count";
@@ -59,15 +55,13 @@ define([
                 context: this,
                 dataType: "json",
             }).done(function(count){
-                console.log('plouf');
-                count += " records";
-
                 $("#countViewRows").text(count);
-                 //call
+                $('#geo-query-result').html(count);
             }).fail(function(msg){
-                $("#countViewRows").text("error !");
+                $("#countViewRows").text("error");
             });
         },
+
         getFieldsListForSelectedView : function() {
             var viewUrl = config.coreUrl + "/views/details/" + this.viewName;
             var jqxhr = $.ajax({
@@ -88,9 +82,6 @@ define([
             });
         },
 
-
-
-
         selectField: function() {
             var fieldName = $("#export-view-fields option:selected").text();
             //var fieldId = fieldName.replace("@", "-");
@@ -100,25 +91,18 @@ define([
             *
             * Instanciate a new FilterModel // Filter
             *
-            **/
-            
-            
+            **/   
             var filterModel = new FilterModel({
                 Column: fieldName,
                 Operator: operatorsOptions,
                 Value: 'Default Data'
             });
-
-            //console.log(filterModel);
             
             /**
             *
             * Instanciate a new BbForm
             *
             **/
-            
-
-
             var form = new BbForms({
                 template: _.template(tplFilters),
                 model: filterModel,
@@ -156,10 +140,6 @@ define([
             });
 
 
-
-            //console.log(filterModel.get("label"));
-
-            /*ergo*/
             $('#export-filter-list').append(form.el).removeClass('masqued');
             $('#filter-query').removeClass("masqued");
         },
@@ -193,42 +173,16 @@ define([
             **/
             
 
-
-
-
-
             var fieldName, operator, condition;
-
-            //this.filters_coll.reset();
-
             var query = "";
             var self = this;
             $(".filterElement").each(function() {
-
-
 
                 fieldName = $(this).find("div.name").text();
                 condition = $(this).find("input.fieldval").val();
                 operator = $(this).find("select.filter-select-operator option:selected").text();
 
-
-                /*
-                self.filters_coll.push({
-                    label: fieldName,
-                    operator: condition,
-                    value: operator
-                });
-                */
             });
-
-
-            // delete last character "&"
-            
-            
-            
-
-            
-
 
         },
 
@@ -273,7 +227,6 @@ define([
                 type:'POST',
                 context: this,
             }).done(function(count){
-                console.log('success: '+count);
                 $('#geo-query-result').html(count);
                 this.validate();
             }).fail(function(msg){
@@ -289,9 +242,11 @@ define([
             this.radio.command('filters', {
                 filters: this.filterInfosList,
             });
+
             this.radio.command('filters2map', {
                 filters: this.filterInfosList,
             });
+
             $('.btn-next').removeAttr('disabled');
         },
 
