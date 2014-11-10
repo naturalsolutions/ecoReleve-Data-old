@@ -84,12 +84,22 @@ define([
 
 
             $("#history").append(this.grid.render().el);
-
-            
-            var height = $(window).height() - $('#header-region').height() - 20;
+            var height = $(window).height() - $('header').height();
             height -= $('#details').height();
             this.$el.find('#history').height(height);
-            this.$el.find('#history').css('margin-bottom', '20px');
+            /*
+            
+            var height = $(window).height() - $('header').height();
+            height -= $('#details').height();
+            this.$el.find('#history').height(height);
+            */
+
+            //this.$el.find('#history').css('margin-bottom', '20px');
+        },
+
+        onShow: function(){
+
+            //this.$el.find('#history').css('margin-bottom', '20px');
         },
 
         onDestroy: function() {

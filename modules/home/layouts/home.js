@@ -18,7 +18,7 @@ define([
             'click #argosTile': 'argos',
             'click #gsmTile': 'gsm',
             'click #indivTile': 'individual',
-            'click #rfidTile': 'rfid',
+            'click #stationsTile': 'stations',
             'click #transmitterTile': 'transmitter',
             'click #monitoredSiteTile' : 'monitoredSite',
             'click #manualTile' : 'dataEntry',
@@ -54,6 +54,11 @@ define([
             Radio.channel('route').trigger('argos');
         },
 
+        
+        stations: function(){
+            Radio.channel('route').command('stations');
+        },
+
         gsm: function() {
             Radio.channel('route').command('gsm');
         },
@@ -64,10 +69,6 @@ define([
 
         monitoredSite: function() {
             Radio.channel('route').trigger('monitoredSite');
-        },
-
-        rfid: function() {
-            Radio.channel('route').trigger('rfid');
         },
 
         transmitter: function() {

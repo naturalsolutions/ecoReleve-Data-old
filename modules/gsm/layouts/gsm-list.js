@@ -10,7 +10,7 @@ define([
     'use strict';
 
     return Marionette.ItemView.extend({
-        className: 'container-fluid no-padding',
+        className: 'container no-padding',
         template: template,
 
         events: {

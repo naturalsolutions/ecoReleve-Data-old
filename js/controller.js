@@ -16,12 +16,17 @@ define([
     'modules2/transmitter/layouts/transmitter-list',
 	'modules2/import/layouts/import-layout',
     'modules2/input/layouts/input-data',
-    'modules2/export/layouts/export-layout'
+    'modules2/export/layouts/export-layout',
+    
+
+    'modules2/stations/layouts/basemap',
+
+
     //'modules/transmitter/layouts/transmitter-list'
 
 ], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, HomeLayout, ArgosLayout,
     ArgosDetailLayout, IndivLayout, IndivDetailLayout, RfidLayout,
-    GSMDetailLayout, GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout) {
+    GSMDetailLayout, GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout, Stations) {
 
     'use strict';
 
@@ -43,13 +48,26 @@ define([
                 this.monitoredSite);
             this.listenTo(radio, 'rfid', this.rfid);
 
+
+
+
+            radio.comply('stations', this.stations, this);
+
+
+
+
 			this.listenTo(radio, 'import', this.importGpx);
             this.listenTo(radio, 'input', this.inputData);
             this.listenTo(radio, 'home', this.home);
 
             radio.comply('export', this.export, this);
 
+        },
 
+        stations: function(){
+            var stations = new Stations();
+            this.mainRegion.show(stations);
+            Backbone.history.navigate('map');
         },
 
         argos: function() {

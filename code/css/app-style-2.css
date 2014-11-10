@@ -422,7 +422,7 @@ span.objDescription {
 /* Main application panel (whole screen except top bar) */
 #main {
 	position: absolute;
-	top: 50px;
+	top: 0px;
 	bottom: 0px;
 	right: 0px;
 	left: 0px;

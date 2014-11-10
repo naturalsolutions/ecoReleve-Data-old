@@ -36,6 +36,11 @@ define([
             this.getItemList();
         },
 
+
+        alerte: function(options){
+            //alert(options);
+        },
+
         //obsolete : remplace by datalist.fill()
         getItemList: function(isDatalist){
             var element= $('#export-themes');
@@ -67,6 +72,10 @@ define([
         getViewsList:  function(e) {
             var id=e.currentTarget.getAttribute("value");
             $('#export-views').empty();
+            $('#export-themes li').each(function( index ) {
+                $(this).removeClass('validated');
+            });
+            $(e.target).addClass('validated');
 
             var url = config.coreUrl + "/views/list?id_theme=" + id;
 
@@ -76,6 +85,7 @@ define([
                     dataType: "text",
                     context: this,
                 }).done(function(data){
+                    $('#export-views').empty();
                     var xmlDoc = $.parseXML(data),
                     $xml = $(xmlDoc),
                     $views = $xml.find("view");
@@ -93,7 +103,12 @@ define([
 
         enableNext: function(e){
             this.viewName = $(e.target).get(0).attributes["value"].value;
+            $('#export-views li').each(function( index ) {
+                $(this).removeClass('validated');
+            });
             $(e.target).addClass('validated');
+
+
             $('.btn-next').removeAttr('disabled');
             this.radio.command('viewName', {
                 viewName: this.viewName,

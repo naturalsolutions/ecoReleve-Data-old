@@ -35,7 +35,8 @@ define([
             'click #btnPrev' : 'prevStep',
             'click #btnFileSelection': 'typeFileSelection',
             'click #importEnd' : 'returnToHome',
-            'change #importWorker1' : 'activateNextStep'
+            'change #importWorker1' : 'activateNextStep',
+            //'click #rfid' : 'rfid',
         },
 
         initialize: function() {
@@ -48,15 +49,24 @@ define([
             this.selectedUser5 = '';
             //$('#mapContainer').css('height', '400px');
         },
+        rfid: function() {
+            Radio.channel('route').trigger('rfid');
+        },
+
+
         clear: function(elt) {
             elt.preventDefault();
             this.collection.reset(this.data.models);
         },
         nextStep : function(e) {
             var step = $('#importWizard').wizard('selectedItem').step;
+            if($('#rfid input').is(':checked')){
+                this.rfid();
+            }
             // display map & grid
             console.log(step);
             if(step ==2){
+
                 this.getUsers();
                 $('.btn-next').attr('disabled', 'disabled');
             }

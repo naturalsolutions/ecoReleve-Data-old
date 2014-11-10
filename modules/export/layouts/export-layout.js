@@ -17,6 +17,7 @@ define([
     'modules2/export/views/step4',
 
 
+
 ], function($, _, Backbone, Marionette, Radio, model, template, Step1, Step2, Step2_Map, Step3_Columns, Step3_Preview, Step4) {
 
     'use strict';
@@ -92,7 +93,11 @@ define([
 
         onShow: function() {
         	$('.btn-next').attr('disabled', 'disabled');
-            this.step_1_Container.show( new Step1());
+            var step1= new Step1();
+            var passed='passed2';
+            this.step_1_Container.show( step1 );
+            step1.alerte(passed);
+
             //$('.btn-next').attr('disabled', 'disabled');
         },
 
@@ -101,10 +106,8 @@ define([
         },
 
         prevStep: function(){
-        	console.log('prev');
-        	$('#importWizard').wizard('prev');
+            $('#importWizard').wizard('previous');
         },
-
 
         nextStep: function(){
             $('#importWizard').wizard('next');
@@ -120,7 +123,6 @@ define([
                 this.step_2_Map_Container.show( new  Step2_Map({
                     viewName:this.viewName,
                 }));
-
             }
             if(step == 3){
                 //this.filters = $("#filterForView").val();
@@ -145,6 +147,10 @@ define([
 
             }
             this.resetRadio();
+        },
+
+        displayStep: function(){
+            
         },
 
     });

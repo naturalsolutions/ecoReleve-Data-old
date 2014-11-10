@@ -1807,7 +1807,8 @@ app.utils.initializeDB = function(db){
 		if (id !== "") {
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
-			var viewsUrl = app.config.coreUrl + "/views/list?id_theme=" + id;
+			var viewsUrl = 'eco' + "/views/list?id_theme=" + id;
+			alert( url);
 			$.ajax({
 				url: viewsUrl,
 				dataType: "text",
@@ -1837,8 +1838,8 @@ app.utils.initializeDB = function(db){
 		$("#region").removeAttr("disabled");
 		$('<option value=""></option>').appendTo(element);
 		var serverUrl = app.config.serverUrl;
-		
 		url = serverUrl + url;
+
 		console.log(url);
 		$.ajax({
 			url: url,

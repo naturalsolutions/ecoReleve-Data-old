@@ -12,7 +12,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container-fluid no-padding',
+        className: 'container no-padding',
         template: template,
 
         regions: {

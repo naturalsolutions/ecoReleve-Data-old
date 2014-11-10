@@ -10,35 +10,57 @@
             </ul>
 
             <div class="actions">
-                <button class="btn btn-lg btn-default btn-prev" id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
-                <button class="btn btn-lg btn-default btn-next" data-last="Complete">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button class="btn btn-lg btn-dfault btn-prev btn-custom " id="btnPrev">
+                <span  class="glyphicon glyphicon-arrow-left picto"></span>
+                <span class="ctrl">Prev</span>
+                </button>
+
+                <button data-last="Complete" class="btn btn-lg btn-dfault btn-next btn-custom " id="btnNext">
+                <span class="ctrl">Next</span>
+                <span  class="glyphicon glyphicon-arrow-right picto"></span>
+                </button>
+
             </div>
+
+
             <div class="step-content">
                 <div class="step-pane active sample-pane " data-step="1">
-                    <div class="ui segment">
+                    <div class="ui segment wrapper">
                         <div class="ui fluid basic large form segment"> 
                             <div class="grouped fields">
                                 <legend for="male">select a type of data</legend>
                                 <div class="field">
                                     <div class="ui radio-inline checkbox">
+                                        <label>
                                         <input type="radio" name="filetype1" value="gps-gpx" checked>
-                                        <label>GPS GPX</label>
+                                        GPS GPX</label>
                                     </div>
                                 </div>
+
+                                <div class="field">
+                                    <div id="rfid" class="ui radio-inline checkbox">
+                                        <label>
+                                        <input type="radio" name="filetype1" value="">
+                                        RFID</label>
+                                    </div>
+                                </div>
+
                                 <div class="field">
                                     <div class="ui radio-inline checkbox">
+                                        <label>
                                         <input type="radio" name="filetype1" value="gps-csv" disabled>
-                                        <label>CSV</label>
+                                        CSV</label>
                                     </div>
                                 </div> 
+
                             </div>
                         </div> 
                         <div class="ui basic segment">GPX, or GPS eXchange Format is an XML schema designed as a common GPS data format. It can be used to describe waypoints, tracks, and routes.
                         </div>
                     </div>
                 </div>
-                <div class="step-pane sample-pane bg-info " data-step="2">
-                    <div class="ui segment">
+                <div class="step-pane sample-pane" data-step="2">
+                    <div class="ui segment wrapper">
                         <div class="ui fluid basic large form segment"> 
                             <div class="ui fluid basic large form segment"> 
                                 <div class="grouped fields">
@@ -62,7 +84,7 @@
                     </div>
                 </div>
                 <div class="step-pane sample-pane" data-step="4">
-                   <form class="form-horizontal" role="form">
+                   <form class="form-horizontal wrapper" role="form">
                        <div class="form-group">
                           <label for="importWorker1" class="col-sm-2 control-label">field worker 1</label>
                           <div class="col-sm-10">
@@ -121,8 +143,10 @@
                         
                 </div>
                 <div class="step-pane sample-pane" data-step="5">
+                  <div class="wrapper">
                     <h4>Congratulations! you have imported selected waypoints. you can start input data.</h4>
                     <button id="importEnd"> Complete </button>
+                  </div>
                 </div>
             </div>
 
