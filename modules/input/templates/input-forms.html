@@ -1,7 +1,8 @@
 <script type="text/template">
             <div class="col-sm-3" id="stationPanel">
+                  <div class="wrapper">
                   <!--<span id="hideStationDetails" class="glyphicon pointer big glyphicon-chevron-left"></span> -->
-                  <h4>Station</h4>
+                  <h3>Station</h3>
                   <br>
                   <!--<div class="col-sm-4" id='mapStDetails' height="200px;" width="200px"></div>-->
                               <div class="row" >
@@ -111,15 +112,33 @@
                                           <div>_</div>
                                     </div>
                               </div>
-            </div>
-            <div class="col-sm-9">   
-                  <h4>Protocols</h4>
-                  <div id="add-proto">
-                        <input type="text" class="add-protocol" name="add-protocol" placeholder="add a protocol" list="protocolsList"/>
-                        <!--<i class="icon mini reneco add"></i>-->
-                        <datalist id="protocolsList"></datalist>
                   </div>
-                  <div id="input-forms"></div>
+            </div>
+
+
+            <div class="col-sm-9">
+                  <div class="wrapper">
+                        <div class="col-xs-4">
+                              <h3>Protocols</h3>                              
+                        </div>
+                        <div class="col-xs-7">
+                              <div id="add-proto">
+                                    <br>
+                                    <input type="text" class="add-protocol form-control" name="add-protocol" placeholder="add a protocol" list="protocolsList"/>
+                                    <!--<i class="icon mini reneco add"></i>-->
+                                    <datalist id="protocolsList"></datalist>
+                              </div>
+                        </div>
+                        <div class="col-xs-1">
+                              <br>
+                              <i class="icon-action icon mini reneco add"></i>
+                        </div>
+                        <div class="clear"></div>
+                        <br><br>
+
+
+                        <div id="input-forms"></div>
+                  </div> 
             </div>
 
             <div class="clear"></div>

@@ -22,7 +22,6 @@ define([
 
         events: {
             'click button#validateColumns' : 'validateColumns',
-            'click button#validateBox' : 'validateBox',
         },
 
 
@@ -30,7 +29,6 @@ define([
 
 
         initialize: function(options) {
-            console.log('step3');
             this.radio = Radio.channel('exp');
 
             this.filterInfosList = options.filters;
@@ -45,12 +43,12 @@ define([
             **/
             
             this.columnForm;
-
             this.boxCriteria;
             this.columnCriteria;
 
             this.initColumns();
         },
+        
 
         initColumns: function(){
           var viewUrl = config.coreUrl + "/views/details/" + this.viewName;
@@ -59,9 +57,7 @@ define([
               context: this,
               dataType: "json"
           }).done(function(data){
-
               this.displayColumns(data);
-
           }).fail(function(msg){
               alert('error');
           });
@@ -72,13 +68,10 @@ define([
           var schemaa={};
           var customTpl;
           for (var i = 0; i < fieldList.length; i++) {
-              console.log(fieldList[i].name);
               customTpl = _.template('<div class="checkbox col-xs-6"><label><span data-editor></span>'+ fieldList[i].name +'</label></div>');
               schemaa[fieldList[i].name]={ type: 'Checkbox', template: customTpl };
           }
  
-
-
           this.columnForm = new BbForms({
               schema : schemaa
           }).render();
@@ -89,6 +82,8 @@ define([
 
         validateColumns: function(){
           this.columnCriteria= this.columnForm.getValue();
+          console.log('passed');
+
 
           var list=[];
           for(var key in this.columnCriteria){

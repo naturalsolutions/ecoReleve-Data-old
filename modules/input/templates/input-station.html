@@ -8,22 +8,11 @@
                 <li data-step="4"><span class="badge">4</span><span class="hidden-xs">end</span><span class="chevron"></span></li>
             </ul>
             <div class="actions">
-                <button class="btn btn-lg btn-dfault btn-prev btn-custom " id="btnPrev">
-                <span  class="glyphicon glyphicon-arrow-left picto"></span>
-                <span class="ctrl">Prev</span>
-                </button>
-
-                <button class="btn btn-lg btn-dfault btn-next btn-custom " id="btnNext">
-                <span class="ctrl">Next</span>
-                <span  class="glyphicon glyphicon-arrow-right picto"></span>
-                </button>
-                    
-<!--                 <button class="btn btn-lg btn-default btn-next" data-last="Complete" id="btnNext">Next<span class="glyphicon glyphicon-arrow-right"></span></button> -->
-
+                <button class="small btn btn-labeled btn-success " id="btnPrev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
+                <button class="btn btn-lg btn-default btn-next" data-last="Complete" id="btnNext">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
             <div class="step-content">
                 <div class="step-pane active sample-pane " data-step="1">
-
                     <div class="wrapper">
                         <div class="ui segment">
                             <div class="ui fluid basic large form segment"> 
@@ -52,46 +41,43 @@
                         </div>
                     </div>
                 </div>
+
+
+
                 <div class="step-pane sample-pane " data-step="2">
-
-                        <div class="col-xs-5 col-sm-5 col-md-5 col-border">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-5 col-md-5">
                             <div id="station-form"></div>
-                            <div class="col-xs-12">
-                                <button id="inputGetStData" class="btn btn-labeled btn-success pull-right">
-                                    save
-                                    <span class="btn-label">
-                                        <i class="icon reneco validated"></i>
-                                    </span>
-                                </button>
-                            </div>
+
+                            
+                            <div><button id="inputGetStData" class="btn btn-primary">save</button></div>
                         </div>
-                        <div id="station-map" class="col-xs-12 col-md-7 no-padding"></div>
-
-
+                        <div id="station-map" class="col-xs-12 col-md-7"></div>
+                    </div>
 
 
                     <div class="row">
                         <div id="gridImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-left"></div>
                         <div id="mapImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-right"></div>
                     </div>
-
-                    
                 </div>
+
+
+
+
+
+
                 <div class="step-pane sample-pane " data-step="3">
-                    <div id="stationDetails" class="bg-hack"></div>
+                    <div id="stationDetails"></div>
                 </div>
                 <div class="step-pane sample-pane " data-step="4">
-                    <div class="col-xs-12">
-                        <div class="wrapper">
-                        <div id="stationDetails">
-                            <label> Data are stored for this location</label>
-                            <ul>
-                                <li id="inputMoveToSation"><a> continue input data with another station</a></li>
+                    <div id="stationDetails">
+                        <label> Data are stored for this location</label>
+                        <ul>
+                            <li id="inputMoveToSation"><a> continue input data with another station</a></li>
 
-                                <li><a href="#"> exit input data</a></li>
-                            </ul>
-                        </div>
-                        </div>
+                            <li><a href="#"> exit input data</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

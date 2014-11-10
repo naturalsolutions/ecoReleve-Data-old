@@ -105,7 +105,7 @@ define([
                     if (ln > 0){
                         // delete map used in new station if exisits
                         this.stationMapRegion.reset();
-                        $('#station-form').empty().append('<h4>Please, select a station on the grid </h4>');
+                        $('#station-form').empty();
                         var mygrid = new Grid({collections : lastImportedStations});
                         this.gridRegion.show(mygrid);
                         // display map
