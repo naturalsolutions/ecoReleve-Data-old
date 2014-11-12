@@ -41,12 +41,13 @@ define([
             this.listenTo(radio, 'argos', this.argos);
             radio.on('show:argos:detail', this.argos_detail);
             radio.on('transmitter', this.transmitter, this);
-            radio.comply('gsm', this.gsm, this);
+
             radio.comply('individual', this.individual, this);
             this.listenTo(radio, 'indiv:detail', this.individualDetail);
             this.listenTo(radio, 'show:monitoredSite',
                 this.monitoredSite);
-            this.listenTo(radio, 'rfid', this.rfid);
+            radio.comply('rfid', this.rfid, this);
+            radio.comply('gsm', this.gsm, this);
 
 
 

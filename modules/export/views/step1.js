@@ -32,7 +32,6 @@ define([
 		*/
 
         onShow: function() {
-            //datalist.fill('#export-themes', '/themes/list?export=yes');
             this.getItemList();
         },
 

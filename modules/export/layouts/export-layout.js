@@ -18,7 +18,7 @@ define([
 
 
 
-], function($, _, Backbone, Marionette, Radio, model, template, Step1, Step2, Step2_Map, Step3_Columns, Step3_Preview, Step4) {
+], function($, _, Backbone, Marionette, Radio, model, template, Step1, Step2_Filters, Step2_Map, Step3_Columns, Step3_Preview, Step4) {
 
     'use strict';
 
@@ -45,7 +45,7 @@ define([
         viewName:'',
         query:'',
 
-        initialize: function(options){
+        initialize: function(){
         	this.radio = Radio.channel('exp');
 
         	this.radio.comply('filters', this.initFilters, this);
@@ -58,8 +58,36 @@ define([
 
             $('body').addClass('export-layout');
 
+            //this.initSteps();
+
             //Stepper.prototype.initialize.call(this);
         },
+
+        initSteps: function(){
+            this.step1 = new Step1();
+
+            this.step2_filters = new Step2_Filters();
+            this.step2_map = new Step2_Map();
+
+            this.step3_Columns = new Step3_Columns();
+            this.step3_Preview = new Step3_Preview();
+
+            this.step4 = new Step4();
+
+            /*Regions*/
+            this.step_1_Container.show( this.step1 );
+
+            this.step_2_Filters_Container.show( this.step2_filters );
+            this.step_2_Map_Container.show( this.step2_map );
+
+            this.step_3_Columns_Container.show( this.step3_Columns );
+            this.step_3_Preview_Container.show( this.step3_Preview );
+
+            this.step_4_Container.show( this.step4 );
+            console.log('views and regions initialized');
+        },
+
+        /*
         resetRadio: function(){
     		this.radio = Radio.channel('exp');
 
@@ -69,6 +97,8 @@ define([
     	    this.radio.comply('viewName', this.initViewName, this);
 
         },
+
+        */
         initViewName: function(args){
         	this.viewName=args.viewName;
         	console.log(this.viewName);
@@ -115,7 +145,7 @@ define([
             $('.btn-next').attr('disabled', 'disabled');
 
             if(step == 2){
-                this.step_2_Filters_Container.show( new Step2(
+                this.step_2_Filters_Container.show( new Step2_Filters(
                 	{
                 		viewName:this.viewName,
                 	}
@@ -146,11 +176,10 @@ define([
                 }));
 
             }
-            this.resetRadio();
         },
 
         displayStep: function(){
-            
+
         },
 
     });

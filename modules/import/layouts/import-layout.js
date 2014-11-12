@@ -50,7 +50,11 @@ define([
             //$('#mapContainer').css('height', '400px');
         },
         rfid: function() {
-            Radio.channel('route').trigger('rfid');
+            Radio.channel('route').command('rfid');
+        },
+
+        gsm: function() {
+            Radio.channel('route').command('gsm');
         },
 
 
@@ -62,6 +66,10 @@ define([
             var step = $('#importWizard').wizard('selectedItem').step;
             if($('#rfid input').is(':checked')){
                 this.rfid();
+            }
+
+            if($('#gsm input').is(':checked')){
+                this.gsm();
             }
             // display map & grid
             console.log(step);
@@ -105,11 +113,16 @@ define([
                 // now, it will save on localStorage.myCollectionStorage
                 filteredCollection.save();
                 var btnLbel  = $(e.target).attr('data-last');
+                console.log('braaa');
+                $('#btnNext').html('Complete').css('padding', '10px');
                if(btnLbel =='Complete'){
                      $(e.target).attr('disabled','disabled');
                      $('#btnPrev').attr('disabled','disabled');
                      $('ul.steps li').removeClass('active');
                      $('ul.steps li').removeClass('complete');
+                     
+
+
                }
             }
         },
