@@ -1,13 +1,14 @@
 define([
     'marionette',
     'radio',
+    'config',
     'utils/protocols',
     'bbForms',
     'autocompTree',
     'text!modules2/input/templates/input-forms.html',
     'text!modules2/input/templates/form-bird-biometry.html'
 
-], function(Marionette, Radio, Protocols, BbForms, AutocompTree , template, tplBirdBiometry) {
+], function(Marionette, Radio, config,Protocols, BbForms, AutocompTree , template, tplBirdBiometry) {
 
     'use strict';
      return Marionette.ItemView.extend({
@@ -17,6 +18,7 @@ define([
         },
         events: {
             'click .inputProtocolValidation' : 'commitForm',
+            'click .inputProtocolEdit' : 'editForm',
             'click .addSubProto' : 'addSubProto',
             'change input.add-protocol' : 'addForm',
             'click .removeCurrentForm' : 'removeForm',
@@ -253,15 +255,21 @@ define([
                                 // insert legend and a button to add sub protocols
                                 var legend = '<legend>'+ nestedModelName +'</legend>';
                                 var btnAddSubProto ='<i class="icon mini reneco add addSubProto" protocolName ="' + protocolName +'"></i>';
-                                $('#' + tabId).append(legend);
-                                $('#' + tabId).append(btnAddSubProto);
-                                $('#' + tabId).append(element);
+                                var currentTab = '#' + tabId;
+                                $(currentTab).append(legend);
+                                $(currentTab).append(btnAddSubProto);
+                                $(currentTab).append(element);
                                 //$('#' + tabId).append('<div protocolName ="' + protocolName +'" class="subProtoContainer">' + subformContent + '</div>');
                                 $('.subProtoContainer fieldset>div').addClass('col-sm-4');
                             }
-                            $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+                            $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+                            $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolEdit masqued" >edit</button></div>');
                            // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
                             tabOrder += 1;
+                            // set min value to 0 for input type 'number'
+                            $('input[type="number"]').attr('min',0);
+                            // mark label in red for required fields
+                            this.addLabelClass();
                         //}
                         }
                     }
@@ -279,15 +287,22 @@ define([
             $(formContent).find('fieldset>div').addClass('col-sm-4');
             $('#tabProtsUl').append('<li><a href="#tab_' + idTabProto + '" data-toggle="tab"><span><i></i></span>'+ selectedProtocolName +'</a></li>');
             var tabId = 'tab_' + idTabProto ;
+            var currentTab = '#' + tabId;
             $('#tabProtsContent').append('<div class="tab-pane" id="' + tabId +'"></div>');
-            $('#' + tabId).append(formContent);
-            $('#' + tabId).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+            $(currentTab).append(formContent);
+            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolEdit masqued">edit</button></div>');
             this.forms.push(form);
             this.activeProtocols.push(selectedProtocolName);
             $('input[name="add-protocol"]').val('');
             // remove the added protocol from datalist
             var optionElement = $('#protocolsList').find('option[value="'+ selectedProtocolName +'"]')[0].remove();
-            //$('#protocolsList').remove(optionElement);
+            // active added form
+            $('a[href="' + currentTab + '"]').click();
+            // set min value to 0 for input type 'number'
+            $('input[type="number"]').attr('min',0);
+            // add class to label of required input to color it 
+            this.addLabelClass();
         },
         removeForm : function(e){
             var form = $(e.target).parent();
@@ -299,13 +314,15 @@ define([
             var currentProtocolName =  $(e.target).attr('protocolName');
             var currentProtocol = this.getProtocolByAttr('name',currentProtocolName);
             var currentForm = this.getCurrentForm(currentProtocolName);
+            // if we edit form, id is stored in save btn
+            var formId = $(e.target).attr('editionid');
             if(currentForm){
                 var errors = [];
                 var er = currentForm.commit({ validate: true });
                 if(er){
                      errors.push(er);
                 } else {
-                    this.changeValidationStatus(currentProtocolName);
+                    //this.changeValidationStatus(currentProtocolName);
                 }
                 // check if there is subforms and commit them
                 if(currentProtocol.subProtoForms){
@@ -321,22 +338,27 @@ define([
                                 errors.push(err);
                             } else {
                                 // add the protocol name to validated protocols array
-                                this.changeValidationStatus(name);
+                                //this.changeValidationStatus(name);
                             }
                         }
                     }
                 }
                 var currentInstance = currentForm.model;
                 //change look of selected tab element
-                var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                /*var spn = $('#tabProtsUl').find('li.active').find('span')[0];
                 var pictoElement = $(spn).find('i')[0];
-                $(pictoElement).removeClass();
+                $(pictoElement).removeClass();*/
                 if(errors.length == 0){
                     //Radio.channel('input').command('inputForms',{'TSta_PK_ID':'none', 'protocolName':currentProtocol, 'protocolForm':currentInstance.attributes});
                     // check if there are subforms and insert parent form and sub forms in an array 
                     var formsList = [];
                     // add current station id
                     currentInstance.attributes["FK_TSta_ID"]=this.model.get('id');
+                    // if we need to update form , set id of protocol instance in sqlserver table
+                    if (formId){
+                        formId = parseInt(formId);
+                        currentInstance.attributes["PK"] = formId;
+                    }
                     // clear object
                     delete currentInstance.attributes["fieldsets"];
                     formsList.push(currentInstance.attributes);
@@ -355,18 +377,29 @@ define([
                         }
                     }
                     //Radio.channel('input').command('inputForms', currentInstance.attributes);
-                    Radio.channel('input').command('inputForms', formsList);
-
-
+                    //Radio.channel('input').command('inputForms', formsList);
+                    this.saveForm(formsList);
                     // change validation statut of current protocol in 'protocolsValidation' array
                     //this.changeValidationStatus(currentProtocolName);
                 } else {
-                    $(pictoElement).addClass('icon reneco close braindead');
+                    this.editTabLook('error');
+                    //$(pictoElement).addClass('icon reneco close braindead');
                 }
             } else {
                     console.log('pas de formulaire pour ce protocole');
             }
             $('body').animate({scrollTop: 0}, 500);
+        },
+        editForm : function(e){
+            // activate fields editions and show save btn 
+            $('.tab-pane.active form input').removeAttr('disabled');
+            $('.tab-pane.active form textarea').removeAttr('disabled');
+            // mask edit btn
+            $(e.target).addClass('masqued');
+            // get name of current used protocol
+            var protoName = $(e.target).attr('protocolname');
+            // show save btn
+            $('button[protocolname="'+ protoName +'"].inputProtocolValidation').removeClass('masqued');
         },
         getCurrentForm : function(protocolName){
             for(var i=0;i<this.forms.length;i++){
@@ -449,6 +482,75 @@ define([
             });
             $(e.target).focus();
 
+        },
+        saveForm : function(data){
+            //data["FK_TSta_ID"]=this.form.model.get('id');
+            //delete data["fieldsets"];
+            var nbProtos = data.length;
+            for (var i=0; i< nbProtos;i++){
+                // current protocol name
+                var protoName = data[i].name;
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/addProtocol',
+                    data:  data[i],
+                    context: this,
+                    type:'POST',
+                    success: function(data){
+                        //console.log('add Protocol');
+                        //change look of selected tab element
+                        if (data!='error'){
+                            var idProtocol = data; // if success, returned value corresponds to new id protocol value 
+                             //change look of selected tab element
+                            this.editTabLook('ok');
+                            // desactivate form edition and mask save btn
+                            $('button[protocolname="'+ protoName +'"]').attr('editionId',idProtocol);
+                            $('button[protocolname="'+ protoName +'"]').addClass('masqued');
+                            $('.tab-pane.active form input').attr('disabled', 'disabled');
+                            $('.tab-pane.active form textarea').attr('disabled', 'disabled');
+                            //activate edition btn
+                             $('button[protocolname="'+ protoName +'"].inputProtocolEdit').removeClass('masqued');
+
+                        } else {
+                            alert('error in generating protocol data');
+                             //change look of selected tab element
+                             this.editTabLook('error');
+                        }
+                    },
+                   error: function (xhr, ajaxOptions, thrownError) {
+                        //alert(xhr.status);
+                        //alert(thrownError);
+                        this.editTabLook('error');
+                        alert('error in generating protocol data');
+
+                    }
+                });
+            }
+        },
+        editTabLook : function(value){
+            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+            var pictoElement = $(spn).find('i')[0];
+            $(pictoElement).removeClass();
+            if(value=='error'){
+                $(pictoElement).addClass('icon reneco close braindead');
+            } else {
+                $(pictoElement).addClass('icon small reneco validated');
+            }
+        },
+        addLabelClass : function(){
+            // add class to label of required input to color it 
+            /*var labelElement = $('.required').parent().parent().parent().find('label')[0];
+            $(labelElement).addClass('labelRequired');*/
+
+            // from input get id and set color for corresponding label 
+            // get all required elements
+            var requiredElements = $('.required');
+            for (var i=0; i< requiredElements.length; i++){
+                 var requiredElementId = $(requiredElements[i]).attr('id');
+                var labelElement = $('label[for="'+requiredElementId + '"]')[0];
+                $(labelElement).addClass('labelRequired');
+
+            }
+           
         }
 
         /*,

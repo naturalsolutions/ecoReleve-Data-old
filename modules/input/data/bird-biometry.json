@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "Bird Biometry",
   "description": "TProtocol_Bird_Biometry",
   "id" : "17",
@@ -16,17 +16,18 @@
       "title": "FK_TSta_ID"
     },
     "FK_TInd_ID": {
-      "validators": [
-      ],
+      "validators": ["required"],
       "type": "Text",
-      "title": "Individual"
+      "title": "Individual",
+      "editorClass": "required"
     },
     "Id_Observer": {
       "validators": [
       ],
       "type": "Text",
       "title": "Observer",
-      "editorAttrs": { "list": "username_list" }
+      "editorAttrs": { "list": "username_list" },
+      "editorClass": "autocompTree required"
     },
     "Id_Assistant": {
       "validators": [
@@ -47,15 +48,15 @@
       "type": "Text",
       "title": "Sex",
       "editorAttrs": { "startId": "18872" },
-      "editorClass": "autocompTree"
+      "editorClass": "autocompTree required"
     },
     "Name_Age": {
       "validators": [
       ],
       "type": "Text",
       "title": "Age",
-      "editorAttrs": { "startId": "18876" },
-      "editorClass": "autocompTree"
+      "editorAttrs": { "startId":  "18876" },
+      "editorClass": "autocompTree required"
     },
     "Id_Age": {
       "validators": [

@@ -28,11 +28,14 @@
       "validators": [],
       "type": "TextArea",
       "title": "Comments"
-    }
+    },
+    "tested": { "type": "Checkboxes", "options": ["true"],
+               "editorAttrs": { "checked": "checked" }
+     }
   },
   "fieldsets": [
     {
-      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments"],
+      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments","tested"],
       "legend": ""
     }
   ]

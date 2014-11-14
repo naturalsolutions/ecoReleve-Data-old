@@ -85,7 +85,8 @@ define([
                     var position = new Position();
                     map.addModel(position);
                     $('#inputGetStData').removeClass('masqued');
-                    $('#inputGetStData').removeClass('disabled');
+                    $('#msgNewStation').text('');
+                    //$('#inputGetStData').removeClass('disabled');
                     
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
@@ -118,6 +119,7 @@ define([
                          $('#station-form').empty().append('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
                     }
                      $('#inputGetStData').addClass('masqued');   
+                     $('#msgNewStation').text('');
                      // get users list
                     this.getUsers();
                 } else {
@@ -127,7 +129,7 @@ define([
             }
             if (step==3){
                 // disable next step to check data 
-                $('#btnNext').addClass('disabled');
+                //$('#btnNext').addClass('disabled');
             }
         },
         prevStep :  function() {
@@ -139,7 +141,8 @@ define([
                     $('input[name="LAT"]').val('');
                     $('input[name="LON"]').val('');
                     $('input[name="Name"]').val('');
-                    $('#inputGetStData').removeClass('disabled');
+                    $('#inputGetStData').removeClass('masqued');
+                    $('#btnNext').addClass('disabled');
             }
         },
         onShow: function() {
@@ -154,7 +157,8 @@ define([
                     $('input[name="LAT"]').val('');
                     $('input[name="LON"]').val('');
                     $('input[name="Name"]').val('');
-                    $('#inputGetStData').removeClass('disabled');
+                    $('#inputGetStData').removeClass('masqued');
+                    $('#msgNewStation').text('');
                 }
               // do something 
             });
@@ -194,7 +198,9 @@ define([
                                 var formsView = new Forms({ model : currentStation});
                                 self.formsRegion.show(formsView);
                                 $('#btnNext').removeClass('disabled');
-                                $('#inputGetStData').addClass('disabled');
+                                $('#inputGetStData').addClass('masqued');
+                                $('#msgNewStation').text('The new station is successfully created.');
+
 						   }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -256,7 +262,7 @@ define([
            else{
                 var latitude = parseFloat($('input[name="LAT"]').val());
                 var longitude = parseFloat($('input[name="LON"]').val());
-                $('#inputGetStData').removeClass('disabled');
+                $('#inputGetStData').removeClass('masqued');
                 // if the 2 values are inputed update map location
                 if(latitude && longitude){
                     console.log("longitude: "+ longitude + " , latitude: "+ latitude);
@@ -313,7 +319,7 @@ define([
             var longitude = parseFloat((position.coords.longitude).toFixed(5));
             $("[name='LAT']").val(latitude);
             $("[name='LON']").val(longitude);
-            $('#inputGetStData').removeClass('disabled');
+            $('#inputGetStData').removeClass('masqued');
             //var pos = this.getPosModel(latitude,longitude);
             // update map
             var pos = new Position();
@@ -342,21 +348,40 @@ define([
             }
             alert(info);
         },
-        inputValidate : function(data){
+        /*inputValidate : function(data){
             //data["FK_TSta_ID"]=this.form.model.get('id');
             //delete data["fieldsets"];
             var nbProtos = data.length;
             for (var i=0; i< nbProtos;i++){
+                // current protocol name
+                var protoName = data[i].name;
                 $.ajax({
                     url: config.coreUrl +'station/addStation/addProtocol',
                     data:  data[i],
                     type:'POST',
                     success: function(data){
-                        console.log('add Protocol');
+                        //console.log('add Protocol');
                         //change look of selected tab element
-                        var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-                        var pictoElement = $(spn).find('i')[0];
-                        $(pictoElement).addClass('icon small reneco validated');
+                        if (data!='error'){
+                            var idProtocol = data; // if success, returned value corresponds to new id protocol value 
+                            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                            var pictoElement = $(spn).find('i')[0];
+                            $(pictoElement).addClass('icon small reneco validated');
+                            // desactivate form edition and mask save btn
+                            $('button[protocolname="'+ protoName +'"]').attr('editionId',idProtocol);
+                            $('button[protocolname="'+ protoName +'"]').addClass('masqued');
+                            $('.tab-pane.active form input').attr('disabled', 'disabled');
+                            $('.tab-pane.active form textarea').attr('disabled', 'disabled');
+                            //activate edition btn
+                             $('button[protocolname="'+ protoName +'"].inputProtocolEdit').removeClass('masqued');
+
+                        } else {
+                            alert('error in generating protocol data');
+                             //change look of selected tab element
+                            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                            var pictoElement = $(spn).find('i')[0];
+                            $(pictoElement).addClass('icon reneco close braindead');
+                        }
                     },
                    error: function (xhr, ajaxOptions, thrownError) {
                         //alert(xhr.status);
@@ -365,7 +390,7 @@ define([
                     }
                 });
             }
-        },
+        },*/
         stationStep : function(){
             $('#inputWizard').wizard('selectedItem', { step: 2 });
             // clear input fields for the new station

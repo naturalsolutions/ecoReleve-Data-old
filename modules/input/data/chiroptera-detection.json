@@ -12,8 +12,7 @@
       "title":"FK_TSta_ID"
       },
     "Name_Taxon": {
-      "validators": [
-      ],
+      "validators": ["required"],
       "type": "Text",
       "title": "Taxon",
       "editorAttrs": { "startId": "18905" },
@@ -26,17 +25,17 @@
       "title":"Individual id"
     },
     "Number": {
-      "validators": [],
+      "validators": ["required"],
       "type": "Number",
-      "title": "number"
+      "title": "number",
+      "editorClass": "required"
     },
     "Time": {
-      "validators": [
-        "required"
-      ],
+      "validators": ["required"],
       "type": "Text",
       "title": "Time",
-      "editorAttrs": { "placeholder":"HH:MM" }
+      "editorAttrs": { "placeholder":"HH:MM" },
+      "editorClass": "required"
     },
     "File_name": {
       "validators": [
