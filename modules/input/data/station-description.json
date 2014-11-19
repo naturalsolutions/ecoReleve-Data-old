@@ -260,6 +260,9 @@
       "title": "comments"
     }
   },
+    "defaults":{
+
+  },
   "fieldsets": []
 }
 

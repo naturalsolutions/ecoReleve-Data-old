@@ -186,6 +186,13 @@
       "title": "Comments"
     }
   },
+  "defaults":{
+    "Adiposity_note" : 2,
+    "Sampled" : "1",
+    "Comments" : "test",
+    "Wings" : ""
+
+  },
   "fieldsets": [
     {
       "fields": ["FK_TSta_ID","FK_TInd_ID","Id_Observer","Id_Assistant","Name_Sex","Name_Age", "Weight","Skull","Wings","Tarso_Metatarsus","Muscle_note","Adiposity_note"],

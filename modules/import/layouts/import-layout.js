@@ -120,10 +120,22 @@ define([
                      $('#btnPrev').attr('disabled','disabled');
                      $('ul.steps li').removeClass('active');
                      $('ul.steps li').removeClass('complete');
-                     
-
-
                }
+               // send filtred collection to the server
+               var url=config.coreUrl + 'station/addMultStation/insert';
+                $.ajax({
+                    url:url,
+                    context:this,
+                    type:'POST',
+                    data: JSON.stringify(filteredCollection.models),
+                    dataType:'json',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(data){
+                        alert('error sending gpx collection');
+                    }
+                });
             }
         },
         activateNextStep : function() {

@@ -348,49 +348,6 @@ define([
             }
             alert(info);
         },
-        /*inputValidate : function(data){
-            //data["FK_TSta_ID"]=this.form.model.get('id');
-            //delete data["fieldsets"];
-            var nbProtos = data.length;
-            for (var i=0; i< nbProtos;i++){
-                // current protocol name
-                var protoName = data[i].name;
-                $.ajax({
-                    url: config.coreUrl +'station/addStation/addProtocol',
-                    data:  data[i],
-                    type:'POST',
-                    success: function(data){
-                        //console.log('add Protocol');
-                        //change look of selected tab element
-                        if (data!='error'){
-                            var idProtocol = data; // if success, returned value corresponds to new id protocol value 
-                            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-                            var pictoElement = $(spn).find('i')[0];
-                            $(pictoElement).addClass('icon small reneco validated');
-                            // desactivate form edition and mask save btn
-                            $('button[protocolname="'+ protoName +'"]').attr('editionId',idProtocol);
-                            $('button[protocolname="'+ protoName +'"]').addClass('masqued');
-                            $('.tab-pane.active form input').attr('disabled', 'disabled');
-                            $('.tab-pane.active form textarea').attr('disabled', 'disabled');
-                            //activate edition btn
-                             $('button[protocolname="'+ protoName +'"].inputProtocolEdit').removeClass('masqued');
-
-                        } else {
-                            alert('error in generating protocol data');
-                             //change look of selected tab element
-                            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-                            var pictoElement = $(spn).find('i')[0];
-                            $(pictoElement).addClass('icon reneco close braindead');
-                        }
-                    },
-                   error: function (xhr, ajaxOptions, thrownError) {
-                        //alert(xhr.status);
-                        //alert(thrownError);
-                        alert('error in generating protocol data');
-                    }
-                });
-            }
-        },*/
         stationStep : function(){
             $('#inputWizard').wizard('selectedItem', { step: 2 });
             // clear input fields for the new station

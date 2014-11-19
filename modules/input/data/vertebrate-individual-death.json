@@ -71,6 +71,9 @@
       "title": "sampled"
     }
   },
+    "defaults":{
+
+  },
   "fieldsets": []
 }
 

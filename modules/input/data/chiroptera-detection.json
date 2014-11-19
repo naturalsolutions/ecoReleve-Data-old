@@ -99,7 +99,9 @@
       "title": "Comments"
     }
   },
-  
+    "defaults":{
+
+  },
   "fieldsets": [
     {
       "fields": ["FK_TSta_ID","Name_Taxon","Id_Taxon","Number","Time"],
