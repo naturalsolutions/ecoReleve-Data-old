@@ -21,9 +21,11 @@ define([
             'click .inputProtocolEdit' : 'editForm',
             'click .addSubProto' : 'addSubProto',
             'change input.add-protocol' : 'addForm',
-            'click .removeCurrentForm' : 'removeForm',
-            'click .autocompTree' : 'createAutocompTree',
-            'change input[name="st_FieldActivity_Name"]' : 'updateFieldActivity'
+            //'click .removeCurrentForm' : 'removeForm',
+            //'click .autocompTree' : 'createAutocompTree',
+            'change input[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
+            'click .autocompTree' : 'initInputValue',
+            'click i.icon.reneco.close.braindead' : 'removeForm'
         },
         onShow: function() {
             this.setFieldActivity();
@@ -101,6 +103,7 @@ define([
                 // add relations protocols/sub-protocols
                 self. generateRelations();
                // generate protocols datalist 
+               self.protosList.sort();
                self.generateProtocolsDataList(self.protosList);
             });
         },
@@ -135,6 +138,7 @@ define([
         },
         generateProtocolsDataList : function(protosList){
             var datalistContent ='';
+            $('#protocolsList').empty();
             for(var i=0;i<protosList.length;i++){
                 // check if protocol is not used
                 var currentProto = protosList[i];
@@ -149,6 +153,10 @@ define([
                     datalistContent += element;
                 }
             }
+            /*for(var i=0;i<protosList.length;i++){
+                var element = '<option value="'+ protosList[i]+'"></option>';
+                datalistContent += element;
+            }*/
             $('#protocolsList').append(datalistContent);
         },
         generateForms : function(protocolsModels, fieldActivity){
@@ -186,7 +194,7 @@ define([
                     //var protocolId = protocolsModels[i].get('idProt');
                     // activate first element of tab
                     if(tabOrder===0){activeTab ="active";}
-                    $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a></li>');
+                    $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a><i class="icon reneco close braindead"></i></li>');
                     var tabId = 'tab_' + i;
                     var currentTab = '#' + tabId;
                     $('#tabProtsContent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
@@ -233,6 +241,7 @@ define([
             }
             // hide loader
             $('#myLoader').loader('destroy');
+            this.createAutocompTree();
         },
         addForm : function(){
             var selectedProtocolName = $('input[name="add-protocol"]').val();
@@ -242,7 +251,7 @@ define([
             form.render();
             var formContent = form.el;
             $(formContent).find('fieldset>div').addClass('col-sm-4');
-            $('#tabProtsUl').append('<li><a href="#tab_' + idTabProto + '" data-toggle="tab"><span><i></i></span>'+ selectedProtocolName +'</a></li>');
+            $('#tabProtsUl').append('<li><a href="#tab_' + idTabProto + '" data-toggle="tab"><span><i></i></span>'+ selectedProtocolName +'</a><i class="icon reneco close braindead"></i></li>');
             var tabId = 'tab_' + idTabProto ;
             var currentTab = '#' + tabId;
             $('#tabProtsContent').append('<div class="tab-pane" id="' + tabId +'"></div>');
@@ -260,11 +269,26 @@ define([
             $('input[type="number"]').attr('min',0);
             // add class to label of required input to color it 
             this.addLabelClass();
+            this.createAutocompTree();
         },
         removeForm : function(e){
-            var form = $(e.target).parent();
+            var tabElement = $(e.target).parent().find('a')[0];
+            var formName = $(tabElement).text();
+            var liElement =  $(e.target).parent();
+            $(liElement).remove();
+            //this.activeProtocols.push(formName);
+            console.log(liElement);
+            var tabContainerId = $(tabElement).attr('href');
+            $(tabContainerId).remove();
+            // remove the protocol from active protocols list
+            for(var i = 0; i< this.activeProtocols.length ; i++) {
+                if(this.activeProtocols[i] === formName) {
+                   this.activeProtocols.splice(i, 1);
+                }
+            }
+            this.generateProtocolsDataList(this.protosList);
             //console.log(formsContainer);
-            $(form).remove();
+            //$(form).remove();
         },
         commitForm : function(e){
             // get current protocol name stored in submit button
@@ -428,17 +452,24 @@ define([
         },
         createAutocompTree : function(e){
             
-            var startId = $(e.target).attr('startId');
-            
-            $(e.target).autocompTree({
-                        wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
-                        //display: {displayValueName:'value',storedValueName:'value'},
-                        webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
-                        language: {hasLanguage:true, lng:"en"},
-                        startId: startId 
-            });
-            $(e.target).focus();
+            //var startId = $(e.target).attr('startId');
+            var elementsList = $('.autocompTree');
+            for(var i=0;i<elementsList.length;i++){
+                //$(e.target).autocompTree({
+                var startId = $(elementsList[i]).attr('startId');
+                $(elementsList[i]).autocompTree({
+                            wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
+                            //display: {displayValueName:'value',storedValueName:'value'},
+                            webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
+                            language: {hasLanguage:true, lng:"en"},
+                            startId: startId 
+                });
+            }
+            //$(e.target).focus();
 
+        },
+        initInputValue : function(e){
+            $(e.target).val('');
         },
         saveForm : function(data){
             //data["FK_TSta_ID"]=this.form.model.get('id');
@@ -488,7 +519,7 @@ define([
             var pictoElement = $(spn).find('i')[0];
             $(pictoElement).removeClass();
             if(value=='error'){
-                $(pictoElement).addClass('icon reneco close braindead');
+               // $(pictoElement).addClass('icon reneco close braindead');
             } else {
                 $(pictoElement).addClass('icon small reneco validated');
             }
@@ -527,16 +558,15 @@ define([
                 data:  this.model.attributes,
                 type:'POST',
                 success: function(data){
-                       console.log(data);
+                    console.log(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //alert(xhr.status);
                     //alert(thrownError);
                     alert('error in updating field activity value for current station');
                 }
-                });
+            });
         }
-
         /*,
         generateSubForm: function(nestedModelName){
             var nestedModel = this.getProtocolByAttr('name',nestedModelName);

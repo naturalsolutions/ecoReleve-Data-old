@@ -27,7 +27,7 @@
       "type": "Text",
       "title": "Observer",
       "editorAttrs": { "list": "username_list" },
-      "editorClass": "autocompTree required"
+      "editorClass": "required"
     },
     "Id_Assistant": {
       "validators": [

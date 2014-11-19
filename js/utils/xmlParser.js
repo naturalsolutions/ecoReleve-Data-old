@@ -36,9 +36,7 @@ define([
 	            */
 		            var Waypoint =  backbone.Model.extend();
 		            var waypointList = new Waypoints();
-
-
-
+		            var errors = [];
 					// id waypoint
 					var id = 0;  // used to get number of valid waypoint
 					var nbWaypoints = 0; // used to get number of  waypoints in gpx file
@@ -63,11 +61,9 @@ define([
 							waypointTime = moment(dateValue);
 							time = moment(dateValue).format("HH:mm:ss"); 
 						}
-
 						var tm = moment(waypointTime, moment.ISO_8601);
 						var dateStr = (moment(waypointTime).format("YYYY-MM-DD"));  
 						var dateTimeStr = dateStr + ' ' + time;
-
 						// check if data is valid
 						nbWaypoints +=1;
 						if (lat !='' && lon !='' && dateStr != 'Invalid date' && time !=' Invalid date'){
@@ -83,17 +79,20 @@ define([
 							waypoint.set("import", true);
 							waypointList.add(waypoint);
 						} 
+						else {
+							errors.push(waypointName);
+						}
 					});
 					// check if all wayponits are imported
 					if(id!=nbWaypoints){
-						alert("some waypoints are not imported, please check coordinates and date for each waypoint");
+						//alert("some waypoints are not imported, please check coordinates and date for each waypoint");
 					}
-					return waypointList;
+					return [waypointList , errors];
 
 				} catch (e) {
 					alert("error loading gpx file");
 					//waypointList.reset();
-					return waypointList;
+					return [waypointList,0];
 				}
         },
         protocolParser: function(xml) {
