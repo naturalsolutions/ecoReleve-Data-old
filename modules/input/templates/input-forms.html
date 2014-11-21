@@ -33,32 +33,42 @@
                               </div>
                               <br>
                               <div class="row" >
-                                    <div class="col-sm-4" id=''>
+                                    <div class="col-sm-6" id=''>
                                           <label>place</label>
-                                          <div>_</div>
+                                          <div><input name="stPlace"></div>
                                     </div>
                                     <div class="col-sm-4" id=''>
                                                 <label>region</label>
-                                          <div>_</div>
-                                    </div>
-                                    <div class="col-sm-4" id=''>
-                                    <label>utm</label>
-                                          <div>_</div>
+                                          <div></div>
                                     </div>
                               </div>
                               <br>
                               <div class="row" >
-                                    <div class="col-sm-4" id=''>
-                                          <label>accuracy</label>
-                                          <div>_</div>
-                                    </div>
                                     <div class="col-sm-8" id=''>
-                                                <label>dist from obs</label>
-                                          <div>_</div>
+                                          <label>accuracy(m)</label>
+                                          <div><input name="stAccuracy"></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                          <label>utm</label>
+                                          <div></div>
                                     </div>
                               </div>
 
                               <br>
+                              <div class="row" >
+                                    <div class="col-sm-12" id=''>
+                                                <label>dist from observer</label>
+                                          <div>
+                                                <select id="stDistFromObs">
+                                                      <option value="NULL"></option>
+                                                      <option value="1000004">&lt;100m</option>
+                                                      <option value="1000005">100m&lt; x &lt;500m</option>
+                                                      <option value="1000006">&gt;500m</option>
+                                                </select>
+                                          </div>
+                                    </div>
+                              </div>
+                              <br/>
                               <div class="row" >
                                     <div class="col-sm-3">
                                           <i class="icon small reneco site" id="icon-age"></i> 

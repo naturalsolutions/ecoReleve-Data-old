@@ -28,30 +28,13 @@
       "validators": [],
       "type": "TextArea",
       "title": "Comments"
-    },
-    "tested":  {
-      "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
-      "title": "Bird collected"
     }
   },
   "defaults": {
-    "tested": "1",
-    "Name_Impact" : "2"
   },
   "fieldsets": [
     {
-      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments","tested"],
+      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments"],
       "legend": ""
     }
   ]

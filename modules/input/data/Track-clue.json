@@ -1,0 +1,100 @@
+﻿{
+  "name": "Track clue",
+  "description": "TProtocol_Track_clue",
+  "keywords": [
+    "Nest monitoring",
+    "Displaying male search",
+    "Display site confirmation",
+    "Displaying male radio-tracking",
+    "Display specific studies"
+  ],
+  "schema": {
+      "FK_TSta_ID":{
+      "validators":[
+      ],
+      "type": "Hidden",
+      "title":"FK_TSta_ID"
+      },
+      "Id_Track_clue":{
+      "validators":[
+      ],
+      "type": "Hidden",
+      "title":"Id_Track_clue"
+      },
+      "Name_Track_clue":{
+      "validators":[
+      ],
+      "type": "Text",
+      "title":"Name_Track_clue",
+      "editorAttrs": { "startId": "11" },
+      "editorClass": "autocompTree"
+      },
+      "id_taxon":{
+      "validators":[
+      ],
+      "type": "Number",
+      "title":"id_taxon"
+      },
+      "name_taxon":{
+      "validators":[
+      ],
+      "type": "Text",
+      "title":"taxon",
+      "editorAttrs": { "startId": "8" },
+      "editorClass": "autocompTree"
+      },
+      "Identity_sure":{
+      "validators":[
+      ],
+      "options": [
+      {
+      "val": "1",
+      "label": "true"
+      },
+      {
+      "val": "0",
+      "label": "false"
+      }
+      ],
+      "type": "Radio",
+      "title":"Identity sure"
+      },
+
+      "Number_Track_clue":{
+      "validators":[
+      ],
+      "type": "Number",
+      "title":"Number track clue"
+      },
+      "Sampled":{
+      "validators":[
+      ],
+      "options": [
+      {
+      "val": "1",
+      "label": "true"
+      },
+      {
+      "val": "0",
+      "label": "false"
+      }
+      ],
+      "type": "Radio",
+      "title":"Sampled"
+      },
+            "Comments":{
+      "validators":[
+      ],
+      "type": "TextArea",
+      "title":"Comments"
+      }
+  },
+  "defaults": {
+    "Identity_sure" :"1",
+     "Sampled": "0",
+     "Number_Track_clue" : "" 
+  },
+  "fieldsets": [
+  ]
+}
+

@@ -25,7 +25,8 @@ define([
             //'click .autocompTree' : 'createAutocompTree',
             'change input[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
             'click .autocompTree' : 'initInputValue',
-            'click i.icon.reneco.close.braindead' : 'removeForm'
+            'click i.icon.reneco.close.braindead' : 'removeForm',
+            'change #stDistFromObs' : 'updateStationDistance'
         },
         onShow: function() {
             this.setFieldActivity();
@@ -552,6 +553,19 @@ define([
             var PK = this.model.get('id');
             this.model.set('PK', PK);
             //currentStation.PK = this.model.get('id');
+            this.updateStationValues();
+        },
+        updateStationDistance : function(e){
+            var selectedDistanceId = $(e.target).val();
+            // selected option element
+            var st = $(e.target).find('option[value="' + selectedDistanceId +'"]')[0];
+            var selectedDistanceName = $(st).text();
+            // set values in the current station model
+            this.model.set('Id_DistanceFromObs', selectedDistanceId);
+            this.model.set('Name_DistanceFromObs', selectedDistanceName);
+            this.updateStationValues();
+        },
+        updateStationValues : function(){
             $.ajax({
                 url: config.coreUrl +'station/addStation/insert',
                 context: this,
@@ -563,7 +577,7 @@ define([
                 error: function (xhr, ajaxOptions, thrownError) {
                     //alert(xhr.status);
                     //alert(thrownError);
-                    alert('error in updating field activity value for current station');
+                    alert('error in updating current station value(s)');
                 }
             });
         }
