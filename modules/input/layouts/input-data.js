@@ -99,7 +99,12 @@ define([
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
                     });                    
-                
+                    // add field activity dataset if dont exists
+                    var fieldActivityList = $(activityTpl).html();  
+                    $('#station-form').append(fieldActivityList);
+                    // associate datalist to input 'FieldActivity_Name'
+                    $('input[name="FieldActivity_Name"]').attr('list','activity');
+
                     // get users list
                     this.getUsers();
                     this.getRegions();
@@ -139,11 +144,12 @@ define([
                 //$('#btnNext').addClass('disabled');
                  // load places list
                 this.getPlaces();
-                // add field activity dataset
-                var fieldActivityList = $(activityTpl).html();  
-                $('#station-form').append(fieldActivityList);
-                // associate datalist to input 'FieldActivity_Name'
-                $('input[name="FieldActivity_Name"]').attr('list','activity');
+                //add field activity dataset if dont exists
+                var datalist = $('datalist#activity');
+                if (datalist.length == 0) {
+                    var fieldActivityList = $(activityTpl).html();  
+                    $('#station-form').append(fieldActivityList);
+                }
 
             }
         },

@@ -25,6 +25,10 @@ define([
                 FieldWorker5: { type: 'Text' , title:'field worker 5' , editorClass : 'form-control' },
                 FieldWorkersNumber : {type: 'Number' , title:'field workers number', editorClass : 'form-control'}
             },
+            defaults: {
+                FieldWorker4: '',
+                FieldWorker5: ''
+            },
             verboseName : "station"
         }
     );
