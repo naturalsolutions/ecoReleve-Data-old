@@ -215,7 +215,7 @@ define([
                             if(PK){
                                 self.form.model.set('PK',data.PK);
                                 self.form.model.set('Region',data.Region);
-                                self.form.model.set('utm',data.utm);
+                                self.form.model.set('UTM20',data.UTM20);
                             }
                            if (data==null) {
                                 $('#btnNext').addClass('disabled');
@@ -267,6 +267,31 @@ define([
             newStation.set('FieldWorkersNumber',model.get('fieldWorkersNumber'));
             this.currentUsedStation = newStation;   */
             // add details station region to next step container
+            var utm = model.get('UTM20');
+            if(!utm){
+               model.set('UTM20',''); 
+            }
+            var fieldWorker4 = model.get('FieldWorker4');
+            if(!fieldWorker4){
+               model.set('FieldWorker4',''); 
+            }
+            var fieldWorker5 = model.get('FieldWorker5');
+            if(!fieldWorker5){
+               model.set('FieldWorker5',''); 
+            }
+            var id = model.get('id');
+            if(id){
+               model.unset('id'); 
+            }
+            var utm = model.get('UTM');
+            if(id){
+               model.unset('UTM'); 
+            }
+            var fieldWorkersNumber = model.get('FieldWorkersNumber');
+            if(!fieldWorkersNumber){
+               model.set('FieldWorkersNumber',''); 
+            }
+
             var formsView = new Forms({ model : model});
             this.formsRegion.show(formsView);
         },

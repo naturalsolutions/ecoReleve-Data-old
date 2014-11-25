@@ -14,11 +14,6 @@
       "editorAttrs": { "startId": "8" },
       "editorClass": "autocompTree"
     },
-    "Id_taxon": {
-      "validators": [],
-      "type": "Number",
-      "title": "id"
-    },
     "Identity_sure": {
       "validators": [],
       "options": [
