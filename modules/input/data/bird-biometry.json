@@ -19,7 +19,7 @@
       "validators": ["required"],
       "type": "Text",
       "title": "Individual",
-      "editorClass": "required"
+      "editorClass": "required filterIndiv"
     },
     "Id_Observer": {
       "validators": [

@@ -10,12 +10,14 @@ define([
     'modules2/input/views/input-grid',
     'modules2/input/views/input-map',
     'modules2/input/views/input-forms',
+    //'modules2/input/views/input-indivFilter',
+    'modules2/input/layouts/individual-list',
     'text!modules2/input/templates/input-data.html',
     'text!modules2/input/templates/form-new-station.html',
     'text!modules2/input/templates/activity.html'
 
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
-    Map, Forms, template, stationTemplate, activityTpl) {
+    Map, Forms, IndivFilter, template, stationTemplate, activityTpl) {
 
     'use strict';
 
@@ -30,7 +32,8 @@ define([
            formsRegion : '#stationDetails',
            stationMapRegion : '#station-map',
            stationDetailsMapRegion : '#mapStDetails',
-           stationDetailsPanelRegion :'#stationPanel'
+           stationDetailsPanelRegion :'#stationPanel',
+           indivFilterRegion : '#indivFilter'
         },
         events : {
             'click #inputGetStData' : 'commitForm',
@@ -41,7 +44,10 @@ define([
             'change input[name="LAT"]' : 'getCoordinates',
             'change input[name="LON"]' : 'getCoordinates',
             'click #getPosition' : 'getCurrentPosition',
-            'click #inputMoveToSation' : 'stationStep'
+            'click #inputMoveToSation' : 'stationStep',
+            'change input[type=radio][name="position"]' :'updateStationType',
+            'click .filterIndiv': 'filterIndivShow',
+            'click button.filterClose' : 'filterMask'
         },
         initialize:function(options) {
             // init stationtype 
@@ -49,11 +55,13 @@ define([
             this.radio = Radio.channel('input');
             Radio.channel('input').comply('generateStation', this.generateStation, this);
             Radio.channel('input').comply('inputForms', this.inputValidate, this);
+            Radio.channel('input').comply('indivId', this.inputDisplayIndivId, this);
             $('body').addClass('input-demo');
         },
         onBeforeDestroy: function() {
             //this.radio.reset();
             $('body').removeClass('input-demo');
+            Radio.channel('input').reset();
         },
         stationType : function(e) {
             var stType = $(e.target).val();
@@ -91,13 +99,12 @@ define([
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
                     });                    
-                // add field activity dataset
-                    var fieldActivityList = $(activityTpl).html();  
-                    $('#station-form').append(fieldActivityList);
-                    // associate datalist to input 'FieldActivity_Name'
-                    $('input[name="FieldActivity_Name"]').attr('list','activity');
+                
                     // get users list
                     this.getUsers();
+                    this.getRegions();
+                    //this.form.model.unset('PK');
+                    //this.form.model.set('PK', null);
                 }
                 else if (this.stType =='imported'){
                     // need to select a point -> desactivate next
@@ -130,6 +137,14 @@ define([
             if (step==3){
                 // disable next step to check data 
                 //$('#btnNext').addClass('disabled');
+                 // load places list
+                this.getPlaces();
+                // add field activity dataset
+                var fieldActivityList = $(activityTpl).html();  
+                $('#station-form').append(fieldActivityList);
+                // associate datalist to input 'FieldActivity_Name'
+                $('input[name="FieldActivity_Name"]').attr('list','activity');
+
             }
         },
         prevStep :  function() {
@@ -138,14 +153,17 @@ define([
             $('#btnNext').removeClass('disabled');
             if (step == 2){
                 // clear fields
-                    $('input[name="LAT"]').val('');
-                    $('input[name="LON"]').val('');
-                    $('input[name="Name"]').val('');
-                    $('#inputGetStData').removeClass('masqued');
-                    $('#btnNext').addClass('disabled');
+                $('input[name="LAT"]').val('');
+                $('input[name="LON"]').val('');
+                $('input[name="Name"]').val('');
+                $('input[name="Region"]').val('');
+                $('#inputGetStData').removeClass('masqued');
+                $('#btnNext').addClass('disabled');
+                //this.form.model.unset('PK');
             }
         },
         onShow: function() {
+            var self = this;
             $('#inputWizard').on('changed.fu.wizard', function () {
                 var step = $('#inputWizard').wizard('selectedItem').step;
                 console.log("change step to : " + step);
@@ -159,6 +177,7 @@ define([
                     $('input[name="Name"]').val('');
                     $('#inputGetStData').removeClass('masqued');
                     $('#msgNewStation').text('');
+                    $('input[name="PK"]').val('');
                 }
               // do something 
             });
@@ -186,12 +205,15 @@ define([
                     type:'POST',
                     success: function(data){
                            console.log(data);
-                           self.form.model.set('id',data);
-                           console.log(self.form.model);
+                            var PK = Number(data.PK);
+                            if(PK){
+                                self.form.model.set('PK',data.PK);
+                                self.form.model.set('Region',data.Region);
+                                self.form.model.set('utm',data.utm);
+                            }
                            if (data==null) {
                                 $('#btnNext').addClass('disabled');
                                 alert('this station is already saved, please modify date or coordinates');
-
                            } 
 						   else {
 								// add details station region to next step container
@@ -200,7 +222,8 @@ define([
                                 $('#btnNext').removeClass('disabled');
                                 $('#inputGetStData').addClass('masqued');
                                 $('#msgNewStation').text('The new station is successfully created.');
-
+                                // load places list
+                                //self.getPlaces();
 						   }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -221,9 +244,9 @@ define([
             }
         },
         generateStation : function(model) {
-            // generate a station using the selected waypoint
-            var newStation = new Station();
-            newStation.set('id', model.get('id'));
+            // generate a station using the selected waypoint for imported stations
+            /*var newStation = new Station();
+            newStation.set('PK', model.get('PK'));
             newStation.set('Name', model.get('name'));
             newStation.set('LAT',model.get('latitude'));
             newStation.set('LON',model.get('longitude'));
@@ -236,9 +259,9 @@ define([
             newStation.set('FieldWorker4',model.get('fieldWorker4'));
             newStation.set('FieldWorker5',model.get('fieldWorker5'));
             newStation.set('FieldWorkersNumber',model.get('fieldWorkersNumber'));
-            this.currentUsedStation = newStation;   
+            this.currentUsedStation = newStation;   */
             // add details station region to next step container
-            var formsView = new Forms({ model : newStation});
+            var formsView = new Forms({ model : model});
             this.formsRegion.show(formsView);
         },
         addInput : function(){
@@ -270,7 +293,7 @@ define([
                     position.set("latitude",latitude);
                     position.set("longitude",longitude);
                     position.set("label","current station");
-                    position.set("id","_");
+                    position.set("PK","_");
                     //this.getPosModel(latitude,longitude);
                     Radio.channel('input').command('movePoint', position);
                 }
@@ -287,12 +310,8 @@ define([
         updateSize: function(type) {
             if(type === 'hide'){
                 $("#stationPanel").removeClass('masqued');
-                //this.main.$el.removeClass('col-lg-7'); // TODO
-                //this.main.$el.addClass('col-lg-12'); // TODO
             } else {
                 $("#stationPanel").addClass('masqued'); 
-                //this.main.$el.removeClass('col-lg-12'); // TODO
-                //this.main.$el.addClass('col-lg-7'); // TODO
             }
             $(window).trigger('resize');
         },
@@ -362,17 +381,110 @@ define([
                 dataType: 'json'
             }).done( function(data) {
                 //this.collection.reset(data);
-                this.generateDatalist(data);
+                this.generateUserDatalist(data,'username_list', 'input[name^="FieldWorker"]' );
             });
         },
-        generateDatalist : function(data){
-            var UsersList = $('<datalist id="username_list"></datalist>');
-            data.forEach(function(user) {
-                $(UsersList).append('<option>' + user.fullname + '</option>');
+        getRegions : function(){
+            var url = config.coreUrl + 'station/area';
+            //this.listenTo(this.collection, 'reset', this.render);
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                dataType: 'json'
+            }).done( function(data) {
+                //this.collection.reset(data);
+                this.generateDatalist(data,'region_list', 'input[name^="Region"]' );
             });
-            $('#station-form').append(UsersList);
+        },
+        getPlaces : function(){
+            var url = config.coreUrl + 'station/locality';
+            //this.listenTo(this.collection, 'reset', this.render);
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                dataType: 'json'
+            }).done( function(data) {
+                //this.collection.reset(data);
+                this.generateDatalist(data,'places_list', 'input[name^="stPlace"]' );
+            });
+        },
+        generateDatalist : function(data, listId, targetId){
+            var dataList = $('<datalist id="' + listId +'"></datalist>');
+            data.forEach(function(element) {
+                $(dataList).append('<option>' + element + '</option>');
+            });
+            $('#station-form').append(dataList);
             // associate datalist to user input
-            $('input[name^="FieldWorker"]').attr("list","username_list");
+            $(targetId).attr("list",listId);
+        },
+        generateUserDatalist : function(data, listId, targetId){
+            var dataList = $('<datalist id="' + listId +'"></datalist>');
+            data.forEach(function(user) {
+                var id = user.PK_id;
+                //$(dataList).append('<option>' + user.fullname + '</option>');
+                 $(dataList).append('<option value="'+  user.fullname + '">' + id + '</option>');
+            });
+            $('#station-form').append(dataList);
+            // associate datalist to user input
+            $(targetId).attr("list",listId);
+        },
+        updateStationType : function(e){
+            var value = $(e.target).val();
+            if(value == 1){
+                // station with coordinates
+                $('#stRegion').addClass('masqued');
+                $('#stCoordinates').removeClass('masqued');
+                $("input[name='Region']").val('NULL');
+                $("input[name='LAT']").val('');
+                $("input[name='LON']").val('');
+                this.form.model.schema.Region.validators = [];
+                this.form.model.schema.LAT.validators = ['required'];
+                this.form.model.schema.LON.validators = ['required'];
+            } else {
+                $('#stRegion').removeClass('masqued');
+                $('#stCoordinates').addClass('masqued');
+                $("input[name='Region']").val('');
+                $("input[name='LAT']").val('NULL');
+                $("input[name='LON']").val('NULL');
+                // set fields Region to required and LAT , LON to not required
+                this.form.model.schema.Region.validators = ['required'];
+                this.form.model.schema.LAT.validators = [];
+                this.form.model.schema.LON.validators = [];
+            }
+        },
+        filterIndivShow : function(e){
+            // add a class to action control source
+            $(e.target).addClass('target');
+            var modal = new IndivFilter();
+            // navigate to the modal by simulating a click
+            var element = '<a class="btn" data-toggle="modal" data-target="#myModal" id="indivIdModal">-</a>';
+            $('body').append(element);
+           
+            /*modal.render();
+            var tp = modal.el;
+            alert(tp);*/
+            this.indivFilterRegion.show(modal);
+            $('#indivIdModal').click();
+            //$('#myModal .modal-dialog').css('width','90%');       
+        },
+        filterMask : function(){
+            var inputIndivId = $('input.filterIndiv.target');
+            $(inputIndivId).removeClass('target');
+            this.indivFilterRegion.reset();
+            $('#indivIdModal').remove();
+            $('div.modal-backdrop.fade.in').remove();
+        },
+        inputDisplayIndivId : function(indivId){
+            var id = indivId.id;
+            // set target input
+            var inputIndivId = $('input.filterIndiv.target');
+            $(inputIndivId).val(id);
+            $(inputIndivId).removeClass('target');
+            this.indivFilterRegion.reset()
+            $('#indivIdModal').remove();
+            $('div.modal-backdrop.fade.in').remove();
         }
     });
 });

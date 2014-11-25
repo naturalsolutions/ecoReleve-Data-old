@@ -79,8 +79,19 @@ define([
         },
         getFeature: function(model){
                 var id = model.get('id');
+                // test if the name is correct (integer value), if not, use PK name
+                var test = Number(id);
+                if (!test){
+                    id = model.get('PK');
+                }
                 var latitude = model.get('latitude');
+                if(!latitude){
+                    latitude = model.get('LAT');
+                }
                 var longitude = model.get('longitude');
+                if(!longitude){
+                    longitude = model.get('LON');
+                }
                 var label = model.get('name');
                 var feature = new ol.Feature({
                   geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')),

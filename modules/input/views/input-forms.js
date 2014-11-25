@@ -26,7 +26,8 @@ define([
             'change input[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
             'click .autocompTree' : 'initInputValue',
             'click i.icon.reneco.close.braindead' : 'removeForm',
-            'change #stDistFromObs' : 'updateStationDistance'
+            'change #stDistFromObs' : 'updateStationDistance',
+            'change input[name="stAccuracy"]':'updateAccuracy'
         },
         onShow: function() {
             this.setFieldActivity();
@@ -335,7 +336,7 @@ define([
                     // check if there are subforms and insert parent form and sub forms in an array 
                     var formsList = [];
                     // add current station id
-                    currentInstance.attributes["FK_TSta_ID"]=this.model.get('id');
+                    currentInstance.attributes["FK_TSta_ID"]=this.model.get('PK');
                     // if we need to update form , set id of protocol instance in sqlserver table
                     if (formId){
                         formId = parseInt(formId);
@@ -353,7 +354,7 @@ define([
                             // form content
                             var subFormContent = subFormModel.attributes;
                             // add current station id
-                            subFormContent["FK_TSta_ID"]=this.model.get('id');
+                            subFormContent["FK_TSta_ID"]=this.model.get('PK');
                             // add subform values to list forms to push 
                             formsList.push(subFormContent);
                         }
@@ -459,15 +460,14 @@ define([
                 //$(e.target).autocompTree({
                 var startId = $(elementsList[i]).attr('startId');
                 $(elementsList[i]).autocompTree({
-                            wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
-                            //display: {displayValueName:'value',storedValueName:'value'},
-                            webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
-                            language: {hasLanguage:true, lng:"en"},
-                            startId: startId 
+                    wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
+                    //display: {displayValueName:'value',storedValueName:'value'},
+                    webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
+                    language: {hasLanguage:true, lng:"en"},
+                    startId: startId 
                 });
             }
             //$(e.target).focus();
-
         },
         initInputValue : function(e){
             $(e.target).val('');
@@ -546,13 +546,7 @@ define([
             var selectedFieldActivity = $(e.target).val();
             // regenerate forms list linked to the selected field activity
             this.generateForms(this.protocolsModels, selectedFieldActivity);
-            // update field activity value for current station
-            var currentStation = {};
             this.model.set('FieldActivity_Name', selectedFieldActivity);
-            // to update the station, set the PK id
-            var PK = this.model.get('id');
-            this.model.set('PK', PK);
-            //currentStation.PK = this.model.get('id');
             this.updateStationValues();
         },
         updateStationDistance : function(e){
@@ -564,6 +558,11 @@ define([
             this.model.set('Id_DistanceFromObs', selectedDistanceId);
             this.model.set('Name_DistanceFromObs', selectedDistanceName);
             this.updateStationValues();
+        },
+        updateAccuracy : function(e){
+             var accuracy = $(e.target).val();
+             alert(accuracy);
+
         },
         updateStationValues : function(){
             $.ajax({

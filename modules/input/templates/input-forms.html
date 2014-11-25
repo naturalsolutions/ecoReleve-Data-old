@@ -8,7 +8,7 @@
                               <div class="row" >
                                     <div class="col-sm-4" id=''>
                                           <label>id</label>
-                                          <div><%= id %></div>
+                                          <div><%= PK %></div>
                                     </div>
                                     <div class="col-sm-4" id=''>
                                                 <label>name</label>
@@ -35,7 +35,7 @@
                               <div class="row" >
                                     <div class="col-sm-6" id=''>
                                           <label>place</label>
-                                          <div><input name="stPlace"></div>
+                                          <div><input name="stPlace" list="places_list" class="blackFont"></div>
                                     </div>
                                     <div class="col-sm-4" id=''>
                                                 <label>region</label>
@@ -46,7 +46,7 @@
                               <div class="row" >
                                     <div class="col-sm-8" id=''>
                                           <label>accuracy(m)</label>
-                                          <div><input name="stAccuracy"></div>
+                                          <div><input name="stAccuracy" class="blackFont" type="number"></div>
                                     </div>
                                     <div class="col-sm-4" id=''>
                                           <label>utm</label>
@@ -59,7 +59,7 @@
                                     <div class="col-sm-12" id=''>
                                                 <label>dist from observer</label>
                                           <div>
-                                                <select id="stDistFromObs">
+                                                <select id="stDistFromObs" class="blackFont">
                                                       <option value="NULL"></option>
                                                       <option value="1000004">&lt;100m</option>
                                                       <option value="1000005">100m&lt; x &lt;500m</option>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                           <label>field activity</label>
-                                          <div><input  name="st_FieldActivity_Name" type="text" list="activity">
+                                          <div><input  name="st_FieldActivity_Name" type="text" list="activity" class="blackFont">
                                           </div>
                                     </div>
                               </div>

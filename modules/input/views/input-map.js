@@ -69,9 +69,9 @@ define([
             Radio.channel('input').stopComplying('updateMap');
         },
         updateMap: function(model) {
-            var id = model.get('id');
-            var lat = model.get('latitude');
-            var lon = model.get('longitude');
+            var id = model.get('PK');
+            var lat = model.get('LAT');
+            var lon = model.get('LON');
             var nblayers =  this.map.getLayers().getLength();
             // vector layer is the latest one 
             var feature = this.map.getLayers().item(nblayers - 1).getSource().getFeatureById(id);
