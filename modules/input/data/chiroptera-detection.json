@@ -18,12 +18,6 @@
       "editorAttrs": { "startId": "18905" },
       "editorClass": "autocompTree"
     },
-    "Id_Taxon":{
-      "validators":[
-      ],
-      "type": "Number",
-      "title":"Individual id"
-    },
     "Number": {
       "validators": ["required"],
       "type": "Number",
