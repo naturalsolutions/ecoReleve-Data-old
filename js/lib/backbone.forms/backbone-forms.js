@@ -1432,7 +1432,34 @@ Form.editors.TextArea = Form.editors.Text.extend({
   }
 
 });
+/* Time editor  */
+Form.editors.Time = Form.editors.Text.extend({
 
+ // tagName: 'input',
+  //Template
+    //this.template = options.template || this.constructor.template;
+
+  /**
+   * Override Text constructor so type property isn't set (issue #261)
+   */
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+	this.template = _.template('\
+	<div class="input-group date timePicker" >\
+		<input class ="form-control timeInput">\
+		<span class="input-group-addon">\
+	      <span class="glyphicon glyphicon-time"></span>\
+	    </span>\
+		<span ></span>\
+	</div>\
+  ', null, Form.templateSettings);
+	var $el = $($.trim(this.template()));
+	this.setElement($el);
+	this.$el.find('input').attr('id', this.id);
+	this.$el.find('input').attr('name', this.key);
+  }
+
+});
 /**
  * Password editor
  */

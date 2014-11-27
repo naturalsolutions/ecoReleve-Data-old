@@ -244,6 +244,8 @@ define([
             // hide loader
             $('#myLoader').loader('destroy');
             this.createAutocompTree();
+            // format time field to apply datetime plugin
+            this.formatTimeField();
         },
         addForm : function(){
             var selectedProtocolName = $('input[name="add-protocol"]').val();
@@ -272,6 +274,7 @@ define([
             // add class to label of required input to color it 
             this.addLabelClass();
             this.createAutocompTree();
+            this.formatTimeField();
         },
         removeForm : function(e){
             var tabElement = $(e.target).parent().find('a')[0];
@@ -579,6 +582,22 @@ define([
                     alert('error in updating current station value(s)');
                 }
             });
+        },
+        formatTimeField : function(){
+            // format time fields 
+            $('.timePicker').datetimepicker({
+                pickDate: false,                
+                useMinutes: true,              
+                useSeconds: false,               
+                minuteStepping:1,
+                use24hours: true,
+                format: 'HH:mm'    
+            });
+            $('input.timeInput').attr('placeholder' ,'hh:mm');
+            $('input[type="text"]').addClass('form-control');
+            $('input[type="number"]').addClass('form-control');
+            $('textarea').addClass('form-control');
+            $('form ul').addClass('unstyled');
         }
         /*,
         generateSubForm: function(nestedModelName){

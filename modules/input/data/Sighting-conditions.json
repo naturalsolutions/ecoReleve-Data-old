@@ -72,25 +72,22 @@
 		"Start_time":{
 		"validators":[
 		],
-		"type": "Text",
-		"title":"Start time",
-		"editorAttrs": { "placeholder":"HH:MM" }
+		"type": "Time",
+		"title":"Start time"
 		},
 
 		"End_time":{
 		"validators":[
 		],
-		"type": "Text",
-		"title":"End time",
-		"editorAttrs": { "placeholder":"HH:MM" }
+		"type": "Time",
+		"title":"End time"
 		},
 
 		"Observation_Duration":{
 		"validators":[
 		],
-		"type": "Text",
-		"title":"Observation duration",
-		"editorAttrs": { "placeholder":"HH:MM" }
+		"type": "Time",
+		"title":"Observation duration"
 		},
 
 		"Visibility":{

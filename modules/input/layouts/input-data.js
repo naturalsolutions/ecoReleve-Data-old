@@ -1,8 +1,7 @@
 define([
     'marionette',
     'radio',
-    'config',
-    //'modules2/input/views/ns-forms',
+    'config',    //'modules2/input/views/ns-forms',
     'bbForms',
     'models/station',
     'models/position',
@@ -56,6 +55,7 @@ define([
             Radio.channel('input').comply('generateStation', this.generateStation, this);
             Radio.channel('input').comply('inputForms', this.inputValidate, this);
             Radio.channel('input').comply('indivId', this.inputDisplayIndivId, this);
+            Radio.channel('input').comply('updateCoordinates', this.updateCoordinatesVals, this);
             $('body').addClass('input-demo');
         },
         onBeforeDestroy: function() {
@@ -95,9 +95,9 @@ define([
                     $('#inputGetStData').removeClass('masqued');
                     $('#msgNewStation').text('');
                     //$('#inputGetStData').removeClass('disabled');
-                    
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
+
                     });                    
                     // add field activity dataset if dont exists
                     var fieldActivityList = $(activityTpl).html();  
@@ -138,6 +138,7 @@ define([
                     $('#station-form').empty().append('<p> old stations </p>');
                     $('#inputGetStData').addClass('masqued');
                 }
+
             }
             if (step==3){
                 // disable next step to check data 
@@ -329,6 +330,13 @@ define([
                     Radio.channel('input').command('movePoint', position);
                 }
            }
+        },
+        updateCoordinatesVals : function(position){
+            // called if feature is moved manually (select feature and move it)
+            var longitude = position.longitude;
+            var latitude = position.latitude;
+            $('input[name="LAT"]').val(latitude);
+            $('input[name="LON"]').val(longitude);
         },
         hideDetail: function() {
             var callback = $.proxy(this, 'updateSize', 'hide');

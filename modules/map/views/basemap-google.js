@@ -163,8 +163,18 @@ define([
             var vectorSource = new ol.source.Vector({
               features: features
             });
+            
+            var style =  new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({color: 'red'}),
+                stroke: new ol.style.Stroke({color: 'black', width: 1 })
+              })
+            });
+
             var vectorLayer = new ol.layer.Vector({
-              source: vectorSource
+              source: vectorSource,
+              style: style
             });
             this.map.addLayer(vectorLayer);
             var extent = vectorSource.getExtent();

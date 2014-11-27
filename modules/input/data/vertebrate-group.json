@@ -138,9 +138,8 @@
     },
     "timestamp": {
       "validators": [],
-      "type": "Text",
-      "title": "obs time",
-      "editorAttrs": { "placeholder":"HH:MM" }
+      "type": "Time",
+      "title": "obs time"
     }
   },
   "fieldsets": [
