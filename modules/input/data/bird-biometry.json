@@ -17,9 +17,9 @@
     },
     "FK_TInd_ID": {
       "validators": ["required"],
-      "type": "Text",
+      "type": "Picker",
       "title": "Individual",
-      "editorClass": "required filterIndiv"
+      "editorClass": "required"
     },
     "Id_Observer": {
       "validators": [

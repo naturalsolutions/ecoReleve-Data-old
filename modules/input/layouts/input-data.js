@@ -45,7 +45,7 @@ define([
             'click #getPosition' : 'getCurrentPosition',
             'click #inputMoveToSation' : 'stationStep',
             'change input[type=radio][name="position"]' :'updateStationType',
-            'click .filterIndiv': 'filterIndivShow',
+            'click span.picker': 'filterIndivShow',
             'click button.filterClose' : 'filterMask'
         },
         initialize:function(options) {
@@ -495,7 +495,8 @@ define([
         },
         filterIndivShow : function(e){
             // add a class to action control source
-            $(e.target).addClass('target');
+            //$(e.target).addClass('target');
+            $(e.target).parent().parent().find('input').addClass('target');
             var modal = new IndivFilter();
             // navigate to the modal by simulating a click
             var element = '<a class="btn" data-toggle="modal" data-target="#myModal" id="indivIdModal">-</a>';
@@ -509,7 +510,8 @@ define([
             //$('#myModal .modal-dialog').css('width','90%');       
         },
         filterMask : function(){
-            var inputIndivId = $('input.filterIndiv.target');
+            //var inputIndivId = $('input.filterIndiv.target');
+            var inputIndivId = $('input.pickerInput');
             $(inputIndivId).removeClass('target');
             this.indivFilterRegion.reset();
             $('#indivIdModal').remove();
@@ -518,7 +520,8 @@ define([
         inputDisplayIndivId : function(indivId){
             var id = indivId.id;
             // set target input
-            var inputIndivId = $('input.filterIndiv.target');
+            //var inputIndivId = $('input.filterIndiv.target');
+            var inputIndivId = $('input.pickerInput.target');
             $(inputIndivId).val(id);
             $(inputIndivId).removeClass('target');
             this.indivFilterRegion.reset()
