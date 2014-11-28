@@ -85,13 +85,11 @@ define([
                     var position = new Position();
                     map.addModel(position);
                     $('#inputGetStData').removeClass('masqued');
-                    $('#msgNewStation').text('');
-                    //$('#inputGetStData').removeClass('disabled');
                     
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
                     });                    
-                // add field activity dataset
+// add field activity dataset
                     var fieldActivityList = $(activityTpl).html();  
                     $('#station-form').append(fieldActivityList);
                     // associate datalist to input 'FieldActivity_Name'
@@ -119,9 +117,6 @@ define([
                          $('#station-form').empty().append('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
                     }
                      $('#inputGetStData').addClass('masqued');   
-                     $('#msgNewStation').text('');
-                     // get users list
-                    this.getUsers();
                 } else {
                     $('#station-form').empty().append('<p> old stations </p>');
                     $('#inputGetStData').addClass('masqued');
@@ -129,21 +124,13 @@ define([
             }
             if (step==3){
                 // disable next step to check data 
-                //$('#btnNext').addClass('disabled');
+                $('#btnNext').addClass('disabled');
             }
         },
         prevStep :  function() {
             var step = $('#inputWizard').wizard('selectedItem').step;
             console.log("step to : " + step);
             $('#btnNext').removeClass('disabled');
-            if (step == 2){
-                // clear fields
-                    $('input[name="LAT"]').val('');
-                    $('input[name="LON"]').val('');
-                    $('input[name="Name"]').val('');
-                    $('#inputGetStData').removeClass('masqued');
-                    $('#btnNext').addClass('disabled');
-            }
         },
         onShow: function() {
             $('#inputWizard').on('changed.fu.wizard', function () {
@@ -151,14 +138,6 @@ define([
                 console.log("change step to : " + step);
                 if(step == 1){
                     $('#btnNext').removeClass('disabled');
-                }
-                if (step ==2){
-                    // clear fields
-                    $('input[name="LAT"]').val('');
-                    $('input[name="LON"]').val('');
-                    $('input[name="Name"]').val('');
-                    $('#inputGetStData').removeClass('masqued');
-                    $('#msgNewStation').text('');
                 }
               // do something 
             });
@@ -188,20 +167,14 @@ define([
                            console.log(data);
                            self.form.model.set('id',data);
                            console.log(self.form.model);
-                           if (data==null) {
-                                $('#btnNext').addClass('disabled');
-                                alert('this station is already saved, please modify date or coordinates');
-
-                           } 
+                           if (data==null) $('#btnNext').addClass('disabled');
 						   else {
 								// add details station region to next step container
                                 var formsView = new Forms({ model : currentStation});
                                 self.formsRegion.show(formsView);
                                 $('#btnNext').removeClass('disabled');
-                                $('#inputGetStData').addClass('masqued');
-                                $('#msgNewStation').text('The new station is successfully created.');
-
 						   }
+                           console.log('this staton exists');
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         //alert(xhr.status);
@@ -223,7 +196,7 @@ define([
         generateStation : function(model) {
             // generate a station using the selected waypoint
             var newStation = new Station();
-            newStation.set('id', model.get('id'));
+            newStation.set('id_', model.get('id'));
             newStation.set('Name', model.get('name'));
             newStation.set('LAT',model.get('latitude'));
             newStation.set('LON',model.get('longitude'));
@@ -262,7 +235,6 @@ define([
            else{
                 var latitude = parseFloat($('input[name="LAT"]').val());
                 var longitude = parseFloat($('input[name="LON"]').val());
-                $('#inputGetStData').removeClass('masqued');
                 // if the 2 values are inputed update map location
                 if(latitude && longitude){
                     console.log("longitude: "+ longitude + " , latitude: "+ latitude);
@@ -319,7 +291,6 @@ define([
             var longitude = parseFloat((position.coords.longitude).toFixed(5));
             $("[name='LAT']").val(latitude);
             $("[name='LON']").val(longitude);
-            $('#inputGetStData').removeClass('masqued');
             //var pos = this.getPosModel(latitude,longitude);
             // update map
             var pos = new Position();
@@ -347,6 +318,31 @@ define([
             break;
             }
             alert(info);
+        },
+        inputValidate : function(data){
+            //data["FK_TSta_ID"]=this.form.model.get('id');
+            //delete data["fieldsets"];
+            var nbProtos = data.length;
+            for (var i=0; i< nbProtos;i++){
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/addProtocol',
+                    data:  data[i],
+                    type:'POST',
+                    success: function(data){
+                        console.log('add Protocol');
+                        //change look of selected tab element
+                        var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                        var pictoElement = $(spn).find('i')[0];
+                        $(pictoElement).addClass('icon small reneco validated');
+                    },
+                   error: function (xhr, ajaxOptions, thrownError) {
+                        //alert(xhr.status);
+                        //alert(thrownError);
+                        alert('error in generating protocol data');
+                    }
+                });
+            }
+
         },
         stationStep : function(){
             $('#inputWizard').wizard('selectedItem', { step: 2 });

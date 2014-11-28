@@ -1,14 +1,13 @@
 define([
     'marionette',
     'radio',
-    'config',
     'utils/protocols',
     'bbForms',
     'autocompTree',
     'text!modules2/input/templates/input-forms.html',
     'text!modules2/input/templates/form-bird-biometry.html'
 
-], function(Marionette, Radio, config,Protocols, BbForms, AutocompTree , template, tplBirdBiometry) {
+], function(Marionette, Radio, Protocols, BbForms, AutocompTree , template, tplBirdBiometry) {
 
     'use strict';
      return Marionette.ItemView.extend({
@@ -18,18 +17,13 @@ define([
         },
         events: {
             'click .inputProtocolValidation' : 'commitForm',
-            'click .inputProtocolEdit' : 'editForm',
             'click .addSubProto' : 'addSubProto',
             'change input.add-protocol' : 'addForm',
-            //'click .removeCurrentForm' : 'removeForm',
-            //'click .autocompTree' : 'createAutocompTree',
-            'change input[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
-            'click .autocompTree' : 'initInputValue',
-            'click i.icon.reneco.close.braindead' : 'removeForm',
-            'change #stDistFromObs' : 'updateStationDistance'
+            'click .removeCurrentForm' : 'removeForm',
+            'click .autocompTree' : 'createAutocompTree'
         },
         onShow: function() {
-            this.setFieldActivity();
+            
         },
         onRender: function() {
             this.getProtocolsList();
@@ -75,8 +69,7 @@ define([
                     var Protocol = Backbone.Model.extend({
                         schema : data.schema,
                         //fieldsets : data.fieldsets,
-                        keywords : data.keywords,
-                        defaults : data.defaults || {}
+                        keywords : data.keywords
                     });
                     var protocol = new Protocol();
                     protocol.set('name',data.name);
@@ -104,7 +97,6 @@ define([
                 // add relations protocols/sub-protocols
                 self. generateRelations();
                // generate protocols datalist 
-               self.protosList.sort();
                self.generateProtocolsDataList(self.protosList);
             });
         },
@@ -131,15 +123,34 @@ define([
                     var ChildProtocol = Backbone.Model.extend({
                         schema : chidModel.schema,
                     });
+
+                    //add the field
+                    /*var field = {} ;
+                    var nestedFieldTemplate = _.template('<div class="nestedField col-sm-12" data-editor></div>');
+                    field.type =  "NestedModel";
+                    field.model =  ChildProtocol;
+                    field.template  = nestedFieldTemplate;
+                    parentModel.schema[childName] = field;   
+                    // parentModel.schema[childName + "2"] = field;                    
+                    var fieldset = {};
+                    fieldset.fields = [];
+                    fieldset.fields.push(childName);
+                    
+                    //fieldset.fields.push(childName + "2");
+                    fieldset.legend = "sub protocol";
+                    parentModel.fieldsets.push(fieldset);*/
+                    // store nested model name in the parent model
                     parentModel.set('nestedModel',childName);
+                    // store nb of instances of nested models, to be used to insert other instances
+                    /*parentModel.set('nestedNb',1);
+                    console.log(parentModel);*/
+
                 }
             }
-            var selectedFieldActivity = this.model.get('FieldActivity_Name');
-            this.generateForms(this.protocolsModels, selectedFieldActivity);
+            this.generateForms(this.protocolsModels);
         },
         generateProtocolsDataList : function(protosList){
             var datalistContent ='';
-            $('#protocolsList').empty();
             for(var i=0;i<protosList.length;i++){
                 // check if protocol is not used
                 var currentProto = protosList[i];
@@ -154,96 +165,110 @@ define([
                     datalistContent += element;
                 }
             }
-            /*for(var i=0;i<protosList.length;i++){
-                var element = '<option value="'+ protosList[i]+'"></option>';
-                datalistContent += element;
-            }*/
             $('#protocolsList').append(datalistContent);
         },
-        generateForms : function(protocolsModels, fieldActivity){
-            // for each protocol model generate a backbone form
-            this.activeProtocols = [];
-            $('#input-forms').empty();
-            $('#input-forms').append('<ul class="nav nav-tabs" id="tabProtsUl"></ul>');
-            $('#input-forms').append('<div class="tab-content" id="tabProtsContent"></div>');
-            var tabOrder = 0;
-            for (var i=0; i< protocolsModels.length;i++){
-                var form;
-                var selectedProtocol = protocolsModels[i]; 
-                var protocolName = selectedProtocol.get('name');
-                // check if selected field activity is concerned by this protocol
-                // field activity list for each protocol is stored in keywords property
-                var fieldActivityList = selectedProtocol.keywords;
-                var displayProtocol = false;
-                for (var j=0; j< fieldActivityList.length;j++){
-                    if (fieldActivityList[j]== fieldActivity){
-                        displayProtocol = true;
-                    }    
-                }
-                // check if it is not a sub-protocol ( a sub-protocol have a parent attribute)
-                var parent = selectedProtocol.get('parent');
-                if(displayProtocol && (!parent)){ 
-                    var fieldsets  = selectedProtocol.fieldsets;
-                    form = this.generateForm(protocolName,i);
-                    form.render();
-                    // add this form to view forms list to use it later when commit/validate form
-                    this.forms.push(form);
-                    this.activeProtocols.push(protocolName);
-                    var activeTab ="";
-                    //console.log(form);
-                    var formContent = form.el;
-                    //var protocolId = protocolsModels[i].get('idProt');
-                    // activate first element of tab
-                    if(tabOrder===0){activeTab ="active";}
-                    $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a><i class="icon reneco close braindead"></i></li>');
-                    var tabId = 'tab_' + i;
-                    var currentTab = '#' + tabId;
-                    $('#tabProtsContent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
-                    $(currentTab).append(formContent);
-                    // insert nested fields (sub protocols) container 
-                   // $('#' + tabId).append('<div protocolName ="' + protocolName +'" class="nestedContainer"></div>');
-                    // create responsive input fields by adding bootstrap class to div blocs
-                    $('.bg-hack fieldset>div').addClass('col-sm-4');
-                    $('fieldset>div').addClass('form-field');
-                    $('fieldset>div input[type=text],input[type=number],select').addClass('form-control');
-                    // check if protocol have sub protocols and insert form for sub proto
-                    var nestedModelName = selectedProtocol.get('nestedModel'); // if value exisits
-                    if (nestedModelName){
-                        // generate form and add itt to UI
-                        var nestModelForm  = this.generateForm(nestedModelName,0);   //generateSubForm
-                        nestModelForm.render();
-                        var subformContent =  nestModelForm.el;
-                        // add tag 'name' protocol name
-                        //$(subformContent).find('form').attr('name',nestedModelName);
-                        selectedProtocol.subProtoForms = [];
-                        selectedProtocol.subProtoForms.push(nestModelForm);
-                        var element = $('<div protocolName ="' + protocolName +'" class="subProtoContainer"></div>');
-                        // create a container for sub protocol and append it to tab element
-                        $(element).append(subformContent);
-                        //var elementContent = $(element).text();
-                        //$('#' + tabId).append(element);​​​​​​​​
-                        // insert legend and a button to add sub protocols
-                        var legend = '<legend>'+ nestedModelName +'</legend>';
-                        var btnAddSubProto ='<i class="icon mini reneco add addSubProto" protocolName ="' + protocolName +'"></i>';
-                        $(currentTab).append(legend);
-                        $(currentTab).append(btnAddSubProto);
-                        $(currentTab).append(element);
-                        //$('#' + tabId).append('<div protocolName ="' + protocolName +'" class="subProtoContainer">' + subformContent + '</div>');
-                        $('.subProtoContainer fieldset>div').addClass('col-sm-4');
+        generateForms : function(protocolsModels){
+                    // for each protocol model generate a backbone form
+                    this.activeProtocols = [];
+                    $('#input-forms').empty();
+                    $('#input-forms').append('<ul class="nav nav-tabs" id="tabProtsUl"></ul>');
+                    $('#input-forms').append('<div class="tab-content" id="tabProtsContent"></div>');
+                    var tabOrder = 0;
+                    for (var i=0; i< protocolsModels.length;i++){
+                        var form;
+                        var selectedProtocol = protocolsModels[i]; 
+                        var protocolName = selectedProtocol.get('name');
+                        // check if selected field activity is concerned by this protocol
+                        // field activity list for each protocol is stored in keywords property
+                        var fieldActivityList = selectedProtocol.keywords;
+                        var displayProtocol = false;
+                        var selectedFieldActivity = this.model.get('FieldActivity_Name');
+                        for (var j=0; j< fieldActivityList.length;j++){
+                            if (fieldActivityList[j]== selectedFieldActivity){
+                                displayProtocol = true;
+                            }    
+                        }
+                        // check if it is not a sub-protocol ( a sub-protocol have a parent attribute)
+                        var parent = selectedProtocol.get('parent');
+                        if(displayProtocol && (!parent)){
+                            // if protocol == 'bird biometry', use customized template
+
+                            /*if (protocolName =='Bird Biometry'){
+                                var tpl = $(tplBirdBiometry).html();
+                                var fieldsets  = protocolsModels[i].fieldsets;
+                                  form = new BbForms({
+                                    model: protocolsModels[i],
+                                    idPrefix : 'prtocol-' + i + '-',
+                                    protocolName : protocolName,
+                                    fieldsets    : fieldsets
+                                   // template:  _.template(tpl)
+                                }).render();
+                            } else {*/
+                            
+                            var fieldsets  = selectedProtocol.fieldsets;
+                            form = this.generateForm(protocolName,i);
+
+                            /*  form = new BbForms({
+                                model: selectedProtocol,
+                                 //idPrefix : null
+                                idPrefix : 'prtocol-' + i + '-',
+                                protocolName : protocolName//,
+                            });*/
+                            form.render();
+                            // add this form to view forms list to use it later when commit/validate form
+                            this.forms.push(form);
+                            this.activeProtocols.push(protocolName);
+                            var activeTab ="";
+                            //console.log(form);
+                            var formContent = form.el;
+                            //var protocolId = protocolsModels[i].get('idProt');
+                            // activate first element of tab
+                            if(tabOrder===0){activeTab ="active";}
+                            $('#tabProtsUl').append('<li class=' + activeTab + '><a href="#tab_' + i + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a></li>');
+                            var tabId = 'tab_' + i;
+                            $('#tabProtsContent').append('<div class="tab-pane '+  activeTab+ '" id="' + tabId +'"></div>');
+                            $('#' + tabId).append(formContent);
+                            // insert nested fields (sub protocols) container 
+                           // $('#' + tabId).append('<div protocolName ="' + protocolName +'" class="nestedContainer"></div>');
+                            // create responsive input fields by adding bootstrap class to div blocs
+                            $('.bg-hack fieldset>div').addClass('col-sm-4');
+                            $('fieldset>div').addClass('form-field');
+                            $('fieldset>div input[type=text],input[type=number],select').addClass('form-control');
+                            // check if protocol have sub protocols and insert form for sub proto
+                            var nestedModelName = selectedProtocol.get('nestedModel'); // if value exisits
+                            if (nestedModelName){
+                                // generate form and add itt to UI
+                                var nestModelForm  = this.generateForm(nestedModelName,0);   //generateSubForm
+                                nestModelForm.render();
+                                var subformContent =  nestModelForm.el;
+                                // add tag 'name' protocol name
+                                //$(subformContent).find('form').attr('name',nestedModelName);
+                                selectedProtocol.subProtoForms = [];
+                                selectedProtocol.subProtoForms.push(nestModelForm);
+                                var element = $('<div protocolName ="' + protocolName +'" class="subProtoContainer"></div>');
+                                // create a container for sub protocol and append it to tab element
+                                $(element).append(subformContent);
+                                //var elementContent = $(element).text();
+                                //$('#' + tabId).append(element);​​​​​​​​
+                                // insert legend and a button to add sub protocols
+                                var legend = '<legend>'+ nestedModelName +'</legend>';
+                                var btnAddSubProto ='<i class="icon mini reneco add addSubProto" protocolName ="' + protocolName +'"></i>';
+                                $('#' + tabId).append(legend);
+                                $('#' + tabId).append(btnAddSubProto);
+                                $('#' + tabId).append(element);
+                                //$('#' + tabId).append('<div protocolName ="' + protocolName +'" class="subProtoContainer">' + subformContent + '</div>');
+                                $('.subProtoContainer fieldset>div').addClass('col-sm-4');
+                            }
+                            $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
+                           // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
+                            tabOrder += 1;
+                        //}
+                        }
                     }
-                    $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
-                    $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolEdit masqued" >edit</button></div>');
-                   // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
-                    tabOrder += 1;
-                    // set min value to 0 for input type 'number'
-                    $('input[type="number"]').attr('min',0);
-                    // mark label in red for required fields
-                    this.addLabelClass();                }
-            }
-            // hide loader
-            $('#myLoader').loader('destroy');
-            this.createAutocompTree();
-        },
+                    // hide loader
+                    $('#myLoader').loader('destroy');
+                },
+
         addForm : function(){
             var selectedProtocolName = $('input[name="add-protocol"]').val();
             var nbActiveProtocols =  this.activeProtocols.length;
@@ -252,59 +277,35 @@ define([
             form.render();
             var formContent = form.el;
             $(formContent).find('fieldset>div').addClass('col-sm-4');
-            $('#tabProtsUl').append('<li><a href="#tab_' + idTabProto + '" data-toggle="tab"><span><i></i></span>'+ selectedProtocolName +'</a><i class="icon reneco close braindead"></i></li>');
+            $('#tabProtsUl').append('<li><a href="#tab_' + idTabProto + '" data-toggle="tab"><span><i></i></span>'+ selectedProtocolName +'</a></li>');
             var tabId = 'tab_' + idTabProto ;
-            var currentTab = '#' + tabId;
             $('#tabProtsContent').append('<div class="tab-pane" id="' + tabId +'"></div>');
-            $(currentTab).append(formContent);
-            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
-            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolEdit masqued">edit</button></div>');
+            $('#' + tabId).append(formContent);
+            $('#' + tabId).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
             this.forms.push(form);
             this.activeProtocols.push(selectedProtocolName);
             $('input[name="add-protocol"]').val('');
             // remove the added protocol from datalist
             var optionElement = $('#protocolsList').find('option[value="'+ selectedProtocolName +'"]')[0].remove();
-            // active added form
-            $('a[href="' + currentTab + '"]').click();
-            // set min value to 0 for input type 'number'
-            $('input[type="number"]').attr('min',0);
-            // add class to label of required input to color it 
-            this.addLabelClass();
-            this.createAutocompTree();
+            //$('#protocolsList').remove(optionElement);
         },
         removeForm : function(e){
-            var tabElement = $(e.target).parent().find('a')[0];
-            var formName = $(tabElement).text();
-            var liElement =  $(e.target).parent();
-            $(liElement).remove();
-            //this.activeProtocols.push(formName);
-            console.log(liElement);
-            var tabContainerId = $(tabElement).attr('href');
-            $(tabContainerId).remove();
-            // remove the protocol from active protocols list
-            for(var i = 0; i< this.activeProtocols.length ; i++) {
-                if(this.activeProtocols[i] === formName) {
-                   this.activeProtocols.splice(i, 1);
-                }
-            }
-            this.generateProtocolsDataList(this.protosList);
+            var form = $(e.target).parent();
             //console.log(formsContainer);
-            //$(form).remove();
+            $(form).remove();
         },
         commitForm : function(e){
             // get current protocol name stored in submit button
             var currentProtocolName =  $(e.target).attr('protocolName');
             var currentProtocol = this.getProtocolByAttr('name',currentProtocolName);
             var currentForm = this.getCurrentForm(currentProtocolName);
-            // if we edit form, id is stored in save btn
-            var formId = $(e.target).attr('editionid');
             if(currentForm){
                 var errors = [];
                 var er = currentForm.commit({ validate: true });
                 if(er){
                      errors.push(er);
                 } else {
-                    //this.changeValidationStatus(currentProtocolName);
+                    this.changeValidationStatus(currentProtocolName);
                 }
                 // check if there is subforms and commit them
                 if(currentProtocol.subProtoForms){
@@ -320,27 +321,22 @@ define([
                                 errors.push(err);
                             } else {
                                 // add the protocol name to validated protocols array
-                                //this.changeValidationStatus(name);
+                                this.changeValidationStatus(name);
                             }
                         }
                     }
                 }
                 var currentInstance = currentForm.model;
                 //change look of selected tab element
-                /*var spn = $('#tabProtsUl').find('li.active').find('span')[0];
+                var spn = $('#tabProtsUl').find('li.active').find('span')[0];
                 var pictoElement = $(spn).find('i')[0];
-                $(pictoElement).removeClass();*/
+                $(pictoElement).removeClass();
                 if(errors.length == 0){
                     //Radio.channel('input').command('inputForms',{'TSta_PK_ID':'none', 'protocolName':currentProtocol, 'protocolForm':currentInstance.attributes});
                     // check if there are subforms and insert parent form and sub forms in an array 
                     var formsList = [];
                     // add current station id
                     currentInstance.attributes["FK_TSta_ID"]=this.model.get('id');
-                    // if we need to update form , set id of protocol instance in sqlserver table
-                    if (formId){
-                        formId = parseInt(formId);
-                        currentInstance.attributes["PK"] = formId;
-                    }
                     // clear object
                     delete currentInstance.attributes["fieldsets"];
                     formsList.push(currentInstance.attributes);
@@ -359,29 +355,18 @@ define([
                         }
                     }
                     //Radio.channel('input').command('inputForms', currentInstance.attributes);
-                    //Radio.channel('input').command('inputForms', formsList);
-                    this.saveForm(formsList);
+                    Radio.channel('input').command('inputForms', formsList);
+
+
                     // change validation statut of current protocol in 'protocolsValidation' array
                     //this.changeValidationStatus(currentProtocolName);
                 } else {
-                    this.editTabLook('error');
-                    //$(pictoElement).addClass('icon reneco close braindead');
+                    $(pictoElement).addClass('icon reneco close braindead');
                 }
             } else {
                     console.log('pas de formulaire pour ce protocole');
             }
             $('body').animate({scrollTop: 0}, 500);
-        },
-        editForm : function(e){
-            // activate fields editions and show save btn 
-            $('.tab-pane.active form input').removeAttr('disabled');
-            $('.tab-pane.active form textarea').removeAttr('disabled');
-            // mask edit btn
-            $(e.target).addClass('masqued');
-            // get name of current used protocol
-            var protoName = $(e.target).attr('protocolname');
-            // show save btn
-            $('button[protocolname="'+ protoName +'"].inputProtocolValidation').removeClass('masqued');
         },
         getCurrentForm : function(protocolName){
             for(var i=0;i<this.forms.length;i++){
@@ -453,134 +438,19 @@ define([
         },
         createAutocompTree : function(e){
             
-            //var startId = $(e.target).attr('startId');
-            var elementsList = $('.autocompTree');
-            for(var i=0;i<elementsList.length;i++){
-                //$(e.target).autocompTree({
-                var startId = $(elementsList[i]).attr('startId');
-                $(elementsList[i]).autocompTree({
-                            wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
-                            //display: {displayValueName:'value',storedValueName:'value'},
-                            webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
-                            language: {hasLanguage:true, lng:"en"},
-                            startId: startId 
-                });
-            }
-            //$(e.target).focus();
-
-        },
-        initInputValue : function(e){
-            $(e.target).val('');
-        },
-        saveForm : function(data){
-            //data["FK_TSta_ID"]=this.form.model.get('id');
-            //delete data["fieldsets"];
-            var nbProtos = data.length;
-            for (var i=0; i< nbProtos;i++){
-                // current protocol name
-                var protoName = data[i].name;
-                $.ajax({
-                    url: config.coreUrl +'station/addStation/addProtocol',
-                    data:  data[i],
-                    context: this,
-                    type:'POST',
-                    success: function(data){
-                        //console.log('add Protocol');
-                        //change look of selected tab element
-                        if (data!='error'){
-                            var idProtocol = data; // if success, returned value corresponds to new id protocol value 
-                             //change look of selected tab element
-                            this.editTabLook('ok');
-                            // desactivate form edition and mask save btn
-                            $('button[protocolname="'+ protoName +'"]').attr('editionId',idProtocol);
-                            $('button[protocolname="'+ protoName +'"]').addClass('masqued');
-                            $('.tab-pane.active form input').attr('disabled', 'disabled');
-                            $('.tab-pane.active form textarea').attr('disabled', 'disabled');
-                            //activate edition btn
-                            $('button[protocolname="'+ protoName +'"].inputProtocolEdit').removeClass('masqued');
-
-                        } else {
-                            alert('error in generating protocol data');
-                             //change look of selected tab element
-                            this.editTabLook('error');
-                        }
-                    },
-                   error: function (xhr, ajaxOptions, thrownError) {
-                        //alert(xhr.status);
-                        //alert(thrownError);
-                        this.editTabLook('error');
-                        alert('error in generating protocol data');
-
-                    }
-                });
-            }
-        },
-        editTabLook : function(value){
-            var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-            var pictoElement = $(spn).find('i')[0];
-            $(pictoElement).removeClass();
-            if(value=='error'){
-               // $(pictoElement).addClass('icon reneco close braindead');
-            } else {
-                $(pictoElement).addClass('icon small reneco validated');
-            }
-        },
-        addLabelClass : function(){
-            // get all required elements
-            var requiredElements = $('.required');
-            // from input get id and set color for corresponding label 
-            for (var i=0; i< requiredElements.length; i++){
-                 var requiredElementId = $(requiredElements[i]).attr('id');
-                var labelElement = $('label[for="'+requiredElementId + '"]')[0];
-                $(labelElement).addClass('labelRequired');
-            }
-        },
-        setFieldActivity : function(){
-            var fiedActivity = this.model.get('FieldActivity_Name');
-            if(fiedActivity){
-                $('input[name="st_FieldActivity_Name"').val(fiedActivity);
-                $('input[name="st_FieldActivity_Name"').css('color','black');
-            }
-        },
-        updateFieldActivity : function(e){
-            var selectedFieldActivity = $(e.target).val();
-            // regenerate forms list linked to the selected field activity
-            this.generateForms(this.protocolsModels, selectedFieldActivity);
-            // update field activity value for current station
-            var currentStation = {};
-            this.model.set('FieldActivity_Name', selectedFieldActivity);
-            // to update the station, set the PK id
-            var PK = this.model.get('id');
-            this.model.set('PK', PK);
-            //currentStation.PK = this.model.get('id');
-            this.updateStationValues();
-        },
-        updateStationDistance : function(e){
-            var selectedDistanceId = $(e.target).val();
-            // selected option element
-            var st = $(e.target).find('option[value="' + selectedDistanceId +'"]')[0];
-            var selectedDistanceName = $(st).text();
-            // set values in the current station model
-            this.model.set('Id_DistanceFromObs', selectedDistanceId);
-            this.model.set('Name_DistanceFromObs', selectedDistanceName);
-            this.updateStationValues();
-        },
-        updateStationValues : function(){
-            $.ajax({
-                url: config.coreUrl +'station/addStation/insert',
-                context: this,
-                data:  this.model.attributes,
-                type:'POST',
-                success: function(data){
-                    console.log(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //alert(xhr.status);
-                    //alert(thrownError);
-                    alert('error in updating current station value(s)');
-                }
+            var startId = $(e.target).attr('startId');
+            
+            $(e.target).autocompTree({
+                        wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
+                        //display: {displayValueName:'value',storedValueName:'value'},
+                        webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
+                        language: {hasLanguage:true, lng:"en"},
+                        startId: startId 
             });
+            $(e.target).focus();
+
         }
+
         /*,
         generateSubForm: function(nestedModelName){
             var nestedModel = this.getProtocolByAttr('name',nestedModelName);

@@ -33,42 +33,32 @@
                               </div>
                               <br>
                               <div class="row" >
-                                    <div class="col-sm-6" id=''>
+                                    <div class="col-sm-4" id=''>
                                           <label>place</label>
-                                          <div><input name="stPlace"></div>
+                                          <div>_</div>
                                     </div>
                                     <div class="col-sm-4" id=''>
                                                 <label>region</label>
-                                          <div></div>
+                                          <div>_</div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                    <label>utm</label>
+                                          <div>_</div>
                                     </div>
                               </div>
                               <br>
                               <div class="row" >
-                                    <div class="col-sm-8" id=''>
-                                          <label>accuracy(m)</label>
-                                          <div><input name="stAccuracy"></div>
-                                    </div>
                                     <div class="col-sm-4" id=''>
-                                          <label>utm</label>
-                                          <div></div>
+                                          <label>accuracy</label>
+                                          <div>_</div>
+                                    </div>
+                                    <div class="col-sm-8" id=''>
+                                                <label>dist from obs</label>
+                                          <div>_</div>
                                     </div>
                               </div>
 
                               <br>
-                              <div class="row" >
-                                    <div class="col-sm-12" id=''>
-                                                <label>dist from observer</label>
-                                          <div>
-                                                <select id="stDistFromObs">
-                                                      <option value="NULL"></option>
-                                                      <option value="1000004">&lt;100m</option>
-                                                      <option value="1000005">100m&lt; x &lt;500m</option>
-                                                      <option value="1000006">&gt;500m</option>
-                                                </select>
-                                          </div>
-                                    </div>
-                              </div>
-                              <br/>
                               <div class="row" >
                                     <div class="col-sm-3">
                                           <i class="icon small reneco site" id="icon-age"></i> 
@@ -91,22 +81,35 @@
                               <br>
                               <div class="row" >
                                     <div class="col-sm-3">
+
                                           <i class="icon small reneco fieldactivity" id="icon-age"></i> 
+
                                     </div>
                                     <div class="col-sm-9">
                                           <label>field activity</label>
-                                          <div><input  name="st_FieldActivity_Name" type="text" list="activity">
-                                          </div>
+                                          <div><%= FieldActivity_Name %></div>
                                     </div>
                               </div>
                               <br>
                               <div class="row" >
                                     <div class="col-sm-3">
+
                                           <i class="icon small reneco users" id="icon-age"></i> 
+
                                     </div>
                                     <div class="col-sm-9">
                                           <label>observer(s)</label>
                                           <div><%= FieldWorker1 %></div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-3">
+                                          <i class="icon small reneco protocol" id="icon-age"></i>
+                                    </div>
+                                    <div class="col-sm-9">
+                                          <label>active protocols</label>
+                                          <div>_</div>
                                     </div>
                               </div>
                   </div>
