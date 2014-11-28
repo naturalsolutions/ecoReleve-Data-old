@@ -7,7 +7,7 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!modules2/export/templates/export-step2-map.html',
+    'text!modules2/export/templates/export-step3-map.html',
     'ol3',
     'models/point',
     'bbForms',
@@ -19,7 +19,6 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-        className: 'full-height',
 
         events: {
             'click button#validateBox' : 'validateBox',
@@ -33,14 +32,14 @@ define([
             this.radio = Radio.channel('exp');
             this.radio.comply('filters2map', this.updateFilters, this);
 
-            
-
 
             this.viewName= options.viewName;
             this.filterInfosList= {
                 viewName: this.viewName,
-                filters: []
+                filters : options.filters.filters
             }
+
+            console.log(this.filterInfosList);
 
 
             
@@ -121,14 +120,37 @@ define([
 
         initMap: function(){
 
+          var styles = {
+            'Circle': [new ol.style.Style({
+              stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2
+              }),
+              fill: new ol.style.Fill({
+                color: 'rgba(255,0,0,0.2)'
+              })
+            })]
+          };
+
           var sourceT = new ol.source.GeoJSON({
             projection: 'EPSG:3857',
             object: this.geoJson
           });
 
+          var boundingBox = new ol.interaction.DragBox({
+              condition: ol.events.condition.shiftKeyOnly,
+              style: new ol.style.Style({
+                  stroke: new ol.style.Stroke({
+                      color: '#ffcc33',
+                      width: 2
+                      })
+                  })
+          });
+
           this.vectorLayer = new ol.layer.Vector({
             source: sourceT
           });
+
 
           this.map = new ol.Map({
             layers: [
@@ -137,7 +159,7 @@ define([
               }),
               this.vectorLayer
             ],
-            target: 'map',
+            target: 'map-step3',
             controls: ol.control.defaults({
               attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
                 collapsible: false
@@ -147,14 +169,44 @@ define([
               center: this.vectorLayer.getSource().getFeatures()[0].getGeometry().getCoordinates(),
               zoom: 5
             }),
+            interactions: ol.interaction.defaults().extend([boundingBox])
           });
           
+
+
+          /**
+          *
+          * BoundingBox boxend Event
+          *
+          **/
           
+          this.features= this.vectorLayer.getSource().getFeatures();
+          var bbTmp, fCoord;
+          var context=this;
+          boundingBox.on('boxend', function() {
+              var featuresinBox = [];
+              var count=0;
+              bbTmp= boundingBox.getGeometry().extent;
+              context.boxCriteria=ol.proj.transform(bbTmp, 'EPSG:3857', 'EPSG:4326');
+              for (var i=0;i<context.features.length;i++) {
+                  fCoord= context.features[i].getGeometry().getCoordinates();
+                  if (ol.extent.containsCoordinate( bbTmp, fCoord))
+                  {
+                      featuresinBox.push(context.features[i]);
+                      count+=context.features[i].values_.count;
+                  }
+              }
+              context.$el.find('#geo-query-result').html(count);
+              if(count != 0){
+                context.validateStep();
+              }
+          });
+          this.updateMap();
         },
 
 
         validateStep: function(){
-          $('.btn-next').removeAttr('disabled');
+          $('#btnNext').removeAttr('disabled');
         },
 
         validateBox: function(){

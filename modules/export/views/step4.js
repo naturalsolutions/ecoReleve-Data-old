@@ -7,69 +7,99 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!modules2/export/templates/export-step4.html'
-
-], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
+    'text!modules2/export/templates/export-step4.html',
+    'ol3',
+    'models/point',
+    'bbForms',
+], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template,
+ ol, Point, BbForms) {
 
     'use strict';
+
 
     return Marionette.ItemView.extend({
         template: template,
 
         events: {
-            'click #btnGetFile': 'initDatas'
+            'click button#validateColumns' : 'validateColumns',
+        },
+
+
+        initialize: function(options) {
+            this.radio = Radio.channel('exp');
+
+
+            
+            this.filterInfosList = options.filtersCriteria;
+            this.viewName= options.viewName;
+
+            
+            this.columnForm;
+            this.boxCriteria= options.boxCriteria;
+            this.columnCriteria;
+
+            console.log();
+
+            this.initColumns();
         },
         
-        initialize: function(options) {
-        	this.radio = Radio.channel('exp');
-        	this.viewName = options.viewName;
-            this.filterCriteria = options.filterCriteria;
-            this.boxCriteria = options.boxCriteria;
-            this.columnCriteria = options.columnCriteria;
-        },
 
-
-        onShow: function() {
-        },
-
-        initDatas: function(e){
-        	var type=e.currentTarget.getAttribute("value");
-            this.datas= {
-                type_export: type,
-                viewName: this.viewName,
-                filters: this.filterCriteria,
-                bbox: this.boxCriteria,
-                columns: this.columnCriteria
-            }
-            this.getPdfFile(type);
-        },
-
-        getPdfFile: function(type) {
-
-            var that=this;
-            var route = config.coreUrl + "/views/filter/" + this.viewName + "/export";
-
-            $.ajax({
-                url: route,
-                data: JSON.stringify({criteria: this.datas}),
-                contentType:'application/json',
-                type:'POST',
-                context: this,
-            }).done(function(data){
-                var url = URL.createObjectURL(new Blob([data], {'type':'application/'+type}));
-                var link = document.createElement('a');
-                link.href = url;
-                link.download = that.viewName+'_exports.'+type;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-            }).fail(function(msg){
-                console.log(msg);
-            });
-
+        initColumns: function(){
+          var viewUrl = config.coreUrl + "/views/details/" + this.viewName;
+          var jqxhr = $.ajax({
+              url: viewUrl,
+              context: this,
+              dataType: "json"
+          }).done(function(data){
+              this.displayColumns(data);
+          }).fail(function(msg){
+              alert('error');
+          });
 
         },
 
+        displayColumns: function(fieldList){
+          var schemaa={};
+          var customTpl;
+          for (var i = 0; i < fieldList.length; i++) {
+              customTpl = _.template('<div class="checkbox col-xs-6"><label><span data-editor></span>'+ fieldList[i].name +'</label></div>');
+              schemaa[fieldList[i].name]={ type: 'Checkbox', template: customTpl };
+          }
+ 
+          this.columnForm = new BbForms({
+              schema : schemaa
+          }).render();
+
+          $('#Columns').append(this.columnForm.el);
+        },
+
+
+        validateColumns: function(){
+          this.columnCriteria= this.columnForm.getValue();
+          console.log('passed');
+
+
+          var list=[];
+          for(var key in this.columnCriteria){
+            if (this.columnCriteria[key])
+              list.push(key);
+          }
+
+          this.radio.command('columns', { columns: list });
+          this.radio.command('columns-update', { columns: list });
+          this.validateStep();
+        },
+
+        validateStep: function(){
+          $('.btn-next').removeAttr('disabled');
+        },
+
+        onShow: function(){
+           
+        },
+
+        onRender: function(){
+
+        },
     });
 });

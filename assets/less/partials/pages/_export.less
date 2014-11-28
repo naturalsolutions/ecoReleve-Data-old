@@ -1,8 +1,14 @@
 .export-layout{
+/* 	.step-pane{
+	max-height: 500px;
+	overflow: auto;
+} */
 	.filter{
 		padding: 2%;
 		background: #ddd;
 		min-height: 50px;
+		transition: .2s all ease;
+
 		label{
 			display: none;
 		}
@@ -22,6 +28,26 @@
 	.backgrid th{
 		text-align: left;
 	}
+	.map-legend{
+		padding: 20px;
+		position: absolute;
+		background: rgba(0, 0, 0, 0.5);
+		color :white;
+		z-index: 10;
+		right: 0px;
+		margin: 25px;
+		border-radius: 3px;
+
+	}
+	.ol-zoom{
+		z-index: 100;
+	}
+	.recors{
+		background: @vert1;
+		padding: 10px;
+		margin-top: 10px;
+	}
+
 
 }
 
