@@ -120,7 +120,7 @@ define([
 
 
                     }).fail( function(data) {
-                        $('#btnNext').attr('disabled', disable);
+                        $('#btnNext').attr('disabled');
                         alert('Please verify your file or contact administrator');
                     });
                 };

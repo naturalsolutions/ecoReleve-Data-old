@@ -204,13 +204,24 @@ define([
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
                             // get waypoints collection
-                            self.waypointList =  xmlParser.gpxParser(xml);
+                            var importResulr =  xmlParser.gpxParser(xml);
+                            self.waypointList =  importResulr[0];
+                            var errosList = importResulr[1];
                             // display parsing message
+                            console.log(self.waypointList)
                             var nbWaypoints = self.waypointList.length;
-                            if (nbWaypoints > 0){
+                            if ((nbWaypoints > 0) && (errosList.length == 0)){
                                 $('#importGpxMsg').text('Gpx file is successfully loaded. You have ' + nbWaypoints + ' waypoints.');
                                 $('.btn-next').removeAttr('disabled');
-
+                            }
+                            else if((nbWaypoints > 0) && (errosList.length > 0)){
+                                $('#importGpxMsg').text( nbWaypoints + '  waypoints are loaded from a total of ' + (nbWaypoints + errosList.length )+' waypoints.');
+                                $('#importGpxMsg').append(' Please check data for the following waypoints:<br/>');
+                                // read errors array
+                                for(var i=0; i< errosList.length; i++){
+                                    $('#importGpxMsg').append(errosList[i] + '<br/>');
+                                }
+                                $('.btn-next').removeAttr('disabled');
                             } else {
                                 $('#importGpxMsg').text('Please check gpx file structure. There is not stored waypoints !');
                                 $('.btn-next').attr('disabled', 'disabled');
@@ -222,7 +233,7 @@ define([
                     alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
                      $('.btn-next').attr('disabled', 'disabled');
                 }
-            };
+            }
         },
         getSelectedUser1: function() {
             var val = $('#importWorker1').val();
