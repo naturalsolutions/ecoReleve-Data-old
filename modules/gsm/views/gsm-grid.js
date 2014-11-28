@@ -37,6 +37,7 @@ define([
             });
 
             this.locations = new Locations();
+            console.log(this.locations);
         },
 
         updateGrid: function(id) {
@@ -121,6 +122,9 @@ define([
                 $('#header-region').height() - this.paginator.$el.height() -
                 $('#info-container').outerHeight();
             this.$el.height(height);
+
+
+
             this.locations.fetch({reset: true});
         },
 
