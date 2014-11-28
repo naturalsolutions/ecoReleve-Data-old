@@ -43,7 +43,8 @@ define([
 
                 var tr = $(evt.target).parent();
                 var id = tr.find('td').first().text();
-                var currentModel = this.locations.findWhere({id: Number(id)});
+                var idNumber = Number(id);
+                var currentModel = this.locations.findWhere({PK: idNumber});
                 console.log(currentModel);
                 // unselect rows and select clicked row
                 $('table.backgrid tr').removeClass('backgrid-selected-row');
@@ -59,29 +60,29 @@ define([
                 decimals: 3
             });
             var columns = [{
-                name: "id",
+                name: "PK",
                 label: "ID",
                 editable: false,
                 renderable: true,
-                cell: "integer"
+                cell: "string"
             }, {
-                name: "name",
+                name: "Name",
                 label: "Name",
                 editable: false,
                 cell: "string"
             }, {
-                name: "waypointTime",
+                name: "Date_",
                 label: "Date",
                 editable: false,
-                cell: Backgrid.DatetimeCell  //"Date"
+                cell: "string"  //"Date"
             }, {
                 editable: false,
-                name: "latitude",
+                name: "LAT",
                 label: "LAT",
                 cell: myCell
             }, {
                 editable: false,
-                name: "longitude",
+                name: "LON",
                 label: "LON",
                 cell: myCell
             }];

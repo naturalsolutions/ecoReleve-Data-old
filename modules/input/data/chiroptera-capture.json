@@ -17,11 +17,6 @@
       "editorAttrs": {"startId": "18905"},
       "editorClass": "autocompTree"
     },
-    "Id_Taxon" :{
-      "validators": [],
-      "type": "Number",
-      "title": "Indiv id"
-    },
     "Name_Age": {
       "validators": [
       ],

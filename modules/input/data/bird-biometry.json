@@ -17,7 +17,7 @@
     },
     "FK_TInd_ID": {
       "validators": ["required"],
-      "type": "Text",
+      "type": "Picker",
       "title": "Individual",
       "editorClass": "required"
     },

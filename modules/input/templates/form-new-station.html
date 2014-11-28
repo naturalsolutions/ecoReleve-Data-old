@@ -11,13 +11,15 @@
 	    	<div data-editors="Name"></div>
 	    	<div id='error-Name' class='error'></div>
 	    </div>
-	    <div class='col-xs-6'>
-	    	<label>station id*</label>
-	    	<div><input disabled='disabled' class='form-control'/></div>
+
+	    <div class='col-xs-6 masqued'>
+	    	<label>id</label>
+	    	<div data-editors="PK"></div>
+	    	<div id='error-PK' class='error'></div>
 	    </div>
 	</fieldset>
   	<fieldset>
-	  	<legend>date of creation</legend>
+	  	<legend>date</legend>
 	  	<div>
 	  		<div class='col-xs-12'>
 		    	<label>date*</label>
@@ -34,21 +36,35 @@
  	</fieldset>
 	<fieldset>
 		<legend>position</legend>
-			<div class='col-xs-5'>
-	    	<label>latitude*</label>
-	    	<div data-editors="LAT"></div>
-	    	<div id='error-LAT' class='error'></div>
 
-	    </div>
-	    <div class='col-xs-5'>
-	    	<label>longitude*</label>
-	    	<div data-editors="LON"></div>
-	    	<div id='error-LON' class='error'></div>
-	    </div>
-	    <div class='col-xs-2'>
-	    	<br>
-	    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
-	    </div>
+			<div class="radio-inline">
+			  <label><input type="radio" name="position" value ="1" checked>coordinates</label>
+			</div>
+			<div class="radio-inline">
+			  <label><input type="radio" name="position" value ="0">station without coordinates</label>
+			</div>
+	  		<div class='col-xs-10 masqued' id="stRegion">
+		    	<label>region</label>
+		    	<div data-editors="Region"></div>
+		    	<div id='error-Region' class='error'></div>
+		    </div>
+		    <div id="stCoordinates">
+				<div class='col-xs-5'>
+		    	<label>latitude*</label>
+		    	<div data-editors="LAT"></div>
+		    	<div id='error-LAT' class='error'></div>
+
+			    </div>
+			    <div class='col-xs-5'>
+			    	<label>longitude*</label>
+			    	<div data-editors="LON"></div>
+			    	<div id='error-LON' class='error'></div>
+			    </div>
+			    <div class='col-xs-2'>
+			    	<br>
+			    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
+			    </div>
+			</div>
 	</fieldset>
     <fieldset id='station-fieldWorkers' insertedWorkersNb="1">
   	<legend>field caracteristics</legend>

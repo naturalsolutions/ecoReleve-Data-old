@@ -112,7 +112,7 @@ define([
                 var filteredCollection  = new Waypoints(this.waypointList.where({import: true}));
                 console.log(filteredCollection);
                 // now, it will save on localStorage.myCollectionStorage
-                filteredCollection.save();
+                //filteredCollection.save();
                 var btnLbel  = $(e.target).attr('data-last');
 
                 console.log('quick fix');
@@ -133,6 +133,27 @@ define([
 
 
                }
+
+               // send filtred collection to the server
+               var url=config.coreUrl + 'station/addMultStation/insert';
+                $.ajax({
+                    url:url,
+                    context:this,
+                    type:'POST',
+                    data: JSON.stringify(filteredCollection.models),
+                    dataType:'json',
+                    success: function(resp){
+                        var storedCollection = new Waypoints();
+                        storedCollection.fetch();
+                        storedCollection.reset(resp.data);
+                        storedCollection.save();
+                        console.log(storedCollection);
+                    },
+                    error: function(data){
+                        alert('error sending gpx collection');
+                    }
+                });
+
             }
         },
         activateNextStep : function() {

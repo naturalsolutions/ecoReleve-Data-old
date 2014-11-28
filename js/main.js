@@ -125,7 +125,7 @@ var ecoReleveData = (function(){
             bootstrap_slider: '../../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider',  
             sweetAlert: '../../bower_components/sweetalert/lib/sweet-alert.min',
             fancytree : 'NS.UI.autocompTree/Scripts/jquery.fancytree-all',
-            autocompTree : 'NS.UI.autocompTree/Scripts/jquery.autocompTree'  
+            autocompTree : 'NS.UI.autocompTree/Scripts/jquery.autocompTree'
         }
 
     });

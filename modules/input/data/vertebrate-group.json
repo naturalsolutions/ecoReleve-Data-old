@@ -14,11 +14,6 @@
       "editorAttrs": { "startId": "8" },
       "editorClass": "autocompTree"
     },
-    "Id_taxon": {
-      "validators": [],
-      "type": "Number",
-      "title": "id"
-    },
     "Identity_sure": {
       "validators": [],
       "options": [
@@ -143,9 +138,8 @@
     },
     "timestamp": {
       "validators": [],
-      "type": "Text",
-      "title": "obs time",
-      "editorAttrs": { "placeholder":"HH:MM" }
+      "type": "Time",
+      "title": "obs time"
     }
   },
   "fieldsets": [
