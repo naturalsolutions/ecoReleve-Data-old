@@ -35,22 +35,22 @@ define([
 
         showDeploy: function() {
             this.mainRegion.show(new DeployView());
-            Backbone.history.navigate('rfid_deploy');
+            //Backbone.history.navigate('rfid_deploy');
         },
 
         showImport: function() {
             this.mainRegion.show(new ImportView());
-            Backbone.history.navigate('rfid_import');
+            //Backbone.history.navigate('rfid_import');
         },
 
         showAdd: function() {
             this.mainRegion.show(new AddView());
-            Backbone.history.navigate('rfid_add');
+            //Backbone.history.navigate('rfid_add');
         },
 
         showValidate: function() {
             this.mainRegion.show(new ValidateView());
-            Backbone.history.navigate('rfid_validate');
+            //Backbone.history.navigate('rfid_validate');
         }
     });
 });
