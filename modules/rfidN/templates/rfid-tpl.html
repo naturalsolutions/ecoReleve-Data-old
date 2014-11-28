@@ -1,0 +1,42 @@
+<script type="text/template">
+    
+        <div class="col-xs-5 dark full-height scroll-auto">
+            <br>
+            <div class="col-xs-12">
+                <button id="today" class="btn-lg">RFID of the day</button>
+                <button id="reset" class="btn-lg">reset</button>
+
+<!--                 <button id="save" class="btn-lg pull-right">Save</button>
+ -->                <button id="update" class="btn-lg pull-right">Update</button>
+            </div>
+            <div class="clear"></div>
+            <br>
+
+            <div id="filters"></div>
+            <br>
+            <div class="col-xs-12">
+                <button id="add" class="btn-lg">Add</button>
+                <button id="deploy" class="btn-lg">Pose/Remove</button>
+                <span class="pull-right">
+                    <button class="btn-lg" id="display-map">MAP</button>
+                    <button class="btn-lg" id="display-grid">GRID</button>
+                </span>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <br>
+    
+
+        </div>
+        <div class="pannels-container col-xs-7">
+            <div class="col-xs-12 full-height auto pannel pannel-grid active">
+                <div id="grid"></div>
+            </div>
+            <div class="col-xs-12 full-height no-padding pannel pannel-map ">
+                <div id="map" style="height: 100%"></div>    
+            </div>
+<!--             <div id="add" class="col-xs-12 full-height"></div>
+
+<div id="poseRemove" class="col-xs-12 full-height"></div> -->
+        </div>
+</script>
