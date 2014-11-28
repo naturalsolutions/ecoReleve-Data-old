@@ -14,15 +14,46 @@ a:hover, tr:hover, li:hover {
     cursor: pointer;
 }
 
-.fluid-img{
-    width: 100%
+
+
+/*==============================================
+=            To break in resp. mode            =
+==============================================*/
+
+.full-height{
+    position: relative;
+    height: 100%;
+    &.auto{
+        overflow: auto;
+    }
+    .container,.container-fluid{
+        //position: relative;
+        height: 100%;
+    }
+}
+.scroll-auto{
+    overflow: auto;
+}
+// .abs{
+//     right: 0;
+//     position: absolute;
+//     z-index: 0;
+// }
+
+/*-----  End of Break Section  ------*/
+
+
+
+
+
+#main-region{
+    padding-top: 50px;
 }
 
 
 
-
 .container{
-    padding-top: 50px;
+    padding: 50px 0px;
 }
 
 .clear{

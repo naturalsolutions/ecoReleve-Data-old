@@ -7926,11 +7926,29 @@ tr:hover,
 li:hover {
   cursor: pointer;
 }
-.fluid-img {
-  width: 100%;
+/*==============================================
+=            To break in resp. mode            =
+==============================================*/
+.full-height {
+  position: relative;
+  height: 100%;
+}
+.full-height.auto {
+  overflow: auto;
+}
+.full-height .container,
+.full-height .container-fluid {
+  height: 100%;
+}
+.scroll-auto {
+  overflow: auto;
+}
+/*-----  End of Break Section  ------*/
+#main-region {
+  padding-top: 50px;
 }
 .container {
-  padding-top: 50px;
+  padding: 50px 0px;
 }
 .clear {
   clear: both;
@@ -12743,8 +12761,14 @@ select {
 * Buttons
 *
 **/
+.outer {
+  height: 50px;
+  position: relative;
+  margin-top: -50px;
+  background: rgba(0, 0, 0, 0.85);
+}
 .ui.active.dimmer {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   display: block;
@@ -12761,99 +12785,18 @@ select {
   color: white;
   text-align: center;
 }
-div.fuelux .wizard {
-  overflow: visible;
-}
-div.fuelux .wizard > .actions {
-  bottom: -90px;
-  background-color: transparent!important;
-  left: 0;
-  width: 100%;
-  line-height: 0px;
-  border: none;
-  margin-bottom: 20px;
-  padding: 0px;
-}
-div.fuelux .wizard > .actions button {
-  background: #5cb85c;
-  color: white;
-  border: none;
-}
-div.fuelux .wizard > .actions button:hover {
-  background: #449d44;
-}
-div.fuelux .wizard > .actions button.btn-default.disabled {
-  background: #42d052;
-}
-div.fuelux .wizard > .actions button.btn-default.disabled:focus {
-  background: #42d052;
-}
-div.fuelux .wizard > .actions button.btn-next {
-  float: right;
-}
-div.fuelux div.wrapper {
-  padding: 10px;
-}
-.fuelux .wizard .step-content {
-  padding: 0px;
-}
-button.btn-custom {
-  background: #5cb85c;
-  color: white;
-  border: none;
-  /*
-	&.btn-default{
-		&.disabled{
-			background: @vert2;
-			&:focus{
-				background: @vert2;
-			}
-		}	
-	}
-	
-	&.btn-next{
-		float: right;
-	}
-	&.btn-prev{
-	}*/
-}
-button.btn-custom:hover {
-  background: #449d44;
-  color: white!important;
-}
-button.btn-custom:focus {
-  background: #449d44;
-  color: white!important;
-}
-.btn-custom {
-  padding: 0px;
-  vertical-align: middle;
-  border-radius: 3px;
-  overflow: hidden;
-  text-transform: uppercase;
-}
-.btn-custom span.picto {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 10px 15px;
-  margin: 0px!important;
-}
-.btn-custom span.ctrl {
-  margin: 0px!important;
-  padding: 0px 10px;
-  vertical-align: 2px;
-}
 /* colors */
 /* approx.. */
 .custom {
   cursor: pointer;
   text-align: center;
   height: 150px;
-  background: blue;
   float: left;
   margin: 0px 0px 15px 15px;
   color: white;
   line-height: 1.5;
   opacity: 1;
+  position: relative;
   -webkit-transition: opacity 0.5s;
   -o-transition: opacity 0.5s;
   transition: opacity 0.5s;
@@ -12878,7 +12821,10 @@ button.btn-custom:focus {
   padding: 10px;
 }
 .custom:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+}
+.custom#importTile {
+  opacity: 1;
 }
 @media screen and (min-width: 768px) and (max-width: 1199px) {
   body.home-page .container {
@@ -13022,11 +12968,175 @@ button.btn-custom:focus {
 {
     background-color: @tile-success-bg;
 } */
+.drag-zone-hover {
+  height: 500px;
+  width: 100%;
+  border: 5px dashed #ccc;
+  background: #eee;
+  border-radius: 5px;
+  position: relative;
+  text-align: center;
+  box-shadow: -1px 2px 20px 3px rgba(0, 0, 0, 0.2) inset;
+}
+.drag-zone-hover span.huge {
+  margin: auto;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  font-size: 200%;
+  font-weight: 800;
+  color: #aaa;
+  cursor: default;
+}
+div.fuelux .wizard {
+  overflow: visible;
+}
+div.fuelux .wizard > .actions {
+  bottom: -90px;
+  background-color: transparent!important;
+  left: 0;
+  width: 100%;
+  line-height: 0px;
+  border: none;
+  margin-bottom: 20px;
+  padding: 0px;
+}
+div.fuelux .wizard > .actions button {
+  background: #5cb85c;
+  color: white;
+  border: none;
+}
+div.fuelux .wizard > .actions button:hover {
+  background: #449d44;
+}
+div.fuelux .wizard > .actions button.btn-default.disabled {
+  background: #42d052;
+}
+div.fuelux .wizard > .actions button.btn-default.disabled:focus {
+  background: #42d052;
+}
+div.fuelux .wizard > .actions button.btn-next {
+  float: right;
+}
+div.fuelux div.wrapper {
+  padding: 10px;
+}
+.fuelux .wizard .step-content {
+  padding: 0px;
+}
+button.btn-custom {
+  background: #5cb85c;
+  color: white;
+  border: none;
+  /*
+	&.btn-default{
+		&.disabled{
+			background: @vert2;
+			&:focus{
+				background: @vert2;
+			}
+		}	
+	}
+	
+	&.btn-next{
+		float: right;
+	}
+	&.btn-prev{
+	}*/
+}
+button.btn-custom:hover {
+  background: #449d44;
+  color: white!important;
+}
+button.btn-custom:focus {
+  background: #449d44;
+  color: white!important;
+}
+.actions {
+  bottom: -90px;
+  background-color: transparent!important;
+  left: 0;
+  width: 100%;
+  line-height: 0px;
+  border: none;
+  margin-bottom: 20px;
+}
+.actions button {
+  color: white;
+  border: none;
+}
+.actions button:hover {
+  background: #449d44;
+}
+.actions button.btn-default.disabled {
+  background: #42d052;
+}
+.actions button.btn-default.disabled:focus {
+  background: #42d052;
+}
+.actions button.btn-next {
+  float: right;
+}
+/*
+		.btn-custom{
+			padding: 0px;
+			vertical-align: middle;
+			border-radius: 3px;
+			overflow: hidden;
+			text-transform: uppercase;
+			.action{
+				background: rgba(0,0,0,0.2);
+				padding: 10px 15px;
+				margin:0px!important;
+			}
+			span.ctrl{
+				margin: 0px!important;
+				padding: 0px 10px;
+				vertical-align: 2px;
+			}
+		}*/
+button.btn-custom {
+  padding: 0px;
+  background: #5cb85c;
+  color: white;
+  border: none;
+}
+button.btn-custom:hover {
+  background: #449d44;
+  color: white!important;
+}
+button.btn-custom:focus {
+  background: #449d44;
+  color: white!important;
+}
+.actions {
+  padding: 10px 0px;
+  margin: 0px!important;
+}
+.actions i.action-picto {
+  line-height: inherit;
+  font-size: inherit!important;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 15px;
+  margin: 0px!important;
+  display: block;
+  float: left;
+  font-size: 25px !important;
+}
+.actions span {
+  display: block;
+  float: left;
+  padding: 10px 15px;
+  font-size: 25px !important;
+}
 /* shared */
 header {
   z-index: 1000!important;
   background: #2ecc40;
   color: white;
+  position: absolute;
+  width: 100%;
 }
 header .navbar {
   border-radius: 0px;
@@ -13220,6 +13330,37 @@ body.home-page {
 	padding-left: 10px;
 } */
   /* Tiles */
+  /*
+	#importTile{
+		position: relative;
+
+		.unfold{
+			padding: 25%;
+			height: 100%;
+			width: 200%;
+
+			//background: rgba(0, 0, 0, 0.5);
+			position: absolute;
+			left: -50%;
+			top: -100%;
+			display: none;
+			.test{
+				background: red;
+				border-radius: 100%;
+				height: 100%;
+				width: 33.3%;
+				float: left;
+				opacity: 0;
+				transition: 1s;
+			}
+		}
+		&:hover{
+			.unfold{
+				display: block;
+				
+			}
+		}
+	}*/
 }
 body.home-page canvas {
   margin: 0 !important;
@@ -13258,6 +13399,92 @@ body.home-page .tile.tile-wide,
 body.home-page .tile.tile-double {
   margin-right: 10px;
   margin-left: 10px;
+}
+body.home-page .sub-tile {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  border-radius: 3px;
+  transition: .2s ease all;
+  background: #d35400;
+  background: #c0392b;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  padding: 5%;
+}
+body.home-page .sub-tile .box {
+  transition: 1s all ease;
+}
+body.home-page .sub-tile:hover {
+  background: rgba(211, 84, 0, 0.8);
+  background: rgba(192, 57, 43, 0.8);
+}
+body.home-page .sub-tile.active {
+  /*
+			padding: 5%;
+			height: 120%;
+
+			width: 120%;
+			margin-top: -10%;
+			margin-left: -10%;
+			*/
+  /*
+			.test1{
+				border-left: 1px solid white;
+			}
+			.test2{
+				border-top: 1px solid white;
+			}
+			.test3{
+				border-top: 1px solid white;
+				border-left: 1px solid white;
+			}*/
+}
+body.home-page .sub-tile.active .box {
+  width: 50%;
+  height: 50%;
+  display: block;
+  float: left;
+  margin-top: -5px;
+}
+body.home-page .sub-tile.active .box h3 {
+  display: none;
+}
+body.home-page .sub-tile.active .box i {
+  font-size: 3.7em;
+}
+body.home-page .sub-tile.active .test {
+  box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.2) inset;
+  display: block;
+  height: 45%;
+  width: 45%;
+  margin: 2.5%;
+  float: left;
+  opacity: 1;
+  border-radius: 3px;
+}
+body.home-page .sub-tile.active .test:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+body.home-page .sub-tile .test {
+  display: none;
+  opacity: 0;
+  border: none;
+  transition: .5s all;
+}
+body.home-page .sub-tile .test h3 {
+  margin-top: 0px!important;
+  padding-top: 25px;
+}
+.success {
+  min-height: 500px;
+  height: 100%;
+  background: #2ecc40;
+  width: 100%;
+  color: white;
+  border-radius: 3px;
 }
 .backgrid-selected-row {
   color: white;
@@ -13453,9 +13680,6 @@ border-style: solid;
 #showIndivDetails.masqued {
   opacity: 0!important;
 }
-#history {
-  max-height: 253px;
-}
 .rotate {
   display: block;
   position: absolute;
@@ -13534,10 +13758,17 @@ border-style: solid;
 .filter-bg-image div {
   background-color: none !important;
 }
+.export-layout {
+  /* 	.step-pane{
+	max-height: 500px;
+	overflow: auto;
+} */
+}
 .export-layout .filter {
   padding: 2%;
   background: #ddd;
   min-height: 50px;
+  transition: .2s all ease;
 }
 .export-layout .filter label {
   display: none;
@@ -13557,10 +13788,50 @@ border-style: solid;
 .export-layout .backgrid th {
   text-align: left;
 }
+.export-layout .map-legend {
+  padding: 20px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  z-index: 10;
+  right: 0px;
+  margin: 25px;
+  border-radius: 3px;
+}
+.export-layout .ol-zoom {
+  z-index: 100;
+}
+.export-layout .recors {
+  background: #2ecc40;
+  padding: 10px;
+  margin-top: 10px;
+}
 .temporary #main-region {
   height: 100%;
 }
 .temporary #main-region > div {
+  height: 100%;
+}
+.dark {
+  background: #333;
+  color: white;
+}
+.dark input,
+.dark select,
+.dark option,
+.dark button {
+  color: black;
+}
+.pannel {
+  position: absolute;
+  right: -100%;
+  transition: .5s all;
+}
+.pannel.active {
+  right: 0;
+}
+.pannels-container {
+  overflow: hidden;
   height: 100%;
 }
 /* tmp */

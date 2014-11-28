@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                 files: ['assets/less/**/*.less'],
                 tasks: ['less'],
                 options: {
-                  livereload: false,
+                  livereload: true,
                 },
             },
             script: {
@@ -46,6 +46,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['less', 'watch:css']);
+    grunt.registerTask('default', ['watch:css', 'watch:script']);
 };
 
