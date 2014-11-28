@@ -2596,6 +2596,85 @@ Form.editors.DateTime = Form.editors.Base.extend({
 });
 
 
+/**
+ * Bootstrap Datepicker
+ * 
+ * Quick editor to create a Bootstrap style datepicker (instead of multiple of dropdowns)
+ * @see: https://github.com/eternicode/bootstrap-datepicker/
+ * @usage: takes 2 schema options, dateFormat and defaultValue
+
+ schema: {
+  MyDate: {
+    type: "BackboneDatepicker",
+    title: "My Date",
+    options: [
+      {  dateFormat: 'd/m/yyyy', defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() }
+    ]
+  }
+}
+ */
+Form.editors.BackboneDatepicker = Form.editors.Base.extend({
+ 
+  previousValue: '',
+ 
+  events: {
+    'hide': "hasChanged"
+  },
+ 
+  hasChanged: function(currentValue) {
+    if (currentValue !== this.previousValue){
+      this.previousValue = currentValue;
+      this.trigger('change', this);
+    }
+  },
+ 
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+    this.template = options.template || this.constructor.template;
+    console.log(this.el);
+  },
+ 
+  getValue: function() {
+    //var date = this.dateEditor.getValue();
+    /*
+    var hour = this.$hour.val(),
+        min = this.$min.val();
+
+    if (!date || !hour || !min) return null;
+
+    date.setHours(hour);
+    date.setMinutes(min);
+
+    return date;*/
+
+    console.log(this);
+    var date= new Date
+    return this.el.children['Date_'].value
+
+  },
+
+  render: function(){
+    var $el = $($.trim(this.template({
+      dateFormat: this.schema.options[0]["dateFormat"],
+      value: this.schema.options[0]["defaultValue"]
+    })));
+    this.setElement($el);
+    
+    return this;
+  },
+ 
+}, {
+  // STATICS
+  template: _.template('<div class="input-group date" id="dateTimePicker" data-editors="Date_"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span><input id="c24_Date_" name="Date_" class="form-control" type="text" placeholder="jj/mm/aaaa hh:mm:ss" data-date-format="DD/MM/YYYY HH:mm:ss"></div>', null, Form.templateSettings)
+});
+
+
+
+
+
+
+
+
 
   //Metadata
   Form.VERSION = '0.14.0';
@@ -2605,3 +2684,5 @@ Form.editors.DateTime = Form.editors.Base.extend({
 
   return Form;
 });
+
+
