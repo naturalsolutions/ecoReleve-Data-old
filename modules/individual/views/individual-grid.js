@@ -121,6 +121,9 @@ define([
                 headerCell: myHeaderCell
             }];
 
+
+            console.log(individuals);
+
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,

@@ -2,9 +2,9 @@ define([
     'marionette',
     'radio',
     'views/user',
-/*    'nicescroll',
-*/    'text!modules2/header/templates/header.html'
-], function(Marionette, Radio, UserView, /*nicescroll,*/ template) {
+    'nicescroll',
+    'text!modules2/header/templates/header.html'
+], function(Marionette, Radio, UserView, nicescroll, template) {
 
     'use strict';
 
@@ -20,7 +20,6 @@ define([
         },
 
         onShow: function() {
-
             this.userRegion.show(new UserView());
 
         },

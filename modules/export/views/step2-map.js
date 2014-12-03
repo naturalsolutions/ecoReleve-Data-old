@@ -19,6 +19,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
+        className: 'full-height',
 
         events: {
             'click button#validateBox' : 'validateBox',
@@ -32,6 +33,8 @@ define([
             this.radio = Radio.channel('exp');
             this.radio.comply('filters2map', this.updateFilters, this);
 
+            
+
 
             this.viewName= options.viewName;
             this.filterInfosList= {
@@ -39,20 +42,19 @@ define([
                 filters: []
             }
 
-            /**
-            *
-            * shared criterias
-            *
-            **/
+
             
             this.columnForm;
 
-            this.boxCriteria;
+            this.boxCriteria=[-180, -90, 180, 90];
+            this.validateBox();
+            console.log(this.boxCriteria);
             this.columnCriteria;
             this.geoJson;
 
             this.getGeoJson();
-            //this.initColumns();
+          
+
         },
 
         /*
@@ -119,37 +121,14 @@ define([
 
         initMap: function(){
 
-          var styles = {
-            'Circle': [new ol.style.Style({
-              stroke: new ol.style.Stroke({
-                color: 'red',
-                width: 2
-              }),
-              fill: new ol.style.Fill({
-                color: 'rgba(255,0,0,0.2)'
-              })
-            })]
-          };
-
           var sourceT = new ol.source.GeoJSON({
             projection: 'EPSG:3857',
             object: this.geoJson
           });
 
-          var boundingBox = new ol.interaction.DragBox({
-              condition: ol.events.condition.shiftKeyOnly,
-              style: new ol.style.Style({
-                  stroke: new ol.style.Stroke({
-                      color: '#ffcc33',
-                      width: 2
-                      })
-                  })
-          });
-
           this.vectorLayer = new ol.layer.Vector({
             source: sourceT
           });
-
 
           this.map = new ol.Map({
             layers: [
@@ -168,37 +147,9 @@ define([
               center: this.vectorLayer.getSource().getFeatures()[0].getGeometry().getCoordinates(),
               zoom: 5
             }),
-            interactions: ol.interaction.defaults().extend([boundingBox])
           });
           
-
-
-          /**
-          *
-          * BoundingBox boxend Event
-          *
-          **/
           
-          this.features= this.vectorLayer.getSource().getFeatures();
-          var bbTmp, fCoord;
-          var context=this;
-          boundingBox.on('boxend', function() {
-              var featuresinBox = [];
-              var count=0;
-              bbTmp= boundingBox.getGeometry().extent;
-              context.boxCriteria=ol.proj.transform(bbTmp, 'EPSG:3857', 'EPSG:4326');
-              for (var i=0;i<context.features.length;i++) {
-                  fCoord= context.features[i].getGeometry().getCoordinates();
-                  if (ol.extent.containsCoordinate( bbTmp, fCoord))
-                  {
-                      featuresinBox.push(context.features[i]);
-                      count+=context.features[i].values_.count;
-                  }
-              }
-              $('#geo-query-result').html(count);
-              context.validateBox();
-          });
-
         },
 
 

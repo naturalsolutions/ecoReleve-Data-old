@@ -50,11 +50,11 @@ define([
             //$('#mapContainer').css('height', '400px');
         },
         rfid: function() {
-            Radio.channel('route').command('rfid');
+            Radio.channel('route').command('import:rfid');
         },
 
         gsm: function() {
-            Radio.channel('route').command('gsm');
+            Radio.channel('route').command('import:gsm');
         },
 
 
@@ -64,6 +64,7 @@ define([
         },
         nextStep : function(e) {
             var step = $('#importWizard').wizard('selectedItem').step;
+            $('#btnNext').removeClass('complete-tmp');
             if($('#rfid input').is(':checked')){
                 this.rfid();
             }
@@ -113,14 +114,26 @@ define([
                 // now, it will save on localStorage.myCollectionStorage
                 //filteredCollection.save();
                 var btnLbel  = $(e.target).attr('data-last');
-                console.log('braaa');
+
+                console.log('quick fix');
+
                 $('#btnNext').html('Complete').css('padding', '10px');
+                $('#btnNext').addClass('complete-tmp');
+                var ctx=this;
+                $('.complete-tmp').on( "click", function() {
+                    ctx.returnToHome();
+                });
+
                if(btnLbel =='Complete'){
                      $(e.target).attr('disabled','disabled');
                      $('#btnPrev').attr('disabled','disabled');
                      $('ul.steps li').removeClass('active');
                      $('ul.steps li').removeClass('complete');
+                     
+
+
                }
+
                // send filtred collection to the server
                var url=config.coreUrl + 'station/addMultStation/insert';
                 $.ajax({
@@ -142,6 +155,7 @@ define([
                         alert('error sending gpx collection');
                     }
                 });
+
             }
         },
         activateNextStep : function() {
@@ -192,10 +206,11 @@ define([
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
                             // get waypoints collection
-                            var importResulr = xmlParser.gpxParser(xml);
+                            var importResulr =  xmlParser.gpxParser(xml);
                             self.waypointList =  importResulr[0];
                             var errosList = importResulr[1];
                             // display parsing message
+                            console.log(self.waypointList)
                             var nbWaypoints = self.waypointList.length;
                             if ((nbWaypoints > 0) && (errosList.length == 0)){
                                 $('#importGpxMsg').text('Gpx file is successfully loaded. You have ' + nbWaypoints + ' waypoints.');
@@ -220,7 +235,7 @@ define([
                     alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
                      $('.btn-next').attr('disabled', 'disabled');
                 }
-            };
+            }
         },
         getSelectedUser1: function() {
             var val = $('#importWorker1').val();
@@ -237,8 +252,11 @@ define([
         },
 
         onRender: function(){
+            console.log('remove');
+            
             $('ul.steps').css('marginLeft', '0px');
-        },
+/*            $('#importWizard').wizard('removeSteps', 1);
+*/        },
         getUsers : function(){
             var url = config.coreUrl + 'user';
             $.ajax({

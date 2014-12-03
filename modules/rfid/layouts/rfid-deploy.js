@@ -111,8 +111,6 @@ define([
                 console.log('lat  '+lat+'  long '+lon);
                 Radio.channel('rfid').command('moveCenter', [lon, lat]);
                 Radio.channel('rfid').command('addOverlay', [lon, lat]);
-
-
             }
         },
 

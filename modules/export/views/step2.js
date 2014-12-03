@@ -22,10 +22,10 @@ define([
         events: {
             'change #export-view-fields': 'selectField',
             'click #filter-query-btn': 'check',
+            'click #filter-delete': 'deleteFilter'
         },
 
         initialize: function(options) {
-        	console.log('step2');
             this.radio = Radio.channel('exp');
 
             this.selectedFields = [];
@@ -38,15 +38,26 @@ define([
             this.generateFilter();
             this.getFieldsListForSelectedView(this.viewName);
 
+            
+
         },
         onShow: function(){
-            $("#filterViewName").text(this.viewName);
+            //$("#filterViewName").text(this.viewName);
         },
         
         onBeforeDestroy: function(){
         },
         
         
+        deleteFilter: function(e){
+
+            var nodeList = Array.prototype.slice.call( document.getElementById('export-filter-list').children );
+            var index= nodeList.indexOf(e.target.parentNode);
+            this.filterList.splice(index, 1);
+            console.log(this.filterList);
+            $(e.target).parent().remove();
+
+        },
 
         generateFilter : function() {
             var viewUrl = config.coreUrl + "/views/" + this.viewName + "/count";
@@ -83,35 +94,6 @@ define([
         },
 
         selectField: function() {
-            var fieldName = $("#export-view-fields option:selected").text();
-            //var fieldId = fieldName.replace("@", "-");
-
-
-            /**
-            *
-            * Instanciate a new FilterModel // Filter
-            *
-            **/   
-            var filterModel = new FilterModel({
-                Column: fieldName,
-                Operator: operatorsOptions,
-                Value: 'Default Data'
-            });
-            
-            /**
-            *
-            * Instanciate a new BbForm
-            *
-            **/
-            var form = new BbForms({
-                template: _.template(tplFilters),
-                model: filterModel,
-                templateData: {filterName: fieldName }
-            }).render();
-
-
-            
-
 
 
             /**
@@ -119,16 +101,51 @@ define([
             * Set options per type
             *
             **/
-            var operatorsOptions;
+            var fieldName = $("#export-view-fields option:selected").text();
+            //var fieldId = fieldName.replace("@", "-");
+            var typeField, operatorsOptions;
             var type = $("#export-view-fields option:selected").attr('type');
             switch(type){
                 case "string": 
-                    operatorsOptions= ['>', '<>', '='];
-                    form.fields.Operator.editor.setOptions(operatorsOptions);
+                    typeField="Text";
+                    operatorsOptions= ['Not Like', 'Like'];
+                    break;
+                case "DATETIME":
+                    typeField="Date";
+                    operatorsOptions= ['>', '<', '=', '<>', '>=', '<='];
                     break;
                 default:
+                    typeField="Number";
+                    operatorsOptions= ['>', '<', '=', '<>', '>=', '<='];
                     break;
             }
+
+
+            var schem = {
+                Column: {type: 'Hidden', title:'Column', value: fieldName},
+                Operator: { type: 'Select', title: null, options: operatorsOptions, editorClass: 'form-control' },
+                Value: { type: typeField, validators: ['required'],  title:null, editorClass: 'form-control' },
+            };
+
+
+            /**
+            *
+            * Instanciate a new BbForm
+            *
+            **/
+            var form = new BbForms({
+                template: _.template(tplFilters),
+                schema: schem,
+                data: {
+                  Column: fieldName,
+                },
+                templateData: {filterName: fieldName}
+            }).render();
+
+
+
+
+
 
 
             $('#filter-query').append(form.el);
@@ -136,7 +153,6 @@ define([
 
             form.on('Operator:change', function(form, titleEditor, extra) {
                   console.log(':: Value changed to "' + titleEditor.getValue() + '".');
-
             });
 
 
@@ -164,14 +180,11 @@ define([
                 }
             };
 
-
-
             /**
             *
             * Ajax Call
             *
             **/
-            
 
             var fieldName, operator, condition;
             var query = "";
@@ -186,9 +199,6 @@ define([
 
         },
 
-        removeFilter: function(){
-
-        },
 
         check: function(){
             this.filterInfosList= {
@@ -217,6 +227,7 @@ define([
             * Call
             *
             **/
+            console.log(this.filterInfosList);
             
 
             var viewUrl = config.coreUrl + "/views/filter/" + this.viewName + "/count" ;
@@ -271,20 +282,5 @@ define([
 
 
 
-        /**
-        *
-        * Map
-        *
-        **/
-
-
     });
-
-
-    /**
-    *
-    * Map
-    *
-    **/
-    
 });

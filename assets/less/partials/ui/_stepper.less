@@ -1,7 +1,37 @@
 div.fuelux{
+	height: 100%;
+	& .wizard{
+		height: 85%;
+		overflow:  hidden;
+	}
+	& .actions{
+		position: relative;
+		height: 15%;
+		button{
+			position: absolute;
+			bottom: 0;
+			&.btn-next{
+				right: 0;
+			}
+		}
+	}
+	.step-content{
+		height: 100%;	
+		overflow: auto;
+		padding-top:46px!important; //ul height
+	}
+	.step-pane{
+		position: relative;
+		top: -46px;
+	}
+
+
+
+
 	.wizard{
-		overflow: visible;
+
 		& > .actions{
+			height: 20%;
 			bottom: -90px;
 			background-color: transparent!important;
 			left: 0;
@@ -14,6 +44,7 @@ div.fuelux{
 			//padding: 0px (@grid-gutter-width/2);
 
 			button{
+
 				background: #5cb85c;
 				color: white;
 				border: none;
@@ -40,6 +71,26 @@ div.fuelux{
 	div.wrapper{
 		padding: 10px;
 	}	
+
+	.actions{
+		@fz: 25px;
+		i.action-picto{
+			line-height: inherit;
+			font-size: inherit!important;
+			background: rgba(0,0,0,0.2);
+			padding: 10px 15px;
+			margin:0px!important;
+			display: block;
+			float: left;
+			font-size: @fz!important;
+		}
+		span{
+			display: block;
+			float: left;
+			padding: 10px 15px;
+			font-size: @fz!important;
+		}
+	}
 
 }
 .fuelux .wizard .step-content{
@@ -76,6 +127,10 @@ button.btn-custom{
 }
 
 
+
+
+
+
 .btn-custom{
 	padding: 0px;
 	vertical-align: middle;
@@ -91,5 +146,12 @@ button.btn-custom{
 		margin: 0px!important;
 		padding: 0px 10px;
 		vertical-align: 2px;
+	}
+}
+
+
+.import-container{
+	.wizard{
+		overflow: visible;
 	}
 }

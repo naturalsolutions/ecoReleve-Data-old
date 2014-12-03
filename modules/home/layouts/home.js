@@ -3,7 +3,7 @@ define([
     'radio',
     'modules2/home/views/graph',
     'modules2/home/views/info',
-    'text!modules2/home/templates/home.html'
+    'text!modules2/home/templates/home.html',
 ], function(Marionette, Radio, GraphView, InfoView, template) {
     'use strict';
     return Marionette.LayoutView.extend( {
@@ -23,26 +23,22 @@ define([
             'click #monitoredSiteTile' : 'monitoredSite',
             'click #manualTile' : 'dataEntry',
             'click #importTile' : 'import',
-            'click #myDataTile' : 'export'
+            'click #myDataTile' : 'export',
+            'click #rfidTile': 'rfidN',
+            "click #validate": 'validate',
         },
         initialize: function(){
-
+            this.radio = Radio.channel('route');
         },
 
         onShow: function() {
-
             this.info.show(new InfoView());
             this.graph.show(new GraphView());
              $('.credits').show();
-            
-
         },
 
         onRender: function(){
             $('body').addClass('home-page');
-/*            $.vegas ({
-                src: 'images/home_fond.jpg'
-            });*/
         },
 
         onDestroy: function() {
@@ -51,38 +47,62 @@ define([
         },
 
         argos: function() {
-            Radio.channel('route').trigger('argos');
+            this.radio.trigger('argos');
         },
 
         
         stations: function(){
-            Radio.channel('route').command('stations');
+            this.radio.command('stations');
         },
 
         gsm: function() {
-            Radio.channel('route').command('gsm');
+            this.radio.command('gsm');
         },
 
         individual: function() {
-            Radio.channel('route').command('individual');
+            this.radio.command('individual');
         },
 
         monitoredSite: function() {
-            Radio.channel('route').trigger('monitoredSite');
+            this.radio.trigger('monitoredSite');
         },
 
         transmitter: function() {
-            Radio.channel('route').trigger('transmitter');
+            this.radio.trigger('transmitter');
         },
-        import: function() {
-            Radio.channel('route').trigger('import');
+        import: function(e) {
+
+            var ct = $(e.target);
+            $('.sub-tile').addClass('active');
+            $(document).mouseup(function (e)
+            {
+                var container = $('.sub-tile');
+
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.removeClass('active');
+                }
+            });
+            //$('.sub-tile').on('mouseleave', function() {
+
+            this.radio.trigger('import');
         },
         dataEntry : function() {
-            Radio.channel('route').trigger('input');
+            this.radio.trigger('input');
         },
 
         export: function(){
-            Radio.channel('route').command('export');
-        }
+            this.radio.command('export');
+        },
+
+        rfidN: function(){
+            this.radio.command('rfidN');
+        },
+
+        validate: function(){
+            this.radio.command('validate');
+        },
+
     });
 });

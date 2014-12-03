@@ -12,7 +12,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container-fluid no-padding indiv-bg',
+        className: 'container-fluid no-padding indiv-bg full-height',
         template: template,
 
         regions: {
@@ -101,10 +101,10 @@ define([
                     $('html').niceScroll();
                 }
             );*/
-$('#detail-panel, #main-panel').css({ height: $(window).innerHeight()-$('header').height() });
-$(window).resize(function(){
-    $('#detail-panel, #main-panel').css({ height: $(window).innerHeight()-$('header').height() });
-});
+            $('#detail-panel, #main-panel').css({ height: $(window).innerHeight()-$('header').height() });
+            $(window).resize(function(){
+                $('#detail-panel, #main-panel').css({ height: $(window).innerHeight()-$('header').height() });
+            });
         },
 
     });

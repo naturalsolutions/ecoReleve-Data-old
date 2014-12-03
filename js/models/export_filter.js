@@ -23,8 +23,8 @@ define([
 	        */
 
 	    },
-	    defaults:{
-	    	label: null
+	    setType: function(){
+	    	this.set('Column', { type: 'Text', validators: ['required'],  title:null, editorClass: 'form-control' });
 	    },
 	    verboseName : "Filter"
     });

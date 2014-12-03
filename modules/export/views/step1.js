@@ -8,9 +8,10 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!modules2/export/templates/export-step1.html'
+    'text!modules2/export/templates/export-step1.html',
+    'nicescroll'
 
-], function($, _, Backbone, BbForms , Marionette, moment, Radio, datalist, config, template) {
+], function($, _, Backbone, BbForms , Marionette, moment, Radio, datalist, config, template, niceScroll) {
 
     'use strict';
 
@@ -22,7 +23,6 @@ define([
         },
         initialize: function(options) {
         	this.radio = Radio.channel('exp');
-        	//$('body').append(form.el);
         },
 
         /*
@@ -33,6 +33,14 @@ define([
 
         onShow: function() {
             this.getItemList();
+            console.log(this);
+            console.log(this.$el);
+            var ctx=this;
+/*            $(document).ready(
+              function() { 
+                $('.step-pane#step1').niceScroll();
+              }
+            );*/
         },
 
 

@@ -4,17 +4,27 @@ define([
     'marionette',
     'radio',
     'config',
-    'text!modules2/gsm/templates/gsm-list.html'
-], function(Dropzone, $, Marionette, Radio, config, template) {
+    'text!modules2/gsm/templates/gsm-list.html',
+    'modules2/import/_gsm/views/step2',
+
+], function(Dropzone, $, Marionette, Radio, config, template, Step2) {
 
     'use strict';
 
-    return Marionette.ItemView.extend({
+    return Marionette.LayoutView.extend({
         className: 'container no-padding',
         template: template,
 
         events: {
-            'click table.backgrid tbody tr': 'showDetail'
+/*            'click table.backgrid tbody tr': 'showDetail',
+*/          
+            'click #btnNext' : 'nextStep',
+            'click #btnPrev' : 'prevStep',
+        },
+
+
+        regions: {
+            step2 : '#step2',
         },
 
         initialize: function() {
@@ -22,37 +32,6 @@ define([
         },
 
         onShow: function() {
-            var Data = Backbone.Collection.extend({
-                url: config.coreUrl + 'dataGsm/unchecked/list',
-            });
-
-            var data = new Data();
-
-            var columns = [{
-                name: 'platform_',
-                label: 'GSM ID',
-                editable: false,
-                cell: Backgrid.IntegerCell.extend({
-                    orderSeparator: ''
-                })
-            }, {
-                name: 'nb',
-                label: 'Number of unchecked locations',
-                editable: false,
-                cell: Backgrid.IntegerCell.extend({
-                    orderSeparator: ''
-                })
-            }];
-
-            // Initialize a new Grid instance
-            this.grid = new Backgrid.Grid({
-                columns: columns,
-                collection: data
-            });
-
-            this.$el.find('#gsm-list').append(this.grid.render().el);
-
-            data.fetch({reset: true});
 
             // Initialize a drop zone for import
             var previewNode = document.querySelector('#template');
@@ -76,6 +55,8 @@ define([
               file.previewElement.querySelector('.start').onclick = function() { myDropzone.enqueueFile(file); };
             });
 
+
+
             // Update the total progress bar
             myDropzone.on('totaluploadprogress', function(progress) {
               document.querySelector('#total-progress .progress-bar').style.width = progress + '%';
@@ -94,6 +75,17 @@ define([
                 document.querySelector('#total-progress .progress-bar').style.width = 0;
             });
 
+
+            myDropzone.on('error', function() {
+              $('#btnNext').attr('disabled');
+              $('#btnNext').removeAttr('disabled');
+
+            });
+            myDropzone.on('success', function() {
+              $('#btnNext').removeAttr('disabled');
+            });
+
+
             // Setup the buttons for all transfers
             // The 'add files' button doesn't need to be setup because the config
             // `clickable` has already been specified.
@@ -105,9 +97,34 @@ define([
             };
         },
 
+
+        prevStep: function(){
+            var step = $('#importWizard').wizard('selectedItem').step;
+            if(step == 1){
+                Radio.channel('route').trigger('import');                
+            }else{
+                $('#importWizard').wizard('previous');
+                //Radio.channel('route').command('import:gsm');
+            }
+        },
+        
+
+
+        nextStep: function(){
+            $('#importWizard').wizard('next');
+            this.step2.show(new Step2());
+
+        },
+
+
+
+        /*
+
         showDetail: function(evt) {
             var id = $(evt.target).parent().find('td').first().text();
-            Radio.channel('route').command('gsm', id);
+            //Radio.channel('route').command('gsm', id);
         }
+
+        */
     });
 });

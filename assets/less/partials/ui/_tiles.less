@@ -48,12 +48,12 @@
 	cursor: pointer;
 	text-align: center;
 	height: @height_tile;
-	background: blue;
 	float: left;
 	margin: 0px 0px @margin @margin;
 	color: white;
 	line-height: 1.5;
 	opacity: 1;
+	position: relative;
 	.transition(opacity 0.5s);
 	border-radius: 3px;
 	&.small_tile{
@@ -75,7 +75,10 @@
 		padding: 10px;
 	}
 	&:hover{
-		opacity: 0.7;
+		opacity: 0.8;
+	}
+	&#importTile{
+		opacity: 1;
 	}
 }
 
