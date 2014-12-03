@@ -2,7 +2,17 @@
 <form>
 	<div class="col-xs-12"><h3>New station</h3></div>
 	<div class="clear"></div>
-
+		<div id="stationType">
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="1" checked>coordinates</label>
+			</div>
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="0">without coordinates</label>
+			</div>
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="2">from monitored site</label>
+			</div>
+		</div>
 
 	<fieldset>
 		<legend>identification</legend>
@@ -20,7 +30,7 @@
   	<fieldset>
 	  	<legend>date</legend>
 	  	<div>
-	  		<div class='col-xs-12'>
+	  		<div class='col-xs-10'>
 		    	<label>date*</label>
 
 		    	<div class="input-group date" id="dateTimePicker" data-editors="Date_">
@@ -36,12 +46,6 @@
 	<fieldset>
 		<legend>position</legend>
 
-			<div class="radio-inline">
-			  <label><input type="radio" name="position" value ="1" checked>coordinates</label>
-			</div>
-			<div class="radio-inline">
-			  <label><input type="radio" name="position" value ="0">station without coordinates</label>
-			</div>
 	  		<div class='col-xs-10 masqued' id="stRegion">
 		    	<label>region</label>
 		    	<div data-editors="Region"></div>
@@ -62,6 +66,17 @@
 			    <div class='col-xs-2'>
 			    	<br>
 			    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
+			    </div>
+			</div>
+			<div id="stMonitoredSite" class="masqued">
+				<div class='col-xs-5'>
+		    	<label>site type*</label>
+		    	<input class="form-control" id="stMonitoredSiteType"/>
+
+			    </div>
+			    <div class='col-xs-5'>
+			    	<label>site name*</label>
+			    	<input class="form-control" id="stMonitoredSiteName"/>
 			    </div>
 			</div>
 	</fieldset>
@@ -103,6 +118,13 @@
 	    	<label>observer 5</label>
 	    	<div data-editors="FieldWorker5"></div>
 	    </div>
+	    <div class="masqued">
+			<div data-editors="id_site"></div>
+			<div data-editors="precision"></div>
+			<div data-editors="name_site"></div>
+	    </div>
+
+	    
   	</div>
   	<br>
   </fieldset>

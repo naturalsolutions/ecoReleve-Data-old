@@ -7,16 +7,17 @@
   "schema": {
 		"FK_TSta_ID":{
 			"validators":[
-				"required"
 			],
 			"type": "Hidden",
 			"title":" Station id"
 		},
 		"Id_Taxon":{
 			"validators":[
+				"required"
 			],
-			"type": "Number",
-			"title":"Id taxon"
+			"type": "Picker",
+			"title":"Id taxon",
+			"editorClass": "required"
 		},
 		"Name_Taxon":{
 			"validators":[

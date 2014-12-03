@@ -27,7 +27,8 @@ define([
             'click .autocompTree' : 'initInputValue',
             'click i.icon.reneco.close.braindead' : 'removeForm',
             'change #stDistFromObs' : 'updateStationDistance',
-            'change input[name="stAccuracy"]':'updateAccuracy'
+            'change input[name="stAccuracy"]':'updateAccuracy',
+            'click .inputProtocolClear' : 'clearForm'
         },
         onShow: function() {
             this.setFieldActivity();
@@ -155,10 +156,6 @@ define([
                     datalistContent += element;
                 }
             }
-            /*for(var i=0;i<protosList.length;i++){
-                var element = '<option value="'+ protosList[i]+'"></option>';
-                datalistContent += element;
-            }*/
             $('#protocolsList').append(datalistContent);
         },
         generateForms : function(protocolsModels, fieldActivity){
@@ -234,6 +231,7 @@ define([
                     }
                     $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
                     $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolEdit masqued" >edit</button></div>');
+                    $(currentTab).append('<div><button class="btn btn-primary inputProtocolClear" >clear</button></div>');
                    // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
                     tabOrder += 1;
                     // set min value to 0 for input type 'number'
@@ -248,6 +246,7 @@ define([
             this.formatTimeField();
         },
         addForm : function(){
+            var tm = this.forms;
             var selectedProtocolName = $('input[name="add-protocol"]').val();
             var nbActiveProtocols =  this.activeProtocols.length;
             var idTabProto = 'a'+ nbActiveProtocols + 1; // be sure to have uniq id
@@ -262,6 +261,7 @@ define([
             $(currentTab).append(formContent);
             $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
             $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolEdit masqued">edit</button></div>');
+            $(currentTab).append('<div><button class="btn btn-primary inputProtocolClear" >clear</button></div>');
             this.forms.push(form);
             this.activeProtocols.push(selectedProtocolName);
             $('input[name="add-protocol"]').val('');
@@ -292,8 +292,6 @@ define([
                 }
             }
             this.generateProtocolsDataList(this.protosList);
-            //console.log(formsContainer);
-            //$(form).remove();
         },
         commitForm : function(e){
             // get current protocol name stored in submit button
@@ -304,7 +302,8 @@ define([
             var formId = $(e.target).attr('editionid');
             if(currentForm){
                 var errors = [];
-                var er = currentForm.commit({ validate: true });
+                    var er = currentForm.commit();
+                     
                 if(er){
                      errors.push(er);
                 } else {
@@ -330,12 +329,7 @@ define([
                     }
                 }
                 var currentInstance = currentForm.model;
-                //change look of selected tab element
-                /*var spn = $('#tabProtsUl').find('li.active').find('span')[0];
-                var pictoElement = $(spn).find('i')[0];
-                $(pictoElement).removeClass();*/
                 if(errors.length == 0){
-                    //Radio.channel('input').command('inputForms',{'TSta_PK_ID':'none', 'protocolName':currentProtocol, 'protocolForm':currentInstance.attributes});
                     // check if there are subforms and insert parent form and sub forms in an array 
                     var formsList = [];
                     // add current station id
@@ -362,14 +356,10 @@ define([
                             formsList.push(subFormContent);
                         }
                     }
-                    //Radio.channel('input').command('inputForms', currentInstance.attributes);
-                    //Radio.channel('input').command('inputForms', formsList);
                     this.saveForm(formsList);
-                    // change validation statut of current protocol in 'protocolsValidation' array
-                    //this.changeValidationStatus(currentProtocolName);
+                    currentForm.model.defaults = currentForm.model.attributes;
                 } else {
                     this.editTabLook('error');
-                    //$(pictoElement).addClass('icon reneco close braindead');
                 }
             } else {
                     console.log('pas de formulaire pour ce protocole');
@@ -423,6 +413,7 @@ define([
         },
         generateForm: function(modelName,id){
             var protocolModel = this.getProtocolByAttr('name',modelName);
+
             var form  = new BbForms({
                 model: protocolModel,
                 idPrefix : 'prtocol-' + id + '-',
@@ -462,6 +453,8 @@ define([
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
                 var startId = $(elementsList[i]).attr('startId');
+                // get current value
+                var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
                     wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
                     //display: {displayValueName:'value',storedValueName:'value'},
@@ -469,6 +462,8 @@ define([
                     language: {hasLanguage:true, lng:"en"},
                     startId: startId 
                 });
+                // set current valua after applying autocompTree
+                $(elementsList[i]).val(currentVal);
             }
             //$(e.target).focus();
         },
@@ -563,9 +558,8 @@ define([
             this.updateStationValues();
         },
         updateAccuracy : function(e){
-             var accuracy = $(e.target).val();
-             alert(accuracy);
-
+            var accuracy = $(e.target).val();
+            //alert(accuracy);
         },
         updateStationValues : function(){
             $.ajax({
@@ -596,8 +590,13 @@ define([
             $('input.timeInput').attr('placeholder' ,'hh:mm');
             $('input[type="text"]').addClass('form-control');
             $('input[type="number"]').addClass('form-control');
+            $('select').addClass('form-control');
             $('textarea').addClass('form-control');
             $('form ul').addClass('unstyled');
+        },
+        clearForm : function(e){
+            $(e.target).parent().parent().find('form').find('input').val('');
+            $(e.target).parent().parent().find('form').find('textarea').val('');
         }
         /*,
         generateSubForm: function(nestedModelName){

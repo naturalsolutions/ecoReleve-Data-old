@@ -23,11 +23,16 @@ define([
                 FieldWorker3: { type: 'Text' , title:'field worker 3' , editorClass : 'form-control' },
                 FieldWorker4: { type: 'Text' , title:'field worker 4' , editorClass : 'form-control' },
                 FieldWorker5: { type: 'Text' , title:'field worker 5' , editorClass : 'form-control' },
-                FieldWorkersNumber : {type: 'Number' , title:'field workers number', editorClass : 'form-control'}
+                FieldWorkersNumber : {type: 'Number' , title:'field workers number', editorClass : 'form-control'},
+                id_site : { type: 'Text', title:'id site', editorClass : 'form-control', validators: []},
+                name_site : { type: 'Text', title:'name site', editorClass : 'form-control', validators: []},
+                precision : { type: 'Text', title:'id site', editorClass : 'form-control', validators: []}
             },
             defaults: {
                 FieldWorker4: '',
-                FieldWorker5: ''
+                FieldWorker5: '',
+                name_site :'',
+                id_site : null
             },
             verboseName : "station"
         }

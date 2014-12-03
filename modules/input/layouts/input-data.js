@@ -36,6 +36,7 @@ define([
         },
         events : {
             'click #inputGetStData' : 'commitForm',
+            //'click button.commitBtn' : 'commitForm',
             'change input.stationtype' : 'stationType',
             'click #btnNext' : 'nextStep',
             'click #btnPrev' : 'prevStep',
@@ -46,7 +47,9 @@ define([
             'click #inputMoveToSation' : 'stationStep',
             'change input[type=radio][name="position"]' :'updateStationType',
             'click span.picker': 'filterIndivShow',
-            'click button.filterClose' : 'filterMask'
+            'click button.filterClose' : 'filterMask',
+            'change #stMonitoredSiteType' :'updateSiteName',
+            'change #stMonitoredSiteName' : 'getMonitoredSiteDetails'
         },
         initialize:function(options) {
             // init stationtype 
@@ -73,7 +76,10 @@ define([
             var step = $('#inputWizard').wizard('selectedItem').step;
             console.log("step to : " + step);
             if (step==2){
+                this.getSitesTypes();
                 // new station
+                // add commit class to btn next to get station data and navigate to next step
+                $('#btnNext').addClass('commitBtn');
                 var tm = $(stationTemplate).html();
                 if(this.stType =='new'){
                     var station = new Station();
@@ -82,7 +88,7 @@ define([
                         template: _.template(tm)
                     }).render();
                      $('#station-form').empty().append(this.form.el);
-                    $('#btnNext').addClass('disabled');
+                    //$('#btnNext').addClass('disabled');
                     // clear other regions if they are filled
                     this.mapRegin.reset();
                     this.gridRegion.reset();
@@ -104,7 +110,6 @@ define([
                     $('#station-form').append(fieldActivityList);
                     // associate datalist to input 'FieldActivity_Name'
                     $('input[name="FieldActivity_Name"]').attr('list','activity');
-
                     // get users list
                     this.getUsers();
                     this.getRegions();
@@ -171,6 +176,11 @@ define([
         },
         onShow: function() {
             var self = this;
+            $('#inputWizard').off('click' , function () {
+                var step = $('#inputWizard').wizard('selectedItem').step;
+                alert('navigation , step :' + step);
+            });
+
             $('#inputWizard').on('changed.fu.wizard', function () {
                 var step = $('#inputWizard').wizard('selectedItem').step;
                 console.log("change step to : " + step);
@@ -185,6 +195,10 @@ define([
                     $('#inputGetStData').removeClass('masqued');
                     $('#msgNewStation').text('');
                     $('input[name="PK"]').val('');
+                    // add commit class to btn next to get station data and navigate to next step
+                    $('#btnNext').addClass('commitBtn');
+                    $('#btnNext').addClass('disabled');
+                    //alert(this.stType);// =='imported'){
                 }
               // do something 
             });
@@ -193,6 +207,9 @@ define([
             this.listenTo(this.radio, 'show-detail', this.showDetail);
         },
         commitForm : function() {
+            
+            // check if values inputed in input linked to datalist are ok
+            
             //this.form.commit();
             var errors = this.form.commit({ validate: true });
             console.log(errors);
@@ -211,7 +228,6 @@ define([
                     data:  currentStation.attributes,
                     type:'POST',
                     success: function(data){
-                           console.log(data);
                             var PK = Number(data.PK);
                             if(PK){
                                 self.form.model.set('PK',data.PK);
@@ -229,15 +245,12 @@ define([
                                 $('#btnNext').removeClass('disabled');
                                 $('#inputGetStData').addClass('masqued');
                                 $('#msgNewStation').text('The new station is successfully created.');
-                                // load places list
-                                //self.getPlaces();
+                                // add commit class to btn next to get station data and navigate to next step
+                                $('#btnNext').removeClass('commitBtn');
 						   }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        //alert(xhr.status);
-                        //alert(thrownError);
                         alert('error in generating new station. Please check fields data.');
-
                     }
                 });
                 //$('#btnNext').removeClass('disabled');
@@ -251,23 +264,6 @@ define([
             }
         },
         generateStation : function(model) {
-            // generate a station using the selected waypoint for imported stations
-            /*var newStation = new Station();
-            newStation.set('PK', model.get('PK'));
-            newStation.set('Name', model.get('name'));
-            newStation.set('LAT',model.get('latitude'));
-            newStation.set('LON',model.get('longitude'));
-            newStation.set('FieldActivity_Name',model.get('fieldActivity'));
-            newStation.set('Date_',model.get('waypointTime'));
-            newStation.set('time_',model.get('time'));
-            newStation.set('FieldWorker1',model.get('fieldWorker1'));
-            newStation.set('FieldWorker2',model.get('fieldWorker2'));
-            newStation.set('FieldWorker3',model.get('fieldWorker3'));
-            newStation.set('FieldWorker4',model.get('fieldWorker4'));
-            newStation.set('FieldWorker5',model.get('fieldWorker5'));
-            newStation.set('FieldWorkersNumber',model.get('fieldWorkersNumber'));
-            this.currentUsedStation = newStation;   */
-            // add details station region to next step container
             var utm = model.get('UTM20');
             if(!utm){
                model.set('UTM20',''); 
@@ -474,6 +470,7 @@ define([
             if(value == 1){
                 // station with coordinates
                 $('#stRegion').addClass('masqued');
+                $('#stMonitoredSite').addClass('masqued');
                 $('#stCoordinates').removeClass('masqued');
                 $("input[name='Region']").val('NULL');
                 $("input[name='LAT']").val('');
@@ -481,14 +478,27 @@ define([
                 this.form.model.schema.Region.validators = [];
                 this.form.model.schema.LAT.validators = ['required'];
                 this.form.model.schema.LON.validators = ['required'];
-            } else {
+            } else if(value == 0){
                 $('#stRegion').removeClass('masqued');
                 $('#stCoordinates').addClass('masqued');
+                $('#stMonitoredSite').addClass('masqued');
                 $("input[name='Region']").val('');
                 $("input[name='LAT']").val('NULL');
                 $("input[name='LON']").val('NULL');
                 // set fields Region to required and LAT , LON to not required
                 this.form.model.schema.Region.validators = ['required'];
+                this.form.model.schema.LAT.validators = [];
+                this.form.model.schema.LON.validators = [];
+            }
+            else {
+                $('#stMonitoredSite').removeClass('masqued');
+                $('#stRegion').addClass('masqued');
+                $('#stCoordinates').addClass('masqued');
+                $("input[name='Region']").val('');
+                $("input[name='LAT']").val('NULL');
+                $("input[name='LON']").val('NULL');
+                // set fields Region to required and LAT , LON to not required
+                this.form.model.schema.Region.validators = [];
                 this.form.model.schema.LAT.validators = [];
                 this.form.model.schema.LON.validators = [];
             }
@@ -527,6 +537,69 @@ define([
             this.indivFilterRegion.reset()
             $('#indivIdModal').remove();
             $('div.modal-backdrop.fade.in').remove();
+        },
+        getSitesTypes: function(){
+             var url = config.coreUrl + 'monitoredSite/type';
+            //this.listenTo(this.collection, 'reset', this.render);
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                dataType: 'json'
+            }).done( function(data) {
+                this.generateDatalist(data,'sitesTypes_list', '#stMonitoredSiteType' );
+            });
+        },
+        getSitesNames: function(type){
+             var url = config.coreUrl + 'monitoredSite/name';
+            //this.listenTo(this.collection, 'reset', this.render);
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                data : {type: type},
+                dataType: 'json'
+            }).done( function(data) {
+                $('#sitesNames_list').remove();
+                $('#stMonitoredSiteName').val('');
+                this.generateDatalist(data,'sitesNames_list', '#stMonitoredSiteName' );
+            });
+        },
+        getSiteDetails : function(type, name){
+            var url = config.coreUrl + 'monitoredSite/info';
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                data : {name: name, type:type},
+                dataType: 'json'
+            }).done( function(data) {
+                var position = new Position();
+                position.set("latitude",data.lat);
+                position.set("longitude",data.lon);
+                position.set("label",name);
+                position.set("PK","_");
+                Radio.channel('input').command('movePoint', position);
+                $('input[name="LAT"]').val(data.lat);
+                $('input[name="LON"]').val(data.lon);
+                $('input[name="id_site"]').val(data.id_site);
+                $('input[name="precision"]').val(data.precision);
+            });
+        },
+        updateSiteName : function(e){
+            var siteType = $(e.target).val();
+            if(siteType){
+                this.getSitesNames(siteType);
+            }
+        },
+        getMonitoredSiteDetails  : function(e){
+            var siteName = $(e.target).val();
+            var siteType = $('#stMonitoredSiteType').val();
+            if(siteType && siteName){
+                this.getSiteDetails(siteType,siteName);
+                // update name site field
+                $('input[name="name_site"]').val(siteType +', ' + siteName);
+            }
         }
     });
 });
