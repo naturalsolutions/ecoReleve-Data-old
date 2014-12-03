@@ -7974,6 +7974,9 @@ h2.panel-title {
   width: 20%;
   padding-right: 5%;
 }
+.blackFont {
+  color: black;
+}
 /* fonts */
 @font-face {
   font-family: 'reneco-font';
@@ -12738,6 +12741,9 @@ select {
 #stationDetails fieldset legend {
   padding-top: 15px;
 }
+.labelRequired {
+  color: red;
+}
 /**
 *
 * Buttons
@@ -13353,6 +13359,12 @@ border-style: solid;
 }
 .input-demo #map {
   min-height: 500px;
+}
+#myModal .modal-dialog {
+  width: 90%;
+}
+#myModal .modal-body {
+  overflow-y: auto;
 }
 /* Individual details */
 #birdInfosDetails {
