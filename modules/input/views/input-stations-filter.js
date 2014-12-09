@@ -27,11 +27,12 @@ define([
             'change input[name="allSt-beginDate"]' : 'update',
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
-            'change #allSt-endDate-op' : 'updateEndDateOp'
+            'change #allSt-endDate-op' : 'updateEndDateOp',
+            'change input[name="allSt-monitoredSiteType"]' :'updateSiteName'
         },
 
         initialize: function(options) {
-            this.radio = Radio.channel('stations');
+            this.radio = Radio.channel('input');
             // Current filter
             /*this.filter =  {
                 stationName : null,
@@ -137,19 +138,56 @@ define([
             if (stationType =='Name'){
                 this.filter.siteName = null;
                 this.filter.Name = stName;
+                // remove link to monitored sites names datalist
+                $('#st-station').removeAttr('list');  
             } else {
                 this.filter.Name = null;
                 this.filter.siteName =stName;
+                $('#st-station').attr('list','sitesNames_list'); 
             }
             // this.updateGrid();
+        },
+        updateSiteName : function(e){
+            var siteType = $(e.target).val();
+            if(siteType){
+                this.getSitesNames(siteType);
+                $('input[name="all-stationType"]').prop("checked", true); 
+                $('#st-station').val();
+            }
+        },
+        getSitesNames: function(type){
+             var url = config.coreUrl + 'monitoredSite/name';
+            //this.listenTo(this.collection, 'reset', this.render);
+            $.ajax({
+                context: this,
+                url: url,
+                type:'POST',
+                data : {type: type},
+                dataType: 'json'
+            }).done( function(data) {
+                $('#sitesNames_list').remove();
+                $('#stMonitoredSiteName').val('');
+                this.generateDatalist(data,'sitesNames_list', '#st-station' );
+            });
+        },
+        generateDatalist : function(data, listId, targetId){
+            var dataList = $('<datalist id="' + listId +'"></datalist>');
+            data.forEach(function(element) {
+                $(dataList).append('<option>' + element + '</option>');
+            });
+            $('#input-datalists').append(dataList);
+            // associate datalist to user input
+            $(targetId).attr("list",listId);
         },
         updateBeginDateOp : function(){
             var operator = $('#allSt-beginDate-op option:selected').text();
             this.filter.beginDate.Operator = operator;
+            this.updateGrid();
         },
         updateEndDateOp : function(){
             var operator = $('#allSt-endDate-op option:selected').text();
             this.filter.endDate.Operator = operator;
+            this.updateGrid();
         },
         checkVal : function(e){
             var value = parseFloat($(e.target).val());
@@ -166,7 +204,7 @@ define([
             }
         },
         updateGrid: function(){
-            this.radio.command('update', {filter:this.filter});
+            this.radio.command('updateStationsGrid', {filter:this.filter});
             /*$.ajax({
                 url: config.coreUrl+'station/search',
                 context : this,

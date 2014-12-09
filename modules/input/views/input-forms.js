@@ -32,6 +32,7 @@ define([
         },
         onShow: function() {
             this.setFieldActivity();
+            console.log('data' + this.options.data);
         },
         onRender: function() {
             this.getProtocolsList();
@@ -136,8 +137,17 @@ define([
                     parentModel.set('nestedModel',childName);
                 }
             }
+            
             var selectedFieldActivity = this.model.get('FieldActivity_Name');
-            this.generateForms(this.protocolsModels, selectedFieldActivity);
+            // if new station, generate empty forms related to field activity
+            if(this.data== undefined){
+                this.generateForms(this.protocolsModels, selectedFieldActivity);
+            // else ( old station, load forms with stored data)7
+            } else {
+
+            }
+            
+
         },
         generateProtocolsDataList : function(protosList){
             var datalistContent ='';

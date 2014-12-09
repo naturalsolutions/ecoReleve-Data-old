@@ -24,8 +24,8 @@ define([
         },
 
         initialize: function(options) {
-            this.radio = Radio.channel('stations');
-            this.radio.comply('update', this.update, this);
+            this.radio = Radio.channel('input');
+            this.radio.comply('updateStationsGrid', this.update, this);
 
             var Stations = PageableCollection.extend({
                 sortCriteria: {'id':'asc'},
@@ -33,7 +33,7 @@ define([
                 mode: 'server',
                 model: Station,
                 state:{
-                    pageSize: 10,
+                    pageSize: 25,
                 },
                 queryParams: {
                     offset: function() {return (this.state.currentPage - 1) * this.state.pageSize;},
@@ -145,7 +145,7 @@ define([
                 collection: stations
             });
         
-            
+            $('div.backgrid-paginator').css('margin-top','50px;');
         },
 
 
@@ -160,6 +160,7 @@ define([
 
             });
             console.log(this.grid.collection);
+            $('div.backgrid-paginator').css('margin-top','50px;');
         },
 
         onShow: function() {
@@ -174,6 +175,7 @@ define([
             this.$el.height(height-$('#header-region').height());
             $('#gridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
+            $('div.backgrid-paginator').css('margin-top','50px;');
         },
 
         onDestroy: function(){
@@ -189,9 +191,19 @@ define([
 
         detail: function(evt) {
             var row = $(evt.currentTarget);
-            var id = $(row).find(':first-child').text();
+            var id = parseInt($(row).find(':first-child').text());
             console.log(id);
-            //Radio.channel('input').command('indivId', {id: id});
+            //console.log(this.grid.collection);
+            var currentStation = this.grid.collection.where({ PK: id})[0];
+             $.ajax({
+                url: config.coreUrl+'station/getProtocol',
+                data: { id_sta: id },
+                type:'POST',
+                context: this,
+                success: function(data){
+                    this.radio.command('generateForms', {station:currentStation, data: data});
+                }
+            });
         }
     });
 });

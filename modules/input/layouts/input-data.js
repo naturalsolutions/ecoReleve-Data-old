@@ -57,10 +57,11 @@ define([
             // init stationtype 
             this.stType ='new';
             this.radio = Radio.channel('input');
-            Radio.channel('input').comply('generateStation', this.generateStation, this);
-            Radio.channel('input').comply('inputForms', this.inputValidate, this);
-            Radio.channel('input').comply('indivId', this.inputDisplayIndivId, this);
-            Radio.channel('input').comply('updateCoordinates', this.updateCoordinatesVals, this);
+            this.radio.comply('generateStation', this.generateStation, this);
+            this.radio.comply('inputForms', this.inputValidate, this);
+            this.radio.comply('indivId', this.inputDisplayIndivId, this);
+            this.radio.comply('updateCoordinates', this.updateCoordinatesVals, this);
+            this.radio.comply('generateForms', this.navigateToFormsStep, this);
             $('body').addClass('input-demo');
         },
         onBeforeDestroy: function() {
@@ -108,6 +109,7 @@ define([
                      // display map
                     var map = new Map();
                     this.stationMapRegion.show(map);
+                    $('.newStationDiv').removeClass('masqued');
                     // init map
                     var position = new Position();
                     map.addModel(position);
@@ -129,6 +131,7 @@ define([
                 else if (this.stType =='imported'){
                     // need to select a point -> desactivate next
                     $('#btnNext').addClass('disabled');
+                    $('.newStationDiv').addClass('masqued');
                     var lastImportedStations = new Waypoints();
                     lastImportedStations.fetch();
                     var ln = lastImportedStations.length;
@@ -153,6 +156,7 @@ define([
                     $('#station-map').text('');
                     $('#station-form').text('');
                     this.gridRegion.reset();
+                    $('.newStationDiv').addClass('masqued');
                     this.oldStationsRegion.show(stationsLayout);
                     //$('#station-form').empty().append('<p> old stations </p>');
                     $('#inputGetStData').addClass('masqued');
@@ -642,6 +646,13 @@ define([
                 // update name site field
                 $('input[name="name_site"]').val(siteType +', ' + siteName);
             }
+        },
+        navigateToFormsStep : function(oldData){
+            console.log(oldData.data);
+            var station = oldData.station;
+            var formsView = new Forms({ model : station, data: oldData.data});
+            this.formsRegion.show(formsView);
+            $('#inputWizard').wizard('next');
         }
     });
 });
