@@ -92,7 +92,7 @@ define([
 
             radio.comply('validate', this.validate, this);
             radio.comply('validate:type', this.validate_type, this);
-            radio.comply('validate:type:id', this.validate_type_id, this);
+            radio.comply('validate_type_id', this.validate_type_id, this);
 
         },
 
@@ -260,13 +260,14 @@ define([
                 this.mainRegion.show(new ValidateLayoutType({type : type}));
             }, this);
         },
-        validate_type_id: function(type, id){
-            var route = 'validate/'+ type +'/'+ id;
+        validate_type_id: function(options){
+            var route = 'validate/'+ options.type +'/'+ options.id;
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ValidateGSMDetailLayout({
-                    type : type,
-                    gsmID : id
+                    type : options.type,
+                    gsmID : options.id,
+                    NbObs:options.NbObs
                 }));
             }, this);  
         },

@@ -95,6 +95,7 @@ var ecoReleveData = (function(){
             backgrid: '../../bower_components/backgrid/lib/backgrid',
             'backgrid.paginator': 'backgrid.paginator/backgrid.paginator',
             'backbone.paginator': 'backbone.paginator/2.0.2/backbone.paginator',
+            backgridSelect_all:'../../bower_components/backgrid-select-all/backgrid-select-all',
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
             bootstrap: 'bootstrap/3.2.0/bootstrap',
             chart: '../../bower_components/chartjs/Chart',
