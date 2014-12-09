@@ -11,12 +11,13 @@ define([
     'modules2/input/views/input-forms',
     //'modules2/input/views/input-indivFilter',
     'modules2/input/layouts/individual-list',
+    'modules2/input/layouts/stations-list',
     'text!modules2/input/templates/input-data.html',
     'text!modules2/input/templates/form-new-station.html',
     'text!modules2/input/templates/activity.html'
 
 ], function(Marionette, Radio, config, BbForms, Station,Position, Waypoints,Grid, 
-    Map, Forms, IndivFilter, template, stationTemplate, activityTpl) {
+    Map, Forms, IndivFilter, StationsLayout, template, stationTemplate, activityTpl) {
 
     'use strict';
 
@@ -28,6 +29,7 @@ define([
            // form: '#station-form',
            gridRegion : '#gridImportedWaypoints',
            mapRegin : '#mapImportedWaypoints',
+           oldStationsRegion :'#gridAllStations',
            formsRegion : '#stationDetails',
            stationMapRegion : '#station-map',
            stationDetailsMapRegion : '#mapStDetails',
@@ -75,8 +77,18 @@ define([
         nextStep : function() {
             var step = $('#inputWizard').wizard('selectedItem').step;
             console.log("step to : " + step);
+            // get users list
+            this.getUsers();
+            this.getRegions();
+            this.getSitesTypes();
+            // add field activity dataset if dont exists
+            var fieldActivityList = $(activityTpl).html();  
+            //$('#station-form').append(fieldActivityList);
+             $('#input-datalists').append(fieldActivityList);
+            // associate datalist to input 'FieldActivity_Name'
+            $('input[name="FieldActivity_Name"]').attr('list','activity');
             if (step==2){
-                this.getSitesTypes();
+               
                 // new station
                 // add commit class to btn next to get station data and navigate to next step
                 $('#btnNext').addClass('commitBtn');
@@ -92,6 +104,7 @@ define([
                     // clear other regions if they are filled
                     this.mapRegin.reset();
                     this.gridRegion.reset();
+                    this.oldStationsRegion.reset();
                      // display map
                     var map = new Map();
                     this.stationMapRegion.show(map);
@@ -106,15 +119,10 @@ define([
 					$('#dateTimePicker').datetimepicker({
 
                     });                    
-
-                    // add field activity dataset if dont exists
-                    var fieldActivityList = $(activityTpl).html();  
-                    $('#station-form').append(fieldActivityList);
                     // associate datalist to input 'FieldActivity_Name'
                     $('input[name="FieldActivity_Name"]').attr('list','activity');
-                    // get users list
-                    this.getUsers();
-                    this.getRegions();
+                    
+                    
                     //this.form.model.unset('PK');
                     //this.form.model.set('PK', null);
                 }
@@ -127,6 +135,7 @@ define([
                     if (ln > 0){
                         // delete map used in new station if exisits
                         this.stationMapRegion.reset();
+                        this.oldStationsRegion.reset();
                         $('#station-form').empty();
                         var mygrid = new Grid({collections : lastImportedStations});
                         this.gridRegion.show(mygrid);
@@ -139,7 +148,13 @@ define([
                     }
                      $('#inputGetStData').addClass('masqued');   
                 } else {
-                    $('#station-form').empty().append('<p> old stations </p>');
+                    var stationsLayout = new StationsLayout();
+                    this.mapRegin.reset();
+                    $('#station-map').text('');
+                    $('#station-form').text('');
+                    this.gridRegion.reset();
+                    this.oldStationsRegion.show(stationsLayout);
+                    //$('#station-form').empty().append('<p> old stations </p>');
                     $('#inputGetStData').addClass('masqued');
                 }
 
@@ -151,13 +166,11 @@ define([
                  // load places list
                 this.getPlaces();
                 //add field activity dataset if dont exists
-                var datalist = $('datalist#activity');
+                /*var datalist = $('datalist#activity');
                 if (datalist.length == 0) {
                     var fieldActivityList = $(activityTpl).html();  
                     $('#station-form').append(fieldActivityList);
-                }
-
-
+                }*/
             }
         },
         prevStep :  function() {
@@ -289,6 +302,7 @@ define([
             if(id){
                model.unset('UTM'); 
             }
+            model.set('name_site','');
             var fieldWorkersNumber = model.get('FieldWorkersNumber');
             if(!fieldWorkersNumber){
                model.set('FieldWorkersNumber',''); 
@@ -478,7 +492,7 @@ define([
             data.forEach(function(element) {
                 $(dataList).append('<option>' + element + '</option>');
             });
-            $('#station-form').append(dataList);
+            $('#input-datalists').append(dataList);
             // associate datalist to user input
             $(targetId).attr("list",listId);
         },
@@ -489,7 +503,7 @@ define([
                 //$(dataList).append('<option>' + user.fullname + '</option>');
                  $(dataList).append('<option value="'+  user.fullname + '">' + id + '</option>');
             });
-            $('#station-form').append(dataList);
+            $('#input-datalists').append(dataList);
             // associate datalist to user input
             $(targetId).attr("list",listId);
         },
