@@ -28,7 +28,7 @@ define([
             this.radio.comply('updateStationsGrid', this.update, this);
 
             var Stations = PageableCollection.extend({
-                sortCriteria: {'id':'asc'},
+                sortCriteria: {'PK':'desc'},
                 url: config.coreUrl + 'station/search',
                 mode: 'server',
                 model: Station,
@@ -59,7 +59,7 @@ define([
                     var that=this;
                     var column = this.column;
                     var collection = this.collection;
-                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.id === 'undefined') ? collection.sortCriteria : {};
+                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.PK === 'undefined') ? collection.sortCriteria : {};
                     switch(column.get('direction')){
                         case null:
                             column.set('direction', 'ascending');
@@ -76,7 +76,7 @@ define([
                         default:
                             break;
                     }
-                    collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'id': 'asc'};
+                    collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'PK': 'desc'};
                     collection.fetch({reset: true, success : function(resp){ 
                        console.log(resp);
                         }});
@@ -125,7 +125,7 @@ define([
                 name: 'FieldWorker1',
                 label: 'field worker 1',
                 editable: false,
-                cell: 'integer',
+                cell: 'string',
                 headerCell: myHeaderCell
             }];
             console.log(stations);
@@ -145,9 +145,8 @@ define([
                 collection: stations
             });
         
-            $('div.backgrid-paginator').css('margin-top','50px;');
+            $('#stationsGridContainer').css('height','90%');
         },
-
 
         update: function(args) {
             var that=this;
@@ -160,7 +159,7 @@ define([
 
             });
             console.log(this.grid.collection);
-            $('div.backgrid-paginator').css('margin-top','50px;');
+            $('#stationsGridContainer').css('height','90%');
         },
 
         onShow: function() {
@@ -173,7 +172,7 @@ define([
             this.$el.find('#grid-row').height(height);
             height = $(window).height();
             this.$el.height(height-$('#header-region').height());
-            $('#gridContainer').append(this.grid.render().el);
+            $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
             $('div.backgrid-paginator').css('margin-top','50px;');
         },

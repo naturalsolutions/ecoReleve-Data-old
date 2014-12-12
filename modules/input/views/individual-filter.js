@@ -178,14 +178,12 @@ define([
             }, this);
             return criteria;
         },
-
         setFilter: function(key, value, op) {
             this.filter[key] = {};
             this.filter[key]['value'] = value;
             this.filter[key]['op'] = op;
             this.updateGrid();
         },
-
         removeFilter: function(key) {
             if(this.filter[key]) {
                 delete this.filter[key];

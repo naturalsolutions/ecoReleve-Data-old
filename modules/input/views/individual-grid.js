@@ -74,7 +74,9 @@ define([
                             break;
                     }
                     collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'id': 'asc'};
-                    collection.fetch({reset: true,});
+                    collection.fetch({reset: true,success : function(resp){ 
+                       console.log(resp);
+                    }});
                 },
             });
 
@@ -119,7 +121,7 @@ define([
                 cell: 'string',
                 headerCell: myHeaderCell
             }];
-
+            console.log(individuals);
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,

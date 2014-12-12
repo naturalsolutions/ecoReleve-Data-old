@@ -140,18 +140,18 @@ define([
             
             var selectedFieldActivity = this.model.get('FieldActivity_Name');
             // if new station, generate empty forms related to field activity
-            if(this.data== undefined){
+            if(this.options.data== undefined){
                 this.generateForms(this.protocolsModels, selectedFieldActivity);
             // else ( old station, load forms with stored data)7
             } else {
-
+                this.addTabContainer();
+                this.loadForms(this.options.data);
             }
-            
-
         },
         generateProtocolsDataList : function(protosList){
             var datalistContent ='';
             $('#protocolsList').empty();
+            if(!this.activeProtocols){this.activeProtocols = [];}
             for(var i=0;i<protosList.length;i++){
                 // check if protocol is not used
                 var currentProto = protosList[i];
@@ -168,12 +168,83 @@ define([
             }
             $('#protocolsList').append(datalistContent);
         },
+        loadForms : function(data){
+            for(var parameter in data) {
+                var nbInstances = data[parameter].length;
+                if( nbInstances > 0){
+                    for(var j = 0; j< nbInstances;j++){
+                        var protocolName = parameter;
+                        var protocolValues = data[parameter][j];
+                        //console.log(parameter+' => '+ data[parameter]);
+                        this.addStoredForm(protocolName,protocolValues);
+                    }
+                }
+            }
+            this.createAutocompTree();
+            this.formatTimeField();
+            // activate first tab
+            var firstTab = $('#input-forms > ul > li > a')[0];
+            if(firstTab){$(firstTab).click();}
+        },
+        addStoredForm : function(protocolName, data){
+            var activeTab ="";
+            // convert true/false value => 0/1 
+            for(var parameter in data) {
+                if(data[parameter] === true){
+                    data[parameter] = "1";
+                }
+                if(data[parameter] === false){
+                    data[parameter] = "0";
+                }
+            }
+            // get form id (primary key)
+            var idProtocol = data.PK;
+            if(!this.tabID){this.tabID =0;}
+            if(!this.tabOrder){this.tabOrder =0;}
+            var protocolModel = this.getProtocolByAttr('name',protocolName);
+            if (protocolModel){
+                // set attribue values with data content for each
+                protocolModel.attributes = data;
+                protocolModel.set('name',protocolName);
+                var form  = new BbForms({
+                    model: protocolModel,
+                    //idPrefix : 'prtocol-' + id + '-',
+                    protocolName : protocolName//,
+                });
+                form.render();
+                this.forms.push(form);
+                var formContent = form.el;
+                var tabId = 'tab_' + this.tabID;
+                if(this.tabOrder===0){activeTab ="active";}
+                $('#tabProtsUl').append('<li><a href="#' + tabId + '" data-toggle="tab"><span><i></i></span>'+ protocolName +'</a><i class="icon reneco close braindead"></i></li>');
+                var currentTab = '#' + tabId;
+                $('#tabProtsContent').append('<div class="tab-pane"  id="' + tabId +'"></div>');
+                $(currentTab).append(formContent);
+                this.tabID +=1;
+                $('.bg-hack fieldset>div').addClass('col-sm-4');
+                $('fieldset>div').addClass('form-field');
+                $('fieldset>div input[type=text],input[type=number],select').addClass('form-control');
+                this.addLabelClass();
+                // TODO refactoring
+                $(currentTab).append('<button protocolName ="' + protocolName +'" class="formBtn btn btn-primary inputProtocolValidation masqued">save</button>');
+                $(currentTab).append('<button protocolName ="' + protocolName +'" class="formBtn btn btn-primary inputProtocolEdit" >edit</button>');
+                $(currentTab).append('<button class="formBtn btn btn-primary inputProtocolClear masqued" >clear</button>');
+                // ENDTODO
+                $('div.tab-pane form input').each(function() {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $('div.tab-pane form textarea').each(function() {
+                    $(this).attr('disabled', 'disabled');
+                });
+                $('button[protocolname="'+ protocolName +'"].inputProtocolValidation').attr('editionId',idProtocol);
+                this.tabOrder += 1;
+                // imulate click to display active form
+            }
+        },
         generateForms : function(protocolsModels, fieldActivity){
             // for each protocol model generate a backbone form
             this.activeProtocols = [];
-            $('#input-forms').empty();
-            $('#input-forms').append('<ul class="nav nav-tabs" id="tabProtsUl"></ul>');
-            $('#input-forms').append('<div class="tab-content" id="tabProtsContent"></div>');
+            this.addTabContainer();
             var tabOrder = 0;
             for (var i=0; i< protocolsModels.length;i++){
                 var form;
@@ -239,9 +310,9 @@ define([
                         //$('#' + tabId).append('<div protocolName ="' + protocolName +'" class="subProtoContainer">' + subformContent + '</div>');
                         $('.subProtoContainer fieldset>div').addClass('col-sm-4');
                     }
-                    $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
-                    $(currentTab).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary inputProtocolEdit masqued" >edit</button></div>');
-                    $(currentTab).append('<div><button class="btn btn-primary inputProtocolClear" >clear</button></div>');
+                    $(currentTab).append('<button protocolName ="' + protocolName +'" class="formBtn btn btn-primary inputProtocolValidation">save</button>');
+                    $(currentTab).append('<button protocolName ="' + protocolName +'" class="formBtnbtn btn-primary inputProtocolEdit masqued" >edit</button>');
+                    $(currentTab).append('<button class="formBtn btn btn-primary inputProtocolClear" >clear</button>');
                    // $('#' + tabId).append('<div><button protocolName ="' + protocolName +'" class="btn btn-primary addSubProto">add</button></div>');
                     tabOrder += 1;
                     // set min value to 0 for input type 'number'
@@ -269,14 +340,15 @@ define([
             var currentTab = '#' + tabId;
             $('#tabProtsContent').append('<div class="tab-pane" id="' + tabId +'"></div>');
             $(currentTab).append(formContent);
-            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolValidation">save</button></div>');
-            $(currentTab).append('<div><button protocolName ="' + selectedProtocolName +'" class="btn btn-primary inputProtocolEdit masqued">edit</button></div>');
-            $(currentTab).append('<div><button class="btn btn-primary inputProtocolClear" >clear</button></div>');
+            $(currentTab).append('<button protocolName ="' + selectedProtocolName +'" class="formBtn btn btn-primary inputProtocolValidation">save</button>');
+            $(currentTab).append('<button protocolName ="' + selectedProtocolName +'" class="formBtn btn btn-primary inputProtocolEdit masqued">edit</button>');
+            $(currentTab).append('<button class="formBtn btn btn-primary inputProtocolClear" >clear</button>');
             this.forms.push(form);
             this.activeProtocols.push(selectedProtocolName);
             $('input[name="add-protocol"]').val('');
             // remove the added protocol from datalist
-            var optionElement = $('#protocolsList').find('option[value="'+ selectedProtocolName +'"]')[0].remove();
+            var optionElement = $('#protocolsList').find('option[value="'+ selectedProtocolName +'"]')[0];
+            $(optionElement).remove();
             // active added form
             $('a[href="' + currentTab + '"]').click();
             // set min value to 0 for input type 'number'
@@ -432,6 +504,11 @@ define([
             this.protocolsValidation.push({'name' :modelName, 'validated' : false}); // by default form is not yet validated, so value = 0
             return form;
         },
+        addTabContainer : function(){
+            $('#input-forms').empty();
+            $('#input-forms').append('<ul class="nav nav-tabs" id="tabProtsUl"></ul>');
+            $('#input-forms').append('<div class="tab-content" id="tabProtsContent"></div>');
+        },
         checkNextStepActivation: function(){
             var isValid = true;
             for(var i=0; i< this.protocolsValidation.length; i++ ){
@@ -546,8 +623,8 @@ define([
         setFieldActivity : function(){
             var fiedActivity = this.model.get('FieldActivity_Name');
             if(fiedActivity){
-                $('input[name="st_FieldActivity_Name"').val(fiedActivity);
-                $('input[name="st_FieldActivity_Name"').css('color','black');
+                $('input[name="st_FieldActivity_Name"]').val(fiedActivity);
+                $('input[name="st_FieldActivity_Name"]').css('color','black');
             }
         },
         updateFieldActivity : function(e){
@@ -596,6 +673,9 @@ define([
                 minuteStepping:1,
                 use24hours: true,
                 format: 'HH:mm'    
+            });
+            $('.timePicker').on('dp.show', function(e) {
+                    $('input.timeInput').val('');    
             });
             $('input.timeInput').attr('placeholder' ,'hh:mm');
             $('input[type="text"]').addClass('form-control');

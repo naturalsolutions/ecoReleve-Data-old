@@ -119,8 +119,12 @@ define([
                     //$('#inputGetStData').removeClass('disabled');
                     $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
 					$('#dateTimePicker').datetimepicker({
-
-                    });                    
+                         defaultDate:""
+                    }); 
+        
+                    $('#dateTimePicker').on('dp.show', function(e) {
+                        $('input[name="Date_"]').val('');    
+                    });                   
                     // associate datalist to input 'FieldActivity_Name'
                     $('input[name="FieldActivity_Name"]').attr('list','activity');
                     
@@ -228,9 +232,7 @@ define([
             this.listenTo(this.radio, 'show-detail', this.showDetail);
         },
         commitForm : function() {
-            
             // check if values inputed in input linked to datalist are ok
-            
             //this.form.commit();
             var errors = this.form.commit({ validate: true });
             console.log(errors);
@@ -254,22 +256,22 @@ define([
                                 self.form.model.set('PK',data.PK);
                                 self.form.model.set('Region',data.Region);
                                 self.form.model.set('UTM20',data.UTM20);
-                            }
-                           if (data==null) {
-                                $('#btnNext').addClass('disabled');
-                                alert('this station is already saved, please modify date or coordinates');
-                           } 
-
-						   else {
-								// add details station region to next step container
                                 var formsView = new Forms({ model : currentStation});
                                 self.formsRegion.show(formsView);
                                 $('#btnNext').removeClass('disabled');
 
                                 $('#inputGetStData').addClass('masqued');
                                 $('#msgNewStation').text('The new station is successfully created.');
+                            }
+                            else if (data==null) {
+                                $('#btnNext').addClass('disabled');
+                                alert('this station is already saved, please modify date or coordinates');
+                           } 
+
+						   else {
+								// add details station region to next step container
+                                alert('error in creating new station');
 						   }
-                           console.log('this staton exists');
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('error in generating new station. Please check fields data.');
@@ -462,7 +464,8 @@ define([
                 dataType: 'json'
             }).done( function(data) {
                 //this.collection.reset(data);
-                this.generateUserDatalist(data,'username_list', 'input[name^="FieldWorker"]' );
+                this.generateUserDatalist (data, 'username_list', 'input[name^="FieldWorker"]');
+                this.generateUserDatalist(data,'userId_list', '' );
             });
         },
         getRegions : function(){
@@ -498,18 +501,25 @@ define([
             });
             $('#input-datalists').append(dataList);
             // associate datalist to user input
-            $(targetId).attr("list",listId);
+            if(targetId){
+                $(targetId).attr("list",listId);
+            }
         },
         generateUserDatalist : function(data, listId, targetId){
             var dataList = $('<datalist id="' + listId +'"></datalist>');
             data.forEach(function(user) {
                 var id = user.PK_id;
-                //$(dataList).append('<option>' + user.fullname + '</option>');
-                 $(dataList).append('<option value="'+  user.fullname + '">' + id + '</option>');
+                if(targetId){
+                    $(dataList).append('<option>' + user.fullname + '</option>');
+                } else {
+                    $(dataList).append('<option value="'+  user.fullname + '">' + id + '</option>');
+                }
             });
             $('#input-datalists').append(dataList);
             // associate datalist to user input
-            $(targetId).attr("list",listId);
+            if(targetId){
+                $(targetId).attr("list",listId);
+            }
         },
         updateStationType : function(e){
             var value = $(e.target).val();
@@ -583,6 +593,8 @@ define([
             this.indivFilterRegion.reset()
             $('#indivIdModal').remove();
             $('div.modal-backdrop.fade.in').remove();
+            // fire click event
+            $(inputIndivId).change();
         },
         getSitesTypes: function(){
              var url = config.coreUrl + 'monitoredSite/type';

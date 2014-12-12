@@ -28,29 +28,20 @@ define([
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
-            'change input[name="allSt-monitoredSiteType"]' :'updateSiteName'
+            'change input[name="allSt-monitoredSiteType"]' :'updateSiteName',
+            'change input[name="allSt-fieldWorker"]' :'getFieldWorkerId'
         },
-
+        ui: {
+            beginDate: 'input[name="allSt-beginDate"]',
+            endDate : 'input[name="allSt-endDate"]',
+            stationField :'#st-station',
+            indivId : 'input[name="allSt-indivId"]',
+            fieldworker :'input[name="allSt-fieldWorker"]'
+        
+        },
         initialize: function(options) {
             this.radio = Radio.channel('input');
-            // Current filter
-            /*this.filter =  {
-                stationName : null,
-                siteName :null,
-                beginDate: null,
-                beginDateOp : null,
-                endDate:null,
-                enDateOp: null,
-                fieldWorker : null,
-                fieldActivity: null,
-                monitoredSiteType : null,
-                region: null,
-                minLat : null,
-                maxLat: null,
-                minLon: null,
-                maxLon: null,
-                indivId: null
-            };*/
+
             this.filter =  {
                 Name : {Operator: '=' , Value: null },    
                 siteName : {Operator: '=' ,Value: null  },    
@@ -96,6 +87,10 @@ define([
             this.$el.find('.panel-body').css({'background-color' : 'white'});
             $('.dateTimePicker').datetimepicker({
             }); 
+            var self = this;
+            $(this.ui.indivId).change( function() {  
+                self.getIndivId();
+            });
         },
 
         onDestroy: function(evt) {
@@ -106,12 +101,27 @@ define([
         onRender: function() {
    
         },
-        update: function(evt) {
-            var input = $(evt.target);
+        update: function(e) {
+            var input = $(e.target);
             var name = $(input).attr('name').split('-')[1];
-            var value = evt.target.value;
-            this.filter[name].Value = value;
-            // this.updateGrid();
+            if(name !='fieldWorker'){   // for this field we need to get worker id from datalist
+                var value = e.target.value;
+                if (!value){ value =null;}
+                this.filter[name].Value = value;
+            }
+            this.updateGrid();
+        },
+        getFieldWorkerId : function(e){
+            var fieldWorkerName = $(e.target).val();
+            var fieldWorkerId = $('#userId_list > option[value="'+ fieldWorkerName + '"]').text();
+            this.filter.fieldWorker.Value = parseInt(fieldWorkerId);
+            this.updateGrid();
+        },
+        getIndivId : function(){
+            var indivId = this.ui.indivId.val();
+            if (!indivId){ indivId =null;}
+            this.filter.indivId.Value = indivId;
+            this.updateGrid();
         },
         updateDate: function(e){
             var input = $(e.target).find('input');
@@ -126,24 +136,22 @@ define([
                 var operator = $('#allSt-endDate-op option:selected').text();
                 this.filter.endDate.Operator = operator;
             }
-           var tm = this.filter;
-            //console.log(tm);
             this.updateGrid();
         },
         updateStationType : function(e){
             var stationType = $('input[name="all-stationType"]:checked').val();
             // update input name
-            $('#st-station').attr('name','allSt-' + stationType);
-            var stName = $('#st-station').val();
+            this.ui.stationField.attr('name','allSt-' + stationType);
+            var stName = this.ui.stationField.val();
             if (stationType =='Name'){
                 this.filter.siteName = null;
                 this.filter.Name = stName;
                 // remove link to monitored sites names datalist
-                $('#st-station').removeAttr('list');  
+                this.ui.stationField.removeAttr('list');  
             } else {
                 this.filter.Name = null;
                 this.filter.siteName =stName;
-                $('#st-station').attr('list','sitesNames_list'); 
+                this.ui.stationField.attr('list','sitesNames_list'); 
             }
             // this.updateGrid();
         },
@@ -152,12 +160,11 @@ define([
             if(siteType){
                 this.getSitesNames(siteType);
                 $('input[name="all-stationType"]').prop("checked", true); 
-                $('#st-station').val();
+                this.ui.stationField.val();
             }
         },
         getSitesNames: function(type){
              var url = config.coreUrl + 'monitoredSite/name';
-            //this.listenTo(this.collection, 'reset', this.render);
             $.ajax({
                 context: this,
                 url: url,
@@ -182,12 +189,17 @@ define([
         updateBeginDateOp : function(){
             var operator = $('#allSt-beginDate-op option:selected').text();
             this.filter.beginDate.Operator = operator;
-            this.updateGrid();
+            if(this.ui.beginDate.val()){
+                this.updateGrid();
+            }
         },
         updateEndDateOp : function(){
             var operator = $('#allSt-endDate-op option:selected').text();
             this.filter.endDate.Operator = operator;
-            this.updateGrid();
+            var bdeginDateValue = $('input[name="allSt-beginDate"]');
+            if(this.ui.endDate.val()){
+                this.updateGrid();
+            }
         },
         checkVal : function(e){
             var value = parseFloat($(e.target).val());
@@ -205,16 +217,6 @@ define([
         },
         updateGrid: function(){
             this.radio.command('updateStationsGrid', {filter:this.filter});
-            /*$.ajax({
-                url: config.coreUrl+'station/search',
-                context : this,
-                data:  JSON.stringify({criteria:this.filter}),
-                type:'POST',
-                contentType:'application/json',
-                success: function(data){
-                    console.log(data);
-                }
-            });*/
         }
     });
 });
