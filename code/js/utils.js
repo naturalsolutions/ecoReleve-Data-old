@@ -1807,7 +1807,8 @@ app.utils.initializeDB = function(db){
 		if (id !== "") {
 			//var serverUrl = localStorage.getItem("serverUrl");
 			var serverUrl = app.config.serverUrl;
-			var viewsUrl = app.config.coreUrl + "/views/list?id_theme=" + id;
+			var viewsUrl = 'eco' + "/views/list?id_theme=" + id;
+			alert( url);
 			$.ajax({
 				url: viewsUrl,
 				dataType: "text",
@@ -1838,9 +1839,12 @@ app.utils.initializeDB = function(db){
 		$('<option value=""></option>').appendTo(element);
 		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
+
+		console.log(url);
 		$.ajax({
 			url: url,
 			dataType: "json",
+			contentType:'application/json',
 			success: function(data) {
 				if (data === null){
 					$("#region").attr("disabled", "disabled");
@@ -1848,8 +1852,8 @@ app.utils.initializeDB = function(db){
 				else{
 					var len = data.length;
 					for (var i = 0; i < len; i++) {
-						var area = "";
-						if (url.toLowerCase().indexOf("name_vue") >= 0){
+						var area = data[i];
+						/*if (url.toLowerCase().indexOf("name_vue") >= 0){
 							area = data[i].AppModel.Area;;
 							if (area === undefined){
 								area = data[i].AppModel.Region;
@@ -1859,7 +1863,7 @@ app.utils.initializeDB = function(db){
 							}
 						}else{
 							area = data[i].TStationsJoin.Area;
-						}
+						}*/
 						if (isDatalist) {
 							$('<option value=\"' + area + '\">' + "</option>").appendTo(element);
 						} else {
@@ -1867,9 +1871,10 @@ app.utils.initializeDB = function(db){
 						}
 					}
 				}
+				console.log("success getAreaList");
 			},
 			error: function() {
-				alert("error loading area items, please check connexion to webservice ");
+				alert("error loading area items, please check connexion to webservice in getAreaList");
 			}
 		});
 	}; 
@@ -1914,6 +1919,7 @@ app.utils.initializeDB = function(db){
 		//var serverUrl = localStorage.getItem("serverUrl");
 		var serverUrl = app.config.serverUrl;
 		url = serverUrl + url;
+		console.log(url)
 		$.ajax({
 			url: url,
 			dataType: "json",
@@ -1921,10 +1927,12 @@ app.utils.initializeDB = function(db){
 				if (data === null){
 					$("#place").attr("disabled", "disabled");
 				}else{
+					console.log(data);
 				    var len = data.length;
+				    console.log(len);
 					for (var i = 0; i < len; i++) {
-						var locality = "";
-						if (url.toLowerCase().indexOf("name_vue") >= 0){
+						var locality = data[i];
+						/*if (url.toLowerCase().indexOf("name_vue") >= 0){
 							locality = data[i].AppModel.Locality;
 							if (locality === undefined){
 								locality = data[i].AppModel.Place;
@@ -1934,7 +1942,7 @@ app.utils.initializeDB = function(db){
 							}
 						}else{
 							locality = data[i].TStationsJoin.Locality;
-						}
+						}*/
 						if (isDatalist) {
 							$('<option value=\"' + locality + '\">' + "</option>").appendTo(element);
 						} else {
@@ -1942,9 +1950,11 @@ app.utils.initializeDB = function(db){
 						}
 					}
 				}
+				console.log("success getlocalityList");
+				
 			},
 			error: function() {
-				alert("error loading items, please check connexion to webservice");
+				alert("error loading items, please check connexion to webservice in getLocalityList");
 			}
 		});
 
@@ -1987,8 +1997,7 @@ app.utils.initializeDB = function(db){
 				}
 				$("#filter-btn").removeClass("masqued");
 			}
-		});
-	};
+		}); };
 	app.utils.getFiltredResult = function(element, query, view) {
 		$("#" + element + "").html();
 		$("#" + element + "").html('<img src="images/ajax-loader-linear.gif" />');
@@ -2028,8 +2037,10 @@ app.utils.initializeDB = function(db){
 	app.utils.getExportList = function(view, filter, bbox, BBview) {
 		var serverUrl = app.config.serverUrl;
 		var displayedColumns = app.utils.exportSelectedFieldsList;
+
 		var url = app.config.coreUrl + "/views/filter/" + view + "/result?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
 		BBview.url = url;
+
 		app.utils.getDataForGrid(url, function(collection, rowsNumber) {
 			//var rowsNumber = collection.length ;
 			app.utils.initGridServer(collection, rowsNumber, url, {
@@ -2039,36 +2050,7 @@ app.utils.initializeDB = function(db){
 			//$("#export-getGpx").removeAttr("disabled");
 			$("#spanGeneratingGpx").html("");
 		});
-		// generate files "pdf" and "gpx"
-		var urlFile = app.config.coreUrl + "/views/filter/" + view + "/export" + "?" + filter + "&bbox=" + bbox + "&columns=" + displayedColumns;
-		$.ajax({
-			url: urlFile,
-			dataType: "json",
-			success: function(fileName) {
-				//var fileName = data[0].filename;
-				
-				
-				if(fileName !== ""){
-					//mettre a jour les liens
-					//les fichiers sont stockés ecoreleve-sensor/Files
-					//var serverUrl = localStorage.getItem("serverUrl");
-					/*var gpxFileUrl = serverUrl + "/gps/"+fileName+".gpx";
-					var pdfFileUrl = serverUrl + "/pdf/"+fileName+".pdf";
-					var csvFileUrl = serverUrl + "/csv/"+fileName+".csv";
 
-					$('#export-getGpx').attr("href", gpxFileUrl);
-					$('#export-getPdf').attr("link", pdfFileUrl);
-					$('#export-getCsv').attr("href", csvFileUrl);
-
-					$("#export-getGpx").removeAttr("disabled");
-					$('#export-getPdf').removeAttr("disabled");
-					$('#export-getCsv').removeAttr("disabled");*/
-				}
-			},
-			error: function() {
-				alert("error in generating gpx, pdf and csv files!");
-			}
-		});
 	};
 	app.utils.getdataListForBirdFilter = function(element, url){
 		$(element).empty();

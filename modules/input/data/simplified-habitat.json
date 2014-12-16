@@ -1,0 +1,207 @@
+{
+  "name": "Simplified Habitat",
+  "description": "TProtocol_Simplified_Habitat",
+  "keywords": [
+    "Point-count: Vertebrate contact",
+    "Nest monitoring",
+    "Displaying male search",
+    "Point-count: characteristics",
+    "Ground radio-tracking",
+    "Invertebrates monitoring",
+    "Invertebrates inventory",
+    "Houbara Circular Observation",
+    "Battue",
+    "Display site confirmation",
+    "Displaying male radio-tracking",
+    "Display specific studies",
+    "General vertebrate contact",
+    "Houbara Standardized Circular Observation",
+    "Houbara line transect",
+    "Driving",
+    "Ungulates Standardized Circular Observation",
+    "Ungulates line transect"
+  ],
+  "schema": {
+  "Name_Habitat":{
+  "validators":[
+  ],
+    "type": "Text",
+    "title":"Habitat", 
+    "editorAttrs": { "startId": "21788" },
+    "editorClass": "autocompTree"
+  },
+
+  "Id_Habitat":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Habitat"
+  },
+
+  "Name_Habitat2":{
+  "validators":[
+  ],
+  "type": "Text",
+  "title":"Habitat 2",
+  "editorAttrs": { "startId": "21788" },
+  "editorClass": "autocompTree"
+  },
+
+  "Id_Habitat2":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Habitat2"
+  },
+
+  "Id_Geomorphology":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Geomorphology"
+  },
+
+  "Name_Geomorphology":{
+  "validators":[
+  ],
+  "type": "Text",
+  "title":"Name_Geomorphology", 
+  "editorAttrs": { "startId": "25644" },
+  "editorClass": "autocompTree"
+  },
+
+  "Name_Flora_Main_Species_1":{
+  "validators":[
+  ],
+  "type": "Text",
+  "title":"Flora main species 1",
+  "editorAttrs": { "startId": "2" },
+  "editorClass": "autocompTree"
+  },
+
+  "Id_Flora_Main_Species_1":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Flora_Main_Species_1"
+  },
+
+  "Name_Flora_Main_Species_2":{
+  "validators":[
+  ],
+  "type": "Text",
+  "title":"Flora main species 2",
+  "editorAttrs": { "startId": "2" },
+  "editorClass": "autocompTree"
+  },
+
+  "Id_Flora_Main_Species_2":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Flora_Main_Species_2"
+  },
+
+  "Name_Flora_Main_Species_3":{
+  "validators":[
+  ],
+  "type": "Text",
+  "title":"Flora main species 3",
+  "editorAttrs": { "startId": "2" },
+  "editorClass": "autocompTree"
+  },
+
+  "Id_Flora_Main_Species_3":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"Id_Flora_Main_Species_3"
+  },
+
+  "Vegetation_cover":{
+  "validators":[
+  ],
+  "type": "Number",
+  "title":"Vegetation cover(%)"
+  },
+
+  "Perennial_cover":{
+  "validators":[
+  ],
+  "type": "Number",
+  "title":"Perennial cover(%)"
+  },
+
+  "FK_TSta_ID":{
+  "validators":[
+  ],
+  "type": "Hidden",
+  "title":"FK_TSta_ID"
+  },
+
+  "Cultivated_1":{
+  "validators":[
+  ],
+  "options": [
+  {
+  "val": "1",
+  "label": "true"
+  },
+  {
+  "val": "0",
+  "label": "false"
+  }
+  ],
+  "type": "Radio",
+  "title":"Cultivated_1"
+  },
+
+  "Cultivated_2":{
+  "validators":[
+  ],
+  "options": [
+  {
+  "val": "1",
+  "label": "true"
+  },
+  {
+  "val": "0",
+  "label": "false"
+  }
+  ],
+  "type": "Radio",
+  "title":"Cultivated_2"
+  },
+
+  "Cultivated_3":{
+  "validators":[
+  ],
+  "options": [
+  {
+  "val": "1",
+  "label": "true"
+  },
+  {
+  "val": "0",
+  "label": "false"
+  }
+  ],
+  "type": "Radio",
+  "title":"Cultivated_3"
+  },
+  "Comments":{
+  "validators":[
+  ],
+  "type": "TextArea",
+  "title":"Comments"
+  }
+  },
+    "defaults":{
+      "Cultivated_1" : "0",
+      "Cultivated_2" : "0",
+      "Cultivated_3" : "0"
+
+  },
+  "fieldsets": []
+}
+

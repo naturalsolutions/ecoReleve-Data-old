@@ -1,0 +1,188 @@
+/*===================================
+=            Global tags            =
+===================================*/
+
+html{
+    height: 100%;
+}
+
+body{
+	font-family: 'Exo 2', 'sans-serif';
+    height:100%;
+}
+
+h1,h2,h3,h4{
+	font-weight: 200;
+}
+a:hover, tr:hover, li:hover {
+    cursor: pointer;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    width: 10px;
+    border: 1px solid #999;
+    margin: 5px;
+}
+::-webkit-scrollbar{
+    background: #eee;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+/*==============================================
+=            Full height Section                  =
+==============================================*/
+
+@media screen and (min-width: @screen-sm) {
+    .full-height{
+        position: relative;
+        height: 100%;
+        &.auto{
+            overflow: auto;
+        }
+        &.scroll-auto{
+            overflow: auto;
+        }
+        .container,.container-fluid{
+            height: 100%;
+        }
+    }
+}
+
+/*-----  End of Full Height Section ------*/
+
+
+
+/*===============================
+=            Commons            =
+===============================*/
+
+#main-region{
+    padding-top: 50px;
+}
+.container{
+    padding: 50px 0px;
+}
+
+/*-----  End of Commons  ------*/
+
+
+
+/*==================================
+=            Icon Fonts            =
+==================================*/
+
+
+.glyphicon{
+    top: 0px;
+    &.pointer{
+        cursor: pointer;
+    }
+}
+
+i.icon.reneco{
+/*  display: block;
+     */ 
+    // opacity: 0.75;
+    font-family: 'reneco-font';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    &.huge{
+        font-size: 5em;
+    }
+    &.small{
+        font-size: 2.5em;
+    }
+    &.mini{
+        font-size: 1.8em;
+    }
+}
+
+/*-----  End of Icon Fonts  ------*/
+
+
+/*=============================
+=            Tools            =
+=============================*/
+
+.no-padding {
+    padding: 0;
+}
+.clear{
+    clear: both;
+    float: none;
+}
+
+/*-----  End of Tools  ------*/
+
+
+
+
+
+
+
+
+.col-border{
+	border-right: 1px solid #d4d4d4;
+}
+
+
+/* Individual search */
+.panel-heading.top-level {
+    background-color:rgb(34, 34, 34);
+    color: white;
+}
+
+.panel-heading.top-level > h1 > a {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+h2.panel-title {
+    font-weight: 400;
+}
+
+
+.glyphicon-remove {
+    float: right;
+}
+
+#indivSavedSearch {
+    margin-top: 10px;
+}
+
+#indivSavedSearch li {
+    padding-right: 5%;
+}
+
+
+.indiv-search-label span, .indiv-search-icon span {
+    display: inline-block;
+}
+
+.indiv-search-label span {
+    width: 80%;
+}
+
+.indiv-search-icon span {
+    width: 20%;
+    padding-right: 5%;
+}
+
+.blackFont {
+    color : black;
+}
+
+
+

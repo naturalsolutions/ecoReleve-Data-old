@@ -1,0 +1,268 @@
+{
+  "name": "Station description",
+  "description": "TProtocol_Station_Description",
+  "keywords": [
+    "test"
+  ],
+  "schema": {
+    "Name_Landscape": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "landscape"
+    },
+    "Name_VegetationType": {
+      "validators": [
+        "required"
+      ],
+      "type": "Text",
+      "title": "vegetation type"
+    },
+    "Name_Flora_Main_Species_1": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 1"
+    },
+    "Name_Flora_Main_Species_2": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 2"
+    },
+    "Name_Flora_Main_Species_3": {
+      "validators": [],
+      "type": "Text",
+      "title": "flora main species 3"
+    },
+    "Name_Substrat": {
+      "validators": [],
+      "type": "Text",
+      "title": "substrat"
+    },
+    "Name_Exposition": {
+      "validators": [],
+      "type": "Text",
+      "title": "exposition"
+    },
+    "Name_Topography": {
+      "validators": [],
+      "type": "Text",
+      "title": "topography"
+    },
+    "Name_Slope_Class": {
+      "validators": [],
+      "type": "Text",
+      "title": "slope class"
+    },
+    "Area": {
+      "validators": [],
+      "type": "Number",
+      "title": "area"
+    },
+    "Cover": {
+      "validators": [],
+      "type": "Number",
+      "title": "cover"
+    },
+    "Name_Moisture": {
+      "validators": [],
+      "type": "Text",
+      "title": "moisture"
+    },
+    "Name_Density_herbs": {
+      "validators": [],
+      "type": "Text",
+      "title": "density herbs"
+    },
+    "Name_Density_bushes": {
+      "validators": [],
+      "type": "Text",
+      "title": "density bushes"
+    },
+    "Name_Density_trees": {
+      "validators": [],
+      "type": "Text",
+      "title": "density trees"
+    },
+    "Name_Greeness_herbs": {
+      "validators": [],
+      "type": "Text",
+      "title": "greeness herbs"
+    },
+    "Name_Greeness_bushes": {
+      "validators": [],
+      "type": "Text",
+      "title": "greeness bushes"
+    },
+    "Name_Greeness_trees": {
+      "validators": [],
+      "type": "Text",
+      "title": "greeness trees"
+    },
+    "Phenology_Vegetative_herbs": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology vegetative herbs"
+    },
+    "Phenology_Flowering_herbs": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology flowering herbs"
+    },
+    "Phenology_Seeding_herbs": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology seeding herbs"
+    },
+    "Phenology_Vegetative_bushes": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology vegetative bushes"
+    },
+    "Phenology_Flowering_bushes": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology flowering bushes"
+    },
+    "Phenology_Seeding_bushes": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology seeding bushes"
+    },
+    "Phenology_Vegetative_trees": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology vegetative trees"
+    },
+    "Phenology_Flowering_trees": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology flowering trees"
+    },
+    "Phenology_Seeding_trees": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "phenology seeding trees"
+    },
+    "Last_Rain_event": {
+      "validators": [],
+      "type": "Text",
+      "title": "last rain event"
+    },
+    "Houbara_Suitable": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "houbara suitable"
+    },
+    "Comments": {
+      "validators": [],
+      "type": "Text",
+      "title": "comments"
+    }
+  },
+    "defaults":{
+
+  },
+  "fieldsets": []
+}
+

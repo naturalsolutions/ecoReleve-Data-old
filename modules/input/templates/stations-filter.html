@@ -1,0 +1,88 @@
+<script type="text/template">
+    <div class="panel panel-default">
+        <div class="panel-heading top-level">
+            <h1 class="panel-title">
+                Select station(s)
+            </h1>
+        </div>
+    <div id="filter-collapse" class="panel-collapse collapse in">
+    <form role="form">
+        <div id="stationType" class='col-xs-12'>
+            <div class="radio-inline">
+                  <label><input type="radio" name="all-stationType" value ="Name" checked>Station name</label>
+            </div>
+            <div class="radio-inline">
+                  <label><input type="radio" name="all-stationType" value ="siteName">Site name</label>
+            </div>
+            <input name="allSt-Name" id ="st-station" class="form-control" type="text"/>
+        </div>
+        <div>
+            <label>Date</label>
+            <div>
+                <div class='col-xs-12'>
+                    <select id="allSt-beginDate-op" class="form-control col-xs-3" >
+                            <option>=</option>
+                            <option>&lt;</option>
+                            <option>&lt;=</option>
+                            <option>&gt;</option>
+                            <option>&gt;=</option>
+                        </select>
+                    <div class="input-group date col-xs-9 dateTimePicker">
+                        <span class="input-group-addon">
+                            <span class="glyphicon-calendar glyphicon"></span>
+                         </span>
+                         <input type="text" name="allSt-beginDate" class="form-control" type="text" placeholder="jj/mm/aaaa" data-date-format="DD/MM/YYYY">
+                    </div>
+                </div>
+                <div class='col-xs-12'>
+                    <select id="allSt-endDate-op" class="form-control">
+                        <option>&lt;</option>
+                        <option>&lt;=</option>
+                    </select>
+                    <div class="input-group date dateTimePicker">
+                        <span class="input-group-addon">
+                            <span class="glyphicon-calendar glyphicon"></span>
+                         </span>
+                         <input type="text" name="allSt-endDate" class="form-control" type="text" placeholder="jj/mm/aaaa" data-date-format="DD/MM/YYYY">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <label>Fieldworker</label><br/>
+            <input type="text" name="allSt-fieldWorker" class="form-control" list="username_list"/>
+        </div>
+        <div class="col-xs-12">
+            <label>Field activity</label><br/>
+            <input type="text" name="allSt-fieldActivity" class="form-control" list="activity"/>
+        </div>
+        <div class="col-xs-12">
+            <label>Region</label><br/>
+            <input type="text" name="allSt-region" class="form-control" list="region_list"/>
+        </div>
+        <div class="col-xs-12">
+            <label>Monitored site type</label><br/>
+            <input type="text" name="allSt-monitoredSiteType" class="form-control" list="sitesTypes_list"/>
+        </div>
+        <div class="col-xs-12" class="inline">
+            <label>Coordinates</label><br/>
+            <label >min lat</label>
+            <input name="allSt-minLat" class="form-control  coords coord-min"  type="text" />
+             <label>min lon</label>
+            <input name="allSt-minLon" class="form-control coords coord-min" type="text" />
+             <label>max lat</label>
+            <input name="allSt-maxLat" type="text" class="form-control coords coord-max"/>
+             <label>max lon</label>
+            <input name="allSt-maxLon" type="text" class="form-control coords coord-max"/>
+        </div>
+        <div class="col-xs-12">
+        <label>Individual</label><br/>
+            <div class="input-group  picker">      
+                <input class="form-control pickerInput required" name="allSt-indivId" type="text">
+                <span class="input-group-addon picker"><span class="glyphicon-plus"></span></span> 
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+</script>

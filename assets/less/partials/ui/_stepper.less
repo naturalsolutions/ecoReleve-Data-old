@@ -1,0 +1,144 @@
+
+div.fuelux{
+	height: 100%;
+	& .wizard{
+		height: 85%;
+		overflow:  hidden;
+	}
+	& .actions{
+		position: relative;
+		height: 15%;
+		button.btn-custom{
+			position: absolute;
+			bottom: 0;
+			overflow: hidden;
+			background: #5cb85c;
+			color: white;
+			border: none;
+			padding: 0px;
+			vertical-align: middle;
+			border-radius: 3px;
+			text-transform: uppercase;
+			&:hover{
+				background: #449d44;
+				color: white!important;
+			}
+			&:focus{
+				background: #449d44;
+				color: white!important;
+			}
+			&.btn-next{
+				right: 0;
+			}
+
+			@fz: 25px;
+			i.action-picto{
+				line-height: inherit;
+				font-size: inherit!important;
+				background: rgba(0,0,0,0.2);
+				padding: 10px 15px;
+				margin:0px!important;
+				display: block;
+				float: left;
+				font-size: @fz!important;
+			}
+			span.ctrl{
+				margin: 0px!important;
+				vertical-align: 2px;
+				display: block;
+				float: left;
+				padding: 10px 15px;
+				font-size: @fz!important;
+			}
+
+		}
+
+	}
+	.steps{
+		margin-left: 0px!important;
+		height: 46px;
+		width: 100%!important;
+	}
+	.step-content{
+		z-index: 1000;
+		height: 100%;	
+		padding: 0px!important;
+		padding-top:46px!important; //ul height
+		.step-pane{
+			position: relative;
+			overflow: auto;
+			top: -46px;
+			height: 100%;
+			div.wrapper{
+				padding: 10px;
+			}	
+
+		}
+	}
+
+
+	
+	
+	
+
+/*===================================
+=            Old Stepper            =
+===================================*/
+
+	.wizard{
+		& > .actions{
+			height: 20%;
+			bottom: -90px;
+			background-color: transparent!important;
+			left: 0;
+			width: 100%;
+			line-height: 0px;
+			border: none;
+			margin-bottom: 20px;
+
+			padding: 0px;
+			//padding: 0px (@grid-gutter-width/2);
+
+			button{
+
+				background: #5cb85c;
+				color: white;
+				border: none;
+				&:hover{
+					background: #449d44;
+				}
+				&.btn-default{
+					&.disabled{
+						background: @vert2;
+						&:focus{
+							background: @vert2;
+						}
+					}	
+				}
+				
+				&.btn-next{
+					float: right;
+				}
+				&.btn-prev{
+				}
+			}
+		}
+	}
+}
+
+.import-container,.input-container{
+	.wizard{
+		overflow: visible!important;
+	}
+}
+
+
+/*=============================
+=            Resp.            =
+=============================*/
+
+
+
+
+
+

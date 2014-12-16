@@ -1,0 +1,171 @@
+<script type="text/template">
+    <div class="fuelux">
+        <div class="wizard" data-initialize="wizard" id="importWizard">
+            <ul class="steps">
+                <li data-step="1" class="active"><span class="badge">1</span><span class="hidden-xs">format</span><span class="chevron"></span></li>
+                <li data-step="2"><span class="badge">2</span><span class="hidden-xs">data</span><span class="chevron"></span></li>
+                <li data-step="3"><span class="badge">3</span><span class="hidden-xs">map</span><span class="chevron"></span></li>
+                <li data-step="4"><span class="badge">4</span><span class="hidden-xs">metadata</span><span class="chevron"></span></li>
+                <li data-step="5"><span class="badge">5</span><span class="hidden-xs">finish</span><span class="chevron"></span></li>
+            </ul>
+
+        <div class="actions">
+            <button class="btn btn-lg btn-dfault btn-prev btn-custom " id="btnPrev">
+            <i class="icon small reneco leftarrow white action-picto"></i>
+            <span class="ctrl">Prev</span>
+            </button>
+
+            <button class=" pull-right btn btn-lg btn-dfault btn-next btn-custom " id="btnNext">
+            <span class="ctrl">Next</span>
+            <i class="icon small reneco rightarrow white action-picto"></i>
+            </button>
+        </div>
+
+
+
+            <div class="step-content">
+                <div class="step-pane active sample-pane " data-step="1">
+                    <div class="ui segment wrapper">
+                        <div class="ui fluid basic large form segment"> 
+                            <div class="grouped fields">
+                                <legend for="male">select a type of data</legend>
+                                <div class="field">
+                                    <div class="ui radio-inline checkbox">
+                                        <label>
+                                        <input type="radio" name="filetype1" value="gps-gpx" checked>
+                                        GPS GPX</label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div id="rfid" class="ui radio-inline checkbox">
+                                        <label>
+                                        <input type="radio" name="filetype1" value="">
+                                        RFID</label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div id="gsm" class="ui radio-inline checkbox">
+                                        <label>
+                                        <input type="radio" name="filetype1" value="">
+                                        GSM</label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="ui radio-inline checkbox">
+                                        <label>
+                                        <input type="radio" name="filetype1" value="gps-csv" disabled>
+                                        CSV</label>
+                                    </div>
+                                </div> 
+
+                            </div>
+                        </div> 
+                        <div class="ui basic segment">GPX, or GPS eXchange Format is an XML schema designed as a common GPS data format. It can be used to describe waypoints, tracks, and routes.
+                        </div>
+                    </div>
+                </div>
+                <div class="step-pane sample-pane" data-step="2">
+                    <div class="ui segment wrapper">
+                        <div class="ui fluid basic large form segment"> 
+                            <div class="ui fluid basic large form segment"> 
+                                <div class="grouped fields">
+                                        <legend for="file">select a file</legend>
+                                        <div id="btnFileSelection"><input id="file" type="file"/></div>
+                            
+                                        <div id="importLoadingMessage">
+                                            <p id="importGpxMsg"></p>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-pane sample-pane" data-step="3">
+                    <div class="ui segment">
+                        <div class="ui fluid basic large form segment"> 
+                            <div  id="gridContainer"></div>
+                            <div  id="mapContainer" style="height:400px;"></div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="step-pane sample-pane" data-step="4">
+                   <form class="form-horizontal wrapper" role="form">
+                       <div class="form-group">
+                          <label for="importFieldActivity" class="col-sm-2 control-label">field activity</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-activity" class="form-control" id="importFieldActivity">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="importWorker1" class="col-sm-2 control-label">field worker 1</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-worker1" class="form-control" id="importWorker1" 
+                                placeholder="choose a fieldworker">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="importWorker2" class="col-sm-2 control-label">field worker 2</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-worker1" class="form-control" id="importWorker2">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="importWorker3" class="col-sm-2 control-label">field worker 3</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-worker1" class="form-control" id="importWorker3">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="importWorker4" class="col-sm-2 control-label">field worker 4</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-worker1" class="form-control" id="importWorker4">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="importWorker5" class="col-sm-2 control-label">field worker 5</label>
+                          <div class="col-sm-10">
+                             <input type="text" list="import-worker1" class="form-control" id="importWorker5">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="import-fwnb" class="col-sm-2 control-label">field workers number</label>
+                           <div class="col-sm-10">
+                              <select name="import-fwnb" id="import-fwnb" class="form-control">
+                                 <option>1</option>
+                                 <option>2</option>
+                                 <option>3</option>
+                                 <option>4</option>
+                                 <option>5</option>
+                                 <option>6</option>
+                                 <option>7</option>
+                                 <option>8</option>
+                                 <option>9</option>
+                                 <option>10</option>
+                              </select>
+                          </div>
+                       </div>
+                       <datalist id="import-worker1">
+                          <!--<option value="khaled">khaled</option>
+                          <option value="Thomas">Thomas</option>
+                          <option value="Olivier">Olivier</option>-->
+                       </datalist>
+
+                    </form>
+                        
+                </div>
+                <div class="step-pane sample-pane" data-step="5">
+                  <div class="wrapper">
+                    <h4>Congratulations! you have imported selected waypoints. you can start input data.</h4>
+                    <p id="importResponseMsg"></p>
+
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
+

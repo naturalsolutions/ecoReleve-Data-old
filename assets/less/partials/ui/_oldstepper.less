@@ -1,0 +1,172 @@
+
+.fuelux .wizard > .steps{
+	margin-left: 0px!important;
+}
+div.fuelux{
+	.wizard{
+		overflow: visible;
+		& > .actions{
+			bottom: -90px;
+			background-color: transparent!important;
+			left: 0;
+			width: 100%;
+			line-height: 0px;
+			border: none;
+			margin-bottom: 20px;
+
+			padding: 0px;
+			//padding: 0px (@grid-gutter-width/2);
+
+			button{
+				background: #5cb85c;
+				color: white;
+				border: none;
+				&:hover{
+					background: #449d44;
+				}
+				&.btn-default{
+					&.disabled{
+						background: @vert2;
+						&:focus{
+							background: @vert2;
+						}
+					}	
+				}
+				
+				&.btn-next{
+					float: right;
+				}
+				&.btn-prev{
+				}
+			}
+		}
+	}
+	div.wrapper{
+		padding: 10px;
+	}	
+
+}
+.fuelux .wizard .step-content{
+	padding: 0px;
+}
+
+button.btn-custom{
+	background: #5cb85c;
+	color: white;
+	border: none;
+	&:hover{
+		background: #449d44;
+		color: white!important;
+	}
+	&:focus{
+		background: #449d44;
+		color: white!important;
+	}
+	/*
+	&.btn-default{
+		&.disabled{
+			background: @vert2;
+			&:focus{
+				background: @vert2;
+			}
+		}	
+	}
+	&.btn-next{
+		float: right;
+	}
+	&.btn-prev{
+	}*/
+}
+
+
+
+.actions{
+			bottom: -90px;
+			background-color: transparent!important;
+			left: 0;
+			width: 100%;
+			line-height: 0px;
+			border: none;
+			margin-bottom: 20px;
+			//padding: 0px (@grid-gutter-width/2);
+
+			button{
+				//background: #5cb85c;
+				color: white;
+				border: none;
+				&:hover{
+					background: #449d44;
+				}
+				&.btn-default{
+					&.disabled{
+						background: @vert2;
+						&:focus{
+							background: @vert2;
+						}
+					}	
+				}
+				
+				&.btn-next{
+					float: right;
+				}
+				&.btn-prev{
+				}
+			}
+		}
+
+
+		/*
+		.btn-custom{
+			padding: 0px;
+			vertical-align: middle;
+			border-radius: 3px;
+			overflow: hidden;
+			text-transform: uppercase;
+			.action{
+				background: rgba(0,0,0,0.2);
+				padding: 10px 15px;
+				margin:0px!important;
+			}
+			span.ctrl{
+				margin: 0px!important;
+				padding: 0px 10px;
+				vertical-align: 2px;
+			}
+		}*/
+
+		button.btn-custom{
+			padding: 0px;
+			background: #5cb85c;
+			color: white;
+			border: none;
+			&:hover{
+				background: #449d44;
+				color: white!important;
+			}
+			&:focus{
+				background: #449d44;
+				color: white!important;
+			}
+		}
+
+.actions{
+	padding: 10px 0px;
+	margin:0px!important;
+	@fz: 25px;
+	i.action-picto{
+		line-height: inherit;
+		font-size: inherit!important;
+		background: rgba(0,0,0,0.2);
+		padding: 10px 15px;
+		margin:0px!important;
+		display: block;
+		float: left;
+		font-size: @fz!important;
+	}
+	span{
+		display: block;
+		float: left;
+		padding: 10px 15px;
+		font-size: @fz!important;
+	}
+}

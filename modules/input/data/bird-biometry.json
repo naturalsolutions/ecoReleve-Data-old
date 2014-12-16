@@ -1,0 +1,186 @@
+{
+  "name": "Bird Biometry",
+  "description": "TProtocol_Bird_Biometry",
+  "id" : "17",
+  "keywords": [
+    "Bird trapping",
+	"Release",
+	"Individual rehabilitation",
+	"Reptile trapping",
+	"Mammal trapping"
+  ],
+  "schema": {
+    "FK_TSta_ID" : {
+      "validators": [],
+      "type": "Hidden",
+      "title": "FK_TSta_ID"
+    },
+    "FK_TInd_ID": {
+      "validators": [],
+      "type": "Picker",
+      "title": "Individual",
+      "editorClass": "required"
+    },
+    "Id_Observer": {
+      "validators": [],
+      "type": "Text",
+      "title": "Observer",
+      "editorAttrs": { "list": "username_list" },
+      "editorClass": "required"
+    },
+    "Id_Assistant": {
+      "validators": [
+      ],
+      "type": "Text",
+      "title": "Assistant",
+      "editorAttrs": { "list": "username_list" }
+    },
+    "Id_Sex": {
+      "validators": [
+      ],
+      "type": "Text",
+      "title": "Id_Sex"
+    },
+    "Name_Sex": {
+      "validators": ["required"],
+      "type": "Text",
+      "title": "Sex",
+      "editorAttrs": { "startId": "18872" },
+      "editorClass": "autocompTree required"
+    },
+    "Name_Age": {
+      "validators": ["required"],
+      "type": "Text",
+      "title": "Age",
+      "editorAttrs": { "startId":  "18876" },
+      "editorClass": "autocompTree required"
+    },
+    "Id_Age": {
+      "validators": [
+      ],
+      "type": "Hidden",
+      "title": "id_age"
+    },
+    "Weight": {
+      "validators": [
+      ],
+      "type": "Number",
+      "title": "Weight(g)"
+    },
+    "Skull": {
+      "validators": [],
+      "type": "Number",
+      "title": "Total skull(mm)"
+    },
+    "Wings": {
+      "validators": [],
+      "type": "Number",
+      "title": "Wing(mm)"
+    },
+    "Tarso_Metatarsus": {
+      "validators": [],
+      "type": "Number",
+      "title": "Tarsus(mm)"
+    },
+    "Muscle_note": {
+      "validators": [
+        {"type":"min", "value":1},
+        {"type":"max", "value":3}
+      ],
+      "type": "Number",
+      "title": "Muscle"
+    },
+    "Adiposity_note": {
+      "validators": [
+        {"type":"min", "value":1},
+        {"type":"max", "value":3}
+      ],
+      "type": "Number",
+      "title": "Adiposity"
+    },
+
+    "Bill_width": {
+      "validators": [],
+      "type": "Number",
+      "title": "Width"
+    },
+    "Bill_length_feather": {
+      "validators": [],
+      "type": "Number",
+      "title": "Total length(mm)"
+    },
+    "Bill_length_nostril": {
+      "validators": [],
+      "type": "Number",
+      "title": "Length to nostrils(mm)"
+    },
+    "Feather_Black_Display": {
+      "validators": [],
+      "type": "Number",
+      "title": "Black neck(mm)"
+    },
+    "Feather_White_Display": {
+      "validators": [],
+      "type": "Number",
+      "title": "White neck(mm)"
+    },
+    "Feather_Occipital": {
+      "validators": [],
+      "type": "Number",
+      "title": "Crest(mm)"
+    },
+    "Feather_thirdPrimaryFlight_length": {
+      "validators": [],
+      "type": "Number",
+      "title": "PFF3 (RP3)(mm)"
+    },
+    "Sampled": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "Sampled"
+    },
+    "Comments": {
+      "type": "TextArea",
+      "title": "Comments"
+    }
+  },
+  "defaults":{
+    "Adiposity_note" : 2,
+    "Sampled" : "1",
+    "Comments" : "test",
+    "Wings" : ""
+
+  },
+  "fieldsets": [
+    {
+      "fields": ["FK_TSta_ID","FK_TInd_ID","Id_Observer","Id_Assistant","Name_Sex","Name_Age", "Weight","Skull","Wings","Tarso_Metatarsus","Muscle_note","Adiposity_note"],
+      "legend": "General"
+    },
+    {
+      "fields": ["Bill_length_feather","Bill_length_nostril","Bill_width"],
+      "legend": "Bill"
+    },
+    {
+      "fields": ["Feather_Occipital", "Feather_Black_Display","Feather_White_Display","Feather_thirdPrimaryFlight_length"],
+      "legend": "Feather"
+    },
+    {
+      "fields": ["Sampled","Comments"],
+      "legend": "Other"
+    }
+  ]
+}
+
+
+
+

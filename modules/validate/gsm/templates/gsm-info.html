@@ -1,0 +1,109 @@
+<script type="text/template">
+	<div id="separatorDetails">
+		<a href="#gsm">Back to list</a>
+		<a href="">Import</a>
+	</div>
+	<div class="row" id="birdInfosDiv">
+		<div class="col-sm-6">
+			<div><span>GSM ID: <%= id %> </span>
+			<span id="birdId">
+			</span></div>
+			<div id="divBirdName"><span id="birdSpecies" >
+			</span></div>
+			<div>
+
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="row">
+				<div class="col-sm-4">
+					<div><span>PTT: <%= ptt %></span>
+					<span></span></div>
+				</div>
+				<div class="col-sm-4">
+					<p id=" ">rings</p>
+				</div>
+				<div class="col-sm-4">
+					<p id=" ">markers</p>
+				</div>
+			</div>
+			<div class="row">
+				<p id="transmittersVal" ></p>
+			</div>
+
+		</div>
+	</div>
+	<div class="row birdDetailsDiv" id="birdInfosDetails">
+		<div class="col-sm-2">
+			<p id="birdSexLabel" >
+
+			</p>
+		</div>
+		<div class="col-sm-2">
+			<p id="birdOriginLabel" >
+
+			</p>
+		</div>
+		<div class="col-sm-2">
+			<p id="birdAgeLabel" >
+
+			</p>
+		</div>
+		<div class="col-sm-3">
+			<div>birth date</div>
+			<p id="birdBirthDate" >
+			<%= birth_date %>
+			</p>
+		</div>
+		<div class="col-sm-3">
+			<div>last observation</div>
+			<p id="indivLastObs" ><%= last_observation %> </p>
+		</div>
+	</div>
+	<div class="row birdDetailsDiv" id="birdDetailsStatus">
+		<div class="col-sm-4">
+			<div>survey type</div>
+			<p id="birdSurveyType" >
+				<%= survey_type %>
+			</p>
+		</div>
+		<div class="col-sm-4">
+			<div>monitoring status</div>
+			<p id="birdMonitStatus" >
+			<%= monitoring_status%>
+			</p>
+		</div>
+		<div class="col-sm-4">
+			<div>individual status</div>
+			<p id="birdIndivStatus" >
+				<%=status%>
+			</p>
+		</div>
+	</div>
+	<div class="row birdDetailsDiv" id="birdDetailsPosDiv">
+		<div class="col-sm-6">
+			<div>number of positions</div>
+			<p id="indivNbObs" ><%= indivNbObs%></p>
+		</div>
+		<div class="col-sm-6">
+			<div>duration (months)</div>
+			<p id="indivNbDuration" ><%= duration%></p>
+		</div>
+	</div>
+	<div  >
+		<button id="import-btn" class="small btn btn-labeled btn-grey pull-left">
+            import checked
+                <span class="btn-label">
+                <i class="icon reneco import"></i>
+                </span>
+
+        </button>
+        <button id="next-btn" class="small btn btn-labeled btn-grey pull-left">
+            check 1/hour
+                <span class="btn-label">
+                <i class="icon reneco rightarrow white action-picto"></i>
+                </span>
+
+        </button>
+
+</script>
