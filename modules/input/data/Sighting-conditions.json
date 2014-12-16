@@ -25,11 +25,22 @@
 		"type": "Hidden",
 		"title":"FK_TSta_ID"
 		},
-		"Obs_duration_old":{
-		"validators":[
-		],
-		"type": "Number",
-		"title":"Obs duration old"
+		"Start_time":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"Start time"
+		},
+
+		"End_time":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"End time"
+		},
+
+		"Observation_Duration":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"Observation duration"
 		},
 		"Id_Weather":{
 		"validators":[
@@ -67,27 +78,6 @@
 		],
 		"type": "Number",
 		"title":"Temperature"
-		},
-
-		"Start_time":{
-		"validators":[
-		],
-		"type": "Time",
-		"title":"Start time"
-		},
-
-		"End_time":{
-		"validators":[
-		],
-		"type": "Time",
-		"title":"End time"
-		},
-
-		"Observation_Duration":{
-		"validators":[
-		],
-		"type": "Time",
-		"title":"Observation duration"
 		},
 
 		"Visibility":{
