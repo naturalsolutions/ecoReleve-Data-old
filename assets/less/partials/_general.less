@@ -1,3 +1,7 @@
+/*===================================
+=            Global tags            =
+===================================*/
+
 html{
     height: 100%;
 }
@@ -15,55 +19,120 @@ a:hover, tr:hover, li:hover {
 }
 
 
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    width: 10px;
+    border: 1px solid #999;
+    margin: 5px;
+}
+::-webkit-scrollbar{
+    background: #eee;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
 
 /*==============================================
-=            To break in resp. mode            =
+=            Full height Section                  =
 ==============================================*/
 
-.full-height{
-    position: relative;
-    height: 100%;
-    &.auto{
-        overflow: auto;
-    }
-    .container,.container-fluid{
-        //position: relative;
+@media screen and (min-width: @screen-sm) {
+    .full-height{
+        position: relative;
         height: 100%;
+        &.auto{
+            overflow: auto;
+        }
+        &.scroll-auto{
+            overflow: auto;
+        }
+        .container,.container-fluid{
+            height: 100%;
+        }
     }
 }
-.scroll-auto{
-    overflow: auto;
-}
-// .abs{
-//     right: 0;
-//     position: absolute;
-//     z-index: 0;
-// }
 
-/*-----  End of Break Section  ------*/
+/*-----  End of Full Height Section ------*/
 
 
 
-
+/*===============================
+=            Commons            =
+===============================*/
 
 #main-region{
     padding-top: 50px;
 }
-
-
-
 .container{
     padding: 50px 0px;
 }
 
-.clear{
-	clear: both;
-	float: none;
+/*-----  End of Commons  ------*/
+
+
+
+/*==================================
+=            Icon Fonts            =
+==================================*/
+
+
+.glyphicon{
+    top: 0px;
+    &.pointer{
+        cursor: pointer;
+    }
 }
 
-.glyphicon.pointer{
-    cursor: pointer;
+i.icon.reneco{
+/*  display: block;
+     */ 
+    // opacity: 0.75;
+    font-family: 'reneco-font';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    &.huge{
+        font-size: 5em;
+    }
+    &.small{
+        font-size: 2.5em;
+    }
+    &.mini{
+        font-size: 1.8em;
+    }
 }
+
+/*-----  End of Icon Fonts  ------*/
+
+
+/*=============================
+=            Tools            =
+=============================*/
+
+.no-padding {
+    padding: 0;
+}
+.clear{
+    clear: both;
+    float: none;
+}
+
+/*-----  End of Tools  ------*/
+
+
+
+
+
+
+
 
 .col-border{
 	border-right: 1px solid #d4d4d4;
@@ -75,8 +144,6 @@ a:hover, tr:hover, li:hover {
     background-color:rgb(34, 34, 34);
     color: white;
 }
-
-
 
 .panel-heading.top-level > h1 > a {
     font-size: 1.5rem;
@@ -119,6 +186,3 @@ h2.panel-title {
 
 
 
-img.fluid{
-    
-}

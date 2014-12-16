@@ -44,7 +44,7 @@
 @height_tile: 150px;
 
 
-.custom{
+.tile{
 	cursor: pointer;
 	text-align: center;
 	height: @height_tile;
@@ -84,46 +84,7 @@
 
 
 
-@media screen and (min-width: @screen-sm) and (max-width: 1199px){
-	body.home-page{
-		.container{
-			margin-top: 0px;
-		}
-		div.wrapper{
-			width: 515px;
-			margin: 0 auto;
-		}
-		.custom{
-			&.first{
-				margin-left: 15px;
-			} 
-			&.last{
-				margin-left: 15px;
-			}
-		}
-	}
-}
 
-
-@media screen and (max-width: @screen-sm){
-	.home-page{
-		.container{
-			margin-top: 0px;
-		}
-		.wrapper{
-			width: 100%;
-		}
-		.custom{
-			&.small_tile, &.big-tile, &.last, &.first{
-				margin-left: 0px!important;
-				width: 100%;
-			}
-
-		}
-
-
-	}
-}
 
 
 .tile-blue
@@ -226,18 +187,6 @@
 {
     background-color: @pomegranate;
 }
-/* .tile-clouds		
-{
-    background-color: @clouds;
-    color: @tile-light-text-color;
-    h1, h2, h3, h4, h5, h6 { 
-        color: @tile-light-text-color;
-    }
-}
- */
-/* .tile-clouds .tile-label {
-    color: @tile-light-text-color;
-} */
 
 .tile-silver		
 {
@@ -251,20 +200,3 @@
 {
     background-color: @asbestos;
 }
-
-/* .tile-info
-{
-    background-color: @tile-info-bg;
-}
-.tile-danger
-{
-    background-color: @tile-danger-bg;
-}
-.tile-warning
-{
-    background-color: @tile-warning-bg;
-}
-.tile-success
-{
-    background-color: @tile-success-bg;
-} */
