@@ -5,7 +5,7 @@ define([
     'config',
     'modules2/individual/views/individual-filter',
     'modules2/individual/views/individual-grid',
-    'text!templates/left4-main8.html'
+    'text!modules2/individual/templates/individual-layout.html'
 ], function(moment, Marionette, Radio, config, FilterView, GridView, template) {
 
     'use strict';
