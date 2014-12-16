@@ -21,7 +21,7 @@
       "validators": [],
       "type": "Text",
       "title": "Impact",
-      "editorAttrs": { "startId": "884219051" },
+      "editorAttrs": { "startId": "24" },
       "editorClass": "autocompTree"
     },
     "Comments": {

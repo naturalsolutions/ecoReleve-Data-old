@@ -57,7 +57,7 @@ define([
 
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
-                decimals: 3
+                decimals: 5
             });
             var columns = [{
                 name: "PK",

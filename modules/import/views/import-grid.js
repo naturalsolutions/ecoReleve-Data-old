@@ -81,7 +81,7 @@ define([
 
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
-                decimals: 3
+                decimals: 5
             });
             var columns = [{
                 name: "id",
@@ -109,12 +109,12 @@ define([
                 name: "longitude",
                 label: "LON",
                 cell: myCell
-            },  {
+            }, /* {
                 editable: true,
                 name: "fieldActivity",
                 label: "Field Activity",
                 cell: "string"
-            },
+            },*/
             {
                 editable: true,
                 name: "import",

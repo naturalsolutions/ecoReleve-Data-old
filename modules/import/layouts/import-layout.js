@@ -16,9 +16,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend ({
-
         className: 'import-container container',
-
         template: template,
         regions: {
             gridRegion: '#gridContainer',
@@ -38,7 +36,6 @@ define([
             'change #importWorker1' : 'activateNextStep',
             //'click #rfid' : 'rfid',
         },
-
         initialize: function() {
             this.waypointList = new Waypoints();
             this.radio = Radio.channel('import-gpx');
@@ -56,7 +53,6 @@ define([
         gsm: function() {
             Radio.channel('route').command('import:gsm');
         },
-
 
         clear: function(elt) {
             elt.preventDefault();
@@ -105,6 +101,8 @@ define([
                     model.set('fieldWorker3', $('#importWorker2').val());
                     model.set('fieldWorker4', $('#importWorker3').val());
                     model.set('fieldWorker5', $('#importWorker4').val());
+                    model.set('fieldActivity',$('#importFieldActivity').val());
+                    model.set('Precision', 10);
                     model.set('fieldWorkersNumber', fieldWorkersNumber);
                 });
 
@@ -125,15 +123,11 @@ define([
                 });
 
                if(btnLbel =='Complete'){
-                     $(e.target).attr('disabled','disabled');
-                     $('#btnPrev').attr('disabled','disabled');
-                     $('ul.steps li').removeClass('active');
-                     $('ul.steps li').removeClass('complete');
-                     
-
-
+                    $(e.target).attr('disabled','disabled');
+                    $('#btnPrev').attr('disabled','disabled');
+                    $('ul.steps li').removeClass('active');
+                    $('ul.steps li').removeClass('complete');
                }
-
                // send filtred collection to the server
                var url=config.coreUrl + 'station/addMultStation/insert';
                 $.ajax({
@@ -155,7 +149,6 @@ define([
                         alert('error sending gpx collection');
                     }
                 });
-
             }
         },
         activateNextStep : function() {
@@ -250,10 +243,8 @@ define([
                 $('#importWorker1').val('');
             }
         },
-
         onRender: function(){
-            console.log('remove');
-            
+            console.log('remove'); 
             $('ul.steps').css('marginLeft', '0px');
 /*            $('#importWizard').wizard('removeSteps', 1);
 */        },
@@ -270,10 +261,10 @@ define([
         generateDatalist : function(data){
             var UsersList = '';
             data.forEach(function(user) {
+                //value="' + user.PK_id +'"
                 UsersList += '<option>' + user.fullname + '</option>';
             });
             $('#import-worker1').append(UsersList);
         }
-
     });
 });

@@ -179,7 +179,7 @@
 		],
 		"type": "Text",
 		"title":"Vegetation series", 
-		"editorAttrs": { "startId": "1000346" },
+		"editorAttrs": { "startId": "1000346"},
 		"editorClass": "autocompTree"
 		},
 		"stratum_MossLichen_cover":{

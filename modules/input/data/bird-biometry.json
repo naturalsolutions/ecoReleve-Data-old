@@ -16,13 +16,13 @@
       "title": "FK_TSta_ID"
     },
     "FK_TInd_ID": {
-      "validators": ["required"],
+      "validators": [],
       "type": "Picker",
       "title": "Individual",
       "editorClass": "required"
     },
     "Id_Observer": {
-      "validators": ["required"],
+      "validators": [],
       "type": "Text",
       "title": "Observer",
       "editorAttrs": { "list": "username_list" },
@@ -42,16 +42,14 @@
       "title": "Id_Sex"
     },
     "Name_Sex": {
-      "validators": [
-      ],
+      "validators": ["required"],
       "type": "Text",
       "title": "Sex",
       "editorAttrs": { "startId": "18872" },
       "editorClass": "autocompTree required"
     },
     "Name_Age": {
-      "validators": [
-      ],
+      "validators": ["required"],
       "type": "Text",
       "title": "Age",
       "editorAttrs": { "startId":  "18876" },
@@ -100,70 +98,41 @@
       "type": "Number",
       "title": "Adiposity"
     },
-    "Half_Culmen": {
+
+    "Bill_width": {
       "validators": [],
       "type": "Number",
-      "title": "Half culmen"
+      "title": "Width"
     },
     "Bill_length_feather": {
       "validators": [],
       "type": "Number",
-      "title": "Bill length feather(mm)"
+      "title": "Total length(mm)"
     },
     "Bill_length_nostril": {
       "validators": [],
       "type": "Number",
-      "title": "Bill length nostril(mm)"
-    },
-    "Feather_Occipital": {
-      "validators": [],
-      "type": "Number",
-      "title": "Feather occipital(mm)"
+      "title": "Length to nostrils(mm)"
     },
     "Feather_Black_Display": {
       "validators": [],
       "type": "Number",
-      "title": "Feather black display(mm)"
+      "title": "Black neck(mm)"
     },
     "Feather_White_Display": {
       "validators": [],
       "type": "Number",
-      "title": "Feather white display(mm)"
+      "title": "White neck(mm)"
+    },
+    "Feather_Occipital": {
+      "validators": [],
+      "type": "Number",
+      "title": "Crest(mm)"
     },
     "Feather_thirdPrimaryFlight_length": {
       "validators": [],
       "type": "Number",
-      "title": "Feather 3th primary flight len(mm)"
-    },
-    "Feather_Black_White": {
-      "validators": [],
-      "type": "Number",
-      "title": "Feather black white(mm)"
-    },
-    "Tail": {
-      "validators": [],
-      "type": "Number",
-      "title": "Tail"
-    },
-    "Sternum": {
-      "validators": [],
-      "type": "Number",
-      "title": "Sternum"
-    },
-    "Bird_collected": {
-      "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
-      "title": "Bird collected"
+      "title": "PFF3 (RP3)(mm)"
     },
     "Sampled": {
       "validators": [],
@@ -198,15 +167,15 @@
       "legend": "General"
     },
     {
-      "fields": ["Half_Culmen","Bill_length_feather","Bill_length_nostril"],
+      "fields": ["Bill_length_feather","Bill_length_nostril","Bill_width"],
       "legend": "Bill"
     },
     {
-      "fields": ["Feather_Occipital", "Feather_Black_Display","Feather_White_Display","Feather_thirdPrimaryFlight_length","Feather_Black_White"],
+      "fields": ["Feather_Occipital", "Feather_Black_Display","Feather_White_Display","Feather_thirdPrimaryFlight_length"],
       "legend": "Feather"
     },
     {
-      "fields": ["Tail","Sternum","Bird_collected","Sampled","Comments"],
+      "fields": ["Sampled","Comments"],
       "legend": "Other"
     }
   ]
