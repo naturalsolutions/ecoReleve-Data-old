@@ -92,8 +92,13 @@ define([
 
                 schm['Operator'] = {type : 'Select', title:null, options: this.getOpOptions(type), editorClass: 'form-control' };
 
-                schm['Value'] = {type : this.getFieldType(type), editorClass: 'form-control', options: [
-      {  dateFormat: 'd/m/yyyy', defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() }] };
+                schm['Value'] = {
+                    type : this.getFieldType(type), 
+                    editorClass: 'form-control', 
+                    options: [{  
+                        dateFormat: 'd/m/yyyy',
+                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
+                    }] };
 
                 form = new BbForms({
                     template: _.template(tplFilters),
@@ -114,6 +119,11 @@ define([
                 });
             
         },
+
+        displayFilter: function(elem){
+
+        },
+
 
         getOpOptions: function(type){
             var operatorsOptions;

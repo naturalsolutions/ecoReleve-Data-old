@@ -1,11 +1,10 @@
 define([
     'marionette',
     'radio',
-    'vegas',
     'views/graph',
     'views/info',
     'text!templates/home_new.html'
-], function(Marionette, Radio, vegas, GraphView, InfoView, template) {
+], function(Marionette, Radio, GraphView, InfoView, template) {
     'use strict';
     return Marionette.LayoutView.extend( {
         className:'container',

@@ -15,6 +15,7 @@ define([
     'use strict';
 
     return Marionette.ItemView.extend({
+        className: 'full-height grid scroll-auto',
         template: template,
 
         events :{
@@ -35,7 +36,9 @@ define([
                 },
                 queryParams: {
                     offset: function() {return (this.state.currentPage - 1) * this.state.pageSize;},
-                    criteria: function() {return JSON.stringify(this.searchCriteria);},
+                    criteria: function() {
+                        console.log(this.searchCriteria);
+                        return JSON.stringify(this.searchCriteria);},
                     order_by: function() {
                         var criteria = [];
                         for(var crit in this.sortCriteria){
@@ -130,15 +133,18 @@ define([
                 collection: individuals,
             });
             var that=this;
+            console.log(options.currentFilter);
             individuals.searchCriteria = options.currentFilter || {};
             individuals.fetch( {reset: true,   success : function(resp){ 
                         that.$el.find('#indiv-count').html(individuals.state.totalRecords+' individuals');
                         }
             } );
 
+            /*
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: individuals
             });
+*/
         },
 
          export: function(evt) {
@@ -149,6 +155,7 @@ define([
 
         update: function(args) {
             var that=this;
+            console.log(args.filter);
             this.grid.collection.searchCriteria = args.filter;
             // Go to page 1
             this.grid.collection.state.currentPage = 1;
@@ -163,13 +170,16 @@ define([
             this.$el.parent().addClass('no-padding');
             $('#main-panel').css({'padding-top': '0'});
             this.$el.addClass('grid');
-            var height = $(window).height();
-            height -= $('#header-region').height() + $('#main-panel').outerHeight();
-            this.$el.find('#grid-row').height(height);
-            height = $(window).height();
-            this.$el.height(height-$('#header-region').height());
+
+
+            // var height = $(window).height();
+            // height -= $('#header-region').height() + $('#main-panel').outerHeight();
+            // this.$el.find('#grid-row').height(height);
+            // height = $(window).height();
+            // this.$el.height(height-$('#header-region').height());
+
+            //$('#paginator').html(this.paginator.render().el);
             $('#gridContainer').append(this.grid.render().el);
-            this.$el.append(this.paginator.render().el);
         },
 
         onDestroy: function(){

@@ -33,6 +33,12 @@ define([
     ''+module+'/validate/gsm/layouts/gsm-detail',
 
 
+
+    'stepper/lyt-demo',
+    'grid/lyt-demo',
+    'filter/lyt-demo',
+
+
     //'modules/transmitter/layouts/transmitter-list'
 
 ], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, HomeLayout, ArgosLayout,
@@ -41,7 +47,8 @@ define([
 
 
     Import_RFID_lyt,
-    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout) {
+    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout,
+    DemoStepper, DemoGrid, Demofilter) {
 
     'use strict';
 
@@ -76,20 +83,16 @@ define([
 
             /*==========  Export  ==========*/
             
-
             radio.comply('export', this.export, this);
 
             /*==========  RFID N (Visu)  ==========*/
             
-
             radio.comply('rfidN', this.rfidN, this);
             radio.comply('rfidN:add', this.rfidN_add, this);
             radio.comply('rfidN:deploy', this.rfidN_deploy, this);
 
-
             /*==========  validate  ==========*/
             
-
             radio.comply('validate', this.validate, this);
             radio.comply('validate:type', this.validate_type, this);
             radio.comply('validate_type_id', this.validate_type_id, this);
@@ -327,7 +330,7 @@ define([
         },
 
         rfidN_add: function(){
-            var route = 'rfidN/add/'
+            var route = 'rfidN/add/';
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 var lyt = new Rfid_Layout()
@@ -337,7 +340,7 @@ define([
         },
 
         rfidN_deploy: function(){
-            var route = 'rfidN/deploy/'
+            var route = 'rfidN/deploy/';
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 var lyt = new Rfid_Layout()
@@ -346,8 +349,40 @@ define([
             }, this);
         },
 
+        
+        /*==========  Demo  ==========*/
+        
+        //stepper
+        demo_stepper: function(){
+            var route = 'demo_stepper/';
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                var lyt = new DemoStepper()
+                this.mainRegion.show(lyt);
+            }, this);
+        },        
 
 
+        //grid
+        demo_grid: function(){
+            var route = 'demo_grid/';
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                var lyt = new DemoGrid()
+                this.mainRegion.show(lyt);
+            }, this);
+        },  
+
+
+        //filter
+        demo_filter: function(){
+            var route = 'demo_filter/';
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                var lyt = new Demofilter()
+                this.mainRegion.show(lyt);
+            }, this);
+        },        
 
 
 
