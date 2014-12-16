@@ -107,6 +107,7 @@ define([
             });
 
 
+
             var tmp=JSON.stringify({ criteria : ''});
 
             $('#grid').append(this.grid.render().el);
@@ -122,13 +123,7 @@ define([
             var url=config.coreUrl + 'rfid/update'; 
 
 
-            //this.locations.on('change', this.alerte, this);
-            // this.locations.on('backgrid:selected', this.alerte, this);
-            // this.locations.on('backgrid:select', this.alerte, this);
             this.locations.on('backgrid:edited', this.info, this);
-            //this.locations.on('backgrid:edit', this.alerte, this);
-            //this.locations.on('backgrid:editing', this.alerte, this);
-            //this.locations.on('backgrid:error', this.alerte, this);
 
         },
 
