@@ -33,11 +33,11 @@ define([
     ''+module+'/validate/gsm/layouts/gsm-detail',
 
 
-
+    /*
     'stepper/lyt-demo',
     'grid/lyt-demo',
     'filter/lyt-demo',
-
+    */
 
     //'modules/transmitter/layouts/transmitter-list'
 
@@ -47,8 +47,8 @@ define([
 
 
     Import_RFID_lyt,
-    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout,
-    DemoStepper, DemoGrid, Demofilter) {
+    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout
+    /*DemoStepper, DemoGrid, Demofilter*/) {
 
     'use strict';
 
