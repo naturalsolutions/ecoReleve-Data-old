@@ -38,7 +38,7 @@ module.exports = function(grunt) {
                 },
             },
             script: {
-              files: [ '**/*.js', 'config/*.js' ],
+              files: ['**/*.js'],
               options: {
                 livereload: true
               }
@@ -46,6 +46,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['watch:css', 'watch:script']);
+    grunt.registerTask('default', 'watch');
 };
 

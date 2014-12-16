@@ -22,6 +22,11 @@ define([
             'rfidN/add(/)' : 'rfidN_add',
             'rfidN/deploy(/)' : 'rfidN_deploy',
 
+            'demo_stepper(/)' : 'demo_stepper',
+            'demo_grid(/)' : 'demo_grid',
+            'demo_filter(/)' : 'demo_filter',
+
+
 
             '*route(/:page)': 'login'
         }

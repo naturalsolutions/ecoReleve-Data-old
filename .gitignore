@@ -5,8 +5,8 @@ bower_components/*
 web.config
 /js/config.js
 node_modules/*
-ecoReleve-Data.sublime-project
-ecoReleve-Data.sublime-workspace
+*.sublime-project
+*.sublime-workspace
 assets/fonts/*
 assets/css/styles.css
 assets/css/styles.css.map
@@ -20,4 +20,6 @@ img/*
 reneco-font/*
 rsc/*
 js/li/NS.UI.autocompTree/*
-
+stepper
+grid
+filter
