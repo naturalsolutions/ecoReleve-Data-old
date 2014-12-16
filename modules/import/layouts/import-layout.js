@@ -148,6 +148,8 @@ define([
                         storedCollection.reset(resp.data);
                         storedCollection.save();
                         console.log(storedCollection);
+                        var msg = resp.response;
+                        $('#importResponseMsg').text(msg);
                     },
                     error: function(data){
                         alert('error sending gpx collection');

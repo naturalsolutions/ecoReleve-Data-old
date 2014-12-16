@@ -88,8 +88,8 @@ define([
 
         addOverlay: function(coord) {
             if (this.overlay) {
-                this.map.removeOverlay( this.overlay);}
-
+                this.map.removeOverlay( this.overlay);
+            }
             //this.overlay=new ol.Overlay ({
             var featureOverlay = new ol.FeatureOverlay({
                 //position: ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857'),
@@ -131,27 +131,33 @@ define([
             this.addLayer(features);
         },
         getFeature: function(model){
-                var id = model.get('id');
-                // test if the name is correct (integer value), if not, use PK name
-                var test = Number(id);
-                if (!test){
-                    id = model.get('PK');
-                }
-                var latitude = model.get('latitude');
-                if(!latitude){
-                    latitude = model.get('LAT');
-                }
-                var longitude = model.get('longitude');
-                if(!longitude){
-                    longitude = model.get('LON');
-                }
-                var label = model.get('name');
-                var feature = new ol.Feature({
-                  geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')),
-                  label: label
-                });
-                feature.setId(id);
-                return(feature);
+            var id = model.get('id');
+            // test if the name is correct (integer value), if not, use PK name
+            var test = Number(id);
+            if (!test){
+                id = model.get('PK');
+            }
+            var latitude = model.get('latitude');
+            if(!latitude){
+                latitude = model.get('LAT');
+            }
+            var longitude = model.get('longitude');
+            if(!longitude){
+                longitude = model.get('LON');
+            }
+            var label = model.get('name');
+            var feature = new ol.Feature({
+              geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')),
+              label: label
+            });
+            feature.setId(id);
+            // mask popup if displayed when we move feature
+            feature.on('change',function(){
+                var element = $('#popup');
+                $(element).popover('destroy');
+            },feature);
+            return(feature);
+
         },
         addModel : function(model){
             var feature = this.getFeature(model);
@@ -193,10 +199,9 @@ define([
                 $('#layerswitcherBtn span').text(' >> ');
             }
             else {
-                 $('#toolbox').addClass('masqued');
-                 $('#layerswitcherBtn span').text(' << ');
+                $('#toolbox').addClass('masqued');
+                $('#layerswitcherBtn span').text(' << ');
             }
         }
-
     });
 });

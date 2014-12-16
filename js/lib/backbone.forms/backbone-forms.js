@@ -359,7 +359,9 @@ var Form = Backbone.View.extend({
     //Otherwise return entire form
     var values = {};
     _.each(this.fields, function(field) {
-      values[field.key] = field.getValue();
+		var val = field.getValue();
+		if (val ==''){ val =null;}
+      values[field.key] = val;
     });
 
     return values;
@@ -1457,8 +1459,14 @@ Form.editors.Time = Form.editors.Text.extend({
 	this.setElement($el);
 	this.$el.find('input').attr('id', this.id);
 	this.$el.find('input').attr('name', this.key);
-  }
+  },
+     getValue: function() {
+        return this.$el.find('input').val();
+    },
 
+    setValue: function(value) {
+        this.$el.find('input').val(value);
+    }
 });
 /* Picker editor  */
 Form.editors.Picker = Form.editors.Text.extend({
@@ -1484,9 +1492,19 @@ Form.editors.Picker = Form.editors.Text.extend({
 	var $el = $($.trim(this.template()));
 	this.setElement($el);
 	this.$el.find('input').attr('id', this.id);
+	var editorClass = this.schema.editorClass;
+	if(editorClass){
+		this.$el.find('input').addClass(editorClass);
+	}
 	this.$el.find('input').attr('name', this.key);
-  }
+  },
+    getValue: function() {
+        return this.$el.find('input').val();
+    },
 
+    setValue: function(value) {
+        this.$el.find('input').val(value);
+    }
 });
 /**
  * Password editor

@@ -122,9 +122,8 @@ var ecoReleveData = (function(){
             bbForms : 'backbone.forms/backbone-forms',
             'backgrid.paginator': 'backgrid.paginator/backgrid.paginator',
             'backbone.paginator': 'backbone.paginator/2.0.2/backbone.paginator',
+            backgridSelect_all:'../../bower_components/backgrid-select-all/backgrid-select-all',
 
-
-            
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
             openlayers: 'openlayers/openlayers',
             ol3: 'openlayers/3.0.0/build/ol-debug',

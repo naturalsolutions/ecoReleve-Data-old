@@ -9,8 +9,10 @@ define([
     'marionette',
     'radio',
     'config',
-    'text!modules2/input/templates/individual-list.html'
-], function(moment, $, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, Radio, config, template) {
+    'text!modules2/input/templates/stations-list.html',
+    'models/station'
+
+], function(moment, $, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, Radio, config, template, Station) {
 
     'use strict';
 
@@ -22,13 +24,14 @@ define([
         },
 
         initialize: function(options) {
-            this.radio = Radio.channel('individual');
-            this.radio.comply('update', this.update, this);
+            this.radio = Radio.channel('input');
+            this.radio.comply('updateStationsGrid', this.update, this);
 
-            var Individuals = PageableCollection.extend({
-                sortCriteria: {'id':'asc'},
-                url: config.coreUrl + 'individuals/search',
+            var Stations = PageableCollection.extend({
+                sortCriteria: {'PK':'desc'},
+                url: config.coreUrl + 'station/search',
                 mode: 'server',
+                model: Station,
                 state:{
                     pageSize: 25,
                 },
@@ -48,7 +51,7 @@ define([
                 }
             });
 
-            var individuals = new Individuals();
+            var stations = new Stations();
 
             var myHeaderCell = Backgrid.HeaderCell.extend({
                 onClick: function (e) {
@@ -56,7 +59,7 @@ define([
                     var that=this;
                     var column = this.column;
                     var collection = this.collection;
-                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.id === 'undefined') ? collection.sortCriteria : {};
+                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.PK === 'undefined') ? collection.sortCriteria : {};
                     switch(column.get('direction')){
                         case null:
                             column.set('direction', 'ascending');
@@ -73,72 +76,77 @@ define([
                         default:
                             break;
                     }
-                    collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'id': 'asc'};
-                    collection.fetch({reset: true,success : function(resp){ 
+                    collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'PK': 'desc'};
+                    collection.fetch({reset: true, success : function(resp){ 
                        console.log(resp);
-                    }});
+                        }});
                 },
             });
 
             var columns = [{
-                name: 'id',
+                name: 'PK',
                 label: 'ID',
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
-                    orderSeparator: ''
+                  orderSeparator: ''
                 }),
                 headerCell: myHeaderCell
             }, {
-                name: 'ptt',
-                label: 'PTT',
+                name: 'Name',
+                label: 'Name',
                 editable: false,
-                cell: Backgrid.IntegerCell.extend({
-                    orderSeparator: ''
-                }),
+                cell:'string',
                 headerCell: myHeaderCell
             }, {
-                name: 'age',
-                label: 'AGE',
+                name: 'Date_',
+                label: 'date',
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
             }, {
-                name: 'origin',
-                label: 'ORIGIN',
+                name: 'LAT',
+                label: 'Lat',
+                editable: false,
+                cell: 'number',
+                headerCell: myHeaderCell
+            }, {
+                name: 'LON',
+                label: 'Lon',
+                editable: false,
+                cell: 'number',
+                headerCell: myHeaderCell
+            }, {
+                name: 'FieldActivity_Name',
+                label: 'field activity',
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
             }, {
-                name: 'species',
-                label: 'SPECIES',
-                editable: false,
-                cell: 'string',
-                headerCell: myHeaderCell
-            }, {
-                name: 'sex',
-                label: 'SEX',
+                name: 'FieldWorker1',
+                label: 'field worker 1',
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
             }];
-            console.log(individuals);
+            console.log(stations);
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
-                collection: individuals,
+                collection: stations,
             });
             var that=this;
-            individuals.searchCriteria = {};
-            individuals.fetch( {reset: true,   success : function(resp){ 
-                        that.$el.find('#indiv-count').html(individuals.state.totalRecords+' individuals');
+            stations.searchCriteria = {};
+            stations.fetch( {reset: true,   success : function(resp){ 
+                        that.$el.find('#stations-count').html(stations.state.totalRecords+' stations');
                         }
             } );
 
             this.paginator = new Backgrid.Extension.Paginator({
-                collection: individuals
+                collection: stations
             });
+        
+            $('#stationsGridContainer').css('height','90%');
         },
-
 
         update: function(args) {
             var that=this;
@@ -146,13 +154,16 @@ define([
             // Go to page 1
             this.grid.collection.state.currentPage = 1;
             this.grid.collection.fetch({reset: true, success:function(){
-                that.$el.find('#indiv-count').html(that.grid.collection.state.totalRecords+' individuals');
+               that.$el.find('#stations-count').html(that.grid.collection.state.totalRecords+' stations');
             }
 
             });
+            console.log(this.grid.collection);
+            $('#stationsGridContainer').css('height','90%');
         },
 
         onShow: function() {
+            
             this.$el.parent().addClass('no-padding');
             $('#main-panel').css({'padding-top': '0'});
             this.$el.addClass('grid');
@@ -161,8 +172,9 @@ define([
             this.$el.find('#grid-row').height(height);
             height = $(window).height();
             this.$el.height(height-$('#header-region').height());
-            $('#gridContainer').append(this.grid.render().el);
+            $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
+            $('div.backgrid-paginator').css('margin-top','50px;');
         },
 
         onDestroy: function(){
@@ -178,9 +190,19 @@ define([
 
         detail: function(evt) {
             var row = $(evt.currentTarget);
-            var id = $(row).find(':first-child').text()
-            //Radio.channel('route').trigger('indivId', {id: id});
-            Radio.channel('input').command('indivId', {id: id});
+            var id = parseInt($(row).find(':first-child').text());
+            console.log(id);
+            //console.log(this.grid.collection);
+            var currentStation = this.grid.collection.where({ PK: id})[0];
+             $.ajax({
+                url: config.coreUrl+'station/getProtocol',
+                data: { id_sta: id },
+                type:'POST',
+                context: this,
+                success: function(data){
+                    this.radio.command('generateForms', {station:currentStation, data: data});
+                }
+            });
         }
     });
 });

@@ -22,8 +22,7 @@
       "editorClass": "required"
     },
     "Id_Observer": {
-      "validators": [
-      ],
+      "validators": ["required"],
       "type": "Text",
       "title": "Observer",
       "editorAttrs": { "list": "username_list" },

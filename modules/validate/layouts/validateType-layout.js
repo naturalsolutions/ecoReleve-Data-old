@@ -35,6 +35,17 @@ define([
                     orderSeparator: ''
                 })
             }, {
+                name: 'ind_id',
+                label: 'Individual ID',
+                editable: false,
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (rawValue==null) rawValue='WARNING ==> No Individual attached !';
+                         return rawValue;
+                      }
+                }),
+                cell: 'string'
+            }, {
                 name: 'nb',
                 label: 'Number of unchecked locations',
                 editable: false,
@@ -58,7 +69,9 @@ define([
 
         showDetail: function(evt) {
             var id = $(evt.target).parent().find('td').first().text();
-            Radio.channel('route').command('validate:type:id', this.type, id);
+            var NbObs= $(evt.target).parent().find('td').last().text();
+            console.log('type');
+            Radio.channel('route').command('validate_type_id',  {id:id,NbObs:NbObs,type:this.type});
         },
 
 

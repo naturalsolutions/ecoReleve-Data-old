@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="field">
                                         <div class="ui radio-inline checkbox">
-                                            <input type="radio" name="stationtype" value="old" id ="st3" class="stationtype" disabled>
+                                            <input type="radio" name="stationtype" value="old" id ="st3" class="stationtype">
                                             <label for="st3">old (all)</label>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="step-pane sample-pane " data-step="2">
 
-                        <div class="col-xs-5 col-sm-5 col-md-5 col-border">
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-border newStationDiv">
                             <div id="station-form"></div>
                             <div class="col-xs-12">
                                 <button id="inputGetStData" class="btn btn-labeled btn-success pull-right">
@@ -64,17 +64,14 @@
                                     </span>
                                 </button>
                             </div>
-                        </div>
-                        <div id="station-map" class="col-xs-12 col-md-7 no-padding"></div>
-
-
-
-
+                    </div>
+                    <div id="station-map" class="col-xs-12 col-md-7 no-padding"></div>
                     <div class="row">
                         <div id="gridImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-left"></div>
                         <div id="mapImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-right"></div>
                     </div>
-
+                    <div id="gridAllStations" class="col-xs-12 col-sm-12 col-md-12 col-left"></div>
+                    <div id="input-datalists"></div>
                     
                 </div>
                 <div class="step-pane sample-pane " data-step="3">
