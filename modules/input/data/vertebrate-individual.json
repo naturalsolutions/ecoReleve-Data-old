@@ -10,13 +10,13 @@
   "schema": {
     "Fk_TInd_ID": {
       "validators": [],
-      "type": "Number",
-      "title": "Indiv id"
+      "type": "Picker",
+      "title": "Individual id"
     },
     "frequency": {
       "validators": [],
       "type": "Number",
-      "title": "Frequency"
+      "title": "Best frequency"
     },
     "Name_signal_type": {
       "validators": [],

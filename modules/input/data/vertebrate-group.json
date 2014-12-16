@@ -142,6 +142,9 @@
       "title": "obs time"
     }
   },
+   "defaults":{
+    "Identity_sure" : "1"
+  },
   "fieldsets": [
     {
       "fields": ["Name_Taxon", "Id_taxon","Identity_sure"],
