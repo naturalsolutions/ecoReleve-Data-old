@@ -39,6 +39,13 @@ define([
 
         onRender: function(){
             $('body').addClass('home-page');
+            //trololo
+            // var delay=50;
+            // this.$el.find('.tile').each( function(index){
+            //     console.log(index);
+            //     $(this).fadeIn(400+delay);
+            //     delay+=50;
+            // });
         },
 
         onDestroy: function() {
