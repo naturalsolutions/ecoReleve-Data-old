@@ -21,6 +21,5 @@ reneco-font/*
 rsc/*
 js/li/NS.UI.autocompTree/*
 stepper
-grid
-filter
 assets/css/*
+assets/less/*
