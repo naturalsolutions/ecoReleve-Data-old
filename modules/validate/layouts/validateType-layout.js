@@ -69,9 +69,9 @@ define([
 
         showDetail: function(evt) {
             var id = $(evt.target).parent().find('td').first().text();
-            var NbObs= $(evt.target).parent().find('td').last().text();
+            var nbObs= $(evt.target).parent().find('td').last().text();
             console.log('type');
-            Radio.channel('route').command('validate_type_id',  {id:id,NbObs:NbObs,type:this.type});
+            Radio.channel('route').command('validate_type_id', this.type, id, nbObs);
         },
 
 

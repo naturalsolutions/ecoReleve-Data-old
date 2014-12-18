@@ -288,7 +288,7 @@ define([
                 };
             }, this);
         },
-        validate_type_id: function(type, id){
+        validate_type_id: function(type, id, nbObs){
             var route = 'validate/'+ type +'/'+ id;
             this.checkLogin(function() {
                 switch(type) {
@@ -297,6 +297,7 @@ define([
                         this.mainRegion.show(new ValidateGSMDetailLayout({
                             type : type,
                             gsmID : id,
+                            NbObs : nbObs,
                         }));
                         break;
                     case 'rfid':
