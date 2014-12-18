@@ -50,7 +50,6 @@ define([
 
         onDestroy: function() {
             $('body').removeClass('home-page');
-            $('.credits').hide();
         },
 
         argos: function() {

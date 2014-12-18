@@ -12892,6 +12892,24 @@ button.formBtn {
 .tile#importTile {
   opacity: 1;
 }
+.tile.first-classic {
+  margin-left: 0px;
+}
+.tile-container-3 {
+  width: 495px;
+}
+@media screen and (max-width: 768px) {
+  .tile.small_tile,
+  .tile.big-tile,
+  .tile.last,
+  .tile.first {
+    margin-left: 0px!important;
+    width: 100%;
+  }
+  .tile-container-3 {
+    width: 100%;
+  }
+}
 .tile-blue {
   background-color: #049cdb;
 }
@@ -13514,13 +13532,6 @@ body.home-page h2 {
   .home-page .wrapper {
     width: 100%;
   }
-  .home-page .tile.small_tile,
-  .home-page .tile.big-tile,
-  .home-page .tile.last,
-  .home-page .tile.first {
-    margin-left: 0px!important;
-    width: 100%;
-  }
   .home-page #user_name span {
     display: none;
   }
@@ -13871,6 +13882,12 @@ border-style: solid;
   background: #2ecc40;
   padding: 10px;
   margin-top: 10px;
+}
+.validate {
+  background: url(../img/home_fond.jpg) center center no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
 }
 .dark {
   background: #333;
