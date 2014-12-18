@@ -41,7 +41,7 @@ define([
     ''+module+'/validate/rfid/layouts/lyt-rfid-detail',
 
     
-    /*'stepper/lyt-demo',*/
+    'stepper/lyt-demo',
     'grid/lyt-demo',
     'filter/lyt-demo',
     
