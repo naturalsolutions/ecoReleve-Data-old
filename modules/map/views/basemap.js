@@ -1,11 +1,13 @@
 define([
     'jquery',
+	'underscore',
+    'backbone',
     'marionette',
     'ol3',
     'radio',
     'config',
     'text!modules2/map/templates/map.html'
-], function($, Marionette, ol, Radio, config, template) {
+], function($, _, Backbone, Marionette, ol, Radio, config, template) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
