@@ -8,15 +8,16 @@ define([
     'stepper/lyt-step',
     'modules2/import/layouts/lyt-step2',
     'modules2/import/layouts/lyt-step3',
+    'modules2/import/layouts/lyt-step4',
     'text!stepper/tpl-demo.html',
     'text!modules2/import/templates/tpl-step1.html',
     'text!modules2/import/templates/tpl-step2.html',
     'text!modules2/import/templates/tpl-step3.html',
     'text!modules2/import/templates/tpl-step4.html',
+    'text!modules2/import/templates/tpl-step5.html',
 
 
-
-], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step2, Step3,  tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4 ) {
+], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step2, Step3, Step4, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,tpl_step5 ) {
 
     'use strict';
 
@@ -59,7 +60,7 @@ define([
                 tpl: tpl_step3
             });
 
-            var FourthStep = new Step({
+            var FourthStep = new Step4({
                 model: this.model,
                 name: 'metadata',
                 tpl: tpl_step4
@@ -68,7 +69,7 @@ define([
             var FifthStep = new Step({
                 model: this.model,
                 name: 'finish',
-                tpl: tpl_step3
+                tpl: tpl_step5
             });
 
             this.steps=[];
