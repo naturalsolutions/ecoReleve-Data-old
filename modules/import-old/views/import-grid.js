@@ -109,12 +109,12 @@ define([
                 name: "longitude",
                 label: "LON",
                 cell: myCell
-            },  {
+            }, /* {
                 editable: true,
                 name: "fieldActivity",
                 label: "Field Activity",
                 cell: "string"
-            },
+            },*/
             {
                 editable: true,
                 name: "import",

@@ -15,7 +15,7 @@ define([
 
     ''+module+'/gsm/layouts/gsm-list',
     ''+module+'/transmitter/layouts/transmitter-list',
-	''+module+'/import/layouts/import-layout',
+	''+module+'/import/layouts/lyt-import-gpx',
     ''+module+'/input/layouts/input-data',
     ''+module+'/export/layouts/export-layout',
     
