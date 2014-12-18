@@ -31,7 +31,14 @@ define([
     ''+module+'/validate/layouts/validate-layout',
     ''+module+'/validate/layouts/validateType-layout',
     ''+module+'/validate/gsm/layouts/gsm-detail',
+    
 
+
+
+
+    /*Validate Section (Modules)*/
+    ''+module+'/validate/rfid/layouts/lyt-rfid',
+    ''+module+'/validate/rfid/layouts/lyt-rfid-detail',
 
     
     /*'stepper/lyt-demo',*/
@@ -47,8 +54,15 @@ define([
 
 
     Import_RFID_lyt,
-    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout
-    /*DemoStepper*/, DemoGrid, Demofilter) {
+
+    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout,
+    ValidateLayoutRFID, ValidateLayouttRFIDDetail,
+
+    DemoStepper, DemoGrid, Demofilter
+
+    /*Validate Section (Modules)*/
+    
+    ) {
 
     'use strict';
 
@@ -259,21 +273,47 @@ define([
         validate_type: function(type){
             var route = 'validate/'+type;
             this.checkLogin(function() {
-                Backbone.history.navigate(route);
-                this.mainRegion.show(new ValidateLayoutType({type : type}));
+                switch(type) {
+                    case 'gsm':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        break;
+                    case 'rfid':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutRFID({
+                        }));
+                        break;
+                    default:
+                        this.validate();
+                };
             }, this);
         },
-        validate_type_id: function(options){
-            var route = 'validate/'+ options.type +'/'+ options.id;
+        validate_type_id: function(type, id){
+            var route = 'validate/'+ type +'/'+ id;
             this.checkLogin(function() {
-                Backbone.history.navigate(route);
-                this.mainRegion.show(new ValidateGSMDetailLayout({
-                    type : options.type,
-                    gsmID : options.id,
-                    NbObs:options.NbObs
-                }));
+                switch(type) {
+                    case 'gsm':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateGSMDetailLayout({
+                            type : type,
+                            gsmID : id,
+                        }));
+                        break;
+                    case 'rfid':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayouttRFIDDetail({
+                            type : type,
+                            gsmID : id,
+                        }));
+                        break;
+                    default:
+                        this.validate();
+                };
+
             }, this);  
         },
+
+
 
 
         /*==========  Exports  ==========*/
