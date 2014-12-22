@@ -25,8 +25,9 @@ define([
             StaName: "4199-4710" 
         },*/
  
-
-        pagingServerSide: true,        
+        init: false,
+        pagingServerSide: true, 
+        coll: false,       
 
         initialize: function(options){
             this.channel= options.channel;
@@ -37,17 +38,18 @@ define([
         	this.url=options.url;
         	this.pageSize=options.pageSize;
             //this.columns = options.columns,
+            
             this.pagingServerSide=options.pagingServerSide;
-            console.log(options.columns);
             if (options.columns) {
                 this.columns=options.columns;        
             }else {
-                 this.colGene = new colGene({url : this.url + 'getFields', paginable:this.pagingServerSide, checkedColl: options.checkedColl });
+                this.colGene = new colGene({url : this.url + 'getFields', paginable:this.pagingServerSide, checkedColl: options.checkedColl });
                 this.columns = this.colGene.columns ;
             }
 
             if (options.collection){
                 this.collection=options.collection;
+                this.coll=true;
             }
             else{
 
@@ -60,12 +62,51 @@ define([
                     this.initCollectionNotPaginable();
                 }
             }
+            if(this.pagingServerSide && options.columns){
+                this.setHeaderCell();
+            }
 
         	this.initGrid();
             this.eventHandler();
         },
 
+        setHeaderCell: function(){
+            var hc= Backgrid.HeaderCell.extend({
+                onClick: function (e) {
+                    e.preventDefault();
+                    var that=this;
+                    var column = this.column;
+                    var collection = this.collection;
+                    var sortCriteria = (collection.sortCriteria && typeof collection.sortCriteria.id === 'undefined') ? collection.sortCriteria : {};
+                    switch(column.get('direction')){
+                        case null:
+                            column.set('direction', 'ascending');
+                            sortCriteria[column.get('name')] = 'asc';
+                            break;
+                        case 'ascending':
+                            column.set('direction', 'descending');
+                            sortCriteria[column.get('name')] = 'desc';
+                            break;
+                        case 'descending':
+                            column.set('direction', null);
+                            delete sortCriteria[column.get('name')];
+                            break;
+                        default:
+                            break;
+                    }
+                    var tmp= this.column.attributes.name;
+                    if(!Object.keys(sortCriteria).length > 0)
+                        collection.sortCriteria[tmp] = 'asc';
+                    collection.fetch({reset: true});
+                },
+            });
+            for (var i = 0; i < this.columns.length; i++) {
+                this.columns[i].headerCell=hc;
+            };
+        },
+
         initCollectionPaginable:function(){
+            var ctx = this;
             var PageCollection = PageColl.extend({
                 sortCriteria: {},
                 url: this.url+'search',
@@ -85,16 +126,31 @@ define([
                             criteria.push(crit + ':' + this.sortCriteria[crit]);
                         }
                         return JSON.stringify(criteria);},
-                    
                 },
+                fetch: function(options) {
+                    var params= {
+                        'page' : this.state.currentPage,
+                        'per_page' : this.state.pageSize,
+                        'offset': this.queryParams.offset.call(this),
+                        'order_by' : this.queryParams.order_by.call(this),
+                        'criteria' : this.queryParams.criteria.call(this),
+                    };
+                    if(ctx.init){
+                        ctx.updateMap(params);
+                    }
+                    ctx.init=true;
+                    PageColl.prototype.fetch.call(this, options);
+                }
             });
 
             this.collection = new PageCollection();
         },
 
+        updateMap: function(params){
+            this.radio.command(this.channel+':map:update', { params : params });
+        },
         
         initCollectionPaginableClient:function(){
-            console.log('');
             var PageCollection = PageColl.extend({
                 url: this.url+'search',
                 mode: 'client',
@@ -129,28 +185,23 @@ define([
         	    columns: this.columns,
         	    collection: this.collection
         	});
-
-            this.collection.searchCriteria = {};
-            this.collection.fetch({reset: true});
-
-
+            if(!this.coll){
+                this.collection.searchCriteria = {};
+                this.collection.fetch({reset: true});
+            }
         },
 
-        update: function(args){
 
-            console.log(args.filters);
+        update: function(args){
             if(this.pageSize){
                 this.grid.collection.state.currentPage = 1;
                 this.grid.collection.searchCriteria = args.filters;
                 this.grid.collection.fetch({reset: true});
-
             }
             else{
-
                 var datas= JSON.stringify(args.filters);
                 this.grid.collection.fetch({reset: true, data : { 'criteria' : datas}});
             }
-
         },
 
         displayGrid: function(){
@@ -168,9 +219,7 @@ define([
         eventHandler: function () {
             var self=this;
             this.grid.collection.on('backgrid:edited',function(model){
-                console.log(model.changed);
                 model.save({patch:model.changed});
-
             })
         },
 

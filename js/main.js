@@ -110,7 +110,7 @@ var ecoReleveData = (function(){
             dateTimePicker: bower+'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
             moment: bower+'moment/min/moment.min',
             //jquery: bower+'jquery-1.11.0/dist/jquery',
-            //jquery_ui: bower+'jquery-ui/jquery-ui.min',
+            jquery_ui: bower+'jquery-ui/jquery-ui.min',
 
 
 
@@ -131,7 +131,7 @@ var ecoReleveData = (function(){
             sha1: 'sha1/sha1',
             localforage: 'localforage/localforage-0.9.2',
             jquery: 'jquery/jquery-1.11.1',
-            jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
+            //jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
 
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             nicescroll:'nicescroll/jquery.nicescroll',

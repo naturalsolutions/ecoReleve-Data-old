@@ -8,7 +8,6 @@ define([
     'text!modules2/validate/rfid/templates/tpl-rfid.html',
     'filter/model-filter',
     'grid/model-grid',
-    'jquery_ui',
 
 
 ], function($, _, Backbone, Marionette, Radio,
@@ -69,20 +68,29 @@ define([
                 url: config.coreUrl + 'rfid/',
                 pageSize : 25,
                 pagingServerSide : false,
-                
-            });
+                });
             
             this.$el.find('#grid').html(this.grid.displayGrid());
             this.$el.find('#paginator').html(this.grid.displayPaginator());
-            console.log(this.$el.find('#slider'));  
-            $(function() {
-                $( "#slider" ).slider();
-              });
-            this.$el.find('#slider').slider();
+
+            var ctx=this;
+            this.$el.find('#slider').slider({
+                value:1,
+                min: 1,
+                max: 6,
+                slide: function( event, ui ) {
+                    ctx.changeFreq();
+                    $( "#Freq" ).html( ui.value );
+                }
+            });
         },
 
         update: function(){
             this.filters.update();
+        },
+
+        changeFreq: function(){
+            console.log('carefull : frequency has been changed');
         },
     
     });
