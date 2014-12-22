@@ -35,7 +35,7 @@ define([
             this.gsmID = options.gsmID;
 
             var Locations = PageableCollection.extend({
-                url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked?format=json',
+                url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked/'+options.id_ind+'?format=json',
                 mode: 'client',
                 state:{
                     pageSize: 25
@@ -209,9 +209,12 @@ define([
                 importList.push(location);
             }
             console.log(importList);
+            console.log(ind_id);
             $.ajax({
                 url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/import',
-                data: JSON.stringify({data: importList, id_ind: ind_id})
+                contentType: 'application/json',
+                type: 'POST',
+                data:JSON.stringify({data: importList, id_ind: ind_id})
             });
    
         },

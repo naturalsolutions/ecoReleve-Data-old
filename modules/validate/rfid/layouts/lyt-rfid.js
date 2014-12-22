@@ -57,16 +57,15 @@ define([
 
         onRender: function(){
             
-            this.filters = new NSFilter({
+            /*this.filters = new NSFilter({
                 channel: 'modules',
-                url: config.coreUrl + 'rfid/',
+                url: config.coreUrl + 'rfid/validate/',
                 template: 'filter/tpl-filters.html',
-            });
+            });*/
 
             this.grid= new NSGrid({    
-                checkedColl: true,
                 channel: 'modules',
-                url: config.coreUrl + 'rfid/',
+                url: config.coreUrl + 'rfid/validate/',
                 pageSize : 25,
                 pagingServerSide : false,
                 
@@ -82,7 +81,7 @@ define([
         },
 
         update: function(){
-            this.filters.update();
+            /*this.filters.update();*/
         },
     
     });

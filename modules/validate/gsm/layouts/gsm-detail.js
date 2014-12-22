@@ -27,8 +27,8 @@ define([
             var self=this;
             this.radio = Radio.channel('gsm-detail');
             this.gsmID = options.gsmID;
-            this.indivNbObs=options.NbObs;
-            console.log( this.indivNbObs);
+            this.id_ind=options.id_ind;
+            console.log(this.id_ind);
         },
 
         onBeforeDestroy: function() {
@@ -36,16 +36,24 @@ define([
         },
 
         onShow: function() {
+            var self=this;
             this.info.show(new Info({
                 model: new Individual({
-                   id:this.gsmID,
+                   ptt:self.gsmID,
+                   id:self.id_ind,
                    last_observation: null,
                    duration: null,
-                   indivNbObs:this.indivNbObs
-                })
+                   indivNbObs:null
+                }),
             }));
-            this.grid.show(new Grid({gsmID:this.gsmID}));
-            this.map.show(new Map({gsmID:this.gsmID}));
+            this.grid.show(new Grid({
+                gsmID:this.gsmID,
+                id_ind:self.id_ind
+            }));
+            this.map.show(new Map({
+                gsmID:this.gsmID,
+                id_ind:self.id_ind
+            }));
         },
     });
 });
