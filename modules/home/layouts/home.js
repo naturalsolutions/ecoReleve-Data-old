@@ -103,7 +103,7 @@ define([
         },
 
         rfidN: function(){
-            this.radio.command('rfidN');
+            this.radio.command('site');
         },
 
         validate: function(){

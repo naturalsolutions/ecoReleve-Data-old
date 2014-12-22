@@ -2704,7 +2704,6 @@ Form.editors.BackboneDatepicker = Form.editors.Base.extend({
   initialize: function(options) {
     Form.editors.Base.prototype.initialize.call(this, options);
     this.template = options.template || this.constructor.template;
-    console.log(this.el);
   },
  
   getValue: function() {
@@ -2720,7 +2719,6 @@ Form.editors.BackboneDatepicker = Form.editors.Base.extend({
 
     return date;*/
 
-    console.log(this);
     var date= new Date
     return this.el.children['Date_'].value
 

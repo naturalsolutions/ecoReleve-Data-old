@@ -58,32 +58,35 @@ define([
                 var fieldName = key;
                 var schm={};
 
-                schm['Column'] = {type: 'Hidden', title: null, value: fieldName};    
 
-                schm['Operator'] = {type : 'Select', title: null, options: this.getOpOptions(type), editorClass: 'form-control' };
+                if(type!='BIT'){
+                    schm['Column'] = {type: 'Hidden', title: null, value: fieldName};    
 
-                schm['Value'] = {
-                    type : this.getFieldType(type),
-                    title : fieldName,
-                    editorClass: 'form-control', 
-                    options: [{  
-                        dateFormat: 'd/m/yyyy',
-                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
-                    }] };
+                    schm['Operator'] = {type : 'Select', title: null, options: this.getOpOptions(type), editorClass: 'form-control' };
+
+                    schm['Value'] = {
+                        type : this.getFieldType(type),
+                        title : fieldName,
+                        editorClass: 'form-control', 
+                        options: [{  
+                            dateFormat: 'd/m/yyyy',
+                            defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
+                        }] };
 
 
-                form = new BbForms({
-                    template: _.template(tpl),
-                    schema: schm,
-                    data: {
-                      Column: fieldName,
-                    },
-                    templateData: {filterName: key}
-                }).render();
+                    form = new BbForms({
+                        template: _.template(tpl),
+                        schema: schm,
+                        data: {
+                          Column: fieldName,
+                        },
+                        templateData: {filterName: key}
+                    }).render();
 
-                $('#filters').append(form.el);
+                    $('#filters').append(form.el);
 
-                this.forms.push(form);
+                    this.forms.push(form);
+                }
             };
 
 
@@ -148,11 +151,15 @@ define([
                 }
             };
             this.radio.command(this.channel+':grid:update', { filters : filters });
-
         },
 
         reset: function(){
-
+            $('#filters').find('select').each(function(){
+                $(this).prop('selectedIndex',0);                
+            });
+            $('#filters').find('input').each(function(){
+                $(this).reload();
+            });
         },
 
     });

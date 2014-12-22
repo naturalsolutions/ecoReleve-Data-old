@@ -17,26 +17,32 @@ define([
         events: {
 
         },
-        initialize: function(args) {
-        	this.radio = Radio.channel('rfidN');
-            this.geoJson, this.vectorLayer;
-            this.getGeoJson();
+        initialize: function(options) {
+            this.channel='modules';
+        	this.radio = Radio.channel(this.channel);
+            this.radio.comply(this.channel+':map:update', this.update, this);            
+
+            this.initGeoJson();
         },
 
-        getGeoJson: function(){
-            //tmp
-            var url = config.coreUrl + "/rfid/search_geoJSON";
+        initGeoJson: function(){
 
-
+            var url = config.coreUrl+'/monitoredSite/search_geoJSON';
 
             $.ajax({
                 url: url,
                 contentType:'application/json',
-                type:'POST',
-                data : JSON.stringify({criteria : ''}),
+                type:'GET',
                 context: this,
-            }).done(function(data){
-                this.geoJson= data;
+                data: {
+                    page: 1,
+                    per_page: 20,
+                    criteria: null,
+                    offset: 0,
+                    order_by: '[]',
+                },
+            }).done(function(datas){
+                this.geoJson= datas;
                 this.initMap();
             }).fail(function(msg){
                 console.log(msg);
@@ -73,28 +79,27 @@ define([
             });
         },
 
-        update: function(filters){
-            var url = config.coreUrl + "/rfid/search_geoJSON";
+        update: function(args){
+            var url = config.coreUrl + '/monitoredSite/search_geoJSON';
             $.ajax({
                 url: url,
                 contentType:'application/json',
-                type:'POST',
-                data : JSON.stringify({criteria : filters}),
+                type:'GET',
                 context: this,
-            }).done(function(data){
-                this.updateMap(data);
-
+                data: args.params,
+            }).done(function(datas){
+                this.updateMap(datas);
             }).fail(function(msg){
                 console.log(msg);
             });
         },
 
-        updateMap: function(data){
+        updateMap: function(datas){
           this.map.removeLayer(this.vectorLayer);
           
           var sourceT = new ol.source.GeoJSON({
             projection: 'EPSG:3857',
-            object: data
+            object: datas
           });
           
           

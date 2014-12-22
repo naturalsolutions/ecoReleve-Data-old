@@ -19,9 +19,11 @@ define([
             'import/rfid(/)' : 'import_rfid',
 
 
-            'rfidN(/)' : 'rfidN',
-            'rfidN/add(/)' : 'rfidN_add',
-            'rfidN/deploy(/)' : 'rfidN_deploy',
+            'site(/)' : 'site',
+            'site/:id(/)' : 'site_detail',
+            'site/add(/)' : 'site_add',
+            'site/deploy(/)' : 'site_deploy',
+
 
             'demo_stepper(/)' : 'demo_stepper',
             'demo_grid(/)' : 'demo_grid',
