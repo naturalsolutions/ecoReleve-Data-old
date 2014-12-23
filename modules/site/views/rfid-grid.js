@@ -81,12 +81,12 @@ define([
                 columns: this.cols,
                 channel: 'modules',
                 url: config.coreUrl + 'monitoredSite/',
-                pageSize : 40,
+                pageSize : 25,
                 pagingServerSide : true,
                 });
             
             $('#grid').html(this.grid.displayGrid());
-            $('#grid').append(this.grid.displayPaginator());
+            $('#paginator').append(this.grid.displayPaginator());
 
         },
 

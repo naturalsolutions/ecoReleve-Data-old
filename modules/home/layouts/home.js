@@ -24,7 +24,7 @@ define([
             'click #manualTile' : 'dataEntry',
             'click #importTile' : 'import',
             'click #myDataTile' : 'export',
-            'click #rfidTile': 'rfidN',
+            'click #rfidTile': 'site',
             "click #validate": 'validate',
         },
         initialize: function(){
@@ -102,7 +102,7 @@ define([
             this.radio.command('export');
         },
 
-        rfidN: function(){
+        site: function(){
             this.radio.command('site');
         },
 

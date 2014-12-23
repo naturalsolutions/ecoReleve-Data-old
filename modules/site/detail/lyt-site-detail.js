@@ -17,7 +17,7 @@ define([
         className: 'full-height',
 
         events: {
-
+            'click #back' : 'back2list',
         },
 
         regions: {
@@ -44,6 +44,10 @@ define([
 
         displayView: function(){
 
+        },
+
+        back2list: function(){
+            Radio.channel('route').command('site');
         },
     });
 });

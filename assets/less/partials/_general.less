@@ -35,7 +35,7 @@ a:hover, tr:hover, li:hover {
 
 
 /*==============================================
-=            Full height Section                  =
+=            Full height Section               =
 ==============================================*/
 
 @media screen and (min-width: @screen-sm) {
@@ -54,7 +54,30 @@ a:hover, tr:hover, li:hover {
     }
 }
 
+
+.overflow-auto{
+    overflow: auto;
+}
+
 /*-----  End of Full Height Section ------*/
+
+
+/*===================================
+=            Declinaison            =
+===================================*/
+
+.dark{
+    background: #666666;
+    color: white;
+    input, select, option{
+        color: black;
+    }
+    button{
+        color: white;
+        margin: 5px;
+    }
+}
+
 
 
 
@@ -108,6 +131,13 @@ i.icon.reneco{
     &.mini{
         font-size: 1.8em;
     }
+    &.custom{
+        font-size: 2.5em;
+        border-radius: 100%;
+        border: 5px solid white;
+        padding: 10px;
+        cursor: pointer;
+    }
 }
 
 /*-----  End of Icon Fonts  ------*/
@@ -124,6 +154,8 @@ i.icon.reneco{
     clear: both;
     float: none;
 }
+
+
 
 /*-----  End of Tools  ------*/
 

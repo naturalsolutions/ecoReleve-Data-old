@@ -25,7 +25,6 @@ define([
             'click button#update' : 'update',
             'click button#display-grid' : 'displayGrid',
             'click button#display-map' : 'displayMap',
-            'click button#today' : 'today',
             'click button#reset' : 'reset',
             'click button#add' : 'add',
             'click button#deploy' : 'deploy',

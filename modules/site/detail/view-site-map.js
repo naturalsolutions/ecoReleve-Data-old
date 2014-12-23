@@ -52,7 +52,7 @@ define([
 
             var oldPos = {'type':'FeatureCollection', 'features': []};
 
-            
+
             var infos = this.model.attributes.positions;
             console.log(this.model);
             for (var i = 0; i < infos.length; i++) {
@@ -146,6 +146,9 @@ define([
             =            Map            =
             ===========================*/
 
+            var center = this.layerActivePos.getSource().getFeatures()[0].getGeometry().getCoordinates();
+            center[0]-=600000;
+
             this.map = new ol.Map({
                 layers: [
                     new ol.layer.Tile({
@@ -161,10 +164,12 @@ define([
                     })
                 }),
                 view: new ol.View({
-                    center: this.layerActivePos.getSource().getFeatures()[0].getGeometry().getCoordinates(),
+                    center: center,
                     zoom: 5
                 }),
             });
+
+
         },
 
         update: function(){

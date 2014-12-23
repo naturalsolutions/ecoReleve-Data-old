@@ -1,12 +1,23 @@
 <script type="text/template">
-	<br><br><br>
-	<span>ID : <%= id %></span>
-	<br>
-	<span>Name : <%= name %></span>
-	<br>
-	<span>type : <%= type %></span>
+	<br><br>
+	<div class="col-sm-4">
+		<i id="back" class="icon reneco leftarrow custom"></i>
+	</div>
+	<div class="pull-right">
+	<span class="map-legend marker current"></span> : Last posititon <br><br>
+	<span class="map-legend marker old"></span> : Old posititons
+	</div>
+
+	<div class="clear"></div>
+	<br><br>
+		<br>
+		<span>ID : <%= id %></span>
+		<br>
+		<span>Name : <%= name %></span>
+		<br>
+		<span>type : <%= type %></span>
 	<br><br><br><br><br>
-	<div id="grid">
+	<div id="grid" class="col-sm-12 no-padding overflow-auto">
 		
 	</div>
 	<br>
