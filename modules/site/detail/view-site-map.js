@@ -149,6 +149,11 @@ define([
             var center = this.layerActivePos.getSource().getFeatures()[0].getGeometry().getCoordinates();
             center[0]-=600000;
 
+            var view = new ol.View({
+                    center: center,
+                    zoom: 2
+                });
+
             this.map = new ol.Map({
                 layers: [
                     new ol.layer.Tile({
@@ -163,11 +168,16 @@ define([
                         collapsible: false
                     })
                 }),
-                view: new ol.View({
-                    center: center,
-                    zoom: 5
-                }),
+                view: view,
             });
+
+            var zoom = 2;
+            var timer = setInterval(function(){
+                view.setZoom(zoom);
+                if(zoom >= 6)
+                    clearInterval(timer);
+                zoom++;
+            }, 300);
 
 
         },
