@@ -26,8 +26,9 @@ define([
         },
 
         initialize: function(){
+            console.log(this.model.attributes.ptt);
             
-            this.model.urlRoot=config.coreUrl+'dataGsm/details',
+            this.model.urlRoot=config.coreUrl+'dataGsm/'+this.model.attributes.ptt+'/details',
             this.model.fetch();
             console.log(this.model);
         },
@@ -40,7 +41,7 @@ define([
             return data;
         },
         import_checked : function(){
-            Radio.channel('gsm-detail').command('import',{id_ind:this.model.ind_id});
+            Radio.channel('gsm-detail').command('import',this.model.attributes.ind_id);
         },
 
         perhour: function(){

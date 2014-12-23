@@ -9,7 +9,8 @@ define([
         appRoutes: {
         	'validate(/)' : 'validate',
         	'validate/:type(/)' : 'validate_type',
-        	'validate/:type/:id(/)' : 'validate_type_id',
+            'validate/:type/:id(/)' : 'validate_type_id',
+        	'validate/:type/:id/:ind_ind(/)' : 'validate_type_id',
 
             'export(/)' : 'export',
 

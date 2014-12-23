@@ -20,12 +20,19 @@ define([
         initialize: function(options) {
             this.type=options.type;
 
-
+            console.log(this.type)
             var Data = Backbone.Collection.extend({
                 url: config.coreUrl + 'dataGsm/unchecked/list',
             });
 
-            var data = new Data();
+            this.datas = new Data();
+            var ModelRow = Backgrid.Row.extend({
+              render: function() {
+                ModelRow.__super__.render.apply(this, arguments);
+                this.$el.data('model', this.model);
+                return this;
+              }
+            });
 
             var columns = [{
                 name: 'platform_',
@@ -33,7 +40,8 @@ define([
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
-                })
+                }),
+                
             }, {
                 name: 'ind_id',
                 label: 'Individual ID',
@@ -44,23 +52,26 @@ define([
                          return rawValue;
                       }
                 }),
-                cell: 'string'
+                cell: 'string',
+                
             }, {
                 name: 'nb',
                 label: 'Number of unchecked locations',
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
-                })
+                }),
+              
             }];
 
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
-                collection: data
+                collection: this.datas,
+                row:ModelRow
             });
 
-            data.fetch({reset: true});
+            this.datas.fetch({reset: true});
         },
 
         onShow: function(){
@@ -68,10 +79,12 @@ define([
         },
 
         showDetail: function(evt) {
-            var id = $(evt.target).parent().find('td').first().text();
-            var nbObs= $(evt.target).parent().find('td').last().text();
-            console.log('type');
-            Radio.channel('route').command('validate_type_id', this.type, id, nbObs);
+            var model = $(evt.target).parent().data('model'); 
+            console.log(model);
+            var ind_id=model.attributes.ind_id;
+            var ptt=model.attributes.platform_;
+            console.log(ptt);
+            Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id);
         },
 
 
