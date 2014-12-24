@@ -13103,39 +13103,6 @@ button.formBtn {
 .tile-asbestos {
   background-color: #7f8c8d;
 }
-.map-encart {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 100;
-  color: white;
-}
-.map-encart.right {
-  right: 0;
-}
-.map-encart .map-legend.marker {
-  display: block;
-  height: 15px;
-  width: 15px;
-  border-radius: 100%;
-  float: left;
-  margin: 1px 10px;
-}
-.map-encart .map-legend.marker.current {
-  background: green;
-  border: 2px solid white;
-}
-.map-encart .map-legend.marker.old {
-  background: #0099ff;
-  border: 2px solid white;
-}
-.map-encart #grid {
-  width: 100%;
-}
-.map.controls-custom .ol-control.ol-zoom {
-  left: 35%;
-  top: 2em;
-  z-index: 1000;
-}
 .drag-zone-hover {
   height: 500px;
   width: 100%;
