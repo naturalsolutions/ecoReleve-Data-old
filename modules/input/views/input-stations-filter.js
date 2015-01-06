@@ -29,7 +29,7 @@ define([
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
             'change input[name="allSt-monitoredSiteType"]' :'updateSiteName',
-            'change input[name="allSt-fieldWorker"]' :'getFieldWorkerId'
+            //'change input[name="allSt-fieldWorker"]' :'getFieldWorkerId'
         },
         ui: {
             beginDate: 'input[name="allSt-beginDate"]',
@@ -109,12 +109,15 @@ define([
                 if (!value){ value =null;}
                 this.filter[name].Value = value;
             }
-            this.updateGrid();
+            this.getFieldWorkerId(e);
+            //this.updateGrid();
         },
         getFieldWorkerId : function(e){
             var fieldWorkerName = $(e.target).val();
             var fieldWorkerId = $('#userId_list > option[value="'+ fieldWorkerName + '"]').text();
             this.filter.fieldWorker.Value = parseInt(fieldWorkerId);
+            console.log(fieldWorkerId);
+
             this.updateGrid();
         },
         getIndivId : function(){

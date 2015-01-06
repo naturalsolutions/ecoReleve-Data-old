@@ -19,7 +19,7 @@ define([
     return Marionette.LayoutView.extend({
         template: tpl,
 
-        className: 'full-height',
+        className: 'container no-padding',
 
 
         events: {
@@ -75,7 +75,7 @@ define([
             var ctx=this;
             this.$el.find('#slider').slider({
                 value:1,
-                min: 1,
+                min: 0.1,
                 max: 6,
                 slide: function( event, ui ) {
                     ctx.changeFreq();
