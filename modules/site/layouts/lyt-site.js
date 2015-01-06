@@ -56,7 +56,7 @@ define([
         },
 
         onDestroy: function() {
-            $('body').removeClass('');
+            //$('body').removeClass('');
         },
 
         onRender: function(){

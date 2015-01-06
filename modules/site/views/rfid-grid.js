@@ -81,7 +81,7 @@ define([
                 columns: this.cols,
                 channel: 'modules',
                 url: config.coreUrl + 'monitoredSite/',
-                pageSize : 25,
+                pageSize : 24,
                 pagingServerSide : true,
                 });
             

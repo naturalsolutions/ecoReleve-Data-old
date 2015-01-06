@@ -12696,6 +12696,9 @@ li:hover {
   .full-height .container-fluid {
     height: 100%;
   }
+  .scroll-auto {
+    overflow: auto;
+  }
 }
 .overflow-auto {
   overflow: auto;
@@ -12705,7 +12708,7 @@ li:hover {
 =            Declinaison            =
 ===================================*/
 .dark {
-  background: #666666;
+  background: #2d2d30;
   color: white;
 }
 .dark input,
@@ -12786,9 +12789,11 @@ i.icon.reneco.custom {
   background-color: #222222;
   color: white;
 }
-.panel-heading.top-level > h1 > a {
+.panel-heading.top-level > h1 > a,
+span {
   font-size: 1.5rem;
   font-weight: 400;
+  cursor: pointer;
 }
 h2.panel-title {
   font-weight: 400;
@@ -14040,8 +14045,14 @@ border-style: solid;
   right: 0;
 }
 .pannels-container {
+  background: #666;
   overflow: hidden;
   height: 100%;
+}
+.functions {
+  z-index: 100;
+  padding: 25px;
+  background: #252526;
 }
 /*=================================
 =            Temporary            =

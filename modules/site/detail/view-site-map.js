@@ -103,7 +103,7 @@ define([
                   }),
                   stroke: new ol.style.Stroke({
                     color: [255, 255, 255, 0.75],
-                    width: 1.5
+                    width: 2
                   })
                 }),
                 zIndex: 100000
@@ -129,7 +129,7 @@ define([
                   }),
                   stroke: new ol.style.Stroke({
                     color: [255, 255, 255, 0.75],
-                    width: 1.5
+                    width: 2
                   })
                 }),
                 zIndex: 99999
@@ -147,7 +147,7 @@ define([
             ===========================*/
 
             var center = this.layerActivePos.getSource().getFeatures()[0].getGeometry().getCoordinates();
-            center[0]-=600000;
+            center[0]-=200000; //offset legend encart
 
             var view = new ol.View({
                     center: center,
@@ -174,7 +174,7 @@ define([
             var zoom = 2;
             var timer = setInterval(function(){
                 view.setZoom(zoom);
-                if(zoom >= 6)
+                if(zoom >= 7)
                     clearInterval(timer);
                 zoom++;
             }, 300);
