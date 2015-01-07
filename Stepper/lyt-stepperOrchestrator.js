@@ -21,6 +21,14 @@ define([
             'click #infos' : 'infos',
             'click #btnNext' : 'nextStep',
             'click #btnPrev' : 'prevStep',
+            'click #reset' : 'reset',
+            'keyup input:not(:checkbox,:radio)' : 'datachanged_text',
+            'change input:not(:checkbox,:radio)' : 'datachanged_text',
+            'change input:checkbox' : 'datachanged_checkbox',
+            'change input:radio' : 'datachanged_radio',
+            'change input:file' : 'datachanged_file',
+            'change select' : 'datachanged_select',
+            'click #step-nav li' : 'changeStep'
         },
 
         regions: {
@@ -31,9 +39,6 @@ define([
 
         currentStep:0,
 
-
-
-        
         onDestroy: function(){
 
         },
@@ -63,22 +68,20 @@ define([
 
         initNavSteps: function(){
             for (var i = 0; i < this.steps.length; i++) {
-                this.$el.find('#step-nav').append('<li class="step-item" id='+this.steps[i].name+'><span class="badge">'+i+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
+                this.$el.find('#step-nav').append('<li class="step-item" id='+this.steps[i].name+'><span class="badge">'+(i+1)+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
             };            
         },
 
         modelChanged:function(){
             this.check();
-            //this.resetFromStep();
+            this.resetFromStep();
         },
-
 
         resetFromStep:function(){
             for (var i=this.currentStep+1; i < this.steps.length; i++){
                 this.steps[i].reset();
             }
         },
-
 
         keyboard: function(){
             var ctx=this;
@@ -130,8 +133,13 @@ define([
             this.styleNav();
 
             if (this.currentStep==this.steps.length-1){
-                this.$el.find('#btnNext').attr( 'disabled', 'disabled');
+                //this.$el.find('#btnNext').attr( 'disabled', 'disabled');
+                this.$el.find('#btnNext').find( 'span').html('<a href="#">Complete</a>');
             }
+            if (this.currentStep==0){
+                this.$el.find('#btnPrev').attr( 'disabled', 'disabled');
+            }
+            else {this.$el.find('#btnPrev').removeAttr('disabled'); }
         },
 
 
@@ -167,13 +175,38 @@ define([
         },
 
         
+        datachanged_text: function(e){
+            this.steps[this.currentStep].datachanged_text(e);
+        },
+
+        datachanged_checkbox: function(e){
+            this.steps[this.currentStep].datachanged_checkbox(e);
+        },
+
+
+        datachanged_radio: function(e){
+            this.steps[this.currentStep].datachanged_radio(e);
+        },
+
+        datachanged_file : function(e){
+            this.steps[this.currentStep].datachanged_file(e);
+        },
+        datachanged_select: function(e){
+            this.steps[this.currentStep].datachanged_select(e);
+        },
         infos: function(){
             console.log(this.model);
         },
-
-        
-
-
+        changeStep : function(e){
+            var element = $(e.target);
+            var idStep ;
+            if ( element.is( "li" ) ) {
+                idStep = parseInt($(e.target).find('span.badge').text())-1 ;
+            } else {
+                idStep = parseInt($(e.target).parent().find('span.badge').text())-1 ;
+            }
+            this.toStep(idStep);
+        }
     });
 
 });
