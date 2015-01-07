@@ -89,8 +89,8 @@ var ecoReleveData = (function(){
             
             grid: '../../grid',
             filter: '../../filter',
-            stepper: '../../Stepper',
-            step: '../../Stepper/lyt-step',
+            stepper: '../../stepper',
+            step: '../../stepper/lyt-step',
 
 
             /*=============================
