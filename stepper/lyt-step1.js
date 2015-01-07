@@ -39,6 +39,7 @@ define([
         },
 
         initialize: function(args){
+            console.log('step1 module')
             this.name=args.name;
             this.template=args.tpl;
 
