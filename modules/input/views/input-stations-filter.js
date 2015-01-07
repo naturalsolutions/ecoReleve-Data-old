@@ -34,11 +34,9 @@ define([
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
-<<<<<<< HEAD
+
             'change select[name="allSt-monitoredSiteType"]' :'updateSiteName'//,
-=======
-            'change input[name="allSt-monitoredSiteType"]' :'updateSiteName',
->>>>>>> development
+
             //'change input[name="allSt-fieldWorker"]' :'getFieldWorkerId'
         },
         ui: {
@@ -128,13 +126,12 @@ define([
                 this.filter[name].Value = value; 
                 this.filter[name].Operator = '='; 
             }
-<<<<<<< HEAD
+
 
             this.updateGrid();
-=======
+
             this.getFieldWorkerId(e);
-            //this.updateGrid();
->>>>>>> development
+ 
         },
         /*getFieldWorkerId : function(e){
             var fieldWorkerName = $(e.target).val();
