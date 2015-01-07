@@ -26,8 +26,8 @@ filter
 assets/css/*
 
 stepper/.git
-assets/css/*
-assets/less/*
+assets/css
+
 filter/.git
 grid/.git
->>>>>>> development
+

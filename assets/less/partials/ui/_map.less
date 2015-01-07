@@ -1,0 +1,43 @@
+.map-encart{
+	&.right{
+		right: 0;		
+	}
+	position: absolute;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 100;
+	color: white;
+	bottom: 0;
+	top: 0;
+	& .map-legend{
+		&.marker{
+			display: block;
+			height: 15px;
+			width: 15px;
+			border-radius: 100%;
+			float: left;
+			margin: 1px 10px;
+			&.current{
+				background: green;
+				border: 2px solid white;
+			}
+			&.old{
+				background: rgba(0, 153, 255, 1);
+				border: 2px solid white;
+			}
+		}
+	}
+	#grid{
+		position: absolute;
+		bottom: 50px;
+		width: 100%;
+
+	}
+}
+
+.map.controls-custom{
+	.ol-control.ol-zoom{
+		left: 35%;
+		top: 2em;
+		z-index: 1000;
+	}
+}
