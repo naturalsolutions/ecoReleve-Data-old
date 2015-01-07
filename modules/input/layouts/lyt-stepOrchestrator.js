@@ -10,6 +10,7 @@ define([
         
         /*==========  Next / Prev  ==========*/
         onShow: function(){
+            console.log('NWWWWWWWWWW')
             this.radio = Radio.channel('route');
         },
         nextStep: function(){
