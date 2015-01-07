@@ -23,16 +23,22 @@ define([
 
         },
 
+        onRender: function(){
+            $('body').addClass('validate');
+        },
 
+        onDestroy: function() {
+            $('body').removeClass('validate');
+        },
 
         gsm: function(){
             Radio.channel('route').command('validate:type', 'gsm');
         },
         rfid: function(){
-
-
+            Radio.channel('route').command('validate:type', 'rfid');
         },
         gps: function(){
+            Radio.channel('route').command('validate:type', 'argos');
         },
     });
 });

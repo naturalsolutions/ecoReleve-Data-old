@@ -1,0 +1,80 @@
+<script type="text/template">
+    
+        <div class="col-xs-4 full-height scroll-auto no-padding">
+            <div class="col-xs-12">
+                <!-- <button id="reset" class="btn-lg">reset</button> -->  
+            </div>
+            <div class="clear"></div>
+            <div class="panel-group filter-bg-image no-padding" id="filter-accordion" >
+                <div class="panel panel-default" style="border: none; background-color: rgba(0, 0, 0, 0);">
+                    <div class="panel-heading top-level" style="border-radius: 0px;">
+                        <h1 class="panel-title">
+                        <span data-toggle="collapse" data-parent="#filter-accordion" href="#filter-collapse">
+                            FILTERS
+                        </span>
+                        </h1>
+                    </div>
+                    <div id="filter-collapse" class="panel-collapse">
+
+                        <div class="clear"></div>
+                        <div id="filters"></div>
+                        <div class="col-xs-12">
+                        <br>
+                            <button id="update" class="small btn btn-labeled btn-success pull-right">
+                                 FILTER
+                                <span class="btn-label">
+                                    <i class="icon reneco search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+<!--                 <button id="add" class="btn-lg">Add</button>
+                <button id="deploy" class="btn-lg">Pose/Remove</button> -->
+                
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <br>
+    
+
+        </div>
+        <div class="col-xs-8 functions clearfix">
+            <div class="col-xs-8">
+                <div id="paginator"></div>
+            </div>
+
+            <span class="pull-right">
+                <button id="display-map" class="small btn btn-labeled btn-success">
+                     Map
+                    <span class="btn-label">
+                        <i class="icon reneco map"></i>
+                    </span>
+                </button>
+
+                <button id="display-grid" class="small btn btn-labeled btn-success">
+                     Grid
+                    <span class="btn-label">
+                        <i class="icon reneco sites"></i>
+                    </span>
+                </button>
+            </span>
+        </div>
+
+
+
+        <div class="pannels-container col-xs-8 no-padding">
+            <div class="col-xs-12 pannel pannel-grid active dark">
+                <div id="grid"></div>
+            </div>
+            <div class="col-xs-12 full-height no-padding pannel pannel-map ">
+                <div id="map" style="height: 100%"></div>    
+            </div>
+<!--             <div id="add" class="col-xs-12 full-height"></div>
+
+<div id="poseRemove" class="col-xs-12 full-height"></div> -->
+        </div>
+</script>

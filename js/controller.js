@@ -21,7 +21,8 @@ define([
     
 
     ''+module+'/stations/layouts/basemap',
-    ''+module+'/rfidN/layouts/rfid-layout',
+    ''+module+'/site/layouts/lyt-site',
+    ''+module+'/site/detail/lyt-site-detail',
 
 
     ''+module+'/import/_rfid/layouts/rfid-import',
@@ -31,24 +32,38 @@ define([
     ''+module+'/validate/layouts/validate-layout',
     ''+module+'/validate/layouts/validateType-layout',
     ''+module+'/validate/gsm/layouts/gsm-detail',
+    
 
 
-    /*
+
+
+    /*Validate Section (Modules)*/
+    ''+module+'/validate/rfid/layouts/lyt-rfid',
+    
     'stepper/lyt-demo',
     'grid/lyt-demo',
     'filter/lyt-demo',
-    */
+    
 
     //'modules/transmitter/layouts/transmitter-list'
 
 ], function(Backbone, config, Marionette, Radio, HeaderLayout, LoginView, HomeLayout, ArgosLayout,
     ArgosDetailLayout, IndivLayout, IndivDetailLayout, Rfid_Layout,
-    GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout, Stations, Rfid_N_Layout,
+    GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout, Stations, 
+
+    Lyt_Site_Main, Lyt_Site_Detail  ,
 
 
     Import_RFID_lyt,
-    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout
-    /*DemoStepper, DemoGrid, Demofilter*/) {
+
+    ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout,
+    ValidateLayoutRFID,
+
+    DemoStepper, DemoGrid, Demofilter
+
+    /*Validate Section (Modules)*/
+    
+    ) {
 
     'use strict';
 
@@ -87,9 +102,10 @@ define([
 
             /*==========  RFID N (Visu)  ==========*/
             
-            radio.comply('rfidN', this.rfidN, this);
-            radio.comply('rfidN:add', this.rfidN_add, this);
-            radio.comply('rfidN:deploy', this.rfidN_deploy, this);
+            radio.comply('site', this.site, this);
+            radio.comply('site:detail', this.site_detail, this);
+            radio.comply('site:add', this.site_add, this);
+            radio.comply('site:deploy', this.site_deploy, this);
 
             /*==========  validate  ==========*/
             
@@ -260,21 +276,45 @@ define([
         validate_type: function(type){
             var route = 'validate/'+type;
             this.checkLogin(function() {
-                Backbone.history.navigate(route);
-                this.mainRegion.show(new ValidateLayoutType({type : type}));
+                switch(type) {
+                    case 'gsm':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        break;
+                    case 'rfid':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutRFID({
+                        }));
+                        break;
+                    default:
+                        this.validate();
+                };
             }, this);
         },
-        validate_type_id: function(options){
-            var route = 'validate/'+ options.type +'/'+ options.id;
+        validate_type_id: function(type, id, id_ind){
+            var route = 'validate/'+ type +'/'+ id+'/'+ id_ind;
             this.checkLogin(function() {
-                Backbone.history.navigate(route);
-                this.mainRegion.show(new ValidateGSMDetailLayout({
-                    type : options.type,
-                    gsmID : options.id,
-                    NbObs:options.NbObs
-                }));
+                switch(type) {
+                    case 'gsm':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateGSMDetailLayout({
+                            type : type,
+                            gsmID : id,
+                            id_ind: id_ind
+                        }));
+                        break;
+                    case 'rfid':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutRFID({
+                        }));
+                        break;
+                    default:
+                        this.validate();
+                };
             }, this);  
         },
+
+
 
 
         /*==========  Exports  ==========*/
@@ -320,18 +360,18 @@ define([
         },
 
 
-        /*==========  RFID N (Visu)  ==========*/
+        /*==========  Monitored Sites (Visu)  ==========*/
         
-        rfidN: function(){
-            var route = 'rfidN/'
+        site: function(){
+            var route = 'site/'
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
-                this.mainRegion.show(new Rfid_N_Layout());
+                this.mainRegion.show(new Lyt_Site_Main());
             }, this); 
         },
 
-        rfidN_add: function(){
-            var route = 'rfidN/add/';
+        site_add: function(){
+            var route = 'site/add/';
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 var lyt = new Rfid_Layout()
@@ -340,8 +380,8 @@ define([
             }, this);
         },
 
-        rfidN_deploy: function(){
-            var route = 'rfidN/deploy/';
+        site_deploy: function(){
+            var route = 'site/deploy/';
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 var lyt = new Rfid_Layout()
@@ -349,7 +389,16 @@ define([
                 lyt.showDeploy();
             }, this);
         },
-
+        
+        site_detail: function(id){
+            var route = 'site/'+id
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                this.mainRegion.show(new Lyt_Site_Detail({
+                    id: id,
+                }));
+            }, this); 
+        },
         
         /*==========  Demo  ==========*/
         

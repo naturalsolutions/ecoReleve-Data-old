@@ -20,7 +20,15 @@ img/*
 reneco-font/*
 rsc/*
 js/li/NS.UI.autocompTree/*
+<<<<<<< HEAD
 
 grid
 filter
 assets/css/*
+=======
+stepper/.git
+assets/css/*
+assets/less/*
+filter/.git
+grid/.git
+>>>>>>> development

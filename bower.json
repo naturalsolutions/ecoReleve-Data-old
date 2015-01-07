@@ -32,7 +32,9 @@
     "marionette": "~2.2.2",
     "jquery": "~1.11.0",
     "underscore": "~1.6.0",
-    "backgrid-select-all": "~0.3.5"
+    "backgrid-select-all": "~0.3.5",
+    "bootstrap-slider": "https://github.com/seiyria/bootstrap-slider",
+    "jquery-ui": "~1.11.2"
   },
   "resolutions": {
     "moment": ">=2.8.0",

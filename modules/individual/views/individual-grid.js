@@ -140,11 +140,11 @@ define([
                         }
             } );
 
-            /*
+            
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: individuals
             });
-*/
+
         },
 
          export: function(evt) {
@@ -178,7 +178,7 @@ define([
             // height = $(window).height();
             // this.$el.height(height-$('#header-region').height());
 
-            //$('#paginator').html(this.paginator.render().el);
+            $('#paginator').html(this.paginator.render().el);
             $('#gridContainer').append(this.grid.render().el);
         },
 

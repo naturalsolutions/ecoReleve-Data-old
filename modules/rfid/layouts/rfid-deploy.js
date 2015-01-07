@@ -27,7 +27,7 @@ define([
             'input #input-type': 'updateName',
             'input #input-name': 'updateMap',
             'change #input-begin': 'updateType',
-            'change #dateTimePicker': 'updateType'
+            'change #dateTimePicker1': 'updateType'
             
         },
 
@@ -168,7 +168,7 @@ define([
             this.ui.btn.prop('disabled', false);
             this.ui.btn.text('Pose');
             this.action = 'pose';
-            $('#dateTimePicker').datetimepicker({
+            $('.dateTimePicker').datetimepicker({
 
                 use24hours: true
 
@@ -257,15 +257,20 @@ define([
 
         isValid: function() {
             var valid = true;
+
             if(this.ui.type.val() === '') {
+                console.log(this.ui.type.val());
                 this.setError('#group-type');
                 valid = false;
             }
             if(this.ui.name.val() === '') {
+                console.log(this.ui.name.val());
                 this.setError('#group-name');
                 valid = false;
             }
             if( !datetime.isValid(this.ui.begin.val()) ) {
+                console.log(this.ui.begin.val());
+
                 this.setError('#group-begin', 'Invalid format');
                 valid = false;
             }

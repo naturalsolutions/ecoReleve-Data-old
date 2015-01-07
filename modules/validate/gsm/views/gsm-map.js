@@ -11,6 +11,7 @@ define([
 
         initialize: function(options) {
             this.gsmID = options.gsmID;
+            this.id_ind=options.id_ind;
             Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
             Radio.channel('gsm-detail').comply('updateMap', this.updateMap, this);
             Radio.channel('gsm-detail').comply('colorizeSelectedRows', this.colorizeSelectedRows, this);
@@ -60,7 +61,7 @@ define([
                 else Radio.channel('gsm-detail').command('updateGrid', {id:e.element.id_, checked:true});
 
             });
-            this.loadGeoJSON(config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked?format=geojson');
+            this.loadGeoJSON(config.coreUrl + 'dataGsm/' +this.gsmID+ '/unchecked/'+this.id_ind+'?format=geojson');
         },
 
         onRender: function() {

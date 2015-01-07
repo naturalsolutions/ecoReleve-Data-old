@@ -24,7 +24,7 @@ define([
             'click #manualTile' : 'dataEntry',
             'click #importTile' : 'import',
             'click #myDataTile' : 'export',
-            'click #rfidTile': 'rfidN',
+            'click #rfidTile': 'site',
             "click #validate": 'validate',
         },
         initialize: function(){
@@ -50,7 +50,6 @@ define([
 
         onDestroy: function() {
             $('body').removeClass('home-page');
-            $('.credits').hide();
         },
 
         argos: function() {
@@ -103,8 +102,8 @@ define([
             this.radio.command('export');
         },
 
-        rfidN: function(){
-            this.radio.command('rfidN');
+        site: function(){
+            this.radio.command('site');
         },
 
         validate: function(){

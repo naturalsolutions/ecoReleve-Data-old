@@ -80,9 +80,26 @@
 	&#importTile{
 		opacity: 1;
 	}
+	&.first-classic{
+		margin-left: 0px;
+	}
 }
 
+.tile-container-3{
+	width: 3*(@small_tile+@margin);
+}
 
+@media screen and (max-width: @screen-sm){
+	.tile{
+		&.small_tile, &.big-tile, &.last, &.first{
+			margin-left: 0px!important;
+			width: 100%;
+		}
+	}
+	.tile-container-3{
+		width: 100%;
+	}
+}
 
 
 

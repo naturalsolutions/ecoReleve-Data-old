@@ -98,7 +98,6 @@ var ecoReleveData = (function(){
             =============================*/
             underscore: bower+'underscore/underscore',
             backbone: bower+'backbone/backbone',
-            //jquery: bower+'jquery/dist/jquery',
             marionette: bower+'marionette/lib/backbone.marionette.min',
             radio: bower+'backbone.radio/build/backbone.radio',
             backgrid: bower+'backgrid/lib/backgrid',
@@ -110,7 +109,9 @@ var ecoReleveData = (function(){
             sweetAlert: bower+'sweetalert/lib/sweet-alert.min',
             dateTimePicker: bower+'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker',
             moment: bower+'moment/min/moment.min',
-            jquery: bower+'jquery-1.11.0/dist/jquery',
+            //jquery: bower+'jquery-1.11.0/dist/jquery',
+            jquery_ui: bower+'jquery-ui/jquery-ui.min',
+
 
 
 
@@ -129,8 +130,8 @@ var ecoReleveData = (function(){
             ol3: 'openlayers/3.0.0/build/ol-debug',
             sha1: 'sha1/sha1',
             localforage: 'localforage/localforage-0.9.2',
-            //jquery: 'jquery/jquery-1.11.1',
-            jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
+            jquery: 'jquery/jquery-1.11.1',
+            //jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
 
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             nicescroll:'nicescroll/jquery.nicescroll',
