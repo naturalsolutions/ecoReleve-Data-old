@@ -32,7 +32,7 @@ define([
             console.log('step2')
             this.parseOneTpl(this.template);
             this.model.set(this.name + '_FileName', "");
-            var obj={name : 'FileName'};
+            var obj={name : this.name + '_FileName',required : true};
             this.stepAttributes = [obj] ;
         },
 
@@ -42,6 +42,7 @@ define([
         },
         
         parseFichier: function(e){ 
+            var loading = false;
               var self = this;
             //var selected_file = document.querySelector('#FileInput');
             var selected_file = $('#FileInput').get(0).files[0];
@@ -55,10 +56,9 @@ define([
                     var fileType = tab[1];
                     fileType = fileType.toUpperCase();
                     if (fileType != 'GPX') {
+                        this.model.set(this.name + '_FileName', "");
                         alert('File type is not supported. Please select a "gpx" file');
                     } else {
-                        
-                        
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
                             // get waypoints collection
@@ -71,6 +71,7 @@ define([
                             self.model.set(self.name + '_FileContent', self.waypointList);
                             if ((nbWaypoints > 0) && (errosList.length == 0)){
                                 $('#importGpxMsg').text('Gpx file is successfully loaded. You have ' + nbWaypoints + ' waypoints.');
+                                loading = true;
                                 
                             }
                             else if((nbWaypoints > 0) && (errosList.length > 0)){
@@ -80,6 +81,7 @@ define([
                                 for(var i=0; i< errosList.length; i++){
                                     $('#importGpxMsg').append(errosList[i] + '<br/>');
                                 }
+                                loading = true;
                                
                             } else {
                                 $('#importGpxMsg').text('Please check gpx file structure. There is not stored waypoints !');
@@ -91,8 +93,9 @@ define([
                     
                 } catch (e) {
                     alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
-                     
+                    this.model.set(this.name + '_FileName', "");
                 }
+                return loading;
             //}
         },
 
@@ -105,8 +108,8 @@ define([
             $('#FileName').val(val)  ;
             this.model.set(this.name + '_FileName', val);
             this.parseFichier(e);
+            
         }
-
     });
 
 });

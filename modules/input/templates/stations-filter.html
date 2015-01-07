@@ -15,6 +15,7 @@
                   <label><input type="radio" name="all-stationType" value ="siteName">Site name</label>
             </div>
             <input name="allSt-Name" id ="st-station" class="form-control" type="text"/>
+            <select class="form-control masqued" id="stMonitoredSiteName" name='allSt-siteName'/>
         </div>
         <div>
             <label>Date</label>
@@ -50,19 +51,27 @@
         </div>
         <div class="col-xs-12">
             <label>Fieldworker</label><br/>
-            <input type="text" name="allSt-fieldWorker" class="form-control" list="username_list"/>
+            <select name="allSt-fieldWorker" class="form-control">
+                <option></option>
+            </select>
         </div>
         <div class="col-xs-12">
             <label>Field activity</label><br/>
-            <input type="text" name="allSt-fieldActivity" class="form-control" list="activity"/>
+            <select name="allSt-fieldActivity" class="form-control">
+                <option></option>
+            </select>
         </div>
         <div class="col-xs-12">
             <label>Region</label><br/>
-            <input type="text" name="allSt-region" class="form-control" list="region_list"/>
+            <select name="allSt-region" class="form-control">
+                <option></option>
+            </select>
         </div>
         <div class="col-xs-12">
             <label>Monitored site type</label><br/>
-            <input type="text" name="allSt-monitoredSiteType" class="form-control" list="sitesTypes_list"/>
+            <select name="allSt-monitoredSiteType" class="form-control">
+                <option></option>
+            </select>
         </div>
         <div class="col-xs-12" class="inline">
             <label>Coordinates</label><br/>

@@ -1,0 +1,98 @@
+<script type="text/template">
+     <div class="fuelux">
+        <div class="wizard" data-initialize="wizard" id="inputWizard">
+            <ul class="steps">
+                <li data-step="1" class="active"><span class="badge">1</span><span class="hidden-xs">start</span><span class="chevron"></span></li>
+                <li data-step="2"><span class="badge">2</span><span class="hidden-xs">station</span><span class="chevron"></span></li>
+                <li data-step="3"><span class="badge">3</span><span class="hidden-xs">protocols</span><span class="chevron"></span></li>
+                <li data-step="4"><span class="badge">4</span><span class="hidden-xs">end</span><span class="chevron"></span></li>
+            </ul>
+        <div class="actions">
+            <button class="btn btn-lg btn-dfault btn-prev btn-custom " id="btnPrev">
+            <i class="icon small reneco leftarrow white action-picto"></i>
+            <span class="ctrl">Prev</span>
+            </button>
+
+            <button class=" pull-right btn btn-lg btn-dfault btn-next btn-custom " id="btnNext">
+            <span class="ctrl">Next</span>
+            <i class="icon small reneco rightarrow white action-picto"></i>
+            </button>
+        </div>
+
+
+            
+            <div class="step-content">
+                <div class="step-pane active sample-pane " data-step="1">
+
+                    <div class="wrapper">
+                        <div class="ui segment">
+                            <div class="ui fluid basic large form segment"> 
+                                <div class="grouped fields">
+                                    <legend for="male">select an action</legend>
+                                    <div class="field">
+                                        <div class="ui radio-inline checkbox">
+                                            <input type="radio"  name="stationtype" class="stationtype" value="new" checked id ="st1">
+                                            <label for="st1">new station</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui radio-inline checkbox">
+                                            <input type="radio" name="stationtype" class="stationtype" value="imported" id ="st2" >
+                                            <label for="st2">last imported station(s)</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui radio-inline checkbox">
+                                            <input type="radio" name="stationtype" value="old" id ="st3" class="stationtype">
+                                            <label for="st3">old (all)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="step-pane sample-pane " data-step="2">
+
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-border newStationDiv">
+                            <div id="station-form"></div>
+                            <div class="col-xs-12">
+                                <button id="inputGetStData" class="btn btn-labeled btn-success pull-right">
+                                    save
+                                    <span class="btn-label">
+                                        <i class="icon reneco validated"></i>
+                                    </span>
+                                </button>
+                            </div>
+                    </div>
+                    <div id="station-map" class="col-xs-12 col-md-7 no-padding"></div>
+                    <div class="row">
+                        <div id="gridImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-left"></div>
+                        <div id="mapImportedWaypoints" class="col-xs-12 col-sm-6 col-md-6 col-right"></div>
+                    </div>
+                    <div id="gridAllStations" class="col-xs-12 col-sm-12 col-md-12 col-left"></div>
+                    <div id="input-datalists"></div>
+                    
+                </div>
+                <div class="step-pane sample-pane " data-step="3">
+                    <div id="stationDetails" class="bg-hack"></div>
+                </div>
+                <div class="step-pane sample-pane " data-step="4">
+                    <div class="col-xs-12">
+                        <div class="wrapper">
+                        <div id="stationDetails">
+                            <label> Data are stored for this location</label>
+                            <ul>
+                                <li id="inputMoveToSation"><a> continue input data with another station</a></li>
+
+                                <li><a href="#"> exit input data</a></li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="indivFilter"></div>
+</script>

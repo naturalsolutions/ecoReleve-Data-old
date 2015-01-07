@@ -30,28 +30,6 @@ define([
 
             this.map.addInteraction(select);
 
-            /*var featureOverlay = new ol.FeatureOverlay({
-                //position: ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857'),
-                //element: $('<i class="large glyphicon glyphicon-map-marker"></img>').css({'font-size':'30px', 'left':'-12px', 'top':'-25px'})
-                style: new ol.style.Style({
-                    fill: new ol.style.Fill({
-                      color: 'rgba(255, 0, 0, 0.2)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                      color: '#ffcc33',
-                      width: 2
-                    }),
-                    image: new ol.style.Circle({
-                      radius: 7,
-                      fill: new ol.style.Fill({
-                        color: '#ffcc33'
-                      })
-                    })
-                  })
-
-            });
-            //this.map.addOverlay(this.overlay);
-            featureOverlay.setMap(this.map);*/
             var modify = new ol.interaction.Modify({
               features: select.getFeatures(),
               // the SHIFT key must be pressed to delete vertices, so

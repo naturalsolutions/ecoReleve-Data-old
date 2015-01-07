@@ -2,14 +2,14 @@ define([
     'jquery',
     'backbone',
     'config',
-    'localforage',
-    'localforagebackbone'
-], function($, Backbone, config, localforage, localforagebackbone){
+    /*'localforage',
+    'localforagebackbone'*/
+], function($, Backbone, config){  //, localforage, localforagebackbone
     'use strict';
     return Backbone.Collection.extend({
-        sync: Backbone.localforage.sync('UsersList'),
+        //sync: Backbone.localforage.sync('UsersList'),
         model: Backbone.Model.extend({
-            sync: Backbone.localforage.sync()
+           // sync: Backbone.localforage.sync()
         }),
 
         //model: app.models.User,
@@ -33,7 +33,8 @@ define([
             $.ajax({
                 context: this,
                 url: url,
-                dataType: "json"
+                dataType: "json",
+                async: false,
             })
             .done( function(data) {
                 var len = data.length;
@@ -45,7 +46,7 @@ define([
                         "fullname": label
                     });
                 }
-                this.save();
+                //this.save();
             })
             .fail( function() {
                 alert("error loading items, please check connexion to webservice");

@@ -16,7 +16,7 @@ define([
     ''+module+'/gsm/layouts/gsm-list',
     ''+module+'/transmitter/layouts/transmitter-list',
 	''+module+'/import/layouts/lyt-import-gpx',
-    ''+module+'/input/layouts/input-data',
+    ''+module+'/input/layouts/lyt-input',
     ''+module+'/export/layouts/export-layout',
     
 
@@ -96,6 +96,7 @@ define([
             radio.comply('validate', this.validate, this);
             radio.comply('validate:type', this.validate_type, this);
             radio.comply('validate_type_id', this.validate_type_id, this);
+            this.radio = radio ;
 
         },
 

@@ -4,11 +4,12 @@ define([
 	'backbone',
     'marionette',
     'radio',
-    'stepper/lyt-stepperOrchestrator',
+    'modules2/import/layouts/lyt-stepOrchestrator',  //'stepper/lyt-stepperOrchestrator',
     'stepper/lyt-step',
     'modules2/import/layouts/lyt-step2',
     'modules2/import/layouts/lyt-step3',
     'modules2/import/layouts/lyt-step4',
+    'modules2/import/layouts/lyt-step5',
     'text!stepper/tpl-demo.html',
     'text!modules2/import/templates/tpl-step1.html',
     'text!modules2/import/templates/tpl-step2.html',
@@ -16,8 +17,7 @@ define([
     'text!modules2/import/templates/tpl-step4.html',
     'text!modules2/import/templates/tpl-step5.html',
 
-
-], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step2, Step3, Step4, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,tpl_step5 ) {
+], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step2, Step3, Step4,Step5, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,tpl_step5 ) {
 
     'use strict';
 
@@ -30,13 +30,9 @@ define([
         regions: {
             stepperRegion : '#stepper',
         },
-        
-
 
         initialize: function(){
-
             this.model = new Backbone.Model();
-
         },
 
         onRender: function(){
@@ -66,7 +62,7 @@ define([
                 tpl: tpl_step4
             });
 
-            var FifthStep = new Step({
+            var FifthStep = new Step5({
                 model: this.model,
                 name: 'finish',
                 tpl: tpl_step5

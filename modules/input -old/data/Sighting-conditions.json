@@ -1,0 +1,144 @@
+{
+  "name": "Sighting conditions",
+  "description": "TProtocol_Sighting_conditions",
+  "keywords": [
+    "Displaying male search",
+	"Point-count: characteristics",
+	"Invertebrates monitoring",
+	"Invertebrates inventory",
+	"Houbara Circular Observation",
+	"Radio-scanning point",
+	"Display site confirmation",
+	"Displaying male radio-tracking",
+	"Display specific studies",
+	"Houbara Standardized Circular Observation",
+	"Houbara line transect",
+	"Ungulates Standardized Circular Observation",
+	"Ungulates line transect",
+	"Waterfowl count",
+	"Passerines count"
+  ],
+  "schema": {
+		"FK_TSta_ID":{
+		"validators":[
+		],
+		"type": "Hidden",
+		"title":"FK_TSta_ID"
+		},
+		"Start_time":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"Start time"
+		},
+
+		"End_time":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"End time"
+		},
+
+		"Observation_Duration":{
+		"validators": ["required"],
+		"type": "Time",
+		"title":"Observation duration"
+		},
+		"Id_Weather":{
+		"validators":[
+		],
+		"type": "Hidden",
+		"title":"Id_Weather"
+		},
+		"Name_Weather":{
+		"validators":[
+		],
+		"type": "Text",
+		"title":"Name_Weather",
+		"editorAttrs": { "startId": "28" },
+		"editorClass": "autocompTree"
+		},
+
+		"Id_Wind_Force":{
+		"validators":[
+		],
+		"type": "Hidden",
+		"title":"Id_Wind_Force"
+		},
+
+		"Name_Wind_Force":{
+		"validators":[
+		],
+		"type": "Text",
+		"title":"Name_Wind_Force", 
+		"editorAttrs": { "startId": "29" },
+		"editorClass": "autocompTree"
+		},
+
+		"Temperature":{
+		"validators":[
+		],
+		"type": "Number",
+		"title":"Temperature"
+		},
+
+		"Visibility":{
+		"validators":[
+		],
+		"options": [
+		{
+		"val": "1",
+		"label": "true"
+		},
+		{
+		"val": "0",
+		"label": "false"
+		}
+		],
+		"type": "Radio",
+		"title":"Visibility"
+		},
+
+		"Observation_Incomplete":{
+		"validators":[
+		],
+		"options": [
+		{
+		"val": "1",
+		"label": "true"
+		},
+		{
+		"val": "0",
+		"label": "false"
+		}
+		],
+		"type": "Radio",
+		"title":"Observation incomplete"
+		},
+
+		"Id_Observation_Tool":{
+		"validators":[
+		],
+		"type": "Hidden",
+		"title":"Id_Observation_Tool"
+		},
+
+		"Name_Observation_Tool":{
+		"validators":[
+		],
+		"type": "Text",
+		"title":"Name_Observation_Tool", 
+		"editorAttrs": { "startId": "1000433" },
+		"editorClass": "autocompTree"
+		},
+		"Comments":{
+		"validators":[
+		],
+		"type": "TextArea",
+		"title":"Comments"
+		}
+	},
+    "defaults":{
+		"Observation_Incomplete": "0",
+		"Visibility" : "0"
+   },
+  "fieldsets": []
+}

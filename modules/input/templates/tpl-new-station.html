@@ -1,0 +1,133 @@
+<form>
+	<div class="col-xs-12"><h3>New station</h3></div>
+	<div class="clear"></div>
+		<!--<div id="stationType">
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="1" checked>coordinates</label>
+			</div>
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="0">without coordinates</label>
+			</div>
+			<div class="radio-inline">
+				  <label><input type="radio" name="position" value ="2">from monitored site</label>
+			</div>
+		</div>-->
+
+	<fieldset>
+		<legend>identification</legend>
+	    <div class='col-xs-6'>
+	    	<label>station name*</label>
+	    	<div data-editors="Name"></div>
+	    	<div id='error-Name' class='error'></div>
+	    </div>
+
+	    <div class='col-xs-6 masqued'>
+	    	<label>id</label>
+	    	<div data-editors="PK"></div>
+	    	<div id='error-PK' class='error'></div>
+	    </div>
+	</fieldset>
+  	<fieldset>
+	  	<legend>date</legend>
+	  	<div>
+	  		<div class='col-xs-10'>
+		    	<label>date*</label>
+
+		    	<div class="input-group date" id="dateTimePicker" data-editors="Date_">
+	 
+	                <span class="input-group-addon">
+	                    <span class="glyphicon-calendar glyphicon"></span>
+	                </span>
+	            </div>
+		    	<div id='error-Date_' class='error'></div>
+		    </div>
+	  	</div>
+ 	</fieldset>
+	<fieldset>
+		<legend>position</legend>
+
+	  		<div class='col-xs-10 masqued' id="stRegion">
+		    	<label>region</label>
+		    	<div data-editors="Region"></div>
+		    	<div id='error-Region' class='error'></div>
+		    </div>
+		    <div id="stCoordinates">
+				<div class='col-xs-5'>
+		    	<label>latitude*</label>
+		    	<div data-editors="LAT"></div>
+		    	<div id='error-LAT' class='error'></div>
+
+			    </div>
+			    <div class='col-xs-5'>
+			    	<label>longitude*</label>
+			    	<div data-editors="LON"></div>
+			    	<div id='error-LON' class='error'></div>
+			    </div>
+			    <div class='col-xs-2'>
+			    	<br>
+			    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
+			    </div>
+			</div>
+			<div id="stMonitoredSite" class="masqued">
+				<div class='col-xs-5'>
+		    	<label>site type*</label>
+		    	<select class="form-control" id="stMonitoredSiteType" name='id_site'/>
+
+			    </div>
+			    <div class='col-xs-5'>
+			    	<label>site name*</label>
+			    	<select class="form-control" id="stMonitoredSiteName" name='name_site'/>
+			    </div>
+			</div>
+	</fieldset>
+    <fieldset id='station-fieldWorkers' insertedWorkersNb="1">
+  	<legend>field caracteristics</legend>
+  	<div>
+  		<div class='col-xs-5'>
+	    	<label>field activity*</label>
+	    	<div data-editors="FieldActivity_Name"></div>
+	    	<div id='error-FieldActivity_Name' class='error'></div>
+	    </div>
+
+		<div class="col-xs-5">
+	    	<label>observer 1*</label><br/>
+	    	<div data-editors="FieldWorker1"></div>
+	    	<div id='error-FieldWorker1' class='error'></div>
+		</div>
+
+
+	    <div id="addFieldWorkerInput" class='col-xs-2'>
+	    	<br>
+	    	<i class="icon-action icon mini reneco add"></i>
+	    </div>
+
+
+	   	<div class='col-xs-5 masqued' id='FieldWorker2-field'>
+	    	<label>observer 2</label>
+	    	<div data-editors="FieldWorker2"></div>
+	    </div>
+	   	<div class='col-xs-5 masqued' id='FieldWorker3-field'>
+	    	<label>observer 3</label>
+	    	<div data-editors="FieldWorker3"></div>
+	    </div>
+	   	<div class='col-xs-5 masqued' id='FieldWorker4-field'>
+	    	<label>observer 4</label>
+	    	<div data-editors="FieldWorker4"></div>
+	    </div>
+	   	<div class='col-xs-5 masqued' id='FieldWorker5-field'>
+	    	<label>observer 5</label>
+	    	<div data-editors="FieldWorker5"></div>
+	    </div>
+	    <!--<div class="masqued">
+			<div data-editors="id_site"></div>
+			<div data-editors="precision"></div>
+			<div data-editors="name_site"></div>
+	    </div>  -->
+
+
+	    
+  	</div>
+  	<br>
+  </fieldset>
+  <br><br><br>
+</form>

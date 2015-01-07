@@ -20,6 +20,7 @@ define([
         ===================================================*/
         events : {
             'click #reset' : 'reset',
+            'change #importFieldActivity' : 'setFieldActivity'
             
         },
         regions: {
@@ -29,12 +30,8 @@ define([
         feedTpl: function(){
             
         },
-
-        initModel: function(myTpl){// Initialisation du model à partir du template    
-            //Step.prototype.parseOneTpl.call(this);
-           
+        initModel: function(myTpl){
             this.parseOneTpl(this.template);
-            
         },
         onShow: function(){
         
@@ -42,21 +39,18 @@ define([
                 this.mapRegin.show(map);
                 var collection = this.model.get('data_FileContent') ; 
                 map.addCollection(collection);
-                //Radio.channel('import').command('initGrid');
+                Radio.channel('import').command('initGrid');
                 var mygrid = new Grid({collections : collection});
                 this.gridRegion.show(mygrid);
                 
-        }
-        /*
-        feedTpl: function(){
-            var NomFichier = this.model.get(this.name + '_FileName');
-            this.$el.find('#FileName').val(NomFichier) ;
         },
-        */
-        
-
-        
-
+        setFieldActivity : function(e){
+            var currentFieldVal = $(e.target).val();
+            var collection = this.model.get('data_FileContent') ; 
+             collection.each(function(model) {
+                model.set('fieldActivity',currentFieldVal); 
+            });
+        }
     });
 
 });

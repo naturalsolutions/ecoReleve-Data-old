@@ -194,6 +194,8 @@ define([
             console.log(id);
             //console.log(this.grid.collection);
             var currentStation = this.grid.collection.where({ PK: id})[0];
+            this.radio.command('generateStation', currentStation);
+            /*console.log(currentStation);
              $.ajax({
                 url: config.coreUrl+'station/getProtocol',
                 data: { id_sta: id },
@@ -202,7 +204,7 @@ define([
                 success: function(data){
                     this.radio.command('generateForms', {station:currentStation, data: data});
                 }
-            });
+            });*/
         }
     });
 });

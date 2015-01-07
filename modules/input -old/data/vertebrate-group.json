@@ -1,0 +1,168 @@
+﻿{
+  "name": "Vertebrate group",
+  "description": "TProtocol_Vertebrate_Group",
+  "keywords": [
+    "Bird trapping",
+    "Reptile trapping",
+    "Mammal trapping"
+  ],
+  "schema": {
+    "Name_Taxon": {
+      "validators": [ "required"],
+      "type": "Text",
+      "title": "taxon",
+      "editorAttrs": { "startId": "8" },
+      "editorClass": "autocompTree"
+    },
+    "Identity_sure": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "sure"
+    },
+    "Nb_Adult_Male": {
+      "validators": [],
+      "type": "Number",
+      "title": "adult male"
+    },
+    "Nb_Adult_Female": {
+      "validators": [],
+      "type": "Number",
+      "title": "adult female"
+    },
+    "Nb_Adult_Indeterminate": {
+      "validators": [],
+      "type": "Number",
+      "title": "adult indeterminate"
+    },
+    "Nb_Juvenile_Male": {
+      "validators": [],
+      "type": "Number",
+      "title": "juvenile male"
+    },
+    "Nb_Juvenile_Female": {
+      "validators": [],
+      "type": "Number",
+      "title": "juvenile female"
+    },
+    "Nb_Juvenile_Indeterminate": {
+      "validators": [],
+      "type": "Number",
+      "title": "juvenile indeterminate"
+    },
+    "Nb_NewBorn_Male": {
+      "validators": [],
+      "type": "Number",
+      "title": "new born male"
+    },
+    "Nb_NewBorn_Female": {
+      "validators": [],
+      "type": "Number",
+      "title": "new born female"
+    },
+    "Nb_NewBorn_Indeterminate": {
+      "validators": [],
+      "type": "Number",
+      "title": "new born indeterminate"
+    },
+    "Nb_Indeterminate": {
+      "validators": [],
+      "type": "Number",
+      "title": "indeterminate"
+    },
+    "Nb_Total": {
+      "validators": [],
+      "type": "Number",
+      "title": "total"
+    },
+    "Name_Behaviour": {
+      "validators": [],
+      "type": "Text",
+      "title": "behaviour",
+      "editorAttrs": { "startId": "1032620" },
+      "editorClass": "autocompTree"
+    },
+    "Id_Behaviour": {
+      "validators": [],
+      "type": "Number",
+      "title": "id behaviour"
+    },
+    "Disturbed": {
+      "validators": [],
+      "options": [
+        {
+          "val": "1",
+          "label": "true"
+        },
+        {
+          "val": "0",
+          "label": "false"
+        }
+      ],
+      "type": "Radio",
+      "title": "disturbed"
+    },
+    "Comments": {
+      "validators": [],
+      "type": "TextArea",
+      "title": "comments"
+    },
+    "Measured_Distance": {
+      "validators": [],
+      "type": "Number",
+      "title": "measured distance"
+    },
+    "Estimated_Distance": {
+      "validators": [],
+      "type": "Number",
+      "title": "estimated distance"
+    },
+    "AngleNorth": {
+      "validators": [],
+      "type": "Number",
+      "title": "angle from north"
+    },
+    "AngleTrack": {
+      "validators": [],
+      "type": "Number",
+      "title": "angle from track"
+    },
+    "timestamp": {
+      "validators": [],
+      "type": "Time",
+      "title": "obs time"
+    }
+  },
+   "defaults":{
+    "Identity_sure" : "1"
+  },
+  "fieldsets": [
+    {
+      "fields": ["Name_Taxon", "Id_taxon","Identity_sure"],
+      "legend": "Identification"
+    },
+    {
+      "fields": ["Nb_Adult_Male","Nb_Adult_Female","Nb_Adult_Indeterminate","Nb_Juvenile_Male","Nb_Juvenile_Female","Nb_Juvenile_Indeterminate",
+      "Nb_NewBorn_Male","Nb_NewBorn_Female","Nb_NewBorn_Indeterminate","Nb_Indeterminate","Nb_Total"],
+      "legend": "Individual number"
+    },
+    {
+      "fields": ["Measured_Distance", "Estimated_Distance","AngleNorth","AngleTrack","timestamp"],
+      "legend": "Orientation"
+    },
+    {
+      "fields": ["Comments","Disturbed","Name_Behaviour","Id_Behaviour"],
+      "legend": "Other"
+    }
+  ]
+}
+

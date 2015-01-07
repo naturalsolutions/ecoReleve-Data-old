@@ -1,0 +1,144 @@
+<script type="text/template">
+            <div class="col-sm-3" id="stationPanel">
+                  <div class="wrapper">
+                  <!--<span id="hideStationDetails" class="glyphicon pointer big glyphicon-chevron-left"></span> -->
+                  <h3>Station</h3>
+                  <br>
+                  <!--<div class="col-sm-4" id='mapStDetails' height="200px;" width="200px"></div>-->
+                              <div class="row" >
+                                    <div class="col-sm-4" id=''>
+                                          <label>id</label>
+                                          <div><%= PK %></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                                <label>name</label>
+                                          <div><%= Name %></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''></div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-4" id=''>
+                                          <label>lat</label>
+                                          <div><%= LAT %></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                                <label>lon</label>
+                                          <div><%= LON %></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                       <label>elev</label>
+                                          <div>_</div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-8" id=''>
+                                          <label>place</label>
+                                          <div><input name="stPlace" list="places_list" class="blackFont form-control"></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                          <label>region</label>
+                                          <div><%= Region %></div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-8" id=''>
+                                          <label>accuracy(m)</label>
+                                          <div><input name="stAccuracy" class="blackFont" type="number"></div>
+                                    </div>
+                                    <div class="col-sm-4" id=''>
+                                          <label>utm</label>
+                                          <div></div>
+                                    </div>
+                              </div>
+
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-12" id=''>
+                                                <label>dist from observer</label>
+                                          <div>
+                                                <select id="stDistFromObs" class="blackFont form-control">
+                                                      <option value="NULL"></option>
+                                                      <option value="1000004">&lt;100m</option>
+                                                      <option value="1000005">100m&lt; x &lt;500m</option>
+                                                      <option value="1000006">&gt;500m</option>
+                                                </select>
+                                          </div>
+                                    </div>
+                              </div>
+                              <br/>
+                              <div class="row" >
+                                    <div class="col-sm-3">
+                                          <i class="icon small reneco site" id="icon-age"></i> 
+                                    </div>
+                                    <div class="col-sm-9">
+                                          <label>site</label>
+                                          <div><%= name_site %></div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-3">
+                                          <i class="icon small reneco time" id="icon-age"></i> 
+                                    </div>
+                                    <div class="col-sm-9">
+                                          <label>time</label>
+                                          <div><%= Date_ %></div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-3">
+                                          <i class="icon small reneco fieldactivity" id="icon-age"></i> 
+                                    </div>
+                                    <div class="col-sm-9">
+                                          <label>field activity</label>
+                                          <div><input  name="st_FieldActivity_Name" type="text" list="activity" class="blackFont">
+                                          </div>
+                                    </div>
+                              </div>
+                              <br>
+                              <div class="row" >
+                                    <div class="col-sm-3">
+                                          <i class="icon small reneco users" id="icon-age"></i> 
+                                    </div>
+                                    <div class="col-sm-9">
+                                          <label>observer(s)</label>
+                                          <div><%= FieldWorker1 %></div>
+                                    </div>
+                              </div>
+                  </div>
+            </div>
+
+
+            <div class="col-sm-9">
+                  <div class="wrapper">
+                        <div class="col-xs-4">
+                              <h3>Protocols</h3>                              
+                        </div>
+                        <div class="col-xs-7">
+                              <div id="add-proto">
+                                    <br>
+                                    <input type="text" class="add-protocol form-control" name="add-protocol" placeholder="add a protocol" list="protocolsList"/>
+                                    <!--<i class="icon mini reneco add"></i>-->
+                                    <datalist id="protocolsList"></datalist>
+                              </div>
+                        </div>
+                        <div class="col-xs-1">
+                              <br>
+                              <i class="icon-action icon mini reneco add"></i>
+                        </div>
+                        <div class="clear"></div>
+                        <br><br>
+
+
+                        <div id="input-forms"></div>
+                  </div> 
+            </div>
+
+            <div class="clear"></div>
+            <br><br>
+      <div class="loader" data-initialize="loader" id="myLoader"></div>
+</script>
