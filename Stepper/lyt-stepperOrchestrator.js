@@ -198,10 +198,14 @@ define([
             console.log(this.model);
         },
         changeStep : function(e){
-            var element = $(e.target.id);
-            alert(element);
-            var idStep = parseInt($(e.target).parent().find('span.badge').text())-1 ;
-            console.log(idStep);
+            var element = $(e.target);
+            var idStep ;
+            if ( element.is( "li" ) ) {
+                idStep = parseInt($(e.target).find('span.badge').text())-1 ;
+            } else {
+                idStep = parseInt($(e.target).parent().find('span.badge').text())-1 ;
+            }
+            this.toStep(idStep);
         }
     });
 
