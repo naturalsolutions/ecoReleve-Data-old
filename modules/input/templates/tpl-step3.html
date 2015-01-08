@@ -9,9 +9,10 @@
             <div class="col-xs-7">
                 <div id="add-proto">
                     <br>
-                    <input type="text" class="add-protocol form-control" name="add-protocol" placeholder="add a protocol" list="protocolsList"/>
-                    <!--<i class="icon mini reneco add"></i>-->
-                    <datalist id="protocolsList"></datalist>
+                    <select  class="add-protocol form-control" name="add-protocol" placeholder="add a protocol">
+                        <option></option>
+                    </select>
+
                 </div>
             </div>
             <div class="col-xs-1">
@@ -21,9 +22,7 @@
             <div class="clear"></div>
             <br><br>
             <div>
-            	<ul class="nav nav-tabs" id="tabProtsUl">
-            		<li class="active" ><a data-toggle="tab" name="Bird Biometry"><span><i></i></span>Bird Biometry</a><i class="icon reneco close braindead"></i></li>
-					<li ><a data-toggle="tab" name="Chiroptera capture"><span><i></i></span>Chiroptera capture</a><i class="icon reneco close braindead"></i></li>
+            	<ul class="nav nav-tabs" id="tabProtsUl" name="tabProtsUl">
             	</ul>
 				<div class="tab-content" id="tabProtsContent">
 					<div class="tab-pane active" id="formsContainer"></div>

@@ -80,7 +80,7 @@
 						console.log(this);
 						this.model.schema = resp.schema;
 						this.model.attributes = resp.data;
-						if (resp.fieldsets) {
+						if (resp.fieldsets.length > 0) {
 							this.model.fieldsets = resp.fieldsets;
 						}
 						this.model.url = this.modelurl;
@@ -115,6 +115,7 @@
             this.BBForm = new BackboneForm({ model: this.model });
             this.BBForm.render();
 			var formContent = this.BBForm.el;
+            console.log(formContent);
 			// format fields to have bootstrap style
             $(formContent).find('fieldset>div').addClass('col-sm-4');
 			$(formContent).find('input[type="text"]').addClass('form-control');

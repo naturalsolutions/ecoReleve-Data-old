@@ -318,8 +318,9 @@ define([
            }
         },
         nextOK: function(){
+            var result = false; 
             var stationType = this.model.get('start_stationtype');
-            if (stationType !='new') {
+            if (stationType =='imported' || stationType =='old') {
                 return true;
             }
             // create a station model from stored data in global model
@@ -331,12 +332,43 @@ define([
                     // attribute name
                     var attrName = attribute.substring(8, attribute.length);
                     station.set(attrName, this.model.get(attribute));
+                    /*if(attrName =='FieldWorker1' || attrName =='FieldWorker2' || attrName =='FieldWorker3' || attrName =='FieldWorker4' || attrName =='FieldWorker5'){
+                        // convert value to int
+                        station.set(attrName, parseInt(this.model.get(attribute)));
+                    }*/
                 }
-               
             }
             console.log(station);
+            var url= config.coreUrl +'station/addStation/insert';
+           
+            $.ajax({
+                url:url,
+                context:this,
+                type:'POST',
+                data:  station.attributes,
+                dataType:'json',
+                async: false,
+                success: function(data){
+                    var PK = Number(data.PK);
+                    if(PK){
+                        station.set('PK',PK);
+                        station.set('Region',data.Region);
+                        station.set('UTM20',data.UTM20);
+                        this.model.set('station_position', station);
+                        result = true;
+                    } else if (data==null) {
+                        alert('this station is already saved, please modify date or coordinates');
+                    } 
 
-            
+                    else {
+                        alert('error in creating new station');
+                    }
+                },
+                error: function(data){
+                    alert('error in creating new station');
+                }
+            });
+            return result;
 
            // send new station  to the server
            /*var url=config.coreUrl + 'station/addMultStation/insert';

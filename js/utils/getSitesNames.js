@@ -18,7 +18,6 @@ define([
             })
             .done( function(data) {
                 var len = data.length;
-                console.log(data);
                for (var i = 0; i < len; i++) {
                     var label = data[i];
                     content += '<option value="' +  data[i] +'">'+  data[i] +'</option>';

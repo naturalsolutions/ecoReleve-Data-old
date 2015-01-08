@@ -4,12 +4,14 @@ define([
     'backbone',
     'marionette',
     'radio',
+    'config',
     'stepper/level1-demo',
     'stepper/lyt-step',
     'modules2/input/views/station-details',
     'modules2/NaturalJS-Form/NsFormsModule',
+    'utils/getProtocolsList'
 
-], function($, _, Backbone, Marionette, Radio, View1, Step, StationDetails,NsFormsModule) {
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList) {
 
     'use strict';
 
@@ -39,16 +41,20 @@ define([
             $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
             // add form
             var formView = new NsFormsModule({
-                file : 'bird-biometry.json',
+                file : 'simplified-habitat.json',
                 name :'bird-biometry',
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons'
             });
+            this.getProtocolsList(fieldActivity);
+            //this.getProtocol('Biometry', 140);
+            this.getProtocols();
         },
         updateForm : function(e){
             var selectedForm = $(e.target).attr('name');
             var file;
-            if(selectedForm ==='Bird Biometry'){
+            this.getProtocol(selectedForm,'');
+            /*if(selectedForm ==='Bird Biometry'){
                 file='bird-biometry.json';
             }
             else{
@@ -58,7 +64,61 @@ define([
                 file : file,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons'
+            });*/
+        },
+        getProtocolsList : function(fieldActivity){
+             var url= config.coreUrl +'protocols/list';
+             var data = {};
+             if(fieldActivity){
+                data = {'fieldActivity':fieldActivity};
+             }
+            $.ajax({
+                url:url,
+                context:this,
+                data : data,
+                type:'GET',
+                success: function(data){
+                    var len = data.length;
+                    var elements ='';
+                   for (var i = 0; i < len; i++) {
+                        var protoName = data[i].proto_name;
+                        var liElement = '<li>';
+                        liElement += '<a data-toggle="tab" name="'+ protoName + 
+                            '"><span><i></i></span>' + protoName + 
+                            '</a><i class="icon reneco close braindead"></i></li>';
+                        elements += liElement;
+                    }
+                    console.log(elements);
+                    $('ul[name="tabProtsUl"]').append(elements);
+                },
+                error: function(data){
+                    alert('error in loading protocols');
+                }
             });
+
+        },
+        getProtocol: function(protoName, id){
+            var url= config.coreUrl +'station/getProtocol?proto_name=' + protoName + '&id_proto=' + id ;
+            var formView = new NsFormsModule({
+                modelurl : url,
+                formRegion :'formsContainer',
+                buttonRegion : 'formButtons'
+            });
+            /*$.ajax({
+                url:url,
+                context:this,
+                type:'GET',
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(data){
+                    alert('error in loading protocols');
+                }
+            });*/
+        },
+        getProtocols : function(){
+            var protocols  = getProtocolsList.getElements('protocols/list');
+            $('select[name="add-protocol"]').append(protocols);
         }
     });
 
