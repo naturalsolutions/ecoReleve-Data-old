@@ -69,6 +69,7 @@ define([
                 }
 
             } else {
+                this.initModel('old',null);
                 this.leftRegion.show(new FilterView());
                 this.rightRegion.show(new GridView());
             }
