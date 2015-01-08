@@ -13,7 +13,6 @@ define([
     'text!stepper/tpl-step3.html',
 
 
-
 ], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step1,  tpl, tpl_step1, tpl_step2, tpl_step3) {
 
     'use strict';

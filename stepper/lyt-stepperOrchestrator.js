@@ -16,6 +16,7 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         template: tpl,
+        
 
         events: {
             'click #infos' : 'infos',
