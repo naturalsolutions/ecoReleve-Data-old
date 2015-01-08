@@ -53,7 +53,7 @@ define([
         },
         generateSelectLists : function(){
             var content = getUsers.getElements('user');
-            $('select[name="FieldWorker1"]').append(content);
+            $('select[name^="FieldWorker"]').append(content);
             var fieldList = getFieldActivity.getElements('theme/list');
             $('select[name="FieldActivity_Name"]').append(fieldList);
             var regionList = getRegions.getElements('station/area');
