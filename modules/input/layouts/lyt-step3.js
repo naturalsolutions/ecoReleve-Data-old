@@ -20,7 +20,8 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         events : {
-            'click #tabProtsUl a' : 'updateForm'
+            'click #tabProtsUl a' : 'updateForm',
+            'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity'
         },
         regions: {
             stationRegion: '#stContainer',
@@ -67,11 +68,11 @@ define([
             });*/
         },
         getProtocolsList : function(fieldActivity){
-             var url= config.coreUrl +'protocols/list';
-             var data = {};
-             if(fieldActivity){
+            var url= config.coreUrl +'protocols/list';
+            var data = {};
+            if(fieldActivity) {
                 data = {'fieldActivity':fieldActivity};
-             }
+            }
             $.ajax({
                 url:url,
                 context:this,
@@ -88,14 +89,13 @@ define([
                             '</a><i class="icon reneco close braindead"></i></li>';
                         elements += liElement;
                     }
-                    console.log(elements);
+                    $('ul[name="tabProtsUl"]').html('');
                     $('ul[name="tabProtsUl"]').append(elements);
                 },
                 error: function(data){
                     alert('error in loading protocols');
                 }
             });
-
         },
         getProtocol: function(protoName, id){
             var url= config.coreUrl +'station/getProtocol?proto_name=' + protoName + '&id_proto=' + id ;
@@ -119,6 +119,10 @@ define([
         getProtocols : function(){
             var protocols  = getProtocolsList.getElements('protocols/list');
             $('select[name="add-protocol"]').append(protocols);
+        },
+        updateFieldActivity : function(e){
+            var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
+            this.getProtocolsList(value);
         }
     });
 

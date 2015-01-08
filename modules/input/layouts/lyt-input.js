@@ -5,7 +5,8 @@ define([
     'marionette',
     'radio',
     'modules2/input/layouts/lyt-stepOrchestrator',  //'stepper/lyt-stepperOrchestrator',
-    'stepper/lyt-step',
+    //'stepper/lyt-step',
+    'modules2/input/layouts/lyt-step1',
     'modules2/input/layouts/lyt-step2',
     'modules2/input/layouts/lyt-step3',
     'modules2/input/layouts/lyt-step4',
@@ -16,7 +17,7 @@ define([
     'text!modules2/input/templates/tpl-step4.html',
      'modules2/input/layouts/individual-list'
 
-], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step, Step2, Step3, Step4, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,IndivFilter) {
+], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step1, Step2, Step3, Step4, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,IndivFilter) {
 
     'use strict';
 
@@ -40,7 +41,7 @@ define([
 
         onRender: function(){
 
-            var FirstStep = new Step({
+            var FirstStep = new Step1({
                 model: this.model,
                 name: 'start',
                 tpl: tpl_step1
