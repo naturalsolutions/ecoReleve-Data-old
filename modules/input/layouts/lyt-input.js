@@ -34,6 +34,7 @@ define([
         events : {
             'click span.picker': 'filterIndivShow',
             'click button.filterClose' : 'filterMask',
+            'click button.filterCancel' :'filterCancel'
         },
         initialize: function(){
             this.model = new Backbone.Model();
@@ -96,6 +97,10 @@ define([
             this.indivFilterRegion.reset();
             $('#indivIdModal').remove();
             $('div.modal-backdrop.fade.in').remove();
+        },
+        filterCancel : function(){
+            $('input.pickerInput').val('');
+            this.filterMask();
         }
     });
 });

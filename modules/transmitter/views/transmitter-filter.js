@@ -20,6 +20,8 @@ define([
             'change input': 'update',
             'focus input': 'fill',
             'submit': 'catch',
+            'click #add' : 'add',
+            'click #poseRemove' : 'deploy',
         },
 
         initialize: function() {
@@ -58,5 +60,14 @@ define([
             this.filter[crit] = val;
             this.radio.trigger('update', {filter:this.filter});
         },
+
+
+        add: function(){
+             Radio.channel('route').command('site:add');
+        },
+        deploy: function(){
+            console.log("deply")
+            Radio.channel('route').command('site:deploy');
+        }
     });
 });

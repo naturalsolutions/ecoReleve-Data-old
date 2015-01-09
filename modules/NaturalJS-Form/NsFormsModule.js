@@ -28,6 +28,7 @@
             this.name = options.name;
             this.buttonRegion = options.buttonRegion;
             this.formRegion = options.formRegion;
+            this.stationId = parseInt(options.stationId);
             if (options.id) {
                 this.id = options.id;
                 this.isNew = false;
@@ -63,12 +64,12 @@
             this.model = new Backbone.Model();
             console.log(this.model);
             var url = this.modelurl   ;
-            if (!this.isNew) {
+            /*if (!this.isNew) {
                 url += this.id;
             }
             else if (this.modelurl) {
                 url += '0';
-            }
+            }*/
             if(this.modelurl) {
 				$.ajax({
 					url: url,
@@ -79,7 +80,15 @@
 					success: function (resp) {
 						console.log(this);
 						this.model.schema = resp.schema;
-						this.model.attributes = resp.data;
+                        var data = resp.data;
+                        if(data && (! _.isEmpty(data))){
+                            this.model.attributes = data;
+                        } else {
+                            this.model.attributes = resp.defaults || {};
+                        }
+						if(this.model.schema.FK_TSta_ID){
+                            this.model.set('FK_TSta_ID', this.stationId);
+                        }
 						if (resp.fieldsets.length > 0) {
 							this.model.fieldsets = resp.fieldsets;
 						}
@@ -126,6 +135,18 @@
             $('#' + this.buttonRegion).html(this.template);
             this.displaybuttons();
 			this.createAutocompTree();
+            $('.timePicker').datetimepicker({
+                pickDate: false,                
+                useMinutes: true,              
+                useSeconds: false,               
+                minuteStepping:1,
+                use24hours: true,
+                format: 'HH:mm'    
+            });
+            /*$('.timePicker').on('dp.show', function(e) {
+                    $('input.timeInput').val('');    
+            });*/
+            $('input.timeInput').attr('placeholder' ,'hh:mm');
         },
 		createAutocompTree : function(e){
             //var startId = $(e.target).attr('startId');
@@ -185,14 +206,18 @@
         butClickSave: function (e) {
             //e.preventDefault();
             // TODO gérer l'appel AJAX
-            this.BBForm.commit();
-            console.log(this.model);
-            this.model.set('id', null);
-            this.model.save();
-            
-            this.displayMode = 'display';
-            this.displaybuttons();
-            
+            var errors = this.BBForm.commit();
+            if(!errors){
+                console.log(this.model);
+                //this.model.set('id', null);
+                var staId = this.model.get('FK_TSta_ID');
+                if(staId){
+                    this.model.set('FK_TSta_ID', parseInt(staId));
+                }
+                this.model.save();
+                this.displayMode = 'display';
+                this.displaybuttons();
+            }
         },
         butClickEdit: function (e) {
             e.preventDefault();

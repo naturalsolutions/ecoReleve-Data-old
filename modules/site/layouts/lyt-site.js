@@ -100,10 +100,13 @@ define([
 
 
         add: function(){
-            this.radio.command('rfidN:add');
+            console.log('add');
+            this.radio.command('site:add');
         },
         deploy: function(){
-            this.radio.command('rfidN:deploy');
+            console.log('deploy');
+
+            this.radio.command('site:deploy');
         },
 
         detail: function(evt) {

@@ -195,6 +195,8 @@ define([
             //console.log(this.grid.collection);
             var currentStation = this.grid.collection.where({ PK: id})[0];
             this.radio.command('generateStation', currentStation);
+            $('table.backgrid tr').removeClass('backgrid-selected-row');
+            $(row).addClass('backgrid-selected-row');
             /*console.log(currentStation);
              $.ajax({
                 url: config.coreUrl+'station/getProtocol',

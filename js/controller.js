@@ -382,6 +382,8 @@ define([
 
         site_deploy: function(){
             var route = 'site/deploy/';
+            console.log('deploy');
+
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 var lyt = new Rfid_Layout()

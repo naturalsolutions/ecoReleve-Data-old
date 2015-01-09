@@ -16,6 +16,7 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         template: tpl,
+        
 
         events: {
             'click #infos' : 'infos',
@@ -44,6 +45,9 @@ define([
         },
 
         initialize: function(options){
+            $('body').addClass('home-page');
+            $('#main-region').addClass('full-height blur');
+
             this.steps=options.steps;
             var current;
             for(var i=0; i < this.steps.length; i++){

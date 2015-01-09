@@ -21,40 +21,70 @@ define([
         ===================================================*/
         events : {
             'click #tabProtsUl a' : 'updateForm',
-            'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity'
+            'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
+            'change select[name="add-protocol"]' : 'addForm',
+            'click a.pkProtocol' : 'getProtoByPkId'
         },
         regions: {
             stationRegion: '#stContainer',
             formsRegion : '#formsContainer'
+        },
+        ui:{
+            addProto : 'select[name="add-protocol"]'
         },
         feedTpl: function(){
             
         },
         initModel: function(myTpl){
             this.parseOneTpl(this.template);
+            this.activeProtcolsObj = [];
         },
         onShow: function(){
             var stationModel = this.model.get('station_position');
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
-            // set stored value of field activity
+            // set stored value of field activity and accuray
             var fieldActivity = stationModel.get('FieldActivity_Name');
             $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
             // add form
-            var formView = new NsFormsModule({
+            /*var formView = new NsFormsModule({
                 file : 'simplified-habitat.json',
                 name :'bird-biometry',
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons'
-            });
-            this.getProtocolsList(fieldActivity);
+            });*/
+            //this.getProtocolsList(fieldActivity);
+            this.idStation = stationModel.get('PK');
+            this.getProtocolsList(this.idStation);
             //this.getProtocol('Biometry', 140);
             this.getProtocols();
         },
-        updateForm : function(e){
-            var selectedForm = $(e.target).attr('name');
-            var file;
-            this.getProtocol(selectedForm,'');
+        updateForm : function(e,element){
+            var selectedProtoName;
+            if(!element){
+                selectedProtoName = $(e.target).attr('name');
+            }
+            else {
+                selectedProtoName = $(element).attr('name');
+            }
+            // check if we have only one instance or not of selected proto
+            this.selectedProtoName = selectedProtoName;
+            for(var key in this.activeProtcolsObj) {
+               if(key == selectedProtoName){
+                    var pk_list = this.activeProtcolsObj[key].PK_data;
+                    var nbProtoInstances = pk_list.length;
+                    if(nbProtoInstances==1){
+                        var idProto = pk_list[0];
+                        $('#formsIdList ul').html('');
+                        this.getProtocol(selectedProtoName,idProto);
+                        this.selectedProtoId = idProto;                        
+                    } else {
+                        this.genInterfaceForCurrentProto(pk_list);
+                    }
+               }
+            }
+
+            //this.getProtocol(selectedProtoName,'');
             /*if(selectedForm ==='Bird Biometry'){
                 file='bird-biometry.json';
             }
@@ -67,54 +97,38 @@ define([
                 buttonRegion : 'formButtons'
             });*/
         },
-        getProtocolsList : function(fieldActivity){
-            var url= config.coreUrl +'protocols/list';
-            var data = {};
-            if(fieldActivity) {
-                data = {'fieldActivity':fieldActivity};
-            }
+        getProtocolsList : function(idStation){
+
+            var url= config.coreUrl + 'station/'+ idStation + '/protocol';
+            var ulElement = $('ul[name="tabProtsUl"]');
             $.ajax({
                 url:url,
                 context:this,
-                data : data,
                 type:'GET',
                 success: function(data){
-                    var len = data.length;
-                    var elements ='';
-                   for (var i = 0; i < len; i++) {
-                        var protoName = data[i].proto_name;
-                        var liElement = '<li>';
-                        liElement += '<a data-toggle="tab" name="'+ protoName + 
-                            '"><span><i></i></span>' + protoName + 
-                            '</a><i class="icon reneco close braindead"></i></li>';
-                        elements += liElement;
-                    }
-                    $('ul[name="tabProtsUl"]').html('');
-                    $('ul[name="tabProtsUl"]').append(elements);
+                    this.activeProtcolsObj = data;
+                    this.generateNavBarProtos();
                 },
                 error: function(data){
                     alert('error in loading protocols');
                 }
+            }).done(function(){
+                var element = $('ul[name="tabProtsUl"]').find('li:first a');
+                this.updateForm(null, element );
+                $(ulElement).find('li').removeClass('active');
+                $(ulElement).find('li:first').addClass('active');
             });
         },
         getProtocol: function(protoName, id){
-            var url= config.coreUrl +'station/getProtocol?proto_name=' + protoName + '&id_proto=' + id ;
+            this.formsRegion.empty();
+            $('#formsContainer').text('');
+            var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
             var formView = new NsFormsModule({
                 modelurl : url,
                 formRegion :'formsContainer',
-                buttonRegion : 'formButtons'
+                buttonRegion : 'formButtons',
+                stationId : this.idStation
             });
-            /*$.ajax({
-                url:url,
-                context:this,
-                type:'GET',
-                success: function(data){
-                    console.log(data);
-                },
-                error: function(data){
-                    alert('error in loading protocols');
-                }
-            });*/
         },
         getProtocols : function(){
             var protocols  = getProtocolsList.getElements('protocols/list');
@@ -123,6 +137,62 @@ define([
         updateFieldActivity : function(e){
             var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
             this.getProtocolsList(value);
+        },
+        generateNavBarProtos : function(){
+            // generate interface with list content
+            var htmlContent ='';
+            for(var key in this.activeProtcolsObj) {
+                var tm = key;
+                var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
+                
+                htmlContent +=  '<li><a data-toggle="tab" name="'+ key ;
+                htmlContent += '"><span><i></i></span>' + key ;
+                if(nbProtoInstances > 1){
+                    htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
+                }
+                 htmlContent += '</a><i class="icon reneco close braindead"></i></li>';
+            }
+            var ulElement = $('ul[name="tabProtsUl"]');
+            $(ulElement).html('');
+            $(ulElement).append(htmlContent);
+        },
+        addForm : function(){
+            var selectedProtocolName = $(this.ui.addProto).val();
+            if(selectedProtocolName){
+                var exists = false;
+                for(var key in this.activeProtcolsObj) {
+                    if(key == selectedProtocolName){
+                        exists = true;
+                        // a new instance of protocol have id = 0
+                        this.activeProtcolsObj[key].PK_data.push(0);
+                    } 
+                }
+                if (!exists){
+                    var protoObj = {};
+                    protoObj.PK_data = [0];
+                    this.activeProtcolsObj[selectedProtocolName] = protoObj;
+                }
+                // refrech view
+                this.generateNavBarProtos();
+            }
+        },
+        genInterfaceForCurrentProto: function(pkList){
+            this.formsRegion.empty();
+            $('#formsContainer').text('');
+            var content ='';
+            for(var i=0;i<pkList.length;i++){
+                var idProto = pkList[i];
+                content += '<li><a class="pkProtocol">' + idProto + '</a></li>';
+            }
+            // append content to ul
+            $('#formsIdList ul').html('');
+            $('#formsIdList ul').append(content);
+        },
+        getProtoByPkId : function(e){
+            var pkId = parseInt($(e.target).text());
+            this.getProtocol(this.selectedProtoName, pkId);
+            // store pkId to save proto
+            this.selectedProtoId = pkId;
         }
     });
 
