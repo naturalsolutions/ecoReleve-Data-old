@@ -20,7 +20,7 @@ define([
         },
 
         initialize: function() {
-
+            this.id_sta = 1;
         },
 
         onRender: function(){
@@ -39,22 +39,25 @@ define([
         },
         gps: function(){
             //Radio.channel('route').command('validate:type', 'argos');
+            
             var Proto_Model = Backbone.Model.extend({
-                url : config.coreUrl + 'station/2191151/protocol/Building and Activities/40262',
+                url : config.coreUrl + 'station/'+this.id_sta+'/prev',
 
             });
 
             var model = new Proto_Model({
                 
             });
-
+            var self = this;
             console.log('model created');
             model.fetch({success: function(data) {
                 console.log(data);
-
+                console.log(data.attributes['TSta_PK_ID'])
+                self.id_sta = data.attributes['TSta_PK_ID'];
+               
             }});
-
-            model.once('change', function() {
+            
+         /*   model.once('change', function() {
                 model.set({
 
                     FK_TSta_ID : 2191151,
@@ -67,7 +70,7 @@ define([
                 console.log(model);
                 model.save();
 
-            });
+            });*/
            
 
 
