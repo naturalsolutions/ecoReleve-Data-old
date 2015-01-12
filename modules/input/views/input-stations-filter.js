@@ -52,6 +52,7 @@ define([
             this.radio.comply('indivId', this.updateIndivId, this);   
 
             this.filter =  {
+                PK : {Operator: '=' , Value: null },  
                 Name : {Operator: '=' , Value: null },    
                 siteName : {Operator: '=' ,Value: null  },    
                 beginDate: {Operator: '>=' ,Value: null  },    
@@ -116,31 +117,21 @@ define([
             var name = $(input).attr('name').split('-')[1];
             var value = e.target.value;
             if (!value){ value =null;}
-            if(name !='fieldWorker' && name !='Name' && name !='siteName'){   // for this field we need to get worker id from datalist
+            if(name !='fieldWorker' && name !='Name' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
                 this.filter[name].Value = value;
-            } else if(name ==='fieldWorker') {
+            } else if(name =='fieldWorker') {
                 this.filter[name].Value = parseInt(value); 
-            } else if(name ==='Name') {
+            } else if(name =='Name') {
                  this.filter[name] = value; 
+            } else if(name =='PK') {
+                 this.filter[name].Value = parseInt(value); 
             } else {
                 this.filter[name].Value = value; 
                 this.filter[name].Operator = '='; 
             }
 
-
             this.updateGrid();
-
-            this.getFieldWorkerId(e);
- 
         },
-        /*getFieldWorkerId : function(e){
-            var fieldWorkerName = $(e.target).val();
-            var fieldWorkerId = $('#userId_list > option[value="'+ fieldWorkerName + '"]').text();
-            this.filter.fieldWorker.Value = parseInt(fieldWorkerId);
-            console.log(fieldWorkerId);
-
-            this.updateGrid();
-        },*/
         getIndivId : function(){
             var indivId = this.ui.indivId.val();
             if (!indivId){ indivId =null;}

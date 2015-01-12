@@ -181,6 +181,8 @@ define([
             var id = $(row).find(':first-child').text()
             //Radio.channel('route').trigger('indivId', {id: id});
             Radio.channel('input').command('indivId', {id: id});
+            $('table.backgrid tr').removeClass('backgrid-selected-row');
+            $(row).addClass('backgrid-selected-row');
         }
     });
 });

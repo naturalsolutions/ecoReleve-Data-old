@@ -11,7 +11,7 @@ define([
     'modules2/input/views/input-map',
     'collections/waypoints',
     'models/position',
-     'models/station',
+    'models/station',
     'modules2/input/views/input-grid',
     'modules2/input/views/input-stations-filter',
     'modules2/input/views/input-stations-grid',
