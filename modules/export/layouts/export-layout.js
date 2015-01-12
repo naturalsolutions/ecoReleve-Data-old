@@ -17,6 +17,7 @@ define([
     'modules2/export/views/step4-preview',
 
     'modules2/export/views/step5',
+    'fuelux'
 
 
 
