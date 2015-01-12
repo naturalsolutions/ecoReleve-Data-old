@@ -9,9 +9,10 @@ define([
     'stepper/lyt-step',
     'modules2/input/views/station-details',
     'modules2/NaturalJS-Form/NsFormsModule',
-    'utils/getProtocolsList'
+    'utils/getProtocolsList',
+    'swiper'
 
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList) {
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper) {
 
     'use strict';
 
@@ -77,9 +78,11 @@ define([
                         var idProto = pk_list[0];
                         $('#formsIdList ul').html('');
                         this.getProtocol(selectedProtoName,idProto);
-                        this.selectedProtoId = idProto;                        
+                        this.selectedProtoId = idProto;   
+                        $('#idProtosContainer').addClass('masqued');
                     } else {
                         this.genInterfaceForCurrentProto(pk_list);
+                        $('#idProtosContainer').removeClass('masqued');
                     }
                }
             }
@@ -140,21 +143,47 @@ define([
         },
         generateNavBarProtos : function(){
             // generate interface with list content
+            $('.pagination.protocol').text('');
             var htmlContent ='';
             for(var key in this.activeProtcolsObj) {
                 var tm = key;
                 var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
-                
-                htmlContent +=  '<li><a data-toggle="tab" name="'+ key ;
+
+                htmlContent +=  '<div class="swiper-slide"><a name="'+ key ;
                 htmlContent += '"><span><i></i></span>' + key ;
                 if(nbProtoInstances > 1){
                     htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
                 }
-                 htmlContent += '</a><i class="icon reneco close braindead"></i></li>';
+                 htmlContent += '</a></div>';
+                
+                /*htmlContent +=  '<li><a data-toggle="tab" name="'+ key ;
+                htmlContent += '"><span><i></i></span>' + key ;
+                if(nbProtoInstances > 1){
+                    htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
+                }
+                 htmlContent += '</a><i class="icon reneco close braindead"></i></li>';*/
             }
-            var ulElement = $('ul[name="tabProtsUl"]');
+            /*var ulElement = $('ul[name="tabProtsUl"]');
             $(ulElement).html('');
-            $(ulElement).append(htmlContent);
+            $(ulElement).append(htmlContent);*/
+            $('#tabProtsUl').html('');
+            $('#tabProtsUl').append(htmlContent);
+            
+            var mySwiper = new Swiper('.swiper-container-protocols',{
+                pagination: '.pagination-protocols',
+                paginationClickable: true,
+                slidesPerView: 4
+            });
+            $('.arrow-left-protocols').on('click', function(e){
+                e.preventDefault()
+                mySwiper.swipePrev()
+            });
+            $('.arrow-right-protocols').on('click', function(e){
+                e.preventDefault()
+                mySwiper.swipeNext()
+            });
+            $('.swiper-slide').css('height','50px');
+
         },
         addForm : function(){
             var selectedProtocolName = $(this.ui.addProto).val();
@@ -179,14 +208,34 @@ define([
         genInterfaceForCurrentProto: function(pkList){
             this.formsRegion.empty();
             $('#formsContainer').text('');
+            $('#idProtosContainer .pagination').text('');
+
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
-                content += '<li><a class="pkProtocol">' + idProto + '</a></li>';
+                //content += '<li><a class="pkProtocol">' + idProto + '</a></li>';
+                content +=  '<div class="swiper-slide"><a class="pkProtocol">' + idProto + '</a></div>';
             }
             // append content to ul
-            $('#formsIdList ul').html('');
-            $('#formsIdList ul').append(content);
+            /*$('#formsIdList ul').html('');
+            $('#formsIdList ul').append(content);*/
+            $('#formsIdList').html('');
+            $('#formsIdList').append(content);
+            // swiper
+            var mySwiper = new Swiper('.swiper-container',{
+                pagination: '.pagination',
+                paginationClickable: true,
+                slidesPerView: 8
+            });
+            $('.arrow-left').on('click', function(e){
+                e.preventDefault()
+                mySwiper.swipePrev()
+            });
+            $('.arrow-right').on('click', function(e){
+                e.preventDefault()
+                mySwiper.swipeNext()
+            });
+            $('.swiper-slide').css('height','50px');
         },
         getProtoByPkId : function(e){
             var pkId = parseInt($(e.target).text());

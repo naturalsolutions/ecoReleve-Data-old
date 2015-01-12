@@ -98,7 +98,7 @@
 						this.showForm();
 					},
 					error: function (data) {
-						alert('error Getting Fields for Form ' + this.name + ' on type ' + this.objecttype);
+						alert('error Getting Fields for current protocol ');
 					}
 				});
 			}

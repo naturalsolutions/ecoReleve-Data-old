@@ -61,7 +61,10 @@ var ecoReleveData = (function(){
             },
             autocompTree : {
                  deps:['fancytree']
-            }
+            },
+            swiper : {
+                 deps:['jquery']
+            } 
 
         },
         paths: {
@@ -142,7 +145,8 @@ var ecoReleveData = (function(){
             ===============================*/
 
             fancytree : 'NS.UI.autocompTree/Scripts/jquery.fancytree-all',
-            autocompTree : 'NS.UI.autocompTree/Scripts/jquery.autocompTree'
+            autocompTree : 'NS.UI.autocompTree/Scripts/jquery.autocompTree',
+            swiper : 'idangerous.swiper/idangerous.swiper'
         }
 
     });
