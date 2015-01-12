@@ -7,7 +7,7 @@ define([
 ], function(Marionette, Radio, GraphView, InfoView, template) {
     'use strict';
     return Marionette.LayoutView.extend( {
-        className:'container',
+        className:'container full-height',
         template: template,
         regions: {
             graph: '#graph',

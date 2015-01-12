@@ -27,6 +27,8 @@ define([
         ===================================================*/
         
         template: tpl,
+        className: 'full-height',
+
         regions: {
             stepperRegion : '#stepper',
             indivFilterRegion : '#indivFilter'
@@ -72,6 +74,7 @@ define([
             this.steps[3]= FourthStep;
 
             this.stepper = new StepperOrchestrator({
+                
                 model: this.model,
                 steps: this.steps
             });

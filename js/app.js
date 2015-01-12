@@ -24,14 +24,16 @@ define([
 
     newApp.addRegions({
         headerRegion: "#header-region",
-        mainRegion: "#main-region"
+        mainRegion: "#main-region",
+        className:"full-height"
     });
 
     newApp.addInitializer( function() {
         var router = new Router( {
             controller: new Controller( {
                 mainRegion: newApp.mainRegion,
-                headerRegion: newApp.headerRegion
+                headerRegion: newApp.headerRegion,
+                 className:"full-height"
             }),
         });
     });

@@ -9,13 +9,15 @@ define([
 
     return BaseMap.extend({
 
+        className:'full-height',
+
         initialize: function() {
             Radio.channel('input').comply('updateMap', this.updateMap, this);
             Radio.channel('input').comply('movePoint', this.movePoint, this);
         },
         onShow: function() {
             BaseMap.prototype.onShow.apply(this, []);
-            
+            console.log(this.$el);
             var style =  new ol.style.Style({
               image: new ol.style.Circle({
                 radius: 4,
@@ -95,8 +97,10 @@ define([
             });
         },
         onRender: function() {
-           this.$el.height($(window).height() - $("#header-region").height()-200);
+           //this.$el.height($(window).height() - $("#header-region").height()-200);
                 //$("#info-container").height());
+            //this.$el.css({'height': '90%!important'});
+            
         },
         onRemove: function() {
             Radio.channel('input').stopComplying('updateMap');

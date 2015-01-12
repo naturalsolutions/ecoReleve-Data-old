@@ -17,7 +17,7 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         parent:null,
-
+        className: 'full-height',
         events : {
             'click #reset' : 'reset',
         },

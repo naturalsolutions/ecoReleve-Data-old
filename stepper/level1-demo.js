@@ -18,7 +18,7 @@ define([
 
         
         template: tpl,
-
+        className: 'full-height',
         events: {
             'click #validate' : 'validate',
 

@@ -62,6 +62,8 @@ define([
             this.columns, this.box;
 
             $('body').addClass('export-layout');
+            $('body').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
         },
 
         initViewName: function(args){
@@ -84,6 +86,7 @@ define([
         onBeforeDestroy: function() {
             this.radio.reset();
             $('body').removeClass('export-layout');
+            $('#main-region').removeClass('obscur');
         },
         
         onShow: function() {
@@ -91,7 +94,8 @@ define([
             var step1= new Step1();
             var passed='passed2';
             this.step_1_Container.show( step1 );
-
+            $('body').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
         },
 
         alerte: function(args){

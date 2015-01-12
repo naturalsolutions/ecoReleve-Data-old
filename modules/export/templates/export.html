@@ -1,9 +1,10 @@
 <script type="text/template">   
 
 
-<div class="container">
+<div id="stepper" class="container">
     <div class="fuelux">
         <div class="wizard" data-initialize="wizard" id="importWizard">
+            <div class="stepper-header" id = "stepper-header" > EXPORT </div>
             <ul class="steps">
                 <li data-step="1" class="active"><span class="badge">1</span>Themes & views<span class="chevron"></span></li>
                 <li data-step="2"><span class="badge">2</span>Criteria<span class="chevron"></span></li>
@@ -11,8 +12,8 @@
                 <li data-step="4"><span class="badge">4</span>Column Selection<span class="chevron"></span></li>
                 <li data-step="5"><span class="badge">5</span>File<span class="chevron"></span></li>
             </ul>
-
-            <div class="step-content">
+            
+            <div class="step-content export">
                 <div class="step-pane active sample-pane" data-step="1" id="step1">
                 </div>
 

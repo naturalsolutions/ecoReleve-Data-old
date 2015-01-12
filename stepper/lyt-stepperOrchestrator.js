@@ -16,7 +16,7 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         template: tpl,
-        
+        className : 'full-height orchestrator',
 
         events: {
             'click #infos' : 'infos',
@@ -41,12 +41,13 @@ define([
         currentStep:0,
 
         onDestroy: function(){
-
+            $('body').removeClass('home-page');
+            $('#main-region').removeClass('full-height obscur');
         },
 
         initialize: function(options){
             $('body').addClass('home-page');
-            $('#main-region').addClass('full-height blur');
+            $('#main-region').addClass('full-height obscur');
 
             this.steps=options.steps;
             var current;
@@ -136,8 +137,16 @@ define([
             this.check();
             this.styleNav();
 
+            if (this.currentStep-1>=0) {
+                var changed_attr = this.steps[this.currentStep-1].stepAttributes[0].name;
+                console.log(this.steps[this.currentStep-1]);
+                console.log(changed_attr);
+                console.log(this.model.get(changed_attr));
+                this.$el.find('#stepper-header').html(this.model.get(changed_attr).toUpperCase()); 
+            }
+
             if (this.currentStep==this.steps.length-1){
-                //this.$el.find('#btnNext').attr( 'disabled', 'disabled');
+                this.$el.find('#btnNext').attr( 'disabled', 'disabled');
                 this.$el.find('#btnNext').find( 'span').html('<a href="#">Complete</a>');
             }
             if (this.currentStep==0){

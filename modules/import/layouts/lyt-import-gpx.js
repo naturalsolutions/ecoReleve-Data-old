@@ -25,7 +25,7 @@ define([
         /*===================================================
         =            Layout Stepper Orchestrator            =
         ===================================================*/
-        
+        className:'full-height',
         template: tpl,
         regions: {
             stepperRegion : '#stepper',

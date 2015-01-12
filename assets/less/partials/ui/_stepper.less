@@ -2,15 +2,26 @@
 div.fuelux{
 	height: 100%;
 	& .wizard{
-		height: 85%;
+		height: 80%;
 		overflow:  hidden;
+		padding-bottom: 5%;
+		border: none;
+		box-shadow: 15px -15px 20px -5px rgba(39, 38, 38, 0.5);
 		& .stepper-header {
 			background-color: #449d44;
+			padding:1%;
+					}
+		.step-content.export{
+			padding-top:5%!important;
+			z-index: 1000;
+			height: 100%;
 		}
 	}
 	& .actions{
 		position: relative;
-		height: 15%;
+		height: 10%;
+
+		//bottom: -90px;
 		button.btn-custom{
 			position: absolute;
 			bottom: 0;
@@ -65,8 +76,9 @@ div.fuelux{
 	.step-content{
 		z-index: 1000;
 		height: 100%;	
-		padding: 0px!important;
-		padding-top:46px!important; //ul height
+		padding: 1%!important;
+		//overflow: auto;
+		//padding-top:2%!important; //ul height
 		.step-pane{
 			position: relative;
 			overflow: auto;
@@ -78,12 +90,12 @@ div.fuelux{
 
 		}
 	}
-
-.blur { background: rgba(0, 0, 0, 0.49); }
-
 	
 }	
 	
+.obscur { 
+	background: rgba(0, 0, 0, 0.49); 
+}
 
 /*===================================
 =            Old Stepper            =
