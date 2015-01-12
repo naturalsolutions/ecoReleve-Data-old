@@ -182,7 +182,7 @@ define([
                 e.preventDefault()
                 mySwiper.swipeNext()
             });
-            $('.swiper-slide').css('height','50px');
+            //$('.swiper-slide').css('height','50px');
 
         },
         addForm : function(){
@@ -235,7 +235,7 @@ define([
                 e.preventDefault()
                 mySwiper.swipeNext()
             });
-            $('.swiper-slide').css('height','50px');
+            //$('.swiper-slide').css('height','50px');
         },
         getProtoByPkId : function(e){
             var pkId = parseInt($(e.target).text());

@@ -29,7 +29,7 @@ define([
 
             var Stations = PageableCollection.extend({
                 sortCriteria: {'PK':'desc'},
-                url: config.coreUrl + 'station/search',
+                url: config.coreUrl + 'search/station',
                 mode: 'server',
                 model: Station,
                 state:{
