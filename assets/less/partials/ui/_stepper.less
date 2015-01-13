@@ -16,6 +16,22 @@ div.fuelux{
 			z-index: 1000;
 			height: 100%;
 		}
+		.grid {
+			.container-fluid {
+				position:relative;
+				height: 80%;
+				margin-bottom: 5%;
+			}
+
+			.backgrid-paginator{
+				position:relative;
+				height:5%;
+			}
+		}
+		#grid-row {
+			height: 100%;
+			position:relative;
+		}
 	}
 	& .actions{
 		position: relative;
@@ -94,7 +110,63 @@ div.fuelux{
 }	
 	
 .obscur { 
-	background: rgba(0, 0, 0, 0.49); 
+	background: rgba(0, 0, 0, 0.35); 
+}
+
+.step-grid {
+	width: 85%;
+	padding: 2% 0%;
+}
+
+.stepper-modal{
+	.full-modal{
+		position:absolute;
+		height: 90%;
+		overflow:hidden;
+		
+		.modal-dialog{
+			height:100%;
+			margin-top: 0px;
+			overflow: hidden;
+			width: 70%!important;
+
+			.modal-content {
+				height: 100%;
+				overflow: hidden;
+				
+				.modal-body {
+					height:80%;
+					overflow: hidden!important;
+					padding:0!important;
+					
+					.modal-panel-left {
+						height: 100%!important;
+						overflow: auto;
+					}
+
+					.modal-main-panel{
+						height: 100%;
+						.grid {
+							height:100%!important;
+							.container-fluid{
+								height: 90%!important;
+								#grid-row{
+									height: 95%!important;
+								}
+							}
+
+							.backgrid-paginator{
+								padding: 1% 0px;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+	}
+
 }
 
 /*===================================

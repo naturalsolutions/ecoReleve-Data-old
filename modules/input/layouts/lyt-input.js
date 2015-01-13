@@ -83,7 +83,8 @@ define([
         },
         onShow : function(){
             // add indiv window container
-            $('#stepper').append('<div id="indivFilter"></div>');
+            $('#stepper').append('<div id="indivFilter" class="stepper-modal"></div>');
+            $('#stepper').parent().addClass('step-grid');
         },
         filterIndivShow : function(e){
             $(e.target).parent().parent().find('input').addClass('target');

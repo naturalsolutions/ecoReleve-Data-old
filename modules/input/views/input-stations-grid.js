@@ -18,7 +18,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-
+        className: 'full-height',
         events :{
             'click tbody > tr': 'detail'
         },
@@ -145,7 +145,7 @@ define([
                 collection: stations
             });
         
-            $('#stationsGridContainer').css('height','90%');
+            //$('#stationsGridContainer').css('height','90%');
         },
 
         update: function(args) {
@@ -159,7 +159,7 @@ define([
 
             });
             console.log(this.grid.collection);
-            $('#stationsGridContainer').css('height','90%');
+            //$('#stationsGridContainer').css('height','90%');
         },
 
         onShow: function() {
@@ -167,14 +167,14 @@ define([
             this.$el.parent().addClass('no-padding');
             $('#main-panel').css({'padding-top': '0'});
             this.$el.addClass('grid');
-            var height = $(window).height();
-            height -= $('#header-region').height() + $('#main-panel').outerHeight();
-            this.$el.find('#grid-row').height(height);
-            height = $(window).height();
-            this.$el.height(height-$('#header-region').height());
+            //var height = $(window).height();
+            //height -= $('#header-region').height() + $('#main-panel').outerHeight();
+            //this.$el.find('#grid-row').height(height);
+            //height = $(window).height();
+           // this.$el.height(height-$('#header-region').height());
             $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
-            $('div.backgrid-paginator').css('margin-top','50px;');
+            //$('div.backgrid-paginator').css('margin-top','50px;');
         },
 
         onDestroy: function(){
