@@ -41,23 +41,16 @@ define([
             this.activeProtcolsObj = [];
         },
         onShow: function(){
+            this.radio = Radio.channel('input');
+            this.radio.comply('updateStation', this.updateStation, this);
             var stationModel = this.model.get('station_position');
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
             // set stored value of field activity and accuray
             var fieldActivity = stationModel.get('FieldActivity_Name');
             $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
-            // add form
-            /*var formView = new NsFormsModule({
-                file : 'simplified-habitat.json',
-                name :'bird-biometry',
-                formRegion :'formsContainer',
-                buttonRegion : 'formButtons'
-            });*/
-            //this.getProtocolsList(fieldActivity);
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
-            //this.getProtocol('Biometry', 140);
             this.getProtocols();
         },
         updateForm : function(e,element){
@@ -86,24 +79,10 @@ define([
                     }
                }
             }
-
-            //this.getProtocol(selectedProtoName,'');
-            /*if(selectedForm ==='Bird Biometry'){
-                file='bird-biometry.json';
-            }
-            else{
-                file='chiroptera-capture.json';
-            } 
-            var formView = new NsFormsModule({
-                file : file,
-                formRegion :'formsContainer',
-                buttonRegion : 'formButtons'
-            });*/
         },
         getProtocolsList : function(idStation){
-
             var url= config.coreUrl + 'station/'+ idStation + '/protocol';
-            var ulElement = $('ul[name="tabProtsUl"]');
+            var listElement = $('#tabProtsUl');
             $.ajax({
                 url:url,
                 context:this,
@@ -116,10 +95,10 @@ define([
                     alert('error in loading protocols');
                 }
             }).done(function(){
-                var element = $('ul[name="tabProtsUl"]').find('li:first a');
+                var element = $(listElement).find('div.swiper-slide:first a');
                 this.updateForm(null, element );
-                $(ulElement).find('li').removeClass('active');
-                $(ulElement).find('li:first').addClass('active');
+                $(listElement).find('div.swiper-slide').removeClass('swiper-slide-active');
+                $(listElement).find('div.swiper-slide:first').addClass('swiper-slide-active');
             });
         },
         getProtocol: function(protoName, id){
@@ -155,17 +134,7 @@ define([
                     htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
                 }
                  htmlContent += '</a></div>';
-                
-                /*htmlContent +=  '<li><a data-toggle="tab" name="'+ key ;
-                htmlContent += '"><span><i></i></span>' + key ;
-                if(nbProtoInstances > 1){
-                    htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
-                }
-                 htmlContent += '</a><i class="icon reneco close braindead"></i></li>';*/
             }
-            /*var ulElement = $('ul[name="tabProtsUl"]');
-            $(ulElement).html('');
-            $(ulElement).append(htmlContent);*/
             $('#tabProtsUl').html('');
             $('#tabProtsUl').append(htmlContent);
             
@@ -183,7 +152,6 @@ define([
                 mySwiper.swipeNext()
             });
             //$('.swiper-slide').css('height','50px');
-
         },
         addForm : function(){
             var selectedProtocolName = $(this.ui.addProto).val();
@@ -213,12 +181,8 @@ define([
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
-                //content += '<li><a class="pkProtocol">' + idProto + '</a></li>';
                 content +=  '<div class="swiper-slide"><a class="pkProtocol">' + idProto + '</a></div>';
             }
-            // append content to ul
-            /*$('#formsIdList ul').html('');
-            $('#formsIdList ul').append(content);*/
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
             // swiper
@@ -242,6 +206,12 @@ define([
             this.getProtocol(this.selectedProtoName, pkId);
             // store pkId to save proto
             this.selectedProtoId = pkId;
+        },
+        updateStation : function(model){
+            this.model.set('station_position', model);
+            this.idStation = model.get('PK');
+            $('#tabProtsUl').html('');
+            this.getProtocolsList(this.idStation);
         }
     });
 

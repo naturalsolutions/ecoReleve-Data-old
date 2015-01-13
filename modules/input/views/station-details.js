@@ -5,8 +5,9 @@ define([
     'config',
     'text!modules2/input/templates/tpl-station-details.html',
     'utils/getFieldActivity',
-    'utils/getItems'
-], function($,Marionette, Radio, config,template,getFieldActivity,getItems) {
+    'utils/getItems',
+    'models/station'
+], function($,Marionette, Radio, config,template,getFieldActivity,getItems,Station) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
@@ -16,6 +17,7 @@ define([
         },
         onShow : function(){
             this.generateSelectLists();
+            this.checkSiteNameDisplay();
         },
         onBeforeDestroy: function() {
          
@@ -29,13 +31,31 @@ define([
             $('select[name="Region"]').append(regionList);*/
         },
         initialize: function(){
-            this.listenTo(this.model, 'change', this.render);
+            this.radio = Radio.channel('input');
+            //this.listenTo(this.model, 'change', this.render);
                     /*,
 
         render: function(){
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         }*/
+        },
+        modelEvents: {
+        'change': 'fieldsChanged'
+        },
+
+        fieldsChanged: function() {
+            this.render();
+            // update lists
+            this.generateSelectLists();
+            var fieldActivity = this.model.get('FieldActivity_Name');
+            $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
+            $('input[name="stAccuracy"]').val(this.model.get('Precision'));
+            var distFromObs = this.model.get('Name_DistanceFromObs');
+            if(distFromObs){
+                $('#stDistFromObs').val(distFromObs);
+            }
+            this.checkSiteNameDisplay();
         },
         nextStation : function(){
             var currentStationId = parseInt($('#stId').text());
@@ -54,7 +74,25 @@ define([
                 context:this,
                 type:'GET',
                 success: function(data){
-                   console.log(data);
+                    console.log(data);
+                   console.log('----------- avant');
+                   console.log(this.model);
+                   for(var key in data){
+                        if(key =='TSta_PK_ID'){
+                            this.model.set('PK', data[key]);
+                        } else if (key =='date'){
+                            this.model.set('Date_', data[key]);
+                        }
+                        else{
+                            this.model.set(key, data[key]);
+                        }
+
+                   
+                    //Traitement
+                    }
+                    console.log('----------- apres');
+                   console.log(this.model);
+                   this.radio.command('updateStation', this.model);
                 },
                 error: function(data){
                     alert('error in loading station data');
@@ -63,6 +101,13 @@ define([
                
 
             });
+        },
+        checkSiteNameDisplay: function(){
+            // mask name site row if value is null
+            var siteName = this.model.get('name_site');
+            if(!siteName){
+                $('#stNameSite').addClass('masqued');
+            }
         }
     });
 });
