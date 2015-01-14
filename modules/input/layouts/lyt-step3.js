@@ -10,9 +10,9 @@ define([
     'modules2/input/views/station-details',
     'modules2/NaturalJS-Form/NsFormsModule',
     'utils/getProtocolsList',
-    'swiper'
-
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper) {
+    'swiper',
+    'models/station'
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station) {
 
     'use strict';
 
@@ -24,7 +24,9 @@ define([
             'click #tabProtsUl a' : 'updateForm',
             'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
             'change select[name="add-protocol"]' : 'addForm',
-            'click a.pkProtocol' : 'getProtoByPkId'
+            'click a.pkProtocol' : 'getProtoByPkId',
+            'click .arrow-right-station' :'nextStation',
+            'click .arrow-left-station' :'prevStation'
         },
         regions: {
             stationRegion: '#stContainer',
@@ -41,17 +43,7 @@ define([
             this.activeProtcolsObj = [];
         },
         onShow: function(){
-            this.radio = Radio.channel('input');
-            this.radio.comply('updateStation', this.updateStation, this);
-            var stationModel = this.model.get('station_position');
-            var stationView = new StationDetails({model:stationModel});
-            this.stationRegion.show(stationView);
-            // set stored value of field activity and accuray
-            var fieldActivity = stationModel.get('FieldActivity_Name');
-            $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
-            this.idStation = stationModel.get('PK');
-            this.getProtocolsList(this.idStation);
-            this.getProtocols();
+            this.addViews();
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -207,11 +199,60 @@ define([
             // store pkId to save proto
             this.selectedProtoId = pkId;
         },
-        updateStation : function(model){
-            this.model.set('station_position', model);
-            this.idStation = model.get('PK');
-            $('#tabProtsUl').html('');
+        nextStation : function(){
+
+            var currentStation = this.model.get('station_position');
+            var currentStationId = currentStation.get('PK');
+            var url= config.coreUrl + 'station/'+ currentStationId + '/next';
+             this.getStationDetails(url);
+
+        },
+        prevStation:function(){
+            var currentStation = this.model.get('station_position');
+            var currentStationId = currentStation.get('PK');
+            var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
+            this.getStationDetails(url);
+        },
+        getStationDetails : function(url){
+            $.ajax({
+                url:url,
+                context:this,
+                type:'GET',
+                success: function(data){
+                    var station = new Station(data);
+                   console.log(this.model);
+                   for(var key in data){
+                        if(key =='TSta_PK_ID'){
+                            station.set('PK', data[key]);
+                        } else if (key =='date'){
+                            station.set('Date_', data[key]);
+                        }
+                        else{
+                            //this.model.set(key, data[key]);
+                        }
+                    }
+
+                        this.model.set('station_position',station);
+                        this.addViews();
+                },
+                error: function(data){
+                    alert('error in loading station data');
+                }
+            }).done(function(){
+               
+
+            });
+        },
+        addViews : function(){
+            var stationModel = this.model.get('station_position');
+            var stationView = new StationDetails({model:stationModel});
+            this.stationRegion.show(stationView);
+            // set stored value of field activity and accuray
+            var fieldActivity = stationModel.get('FieldActivity_Name');
+            $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
+            this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
+            this.getProtocols();
         }
     });
 
