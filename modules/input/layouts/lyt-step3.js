@@ -11,8 +11,9 @@ define([
     'modules2/NaturalJS-Form/NsFormsModule',
     'utils/getProtocolsList',
     'swiper',
-    'models/station'
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station) {
+    'models/station',
+    'utils/getUsers'
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station,getUsers) {
 
     'use strict';
 
@@ -33,7 +34,8 @@ define([
             formsRegion : '#formsContainer'
         },
         ui:{
-            addProto : 'select[name="add-protocol"]'
+            addProto : 'select[name="add-protocol"]',
+             protosList : '#tabProtsUl'
         },
         feedTpl: function(){
             
@@ -44,6 +46,10 @@ define([
         },
         onShow: function(){
             this.addViews();
+            var content = getUsers.getElements('user');
+            $('#usersList').append(content);
+            this.radio = Radio.channel('froms');
+            this.radio.comply('updateForm', this.updateFormUI, this);
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -74,7 +80,7 @@ define([
         },
         getProtocolsList : function(idStation){
             var url= config.coreUrl + 'station/'+ idStation + '/protocol';
-            var listElement = $('#tabProtsUl');
+            var listElement = $(this.ui.protosList);
             $.ajax({
                 url:url,
                 context:this,
@@ -127,12 +133,12 @@ define([
                 }
                  htmlContent += '</a></div>';
             }
-            $('#tabProtsUl').html('');
-            $('#tabProtsUl').append(htmlContent);
+            $(this.ui.protosList).html('');
+            $(this.ui.protosList).append(htmlContent);
             
             var mySwiper = new Swiper('.swiper-container-protocols',{
-                pagination: '.pagination-protocols',
-                paginationClickable: true,
+                //pagination: '.pagination-protocols',
+                //paginationClickable: true,
                 slidesPerView: 4
             });
             $('.arrow-left-protocols').on('click', function(e){
@@ -179,8 +185,8 @@ define([
             $('#formsIdList').append(content);
             // swiper
             var mySwiper = new Swiper('.swiper-container',{
-                pagination: '.pagination',
-                paginationClickable: true,
+                //pagination: '.pagination',
+                //paginationClickable: true,
                 slidesPerView: 8
             });
             $('.arrow-left').on('click', function(e){
@@ -247,13 +253,51 @@ define([
             var stationModel = this.model.get('station_position');
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
-            // set stored value of field activity and accuray
+            // set stored values of 'select' fields 
             var fieldActivity = stationModel.get('FieldActivity_Name');
             $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
+            var place = stationModel.get('Place');
+            $('select[name="stPlace"]').val(place);
+            var accuracy = stationModel.get('Precision');
+            $('select[name="stAccuracy"]').val(accuracy);
+            var distFromObs = stationModel.get('Name_DistanceFromObs');
+            $('#stDistFromObs').val(distFromObs);
+            //replace user id by user name
+            var user = stationModel.get('FieldWorker1');
+            if(this.isInt(user)){
+                // get user name from masqued select control
+                var userName = $('#usersList').find
+            }
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
             this.getProtocols();
+        },
+        isInt : function (value){
+          if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+              return true;
+          } else {
+              return false;
+          }
+        },
+        updateFormUI : function(){
+            $('.timePicker').datetimepicker({
+                pickDate: false,                
+                useMinutes: true,              
+                useSeconds: false,               
+                minuteStepping:1,
+                use24hours: true,
+                format: 'HH:mm'    
+            });
+            // append options to select control 'user list'
+            var selectFields = $('select[user_list="username_list"]');
+            var nbFields =  selectFields.length;
+            if (nbFields > 0){
+                var options = $('#usersList').html();
+                for(var i=0; i<nbFields;i++){
+                    var field = $(selectFields)[i];
+                    $(field).append(options);
+                }
+            }
         }
     });
-
 });

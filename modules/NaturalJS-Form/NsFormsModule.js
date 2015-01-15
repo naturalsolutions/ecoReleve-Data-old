@@ -5,8 +5,9 @@
   'marionette',
    'bbForms',
   'text!modules2/NaturalJS-Form/NsFormsModule.html',
-  'autocompTree'
-], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree ) {
+  'autocompTree',
+   'radio'
+], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree,Radio ) {
     return Marionette.ItemView.extend({
         BBForm: null,
         modelurl: null,
@@ -22,7 +23,9 @@
             nsFormButtonRegion: '#NsFormButton'
         },
         initialize: function (options) {
-            //TODO Gestion Fields/Get à partir de la même url            
+            //TODO Gestion Fields/Get à partir de la même url  
+            this.radio = Radio.channel('froms');
+
             this.modelurl = options.modelurl;
 			this.file = options.file;
             this.name = options.name;
@@ -124,7 +127,6 @@
             this.BBForm = new BackboneForm({ model: this.model });
             this.BBForm.render();
 			var formContent = this.BBForm.el;
-            console.log(formContent);
 			// format fields to have bootstrap style
             $(formContent).find('fieldset>div').addClass('col-sm-4');
 			$(formContent).find('input[type="text"]').addClass('form-control');
@@ -133,16 +135,10 @@
             $(formContent).find('textarea').addClass('form-control');
             $('#' + this.formRegion).html(this.BBForm.el);
             $('#' + this.buttonRegion).html(this.template);
+            this.radio.command('updateForm');
             this.displaybuttons();
 			this.createAutocompTree();
-            $('.timePicker').datetimepicker({
-                pickDate: false,                
-                useMinutes: true,              
-                useSeconds: false,               
-                minuteStepping:1,
-                use24hours: true,
-                format: 'HH:mm'    
-            });
+           
             /*$('.timePicker').on('dp.show', function(e) {
                     $('input.timeInput').val('');    
             });*/
