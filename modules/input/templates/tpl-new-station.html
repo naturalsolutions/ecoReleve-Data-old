@@ -52,17 +52,23 @@
 		    	<div id='error-Region' class='error'></div>
 		    </div>
 		    <div id="stCoordinates">
-				<div class='col-xs-5'>
+				<div class='col-xs-4'>
 		    	<label>latitude*</label>
 		    	<div data-editors="LAT"></div>
 		    	<div id='error-LAT' class='error'></div>
 
 			    </div>
-			    <div class='col-xs-5'>
+			    <div class='col-xs-4'>
 			    	<label>longitude*</label>
 			    	<div data-editors="LON"></div>
 			    	<div id='error-LON' class='error'></div>
 			    </div>
+				<div class='col-xs-2'>
+			    	<label>accuracy(m)*</label>
+			    	<div data-editors="Precision"></div>
+			    	<div id='error-Precision' class='error'></div>
+			    </div>
+
 			    <div class='col-xs-2'>
 			    	<br>
 			    	<i class="icon-action icon mini reneco site" id="getPosition"></i>
@@ -83,7 +89,7 @@
     <fieldset id='station-fieldWorkers' insertedWorkersNb="1">
   	<legend>field caracteristics</legend>
   	<div>
-  		<div class='col-xs-5'>
+  		<div class='col-xs-10'>
 	    	<label>field activity*</label>
 	    	<div data-editors="FieldActivity_Name"></div>
 	    	<div id='error-FieldActivity_Name' class='error'></div>
@@ -94,7 +100,11 @@
 	    	<div data-editors="FieldWorker1"></div>
 	    	<div id='error-FieldWorker1' class='error'></div>
 		</div>
-
+		<div class="col-xs-5">
+	    	<label>total observers*</label><br/>
+	    	<div data-editors="FieldWorkersNumber"></div>
+	    	<div id='error-FieldWorkersNumber' class='error'></div>
+		</div>
 
 	    <div id="addFieldWorkerInput" class='col-xs-2'>
 	    	<br>
