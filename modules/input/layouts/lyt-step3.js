@@ -136,18 +136,18 @@ define([
             $(this.ui.protosList).html('');
             $(this.ui.protosList).append(htmlContent);
             
-            var mySwiper = new Swiper('.swiper-container-protocols',{
+            var mySwiper1 = new Swiper('#proto_name',{
                 //pagination: '.pagination-protocols',
                 //paginationClickable: true,
                 slidesPerView: 4
             });
-            $('.arrow-left-protocols').on('click', function(e){
+            $('#proto_name-left').on('click', function(e){
                 e.preventDefault()
-                mySwiper.swipePrev()
+                mySwiper1.swipePrev()
             });
-            $('.arrow-right-protocols').on('click', function(e){
+            $('#proto_name-right').on('click', function(e){
                 e.preventDefault()
-                mySwiper.swipeNext()
+                mySwiper1.swipeNext()
             });
             //$('.swiper-slide').css('height','50px');
         },
@@ -184,18 +184,18 @@ define([
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
             // swiper
-            var mySwiper = new Swiper('.swiper-container',{
+            var mySwiper2 = new Swiper('#proto_id',{
                 //pagination: '.pagination',
                 //paginationClickable: true,
                 slidesPerView: 8
             });
-            $('.arrow-left').on('click', function(e){
+            $('#proto_id-left').on('click', function(e){
                 e.preventDefault()
-                mySwiper.swipePrev()
+                mySwiper2.swipePrev()
             });
-            $('.arrow-right').on('click', function(e){
+            $('#proto_id-right').on('click', function(e){
                 e.preventDefault()
-                mySwiper.swipeNext()
+                mySwiper2.swipeNext()
             });
             //$('.swiper-slide').css('height','50px');
         },

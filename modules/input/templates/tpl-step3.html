@@ -8,7 +8,6 @@
             </div>
             <div class="col-xs-7">
                 <div id="add-proto">
-                    <br>
                     <select  class="add-protocol form-control" name="add-protocol" placeholder="add a protocol">
                         <option></option>
                     </select>
@@ -20,17 +19,19 @@
                 <i class="icon-action icon mini reneco add"></i>
             </div>
             <div class="clear"></div>
-            <br><br>
-            <div>
+            <div class="protocol-container full-height">
             	<!--<ul class="nav nav-tabs" id="tabProtsUl" name="tabProtsUl">
             	</ul>
                 <div id="tabProtsUl" name="tabProtsUl"></div>
                 -->
-                <div id="protosListContainer">
-                    <a class="arrow-left-protocols glyphicon pointer  glyphicon-chevron-left" ></a> 
-                    <a class="arrow-right-protocols glyphicon pointer glyphicon-chevron-right" ></a>
-                    <div class="swiper-container-protocols">
-                        <div class="swiper-wrapper protocols" id="tabProtsUl" name="tabProtsUl">
+                <div id="protosListContainer" class="protocols">
+                    
+                    <div id="proto_name" class="swiper-container">
+
+                        <div id="proto_name-left" class="arrow-left glyphicon pointer  glyphicon-chevron-left" ></div> 
+                        <div id="proto_name-right" class="arrow-right glyphicon pointer glyphicon-chevron-right" ></div>
+
+                        <div class="swiper-wrapper" id="tabProtsUl" name="tabProtsUl">
 
                         </div>
                         <!--<div class="pagination-protocols"></div>-->
@@ -43,10 +44,11 @@
                 <!--<div id="formsIdList">
                     <ul class="nav nav-tabs"></ul>
                 </div>-->
-                <div id="idProtosContainer">
-                    <a class="arrow-left glyphicon pointer  glyphicon-chevron-left" ></a> 
-                    <a class="arrow-right glyphicon pointer glyphicon-chevron-right" ></a>
-                    <div class="swiper-container">
+                <div id="idProtosContainer" class="protocols">
+                    
+                    <div id="proto_id" class="swiper-container">
+                        <div id="proto_id-left" class="arrow-left glyphicon pointer  glyphicon-chevron-left" ></div> 
+                        <div id="proto_id-right"  class="arrow-right glyphicon pointer glyphicon-chevron-right" ></div>
                         <div class="swiper-wrapper" id="formsIdList">
 
                         </div>
