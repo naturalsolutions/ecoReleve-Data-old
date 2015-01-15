@@ -113,91 +113,142 @@
         }
       ],
       "type": "Radio",
-      "title": "Recatch"
+      "title": "Recapture"
     },
 
     "FA": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":20},
+        {"type":"max", "value":100}
+	  ],
       "type": "Number",
       "title": "FA+(mm)"
     },
     "Tib": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":5},
+        {"type":"max", "value":40}
+	  ],
       "type": "Number",
       "title": "Tib(mm)"
     },
     "CM3": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":15}
+	  ],
       "type": "Number",
       "title": "CM3(mm)"
     },
     "D3": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":40},
+        {"type":"max", "value":140}
+	  ],
       "type": "Number",
       "title": "D3(mm)"
     },
     "D3_1": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D3_1(mm)"
     },
     "D3_2": {
-      "validators": [],
+      "validators": [
+	    {"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D3_2(mm)"
     },
     "D3_3": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D3_3(mm)"
     },
     "D4": {
-      "validators": [],
+      "validators": [
+	    {"type":"min", "value":40},
+        {"type":"max", "value":140}
+	  ],
       "type": "Number",
       "title": "D4(mm)"
     },
     "D4_1": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D4_1(mm)"
     },
     "D4_2": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D4_2(mm)"
     },
     "D5": {
-      "validators": [],
+      "validators": [
+		 {"type":"min", "value":30},
+         {"type":"max", "value":140}
+	  ],
       "type": "Number",
       "title": "D5(mm)"
     },
     "D5_1": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D5_1(mm)"
     },
     "D5_2": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":50}
+	  ],
       "type": "Number",
       "title": "D5_2(mm)"
     },
     "D1": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":2},
+        {"type":"max", "value":20}
+	  ],
       "type": "Number",
       "title": "D1(mm)"
     },
     "Claw_D1": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":0.2},
+        {"type":"max", "value":5}
+	  ],
       "type": "Number",
       "title": "Claw_D1(mm)"
     },
     "tragus_Lenght": {
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":5},
+        {"type":"max", "value":40}
+	  ],
       "type": "Number",
       "title": "Tragus lenght(mm)"
     },
     "tragus_Width" :{
-      "validators": [],
+      "validators": [
+		{"type":"min", "value":1},
+        {"type":"max", "value":10}
+	  ],
       "type": "Number",
       "title": "Tragus width(mm)"
     },

@@ -1,9 +1,7 @@
 define([
      'stepper/lyt-stepperOrchestrator',
-     'radio',
-     'modules2/import/_rfid/layouts/rfid-import'
-
-], function(StepperOrchestrator,Radio,RfidLayout) {
+     'radio'
+], function(StepperOrchestrator,Radio) {
 
     'use strict';
 
@@ -26,14 +24,19 @@ define([
                             this.toStep(this.currentStep);
                             break;
                         case 'rfid':
-                            Radio.channel('route').command('import:rfid');
+                            this.radio.command('import:rfid');
                             break;
                         case 'gsm':
-                            Radio.channel('route').command('import:gsm');
+                            this.radio.command('import:gsm');
                             break;
                         /*default:
                             this.validate();*/
                     };
+                }
+                else if(currentStep.name =='finish'){
+                    this.radio.command('home');
+
+                    //this.toStep(0);
                 }
                 else {
                     this.currentStep++;

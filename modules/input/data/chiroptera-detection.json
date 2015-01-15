@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "Chiroptera detection",
   "description": "TProtocol_Chiroptera_detection",
   "keywords": [
@@ -48,12 +48,7 @@
     "Flutter_0_min": {
       "validators": [],
       "type": "Number",
-      "title": "Flutter 0 min"
-    },
-    "Flutter_0_max": {
-      "validators": [],
-      "type": "Number",
-      "title": "Flutter 0 max"
+      "title": "FME heard"
     },
     "Name_Activity_type": {
       "validators": [
@@ -82,7 +77,7 @@
       "validators": [
       ],
       "type": "Text",
-      "title": "Record type",
+      "title": "Listening type",
       "editorAttrs":{ "startId": "1000396" },
       "editorClass": "autocompTree"
     },

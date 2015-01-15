@@ -146,8 +146,8 @@ define([
             }
 
             if (this.currentStep==this.steps.length-1){
-                this.$el.find('#btnNext').attr( 'disabled', 'disabled');
-                this.$el.find('#btnNext').find( 'span').html('<a href="#">Complete</a>');
+                //this.$el.find('#btnNext').attr( 'disabled', 'disabled');
+                this.$el.find('#btnNext').find( 'span').html('Complete');
             }
             if (this.currentStep==0){
                 this.$el.find('#btnPrev').attr( 'disabled', 'disabled');

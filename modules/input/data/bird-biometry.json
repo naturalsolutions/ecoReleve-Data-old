@@ -18,22 +18,21 @@
     "FK_TInd_ID": {
       "validators": [],
       "type": "Picker",
-      "title": "Individual",
-      "editorClass": "required"
+      "title": "Individual"
     },
-    "Id_Observer": {
+    "Id_Observer": {               
       "validators": [],
-      "type": "Text",
+      "type": "Select",
+	  "options": [""],
       "title": "Observer",
-      "editorAttrs": { "list": "username_list" },
-      "editorClass": "required"
+      "editorAttrs": { "user_list": "username_list" }
     },
     "Id_Assistant": {
-      "validators": [
-      ],
-      "type": "Text",
+      "validators": [ ],
+      "type": "Select",
+	  "options": [""],
       "title": "Assistant",
-      "editorAttrs": { "list": "username_list" }
+      "editorAttrs": { "user_list": "username_list" }
     },
     "Id_Sex": {
       "validators": [
@@ -114,21 +113,7 @@
       "type": "Number",
       "title": "Length to nostrils(mm)"
     },
-    "Feather_Black_Display": {
-      "validators": [],
-      "type": "Number",
-      "title": "Black neck(mm)"
-    },
-    "Feather_White_Display": {
-      "validators": [],
-      "type": "Number",
-      "title": "White neck(mm)"
-    },
-    "Feather_Occipital": {
-      "validators": [],
-      "type": "Number",
-      "title": "Crest(mm)"
-    },
+
     "Feather_thirdPrimaryFlight_length": {
       "validators": [],
       "type": "Number",
@@ -171,7 +156,7 @@
       "legend": "Bill"
     },
     {
-      "fields": ["Feather_Occipital", "Feather_Black_Display","Feather_White_Display","Feather_thirdPrimaryFlight_length"],
+      "fields": ["Feather_thirdPrimaryFlight_length"],
       "legend": "Feather"
     },
     {
