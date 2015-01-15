@@ -27,7 +27,8 @@ define([
             'change select[name="add-protocol"]' : 'addForm',
             'click a.pkProtocol' : 'getProtoByPkId',
             'click .arrow-right-station' :'nextStation',
-            'click .arrow-left-station' :'prevStation'
+            'click .arrow-left-station' :'prevStation',
+            'click .onglet a': 'activeOnglet'
         },
         regions: {
             stationRegion: '#stContainer',
@@ -97,6 +98,7 @@ define([
                 this.updateForm(null, element );
                 $(listElement).find('div.swiper-slide').removeClass('swiper-slide-active');
                 $(listElement).find('div.swiper-slide:first').addClass('swiper-slide-active');
+                $('.swiper-slide-active').find('.onglet').addClass('active');
             });
         },
         getProtocol: function(protoName, id){
@@ -126,12 +128,14 @@ define([
                 var tm = key;
                 var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
 
-                htmlContent +=  '<div class="swiper-slide"><a name="'+ key ;
+                htmlContent +=  '<div class="swiper-slide"><div class="onglet"><a name="'+ key ;
                 htmlContent += '"><span><i></i></span>' + key ;
                 if(nbProtoInstances > 1){
+                   
                     htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
+
                 }
-                 htmlContent += '</a></div>';
+                 htmlContent += '</a></div></div>';
             }
             $(this.ui.protosList).html('');
             $(this.ui.protosList).append(htmlContent);
@@ -179,7 +183,7 @@ define([
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
-                content +=  '<div class="swiper-slide"><a class="pkProtocol">' + idProto + '</a></div>';
+                content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol">' + idProto + '</a></div></div>';
             }
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
@@ -200,6 +204,7 @@ define([
             //$('.swiper-slide').css('height','50px');
         },
         getProtoByPkId : function(e){
+
             var pkId = parseInt($(e.target).text());
             this.getProtocol(this.selectedProtoName, pkId);
             // store pkId to save proto
@@ -298,6 +303,12 @@ define([
                     $(field).append(options);
                 }
             }
+        },
+
+
+        activeOnglet: function(e) {
+            $(e.target).parents('.swiper-wrapper').find('.onglet.active').removeClass('active');
+            $(e.target).parent().addClass('active');
         }
     });
 });

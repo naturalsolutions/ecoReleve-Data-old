@@ -10,7 +10,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container no-padding',
+        className: 'container full-height',
         template: template,
 
         events: {
@@ -21,14 +21,18 @@ define([
 
         initialize: function() {
             this.id_sta = 1;
+
         },
 
         onRender: function(){
-            $('body').addClass('validate');
+            $('body').addClass('validate').addClass('full-height');
+            $('#main-region').addClass('obscur');
+
         },
 
         onDestroy: function() {
-            $('body').removeClass('validate');
+            $('body').removeClass('validate').removeClass('full-height');
+            $('main-region').removeClass('obscur');
         },
 
         gsm: function(){
@@ -52,8 +56,8 @@ define([
             console.log('model created');
             model.fetch({success: function(data) {
                 console.log(data);
-                console.log(data.attributes['TSta_PK_ID'])
-                self.id_sta = data.attributes['TSta_PK_ID'];
+                console.log(data.attributes['PK'])
+                self.id_sta = data.attributes['PK'];
                
             }});
             

@@ -9,9 +9,8 @@ div.error {
 .float-div {
 	float: left;
 }
-.masqued{
-    display: none;
-}
+
+
 
 
 
@@ -137,46 +136,112 @@ border-style: solid;
 	height: 50px;
 	position: relative;
 	border-bottom: 1px solid rgb(171, 166, 166);
+	line-height: 50px;
+	width: 100%;
+	display: inline-block;
+
+	&.masqued {
+
+   		 display: none;
+	}
 	.swiper-container {
 		width: 100%;
 		position: absolute;
 		left: 0px;
-		height: 100%;
-
+		height: 50px;
+		line-height: 50px;
+		display: inline-block;
+		
 		.arrow-left{
 			position: absolute;
 			left: 0px;
-			height: 100%;
+			height: 50px;
 			width: 40px;
 			z-index: 10;
-			padding: 2% 1%;
 			color: #428bca;
 			text-decoration: none;
 			background-color: #f9f9f9;
+			line-height: 50px;
+			display: inline-block;
+
+			.left{
+
+				left: 25%;
+				right: auto;
+				position: absolute;
+				text-align: center;
+				vertical-align: middle;
+				height: 50px;
+				line-height: 50px;
+				
+			}
+
 		}
 
 		.arrow-right {
 			position: absolute;	
 			left: auto;
-			right: 0px;
-			height: 100%;
+			right:	0px;
+			height: 50px;
 			width: 40px;
 			z-index: 10;
-			padding: 2% 1%;
 			color: #428bca;
 			text-decoration: none;
 			background-color: #f9f9f9;
+			line-height: 50px;
+			vertical-align: middle;
+			display: inline-block;
+				.right {
+					right: 25%;
+					left: auto;
+					position: absolute;
+					text-align: right;
+					vertical-align: middle;
+					height: 50px;
+					line-height: 50px;
+				}
+
 		}
 
 		.swiper-wrapper{
-			padding: 2% 1%;
-			height:;
+			height: 50px;
+			display: inline-block;
+			line-height: 50px;
+			vertical-align: middle;
+			padding-left: 50px;
+			padding-right: 3%;
+
+
 			.swiper-slide{
-
+				display: inline-block;
 				text-align: center;
+				vertical-align: middle;
+				line-height: 50px;
+				height: 50px;
+				width: auto!important;
+				margin-left: 2%;
+				margin-right: 2%; 
 
+				min-width: 80px;
+				/* .onglet:hover{
+					border-radius: 5px;
+					background: rgb(189, 189, 189);
+					
+				} */
+				.onglet{
+					width:120%;
+					&.active{
+					border-radius: 5px;
+					background: rgb(189, 189, 189);
+						a{
+							border-bottom: 1px solid;
+						}
+
+					}
+				}
+				
 				.badge {
-					margin-left: 3%
+					margin-left: 5px;
 				}
 			}
 		}
