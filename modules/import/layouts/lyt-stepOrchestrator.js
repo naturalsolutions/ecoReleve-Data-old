@@ -1,8 +1,9 @@
 define([
      'stepper/lyt-stepperOrchestrator',
      'radio',
+     'modules2/import/_rfid/layouts/rfid-import'
 
-], function(StepperOrchestrator,Radio) {
+], function(StepperOrchestrator,Radio,RfidLayout) {
 
     'use strict';
 
@@ -15,14 +16,24 @@ define([
         nextStep: function(){
             var currentStep = this.steps[this.currentStep];
             if(currentStep.nextOK()) {
-                // if current step == 0 and file type =gpx, navigate to next step
                 if (currentStep.name =='type'){
                      // get file type 
                     var fileType = currentStep.model.get('type_filetype');
-                    if(fileType == 'gps-gpx'){
-                        this.currentStep++;
-                        this.toStep(this.currentStep);
-                    }
+
+                    switch(fileType) {
+                        case 'gps-gpx':
+                            this.currentStep++;
+                            this.toStep(this.currentStep);
+                            break;
+                        case 'rfid':
+                            Radio.channel('route').command('import:rfid');
+                            break;
+                        case 'gsm':
+                            Radio.channel('route').command('import:gsm');
+                            break;
+                        /*default:
+                            this.validate();*/
+                    };
                 }
                 else {
                     this.currentStep++;
