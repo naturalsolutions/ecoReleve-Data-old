@@ -27,7 +27,8 @@ define([
                 }
                 else {
                     this.currentStep++;
-                    this.toStep(this.currentStep);
+                    if (this.currentStep== this.steps.length) { this.finish(); }
+                    else {this.toStep(this.currentStep); }
                 }
             }
         },

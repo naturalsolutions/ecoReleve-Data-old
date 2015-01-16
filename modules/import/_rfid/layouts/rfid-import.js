@@ -44,7 +44,10 @@ define([
             modInput: '#input-mod'
         },
 
-
+        onDestroy: function(){
+            $('body').removeClass('home-page');
+            $('#main-region').removeClass('full-height obscur');
+        },
 
         initialize: function() {
             this.listenTo(this.collection, 'reset', this.render)
@@ -54,13 +57,21 @@ define([
             }).done( function(data) {
                 this.collection.reset(data);
             });
+            $('body').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
+
+
         },
 
         onShow: function(){
             $('.btn-next').attr('disabled', 'disabled');
+
+
         },
 
         onRender: function(){
+             $('body').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
             this.step2.show(new Step2());
         },
 

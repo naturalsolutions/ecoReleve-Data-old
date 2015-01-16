@@ -89,7 +89,7 @@ define([
             /*==========  Home  ==========*/
             
             this.listenTo(radio, 'home', this.home);
-
+            radio.comply('home', this.home, this);
             /*==========  files imports  ==========*/
             
 			this.listenTo(radio, 'import', this.import);

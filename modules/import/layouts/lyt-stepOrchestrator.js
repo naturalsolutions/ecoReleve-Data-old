@@ -34,8 +34,8 @@ define([
                     };
                 }
                 else if(currentStep.name =='finish'){
-                    this.radio.command('home');
-
+                    console.log('import home');
+                   
                     //this.toStep(0);
                 }
                 else {

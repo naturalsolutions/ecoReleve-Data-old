@@ -72,7 +72,7 @@ define([
             this.steps[0]= FirstStep;            
             this.steps[1]= SecondStep;
             this.steps[2]= ThirdStep;
-            this.steps[3]= FourthStep;
+            //this.steps[3]= FourthStep;
 
             this.stepper = new StepperOrchestrator({
                 

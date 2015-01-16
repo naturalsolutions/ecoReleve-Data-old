@@ -309,6 +309,10 @@ define([
         activeOnglet: function(e) {
             $(e.target).parents('.swiper-wrapper').find('.onglet.active').removeClass('active');
             $(e.target).parent().addClass('active');
+        }, 
+
+        nextOK: function() {
+            return true;
         }
     });
 });

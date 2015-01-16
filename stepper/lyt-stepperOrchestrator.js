@@ -4,10 +4,11 @@ define([
     'backbone',
     'marionette',
     'radio',
+    'sweetAlert',
     'stepper/lyt-step',
     'text!stepper/tpl-stepperOrchestrator.html',
 
-], function($, _, Backbone, Marionette, Radio, LS, tpl) {
+], function($, _, Backbone, Marionette, Radio,sweetAlert, LS, tpl) {
 
     'use strict';
 
@@ -29,7 +30,8 @@ define([
             'change input:radio' : 'datachanged_radio',
             'change input:file' : 'datachanged_file',
             'change select' : 'datachanged_select',
-            'click #step-nav li' : 'changeStep'
+            'click #step-nav li' : 'changeStep',
+            'click .finished': 'finish'
         },
 
         regions: {
@@ -46,8 +48,7 @@ define([
         },
 
         initialize: function(options){
-            $('body').addClass('home-page');
-            $('#main-region').addClass('full-height obscur');
+           
 
             this.steps=options.steps;
             var current;
@@ -63,12 +64,15 @@ define([
 
 
         onShow: function(){
-
+           
         },
 
         onRender: function(){
             this.initNavSteps();
             this.toStep(0);
+
+             $('body').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
         },
 
         initNavSteps: function(){
@@ -120,6 +124,7 @@ define([
         nextStep: function(){
             if(this.steps[this.currentStep].nextOK()) {
                 this.currentStep++;
+            
                 this.toStep(this.currentStep);
             }
         },
@@ -142,17 +147,29 @@ define([
                 console.log(this.steps[this.currentStep-1]);
                 console.log(changed_attr);
                 console.log(this.model.get(changed_attr));
-                this.$el.find('#stepper-header').html(this.model.get(changed_attr).toUpperCase()); 
+                //this.$el.find('#stepper-header').html(this.model.get(changed_attr).toUpperCase()); 
             }
 
             if (this.currentStep==this.steps.length-1){
+
                 //this.$el.find('#btnNext').attr( 'disabled', 'disabled');
-                this.$el.find('#btnNext').find( 'span').html('Complete');
+                this.$el.find('#btnNext').addClass('finished').find( 'span'
+                    ).html('Complete').parent().find('.icon').removeClass('rightarrow').addClass('validated');
+
             }
+            else {
+                 this.$el.find('#btnNext').removeClass('finished').find('.icon').removeClass('validated').addClass('rightarrow');
+            }
+
             if (this.currentStep==0){
                 this.$el.find('#btnPrev').attr( 'disabled', 'disabled');
             }
-            else {this.$el.find('#btnPrev').removeAttr('disabled'); }
+            else {
+                this.$el.find('#btnPrev').removeAttr('disabled'); 
+               
+            }
+
+
         },
 
 
@@ -210,6 +227,7 @@ define([
         infos: function(){
             console.log(this.model);
         },
+
         changeStep : function(e){
             var element = $(e.target);
             var idStep ;
@@ -219,7 +237,38 @@ define([
                 idStep = parseInt($(e.target).parent().find('span.badge').text())-1 ;
             }
             this.toStep(idStep);
+        },
+
+        finish: function() {
+           
+            console.log('finish');
+            var self = this;
+            sweetAlert({
+
+                title: "Refaire une saisie ? ",
+                text: "",
+                type: "success",
+                showCancelButton: true,
+                confirmButtonColor: "green",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non (retour écran principal)",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                      if (isConfirm) {
+                         self.toStep(0);
+                        
+                      } else {
+                        console.log('home');
+                        Radio.channel('route').command('home');
+                            
+                      }
+            });
+                        
+
         }
+
     });
 
 });
