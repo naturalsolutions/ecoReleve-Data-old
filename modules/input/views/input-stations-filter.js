@@ -34,10 +34,8 @@ define([
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
+            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName'
 
-            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName'//,
-
-            //'change input[name="allSt-fieldWorker"]' :'getFieldWorkerId'
         },
         ui: {
             beginDate: 'input[name="allSt-beginDate"]',
@@ -114,22 +112,30 @@ define([
         },
         update: function(e) {
             var input = $(e.target);
-            var name = $(input).attr('name').split('-')[1];
-            var value = e.target.value;
-            if (!value){ value =null;}
-            if(name !='fieldWorker' && name !='Name' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
-                this.filter[name].Value = value;
-            } else if(name =='fieldWorker') {
-                this.filter[name].Value = parseInt(value); 
-            } else if(name =='Name') {
-                 this.filter[name] = value; 
-            } else if(name =='PK') {
-                 this.filter[name].Value = parseInt(value); 
+            var id =  $(input).attr('id');
+            if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op')){
+                var name = $(input).attr('name').split('-')[1];
+                var value = e.target.value;
+                if (!value){ value =null;}
+                if(name !='fieldWorker' && name !='Name' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
+                    this.filter[name].Value = value;
+                } else if(name =='fieldWorker') {
+                    this.filter[name].Value = parseInt(value); 
+                } else if(name =='Name') {
+                     this.filter[name] = value; 
+                } else if(name =='PK') {
+                     this.filter[name].Value = parseInt(value); 
+                } else {
+                    this.filter[name].Value = value; 
+                    this.filter[name].Operator = '='; 
+                }
             } else {
-                this.filter[name].Value = value; 
-                this.filter[name].Operator = '='; 
+                var operator = $(input).val();
+                // set value in filter
+                var fieldName = id.substring(6, id.length - 3);
+                //alert(fieldName);
+                this.filter[fieldName].Operator = operator; 
             }
-
             this.updateGrid();
         },
         getIndivId : function(){
@@ -162,12 +168,9 @@ define([
                 $('#st-station').removeClass('masqued');
             } else {
                 this.filter.Name = null;
-                // this.filter['siteName'].Value = null;
-                // this.filter['siteName'].Operator = '=';
                 $('#stMonitoredSiteName').removeClass('masqued');
                 $('#st-station').addClass('masqued');
             }
-            // this.updateGrid();
         },
        updateSiteName : function(e){
             var siteType = $(e.target).val();
@@ -175,35 +178,8 @@ define([
                 var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
                 $('#stMonitoredSiteName').html('<option></option>');
                 $('#stMonitoredSiteName').append(sitesNames);
-                //this.getSitesNames(siteType);
-                //$('input[name="all-stationType"]').prop("checked", true); 
-                //this.ui.stationField.val();
             }
         },
-        /*
-        getSitesNames: function(type){
-             var url = config.coreUrl + 'monitoredSite/name';
-            $.ajax({
-                context: this,
-                url: url,
-                type:'POST',
-                data : {type: type},
-                dataType: 'json'
-            }).done( function(data) {
-                $('#sitesNames_list').remove();
-                $('#stMonitoredSiteName').val('');
-                this.generateDatalist(data,'sitesNames_list', '#st-station' );
-            });
-        },*/
-        /*generateDatalist : function(data, listId, targetId){
-            var dataList = $('<datalist id="' + listId +'"></datalist>');
-            data.forEach(function(element) {
-                $(dataList).append('<option>' + element + '</option>');
-            });
-            $('#input-datalists').append(dataList);
-            // associate datalist to user input
-            $(targetId).attr("list",listId);
-        },*/
         updateBeginDateOp : function(){
             var operator = $('#allSt-beginDate-op option:selected').text();
             this.filter.beginDate.Operator = operator;
@@ -249,6 +225,8 @@ define([
         updateIndivId : function(id){
             var indivId = id.id;
             $('input.pickerInput.target').val(indivId);
+            this.filter['indivId'].Value = indivId; 
+            this.updateGrid();
         }
     });
 });
