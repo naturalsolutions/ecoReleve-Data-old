@@ -17,7 +17,8 @@ define([
         template: template,
 
         events: {
-            'click #btnGetFile': 'initDatas'
+            'click #btnGetFile': 'initDatas',
+            
         },
         
         initialize: function(options) {
@@ -32,8 +33,11 @@ define([
             
         },
 
-
+        onDestroy: function() {
+           
+        },
         onShow: function() {
+             
         },
 
         initDatas: function(e){
@@ -75,5 +79,6 @@ define([
 
         },
 
+        
     });
 });
