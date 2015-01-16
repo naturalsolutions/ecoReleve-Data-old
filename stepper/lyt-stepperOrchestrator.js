@@ -158,7 +158,8 @@ define([
 
             }
             else {
-                 this.$el.find('#btnNext').removeClass('finished').find('.icon').removeClass('validated').addClass('rightarrow');
+                 this.$el.find('#btnNext').removeClass('finished').find( 'span'
+                    ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
             }
 
             if (this.currentStep==0){
