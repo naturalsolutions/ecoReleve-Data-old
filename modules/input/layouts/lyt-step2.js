@@ -41,7 +41,7 @@ define([
                 //console.log(this.stepAttributes);
                 var stationForm = new StationView();
                 var formModel = stationForm.form.model;
-                this.initModel('new',stationForm);
+                this.initModel(stationType,stationForm);
                 this.leftRegion.show(stationForm);
                 // get stored values
                 this.feedTpl();
@@ -169,7 +169,7 @@ define([
                         field.required = true;
                         console.log(field);
                     }
-                    if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='id_site'){
+                    if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='id_site' || field.name =='station_Precision' ){
                         field.required = false;
                     }
                 }
@@ -192,7 +192,7 @@ define([
                         field.required = true;
                         console.log(field);
                     }
-                    if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='station_Region'){
+                    if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='station_Region' || field.name =='station_Precision' ){
                         field.required = false;
                     }
                 }
