@@ -56,7 +56,7 @@ define([
                     longitude: 44,
                     label: ''
             });
-            var mapView = map.init('bird', this.$el.find('#map'), point, 3);
+            var mapView = map.init('bird', this.$el.find('#map'), point);
             this.map_view = mapView;
             var url = config.coreUrl + 'individuals/stations?id=' + this.indivId;
             this.map_view.loadGeoJSON(url, 'Positions', 'individual');

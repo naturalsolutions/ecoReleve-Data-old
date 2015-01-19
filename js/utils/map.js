@@ -20,6 +20,7 @@
                 el: $(target),
                 center: initPoint,
                 zoom: mapZoom
+                
             });
         }
     };

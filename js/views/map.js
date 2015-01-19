@@ -187,6 +187,10 @@ define([
 				displayProjection: new OpenLayers.Projection('EPSG:4326'),
 				layers: [
 						new OpenLayers.Layer.Google(
+							'Google Hybrid',
+							{type: google.maps.MapTypeId.HYBRID, numZoomLevels: 10}
+						),
+						new OpenLayers.Layer.Google(
 							'Google Physical',
 							{type: google.maps.MapTypeId.TERRAIN}
 						),
@@ -194,10 +198,7 @@ define([
 							'Google Streets', // the default
 							{numZoomLevels: 20}
 						),
-						new OpenLayers.Layer.Google(
-							'Google Hybrid',
-							{type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
-						),
+
 						new OpenLayers.Layer.Google(
 							'Google Satellite',
 							{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
