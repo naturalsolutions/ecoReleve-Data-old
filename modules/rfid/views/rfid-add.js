@@ -12,7 +12,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-
+        className:'container',
         events: {
             'click #btn-add': 'add',
             'focus #input-identifier' : 'clear'
@@ -22,7 +22,14 @@ define([
             group: '#group-identifier',
             help: '#help-identifier'
         },
+        onShow: function(){
+            $('body').addClass('home-page');
+            $('#main-region').addClass('obscur full-height');
+        },
 
+        onDestroy: function(){
+             $('#main-region').removeClass('obscur');
+        },
         add: function(e) {
             e.preventDefault();
             var text = $('#input-identifier').val();

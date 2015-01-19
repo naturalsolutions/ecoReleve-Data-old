@@ -10,7 +10,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container no-padding',
+        className: 'container ',
         template: template,
 
         events: {
@@ -76,8 +76,12 @@ define([
 
         onShow: function(){
             this.$el.find('#list').append(this.grid.render().el);
+            $('body').addClass('home-page full-height');
+            $('#main-region').addClass('obscur full-height');
         },
-
+        onDestroy: function() {
+            $('#main-region').removeClass('obscur');
+        },
         showDetail: function(evt) {
             var model = $(evt.target).parent().data('model'); 
             console.log(model);
