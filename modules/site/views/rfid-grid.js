@@ -74,6 +74,7 @@ define([
                 name: 'Active',
                 label: 'Active',
                 cell: 'string',
+                renderable: false
             }
             ];
 

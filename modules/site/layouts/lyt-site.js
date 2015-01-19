@@ -18,7 +18,7 @@ define([
     tpl, tplFilters, NSFilter) {
 
     return Marionette.LayoutView.extend({
-        className: 'full-height',
+        className: 'full-height monitored-sites',
         template: tpl,
 
         events: {

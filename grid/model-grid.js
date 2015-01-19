@@ -210,9 +210,11 @@ define([
 
 
         displayPaginator: function(){
+            console.log(this.collection);
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: this.collection
             });
+            console.log(this.paginator);
             return this.paginator.render().el
         },
 
