@@ -26,13 +26,15 @@ define([
 
         onRender: function(){
             $('body').addClass('validate').addClass('full-height');
-            $('#main-region').addClass('obscur');
+            $('#main-region').addClass('obscur full-height');
 
         },
 
+
+
         onDestroy: function() {
             $('body').removeClass('validate').removeClass('full-height');
-            $('main-region').removeClass('obscur');
+            $('#main-region').removeClass('obscur');
         },
 
         gsm: function(){

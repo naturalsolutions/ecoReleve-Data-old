@@ -83,6 +83,8 @@ define([
         },
         onShow : function(){
             // add indiv window container
+            $('#stepper-header').html('MANUAL ENTRY');
+            
             $('#stepper').append('<div id="indivFilter" class="stepper-modal"></div>');
             $('#stepper').parent().addClass('step-grid');
         },

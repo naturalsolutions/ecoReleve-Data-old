@@ -19,7 +19,8 @@ define([
 
     return Marionette.LayoutView.extend({
         template: template,
-
+        
+        className:'container full-height',
         events: {
             'click #btn-action': 'pose',
             'focus input': 'clearErrors',
@@ -68,6 +69,8 @@ define([
         onShow: function() {
             this.$el.find('#input-begin').attr('placeholder', config.dateLabel);
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
+            $('body').addClass('home-page');
+            $('#main-region').addClass('obscur full-height');
             this.map.show(new Map());
 
         },
@@ -75,6 +78,7 @@ define([
         onDestroy: function() {
             delete this.modules;
             delete this.sites;
+            $('#main-region').removeClass('obscur');
         },
 
         updateType: function(e) {

@@ -48,6 +48,7 @@ define([
         events: {
             'click button.btn-next' : 'nextStep',
             'click button.btn-prev' : 'prevStep',
+            'click .finished' : 'finish'
         },
 
 
@@ -65,6 +66,8 @@ define([
             $('body').addClass('export-layout');
             $('body').addClass('home-page');
             $('#main-region').addClass('full-height obscur');
+
+
         },
 
         initViewName: function(args){
@@ -91,6 +94,18 @@ define([
         },
         
         onShow: function() {
+            var self = this;
+            $(".steps li").click(function(e){
+                var target = $(this).attr('data-step');
+                var wiz = $('#importWizard').data('wizard');
+                console.log('detect li click  '+ target);
+                if(target != 5 ){
+                    self.$el.find('#btnNext').removeClass('finished').find( 'span'
+                        ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
+                }
+            });
+
+
         	$('.btn-next').attr('disabled', 'disabled');
             var step1= new Step1();
             var passed='passed2';
@@ -105,18 +120,22 @@ define([
 
         prevStep: function(){
             $('#importWizard').wizard('previous');
+            this.$el.find('#btnNext').removeClass('finished').find( 'span'
+                        ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
         },
 
         nextStep: function(){
 
-            
             $('#importWizard').wizard('next');
             var step = $('#importWizard').wizard('selectedItem').step;
             $('.btn-next').attr('disabled', 'disabled');
+           
 
-            
             switch(step) {
                 case 1:
+                    console.log('return to step 1')
+                    
+                    $('#step1').
                     break;
                 case 2:
                     this.step_2_Filters_Container.show( new Step2_Filters(
@@ -127,12 +146,17 @@ define([
                     this.step_2_Map_Container.show( new  Step2_Map({
                         viewName:this.viewName,
                     }));
+                    this.step = 2;
+
                     break;
                 case 3:
                     this.step_3_Map_Container.show( new  Step3_Map({
                         viewName:this.viewName,
                         filters: this.filters_coll,
                     }));
+
+                    this.step = 3;
+
                     break;
                 case 4:
                     this.step_4_Columns_Container.show( new Step4_Columns({
@@ -144,6 +168,8 @@ define([
                         filterCriteria: this.filters_coll,
                         boxCriteria: this.boxCriteria,
                     }));
+                    this.step = 4;
+
                     break;
                 case 5:
                     this.step_5_Container.show( new Step5({
@@ -152,12 +178,50 @@ define([
                         boxCriteria: this.boxCriteria,
                         columnCriteria: this.columnCriteria
                     }));
+
+                    this.step = 5;
+
+                    this.$el.find('#btnNext').addClass('finished').find( 'span'
+                        ).html('Complete').parent().find('.icon').removeClass('rightarrow').addClass('validated');
+                        $('#btnNext').removeAttr('disabled');
                     break;
 
                 default:
+
                     break;
 
             }
+        },
+
+        finish: function() {
+           
+            console.log('finish');
+            var self = this;
+            sweetAlert({
+
+                title: "Refaire une exportation ? ",
+                text: "",
+                type: "success",
+                showCancelButton: true,
+                confirmButtonColor: "green",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non (retour écran principal)",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                      if (isConfirm) {
+                       
+                        $('.steps >li:first').trigger("click");
+                        
+                      } else {
+                        console.log('home');
+                        Radio.channel('route').command('home');
+                            
+                      }
+            });
+                        
+
         },
 
 

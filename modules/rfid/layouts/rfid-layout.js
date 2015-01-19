@@ -16,7 +16,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container-fluid',
+        className: 'container full-height',
         template: template,
 
         regions: {
@@ -31,6 +31,9 @@ define([
         },
         initialize: function() {
              Radio.channel('rfid').comply('showValidate', this.showValidate, this);
+        },
+        onShow: function() {
+            $(this.$el).css({'padding-top':'0%'});
         },
 
         showDeploy: function() {
