@@ -7,6 +7,7 @@ define([
     'radio',
     'ol3',
 
+
 ], function($, _, Backbone , Marionette, config, Radio,
     ol
     ) {
@@ -59,24 +60,69 @@ define([
                 source: sourceT
             });
 
+            var gmap = new google.maps.Map(document.getElementById('map'), {
+              mapTypeControl: true,
+              panControl: false,
+              disableDefaultUI: true,
+              keyboardShortcuts: false,
+              draggable: true,
+              disableDoubleClickZoom: true,
+              scrollwheel: true,
+              streetViewControl: false,
+              scaleControl: true,
+              mapTypeId: google.maps.MapTypeId.HYBRID,
+               
+            });
+            var center=this.vectorLayer.getSource().getFeatures()[0].getGeometry().getCoordinates();
+
+
+            var view = new ol.View({
+                    center: center,
+                    maxZoom: 18
+                });
+
+            view.on('change:center', function() {
+              var center = ol.proj.transform(view.getCenter(), 'EPSG:3857', 'EPSG:4326');
+              gmap.setCenter(new google.maps.LatLng(center[1], center[0]));
+            });
+
+
+
+            view.on('change:resolution', function() {
+              gmap.setZoom(view.getZoom());
+            });
+
+
+
+            var olMapDiv = document.getElementById('olmap');
+
+
             this.map = new ol.Map({
                 layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.OSM()
-                    }),
+                    // new ol.layer.Tile({
+                    //     source: new ol.source.OSM()
+                    // }),
                     this.vectorLayer
                 ],
-                target: 'map',
+                target: olMapDiv,
                 controls: ol.control.defaults({
                     attributionOptions:({
                         collapsible: false
                     })
                 }),
-                view: new ol.View({
-                    center: this.vectorLayer.getSource().getFeatures()[0].getGeometry().getCoordinates(),
-                    zoom: 5
-                }),
+                interactions: ol.interaction.defaults({
+                    altShiftDragRotate: false,
+                    dragPan: false,
+                    rotate: false
+                }).extend([new ol.interaction.DragPan({kinetic: null})]),
+                view: view,
             });
+            view.setZoom(10);
+            view.setCenter(center);
+
+
+            olMapDiv.parentNode.removeChild(olMapDiv);
+            gmap.controls[google.maps.ControlPosition.TOP_LEFT].push(olMapDiv);
         },
 
         update: function(args){
