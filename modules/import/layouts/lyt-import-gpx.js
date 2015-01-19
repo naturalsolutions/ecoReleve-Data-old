@@ -33,8 +33,11 @@ define([
 
         initialize: function(){
             this.model = new Backbone.Model();
-        },
 
+        },
+        onShow: function (){
+             $('#stepper-header').html('IMPORT');
+         },
         onRender: function(){
 
             var FirstStep = new Step({

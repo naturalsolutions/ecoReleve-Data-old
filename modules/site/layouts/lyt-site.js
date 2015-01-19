@@ -39,7 +39,7 @@ define([
         },
         onShow: function(){
             //this.initFilters();
-
+            $('#main-region').addClass('full-height');
             this.mapView= new ViewMap();
             this.gridView= new ViewGrid();
 
