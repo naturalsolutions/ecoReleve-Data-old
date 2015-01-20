@@ -32,6 +32,46 @@ div.error {
 		font-size: 25px;
 	}
 }
+.manual-tile-import{
+	background: rgba(0,0,0,0.7);
+	border-radius: 3px;
+	padding: 20px;
+	margin: 20px 20px;
+	text-align: center;
+	color: white;
+	height: 250px;
+	transition: .3s all;
+	position: relative;
+	.radio{
+		position: absolute;
+		bottom: 20px;
+		right: 0;
+		left: 0;
+		text-align: center;
+		label{
+			padding: 0px;
+		}
+		input{
+			position: relative;
+			margin: 0px;
+			margin-top: 10px;
+
+		}
+	}
+
+	&:hover{
+		background: rgba(0,0,0,0.9);
+	}
+	i:not(.huge){
+		font-size: 25px;
+	}
+	&.disable{
+		opacity: .6;
+		&:hover{
+			background: rgba(0,0,0,0.7);
+		}
+	}
+}
 
 /*
 i.icon.reneco.close {
