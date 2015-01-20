@@ -27,7 +27,10 @@ define([
             // 'click tr': 'redirect',
         },
 
-        onDestroy: function(){},
+        onDestroy: function(){
+            $('#main-region').removeClass('grey-back').removeClass('no-scroll');
+            $('body').removeClass('no-scroll');
+        },
 
         initialize: function(){
             this.type='rfid';
@@ -51,7 +54,8 @@ define([
             ];
         },
         onShow: function(){
-
+            $('body').addClass('full-height').addClass('no-scroll');
+            $('#main-region').addClass('full-height').addClass('grey-back').addClass('no-scroll');
         },
 
         onRender: function(){

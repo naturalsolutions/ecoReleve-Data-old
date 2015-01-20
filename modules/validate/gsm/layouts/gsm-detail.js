@@ -33,8 +33,9 @@ define([
 
         onBeforeDestroy: function() {
             this.radio.reset();
-            $('#main-region').removeClass('grey-back');
+            $('#main-region').removeClass('grey-back').removeClass('no-scroll');
             $('body').removeClass('no-scroll');
+            
         },
 
         onShow: function() {

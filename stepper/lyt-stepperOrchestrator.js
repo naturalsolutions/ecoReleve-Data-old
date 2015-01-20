@@ -246,13 +246,13 @@ define([
             var self = this;
             sweetAlert({
 
-                title: "Refaire une saisie ? ",
+                title: " Well done ! ",
                 text: "",
                 type: "success",
                 showCancelButton: true,
                 confirmButtonColor: "green",
-                confirmButtonText: "Oui",
-                cancelButtonText: "Non (retour écran principal)",
+                confirmButtonText: "Redo an input",
+                cancelButtonText: "Back to home",
                 closeOnConfirm: true,
                 closeOnCancel: true
                 },

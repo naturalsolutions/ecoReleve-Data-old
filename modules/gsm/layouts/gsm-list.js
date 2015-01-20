@@ -12,7 +12,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container no-padding',
+        className: 'container no-scroll',
         template: template,
 
         events: {
@@ -31,7 +31,15 @@ define([
             Dropzone.autoDiscover = false;
         },
 
+        onDestroy: function(){
+            $('body').removeClass('full-height').removeClass('no-scroll')
+            $('#main-region').removeClass('full-height obscur');
+
+        },
+
         onShow: function() {
+             $('body').addClass('full-height').addClass('no-scroll').addClass('home-page');
+            $('#main-region').addClass('full-height obscur');
 
             // Initialize a drop zone for import
             var previewNode = document.querySelector('#template');
