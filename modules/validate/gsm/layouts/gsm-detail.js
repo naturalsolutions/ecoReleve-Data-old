@@ -14,7 +14,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container no-padding',
+        className: 'container-fluid no-padding full-height',
         template: template,
 
         regions: {
@@ -33,9 +33,14 @@ define([
 
         onBeforeDestroy: function() {
             this.radio.reset();
+            $('#main-region').removeClass('grey-back');
+            $('body').removeClass('no-scroll');
         },
 
         onShow: function() {
+            $('body').addClass('full-height').addClass('no-scroll');
+            $('#main-region').addClass('full-height').addClass('grey-back').addClass('no-scroll');
+
             var self=this;
             this.info.show(new Info({
                 model: new Individual({

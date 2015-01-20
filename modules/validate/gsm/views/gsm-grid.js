@@ -18,7 +18,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-        className:'detailsGsmPanel',
+        className:'detailsGsmPanel full-height',
 
         events: {
             'click .backgrid-container tbody tr': 'updateMap',
@@ -191,10 +191,10 @@ define([
             });
 
             this.$el.append(this.paginator.render().el);
-            var height = $(window).height() -
+           /* var height = $(window).height() -
                 $('#header-region').height() - this.paginator.$el.height() -
                 $('#info-container').outerHeight();
-            this.$el.height(height);
+            this.$el.height(height);*/
             this.locations.fetch({reset: true});
 
         },
