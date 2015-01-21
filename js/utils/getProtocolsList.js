@@ -16,14 +16,17 @@ define([
                 async: false,
             })
             .done( function(data) {
+                var labels = [];
                 var len = data.length;
-               for (var i = 0; i < len; i++) {
+                for (var i = 0; i < len; i++) {
                     var label = data[i].proto_name;
-                    content += '<option>'+ label +'</option>';
+                  labels.push(label);      
                 }
-            })
-            .fail( function() {
-                alert("error loading protocols, please check webservice connexion");
+                // sort
+                labels.sort();
+                for (var j = 0; j < len; j++) {
+                content += '<option>'+ labels[j] +'</option>';
+                }
             });
 
             return content;
