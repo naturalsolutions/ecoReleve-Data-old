@@ -251,7 +251,7 @@ define([
                 type: "success",
                 showCancelButton: true,
                 confirmButtonColor: "green",
-                confirmButtonText: "Redo an input",
+                confirmButtonText: "Redo",
                 cancelButtonText: "Back to home",
                 closeOnConfirm: true,
                 closeOnCancel: true

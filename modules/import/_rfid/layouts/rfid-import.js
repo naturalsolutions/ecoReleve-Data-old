@@ -7,9 +7,12 @@ define([
     'radio',
     'text!modules2/import/_rfid/templates/rfid-import.html',
     'bootstrap_slider',
-    'modules2/import/_rfid/views/step2'
+    'modules2/import/_rfid/views/step2',
+    'grid/model-grid',
+    'backgrid',
+    'modules2/rfid/layouts/rfid-deploy'
     
-], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, Step2) {
+], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID) {
     'use strict';
 
 
@@ -29,7 +32,8 @@ define([
             'click #btn-import': 'importFile',
             'click #input-file': 'clear',
             'focus #input-mod': 'clear',
-
+            'change #input-mod' : 'updateGrid',
+            'click #pose_remove' : 'deployRFID',
             'click button.btn-next' : 'nextStep',
             'click button.btn-prev' : 'prevStep',
         },
@@ -47,9 +51,11 @@ define([
         onDestroy: function(){
             $('body').removeClass('home-page');
             $('#main-region').removeClass('full-height obscur');
+
         },
 
         initialize: function() {
+            this.radio = Radio.channel('rfid_pose');
             this.listenTo(this.collection, 'reset', this.render)
             $.ajax({
                 context: this,
@@ -57,22 +63,25 @@ define([
             }).done( function(data) {
                 this.collection.reset(data);
             });
-            $('body').addClass('home-page');
-            $('#main-region').addClass('full-height obscur');
-
-
+            this.grid= new NSGrid({
+               /* columns: this.cols,*/
+                channel: 'rfid_pose',
+                url: config.coreUrl + 'rfid/pose/',
+                pageSize : 20,
+                pagingServerSide : false,
+            });
         },
 
         onShow: function(){
             $('.btn-next').attr('disabled', 'disabled');
-
-
+                          
         },
 
         onRender: function(){
-             $('body').addClass('home-page');
+            $('body').addClass('home-page');
             $('#main-region').addClass('full-height obscur');
-            this.step2.show(new Step2());
+            $('#rfid-grid').html(this.grid.displayGrid());
+            $('#paginator').prepend(this.grid.displayPaginator());
         },
 
 
@@ -107,12 +116,16 @@ define([
                 var file = $('#input-file').get(0).files[0] || null;
                 var url = config.coreUrl + 'rfid/import';
                 var data = new FormData();
+                console.log($(this.ui.modInput));
                 var self = this;
 
                 reader.onprogress = function(data) {
                     if (data.lengthComputable) {
                         var progress = parseInt(data.loaded / data.total * 100).toString();
                         self.ui.progressBar.width(progress + '%');
+                        if (progress == '100') {
+                            self.ui.progressBar.css({'background-color':'green'})
+                        }
                     }
                 };
 
@@ -159,6 +172,21 @@ define([
             this.ui.fileGroup.removeClass('has-error');
             this.ui.modHelper.text('');
             this.ui.modGroup.removeClass('has-error');
+        },
+
+        updateGrid: function(){
+            console.log($('#input-mod').val());
+            var data = new Backbone.Model();
+            data.filters = [{'Column':'identifier','Operator':'=','Value':$('#input-mod').val()}];
+            this.radio.command('rfid_pose:grid:update',data);
+
+        },
+
+        deployRFID: function(){
+            this.step1.show(new DeployRFID({
+
+            })
+        );
         }
     });
 });
