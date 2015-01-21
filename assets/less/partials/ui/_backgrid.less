@@ -1,18 +1,40 @@
-.backgrid-container {
-    height:100%;
-    min-height:50px;
-}
-.backgrid tr:hover {
-    background-color:rgb(34, 34, 34);
-    color:white;
-}
-.backgrid th{
-	text-align: left;
-}
+//greys : 
+@c-grey97: #979797;
+@c-grey4d: #4d4d4d;
+@c-grey66: #666666;
+@c-grey55: #555555;
+@c-grey33: #333333;
+@c-grey1b: #1b1b1b;
 
-.backgrid-paginator{
-	ul{
-		padding: 0px;		
+
+
+
+
+table{
+	width: 100%;
+	color: @c-grey97;
+	th, td{
+		padding: 5px;
+	}
+	tbody tr{
+		border-bottom: 1px solid @c-grey97;
+		&.selected{
+			background: @c-grey4d;
+		}
+		&:hover{
+			background: @c-grey4d;
+		}
+	}
+	th{
+		text-transform: uppercase;
+	}
+	a{
+		&:hover, &:focus, &:visited{
+			color: @c-grey97;
+			text-decoration: none;		
+		}
+		color: @c-grey97;
+		text-decoration: none;		
 	}
 }
 

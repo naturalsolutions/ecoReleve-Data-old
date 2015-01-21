@@ -1,6 +1,9 @@
 <script type="text/template">
        
         <div class="col-xs-4 full-height scroll-auto no-padding">
+
+
+
             <div class="col-xs-12" style="background-color: #CACACA;  ">
              <div class="" style="margin: auto; padding:2%">
                 <button id="add" class="btn btn-primary">Add new RFID</button>
@@ -43,10 +46,11 @@
     
 
         </div>
-        <div class="col-xs-8 functions clearfix">
-            <div class="col-xs-8">
-                <div id="paginator"></div>
-            </div>
+
+
+
+        <div class="pannels-container col-xs-8 no-padding">
+                    <div class="functions clearfix">
 
             <span class="pull-right">
                 <button id="display-map" class="small btn btn-labeled btn-success">
@@ -64,12 +68,12 @@
                 </button>
             </span>
         </div>
-
-
-
-        <div class="pannels-container col-xs-8 no-padding">
-            <div class="col-xs-12 pannel pannel-grid grid-list active dark">
+            <div class="col-xs-12 pannel pannel-grid full-height scroll-auto grid-list active dark">
+                <br>
+                <div id="paginator"></div>
+                <br>
                 <div id="grid"></div>
+                <br>
             </div>
             <div class="col-xs-12 full-height no-padding pannel pannel-map ">
                 <div id="map" style="height: 100%"></div>    

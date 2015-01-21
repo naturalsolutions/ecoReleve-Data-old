@@ -20,9 +20,8 @@ define([
         },
         initialize: function(options) {
             this.channel='modules';
-        	this.radio = Radio.channel(this.channel);
-            this.radio.comply(this.channel+':map:update', this.update, this);            
-
+              this.radio = Radio.channel(this.channel);
+                this.radio.comply(this.channel+':map:update', this.update, this);
             this.initGeoJson();
         },
 
@@ -51,17 +50,73 @@ define([
         },
 
         initMap: function(){
+            
             var sourceT = new ol.source.GeoJSON({
                 projection: 'EPSG:3857',
                 object: this.geoJson
             });
 
+            var clusterSource = new ol.source.Cluster({
+              distance: 40,
+              source: sourceT,
+            });
+
+            var styleCache = {};
             this.vectorLayer = new ol.layer.Vector({
-                source: sourceT
+                source: clusterSource,
+                style: function(feature, resolution) {
+                  var size = feature.get('features').length;
+                  var style = styleCache[size];
+                  var radius = 30;
+                  var color= 'rgba(20, 60, 80, 0.8)';
+                  if(size <= 10000){
+                      radius = 25;
+                      color= 'rgba(24, 71, 95, 0.8)';
+                  }
+                  if(size <= 1000){
+                      radius = 20;
+                      color= 'rgba(24, 71, 95, 0.8)';
+                  }
+                  if(size <= 100){
+                      radius = 15;
+                      color= 'rgba(33, 99, 132, 0.8)';
+                  }
+                  if(size <= 10){
+                      radius = 10;
+                      color= 'rgba(42, 126, 162, 0.8)';
+                  }
+                  if(size == 1){
+                      radius = 5;
+                      color= 'rgba(51, 153, 204, 1)';
+                  }
+
+                  if (!style) {
+                    style = [new ol.style.Style({
+                      image: new ol.style.Circle({
+                        radius: radius,
+                        stroke: new ol.style.Stroke({
+                          color: '#fff'
+                        }),
+                        fill: new ol.style.Fill({
+                          color: color
+
+                        })
+                      }),
+                      text: new ol.style.Text({
+                        text: (size == 1 )? '' : size.toString() ,
+                        fill: new ol.style.Fill({
+                          color: '#fff'
+                        })
+                      })
+                    })];
+                    styleCache[size] = style;
+                  }
+                  return style;
+                }
             });
 
             var gmap = new google.maps.Map(document.getElementById('map'), {
-              mapTypeControl: true,
+              mapTypeControl: false,
               panControl: false,
               disableDefaultUI: true,
               keyboardShortcuts: false,
@@ -73,25 +128,21 @@ define([
               mapTypeId: google.maps.MapTypeId.HYBRID,
                
             });
-            var center=this.vectorLayer.getSource().getFeatures()[0].getGeometry().getCoordinates();
 
-
+            var center=sourceT.getFeatures()[0].getGeometry().getCoordinates();
             var view = new ol.View({
                     center: center,
-                    maxZoom: 18
-                });
+                    maxZoom: 18,
+                    minZoom: 2
+            });
 
             view.on('change:center', function() {
               var center = ol.proj.transform(view.getCenter(), 'EPSG:3857', 'EPSG:4326');
               gmap.setCenter(new google.maps.LatLng(center[1], center[0]));
             });
-
-
-
             view.on('change:resolution', function() {
               gmap.setZoom(view.getZoom());
             });
-
 
 
             var olMapDiv = document.getElementById('olmap');
@@ -110,6 +161,7 @@ define([
                         collapsible: false
                     })
                 }),
+
                 interactions: ol.interaction.defaults({
                     altShiftDragRotate: false,
                     dragPan: false,
@@ -117,13 +169,14 @@ define([
                 }).extend([new ol.interaction.DragPan({kinetic: null})]),
                 view: view,
             });
-            view.setZoom(10);
+            view.setZoom(3);
             view.setCenter(center);
 
 
             olMapDiv.parentNode.removeChild(olMapDiv);
             gmap.controls[google.maps.ControlPosition.TOP_LEFT].push(olMapDiv);
         },
+
 
         update: function(args){
             var url = config.coreUrl + '/monitoredSite/search_geoJSON';
@@ -141,17 +194,75 @@ define([
         },
 
         updateMap: function(datas){
+
           this.map.removeLayer(this.vectorLayer);
-          
+
           var sourceT = new ol.source.GeoJSON({
-            projection: 'EPSG:3857',
-            object: datas
+              projection: 'EPSG:3857',
+              object: datas
           });
-          
-          
+
+          var clusterSource = new ol.source.Cluster({
+            distance: 40,
+            source: sourceT,
+          });
+
+          var styleCache = {};
           this.vectorLayer = new ol.layer.Vector({
-            source: sourceT
+              source: clusterSource,
+              style: function(feature, resolution) {
+                var size = feature.get('features').length;
+                var style = styleCache[size];
+                var radius = 30;
+                var color= 'rgba(20, 60, 80, 0.8)';
+                if(size <= 10000){
+                    radius = 25;
+                    color= 'rgba(24, 71, 95, 0.8)';
+                }
+                if(size <= 1000){
+                    radius = 20;
+                    color= 'rgba(24, 71, 95, 0.8)';
+                }
+                if(size <= 100){
+                    radius = 15;
+                    color= 'rgba(33, 99, 132, 0.8)';
+                }
+                if(size <= 10){
+                    radius = 10;
+                    color= 'rgba(42, 126, 162, 0.8)';
+                }
+                if(size == 1){
+                    radius = 5;
+                    color= 'rgba(51, 153, 204, 1)';
+                }
+
+                if (!style) {
+                  style = [new ol.style.Style({
+                    image: new ol.style.Circle({
+                      radius: radius,
+                      stroke: new ol.style.Stroke({
+                        color: '#fff'
+                      }),
+                      fill: new ol.style.Fill({
+                        color: color
+
+                      })
+                    }),
+                    text: new ol.style.Text({
+                      text: (size == 1 )? '' : size.toString(),
+                      fill: new ol.style.Fill({
+                        color: '#fff'
+                      })
+                    })
+                  })];
+                  styleCache[size] = style;
+                }
+                return style;
+              }
           });
+        
+
+  
           this.map.addLayer(this.vectorLayer);
           this.features= this.vectorLayer.getSource().getFeatures();
         },
