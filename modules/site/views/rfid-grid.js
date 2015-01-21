@@ -41,18 +41,8 @@ define([
                 cell: 'string',
             },{
                 editable: false,
-                name: 'IdType',
-                label: 'IdType',
-                cell: 'integer',
-            },{
-                editable: false,
                 name: 'Type',
                 label: 'Type',
-                cell: 'string',
-            },{
-                editable: false,
-                name: 'Date',
-                label: 'Date',
                 cell: 'string',
             },{
                 editable: false,
@@ -62,11 +52,6 @@ define([
             },{
                 editable: false,
                 name: 'LON',
-                label: 'Type',
-                cell: 'string',
-            },{
-                editable: false,
-                name: 'ELE',
                 label: 'Type',
                 cell: 'string',
             },{

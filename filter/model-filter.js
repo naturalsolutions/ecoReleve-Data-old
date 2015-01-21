@@ -29,8 +29,16 @@ define([
             this.url = options.url + 'getFilters';
 
             this.forms=[];
-            this.getFields();
+            
+            
+            if(options.filters){
+                this.initFilters(options.filters);
+            }
+            else{
+                this.getFields();                
+            }
         }, 
+
 
 
         getFields: function(){
@@ -53,6 +61,7 @@ define([
         initFilters: function(data){
             var key;
             for(key in data){
+
                 var form;
                 var type=data[key];
                 var fieldName = key;
@@ -72,7 +81,7 @@ define([
                             dateFormat: 'd/m/yyyy',
                             defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
                         }] };
-
+                    
 
                     form = new BbForms({
                         template: _.template(tpl),
@@ -82,17 +91,18 @@ define([
                         },
                         templateData: {filterName: key}
                     }).render();
-
                     $('#filters').append(form.el);
+
+
 
                     this.forms.push(form);
                 }
             };
 
-
+                /*
                 $('#filters #dateTimePicker').each(function(){
                     $(this).datetimepicker();
-                });
+                });*/
                 //$('#filters').load('filter/tpl-filters.html');
 
 
@@ -153,6 +163,7 @@ define([
             this.radio.command(this.channel+':grid:update', { filters : filters });
         },
 
+        /*
         reset: function(){
             $('#filters').find('select').each(function(){
                 $(this).prop('selectedIndex',0);                
@@ -160,7 +171,7 @@ define([
             $('#filters').find('input').each(function(){
                 $(this).reload();
             });
-        },
+        },*/
 
     });
 });
