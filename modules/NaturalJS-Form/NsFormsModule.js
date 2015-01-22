@@ -215,30 +215,23 @@
                     self.displayMode = 'display';
                     self.displaybuttons();
                     self.radio.command('successCommitForm', {id: response});
+                    // update this.modelurl  if we create a new instance of protocol
+                    var tab = self.modelurl.split('/');
+                    var ln = tab.length;
+                    var newId = parseInt(response);
+                    var currentProtoId = parseInt(tab[ln - 1]);
+                    if (currentProtoId ===0){
+                        var url ='';
+                        for (var i=0; i<(ln -1);i++){
+                            url += tab[i] +'/';
+                        }
+                        self.modelurl = url + newId;
+                    }
                  },
                  error:function() {
 
                  }
                 });
-
-
-
-
-
-
-
-
-                /*{
-                      success: function(response){
-                        console.log('success' + response);
-                        this.displayMode = 'display';
-                        this.displaybuttons();
-                        this.radio.command('successCommitForm');
-                      },
-                      error: function(){
-                        console.log('error');
-                      }
-                });*/
             }
         },
         butClickEdit: function (e) {

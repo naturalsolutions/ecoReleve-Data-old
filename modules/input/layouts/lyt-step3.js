@@ -123,8 +123,8 @@ define([
             $('select[name="add-protocol"]').append(protocols);
         },
         updateFieldActivity : function(e){
-            var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
-            this.getProtocolsList(value);
+            /*var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
+            this.getProtocolsList(value);*/
         },
         generateNavBarProtos : function(){
             // generate interface with list content
