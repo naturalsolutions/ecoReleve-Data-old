@@ -89,7 +89,7 @@ define([
             $('#stepper').parent().addClass('step-grid');
         },
         filterIndivShow : function(e){
-            $(e.target).parent().parent().find('input').addClass('target');
+            $(e.target).parent().parent().parent().find('input').addClass('target');
             var modal = new IndivFilter();
             // navigate to the modal by simulating a click
             var element = '<a class="btn" data-toggle="modal" data-target="#myModal" id="indivIdModal">-</a>';

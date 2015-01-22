@@ -24,11 +24,12 @@ define([
         events : {
             'click #tabProtsUl a' : 'updateForm',
             'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
-            'change select[name="add-protocol"]' : 'addForm',
+            'click i.add'  : 'addForm',
             'click a.pkProtocol' : 'getProtoByPkId',
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
             'click .onglet a': 'activeOnglet'
+            //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
             stationRegion: '#stContainer',
@@ -46,11 +47,15 @@ define([
             this.activeProtcolsObj = [];
         },
         onShow: function(){
-            this.addViews();
             var content = getUsers.getElements('user');
             $('#usersList').append(content);
+            this.addViews();
+            this.getProtocols();
+            
             this.radio = Radio.channel('froms');
             this.radio.comply('updateForm', this.updateFormUI, this);
+            this.radio.comply('successCommitForm', this.successState, this);
+            this.radio.comply('editState', this.editState, this);
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -105,12 +110,13 @@ define([
             this.formsRegion.empty();
             $('#formsContainer').text('');
             var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
-            var formView = new NsFormsModule({
+            this.formView = new NsFormsModule({
                 modelurl : url,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons',
                 stationId : this.idStation
             });
+
         },
         getProtocols : function(){
             var protocols  = getProtocolsList.getElements('protocols/list');
@@ -183,7 +189,8 @@ define([
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
-                content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol">' + idProto + '</a></div></div>';
+                content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol" idProto="'+
+                             idProto +'">' + (i+1) + '</a></div></div>';
             }
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
@@ -205,7 +212,7 @@ define([
         },
         getProtoByPkId : function(e){
 
-            var pkId = parseInt($(e.target).text());
+            var pkId = parseInt($(e.target).attr('idProto'));
             this.getProtocol(this.selectedProtoName, pkId);
             // store pkId to save proto
             this.selectedProtoId = pkId;
@@ -215,7 +222,8 @@ define([
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId + '/next';
-             this.getStationDetails(url);
+            this.getStationDetails(url);
+            $(this.ui.addProto).val('');
 
         },
         prevStation:function(){
@@ -223,6 +231,7 @@ define([
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
             this.getStationDetails(url);
+            $(this.ui.addProto).val('');
         },
         getStationDetails : function(url){
             $.ajax({
@@ -231,7 +240,7 @@ define([
                 type:'GET',
                 success: function(data){
                     var station = new Station(data);
-                   console.log(this.model);
+
                    for(var key in data){
                         if(key =='TSta_PK_ID'){
                             station.set('PK', data[key]);
@@ -243,8 +252,8 @@ define([
                         }
                     }
 
-                        this.model.set('station_position',station);
-                        this.addViews();
+                    this.model.set('station_position',station);
+                    this.addViews();
                 },
                 error: function(data){
                     alert('error in loading station data');
@@ -264,18 +273,19 @@ define([
             var place = stationModel.get('Place');
             $('select[name="stPlace"]').val(place);
             var accuracy = stationModel.get('Precision');
-            $('select[name="stAccuracy"]').val(accuracy);
+            $('input[name="stAccuracy"]').val(accuracy);
             var distFromObs = stationModel.get('Name_DistanceFromObs');
             $('#stDistFromObs').val(distFromObs);
             //replace user id by user name
             var user = stationModel.get('FieldWorker1');
             if(this.isInt(user)){
                 // get user name from masqued select control
-                var userName = $('#usersList').find
+                var userName = this.getUserName(user);
+                $('#stObsVal').text(userName);
             }
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
-            this.getProtocols();
+            //this.getProtocols();
         },
         isInt : function (value){
           if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
@@ -285,6 +295,7 @@ define([
           }
         },
         updateFormUI : function(){
+            // time picker
             $('.timePicker').datetimepicker({
                 pickDate: false,                
                 useMinutes: true,              
@@ -293,18 +304,28 @@ define([
                 use24hours: true,
                 format: 'HH:mm'    
             });
-            // append options to select control 'user list'
+            // append options to select control 'user list' to display full name other then id
             var selectFields = $('select[user_list="username_list"]');
             var nbFields =  selectFields.length;
             if (nbFields > 0){
                 var options = $('#usersList').html();
                 for(var i=0; i<nbFields;i++){
                     var field = $(selectFields)[i];
+                    var fieldName = $(field).attr('name');
                     $(field).append(options);
+                    // set user name in the input by using stored user id in the form model
+                    var userId = this.formView.model.get(fieldName);
+                    $(field).find('option[value="' + userId +  '"]').attr('selected', true);
                 }
             }
+            // min value in number fields is 0
+            $('input[type="number"]').attr('min', 0);
+            // disable input if mode is display
+            //TODO : display/edit mode
+            /*if (this.selectedProtoId > 0){
+                this.displayMode();
+            }*/
         },
-
 
         activeOnglet: function(e) {
             $(e.target).parents('.swiper-wrapper').find('.onglet.active').removeClass('active');
@@ -313,6 +334,41 @@ define([
 
         nextOK: function() {
             return true;
+        },
+        getUserName : function(id){
+            var option = $('#usersList').find('option[value="'+ id +'"]')[0];
+            var userName = $(option).text();
+            return userName;
+        },
+        successState : function(obj){
+            var protoId = obj.id;
+            //<i class="icon small reneco validated"></i>
+            // display picto for selected ongle
+            var element = $('#tabProtsUl div.onglet.active').find('i')[0];
+            $(element).removeClass('edit');
+            $(element).addClass('icon small reneco validated');
+            // update id protocol 
+            var protoOnglet = $('#idProtosContainer div.onglet.active').find('a')[0];
+            $(protoOnglet).attr('idproto', protoId);
+        },
+        editState : function(){
+            var element = $('#tabProtsUl div.onglet.active').find('i')[0];
+            $(element).removeClass('validated');
+            $(element).addClass('edit');
         }
+
+        /*,
+        displayMode : function(){
+            $('#NsFormModuleSave').addClass('masqued');
+            $('#NsFormModuleClear').addClass('masqued');
+            $('#NsFormModuleEdit').removeClass('masqued');
+            $('form input').attr('disabled', 'disabled');
+        },
+        editMode : function(){
+            $('#NsFormModuleSave').removeClass('masqued');
+            $('#NsFormModuleClear').removeClass('masqued');
+            $('#NsFormModuleEdit').addClass('masqued');
+             $('form input').removeAttr('disabled');
+        }*/
     });
 });

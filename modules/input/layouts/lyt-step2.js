@@ -82,7 +82,6 @@ define([
                 var schema = model.schema || {};
                 for(var key in schema) {
                     
-                   //console.log(key + '  ' + schema[key].validators.this.indexOf('required')!=-1);
                    if(schema[key]){
                         var obj={};
                         obj.name = this.name + '_' +  key;
@@ -94,7 +93,7 @@ define([
                         obj.required = required;
                         console.log(obj);
                         // set value in global model if not done
-                        var fieldVal = this.model.get(obj.name); //|| this.model.set(obj.name, null);
+                        var fieldVal = this.model.get(obj.name); 
                         if(!fieldVal){
                             this.model.set(obj.name, null);
                         }
@@ -128,13 +127,7 @@ define([
                 $('#stRegion').addClass('masqued');
                 $('#stMonitoredSite').addClass('masqued');
                 $('#stCoordinates').removeClass('masqued');
-                /*$("input[name='Region']").val('NULL').change();
-                $("input[name='LAT']").val('').change();
-                $("input[name='LON']").val('').change();
-                $('#stMonitoredSiteType').val('').change();
-                $('#stMonitoredSiteName').val('').change();*/
-                // set required values
-                //this.stepAttributes.
+ 
                 for(var key in this.stepAttributes) {
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'  || field.name =='id_site'){
@@ -144,25 +137,13 @@ define([
                     if(field.name =='station_LAT' || field.name =='station_LON'){
                         field.required = true;
                     }
-
                 }
-                console.log(this.model);
-               /* this.form.model.schema.Region.validators = [];
-                this.form.model.schema.LAT.validators = ['required'];
-                this.form.model.schema.LON.validators = ['required'];*/
+
             } else if(value == "newSc"){
                 $('#stRegion').removeClass('masqued');
                 $('#stCoordinates').addClass('masqued');
                 $('#stMonitoredSite').addClass('masqued');
-                /*$("input[name='Region']").val('').change();
-                $("input[name='LAT']").val('NULL').change();
-                $("input[name='LON']").val('NULL').change();
-                $('#stMonitoredSiteType').val('').change();
-                $('#stMonitoredSiteName').val('').change();*/
-                // set fields Region to required and LAT , LON to not required
-                /*this.form.model.schema.Region.validators = ['required'];
-                this.form.model.schema.LAT.validators = [];
-                this.form.model.schema.LON.validators = [];*/
+
                 for(var key in this.stepAttributes) {
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'){
@@ -179,13 +160,6 @@ define([
                 $('#stMonitoredSite').removeClass('masqued');
                 $('#stRegion').addClass('masqued');
                 $('#stCoordinates').addClass('masqued');
-                /*$("input[name='Region']").val('').change();
-                $("input[name='LAT']").val('NULL').change();
-                $("input[name='LON']").val('NULL').change();
-                // set fields Region to required and LAT , LON to not required
-                /*this.form.model.schema.Region.validators = [];
-                this.form.model.schema.LAT.validators = [];
-                this.form.model.schema.LON.validators = [];*/
                 for(var key in this.stepAttributes) {
                     var field = this.stepAttributes[key];
                     if(field.name =='station_id_site' || field.name =='station_name_site'){
@@ -215,8 +189,6 @@ define([
                 var tmp=ctx.model.get(id);
                 if($(this).val() == tmp){ 
                     $(this).attr('checked', 'checked');
-                    //$(this).click();
-                    //$(this).change();
                 }
             });
             this.$el.find('select').each(function(){
@@ -225,7 +197,6 @@ define([
                 if(val)
                 $(this).val(val);
             });
-
         },
         datachanged_select: function(e){
             
@@ -246,7 +217,7 @@ define([
         },
         updateSiteName : function(siteType){
             var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
-            $('select[name="name_site"]').html('');
+            $('select[name="name_site"]').html('<option></option>');
             $('select[name="name_site"]').append(sitesNames);
         },
         getCurrentPosition : function(){
@@ -259,9 +230,6 @@ define([
         myPosition : function(position){
             var latitude = parseFloat((position.coords.latitude).toFixed(5));
             var longitude = parseFloat((position.coords.longitude).toFixed(5));
-            /*$("[name='LAT']").val(latitude);
-            $("[name='LON']").val(longitude);*/
-            //var pos = this.getPosModel(latitude,longitude);
             // update map
             var pos = new Position();
             pos.set("latitude",latitude);
@@ -333,10 +301,6 @@ define([
                     // attribute name
                     var attrName = attribute.substring(8, attribute.length);
                     station.set(attrName, this.model.get(attribute));
-                    /*if(attrName =='FieldWorker1' || attrName =='FieldWorker2' || attrName =='FieldWorker3' || attrName =='FieldWorker4' || attrName =='FieldWorker5'){
-                        // convert value to int
-                        station.set(attrName, parseInt(this.model.get(attribute)));
-                    }*/
                 }
             }
             console.log(station);
@@ -371,24 +335,6 @@ define([
             });
             return result;
 
-           // send new station  to the server
-           /*var url=config.coreUrl + 'station/addMultStation/insert';
-           var result = false; 
-            $.ajax({
-                url:url,
-                context:this,
-                type:'POST',
-                data: JSON.stringify(filteredCollection.models),
-                dataType:'json',
-                async: false,
-                success: function(resp){
-                    result = true; 
-                },
-                error: function(data){
-                    alert('error sending gpx collection');
-                }
-            });
-            return result;*/
         },
         generateStation : function(model) {
              var stationType = this.model.get('start_stationtype');
@@ -419,8 +365,6 @@ define([
                    model.set('FieldWorkersNumber',''); 
                 }
             }
-            /*var formsView = new Forms({ model : model});
-            this.formsRegion.show(formsView);*/
             this.model.set('station_position',model ); 
         },
         addInput : function(){
