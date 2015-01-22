@@ -10,9 +10,11 @@ define([
     'modules2/import/_rfid/views/step2',
     'grid/model-grid',
     'backgrid',
-    'modules2/rfid/layouts/rfid-deploy'
+    'modules2/rfid/layouts/rfid-deploy',
+    'modules2/rfid/views/rfid-map',
+    'sweetAlert'
     
-], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID) {
+], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID, Map, swal) {
     'use strict';
 
 
@@ -23,6 +25,7 @@ define([
         regions:{
             step1 : '#step1',
             step2 : '#step2',
+            deploy : '#rfid-Modal'
         },
 
         collection: new Backbone.Collection(),
@@ -70,11 +73,13 @@ define([
                 pageSize : 20,
                 pagingServerSide : false,
             });
+
+            
         },
 
         onShow: function(){
             $('.btn-next').attr('disabled', 'disabled');
-                          
+                   
         },
 
         onRender: function(){
@@ -82,6 +87,7 @@ define([
             $('#main-region').addClass('full-height obscur');
             $('#rfid-grid').html(this.grid.displayGrid());
             $('#paginator').prepend(this.grid.displayPaginator());
+            
         },
 
 
@@ -123,9 +129,7 @@ define([
                     if (data.lengthComputable) {
                         var progress = parseInt(data.loaded / data.total * 100).toString();
                         self.ui.progressBar.width(progress + '%');
-                        if (progress == '100') {
-                            self.ui.progressBar.css({'background-color':'green'})
-                        }
+                       
                     }
                 };
 
@@ -140,12 +144,43 @@ define([
                         contentType: false
                     }).done(function(data) {
                         $('#btnNext').removeAttr('disabled');
+                         
+                        self.ui.progressBar.css({'background-color':'green'})
+                        
                         Radio.channel('rfid').command('showValidate',{});
 
 
                     }).fail( function(data) {
+                        
+                        console.log(data)
                         $('#btnNext').attr('disabled');
-                        alert('Please verify your file or contact administrator');
+                        if (data.status == 500 || data.status == 510  ) {
+                            var type = 'warning';
+                            self.ui.progressBar.css({'background-color':'rgb(218, 146, 15)'})
+                            var color = 'rgb(218, 146, 15)';
+                        }
+                        else {
+                            var type = 'error';
+                            self.ui.progressBar.css({'background-color':'rgb(147, 14, 14)'})
+                            var color = 'rgb(147, 14, 14)';
+
+                         }
+                        swal(
+                            {
+                              title: "Warning ",
+                              text: data.responseText,
+                              type: type,
+                              showCancelButton: false,
+                              confirmButtonColor: color,
+                              confirmButtonText: "OK",
+                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                                self.ui.progress.hide();
+                            }
+                        );
                     });
                 };
 
@@ -183,10 +218,15 @@ define([
         },
 
         deployRFID: function(){
-            this.step1.show(new DeployRFID({
 
-            })
-        );
+            //$('#rfid-Modal').modal('show');
+           /* this.deployRFID.onShow();*/
+           $('#rfid-Modal').modal('show');
+            var deploy_rfid=new DeployRFID();
+            this.deploy.show(deploy_rfid);
+            $('#map').css({'height':'300px'});
+            console.log(deploy_rfid.map);
+         
         }
     });
 });

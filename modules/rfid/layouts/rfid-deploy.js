@@ -72,6 +72,7 @@ define([
             $('body').addClass('home-page');
             $('#main-region').addClass('obscur full-height');
             this.map.show(new Map());
+            console.log('show modal');
 
         },
 
