@@ -19,9 +19,7 @@ define([
         =            Layout Stepper Orchestrator            =
         ===================================================*/
         events : {
-            'click #reset' : 'reset',
             'change #importFieldActivity' : 'setFieldActivity'
-            
         },
         regions: {
             gridRegion: '#gridContainer',

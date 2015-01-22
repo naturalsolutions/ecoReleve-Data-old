@@ -119,9 +119,6 @@
 					self.showForm();
 				}));
 			}
-			
-			
-			
         },
         showForm: function () {
             this.BBForm = new BackboneForm({ model: this.model });
@@ -154,7 +151,7 @@
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
                     wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
-                    //display: {displayValueName:'value',storedValueName:'value'},
+                    //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
                     language: {hasLanguage:true, lng:"en"},
                     startId: startId 
@@ -210,15 +207,45 @@
                 if(staId){
                     this.model.set('FK_TSta_ID', parseInt(staId));
                 }
-                this.model.save();
-                this.displayMode = 'display';
-                this.displaybuttons();
+                var self = this;
+                this.model.save([],{
+                 dataType:"text",
+                 success:function(model, response) {
+                    console.log('success' + response);
+                    self.displayMode = 'display';
+                    self.displaybuttons();
+                    self.radio.command('successCommitForm', {id: response});
+                 },
+                 error:function() {
+
+                 }
+                });
+
+
+
+
+
+
+
+
+                /*{
+                      success: function(response){
+                        console.log('success' + response);
+                        this.displayMode = 'display';
+                        this.displaybuttons();
+                        this.radio.command('successCommitForm');
+                      },
+                      error: function(){
+                        console.log('error');
+                      }
+                });*/
             }
         },
         butClickEdit: function (e) {
             e.preventDefault();
             this.displayMode = 'edit';
             this.initModel();
+            this.radio.command('editState');
         },
 
         butClickClear: function (e) {
