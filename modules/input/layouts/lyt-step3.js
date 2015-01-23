@@ -350,11 +350,17 @@ define([
             // update id protocol 
             var protoOnglet = $('#idProtosContainer div.onglet.active').find('a')[0];
             $(protoOnglet).attr('idproto', protoId);
+            $('form input').attr('disabled', 'disabled');
+            $('form textarea').attr('disabled', 'disabled');
+            $('form select').attr('disabled', 'disabled');
         },
         editState : function(){
             var element = $('#tabProtsUl div.onglet.active').find('i')[0];
             $(element).removeClass('validated');
             $(element).addClass('edit');
+            $('form input').removeAttr('disabled');
+            $('form textarea').removeAttr('disabled');
+            $('form select').removeAttr('disabled');
         }
 
         /*,
