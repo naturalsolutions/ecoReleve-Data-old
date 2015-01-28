@@ -22,7 +22,8 @@ define([
         },
         events: {
             'click #import-btn': 'import_checked',
-            'click #next-btn': 'perhour'
+            'click #1pH-btn': 'perhour',
+            'click #clearAll-btn': 'clearAll',
         },
 
         initialize: function(){
@@ -45,8 +46,12 @@ define([
         },
 
         perhour: function(){
-            Radio.channel('gsm-detail').command('1perhour',{});
+            Radio.channel('gsm-detail').command('1perhour');
+        },
 
+
+        clearAll: function(){
+            Radio.channel('gsm-detail').command('clearAll');
         }
 
     });

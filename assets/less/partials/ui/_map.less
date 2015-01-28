@@ -41,3 +41,72 @@
 		z-index: 1000;
 	}
 }
+
+
+
+/*================================
+=            LeafFlet            =
+================================*/
+
+
+
+.leaflet-map-pane{
+	z-index: 1000;
+}
+
+.marker-cluster{
+	border-radius: 50%;
+	border: 2px solid white;
+	text-align: center;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+@m-size-sm: 25px;
+@fz: 5px;
+.marker-cluster-small {
+	background-color: rgba(42, 126, 162, 0.8);
+	span{
+		line-height: @m-size-sm - @fz;
+	}
+}
+@m-size-md: 35px;
+.marker-cluster-medium{
+	background-color: rgba(33, 99, 132, 0.8);
+	span{
+		line-height: @m-size-md - @fz;
+	}
+}
+@m-size-md-lg: 45px;
+.marker-cluster-medium-lg{
+	background-color: rgba(24, 71, 95, 0.8);
+	span{
+		line-height: @m-size-md-lg - @fz;
+	}
+}
+@m-size-lg: 55px;
+.marker-cluster-large{
+	background-color: rgba(24, 71, 95, 0.8);
+	span{
+		line-height: @m-size-lg - @fz;
+	}
+}
+
+
+.custom-marker{
+	margin-left: 5px;
+	margin-top: 5px;
+	border-radius: 50%;
+	width: 5px;
+	height: 5px;
+	border: 1px solid white;
+	text-align: center;
+	background: rgba(51, 153, 204, 1);
+	&.selected{
+		background: red;
+		z-index: 1000000!important;
+	}
+	&.focus{
+		background: green;
+		z-index: 10000000!important;
+	}
+}

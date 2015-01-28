@@ -34,6 +34,7 @@ define([
                 name: 'TGeo_pk_id',
                 label: 'TGeo_pk_id',
                 cell: 'string',
+                renderable: false,
             },{
                 editable: false,
                 name: 'Monitored_site',
@@ -47,12 +48,12 @@ define([
             },{
                 editable: false,
                 name: 'LAT',
-                label: 'Type',
+                label: 'LAT',
                 cell: 'string',
             },{
                 editable: false,
                 name: 'LON',
-                label: 'Type',
+                label: 'LON',
                 cell: 'string',
             },{
                 editable: false,

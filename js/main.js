@@ -57,14 +57,21 @@ var ecoReleveData = (function(){
             },
 
             fancytree :  {
-                 deps:['jquery','jquery_ui']
+                deps:['jquery','jquery_ui']
             },
             autocompTree : {
-                 deps:['fancytree']
+                deps:['fancytree']
             },
             swiper : {
-                 deps:['jquery']
-            } 
+                deps:['jquery']
+            },
+
+            leaflet_cluster : {
+                deps:['L'],
+            },
+            leaflet_google : {
+                deps:['L'],
+            }
 
         },
         paths: {
@@ -114,6 +121,11 @@ var ecoReleveData = (function(){
             moment: bower+'moment/min/moment.min',
             //jquery: bower+'jquery-1.11.0/dist/jquery',
             jquery_ui: bower+'jquery-ui/jquery-ui.min',
+
+
+            L: bower+'leaflet/dist/leaflet',
+            leaflet_cluster: bower+'leaflet.markercluster/dist/leaflet.markercluster',
+            leaflet_google: bower+'leaflet-plugins/layer/tile/Google',
 
 
 

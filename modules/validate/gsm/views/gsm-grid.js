@@ -11,28 +11,31 @@ define([
     'utils/datalist',
     'config',
     'text!modules2/validate/gsm/templates/gsm-grid.html',
-    'backgridSelect_all'
+    'backgridSelect_all',
 ], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, datalist, config, template, backgridSelect_all) {
 
     'use strict';
 
     return Marionette.ItemView.extend({
         template: template,
-        className:'detailsGsmPanel full-height',
+        className:'full-height',
 
         events: {
-            'click .backgrid-container tbody tr': 'updateMap',
-            'click td input[type=checkbox]':'colorizeOnMap',
-            'click th input[type=checkbox]':'colorizeOnMap'
+            'click .backgrid-container tbody tr': 'focusOnMap',
+            'click td input[type=checkbox]':'updateMap',
         },
+
+
 
         initialize: function(options) {
             this.radio = Radio.channel('gsm-detail');
             this.radio.comply('updateGrid', this.updateGrid, this);
             this.radio.comply('import', this.importChecked, this);
             this.radio.comply('1perhour', this.perhour, this);
+            this.radio.comply('clearAll', this.clearAll, this);
 
             this.gsmID = options.gsmID;
+            this.pageSize = 25;
 
             var Locations = PageableCollection.extend({
                 url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked/'+options.id_ind+'?format=json',
@@ -45,73 +48,6 @@ define([
 
             this.locations = new Locations();
         },
-
-        updateGrid: function(obj) {
-            var self=this;
-            var checked=obj['checked'];
-            var model_id=obj['id'];
-            console.log('detail :' + model_id+' :'+checked);
-            console.log(this.grid.collection.fullCollection.length);
-            var models=[];
-            this.grid.collection.fullCollection.each(function(model){
-                
-                if (model.id==model_id) {
-                    model.trigger("backgrid:select", model, checked);
-                    console.log(model);
-                 }               
-                 if (!self.grid.collection.get(model.id)) {
-                        if (model.id == model_id)
-                        model.trigger("backgrid:selected", model, checked);                   
-                }
-            });
-            this.colorizeOnMap();
-        },
-
-        updateMap: function(evt) {
-            if($(evt.target).is('td')) {
-                var tr = $(evt.target).parent();
-                var id = tr.find('td').first().text();
-                var currentModel = this.locations.findWhere({id: Number(id)});
-                Radio.channel('gsm-detail').command('updateMap', currentModel);
-            }
-        },
-
-        perhour: function() {
-            var self=this;
-            if (this.checkHour && this.checkHour==true){
-                var checked=false;
-                this.checkHour=checked;
-            }
-            else {
-                var checked=true;
-                this.checkHour=checked;
-            }
-            console.log(this.checkHour);
-            this.grid.collection.fullCollection.sortBy('date');
-            var col0=this.grid.collection.fullCollection.at(0);
-            var date=new Date(col0.get('date'));
-
-            this.grid.collection.fullCollection.each(function (model,i) {
-                var currentDate=new Date(model.get('date'));
-                var diff=(date-currentDate)/(1000*60*60);
-                if (i==0) diff=2;        
-                if (!self.grid.collection.get(model.cid)) {
-                    if(diff>1) {
-                        model.trigger("backgrid:selected", model, self.checkHour);
-                        date=currentDate;
-                    }                    
-                }
-                else {
-                    if(diff>1) {
-                        model.trigger("backgrid:select", model, self.checkHour);
-                        date=currentDate;
-                    }                    
-                }
-            
-            });
-            this.colorizeOnMap();
-        },
-
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 3,
@@ -130,7 +66,7 @@ define([
                 name: 'date',
                 label: 'DATE',
                 editable: false,
-                cell: Backgrid.DatetimeCell
+                cell: 'string'
             }, {
                 editable: false,
                 name: 'lat',
@@ -190,13 +126,92 @@ define([
                 collection: this.locations
             });
 
-            this.$el.append(this.paginator.render().el);
+            this.$el.find('#paginator').append(this.paginator.render().el);
            /* var height = $(window).height() -
                 $('#header-region').height() - this.paginator.$el.height() -
                 $('#info-container').outerHeight();
             this.$el.height(height);*/
             this.locations.fetch({reset: true});
+            this.$el.find('.select-all-header-cell>input').css('display','none');
+        },
 
+        clearAll: function(){
+            var models=this.grid.getSelectedModels();
+            for (var i = 0; i < models.length; i++) {
+                models[i].trigger("backgrid:selected", models[i], false);
+                models[i].trigger("backgrid:select", models[i], false);
+            };
+            this.radio.command('clearAllMap', models);
+        },
+
+        perhour: function() {
+            var self=this;
+
+            this.grid.collection.fullCollection.sortBy('date');
+            var col0=this.grid.collection.fullCollection.at(0);
+
+            var date=new moment(col0.get('date'));
+
+            this.grid.collection.fullCollection.each(function (model,i) {
+                var currentDate=new moment(model.get('date'));
+                var diff=(date-currentDate)/(1000*60*60);
+                if (i==0) diff=2;        
+                if (!self.grid.collection.get(model.cid)) {
+                    if(diff>1) {
+                        model.trigger("backgrid:selected", model, true);
+                        date=currentDate;
+                    }                    
+                }
+                else {
+                    if(diff>1) {
+                        model.trigger("backgrid:select", model, true);
+                        date=currentDate;
+                    }                    
+                }
+            });
+
+
+            var models=this.grid.getSelectedModels();
+
+            this.radio.command('selectOneByHour', models);
+        },
+
+
+        updateGrid: function(marker) {
+            var self=this;
+            var checked=marker['checked'];
+
+            var feature = marker.feature;
+            var model_id=feature['id'];
+            var models=[];
+            var i=0, position=1;
+            this.grid.collection.fullCollection.each(function(model){
+                i++;
+                if (model.id==model_id) {
+                    model.trigger("backgrid:select", model, checked);
+                    position=i;
+                 }               
+                 if (!self.grid.collection.get(model.id)) {
+                        if (model.id == model_id)
+                        model.trigger("backgrid:selected", model, checked);                   
+                }
+            });
+            var page=Math.ceil(position/25);
+            self.locations.getPage(page);
+        },
+        updateMap: function(e){
+                var tr = $(e.target).parent().parent();
+                var id = tr.find('td').first().text();
+                Radio.channel('gsm-detail').command('updateMap', id);
+        },
+
+
+        focusOnMap: function(e) {
+            if($(e.target).is('td')) {
+                var tr = $(e.target).parent();
+                var id = tr.find('td').first().text();
+                Radio.channel('gsm-detail').command('focus', id);
+            }
         },
 
         importChecked : function(ind_id) {
@@ -219,10 +234,7 @@ define([
    
         },
 
-        colorizeOnMap: function(){
-            var models=this.grid.getSelectedModels();
-            this.radio.command('colorizeSelectedRows',models);
-        },
+
         
         onDestroy: function() {
            /* $('body').css('background-color', 'white');*/

@@ -1,36 +1,27 @@
 /*=============================
-=            Bower            =
+=            Vendors            =
 =============================*/
 
 @bower: "../../bower_components/";
 @import "@{bower}bootstrap/less/bootstrap";
-@import "@{bower}fuelux/less/fuelux.less";
+@import "@{bower}fuelux/less/fuelux";
 @import "@{bower}eonasdan-bootstrap-datetimepicker/src/less/bootstrap-datetimepicker";
 
+@import (inline) "@{bower}leaflet/dist/leaflet.css";
+@import (css) "@{bower}leaflet.markercluster/dist/Markercluster.css";
+@import (css) "@{bower}leaflet.markercluster/dist/Markercluster.Default.css";
 
-
-@import: "@{bower}dropzone/downloads/css/dropzone.css";
-@import: "@{bower}sweetalert/lib/sweet-alert.css";
-@import: "@{bower}backgrid/src/backgrid.css";
-
-
-
-@import: "@{bower}seiyria-bootstrap-slider/css/bootstrap-slider.css";
-
-/*-----  End of Bower  ------*/
-
+@import (css) "@{bower}dropzone/downloads/css/dropzone.css";
+@import (css) "@{bower}sweetalert/lib/sweet-alert.css";
+@import (css) "@{bower}seiyria-bootstrap-slider/css/bootstrap-slider.css";
 
 
 /*==============================
 =            Others            =
 ==============================*/
-
 @import "partials/vendors/_animate";
 @import "partials/vendors/_bootstrap-slider";
 @import "partials/vendors/_backgrid-paginator";
 @import "partials/vendors/_ol"; 
-
 @import "partials/vendors/_backgrid";
 @import "partials/vendors/_sweet-alert.less";
-
-/*-----  End of Others  ------*/

@@ -93471,15 +93471,52 @@ ol.source.Cluster.prototype.cluster_ = function() {
 ol.source.Cluster.prototype.createCluster_ = function(features) {
   var length = features.length;
   var centroid = [0, 0];
+
+
+
+  var selected=false;
+  var color = 'blue';
   for (var i = 0; i < length; i++) {
+    
+    if (features[i].style==1){
+        selected=true;
+        color='red';
+    }
     var geometry = features[i].getGeometry();
     goog.asserts.assert(geometry instanceof ol.geom.Point);
+
     var coordinates = geometry.getCoordinates();
     ol.coordinate.add(centroid, coordinates);
   }
+
+
+
+  var style = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 8,
+      stroke: new ol.style.Stroke({
+        color: '#fff'
+      }),
+      fill: new ol.style.Fill({
+        color: color
+
+      })
+    }),
+    text: new ol.style.Text({
+      text: '',
+      fill: new ol.style.Fill({
+        color: '#fff'
+      })
+    })
+  });
+
+
+  console.log(features);
   ol.coordinate.scale(centroid, 1 / length);
 
   var cluster = new ol.Feature(new ol.geom.Point(centroid));
+  if(selected)
+    cluster.setStyle(style);
   cluster.set('features', features);
   return cluster;
 };

@@ -42,7 +42,6 @@ define([
                 Type: "String",
                 LAT: "DECIMAL(9, 5)",
                 LON: "DECIMAL(9, 5)",
-                TGeo_pk_id: "INTEGER",
             };
 
 

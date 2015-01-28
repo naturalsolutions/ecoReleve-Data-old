@@ -8,7 +8,17 @@
 
 
 
+/*
+@-webkit-keyframes hilight {
+    from {background: transparent; color: red;}
+    to {background: @c-grey4d; color: red;}
+} 
 
+@keyframes hilight {    
+	from {background: transparent;}
+    to {background: @c-grey4d;}
+}
+*/
 
 table{
 	width: 100%;
@@ -17,8 +27,12 @@ table{
 		padding: 5px;
 	}
 	tbody tr{
+		transition: 0.5s all;
 		border-bottom: 1px solid @c-grey97;
+		background: transparent;
 		&.selected{
+			// -webkit-animation: hilight 1s 2;
+			// animation: hilight 1s 2;
 			background: @c-grey4d;
 		}
 		&:hover{

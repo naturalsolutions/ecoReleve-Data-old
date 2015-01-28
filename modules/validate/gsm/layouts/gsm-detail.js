@@ -6,7 +6,7 @@ define([
     'models/individual',
     'modules2/validate/gsm/views/gsm-grid',
     'modules2/validate/gsm/views/gsm-info',
-    'modules2/validate/gsm/views/gsm-map',
+    'modules2/validate/gsm/views/gsm-map2',
     'text!modules2/validate/gsm/templates/gsm.html'
 ], function(Marionette, Radio, config,Backbone,Individual, Grid, Info,
     Map, template) {
@@ -20,7 +20,11 @@ define([
         regions: {
             grid: '#grid-container',
             info: '#info-container',
-            map: '#map-container'
+            map: '#map-container',
+        },
+
+        events: {
+            'click #back' : 'back',
         },
 
         initialize: function(options) {
@@ -60,6 +64,10 @@ define([
                 gsmID:this.gsmID,
                 id_ind:self.id_ind
             }));
+        },
+
+        back: function(){
+            Radio.channel('route').command('validate:type', 'gsm');
         },
     });
 });

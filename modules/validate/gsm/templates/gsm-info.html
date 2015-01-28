@@ -1,9 +1,14 @@
 <script type="text/template">
-	<div id="separatorDetails">
-		<a href="#validate/gsm">Back to list     </a>
-		</br>
-		<a href="#import">Import</a>
+
+	<div class="separator">
+	    <br>
+	    <span id="back">
+	        <i class="icon reneco leftarrow circle white align-center"></i><span class="white"> &nbsp;</span>
+	    </span>
+	    <span class="pull-right"><a href="#import">Import</a></span>
+	    <br><br>
 	</div>
+	<br>
 	<div class="row" id="birdInfosDiv">
 		<div class="col-sm-6">
 			<div><span>Individual ID: <%= id %> </span>
@@ -99,8 +104,15 @@
                 </span>
 
         </button>
-        <button id="next-btn" class="small btn btn-labeled btn-grey pull-right">
-            check 1/hour
+        <button id="clearAll-btn" class="small btn btn-labeled btn-grey pull-right">
+            Clear all
+                <span class="btn-label">
+                <i class="icon reneco rightarrow white action-picto"></i>
+                </span>
+
+        </button>
+        <button id="1pH-btn" class="small btn btn-labeled btn-grey pull-right">
+            Check 1/h
                 <span class="btn-label">
                 <i class="icon reneco rightarrow white action-picto"></i>
                 </span>

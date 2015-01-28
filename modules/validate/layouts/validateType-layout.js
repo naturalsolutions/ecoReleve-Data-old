@@ -62,6 +62,18 @@ define([
                     orderSeparator: ''
                 }),
               
+            }, {
+                name: 'begin_date',
+                label: 'Begin date',
+                editable: false,
+                cell: 'String'
+              
+            }, {
+                name: 'end_date',
+                label: 'End date',
+                editable: false,
+                cell: 'String'
+              
             }];
 
             // Initialize a new Grid instance
@@ -84,10 +96,8 @@ define([
         },
         showDetail: function(evt) {
             var model = $(evt.target).parent().data('model'); 
-            console.log(model);
             var ind_id=model.attributes.ind_id;
             var ptt=model.attributes.platform_;
-            console.log(ptt);
             Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id);
         },
 
