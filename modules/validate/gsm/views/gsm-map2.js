@@ -145,6 +145,7 @@ define([
 
           markers.addLayer(geoJsonLayer);
           this.map.addLayer(markers);
+          this.map.setZoom(2);
         },
 
         setIconMarker: function(marker){    
@@ -207,7 +208,7 @@ define([
           var center = marker.getLatLng();
           this.map.panTo(center);
           //quick fix for refresh bug
-          this.map.setZoom(3);
+          this.map.setZoom(2);
           this.map.setZoom(18);
         },
 
