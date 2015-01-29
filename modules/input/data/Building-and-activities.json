@@ -12,17 +12,17 @@
       "type": "Hidden",
       "title": "FK_TSta_ID"
     },
-    "Element_Nb": {
-      "validators": [],
-      "type": "Number",
-      "title": "Element nb"
-    },
     "Name_Impact": {
       "validators": [],
       "type": "Text",
       "title": "Impact",
       "editorAttrs": { "startId": "24" },
       "editorClass": "autocompTree"
+    },
+    "Element_Nb": {
+      "validators": [],
+      "type": "Number",
+      "title": "Element number"
     },
     "Comments": {
       "validators": [],

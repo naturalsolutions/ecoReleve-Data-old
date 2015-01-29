@@ -18,12 +18,6 @@
 			"type": "Hidden",
 			"title":"FK_TSta_ID"
 		},
-		"Id_Milieu":{
-			"validators":[
-			],
-			"type": "Hidden",
-			"title":"Id milieu"
-		},
 		"Name_Milieu":{
 			"validators":[
 			],
@@ -31,12 +25,6 @@
 			"title":"Milieu",
 			"editorAttrs": { "startId": "21788" },
 			"editorClass": "autocompTree"
-		},
-		"Id_Habitat2":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id habitat2"
 		},
 		"Name_Habitat2":{
 		"validators":[
@@ -46,17 +34,11 @@
 		"editorAttrs": { "startId": "21873" },
 		"editorClass": "autocompTree"
 		},
-		"Id_Exposition":{
-		"validators":[
-		],
-		"type": "Number",
-		"title":"Id exposition"
-		},
 		"Name_Exposition":{
 		"validators":[
 		],
 		"type": "Text",
-		"title":"Exposition",
+		"title":"Exposure",
 		"editorAttrs": { "startId": "36" },
 		"editorClass": "autocompTree"
 		},
@@ -92,19 +74,13 @@
 		"validators":[
 		],
 		"type": "Number",
-		"title":"Area"
+		"title":"Area(m2)"
 		},
 		"Vegetation_cover":{
 		"validators":[
 		],
 		"type": "Number",
 		"title":"Vegetation cover(%)"
-		},
-		"Id_Hydrography":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id Hydrography"
 		},
 		"Name_Hydrography":{
 		"validators":[
@@ -114,23 +90,11 @@
 		"editorAttrs": { "startId": "18840" },
 		"editorClass": "autocompTree"
 		},
-		"Id_Substrat":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id Substrat"
-		},
 		"Name_Substrat":{
 		"validators":[
 		],
 		"type": "Text",
 		"title":"Substrat"
-		},
-		"Id_micro_habitat":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_micro_habitat"
 		},
 		"Name_micro_habitat":{
 		"validators":[
@@ -140,12 +104,6 @@
 		"editorAttrs": { "startId": "21948" },
 		"editorClass": "autocompTree"
 		},
-		"Id_PH_class":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_PH_class"
-		},
 		"Name_PH_class":{
 		"validators":[
 		],
@@ -154,12 +112,6 @@
 		"editorAttrs": { "startId": "1000341" },
 		"editorClass": "autocompTree"
 		},
-		"Id_soil_texture":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_soil_texture"
-		},
 		"Name_soil_texture":{
 		"validators":[
 		],
@@ -167,12 +119,6 @@
 		"title":"Soil texture", 
 		"editorAttrs": { "startId": "1000345" },
 		"editorClass": "autocompTree"
-		},
-		"Id_vegetation_series":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_vegetation_series"
 		},
 		"Name_vegetation_series":{
 		"validators":[
@@ -272,6 +218,6 @@
     "defaults":{
 		"VegSeries_Sure" : "1",
 		"Habitat_Picture": "0"
-   },
+    },
   "fieldsets": []
 }

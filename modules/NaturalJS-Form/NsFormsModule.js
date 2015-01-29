@@ -124,6 +124,9 @@
             this.BBForm = new BackboneForm({ model: this.model });
             this.BBForm.render();
 			var formContent = this.BBForm.el;
+            if(this.id){
+                $(formContent).attr('id',this.id);
+            }
 			// format fields to have bootstrap style
             $(formContent).find('fieldset>div').addClass('col-sm-4');
 			$(formContent).find('input[type="text"]').addClass('form-control');

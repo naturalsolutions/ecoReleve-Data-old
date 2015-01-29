@@ -11,9 +11,13 @@ define([
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
+        events : {
+            'change input[name="stAccuracy"]' : 'checkAccuracyValue'
+        },
         ui : {
             fieldActivity : 'select[name="st_FieldActivity_Name"]',
-            places : 'select[name="stPlace"]'
+            places : 'select[name="stPlace"]',
+            accuracy : 'input[name="stAccuracy"]'
         },
         onShow : function(){
             this.generateSelectLists();
@@ -34,6 +38,14 @@ define([
             if(!siteName){
                 $('#stNameSite').addClass('masqued');
             }
+        },
+        checkAccuracyValue : function(){
+            var value = parseInt($(this.ui.accuracy).val());
+           if(value < 0 ){
+                alert('please input a valid value (>0) ');
+                $(this.ui.accuracy).val('');
+           }
+
         }
     });
 });
