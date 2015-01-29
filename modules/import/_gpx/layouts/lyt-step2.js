@@ -23,10 +23,17 @@ define([
         },
 
         onShow: function(){
+            $('#step-nav').show();
+             $('#btnPrev').show();
+        },
+
+        onRender: function () {
+           $('#btnPrev').show();
         },
 
         initModel: function(myTpl){// Initialisation du model à partir du template    
             //Step.prototype.parseOneTpl.call(this);
+            this.name = 'data';
             this.waypointList = new Waypoints();
             this.model.set(this.name + '_FileContent', null);
             console.log('step2')
@@ -34,11 +41,14 @@ define([
             this.model.set(this.name + '_FileName', "");
             var obj={name : this.name + '_FileName',required : true};
             this.stepAttributes = [obj] ;
+
         },
 
         feedTpl: function(){
             var NomFichier = this.model.get(this.name + '_FileName');
             this.$el.find('#FileName').val(NomFichier) ;
+         /*   this.$el.find('#FileInput').val(NomFichier) ;*/
+
         },
         
         parseFichier: function(e){ 
@@ -102,6 +112,7 @@ define([
         datachanged_FileName: function(e){
             var val = $('#FileInput').val() ;
             // TODO ajouter gestion linux avec /
+            console.log(val);
             var tab = val.split('\\');
             val = tab[tab.length-1];
 

@@ -2,6 +2,7 @@
     
 <div class="fuelux full-height">
     <div class="wizard full-height" data-initialize="wizard" id="importWizard" style="padding-bottom:1%!important;">
+         <div class="stepper-header" id = "stepper-header" > TITLE </div>
         <ul class="steps">
             <li data-step="1" class="active"><span class="badge">1</span>Import File<span class="chevron"></span></li>
             <li data-step="2"><span class="badge">2</span>Validation<span class="chevron"></span></li>
@@ -21,11 +22,11 @@
                                 <br>
                                 <input id="input-mod" list="mod-list" type="text"
                                     class="form-control" placeholder="Identifier"/>
-                                <datalist id="mod-list">
-                                    <% _.each(items, function(item) { %>
-                                    <option> <%= item.identifier %> </option>
-                                    <% }); %>
-                                </datalist>
+                                <select id="mod-list">
+                                   <% _.each(items, function(item) { %>
+                                 <option> <%= item.identifier %> </option>
+                                 <% }); %> 
+                                </select>
                                 <span id="help-mod" class="help-block"></span>
                             </div>
                             <div class="col-sm-6">
@@ -51,7 +52,7 @@
                     <div class="progress" style="display: none;">
                         <div class="progress-bar" style="width: 0%;"></div>
                     </div>
-                    <div  class="grid full-height" style="height: 50%;">
+                    <div  class="grid full-height" style="height: 45%;">
                         <div id="paginator"></div>
                         <div id="rfid-grid" class="full-height light-grid" style=" overflow:auto;"></div> 
 

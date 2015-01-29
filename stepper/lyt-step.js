@@ -51,8 +51,6 @@ define([
         parseOneTpl: function(myTpl){// Initialisation du model à partir du template
 
             var tpl= $.parseHTML(myTpl);
-            console.log($(tpl));
-
 
             var ctx = this;
             var elemIndex = 0;
@@ -73,8 +71,8 @@ define([
                 //var val=ctx.model.get(obj.name); //get val
                 ctx.model.set(name, val);
             });
-
             $(tpl).find('select').each(function(){
+                console.log('select detect')
 
                 var name= ctx.name+'_' + this.name;
                 //$(this).attr('StepperModelName', name);
@@ -113,12 +111,11 @@ define([
         },
 
         onShow: function(){
-            console.log('step1');
-            console.log(this.$el);
+            /*console.log('step1');
+            console.log(this.$el);*/
         },
 
         onRender: function(){
-            
             //this.view1=new View1();
             //this.main.show(this.view1, {preventDestroy: true});
             //this.parseOneTpl(this.template);
@@ -149,9 +146,9 @@ define([
             });
             this.$el.find('select').each(function(){
                 var id = ctx.name + '_' + $(this).attr('name');
-                var val=ctx.model.get(id);
+                var val=ctx.model.get(id);  
                 if(val)
-                $(this).val(val);
+                    $(this).val(val);
             });
 
 
@@ -215,6 +212,7 @@ define([
             var val=target.val();
 
             if(target.is(':checked')){
+                
                 this.model.set(this.name + '_' + target.attr('name') , val);
             }else{
                 this.model.set(this.name + '_' + target.attr('name') , null);                
@@ -223,7 +221,6 @@ define([
 
         datachanged_radio: function(e){
             var target= $(e.target);
-           
             var val=$(target).attr('value');
             this.model.set(this.name + '_' + target.attr('name') , val);
         }, 

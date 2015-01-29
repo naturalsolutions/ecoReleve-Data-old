@@ -25,7 +25,7 @@ define([
     ''+module+'/site/detail/lyt-site-detail',
 
 
-    ''+module+'/import/_rfid/layouts/rfid-import',
+    ''+module+'/import/_rfid/layouts/lyt-stepOrchestrator',
 
 
 
@@ -95,6 +95,7 @@ define([
 			this.listenTo(radio, 'import', this.import);
             radio.comply('import:rfid', this.import_rfid, this);            
             radio.comply('import:gsm', this.import_gsm, this);
+            radio.comply('import:gpx', this.import_gpx, this);
 
             /*==========  Export  ==========*/
             
@@ -338,24 +339,50 @@ define([
         },
 
         import_gsm: function() {
+            console.log('controller')
             var type = 'gsm';
             var route = 'import/' + type;
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
-                this.mainRegion.show(new GSMListLayout({
+                var importLayout = new ImportLayout({
                     type : type
-                }));
+                });
+
+                this.mainRegion.show(importLayout);
+                importLayout.nextStepper();
+
             }, this); 
         },
 
         import_rfid: function() {
+            console.log('controller')
             var type = 'rfid';
             var route = 'import/' + type;
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
-                this.mainRegion.show(new Import_RFID_lyt({
+                var importLayout = new ImportLayout({
                     type : type
-                }));
+                });
+
+                this.mainRegion.show(importLayout);
+                importLayout.nextStepper();
+
+            }, this); 
+        },
+
+         import_gpx: function() {
+            console.log('controller')
+            var type = 'gpx';
+            var route = 'import/' + type;
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                var importLayout = new ImportLayout({
+                    type : type
+                });
+
+                this.mainRegion.show(importLayout);
+                importLayout.nextStepper();
+
             }, this); 
         },
 
