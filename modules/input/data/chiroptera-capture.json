@@ -296,11 +296,6 @@
       "type": "TextArea",
       "title": "Comments"
     },
-    "Number": {
-      "validators": [],
-      "type": "Number",
-      "title": "Number"
-    },
     "Comments": {
       "validators": [
 
@@ -327,7 +322,7 @@
       "legend": "Reproductive state"
     },
     {
-      "fields": ["Comments","Number"],
+      "fields": ["Comments"],
       "legend": "Other"
     }
   ]

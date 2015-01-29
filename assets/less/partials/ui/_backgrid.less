@@ -52,4 +52,37 @@ table{
 	}
 }
 
+
+.light-grid {
+	table{
+	width: 100%;
+	color: black;
+	th, td{
+		padding: 5px;
+		text-align: left!important;
+	}
+	tbody tr{
+		border-bottom: 1px solid @c-grey97;
+		&.selected{
+			background: @c-grey4d;
+		}
+		&:hover{
+			background: @c-grey4d;
+		}
+	}
+	th{
+		text-transform: uppercase;
+	}
+	a{
+		&:hover, &:focus, &:visited{
+			color: @c-grey97;
+			text-decoration: none;		
+		}
+		color: @c-grey97;
+		text-decoration: none;		
+	}
+}
+}
+
+
 //2 do : diff backrid black & backgrid clear

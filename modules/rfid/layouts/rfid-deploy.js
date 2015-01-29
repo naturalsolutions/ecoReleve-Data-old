@@ -33,7 +33,7 @@ define([
         },
 
         regions: {
-            map: "#map-container"
+            mapRegion: "#map-container"
         },
 
         ui: {
@@ -63,7 +63,7 @@ define([
             }, '#type-list');*/
             // Get the monitored sites.
             //this.sites.fetch();
-           
+           this.map = new Map();
         },
 
         onShow: function() {
@@ -71,7 +71,7 @@ define([
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
             $('body').addClass('home-page');
             $('#main-region').addClass('obscur full-height');
-            this.map.show(new Map());
+            this.mapRegion.show(new Map());
 
         },
 

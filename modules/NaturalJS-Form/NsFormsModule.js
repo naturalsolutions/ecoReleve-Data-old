@@ -119,14 +119,14 @@
 					self.showForm();
 				}));
 			}
-			
-			
-			
         },
         showForm: function () {
             this.BBForm = new BackboneForm({ model: this.model });
             this.BBForm.render();
 			var formContent = this.BBForm.el;
+            if(this.id){
+                $(formContent).attr('id',this.id);
+            }
 			// format fields to have bootstrap style
             $(formContent).find('fieldset>div').addClass('col-sm-4');
 			$(formContent).find('input[type="text"]').addClass('form-control');
@@ -154,7 +154,7 @@
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
                     wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
-                    //display: {displayValueName:'value',storedValueName:'value'},
+                    //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
                     language: {hasLanguage:true, lng:"en"},
                     startId: startId 
@@ -210,15 +210,38 @@
                 if(staId){
                     this.model.set('FK_TSta_ID', parseInt(staId));
                 }
-                this.model.save();
-                this.displayMode = 'display';
-                this.displaybuttons();
+                var self = this;
+                this.model.save([],{
+                 dataType:"text",
+                 success:function(model, response) {
+                    console.log('success' + response);
+                    self.displayMode = 'display';
+                    self.displaybuttons();
+                    self.radio.command('successCommitForm', {id: response});
+                    // update this.modelurl  if we create a new instance of protocol
+                    var tab = self.modelurl.split('/');
+                    var ln = tab.length;
+                    var newId = parseInt(response);
+                    var currentProtoId = parseInt(tab[ln - 1]);
+                    if (currentProtoId ===0){
+                        var url ='';
+                        for (var i=0; i<(ln -1);i++){
+                            url += tab[i] +'/';
+                        }
+                        self.modelurl = url + newId;
+                    }
+                 },
+                 error:function() {
+
+                 }
+                });
             }
         },
         butClickEdit: function (e) {
             e.preventDefault();
             this.displayMode = 'edit';
             this.initModel();
+            this.radio.command('editState');
         },
 
         butClickClear: function (e) {

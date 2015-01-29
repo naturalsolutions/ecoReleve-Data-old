@@ -37,7 +37,12 @@ define([
            
         },
         onShow: function() {
-             
+            if ( this.viewName == 'V_Qry_ArgosGSM_lastData_withFirstCaptRelData_GeoCountry' ||
+                this.viewName ==  'V_Qry_VIndiv_MonitoredLostPostReleaseIndividuals_LastStations' ) {
+
+                    $('#btnGetFile').removeClass('hidden');
+
+            }
         },
 
         initDatas: function(e){

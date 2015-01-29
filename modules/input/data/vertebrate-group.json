@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "Vertebrate group",
   "description": "TProtocol_Vertebrate_Group",
   "keywords": [
@@ -32,52 +32,62 @@
     "Nb_Adult_Male": {
       "validators": [],
       "type": "Number",
-      "title": "adult male"
+      "title": "adult male",
+      "editorClass": "indivNumber"
     },
     "Nb_Adult_Female": {
       "validators": [],
       "type": "Number",
-      "title": "adult female"
+      "title": "adult female",
+      "editorClass": "indivNumber"
     },
     "Nb_Adult_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "adult indeterminate"
+      "title": "adult indeterminate",
+      "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Male": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile male"
+      "title": "juvenile male",
+      "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Female": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile female"
+      "title": "juvenile female",
+      "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile indeterminate"
+      "title": "juvenile indeterminate",
+      "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Male": {
       "validators": [],
       "type": "Number",
-      "title": "new born male"
+      "title": "new born male",
+      "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Female": {
       "validators": [],
       "type": "Number",
-      "title": "new born female"
+      "title": "new born female",
+      "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "new born indeterminate"
+      "title": "new born indeterminate",
+      "editorClass": "indivNumber"
     },
     "Nb_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "indeterminate"
+      "title": "indeterminate",
+      "editorClass": "indivNumber"
     },
     "Nb_Total": {
       "validators": [],
@@ -90,11 +100,6 @@
       "title": "behaviour",
       "editorAttrs": { "startId": "1032620" },
       "editorClass": "autocompTree"
-    },
-    "Id_Behaviour": {
-      "validators": [],
-      "type": "Number",
-      "title": "id behaviour"
     },
     "Disturbed": {
       "validators": [],
@@ -119,22 +124,24 @@
     "Measured_Distance": {
       "validators": [],
       "type": "Number",
-      "title": "measured distance"
+      "title": "measured distance(m)"
     },
     "Estimated_Distance": {
       "validators": [],
       "type": "Number",
-      "title": "estimated distance"
+      "title": "estimated distance(m)"
     },
     "AngleNorth": {
       "validators": [],
       "type": "Number",
-      "title": "angle from north"
+      "title": "angle from north(°)",
+      "editorAttrs": { "min": 0, "max" : 360 }
     },
     "AngleTrack": {
       "validators": [],
       "type": "Number",
-      "title": "angle from track"
+      "title": "angle from track(°)",
+      "editorAttrs": { "min": 0, "max" : 360 }
     },
     "timestamp": {
       "validators": [],

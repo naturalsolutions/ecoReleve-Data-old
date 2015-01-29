@@ -3,6 +3,7 @@ define([
     'config',
     'radio',
     'modules2/map/views/basemap-google'
+    //'modules2/map/views/basemap'
 ], function(ol, config, Radio, BaseMap) {
 
     'use strict';
@@ -17,7 +18,7 @@ define([
         },
         onShow: function() {
             BaseMap.prototype.onShow.apply(this, []);
-            console.log(this.$el);
+           // console.log(this.$el);
             var style =  new ol.style.Style({
               image: new ol.style.Circle({
                 radius: 4,

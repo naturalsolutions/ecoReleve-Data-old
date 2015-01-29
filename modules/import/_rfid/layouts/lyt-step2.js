@@ -5,33 +5,30 @@ define([
     'marionette',
     'config',
     'radio',
-    'text!modules2/import/_rfid/templates/rfid-import.html',
     'bootstrap_slider',
-    'modules2/import/_rfid/views/step2'
+    'modules2/import/_rfid/views/step2',
+    'grid/model-grid',
+    'backgrid',
+    'modules2/rfid/layouts/rfid-deploy',
+    'modules2/rfid/views/rfid-map',
+    'sweetAlert',
+    'stepper/lyt-step',
     
-], function($, _, Backbone, Marionette, config, Radio, template, bootstrap_slider, Step2) {
+], function($, _, Backbone, Marionette, config, Radio, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID, Map, swal, Step) {
     'use strict';
 
-
-    return Marionette.LayoutView.extend({
-
-        template: template,
-
-        regions:{
-            step1 : '#step1',
-            step2 : '#step2',
-        },
+    return Step.extend({
+        /*===================================================
+        =            Layout Stepper Orchestrator            =
+        ===================================================*/
 
         collection: new Backbone.Collection(),
         className: 'import-container-rfid container',
 
         events: {
-            'click #btn-import': 'importFile',
+            /*'click .finished': 'importFile',*/
             'click #input-file': 'clear',
-            'focus #input-mod': 'clear',
-
-            'click button.btn-next' : 'nextStep',
-            'click button.btn-prev' : 'prevStep',
+        
         },
 
         ui: {
@@ -45,58 +42,23 @@ define([
         },
 
         onDestroy: function(){
-            $('body').removeClass('home-page');
-            $('#main-region').removeClass('full-height obscur');
+           
         },
-
-        initialize: function() {
-            this.listenTo(this.collection, 'reset', this.render)
-            $.ajax({
-                context: this,
-                url: config.coreUrl + 'rfid',
-            }).done( function(data) {
-                this.collection.reset(data);
-            });
-            $('body').addClass('home-page');
-            $('#main-region').addClass('full-height obscur');
-
-
+        initModel: function() {
+           /*this.deploy_rfid = new DeployRFID();*/
+ 
+            this.parseOneTpl(this.template);
+            var obj={name : this.name + '_fileName',required : true};
+            this.stepAttributes = [obj] ;
+            
         },
-
-        onShow: function(){
-            $('.btn-next').attr('disabled', 'disabled');
-
-
-        },
-
-        onRender: function(){
-             $('body').addClass('home-page');
-            $('#main-region').addClass('full-height obscur');
-            this.step2.show(new Step2());
-        },
-
-
-        prevStep: function(){
-            var step = $('#importWizard').wizard('selectedItem').step;
-            if(step == 1){
-                Radio.channel('route').trigger('import');                
-            }else{
-                $('#importWizard').wizard('previous');
-                //Radio.channel('route').command('import:rfid');
-
-            }
-        },
+        onShow : function() {
         
-        nextStep: function(){
-            $('#importWizard').wizard('next');
-            this.step2.show(new Step2());
         },
-
-
-
         importFile: function(event) {
-            event.stopPropagation();
-            event.preventDefault();
+            console.log('importFile')
+         /*   event.stopPropagation();
+            event.preventDefault();*/
             this.clear();
 
             var module = this.ui.modInput.val();
@@ -107,18 +69,22 @@ define([
                 var file = $('#input-file').get(0).files[0] || null;
                 var url = config.coreUrl + 'rfid/import';
                 var data = new FormData();
+                console.log($(this.ui.modInput));
                 var self = this;
 
                 reader.onprogress = function(data) {
                     if (data.lengthComputable) {
                         var progress = parseInt(data.loaded / data.total * 100).toString();
                         self.ui.progressBar.width(progress + '%');
+                       
                     }
                 };
 
                 reader.onload = function(e, fileName) {
                     data.append('data', e.target.result);
-                    data.append('module', module);
+                    console.log(self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
+                    data.append('module', self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
+                    console.log(data)
                     $.ajax({
                         type: 'POST',
                         url: url,
@@ -127,12 +93,43 @@ define([
                         contentType: false
                     }).done(function(data) {
                         $('#btnNext').removeAttr('disabled');
+                         
+                        self.ui.progressBar.css({'background-color':'green'})
+                        
                         Radio.channel('rfid').command('showValidate',{});
 
 
                     }).fail( function(data) {
+                        
+                        console.log(data)
                         $('#btnNext').attr('disabled');
-                        alert('Please verify your file or contact administrator');
+                        if (data.status == 500 || data.status == 510  ) {
+                            var type = 'warning';
+                            self.ui.progressBar.css({'background-color':'rgb(218, 146, 15)'})
+                            var color = 'rgb(218, 146, 15)';
+                        }
+                        else {
+                            var type = 'error';
+                            self.ui.progressBar.css({'background-color':'rgb(147, 14, 14)'})
+                            var color = 'rgb(147, 14, 14)';
+
+                         }
+                        swal(
+                            {
+                              title: "Warning ",
+                              text: data.responseText,
+                              type: type,
+                              showCancelButton: false,
+                              confirmButtonColor: color,
+                              confirmButtonText: "OK",
+                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                                self.ui.progress.hide();
+                            }
+                        );
                     });
                 };
 
@@ -159,6 +156,8 @@ define([
             this.ui.fileGroup.removeClass('has-error');
             this.ui.modHelper.text('');
             this.ui.modGroup.removeClass('has-error');
-        }
+        },
+     
     });
+
 });

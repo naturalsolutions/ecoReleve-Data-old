@@ -1,0 +1,97 @@
+<script type="text/template">
+    
+<div class="fuelux full-height">
+    <div class="wizard full-height" data-initialize="wizard" id="importWizard" style="padding-bottom:1%!important;">
+         <div class="stepper-header" id = "stepper-header" > TITLE </div>
+        <ul class="steps">
+            <li data-step="1" class="active"><span class="badge">1</span>Import File<span class="chevron"></span></li>
+            <li data-step="2"><span class="badge">2</span>Validation<span class="chevron"></span></li>
+        </ul>
+
+        <div class="step-content full-height">
+            <div class="step-pane active sample-pane clearfix full-height no-scroll"  data-step="1" id="step1">
+                <br><br>
+                <div class="container-fluid full-height">
+                    
+                    <form class="form" role="form">
+                        <div class="row">
+                            <div class="col-sm-6 form-group" id="group-mod">
+                                <label for="input-mod" class="control-label">
+                                    Choose a RFID module:
+                                </label>
+                                <br>
+                                <input id="input-mod" list="mod-list" type="text"
+                                    class="form-control" placeholder="Identifier"/>
+                                <select id="mod-list">
+                                   <% _.each(items, function(item) { %>
+                                 <option> <%= item.identifier %> </option>
+                                 <% }); %> 
+                                </select>
+                                <span id="help-mod" class="help-block"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <button id="pose_remove" type="submit" class="btn">
+                                    Pose/Remove RFID
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group" id="group-file">
+                                <input type="file" id="input-file"/>
+                                <span id="help-file" class="help-block"></span>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <button id="btn-import" type="submit" class="btn btn-primary btn-lg">
+                                    Import
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                  
+                    <div class="spacer"></div>
+                    <div class="progress" style="display: none;">
+                        <div class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                    <div  class="grid full-height" style="height: 45%;">
+                        <div id="paginator"></div>
+                        <div id="rfid-grid" class="full-height light-grid" style=" overflow:auto;"></div> 
+
+                    </div>
+                   
+                </div>
+            </div>
+
+            <div class="step-pane sample-pane clearfix" data-step="2" id="step2">
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <br><br>
+    <div class="actions">
+        <button class="btn btn-lg btn-dfault btn-prev btn-custom " id="btnPrev">
+        <i class="icon small reneco leftarrow white action-picto"></i>
+        <span class="ctrl">Prev</span>
+        </button>
+
+        <button class=" pull-right btn btn-lg btn-dfault btn-next btn-custom " id="btnNext" disabled>
+        <span class="ctrl">Next</span>
+        <i class="icon small reneco rightarrow white action-picto"></i>
+
+        </button>
+    </div>
+    <br>
+
+ <div class="modal fade full-modal" id="rfid-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+</div> <!-- end fuel -->
+
+
+
+
+
+
+
+
+
+</script>

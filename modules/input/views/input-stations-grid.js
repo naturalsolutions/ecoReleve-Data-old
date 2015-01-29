@@ -20,7 +20,8 @@ define([
         template: template,
         className: 'full-height',
         events :{
-            'click tbody > tr': 'detail'
+            'click tbody > tr': 'detail',
+            'dblclick tbody > tr' : 'navigate'
         },
 
         initialize: function(options) {
@@ -191,22 +192,15 @@ define([
         detail: function(evt) {
             var row = $(evt.currentTarget);
             var id = parseInt($(row).find(':first-child').text());
-            console.log(id);
-            //console.log(this.grid.collection);
             var currentStation = this.grid.collection.where({ PK: id})[0];
             this.radio.command('generateStation', currentStation);
             $('table.backgrid tr').removeClass('backgrid-selected-row');
             $(row).addClass('backgrid-selected-row');
-            /*console.log(currentStation);
-             $.ajax({
-                url: config.coreUrl+'station/getProtocol',
-                data: { id_sta: id },
-                type:'POST',
-                context: this,
-                success: function(data){
-                    this.radio.command('generateForms', {station:currentStation, data: data});
-                }
-            });*/
+        },
+        navigate : function(evt){
+            //alert('double click');
+            this.detail(evt);
+            this.radio.command('navigateNextStep');
         }
     });
 });

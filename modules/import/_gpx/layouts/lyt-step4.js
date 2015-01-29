@@ -16,6 +16,10 @@ define([
     'use strict';
 
     return Step.extend({
+
+        events : {
+            'change .fiedWrk' : 'updateNbFieldworks'
+        },
         nextOK: function(){
             // create a new collection for models to import
             var filteredCollection  = new Waypoints(this.model.get('data_FileContent').where({import: true}));
@@ -86,6 +90,16 @@ define([
                 UsersList += '<option>' + user.fullname + '</option>';
             });
             $('#import-worker1').append(UsersList);
+        },
+        updateNbFieldworks : function(e){
+            var fieldValue = $(e.target).val();
+            var nbFW = parseInt($('#import-fwnb').val());
+            if(fieldValue){
+                nbFW += 1;
+            } else {
+                nbFW -= 1;
+            }
+            $('#import-fwnb').val(nbFW);
         }
     });
 

@@ -31,7 +31,7 @@ define([
             'change input:file' : 'datachanged_file',
             'change select' : 'datachanged_select',
             'click #step-nav li' : 'changeStep',
-            'click .finished': 'finish'
+           'click .finished': 'finish'
         },
 
         regions: {
@@ -64,12 +64,14 @@ define([
 
 
         onShow: function(){
-           
+           this.initNavSteps();
+            this.toStep(0);
+            
         },
 
         onRender: function(){
-            this.initNavSteps();
-            this.toStep(0);
+           /*  this.initNavSteps();
+            this.toStep(0);*/
 
              $('body').addClass('home-page');
             $('#main-region').addClass('full-height obscur');
@@ -77,7 +79,7 @@ define([
 
         initNavSteps: function(){
             for (var i = 0; i < this.steps.length; i++) {
-                this.$el.find('#step-nav').append('<li class="step-item" id='+this.steps[i].name+'><span class="badge">'+(i+1)+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
+                this.$el.find('#step-nav').append('<li class="step-item" id='+this.steps[i].name+'  disabled=disabled><span class="badge">'+(i+1)+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
             };            
         },
 
@@ -162,29 +164,37 @@ define([
                     ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
             }
 
-            if (this.currentStep==0){
-                this.$el.find('#btnPrev').attr( 'disabled', 'disabled');
-            }
-            else {
-                this.$el.find('#btnPrev').removeAttr('disabled'); 
-               
-            }
+            this.displayPrev(this.currentStep);
+            
 
 
         },
 
-
         check: function(){
+
             if(this.steps[this.currentStep].validate()) {
-                this.$el.find('#btnNext').removeAttr('disabled');                
+                this.$el.find('#btnNext').removeAttr('disabled').show();                
             }
             else{
-                this.$el.find('#btnNext').attr( 'disabled', 'disabled' );
+                /*this.$el.find('#btnNext').attr( 'disabled', 'disabled' );*/
+                this.$el.find('#btnNext').hide();
             }
         },
 
 
         /*==========  Style Nav Steps  ==========*/
+        displayPrev: function() {
+            if (this.currentStep==0){
+               /* this.$el.find('#btnPrev').attr( 'disabled', 'disabled');*/
+               this.$el.find('#btnPrev').hide();
+ 
+            }
+            else {
+              /*  this.$el.find('#btnPrev').removeAttr('disabled'); */
+               this.$el.find('#btnPrev').show();
+            }
+
+        },
 
         styleNav: function(){
             this.$el.find('#step-nav li.step-item.active').removeClass('active');
@@ -230,14 +240,17 @@ define([
         },
 
         changeStep : function(e){
+
             var element = $(e.target);
             var idStep ;
-            if ( element.is( "li" ) ) {
+            if ( element.is( "li" )) {
                 idStep = parseInt($(e.target).find('span.badge').text())-1 ;
             } else {
                 idStep = parseInt($(e.target).parent().find('span.badge').text())-1 ;
             }
-            this.toStep(idStep);
+            
+            if (this.currentStep >= idStep)
+                this.toStep(idStep);
         },
 
         finish: function() {
@@ -251,7 +264,7 @@ define([
                 type: "success",
                 showCancelButton: true,
                 confirmButtonColor: "green",
-                confirmButtonText: "Redo an input",
+                confirmButtonText: "Redo",
                 cancelButtonText: "Back to home",
                 closeOnConfirm: true,
                 closeOnCancel: true

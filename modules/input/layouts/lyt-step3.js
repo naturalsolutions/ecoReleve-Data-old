@@ -24,11 +24,13 @@ define([
         events : {
             'click #tabProtsUl a' : 'updateForm',
             'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
-            'change select[name="add-protocol"]' : 'addForm',
+            'click i.add'  : 'addForm',
             'click a.pkProtocol' : 'getProtoByPkId',
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
-            'click .onglet a': 'activeOnglet'
+            'click .onglet a': 'activeOnglet',
+            'change .indivNumber' : 'updateTotalIndivNumber'
+            //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
             stationRegion: '#stContainer',
@@ -46,11 +48,15 @@ define([
             this.activeProtcolsObj = [];
         },
         onShow: function(){
-            this.addViews();
             var content = getUsers.getElements('user');
             $('#usersList').append(content);
+            this.addViews();
+            this.getProtocols();
+            
             this.radio = Radio.channel('froms');
             this.radio.comply('updateForm', this.updateFormUI, this);
+            this.radio.comply('successCommitForm', this.successState, this);
+            this.radio.comply('editState', this.editState, this);
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -102,23 +108,26 @@ define([
             });
         },
         getProtocol: function(protoName, id){
+            var idProto = protoName.replace(/ /g,"_");
             this.formsRegion.empty();
             $('#formsContainer').text('');
             var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
-            var formView = new NsFormsModule({
+            this.formView = new NsFormsModule({
                 modelurl : url,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons',
-                stationId : this.idStation
+                stationId : this.idStation,
+                id : idProto
             });
+
         },
         getProtocols : function(){
             var protocols  = getProtocolsList.getElements('protocols/list');
             $('select[name="add-protocol"]').append(protocols);
         },
         updateFieldActivity : function(e){
-            var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
-            this.getProtocolsList(value);
+            /*var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
+            this.getProtocolsList(value);*/
         },
         generateNavBarProtos : function(){
             // generate interface with list content
@@ -183,7 +192,8 @@ define([
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
-                content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol">' + idProto + '</a></div></div>';
+                content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol" idProto="'+
+                             idProto +'">' + (i+1) + '</a></div></div>';
             }
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
@@ -205,7 +215,7 @@ define([
         },
         getProtoByPkId : function(e){
 
-            var pkId = parseInt($(e.target).text());
+            var pkId = parseInt($(e.target).attr('idProto'));
             this.getProtocol(this.selectedProtoName, pkId);
             // store pkId to save proto
             this.selectedProtoId = pkId;
@@ -215,7 +225,8 @@ define([
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId + '/next';
-             this.getStationDetails(url);
+            this.getStationDetails(url);
+            $(this.ui.addProto).val('');
 
         },
         prevStation:function(){
@@ -223,6 +234,7 @@ define([
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
             this.getStationDetails(url);
+            $(this.ui.addProto).val('');
         },
         getStationDetails : function(url){
             $.ajax({
@@ -231,7 +243,7 @@ define([
                 type:'GET',
                 success: function(data){
                     var station = new Station(data);
-                   console.log(this.model);
+
                    for(var key in data){
                         if(key =='TSta_PK_ID'){
                             station.set('PK', data[key]);
@@ -243,8 +255,8 @@ define([
                         }
                     }
 
-                        this.model.set('station_position',station);
-                        this.addViews();
+                    this.model.set('station_position',station);
+                    this.addViews();
                 },
                 error: function(data){
                     alert('error in loading station data');
@@ -264,18 +276,19 @@ define([
             var place = stationModel.get('Place');
             $('select[name="stPlace"]').val(place);
             var accuracy = stationModel.get('Precision');
-            $('select[name="stAccuracy"]').val(accuracy);
+            $('input[name="stAccuracy"]').val(accuracy);
             var distFromObs = stationModel.get('Name_DistanceFromObs');
             $('#stDistFromObs').val(distFromObs);
             //replace user id by user name
             var user = stationModel.get('FieldWorker1');
             if(this.isInt(user)){
                 // get user name from masqued select control
-                var userName = $('#usersList').find
+                var userName = this.getUserName(user);
+                $('#stObsVal').text(userName);
             }
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
-            this.getProtocols();
+            //this.getProtocols();
         },
         isInt : function (value){
           if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
@@ -285,6 +298,7 @@ define([
           }
         },
         updateFormUI : function(){
+            // time picker
             $('.timePicker').datetimepicker({
                 pickDate: false,                
                 useMinutes: true,              
@@ -293,18 +307,30 @@ define([
                 use24hours: true,
                 format: 'HH:mm'    
             });
-            // append options to select control 'user list'
+            // append options to select control 'user list' to display full name other then id
             var selectFields = $('select[user_list="username_list"]');
             var nbFields =  selectFields.length;
             if (nbFields > 0){
                 var options = $('#usersList').html();
                 for(var i=0; i<nbFields;i++){
                     var field = $(selectFields)[i];
+                    var fieldName = $(field).attr('name');
                     $(field).append(options);
+                    // set user name in the input by using stored user id in the form model
+                    var userId = this.formView.model.get(fieldName);
+                    $(field).find('option[value="' + userId +  '"]').attr('selected', true);
                 }
             }
-        },
+            // min value in number fields is 0
+            $('input[type="number"]').attr('min', 0);
 
+            // if form id is vertebrate group, reorganize fields with
+            var isVGForm = $('form#Vertebrate_group').length > 0;
+            if(isVGForm){
+                this.updateFormforVG();
+            }
+
+        },
 
         activeOnglet: function(e) {
             $(e.target).parents('.swiper-wrapper').find('.onglet.active').removeClass('active');
@@ -313,6 +339,49 @@ define([
 
         nextOK: function() {
             return true;
+        },
+        getUserName : function(id){
+            var option = $('#usersList').find('option[value="'+ id +'"]')[0];
+            var userName = $(option).text();
+            return userName;
+        },
+        successState : function(obj){
+            var protoId = obj.id;
+            //<i class="icon small reneco validated"></i>
+            // display picto for selected ongle
+            var element = $('#tabProtsUl div.onglet.active').find('i')[0];
+            $(element).removeClass('edit');
+            $(element).addClass('icon small reneco validated');
+            // update id protocol 
+            var protoOnglet = $('#idProtosContainer div.onglet.active').find('a')[0];
+            $(protoOnglet).attr('idproto', protoId);
+            $('form input').attr('disabled', 'disabled');
+            $('form textarea').attr('disabled', 'disabled');
+            $('form select').attr('disabled', 'disabled');
+        },
+        editState : function(){
+            var element = $('#tabProtsUl div.onglet.active').find('i')[0];
+            $(element).removeClass('validated');
+            $(element).addClass('edit');
+            $('form input').removeAttr('disabled');
+            $('form textarea').removeAttr('disabled');
+            $('form select').removeAttr('disabled');
+        },
+        updateTotalIndivNumber : function(){
+            var total = 0;
+            $('.indivNumber').each(function(){
+                var number = parseInt($(this).val());
+                if(number){
+                    total += number;
+                }
+            });
+            $('input[name="Nb_Total"]').val(total);
+        },
+        updateFormforVG : function(){
+            $('form#Vertebrate_group').find('div.col-sm-4').each(function(){
+                $(this).removeClass('col-sm-4');
+                $(this).addClass('col-sm-3');
+            });
         }
     });
 });

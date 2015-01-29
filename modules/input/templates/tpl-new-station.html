@@ -1,5 +1,5 @@
 <form>
-	<div class="col-xs-12"><h3>New station</h3></div>
+	<div class="col-xs-12"><h3 id="input-station-title">New station</h3></div>
 	<div class="clear"></div>
 		<!--<div id="stationType">
 			<div class="radio-inline">
@@ -44,10 +44,10 @@
 	  	</div>
  	</fieldset>
 	<fieldset>
-		<legend>position</legend>
+		<legend>location</legend>
 
 	  		<div class='col-xs-10 masqued' id="stRegion">
-		    	<label>region</label>
+		    	<label>region*</label>
 		    	<div data-editors="Region"></div>
 		    	<div id='error-Region' class='error'></div>
 		    </div>
@@ -108,7 +108,7 @@
 
 	    <div id="addFieldWorkerInput" class='col-xs-2'>
 	    	<br>
-	    	<i class="icon-action icon mini reneco add"></i>
+	    	<a><i class="icon-action icon mini reneco add"></i></a>
 	    </div>
 
 
@@ -119,6 +119,10 @@
 	   	<div class='col-xs-5 masqued' id='FieldWorker3-field'>
 	    	<label>observer 3</label>
 	    	<div data-editors="FieldWorker3"></div>
+	    </div>
+	    <div id="removeFieldWorkerInput" class='col-xs-2 masqued'>
+	    	<br>
+	    	<i class="icon-action icon mini reneco close"></i>
 	    </div>
 	   	<div class='col-xs-5 masqued' id='FieldWorker4-field'>
 	    	<label>observer 4</label>
