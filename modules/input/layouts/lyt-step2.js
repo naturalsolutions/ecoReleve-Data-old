@@ -26,7 +26,10 @@ define([
             'change input[name="LAT"]' : 'getCoordinates',
             'change input[name="LON"]' : 'getCoordinates',
             'click span.picker': 'filterIndivShow',
-            'click #addFieldWorkerInput' : 'addInput'
+            'click #addFieldWorkerInput' : 'addInput',
+            'click #removeFieldWorkerInput' : 'removeInput',
+            'change select.fiedworker' : 'checkFDName',
+            'change input[name="Precision"]' : 'checkAccuracyValue'
         },
         regions: {
             leftRegion : '#inputStLeft',
@@ -138,6 +141,7 @@ define([
                         field.required = true;
                     }
                 }
+                $('#input-station-title').text('New station with coordinates');
 
             } else if(value == "newSc"){
                 $('#stRegion').removeClass('masqued');
@@ -154,7 +158,7 @@ define([
                         field.required = false;
                     }
                 }
-                 console.log(this.model);
+                $('#input-station-title').text('New station without coordinates');
             }
             else {
                 $('#stMonitoredSite').removeClass('masqued');
@@ -170,6 +174,7 @@ define([
                         field.required = false;
                     }
                 }
+                $('#input-station-title').text('New station from monitored site');
             }
         },
         feedTpl: function(){
@@ -258,14 +263,13 @@ define([
             alert(info);
         },
         getCoordinates : function(e){
-           // check inputed values
-           var inputVal = $(e.target).val();
-           var value = parseFloat(inputVal);
-           if(!value && inputVal!='NULL' && inputVal!='') {
-                alert('please input a correct value.');
+
+           var value = parseFloat($(e.target).val());
+            if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
+                alert('please input a valid value.');
                 $(e.target).val('');
-           }
-           else if(inputVal!= 'NULL'){
+            }
+           else if(value!= 'NULL'){
                 var latitude = parseFloat($('input[name="LAT"]').val());
                 var longitude = parseFloat($('input[name="LON"]').val());
                 // if the 2 values are inputed update map location
@@ -369,14 +373,64 @@ define([
         },
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
-            var nbInsertedWorkersFields = parseInt($('#station-fieldWorkers').attr('insertedWorkersNb'));
+            var stFieldWorkers = $('#station-fieldWorkers');
+            var nbInsertedWorkersFields = parseInt($(stFieldWorkers).attr('insertedWorkersNb'));
             if (nbInsertedWorkersFields < 5){
                 var nbFdW = nbInsertedWorkersFields + 1;
                 // element to show ( masqued by default)
                 var ele = '#FieldWorker' + nbFdW + '-field';
                 $(ele).removeClass('masqued');
+                $('#removeFieldWorkerInput').removeClass('masqued');
                 // update stored value for nb displayed fields 
-                $('#station-fieldWorkers').attr('insertedWorkersNb', nbFdW);
+                $(stFieldWorkers).attr('insertedWorkersNb', nbFdW);
+            }
+        },
+        removeInput : function(){
+            var stFieldWorkers = $('#station-fieldWorkers');
+            var actualFDNumber = parseInt($(stFieldWorkers).attr('insertedworkersnb'));
+            //var nbFdW = actualFDNumber + 1;
+                // element to show ( masqued by default)
+            var ele = '#FieldWorker' + actualFDNumber + '-field';
+            var fieldFW = 'FieldWorker' + actualFDNumber;
+            $('select[name="' + fieldFW + '"]').val('');
+            $(ele).addClass('masqued');
+            $(stFieldWorkers).attr('insertedworkersnb',(actualFDNumber -1));
+            if (actualFDNumber == 2){
+                $('#removeFieldWorkerInput').addClass('masqued');
+            }
+            $('input[name="FieldWorkersNumber"').val(actualFDNumber -1);
+        },
+        checkFDName : function(e){
+            var selectedField = $(e.target);
+            var fieldName = $(e.target).attr('name');
+            var selectedOp = $(e.target).find(":selected")[0];
+            var selectedName = $(selectedOp).val();
+            var nbFW = 0;
+          
+            //find('option:selected')[0].text()
+            //alert(selectedName);
+            $(".fiedworker").each(function() {
+                var selectedValue = $(this).val();
+                if ($(this).attr('name') != fieldName){
+                    if (selectedName && (selectedValue == selectedName)){
+                        alert('this name is already selected, please select another name');
+                        $(selectedField).val('');
+                    }
+                }
+                if(selectedValue){
+                    nbFW+=1;
+                }
+                // ...
+            });
+            // update totalNbFieldworkers
+            $('input[name="FieldWorkersNumber"').val(nbFW);
+        },
+        checkAccuracyValue : function(){
+            var element = $('input[name="Precision"]');
+            var value = parseInt($(element).val());
+           if(value < 0 ){
+                alert('please input a valid value (>0) ');
+                $(element).val('');
             }
         }
     });

@@ -197,14 +197,14 @@ define([
         },
         checkVal : function(e){
             var value = parseFloat($(e.target).val());
-            if((isNaN(value)) || ((value > 90.0) || (value < -90.0))){
+            if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
                 alert('please input a valid value.');
                 $(e.target).val('');
             }
         },
         checkMaxVal : function(e){
             var value = parseFloat($(e.target).val());
-            if((isNaN(value)) || ((value > 90.0) || (value < -90.0))){
+            if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
                 alert('please input a valid value.');
                 $(e.target).val('');
             }

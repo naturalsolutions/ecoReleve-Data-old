@@ -13,26 +13,17 @@ define([
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
             
             console.log('onShow');
-            this.radio = Radio.channel('route');
+            //this.radio = Radio.channel('route');
+            this.radio = Radio.channel('input');
+            this.radio.comply('navigateNextStep', this.nextStep, this);
 
         },
         nextStep: function(){
             var currentStep = this.steps[this.currentStep];
             if(currentStep.nextOK()) {
-                // if current step == 0 and file type =gpx, navigate to next step
-                if (currentStep.name =='type'){
-                     // get file type 
-                    var fileType = currentStep.model.get('type_filetype');
-                    if(fileType == 'gps-gpx'){
-                        this.currentStep++;
-                        this.toStep(this.currentStep);
-                    }
-                }
-                else {
-                    this.currentStep++;
-                    if (this.currentStep== this.steps.length) { this.finish(); }
-                    else {this.toStep(this.currentStep); }
-                }
+                this.currentStep++;
+                if (this.currentStep== this.steps.length) { this.finish(); }
+                else {this.toStep(this.currentStep); }
             }
         },
 
@@ -42,6 +33,9 @@ define([
             }
             this.currentStep === 0 ? this.currentStep : this.currentStep--;
             this.toStep(this.currentStep);
+        },
+        changeStep : function(e){
+            // desactivate navigation
         }
         
         /*

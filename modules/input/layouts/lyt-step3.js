@@ -28,7 +28,8 @@ define([
             'click a.pkProtocol' : 'getProtoByPkId',
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
-            'click .onglet a': 'activeOnglet'
+            'click .onglet a': 'activeOnglet',
+            'change .indivNumber' : 'updateTotalIndivNumber'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
@@ -107,6 +108,7 @@ define([
             });
         },
         getProtocol: function(protoName, id){
+            var idProto = protoName.replace(/ /g,"_");
             this.formsRegion.empty();
             $('#formsContainer').text('');
             var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
@@ -114,7 +116,8 @@ define([
                 modelurl : url,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons',
-                stationId : this.idStation
+                stationId : this.idStation,
+                id : idProto
             });
 
         },
@@ -320,11 +323,13 @@ define([
             }
             // min value in number fields is 0
             $('input[type="number"]').attr('min', 0);
-            // disable input if mode is display
-            //TODO : display/edit mode
-            /*if (this.selectedProtoId > 0){
-                this.displayMode();
-            }*/
+
+            // if form id is vertebrate group, reorganize fields with
+            var isVGForm = $('form#Vertebrate_group').length > 0;
+            if(isVGForm){
+                this.updateFormforVG();
+            }
+
         },
 
         activeOnglet: function(e) {
@@ -361,20 +366,22 @@ define([
             $('form input').removeAttr('disabled');
             $('form textarea').removeAttr('disabled');
             $('form select').removeAttr('disabled');
-        }
-
-        /*,
-        displayMode : function(){
-            $('#NsFormModuleSave').addClass('masqued');
-            $('#NsFormModuleClear').addClass('masqued');
-            $('#NsFormModuleEdit').removeClass('masqued');
-            $('form input').attr('disabled', 'disabled');
         },
-        editMode : function(){
-            $('#NsFormModuleSave').removeClass('masqued');
-            $('#NsFormModuleClear').removeClass('masqued');
-            $('#NsFormModuleEdit').addClass('masqued');
-             $('form input').removeAttr('disabled');
-        }*/
+        updateTotalIndivNumber : function(){
+            var total = 0;
+            $('.indivNumber').each(function(){
+                var number = parseInt($(this).val());
+                if(number){
+                    total += number;
+                }
+            });
+            $('input[name="Nb_Total"]').val(total);
+        },
+        updateFormforVG : function(){
+            $('form#Vertebrate_group').find('div.col-sm-4').each(function(){
+                $(this).removeClass('col-sm-4');
+                $(this).addClass('col-sm-3');
+            });
+        }
     });
 });

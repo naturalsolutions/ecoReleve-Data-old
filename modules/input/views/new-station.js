@@ -21,9 +21,6 @@ define([
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
-        events: {
-            
-        },
         initialize: function(options) {
             var station = new Station();
             this.form = new BbForms({
@@ -34,15 +31,17 @@ define([
             //this.form.model.on('change', this.form.render, this);
         },
         onShow : function(){
-            $('input[name="Date_"]').attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
+            var datefield = $("input[name='Date_']");
+            var self = this;
+            $(datefield).attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
             $('#dateTimePicker').datetimepicker({
                 defaultDate:""
             }); 
             $('#dateTimePicker').on('dp.show', function(e) {
-                $('input[name="Date_"]').val('');    
+                $(datefield).val('');    
             });
             $('#dateTimePicker').on('dp.dp.change', function(e) {
-                $('input[name="Date_"]').change();
+                self.checkDate();
             });
             
             this.generateSelectLists();
@@ -60,6 +59,18 @@ define([
             $('select[name="Region"]').append(regionList);
             var sites  = getSitesTypes.getElements('monitoredSite/type');
             $('select[name="id_site"]').append(sites);
+        },
+        checkDate: function(){
+            var datefield = $("input[name='Date_']");
+            //var date = $(datefield).val();
+            var date = moment($(datefield).val() , "DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
+            var now = moment();
+            if (now < date) {
+               alert('Please input a valid date');
+               $(datefield).val('');
+            } else {
+               $(datefield).change();
+            }
         }
         
     });
