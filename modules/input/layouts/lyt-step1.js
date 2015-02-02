@@ -34,11 +34,12 @@ define([
             if (radioSelection){
                 $(e.target).addClass('select');
                 $('input[name="stationtype"]').each(function() {
-                    $(this).attr('checked', false);
+                    $(this).removeAttr('checked').prop('checked',false);
                 });
                 var radioElements = $(e.target).find('input[type="radio"]');
                 var radio =  $(radioElements)[0];
-                $(radio).attr('checked',true);
+                $(radio).attr('checked','checked').prop('checked',true);
+
                 //e.preventDefault();
                 $(radio).click();
             }

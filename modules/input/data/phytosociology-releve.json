@@ -15,61 +15,36 @@
 			"validators":[
 			],
 			"type": "Text",
-			"title":"taxon"
+			"title":"Taxon",
+			"editorAttrs": { "startId": "2" },
+      		"editorClass": "autocompTree"
 		},
 		"Identity_sure":{
-			"validators":[
-			],
-			"options": [
-			{
-			"val": "1",
-			"label": "true"
-			},
-			{
-			"val": "0",
-			"label": "false"
-			}
-			],
-			"type": "Radio",
-			"title":"Identity sure"
+		"validators":[
+		],
+		"options" : ["true"],
+		"type": "Checkboxes",
+		"title":"Identity sure"
 		},
 		"Sampled":{
-			"validators":[
-			],
-			"options": [
-				{
-				"val": "1",
-				"label": "true"
-				},
-				{
-				"val": "0",
-				"label": "false"
-				}
-			],
-			"type": "Radio",
-			"title":"Sampled"
+		"validators":[
+		],
+		"options" : ["true"],
+		"type": "Checkboxes",
+		"title":"Sampled"
 		},
 		"Picture":{
-			"validators":[
-			],
-			"options": [
-			{
-			"val": "1",
-			"label": "true"
-			},
-			{
-			"val": "0",
-			"label": "false"
-			}
-			],
-			"type": "Radio",
-			"title":"Picture"
+		"validators":[
+		],
+		"options" : ["true"],
+		"type": "Checkboxes",
+		"title":"Picture"
 		},
 		"Name_Global_Abondance_Dom":{
 			"validators":[
 			],
 			"type": "Text",
-			"title":"global abondance dom",
+			"title":"Global abondance dom",
 			"editorAttrs": { "startId": "18" },
       		"editorClass": "autocompTree"
 		},
@@ -77,19 +52,19 @@
 			"validators":[
 			],
 			"type": "Text",
-			"title":"global sociability"
+			"title":"Global sociability"
 		},
 		"Name_Phenology_BBCH1":{
 			"validators":[
 			],
 			"type": "Text",
-			"title":"phenology BBCH1"
+			"title":"Phenology BBCH1"
 		},
 		"Name_Phenology_BBCH2":{
 			"validators":[
 			],
 			"type": "Text",
-			"title":"phenology BBCH2"
+			"title":"Phenology BBCH2"
 		},
 		"Name_Nb_Individuals":{
 			"validators":[
@@ -110,27 +85,15 @@
 			"title":"Comments"
 		},
 		"Cultivated":{
-			"validators":[
-			],
-			"options": [
-			{
-			"val": "1",
-			"label": "true"
-			},
-			{
-			"val": "0",
-			"label": "false"
-			}
-			],
-			"type": "Radio",
-			"title":"Cultivated"
+		"validators":[
+		],
+		"options" : ["true"],
+		"type": "Checkboxes",
+		"title":"Cultivated"
 		}
 	},
     "defaults":{
-		"Identity_sure":"1",
-		"Sampled":"0",
-		"Picture": "0",
-		"Cultivated":"0",
+		"Identity_sure":"true",
 		"Validator" : "",
 		"Id_Taxon":""
    },

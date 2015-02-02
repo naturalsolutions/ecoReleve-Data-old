@@ -10,147 +10,135 @@
     "Name_Taxon": {
       "validators": [ "required"],
       "type": "Text",
-      "title": "taxon",
+      "title": "Taxon",
       "editorAttrs": { "startId": "8" },
       "editorClass": "autocompTree"
     },
     "Identity_sure": {
       "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
-      "title": "sure"
+      "options" : ["true"],
+      "type": "Checkboxes",
+      "title": "Sure"
     },
     "Nb_Adult_Male": {
       "validators": [],
       "type": "Number",
-      "title": "adult male",
+      "title": "Adult male",
       "editorClass": "indivNumber"
     },
     "Nb_Adult_Female": {
       "validators": [],
       "type": "Number",
-      "title": "adult female",
+      "title": "Adult female",
       "editorClass": "indivNumber"
     },
     "Nb_Adult_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "adult indeterminate",
+      "title": "Adult indeterminate",
       "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Male": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile male",
+      "title": "Juvenile male",
       "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Female": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile female",
+      "title": "Juvenile female",
       "editorClass": "indivNumber"
     },
     "Nb_Juvenile_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "juvenile indeterminate",
+      "title": "Juvenile indeterminate",
       "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Male": {
       "validators": [],
       "type": "Number",
-      "title": "new born male",
+      "title": "New born male",
       "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Female": {
       "validators": [],
       "type": "Number",
-      "title": "new born female",
+      "title": "New born female",
       "editorClass": "indivNumber"
     },
     "Nb_NewBorn_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "new born indeterminate",
+      "title": "New born indeterminate",
       "editorClass": "indivNumber"
     },
     "Nb_Indeterminate": {
       "validators": [],
       "type": "Number",
-      "title": "indeterminate",
+      "title": "Indeterminate",
       "editorClass": "indivNumber"
     },
     "Nb_Total": {
       "validators": [],
       "type": "Number",
-      "title": "total"
+      "title": "Total"
     },
     "Name_Behaviour": {
       "validators": [],
       "type": "Text",
-      "title": "behaviour",
+      "title": "Behaviour",
       "editorAttrs": { "startId": "1032620" },
       "editorClass": "autocompTree"
     },
     "Disturbed": {
       "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
-      "title": "disturbed"
+      "options" : ["true"],
+      "type": "Checkboxes",
+      "title": "Disturbed"
     },
     "Comments": {
       "validators": [],
       "type": "TextArea",
-      "title": "comments"
+      "title": "Comments"
     },
     "Measured_Distance": {
       "validators": [],
       "type": "Number",
-      "title": "measured distance(m)"
+      "title": "Measured distance(m)"
     },
     "Estimated_Distance": {
       "validators": [],
       "type": "Number",
-      "title": "estimated distance(m)"
+      "title": "Estimated distance(m)"
     },
     "AngleNorth": {
-      "validators": [],
+      "validators": [
+        {"type":"min", "value":0},
+        {"type":"max", "value":360}
+      ],
       "type": "Number",
-      "title": "angle from north(°)",
+      "title": "Angle from north(&ordm;)",
       "editorAttrs": { "min": 0, "max" : 360 }
     },
     "AngleTrack": {
-      "validators": [],
+      "validators": [
+        {"type":"min", "value":0},
+        {"type":"max", "value":360}
+      ],
       "type": "Number",
-      "title": "angle from track(°)",
+      "title": "Angle from track(&ordm;)",
       "editorAttrs": { "min": 0, "max" : 360 }
     },
     "timestamp": {
       "validators": [],
       "type": "Time",
-      "title": "obs time"
+      "title": "Obs time"
     }
   },
    "defaults":{
-    "Identity_sure" : "1"
+    "Identity_sure" : "true"
   },
   "fieldsets": [
     {

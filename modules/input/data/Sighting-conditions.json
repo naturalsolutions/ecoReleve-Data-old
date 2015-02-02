@@ -42,90 +42,56 @@
 		"type": "Time",
 		"title":"Observation duration"
 		},
-		"Id_Weather":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_Weather"
-		},
+
 		"Name_Weather":{
 		"validators":[
 		],
 		"type": "Text",
-		"title":"Name_Weather",
+		"title":"Weather",
 		"editorAttrs": { "startId": "28" },
 		"editorClass": "autocompTree"
-		},
-
-		"Id_Wind_Force":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_Wind_Force"
 		},
 
 		"Name_Wind_Force":{
 		"validators":[
 		],
 		"type": "Text",
-		"title":"Name_Wind_Force", 
+		"title":"Wind force", 
 		"editorAttrs": { "startId": "29" },
 		"editorClass": "autocompTree"
 		},
 
 		"Temperature":{
 		"validators":[
+			{"type":"min", "value":0},
+        	{"type":"max", "value":100}
 		],
 		"type": "Number",
-		"title":"Temperature"
+		"title":"Temperature",
+		"editorAttrs": { "min": 0, "max" : 100 }
 		},
 
 		"Visibility":{
 		"validators":[
 		],
-		"options": [
-		{
-		"val": "1",
-		"label": "true"
-		},
-		{
-		"val": "0",
-		"label": "false"
-		}
-		],
-		"type": "Radio",
+		"options" : ["true"],
+		"type": "Checkboxes",
 		"title":"Visibility"
 		},
 
 		"Observation_Incomplete":{
 		"validators":[
 		],
-		"options": [
-		{
-		"val": "1",
-		"label": "true"
-		},
-		{
-		"val": "0",
-		"label": "false"
-		}
-		],
-		"type": "Radio",
+		"options" : ["true"],
+		"type": "Checkboxes",
 		"title":"Observation incomplete"
-		},
-
-		"Id_Observation_Tool":{
-		"validators":[
-		],
-		"type": "Hidden",
-		"title":"Id_Observation_Tool"
 		},
 
 		"Name_Observation_Tool":{
 		"validators":[
 		],
 		"type": "Text",
-		"title":"Name_Observation_Tool", 
+		"title":"Observation tool", 
 		"editorAttrs": { "startId": "1000433" },
 		"editorClass": "autocompTree"
 		},
@@ -137,8 +103,7 @@
 		}
 	},
     "defaults":{
-		"Observation_Incomplete": "0",
-		"Visibility" : "0"
+
    },
   "fieldsets": []
 }

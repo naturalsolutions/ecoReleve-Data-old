@@ -21,7 +21,7 @@
     "Number": {
       "validators": ["required"],
       "type": "Number",
-      "title": "number",
+      "title": "Number",
       "editorClass": "required"
     },
     "Time": {
@@ -60,17 +60,8 @@
     },
     "Recorded": {
       "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Recorded"
     },
     "Name_Record_type": {
