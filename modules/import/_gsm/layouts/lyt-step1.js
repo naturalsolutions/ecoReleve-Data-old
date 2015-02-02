@@ -6,12 +6,15 @@ define([
     'stepper/lyt-step',
     'dropzone',
     'config',
+    'sweetAlert',
 
-], function($, _, Backbone, Marionette, Step, Dropzone, config) {
+], function($, _, Backbone, Marionette, Step, Dropzone, config, Swal) {
 
     'use strict';
 
     return Step.extend({
+
+        className: 'full-height',
         
         initialize: function() {
             Step.prototype.initialize.apply(this, arguments);
@@ -38,7 +41,6 @@ define([
 
 
 
-
             var myDropzone = new Dropzone(this.el, {
                 url: config.coreUrl + 'dataGsm/upload', // Set the url
                 thumbnailWidth: 80,
@@ -48,7 +50,60 @@ define([
                 autoQueue: false, // Make sure the files aren't queued until manually added
                 previewsContainer: '#previews', // Define the container to display the previews
                 clickable: '.fileinput-button' // Define the element that should be used as click trigger to select files.
+
             });
+
+
+            //overwrite addFile function to avoid duplicate files
+            myDropzone.addFile = function(file) {
+              if (this.files.length) {
+                 var _i, _len;
+                 for (_i = 0, _len = this.files.length; _i < _len; _i++) {
+                    if(this.files[_i].name === file.name && this.files[_i].size === file.size){
+                        Swal(
+                            {
+                              title: "Warning Duplicate Files",
+                              text: this.files[_i].name+' is already in the upload list, only one occurrence is keeped',
+                              type: 'warning',
+                              showCancelButton: false,
+                              confirmButtonColor: 'rgb(218, 146, 15)',
+
+                              confirmButtonText: "OK",
+
+                              closeOnConfirm: true,
+                             
+                            }
+                        );
+                      return false;
+                    }
+                  }
+                }
+              
+              file.upload = {
+                progress: 0,
+                total: file.size,
+                bytesSent: 0
+              };
+              this.files.push(file);
+              file.status = Dropzone.ADDED;
+              this.emit("addedfile", file);
+              this._enqueueThumbnail(file);
+              return this.accept(file, (function(_this) {
+                return function(error) {
+                  if (error) {
+                    file.accepted = false;
+                    _this._errorProcessing([file], error);
+                  } else {
+                    file.accepted = true;
+                    if (_this.options.autoQueue) {
+                      _this.enqueueFile(file);
+                    }
+                  }
+                  return _this._updateMaxFilesReachedClass();
+                };
+              })(this));
+            };
+
 
 
 
@@ -77,15 +132,45 @@ define([
                 document.querySelector('#total-progress').style.opacity = 0;
                 document.querySelector('#total-progress .progress-bar').style.width = 0;
             });
-
-
-            myDropzone.on('error', function() {
-              $('#btnNext').attr('disabled');
-              $('#btnNext').removeAttr('disabled');
+            
+            this.errors=false;
+            myDropzone.on('error', function(file){
+                this.errors=true;
+                $(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-danger');
 
             });
-            myDropzone.on('success', function() {
-              $('#btnNext').removeAttr('disabled');
+
+            myDropzone.on('success', function(file) {
+                $(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-success');
+            });
+
+            myDropzone.on('complete', function(file) {
+                console.log('complete');
+                if(!this.errors){
+                    Swal(
+                        {
+                          title: "Well done",
+                          text: 'File(s) have been correctly imported',
+                          type: 'success',
+                          showCancelButton: false,
+                          confirmButtonText: "OK",
+                          closeOnConfirm: true,
+                        }
+                    );    
+                }else{
+                    Swal(
+                        {
+                          title: "An error occured",
+                          text: 'Please verify your file',
+                          type: 'error',
+                          showCancelButton: false,
+                          confirmButtonText: "OK",
+                          closeOnConfirm: true,
+                        }
+                    );
+                }
+                this.errors=false;
+                
             });
 
 
