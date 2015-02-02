@@ -14,7 +14,7 @@ define([
     'sweetAlert',
     'stepper/lyt-step',
     
-], function($, _, Backbone, Marionette, config, Radio, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID, Map, Swal, Step) {
+], function($, _, Backbone, Marionette, config, Radio, bootstrap_slider, Step2, NSGrid, Backgrid, DeployRFID, Map, swal, Step) {
     'use strict';
 
     return Step.extend({
@@ -114,7 +114,7 @@ define([
                             var color = 'rgb(147, 14, 14)';
 
                          }
-                        Swal(
+                        swal(
                             {
                               title: "Warning ",
                               text: data.responseText,
