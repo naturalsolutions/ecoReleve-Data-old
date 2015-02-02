@@ -10,8 +10,8 @@ define([
     'sweetAlert',
     'modules2/map/views/basemap',
     'text!modules2/import/_rfid/templates/rfid-deploy-modal.html',
-    
-], function($, _, Backbone, Marionette, config, Radio, DeployRFID, Map, swal, BaseMap,tpl) {
+
+], function($, _, Backbone, Marionette, config, Radio, DeployRFID, Map, Swal, BaseMap,tpl) {
     'use strict';
 
     return DeployRFID.extend({
@@ -54,6 +54,34 @@ define([
         onDestroy: function() {
           
         },
+
+        pose : function (evt) {
+             evt.preventDefault();
+            if ( this.isValid() ) {
+                evt.stopPropagation();
+                $.ajax({
+                    url: config.coreUrl + 'monitoredSiteEquipment/pose',
+                    context: this,
+                    type: 'POST',
+                    data: {
+                        identifier: this.ui.mod.val(),
+                        type: this.ui.type.val(),
+                        name: this.ui.name.val(),
+                        begin: this.ui.begin.val(),
+                        end: this.ui.end.val(),
+                        action: this.action
+                    }
+                }).done( function(data) {
+                    Swal('Success : ' + data);
+                    $('form').trigger('reset');
+                    this.disableAll();
+                }).fail( function(data) {
+                   Swal('Error : ' + data.responseText);
+                    $('form').trigger('reset');
+                    this.disableAll();
+                });
+            }
+        }
      
     });
 

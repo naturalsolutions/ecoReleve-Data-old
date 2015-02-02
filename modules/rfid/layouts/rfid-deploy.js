@@ -27,8 +27,6 @@ define([
             'input #input-mod': 'updateForm',
             'input #input-type': 'updateName',
             'input #input-name': 'updateMap',
-            'change #input-begin': 'updateType',
-            'change #dateTimePicker1': 'updateType'
             
         },
 
@@ -82,7 +80,6 @@ define([
         },
 
         updateType: function(e) {
-            console.log('up type')
             var that=this;
             $.ajax({
                 context: this,
@@ -162,6 +159,7 @@ define([
         },
 
         enableAll: function() {
+            var self = this;
             this.ui.type.prop('disabled', false);
             this.ui.type.prop('value', null);
             this.ui.name.prop('disabled', false);
@@ -171,12 +169,24 @@ define([
             this.ui.end.prop('disabled', false);
             this.ui.end.prop('value', null);
             this.ui.btn.prop('disabled', false);
-            this.ui.btn.text('Pose');
+            this.ui.btn.text('Deploy');
             this.action = 'pose';
-            $('.dateTimePicker').datetimepicker({
-
+            $('#input-begin').datetimepicker({
                 defaultDate:""
+            });
 
+            $('#input-begin').on('dp.show', function(e) {
+                $('#input-begin').val('');    
+            });
+             $('#input-begin').on('dp.change', function(e) {
+               self.updateType();
+            });
+            $('#input-end').datetimepicker({
+                defaultDate:""
+            });
+
+            $('#input-end').on('dp.show', function(e) {
+                $('#input-end').val('');    
             });
             // Get the sites, show their names.
             /*
