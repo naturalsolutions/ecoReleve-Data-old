@@ -46,6 +46,7 @@ define([
             this.parseOneTpl(this.template);
             var obj={name : this.name + '_RFID_identifer',required : true};
             this.stepAttributes = [obj] ;
+
             
         },
 
@@ -64,7 +65,7 @@ define([
                     content += '<option value="' + label +'">'+ label +'</option>';
                 }
                 $('select[name="RFID_identifer"]').append(content);
-                 this.feedTpl() ;
+                this.feedTpl() ;
             })
             .fail( function() {
                 alert("error loading items, please check connexion to webservice");
@@ -76,14 +77,12 @@ define([
         },
 
         updateGrid: function(){
-            console.log($('#input-mod').val());
             var data = new Backbone.Model();
             data.filters = [{'Column':'identifier','Operator':'=','Value':$('#input-mod').val()}];
             this.radio.command('rfid_pose:grid:update',data);
 
         },
         deployRFID: function(){
-            console.log('deploy')
             $('#rfid-Modal').modal('show');
             this.deploy_rfid = new DeployRFID();
             this.modal.show(this.deploy_rfid);

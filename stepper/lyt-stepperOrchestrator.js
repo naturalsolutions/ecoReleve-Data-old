@@ -31,7 +31,7 @@ define([
             'change input:file' : 'datachanged_file',
             'change select' : 'datachanged_select',
             'click #step-nav li' : 'changeStep',
-           'click .finished': 'finish'
+            //'click .finished': 'finish'
         },
 
         regions: {
@@ -79,7 +79,7 @@ define([
 
         initNavSteps: function(){
             for (var i = 0; i < this.steps.length; i++) {
-                this.$el.find('#step-nav').append('<li class="step-item" id='+this.steps[i].name+'  disabled=disabled><span class="badge">'+(i+1)+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
+                this.$el.find('#step-nav').append('<li class="step-item" id="'+this.steps[i].name+'"  disabled=disabled><span class="badge">'+(i+1)+'</span><span class="hidden-xs">'+this.steps[i].name+'</span><span class="chevron"></span></li>');
             };            
         },
 
@@ -125,9 +125,14 @@ define([
 
         nextStep: function(){
             if(this.steps[this.currentStep].nextOK()) {
-                this.currentStep++;
-            
-                this.toStep(this.currentStep);
+                if (this.currentStep >= this.steps.length-1) {
+                this.finish();
+
+                } else {
+                    this.currentStep++;
+                    this.toStep(this.currentStep);
+                }
+                
             }
         },
 
@@ -142,6 +147,7 @@ define([
             this.currentStep = numstep;
             this.step_content.show( this.steps[this.currentStep], {preventDestroy: true} );
             this.check();
+            console.log('before style nav')
             this.styleNav();
 
             if (this.currentStep-1>=0) {
@@ -198,8 +204,10 @@ define([
 
         styleNav: function(){
             this.$el.find('#step-nav li.step-item.active').removeClass('active');
+            console.log(this.currentStep)
             this.$el.find('#step-nav li#'+this.steps[this.currentStep].name).addClass('active');
             for (var i = 0; i < this.currentStep; i++) {
+                console.log('in style nav')
                this.$el.find('#step-nav li#'+this.steps[i].name).addClass('complete');
             };
             for (var i = this.currentStep; i < this.steps.length; i++) {
@@ -253,7 +261,7 @@ define([
                 this.toStep(idStep);
         },
 
-        finish: function() {
+        alert_end: function() {
            
             console.log('finish');
             var self = this;
@@ -265,7 +273,7 @@ define([
                 showCancelButton: true,
                 confirmButtonColor: "green",
                 confirmButtonText: "Redo",
-                cancelButtonText: "Back to home",
+                cancelButtonText: "Finish",
                 closeOnConfirm: true,
                 closeOnCancel: true
                 },
@@ -281,6 +289,10 @@ define([
             });
                         
 
+        },
+
+        finish: function() {
+            this.alert_end();
         }
 
     });

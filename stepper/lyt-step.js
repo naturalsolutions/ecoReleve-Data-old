@@ -200,8 +200,7 @@ define([
         },
         
         datachanged_text: function(e){
-            var target= $(e.target);
-            
+            var target= $(e.target);            
             var val=target.val();
             this.model.set(this.name + '_' + target.attr('name')  , val);
         },

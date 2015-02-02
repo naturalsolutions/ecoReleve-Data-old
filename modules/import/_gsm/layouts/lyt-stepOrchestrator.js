@@ -1,7 +1,8 @@
 define([
      'stepper/lyt-stepperOrchestrator',
-     'radio'
-], function(StepperOrchestrator,Radio) {
+     'radio',
+     'sweetAlert'
+], function(StepperOrchestrator,Radio,swal) {
 
     'use strict';
 
@@ -30,12 +31,12 @@ define([
            
         }, 
       
-        finish: function() {
+        /*finish: function() {
         	console.log('finish')
         	var currentStep = this.steps[this.currentStep-1];
-        	currentStep.importFile();
+
             
-        }
+        }*/
 
     });
 

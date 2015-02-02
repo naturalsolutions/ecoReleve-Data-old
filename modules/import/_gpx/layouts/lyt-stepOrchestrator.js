@@ -28,6 +28,13 @@ define([
             }
            
         }, 
+
+        finish: function() {
+            console.log('finish')
+            var currentStep = this.steps[this.currentStep];
+            currentStep.importFile();
+            
+        }
     });
 
 });

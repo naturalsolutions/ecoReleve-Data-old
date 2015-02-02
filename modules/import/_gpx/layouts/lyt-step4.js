@@ -20,7 +20,7 @@ define([
         events : {
             'change .fiedWrk' : 'updateNbFieldworks'
         },
-        nextOK: function(){
+       importFile: function(){
             // create a new collection for models to import
             var filteredCollection  = new Waypoints(this.model.get('data_FileContent').where({import: true}));
             console.log(filteredCollection);

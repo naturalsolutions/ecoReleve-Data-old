@@ -98,7 +98,7 @@ define([
 
             var SecondStep = new RFID_Step2({
                 model: this.model,
-                name: 'RFID Decoder Unity',
+                name: "RFID-decoder",
                 tpl: RFID_tpl_step1
             });
 
