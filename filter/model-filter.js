@@ -68,7 +68,7 @@ define([
                 var schm={};
 
 
-                if(type!='BIT'){
+                if(type!='0'){
                     schm['Column'] = {type: 'Hidden', title: null, value: fieldName};    
 
                     schm['Operator'] = {type : 'Select', title: null, options: this.getOpOptions(type), editorClass: 'form-control' };
@@ -76,7 +76,7 @@ define([
                     schm['Value'] = {
                         type : this.getFieldType(type),
                         title : fieldName,
-                        editorClass: 'form-control', 
+                        editorClass: 'form-control filter', 
                         options: [{  
                             dateFormat: 'd/m/yyyy',
                             defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
@@ -91,7 +91,7 @@ define([
                         },
                         templateData: {filterName: key}
                     }).render();
-                    $('#filters').append(form.el);
+                    $('#filters').append(form.el).append('<br>');
 
 
 
@@ -156,12 +156,18 @@ define([
             var currentForm;
             for (var i = 0; i < this.forms.length; i++) {
                 currentForm=this.forms[i];
-                if(!currentForm.validate()){
+                if(!currentForm.validate() && currentForm.getValue().Value){
                     filters.push(currentForm.getValue());
-                }
+                    currentForm.$el.find('input.filter').addClass('active');
+                }else{
+                    currentForm.$el.find('input.filter').removeClass('active')
+
+                };
             };
             this.radio.command(this.channel+':grid:update', { filters : filters });
         },
+
+
 
         /*
         reset: function(){

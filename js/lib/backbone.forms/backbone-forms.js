@@ -1552,6 +1552,7 @@ Form.editors.Number = Form.editors.Text.extend({
    */
   onKeyPress: function(event) {
     var self = this,
+
         delayedDetermineChange = function() {
           setTimeout(function() {
             self.determineChange();
@@ -1569,8 +1570,8 @@ Form.editors.Number = Form.editors.Text.extend({
     if( event.charCode != undefined ) {
       newVal = newVal + String.fromCharCode(event.charCode);
     }
-
-    var numeric = /^[0-9]*\.?[0-9]*?$/.test(newVal);
+    console.log('regex number');
+    var numeric = /^-?[0-9]*\.?[0-9]*?$/.test(newVal);
 
     if (numeric) {
       delayedDetermineChange();

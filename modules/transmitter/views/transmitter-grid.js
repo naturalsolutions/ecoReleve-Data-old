@@ -15,6 +15,7 @@ define([
 
         events :{
             'click tbody > tr': 'detail',
+            'click #btn-export': 'exportGrid'
         },
 
         initialize: function() {
@@ -46,16 +47,6 @@ define([
                 name: 'identifier',
                 label: 'IDENTIFIER',
                 cell: 'string'
-            }, {
-                editable: true,
-                name: 'ptt',
-                label: 'PTT',
-                cell: 'string'
-            }, {
-                editable: false,
-                name: 'creation_date',
-                label: 'CREATION DATE',
-                cell: 'datetime'
             }];
 
             // Initialize a new Grid instance
@@ -98,9 +89,28 @@ define([
         },
 
         detail: function(evt) {
+            console.log( 'ppasd');
             var row = $(evt.currentTarget);
             var id = $(row).find(':first-child').text()
             Radio.channel('route').trigger('transmitter:detail', {id: id});
-        }
+        },
+
+        exportGrid: function() {
+            console.log('export');
+            $.ajax({
+                url: config.coreUrl + 'transmitter/export',
+                data: JSON.stringify({criteria:this.filter}),
+                contentType:'application/json',
+                type:'POST'
+            }).done(function(data) {
+                var url = URL.createObjectURL(new Blob([data], {'type':'text/csv'}));
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = 'individual_search_export.csv';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        },
     });
 });

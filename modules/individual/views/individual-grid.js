@@ -122,7 +122,7 @@ define([
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
-            }];
+            }, ];
 
 
             console.log(individuals);

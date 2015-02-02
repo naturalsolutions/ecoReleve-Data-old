@@ -37,7 +37,8 @@
     "leaflet.markercluster": "~0.4.0",
     "leaflet": "~0.7.3",
     "leaflet-plugins": "https://github.com/shramov/leaflet-plugins.git#~1.2.1",
-    "less": "~2.3.0"
+    "less": "~2.3.0",
+    "bootstrap": "~3.3.2"
   },
   "resolutions": {
     "moment": ">=2.8.0",

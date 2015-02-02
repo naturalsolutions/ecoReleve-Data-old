@@ -37,13 +37,13 @@ define([
                 renderable: false,
             },{
                 editable: false,
-                name: 'Monitored_site',
-                label: 'Monitored_site',
+                name: 'Type',
+                label: 'Type',
                 cell: 'string',
             },{
                 editable: false,
-                name: 'Type',
-                label: 'Type',
+                name: 'Monitored_site',
+                label: 'Monitored_site',
                 cell: 'string',
             },{
                 editable: false,
@@ -60,7 +60,7 @@ define([
                 name: 'Active',
                 label: 'Active',
                 cell: 'string',
-                renderable: false
+                renderable: true
             }
             ];
 

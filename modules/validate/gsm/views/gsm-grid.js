@@ -23,7 +23,10 @@ define([
         events: {
             'click .backgrid-container tbody tr': 'focusOnMap',
             'click td input[type=checkbox]':'updateMap',
+            'click #1pH-btn': 'perhour',
+            'click #clearAll-btn': 'clearAll',
         },
+
 
 
 
@@ -31,8 +34,6 @@ define([
             this.radio = Radio.channel('gsm-detail');
             this.radio.comply('updateGrid', this.updateGrid, this);
             this.radio.comply('import', this.importChecked, this);
-            this.radio.comply('1perhour', this.perhour, this);
-            this.radio.comply('clearAll', this.clearAll, this);
 
             this.gsmID = options.gsmID;
             this.pageSize = 25;

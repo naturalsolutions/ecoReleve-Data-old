@@ -14,6 +14,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
+        className : 'full-height scroll-auto',
 
         events: {
             'click #clear-btn': 'clear',
@@ -131,6 +132,9 @@ define([
         onDestroy: function(evt) {
             $('#left-panel').css('padding-right', '15');
             $('#left-panel').css('padding-top', '20');
+            this.clearForm();
+            this.filter = {};
+            sessionStorage.clear('individual:currentFilter');
         },
 
         onRender: function() {
@@ -138,10 +142,14 @@ define([
         },
 
         updateSaved: function() {
+            
+            console.log(this.criterias.length);
             if (this.criterias.length === 0 ) {
                 this.$el.find("#indivSavedSearch").html("<p class='text-center'>No saved criterias</p>");
             } else {
+
                 var html = "<ul class='unstyled'>";
+
                 for(var i=0; i < this.criterias.length;i++) {
                     html += "<li id='" + i + "'><span class='indiv-search-label'>" +
                     this.criterias[i].name +
@@ -150,6 +158,7 @@ define([
                 html += "</ul>";
                 this.$el.find("#indivSavedSearch").html(html);
             }
+            this.$el.find("#saved-accordion h1 a").append(': '+this.criterias.length);
         },
 
         update: function(evt) {

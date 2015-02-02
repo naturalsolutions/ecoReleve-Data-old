@@ -22,6 +22,7 @@ define([
         onShow: function() {
             var currentFilter = JSON.parse(sessionStorage.getItem('individual:currentFilter')) || null;
             this.left.show(new FilterView({currentFilter:currentFilter}));
+            console.log(currentFilter);
             this.main.show(new GridView({currentFilter:currentFilter}));
         },
 
