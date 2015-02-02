@@ -9,11 +9,13 @@ define([
     'modules2/rfid/views/rfid-map',
     'sweetAlert',
     'modules2/map/views/basemap',
+    'text!modules2/import/_rfid/templates/rfid-deploy-modal.html',
     
-], function($, _, Backbone, Marionette, config, Radio, DeployRFID, Map, swal, BaseMap) {
+], function($, _, Backbone, Marionette, config, Radio, DeployRFID, Map, swal, BaseMap,tpl) {
     'use strict';
 
     return DeployRFID.extend({
+        template: tpl,
         regions: {
             mapRegion: "#map-container"
         },
@@ -27,6 +29,14 @@ define([
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
             //this.mapRegion.show(this.map);
             this.mapRegion.show(this.map2);
+                $(window).keyup(function (e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code === 9) {
+                        console.log('tab key up')
+                        $('.step-content').trigger('click');
+                    }
+                });
+          
 
         },
 

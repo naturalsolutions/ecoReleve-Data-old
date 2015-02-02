@@ -82,6 +82,7 @@ define([
         },
 
         updateType: function(e) {
+            console.log('up type')
             var that=this;
             $.ajax({
                 context: this,
@@ -174,7 +175,7 @@ define([
             this.action = 'pose';
             $('.dateTimePicker').datetimepicker({
 
-                use24hours: true
+                defaultDate:""
 
             });
             // Get the sites, show their names.
