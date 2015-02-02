@@ -10,15 +10,16 @@ define([
     'modules2/import/views/import-map',
     'modules2/import/views/import-grid',
     'config',
+    'utils/getUsers',
 
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid,config) {
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid,config,getUsers) {
 
     'use strict';
 
     return Step.extend({
 
         events : {
-            'change .fiedWrk' : 'updateNbFieldworks'
+            'change .fiedWrk' : 'checkFWName'
         },
        importFile: function(){
             // create a new collection for models to import
@@ -71,9 +72,9 @@ define([
             return result;
         },
         onShow: function(){
-            this.getUsers();
+            this.getUsersList();
         },
-        getUsers : function(){
+        /*getUsers : function(){
             var url = config.coreUrl + 'user';
             $.ajax({
                 context: this,
@@ -82,7 +83,7 @@ define([
             }).done( function(data) {
                 this.generateDatalist(data);
             });
-        },
+        },*/
         generateDatalist : function(data){
             var UsersList = '';
             data.forEach(function(user) {
@@ -100,6 +101,33 @@ define([
                 nbFW -= 1;
             }
             $('#import-fwnb').val(nbFW);
+        },
+        checkFWName : function(e){
+            var selectedField = $(e.target);
+            var fieldName = $(e.target).attr('name');
+            var selectedOp = $(e.target).find(":selected")[0];
+            var selectedName = $(selectedOp).val();
+            var nbFW = 0;
+            $(".fiedWrk").each(function() {
+                var selectedValue = $(this).val();
+                if ($(this).attr('name') != fieldName){
+                    if (selectedName && (selectedValue == selectedName)){
+                        alert('this name is already selected, please select another name');
+                        $(selectedField).val('');
+                    }
+                }
+                if(selectedValue){
+                    nbFW+=1;
+                }
+            });
+            // update totalNbFieldworkers
+            $('#import-fwnb').val(nbFW);
+        },
+        getUsersList : function(){
+            var content = getUsers.getElements('user');
+            $(".fiedWrk").each(function() {
+                $(this).append(content);
+            });
         }
     });
 
