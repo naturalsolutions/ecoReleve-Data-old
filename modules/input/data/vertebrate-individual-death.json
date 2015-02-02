@@ -26,13 +26,6 @@
     "title":"FK_TInd_ID"
     },
 
-    "Id_Remains":{
-    "validators":[
-    ],
-    "type": "Hidden",
-    "title":"Id_Remains"
-    },
-
     "Name_Remains":{
     "validators":[
     ],
@@ -42,13 +35,6 @@
     "editorClass": "autocompTree"
     },
 
-    "Id_Death_Time":{
-    "validators":[
-    ],
-    "type": "Hidden",
-    "title":"Id_Death_Time"
-    },
-
     "Name_Death_Time":{
     "validators":[
     ],
@@ -56,13 +42,6 @@
     "title":"Death time", 
     "editorAttrs":{"startId": "19036" },
     "editorClass": "autocompTree"
-    },
-
-    "Id_Death_Reason":{
-    "validators":[
-    ],
-    "type": "Hidden",
-    "title":"Id_Death_Reason"
     },
 
     "Name_Death_Reason":{
@@ -81,21 +60,11 @@
     "title":"Identification criteria"
     },
 
-    "Sure_reason":{
-    "validators":[
-    ],
-    "options": [
-    {
-    "val": "1",
-    "label": "true"
-    },
-    {
-    "val": "0",
-    "label": "false"
-    }
-    ],
-    "type": "Radio",
-    "title":"Sure_reason"
+    "Sure_reason": {
+      "validators": [],
+      "options" : ["true"],
+      "type": "Checkboxes",
+      "title": "Sure reason"
     },
 
     "Identification_type":{
@@ -103,7 +72,7 @@
     ],
     "type": "Select", 
     "options": ["","0/0","0/1","0/N","1/1","1/N"],
-    "title":"Identification_type"
+    "title":"Identification type"
     },
 
     "Name_Taxon":{
@@ -122,22 +91,13 @@
     "title":"Id_Taxon"
     },
 
-    "Sampled":{
-    "validators":[
-    ],
-    "options": [
-    {
-    "val": "1",
-    "label": "true"
+    "Sampled": {
+      "validators": [],
+      "options" : ["true"],
+      "type": "Checkboxes",
+      "title": "Sampled"
     },
-    {
-    "val": "0",
-    "label": "false"
-    }
-    ],
-    "type": "Radio",
-    "title":"Sampled"
-    },
+    
     "Comments":{
     "validators":[
     ],
@@ -146,8 +106,6 @@
     }
   },
   "defaults": {
-     "Sure_reason":"0",
-     "Sampled" : "0"
   },
   "fieldsets": [
   ]

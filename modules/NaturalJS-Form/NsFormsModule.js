@@ -128,7 +128,7 @@
                 $(formContent).attr('id',this.id);
             }
 			// format fields to have bootstrap style
-            $(formContent).find('fieldset>div').addClass('col-sm-4');
+            $(formContent).find('fieldset>div').addClass('col-sm-3');
 			$(formContent).find('input[type="text"]').addClass('form-control');
 			$(formContent).find('input[type="number"]').addClass('form-control');
             $(formContent).find('select').addClass('form-control');

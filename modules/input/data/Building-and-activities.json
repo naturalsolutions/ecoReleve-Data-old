@@ -34,7 +34,7 @@
   },
   "fieldsets": [
     {
-      "fields": ["FK_TSta_ID","Element_Nb","Name_Impact","Comments"],
+      "fields": ["FK_TSta_ID","Name_Impact","Element_Nb","Comments"],
       "legend": ""
     }
   ]

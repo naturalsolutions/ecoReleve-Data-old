@@ -41,17 +41,8 @@
     },
     "Sampled": {
       "validators": [],
-      "options": [
-        {
-          "val": "1",
-          "label": "true"
-        },
-        {
-          "val": "0",
-          "label": "false"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Sampled"
     },
     "Name_Posture": {

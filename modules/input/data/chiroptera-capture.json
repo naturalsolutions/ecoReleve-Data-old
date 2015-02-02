@@ -35,47 +35,20 @@
     },
     "Dead": {
       "validators": [],
-      "options": [
-        {
-          "val": "0",
-          "label": "false"
-        },
-        {
-          "val": "1",
-          "label": "true"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Dead"
     },
     "Recorded": {
       "validators": [],
-      "options": [
-        {
-          "val": "0",
-          "label": "false"
-        },
-        {
-          "val": "1",
-          "label": "true"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Recorded"
     },
     "Sampled": {
       "validators": [],
-      "options": [
-        {
-          "val": "0",
-          "label": "false"
-        },
-        {
-          "val": "1",
-          "label": "true"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Sampled"
     },
     "Hour": {
@@ -87,35 +60,16 @@
     },
     "Picture": {
       "validators": [],
-      "options": [
-        {
-          "val": "0",
-          "label": "false"
-        },
-        {
-          "val": "1",
-          "label": "true"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Picture"
     },
     "Recatch": {
       "validators": [],
-      "options": [
-        {
-          "val": "0",
-          "label": "false"
-        },
-        {
-          "val": "1",
-          "label": "true"
-        }
-      ],
-      "type": "Radio",
+      "options" : ["true"],
+      "type": "Checkboxes",
       "title": "Recapture"
     },
-
     "FA": {
       "validators": [
 		{"type":"min", "value":20},

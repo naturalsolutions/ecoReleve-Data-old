@@ -325,10 +325,10 @@ define([
             $('input[type="number"]').attr('min', 0);
 
             // if form id is vertebrate group, reorganize fields with
-            var isVGForm = $('form#Vertebrate_group').length > 0;
+            /*var isVGForm = $('form#Vertebrate_group').length > 0;
             if(isVGForm){
                 this.updateFormforVG();
-            }
+            }*/
 
         },
 
