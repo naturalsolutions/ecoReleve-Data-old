@@ -43,9 +43,7 @@ define([
             $('#dateTimePicker').on('dp.dp.change', function(e) {
                 self.checkDate();
             });
-            
             this.generateSelectLists();
-            
         },
         onBeforeDestroy: function() {
           $('div.bootstrap-datetimepicker-widget').remove();
