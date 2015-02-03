@@ -72,11 +72,53 @@ define([
                         action: this.action
                     }
                 }).done( function(data) {
-                    Swal('Success : ' + data);
+                    Swal({
+                              title: 'Well done !',
+                              text: data.responseText,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                              
+                                if (isConfirm){
+                                   
+                                } else {
+                                   $('#modal-close').trigger('click');
+                               }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 }).fail( function(data) {
-                   Swal('Error : ' + data.responseText);
+                   Swal({
+                              title: 'Error',
+                              text: data.responseText,
+                              type: 'error',
+                              showCancelButton: false,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                               
+                                if (isConfirm){
+                                   
+                                } else {
+                                   
+                                }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 });

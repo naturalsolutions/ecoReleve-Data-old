@@ -242,8 +242,8 @@ define([
             });
         },
 
-        pose: function(evt) {
-            evt.preventDefault();
+       pose : function (evt) {
+             evt.preventDefault();
             if ( this.isValid() ) {
                 evt.stopPropagation();
                 $.ajax({
@@ -259,11 +259,57 @@ define([
                         action: this.action
                     }
                 }).done( function(data) {
-                    alert('Success : ' + data);
+                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to import RFID</button></a>');
+                    $('.sweet-alert button').on('click',function(){
+                            $('.sweet-validate').remove();
+                        });
+                    Swal({
+                              title: 'Well done !',
+                              text: data.responseText,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                              
+                                if (isConfirm){
+                                   
+                                } else {
+                                    Radio.channel('route').trigger('import');
+                               }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 }).fail( function(data) {
-                    alert('Error : ' + data.responseText);
+                   Swal({
+                              title: 'Error',
+                              text: data.responseText,
+                              type: 'error',
+                              showCancelButton: false,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                               
+                                if (isConfirm){
+                                   
+                                } else {
+                                   
+                                }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 });
