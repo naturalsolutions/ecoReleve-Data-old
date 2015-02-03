@@ -22,8 +22,6 @@ define([
 	    	var obj= this.attributes;
 	    	var i=1;
 
-	    	console.log('step : '+step);
-
 	    	//reset 4 the moment
 	    	var i = 1;
 	    	for (var x in obj) {

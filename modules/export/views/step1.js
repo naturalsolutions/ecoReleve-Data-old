@@ -33,8 +33,6 @@ define([
 
         onShow: function() {
             this.getItemList();
-            console.log(this);
-            console.log(this.$el);
             var ctx=this;
 /*            $(document).ready(
               function() { 
@@ -110,6 +108,7 @@ define([
 
         enableNext: function(e){
             this.viewName = $(e.target).get(0).attributes["value"].value;
+            this.literalName = $($(e.target).get(0)).html();
             $('#export-views li').each(function( index ) {
                 $(this).removeClass('validated');
             });
@@ -119,6 +118,7 @@ define([
             $('.btn-next').removeAttr('disabled');
             this.radio.command('viewName', {
                 viewName: this.viewName,
+                literalName: this.literalName,
             });
         },
 

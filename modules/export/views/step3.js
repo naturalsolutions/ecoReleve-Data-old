@@ -82,7 +82,6 @@ define([
 
         validateColumns: function(){
           this.columnCriteria= this.columnForm.getValue();
-          console.log('passed');
 
 
           var list=[];

@@ -72,19 +72,16 @@ define([
 
         initViewName: function(args){
         	this.viewName=args.viewName;
-        	console.log(this.viewName);
+            this.literalName= args.literalName;
         },
         initFilters: function(args){
             this.filters_coll=args.filters;
-            console.log(this.filters_coll);
         },
         initColumns: function(args){
             this.columnCriteria=args.columns;
-            console.log(this.columnCriteria);
         },
         initBox: function(args){
             this.boxCriteria=args.box;
-            console.log(this.boxCriteria);
         },
 
         onBeforeDestroy: function() {
@@ -98,7 +95,6 @@ define([
             $(".steps li").click(function(e){
                 var target = $(this).attr('data-step');
                 var wiz = $('#importWizard').data('wizard');
-                console.log('detect li click  '+ target);
                 if(target != 5 ){
                     self.$el.find('#btnNext').removeClass('finished').find( 'span'
                         ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
@@ -119,9 +115,15 @@ define([
         },
 
         prevStep: function(){
+            
+
+
             $('#importWizard').wizard('previous');
             this.$el.find('#btnNext').removeClass('finished').find( 'span'
                         ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
+            if($('#step1').hasClass('active')){
+                $('#name-view').remove();    
+            }
         },
 
         nextStep: function(){
@@ -133,9 +135,7 @@ define([
 
             switch(step) {
                 case 1:
-                    console.log('return to step 1')
-                    
-                    $('#step1').
+
                     break;
                 case 2:
                     this.step_2_Filters_Container.show( new Step2_Filters(
@@ -145,9 +145,10 @@ define([
                     ));
                     this.step_2_Map_Container.show( new  Step2_Map({
                         viewName:this.viewName,
+                        literalName : this.literalName,
                     }));
                     this.step = 2;
-
+                    $('#stepper-header').append('<span id="name-view">: '+this.literalName+'</span>');
                     break;
                 case 3:
                     this.step_3_Map_Container.show( new  Step3_Map({
@@ -195,7 +196,6 @@ define([
 
         finish: function() {
            
-            console.log('finish');
             var self = this;
             sweetAlert({
 
@@ -215,7 +215,6 @@ define([
                         $('.steps >li:first').trigger("click");
                         
                       } else {
-                        console.log('home');
                         Radio.channel('route').command('home');
                             
                       }

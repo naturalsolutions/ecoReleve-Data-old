@@ -38,7 +38,6 @@ define([
             this.boxCriteria= options.boxCriteria;
             this.columnCriteria;
 
-            console.log();
 
             this.initColumns();
         },
@@ -76,7 +75,6 @@ define([
 
         validateColumns: function(){
           this.columnCriteria= this.columnForm.getValue();
-          console.log('passed');
 
 
           var list=[];

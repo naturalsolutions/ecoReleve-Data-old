@@ -41,7 +41,6 @@ define([
                 bbox: this.boxCriteria,
                 columns: this.columnCriteria
             }
-            console.log(this.datas);
             this.ajaxCall();
         },
 
@@ -49,7 +48,6 @@ define([
         ajaxCall: function(){
         	var url = config.coreUrl + '/views/filter/' + this.viewName + '/result';
 
-        	console.log(this.datas);
         	var jqxhr = $.ajax({
         	    url: url,
         	    data: JSON.stringify({criteria: this.datas}),
@@ -73,8 +71,6 @@ define([
 
 
         displayGrid: function(data){
-        	console.log(data.rows);
-        	console.log(data.columns)
         	var collection = new Backbone.Collection(data.rows);
 
         	var col=[]
