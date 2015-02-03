@@ -74,16 +74,6 @@ define([
         onShow: function(){
             this.getUsersList();
         },
-        /*getUsers : function(){
-            var url = config.coreUrl + 'user';
-            $.ajax({
-                context: this,
-                url: url,
-                dataType: 'json'
-            }).done( function(data) {
-                this.generateDatalist(data);
-            });
-        },*/
         generateDatalist : function(data){
             var UsersList = '';
             data.forEach(function(user) {
@@ -91,16 +81,6 @@ define([
                 UsersList += '<option>' + user.fullname + '</option>';
             });
             $('#import-worker1').append(UsersList);
-        },
-        updateNbFieldworks : function(e){
-            var fieldValue = $(e.target).val();
-            var nbFW = parseInt($('#import-fwnb').val());
-            if(fieldValue){
-                nbFW += 1;
-            } else {
-                nbFW -= 1;
-            }
-            $('#import-fwnb').val(nbFW);
         },
         checkFWName : function(e){
             var selectedField = $(e.target);

@@ -28,7 +28,7 @@ define([
             'click span.picker': 'filterIndivShow',
             'click #addFieldWorkerInput' : 'addInput',
             'click #removeFieldWorkerInput' : 'removeInput',
-            'change select.fiedworker' : 'checkFDName',
+            'change select.fiedworker' : 'checkFWName',
             'change input[name="Precision"]' : 'checkAccuracyValue'
         },
         regions: {
@@ -338,7 +338,6 @@ define([
                 }
             });
             return result;
-
         },
         generateStation : function(model) {
              var stationType = this.model.get('start_stationtype');
@@ -400,15 +399,13 @@ define([
             }
             $('input[name="FieldWorkersNumber"').val(actualFDNumber -1);
         },
-        checkFDName : function(e){
+        checkFWName : function(e){
+            var fieldWorkersNb = $('input[name="FieldWorkersNumber"');
             var selectedField = $(e.target);
             var fieldName = $(e.target).attr('name');
             var selectedOp = $(e.target).find(":selected")[0];
             var selectedName = $(selectedOp).val();
             var nbFW = 0;
-          
-            //find('option:selected')[0].text()
-            //alert(selectedName);
             $(".fiedworker").each(function() {
                 var selectedValue = $(this).val();
                 if ($(this).attr('name') != fieldName){
@@ -423,7 +420,8 @@ define([
                 // ...
             });
             // update totalNbFieldworkers
-            $('input[name="FieldWorkersNumber"').val(nbFW);
+            $(fieldWorkersNb).val(nbFW);
+            $(fieldWorkersNb).change();
         },
         checkAccuracyValue : function(){
             var element = $('input[name="Precision"]');

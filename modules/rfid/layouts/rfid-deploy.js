@@ -27,8 +27,6 @@ define([
             'input #input-mod': 'updateForm',
             'input #input-type': 'updateName',
             'input #input-name': 'updateMap',
-            'change #input-begin': 'updateType',
-            'change #dateTimePicker1': 'updateType'
             
         },
 
@@ -161,6 +159,7 @@ define([
         },
 
         enableAll: function() {
+            var self = this;
             this.ui.type.prop('disabled', false);
             this.ui.type.prop('value', null);
             this.ui.name.prop('disabled', false);
@@ -170,12 +169,24 @@ define([
             this.ui.end.prop('disabled', false);
             this.ui.end.prop('value', null);
             this.ui.btn.prop('disabled', false);
-            this.ui.btn.text('Pose');
+            this.ui.btn.text('Deploy');
             this.action = 'pose';
-            $('.dateTimePicker').datetimepicker({
+            $('#input-begin').datetimepicker({
+                defaultDate:""
+            });
 
-                use24hours: true
+            $('#input-begin').on('dp.show', function(e) {
+                $('#input-begin').val('');    
+            });
+             $('#input-begin').on('dp.change', function(e) {
+               self.updateType();
+            });
+            $('#input-end').datetimepicker({
+                defaultDate:""
+            });
 
+            $('#input-end').on('dp.show', function(e) {
+                $('#input-end').val('');    
             });
             // Get the sites, show their names.
             /*
@@ -231,8 +242,8 @@ define([
             });
         },
 
-        pose: function(evt) {
-            evt.preventDefault();
+       pose : function (evt) {
+             evt.preventDefault();
             if ( this.isValid() ) {
                 evt.stopPropagation();
                 $.ajax({
@@ -248,11 +259,57 @@ define([
                         action: this.action
                     }
                 }).done( function(data) {
-                    alert('Success : ' + data);
+                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to import RFID</button></a>');
+                    $('.sweet-alert button').on('click',function(){
+                            $('.sweet-validate').remove();
+                        });
+                    Swal({
+                              title: 'Well done !',
+                              text: data.responseText,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                              
+                                if (isConfirm){
+                                   
+                                } else {
+                                    Radio.channel('route').trigger('import');
+                               }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 }).fail( function(data) {
-                    alert('Error : ' + data.responseText);
+                   Swal({
+                              title: 'Error',
+                              text: data.responseText,
+                              type: 'error',
+                              showCancelButton: false,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: 'New deploy',
+                              cancelButtonColor: 'blue',
+                              cancelButtonText: 'Finish',
+                                
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                               
+                               
+                                if (isConfirm){
+                                   
+                                } else {
+                                   
+                                }
+                                });
                     $('form').trigger('reset');
                     this.disableAll();
                 });

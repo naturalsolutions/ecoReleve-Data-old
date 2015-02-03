@@ -6,13 +6,15 @@ define([
     'text!modules2/input/templates/tpl-station-details.html',
     'utils/getFieldActivity',
     'utils/getItems',
-    'models/station'
-], function($,Marionette, Radio, config,template,getFieldActivity,getItems,Station) {
+    'models/station',
+    'utils/getUsers'
+], function($,Marionette, Radio, config,template,getFieldActivity,getItems,Station,getUsers) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
         events : {
-            'change input[name="stAccuracy"]' : 'checkAccuracyValue'
+            'change input[name="stAccuracy"]' : 'checkAccuracyValue',
+            'change .fieldworker' : 'checkFWName'
         },
         ui : {
             fieldActivity : 'select[name="st_FieldActivity_Name"]',
@@ -22,6 +24,7 @@ define([
         onShow : function(){
             this.generateSelectLists();
             this.checkSiteNameDisplay();
+            this.getUsersList();
         },
         onBeforeDestroy: function() {
          
@@ -46,6 +49,38 @@ define([
                 $(this.ui.accuracy).val('');
            }
 
+        },
+        getUsersList : function(){
+            var content = getUsers.getElements('user');
+            $(".fieldworker").each(function() {
+                $(this).append(content);
+            });
+            // set stored values 
+                for(var i=1;i<6;i++){
+                    var fieldworker = this.model.get('FieldWorker' + i);
+                   $('select[name="detailsStFW' + i + '"]').val(fieldworker);
+                }
+        },
+        checkFWName : function(e){
+            var selectedField = $(e.target);
+            var fieldName = $(e.target).attr('name');
+            var selectedOp = $(e.target).find(":selected")[0];
+            var selectedName = $(selectedOp).val();
+            var nbFW = 0;
+            $(".fieldworker").each(function() {
+                var selectedValue = $(this).val();
+                if ($(this).attr('name') != fieldName){
+                    if (selectedName && (selectedValue == selectedName)){
+                        alert('this name is already selected, please select another name');
+                        $(selectedField).val('');
+                    } else {
+                        //this.updateUser();
+                    }
+                }
+                /*if(selectedValue){
+                    nbFW+=1;
+                }*/
+            });
         }
     });
 });

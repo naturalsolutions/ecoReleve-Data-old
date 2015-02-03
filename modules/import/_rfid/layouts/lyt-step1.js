@@ -86,7 +86,7 @@ define([
             $('#rfid-Modal').modal('show');
             this.deploy_rfid = new DeployRFID();
             this.modal.show(this.deploy_rfid);
-         
+            
         }
     });
 
