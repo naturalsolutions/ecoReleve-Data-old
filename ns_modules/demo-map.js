@@ -58,6 +58,7 @@ define([
           this.rg.show(new NsMap({
             url: config.coreUrl+'dataGsm/278/unchecked/68602?format=geojson',
             cluster: true,
+            popup: false,
             com : this.com,
             action: {click: 'popup', }
           }));
