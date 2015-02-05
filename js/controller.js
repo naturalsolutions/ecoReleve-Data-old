@@ -43,6 +43,7 @@ define([
     'stepper/lyt-demo',
     'grid/lyt-demo',
     'filter/lyt-demo',
+    'ns_modules/demo-map',
     
 
     //'modules/transmitter/layouts/transmitter-list'
@@ -51,7 +52,7 @@ define([
     ArgosDetailLayout, IndivLayout, IndivDetailLayout, Rfid_Layout,
     GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout, Stations, 
 
-    Lyt_Site_Main, Lyt_Site_Detail  ,
+    Lyt_Site_Main, Lyt_Site_Detail ,
 
 
     Import_RFID_lyt,
@@ -59,7 +60,7 @@ define([
     ValidateLayout, ValidateLayoutType, ValidateGSMDetailLayout,
     ValidateLayoutRFID,
 
-    DemoStepper, DemoGrid, Demofilter
+    DemoStepper, DemoGrid, Demofilter, DemoMap
 
     /*Validate Section (Modules)*/
     
@@ -463,6 +464,15 @@ define([
             }, this);
         },        
 
+        //demo
+        demo_map: function(){
+            var route = 'demo_map/';
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                var lyt = new DemoMap()
+                this.mainRegion.show(lyt);
+            }, this);
+        },        
 
 
 

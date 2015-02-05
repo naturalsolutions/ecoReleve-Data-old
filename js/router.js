@@ -28,6 +28,7 @@ define([
             'demo_stepper(/)' : 'demo_stepper',
             'demo_grid(/)' : 'demo_grid',
             'demo_filter(/)' : 'demo_filter',
+            'demo_map(/)' : 'demo_map',
 
 
 

@@ -74,12 +74,14 @@ define([
           
 
           var CustomMarkerClusterGroup = L.MarkerClusterGroup.extend({
-            _defaultIconCreateFunction: function (cluster) {
+            _defaultIconCreateFunction: function (cluster, contains) {
               var childCount = cluster.getChildCount();
 
+
+
               var c = ' marker-cluster-';
+              if(contains) c+=' marker-cluster-contains';
               var size;
-              console.log()
               if (childCount < 10) {
                 size= 25;
                 c += 'small';
@@ -98,9 +100,11 @@ define([
             },
           });
 
+
+
           var markers = new CustomMarkerClusterGroup({
               disableClusteringAtZoom : 18,
-              maxClusterRadius: 50,
+              maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 3},
           });
 
@@ -111,6 +115,58 @@ define([
           var center = new L.LatLng(data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]);
 
 
+          var tab=[];
+          function parseParent(m){
+            var c=m.__parent;
+            if(m.__parent){
+              tab.push(m.__parent);
+              parseParent(m.__parent);
+              m.__parent.setIcon(ctx.selectedIcon);
+              var childMarkers = c.getAllChildMarkers();
+              var childCount = c.getChildCount();
+
+              var classe = ' marker-cluster-';
+              var size;
+              if (childCount < 10) {
+                size= 25;
+                classe += 'small';
+              } else if (childCount < 100) {
+                size = 35;
+                classe += 'medium';
+              } else if (childCount < 1000) {
+                size = 45;
+                classe += 'medium-lg';
+              } else {
+                size = 55;
+                classe += 'large';
+              }
+
+              var nbContains=0; 
+              var contains=false;
+              for (var i = 0; i < childMarkers.length; i++) {
+                if(childMarkers[i].checked){
+                  nbContains++;
+                  contains=true;
+                }else{
+                  if(nbContains!=0){
+                    contains=false;
+                  }
+                }
+              };
+
+              if (contains) {
+                var iconC = new L.DivIcon({ html: '<span>' + childCount + ':' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + classe, iconSize: new L.Point(size, size) });
+                c.setIcon(iconC);
+              
+              }
+              /*else{
+                var icon = new L.DivIcon({ html: '<span>' + childCount + '</span>', className: 'marker-cluster' + classe, iconSize: new L.Point(size, size) });
+                c.setIcon(icon);
+              };
+              */
+            }
+
+          };
 
           var geoJsonLayer = L.geoJson(data, {
               // onEachFeature: function (feature, layer) {
@@ -121,12 +177,18 @@ define([
                 marker.checked=false;
                 ctx.dict[feature.id] = marker;
 
+
+
                 marker.on('click', function(){
                   ctx.updateGrid(this);
+                  parseParent(this);
+
+                  //markers.getVisibleParent(this).setIcon(ctx.selectedIcon);
                 })
                 return marker;
               },
           });
+
 
 
           /*===========================
@@ -140,7 +202,11 @@ define([
             inertia: true,
             zoomAnimation: true,
           });
-          var googleLayer = new L.Google('HYBRID');
+          var googleLayer = new L.Google('HYBRID', {unloadInvisibleTiles: true,
+            updateWhenIdle: true,
+            reuseTiles: true
+          }
+          );
           this.map.addLayer(googleLayer);
 
           markers.addLayer(geoJsonLayer);
@@ -163,6 +229,8 @@ define([
           }else{
             marker.checked=true;  
           }
+
+          marker.checked = !marker.checked;
 
           this.setIconMarker(marker);
 
@@ -190,6 +258,8 @@ define([
             this.setIconMarker(marker);
           };
         },
+
+
 
 
         focus: function(id){

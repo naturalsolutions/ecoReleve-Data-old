@@ -2,12 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'config',
     'radio',
     'bbForms',
     'text!filter/tpl-filters.html',
 
-], function($, _, Backbone, config, Radio, BbForms, tpl){
+], function($, _, Backbone, Radio, BbForms, tpl){
     'use strict';
     return Backbone.Model.extend({
 

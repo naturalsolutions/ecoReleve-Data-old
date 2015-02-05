@@ -101,6 +101,7 @@ var ecoReleveData = (function(){
             filter: '../../filter',
             stepper: '../../Stepper',
             step: '../../stepper/lyt-step',
+            ns_modules: '../../ns_modules',
 
 
             /*=============================
@@ -123,7 +124,7 @@ var ecoReleveData = (function(){
             jquery_ui: bower+'jquery-ui/jquery-ui.min',
 
 
-            L: bower+'leaflet/dist/leaflet',
+            L: bower+'leaflet/dist/leaflet-src',
             leaflet_cluster: bower+'leaflet.markercluster/dist/leaflet.markercluster',
             leaflet_google: bower+'leaflet-plugins/layer/tile/Google',
 
