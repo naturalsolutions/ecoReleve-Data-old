@@ -217,16 +217,16 @@ define([
               if(contains) c+=' marker-cluster-contains';
               var size;
               if (childCount < 10) {
-                size= 25;
+                size= 35;
                 c += 'small';
               } else if (childCount < 100) {
-                size = 35;
+                size = 45;
                 c += 'medium';
               } else if (childCount < 1000) {
-                size = 45;
+                size = 55;
                 c += 'medium-lg';
               } else {
-                size = 55;
+                size = 65;
                 c += 'large';
               }
 
@@ -280,9 +280,11 @@ define([
             if(m.__parent){
               parents.push(m.__parent);
 
+              m.__parent.setIcon(this.selectedIcon);
+
               this.updateClusterParents(m.__parent, parents);
 
-              m.__parent.setIcon(this.selectedIcon);
+              
 
               var childMarkers = c.getAllChildMarkers();
               var childCount = c.getChildCount();
@@ -293,6 +295,8 @@ define([
 
               var nbContains=0; 
               var contains=false;
+
+
               for (var i = 0; i < childMarkers.length; i++) {
                 if(childMarkers[i].checked){
                   nbContains++;
@@ -307,7 +311,7 @@ define([
               childCount-=nbContains;
 
               if (contains) {
-                var iconC = new L.DivIcon({ html: '<span>' + childCount + ':' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
+                var iconC = new L.DivIcon({ html: '<span>' + childCount + ' : ' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
                 c.setIcon(iconC);
               }
               else{
@@ -319,6 +323,8 @@ define([
         },
 
 
+
+        //updateClusterChilds
         updateClusterStyle: function(c, all){
           var childCount = c.getChildCount();
 
@@ -386,8 +392,6 @@ define([
                   if(!marker._markers){
                     bbox.push(marker.feature.id);
                   }else{
-
-
                     childs = marker.getAllChildMarkers();
                     ctx.updateAllClusters(marker, true);
                     for (var i = childs.length - 1; i >= 0; i--) {
@@ -396,6 +400,10 @@ define([
 
                       ctx.changeIcon(childs[i]);
                     };
+                    if(marker.__parent){
+                        ctx.updateClusterParents(marker, []);                             
+                    }
+
                   }
               };
             };
@@ -421,7 +429,6 @@ define([
         },
 
         avoidDoublon: function(id, marker){
-          console.log(this.selectedMarkers[id]);
           if(!this.selectedMarkers[id])
             this.selectedMarkers[id] = marker;
         },

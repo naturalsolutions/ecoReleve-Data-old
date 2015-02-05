@@ -124,7 +124,7 @@ var ecoReleveData = (function(){
             jquery_ui: bower+'jquery-ui/jquery-ui.min',
 
 
-            L: bower+'leaflet/dist/leaflet-src',
+            L: bower+'leaflet/dist/leaflet',
             leaflet_cluster: bower+'leaflet.markercluster/dist/leaflet.markercluster',
             leaflet_google: bower+'leaflet-plugins/layer/tile/Google',
 
