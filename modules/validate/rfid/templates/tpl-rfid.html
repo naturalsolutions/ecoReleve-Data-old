@@ -10,12 +10,26 @@
             </span>
 		</button>	
 	</div> -->
-	<div class="container scroll-auto" style="color:white">
+	<div class="container " style="color:white; display:block;">
 		<br>
-		Data frequency : Keep one data per <span id="Freq">1</span> Hour.
-		<br><br><div id="slider"></div>
+		<div style="margin: auto; ">	
+			<div class="medium" >Data frequency : Keep one data per <span class="medium" id="Freq" style="color:yellow;">1 </span><span class="medium" id="unit">hour(s)</span> per chip code.
+			<button class="btn btn-lg btn-success pull-right" id="import-validate">Validation</button></div>
+			<br><br>
+			
+			<div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
+			<div class="graduation">
+	                <span class="tick">|<br>0.25</span>
+	                <span class="tick" style="left: 20%;">|<br>0.5</span>
+	                <span class="tick" style="left: 40%;">|<br>0.75</span>
+	                <span class="tick" style="left: 60%;">|<br>1</span>
+	                <span class="tick" style="left: 80%;">|<br>2</span>
+	                <span class="tick" style="left: 100%;">|<br>3</span>
+
+	        </div>	
+		</div>
 		<br><br>
-		<div id="main-panel">
+		<div id="main-panel" class="container">
 			<div id="grid" class=" grid-list"></div>
 			<br><br>
 			<div id="paginator"></div>

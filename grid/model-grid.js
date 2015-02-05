@@ -34,7 +34,7 @@ define([
             this.radio= Radio.channel(this.channel);
 
             this.radio.comply(this.channel+':grid:update', this.update, this);
-
+           
         	this.url=options.url;
         	this.pageSize=options.pageSize;
             //this.columns = options.columns,
@@ -66,6 +66,11 @@ define([
                 this.setHeaderCell();
             }
 
+            if (options.row) {
+                this.row = options.row;
+            } else {
+                this.row = Backgrid.Row.extend({});
+            }
         	this.initGrid();
             this.eventHandler();
         },
@@ -182,6 +187,7 @@ define([
             var tmp=JSON.stringify({criteria : null});
             
         	this.grid = new Backgrid.Grid({
+                row: this.row,
         	    columns: this.columns,
         	    collection: this.collection
         	});

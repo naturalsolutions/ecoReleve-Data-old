@@ -36,8 +36,9 @@ define([
         initModel: function() {
  
             this.radio = Radio.channel('rfid_pose');
-            this.grid= new NSGrid({
-               // columns: this.cols,
+
+             this.grid= new NSGrid({
+               
                 channel: 'rfid_pose',
                 url: config.coreUrl + 'rfid/pose/',
                 pageSize : 20,
