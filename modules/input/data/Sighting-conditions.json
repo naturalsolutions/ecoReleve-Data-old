@@ -63,7 +63,6 @@
 
 		"Temperature":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",

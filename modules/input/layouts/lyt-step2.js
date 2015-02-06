@@ -363,9 +363,9 @@ define([
                    model.unset('UTM'); 
                 }
                 model.set('name_site','');
-                var fieldWorkersNumber = model.get('FieldWorkersNumber');
+                var fieldWorkersNumber = model.get('NbFieldWorker');
                 if(!fieldWorkersNumber){
-                   model.set('FieldWorkersNumber',''); 
+                   model.set('NbFieldWorker',''); 
                 }
             }
             this.model.set('station_position',model ); 
@@ -397,10 +397,10 @@ define([
             if (actualFDNumber == 2){
                 $('#removeFieldWorkerInput').addClass('masqued');
             }
-            $('input[name="FieldWorkersNumber"').val(actualFDNumber -1);
+            $('input[name="NbFieldWorker"').val(actualFDNumber -1);
         },
         checkFWName : function(e){
-            var fieldWorkersNb = $('input[name="FieldWorkersNumber"');
+            var fieldWorkersNb = $('input[name="NbFieldWorker"');
             var selectedField = $(e.target);
             var fieldName = $(e.target).attr('name');
             var selectedOp = $(e.target).find(":selected")[0];

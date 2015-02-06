@@ -29,7 +29,9 @@ define([
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
             'click .onglet a': 'activeOnglet',
-            'change .indivNumber' : 'updateTotalIndivNumber'
+            'change .indivNumber' : 'updateTotalIndivNumber',
+            'click .deleteProt' : 'deleteProtocol',
+            'click .deleteProInstance' : 'deleteProtInstance'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
@@ -68,18 +70,21 @@ define([
             }
             // check if we have only one instance or not of selected proto
             this.selectedProtoName = selectedProtoName;
+            this.updateInstanceDetails(selectedProtoName);
+        },
+        updateInstanceDetails : function(protoName){
             for(var key in this.activeProtcolsObj) {
-               if(key == selectedProtoName){
+               if(key == protoName){
                     var pk_list = this.activeProtcolsObj[key].PK_data;
                     var nbProtoInstances = pk_list.length;
                     if(nbProtoInstances==1){
                         var idProto = pk_list[0];
                         $('#formsIdList ul').html('');
-                        this.getProtocol(selectedProtoName,idProto);
+                        this.getProtocol(protoName,idProto);
                         this.selectedProtoId = idProto;   
                         $('#idProtosContainer').addClass('masqued');
                     } else {
-                        this.genInterfaceForCurrentProto(pk_list);
+                        this.genInterfaceForCurrentProto(pk_list,protoName );
                         $('#idProtosContainer').removeClass('masqued');
                     }
                }
@@ -119,7 +124,6 @@ define([
                 stationId : this.idStation,
                 id : idProto
             });
-
         },
         getProtocols : function(){
             var protocols  = getProtocolsList.getElements('protocols/list');
@@ -131,19 +135,24 @@ define([
         },
         generateNavBarProtos : function(){
             // generate interface with list content
-            $('.pagination.protocol').text('');
+            $('.pagination.protocol').html('');
             var htmlContent ='';
             for(var key in this.activeProtcolsObj) {
                 var tm = key;
                 var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
-
                 htmlContent +=  '<div class="swiper-slide"><div class="onglet"><a name="'+ key ;
                 htmlContent += '"><span><i></i></span>' + key ;
                 if(nbProtoInstances > 1){
-                   
                     htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
-
                 }
+                else {
+                    // one instance, check if it is new instance to add del btn
+                    var protoId = this.activeProtcolsObj[key].PK_data[0];
+                    if(protoId == 0){
+                        htmlContent += '<i class="reneco icon small close deleteProt"></i>'
+                    }
+                }
+
                  htmlContent += '</a></div></div>';
             }
             $(this.ui.protosList).html('');
@@ -184,7 +193,7 @@ define([
                 this.generateNavBarProtos();
             }
         },
-        genInterfaceForCurrentProto: function(pkList){
+        genInterfaceForCurrentProto: function(pkList, protocolName){
             this.formsRegion.empty();
             $('#formsContainer').text('');
             $('#idProtosContainer .pagination').text('');
@@ -193,7 +202,14 @@ define([
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
                 content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol" idProto="'+
-                             idProto +'">' + (i+1) + '</a></div></div>';
+                             idProto +'" name ="'+ protocolName+ '">' + (i+1) ;
+
+                if(idProto == 0)  {
+                    content += '<i class="reneco icon small close deleteProInstance"></i>';
+                }            
+
+
+                content +=  '</a></div></div>';
             }
             $('#formsIdList').html('');
             $('#formsIdList').append(content);
@@ -216,9 +232,11 @@ define([
         getProtoByPkId : function(e){
 
             var pkId = parseInt($(e.target).attr('idProto'));
-            this.getProtocol(this.selectedProtoName, pkId);
-            // store pkId to save proto
-            this.selectedProtoId = pkId;
+            if(pkId || pkId===0){
+                this.getProtocol(this.selectedProtoName, pkId);
+                // store pkId to save proto
+                this.selectedProtoId = pkId;
+            }
         },
         nextStation : function(){
 
@@ -263,7 +281,6 @@ define([
                 }
             }).done(function(){
                
-
             });
         },
         addViews : function(){
@@ -382,6 +399,38 @@ define([
                 $(this).removeClass('col-sm-4');
                 $(this).addClass('col-sm-3');
             });
+        },
+        deleteProtocol : function(e){
+            // TO MOVE
+            Array.prototype.unset = function(val){
+                var index = this.indexOf(val)
+                if(index > -1){
+                    this.splice(index,1)
+                }
+            };
+
+            var protocolName = $(e.target).parent().attr('name');
+            // find protocol instance and remove it
+             if(protocolName){
+                var exists = false;
+                for(var key in this.activeProtcolsObj) {
+                    if(key == protocolName){
+                        var tabProtos = this.activeProtcolsObj[key].PK_data;
+                        tabProtos.unset(0);
+                        if(tabProtos.length ==0){
+                            // delete key entry
+                            delete this.activeProtcolsObj[key];
+                        }
+                    } 
+                }
+            }
+            // refrech view
+            this.generateNavBarProtos();
+        },
+        deleteProtInstance : function(e){
+            var protocolName = $(e.target).parent().attr('name');
+            this.deleteProtocol(e);
+            this.updateInstanceDetails(protocolName);
         }
     });
 });
