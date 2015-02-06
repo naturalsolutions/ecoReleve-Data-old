@@ -82,6 +82,7 @@ define([
         },
         initBox: function(args){
             this.boxCriteria=args.box;
+            console.log(this.boxCriteria);
         },
 
         onBeforeDestroy: function() {

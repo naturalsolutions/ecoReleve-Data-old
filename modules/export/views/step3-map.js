@@ -185,7 +185,8 @@ define([
               var featuresinBox = [];
               var count=0;
               bbTmp= boundingBox.getGeometry().extent;
-              context.boxCriteria=ol.proj.transform(bbTmp, 'EPSG:3857', 'EPSG:4326');
+              context.boxCriteria=ol.proj.transform(bbTmp, 'EPSG:3857', 'EPSG:4326');+
+              context.validateBox();
               for (var i=0;i<context.features.length;i++) {
                   fCoord= context.features[i].getGeometry().getCoordinates();
                   if (ol.extent.containsCoordinate( bbTmp, fCoord))
