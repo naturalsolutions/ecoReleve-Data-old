@@ -88,6 +88,8 @@ define([
         /*-----  End of En Demo Code  ------*/
 
         onShow: function() {
+          
+        
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5,
                 orderSeparator: ' ',
@@ -150,7 +152,8 @@ define([
 
             // Initialize a new Paginator instance
             this.paginator = new Backgrid.Extension.Paginator({
-                collection: this.locations
+                collection: this.locations,
+                
             });
 
             this.$el.find('#paginator').append(this.paginator.render().el);

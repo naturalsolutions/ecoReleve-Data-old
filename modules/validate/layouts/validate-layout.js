@@ -25,7 +25,7 @@ define([
         },
 
         onRender: function(){
-            $('body').addClass('validate').addClass('full-height');
+            $('body').addClass('home-page').addClass('full-height');
             $('#main-region').addClass('obscur full-height');
 
         },

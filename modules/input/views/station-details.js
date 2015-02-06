@@ -60,6 +60,8 @@ define([
                     var fieldworker = this.model.get('FieldWorker' + i);
                    $('select[name="detailsStFW' + i + '"]').val(fieldworker);
                 }
+            // set users number
+            $("#stDtailsNbFW").val(this.model.get('NbFieldWorker'));
         },
         checkFWName : function(e){
             var selectedField = $(e.target);
@@ -77,10 +79,11 @@ define([
                         //this.updateUser();
                     }
                 }
-                /*if(selectedValue){
+                if(selectedValue){
                     nbFW+=1;
-                }*/
+                }
             });
+            $("#stDtailsNbFW").val(nbFW);
         }
     });
 });

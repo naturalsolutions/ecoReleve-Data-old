@@ -66,7 +66,6 @@
 		},
 		"Vegetation_cover":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",
@@ -121,7 +120,6 @@
 		},
 		"stratum_MossLichen_cover":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",
@@ -130,7 +128,6 @@
 		},
 		"stratum_Herbaceous_cover":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",
@@ -139,7 +136,6 @@
 		},
 		"stratum_Shrubby_cover":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",
@@ -148,7 +144,6 @@
 		},
 		"stratum_Arboreal_cover":{
 		"validators":[
-			{"type":"min", "value":0},
         	{"type":"max", "value":100}
 		],
 		"type": "Number",

@@ -1,4 +1,4 @@
-﻿define([
+define([
   'jquery',
   'underscore',
   'backbone',
@@ -24,6 +24,30 @@
         },
         initialize: function (options) {
             //TODO Gestion Fields/Get à partir de la même url  
+
+            this.BackboneFormsModel = BackboneForm.extend({
+                getValue: function(key) {
+             
+                if (key) return this.fields[key].getValue();
+
+               
+                var values = {};
+                _.each(this.fields, function(field) {
+                    var val = field.getValue();
+                    if (val === ''){ val =null;              
+                }
+                  values[field.key] = val;
+                  
+                });
+
+                return values;
+                },
+            });
+            
+
+
+
+
             this.radio = Radio.channel('froms');
 
             this.modelurl = options.modelurl;
@@ -65,7 +89,7 @@
         initModel: function () {
             //Initialisation du model et sema depuis l'url
             this.model = new Backbone.Model();
-            console.log(this.model);
+           
             var url = this.modelurl   ;
             /*if (!this.isNew) {
                 url += this.id;
@@ -81,7 +105,6 @@
 					data: { FormName: this.name, ObjectType: this.objecttype,DisplayMode:this.displayMode },
 					dataType: 'json',
 					success: function (resp) {
-						console.log(this);
 						this.model.schema = resp.schema;
                         var data = resp.data;
                         if(data && (! _.isEmpty(data))){
@@ -96,7 +119,6 @@
 							this.model.fieldsets = resp.fieldsets;
 						}
 						this.model.url = this.modelurl;
-						console.log(this.BBForm);
 						//this.model.trigger('change');
 						this.showForm();
 					},
@@ -121,7 +143,7 @@
 			}
         },
         showForm: function () {
-            this.BBForm = new BackboneForm({ model: this.model });
+            this.BBForm = new this.BackboneFormsModel({ model: this.model });
             this.BBForm.render();
 			var formContent = this.BBForm.el;
             if(this.id){
@@ -202,14 +224,21 @@
         butClickSave: function (e) {
             //e.preventDefault();
             // TODO gérer l'appel AJAX
-            var errors = this.BBForm.commit();
-            if(!errors){
-                console.log(this.model);
+            var errors = this.BBForm.commit();         
+            var changedAttr = this.BBForm.model.changed;
+            if(!errors){     
                 //this.model.set('id', null);
                 var staId = this.model.get('FK_TSta_ID');
                 if(staId){
                     this.model.set('FK_TSta_ID', parseInt(staId));
                 }
+                for (attr in this.model.attributes) {
+                   var val = this.model.get(attr);
+                   if (Array.isArray(val) ){
+                        if (val[0] == 'true' && val.length == 0)
+                            this.model.set(attr,1)
+                   }                
+               }
                 var self = this;
                 this.model.save([],{
                  dataType:"text",
