@@ -368,7 +368,7 @@ define([
             // display picto for selected ongle
             var element = $('#tabProtsUl div.onglet.active').find('i')[0];
             $(element).removeClass('edit');
-            $(element).addClass('icon small reneco validated');
+            $(element).addClass('icon small reneco validate');
             // update id protocol 
             var protoOnglet = $('#idProtosContainer div.onglet.active').find('a')[0];
             $(protoOnglet).attr('idproto', protoId);

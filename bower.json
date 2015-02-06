@@ -38,7 +38,8 @@
     "leaflet": "~0.7.3",
     "leaflet-plugins": "https://github.com/shramov/leaflet-plugins.git#~1.2.1",
     "less": "~2.3.0",
-    "bootstrap": "~3.3.2"
+    "bootstrap": "~3.3.2",
+    "RenecoFonts": "https://github.com/NaturalSolutions/RenecoFonts.git"
   },
   "resolutions": {
     "moment": ">=2.8.0",

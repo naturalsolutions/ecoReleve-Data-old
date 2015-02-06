@@ -73,15 +73,8 @@ define([
         initCriterias: function(criterias){
             this.step = $('#importWizard').wizard('selectedItem').step;
             this.criterias= criterias;
-            console.log(this.criterias);
-
             this.criterias.check(this.step);
 
-            /*
-            if(enableNav){
-                $('.btn-next').removeAttr('disabled');
-            }
-            */
         },
 
 
@@ -89,7 +82,6 @@ define([
         onShow: function(){
             $('.btn-next').attr('disabled', 'disabled');
 
-            console.log(this.criterias);
             this.step1 = new Step1( this.criterias );
             this.step_1_Container.show( this.step1 );
 
@@ -116,7 +108,6 @@ define([
             this.step_3_Preview_Container.show( this.step3_Preview );
 
             this.step_4_Container.show( this.step4 );
-            console.log('views and regions initialized');
             */
         },
 
@@ -135,19 +126,15 @@ define([
         */
         initViewName: function(args){
         	this.viewName=args.viewName;
-        	console.log(this.viewName);
         },
         initFilters: function(args){
             this.filters_coll=args.filters;
-            console.log(this.filters_coll);
         },
         initColumns: function(args){
             this.columnCriteria=args.columns;
-            console.log(this.columnCriteria);
         },
         initBox: function(args){
             this.boxCriteria=args.box;
-            console.log(this.boxCriteria);
         },
 
         onBeforeDestroy: function() {

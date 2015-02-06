@@ -607,7 +607,7 @@ define([
             if(value=='error'){
                // $(pictoElement).addClass('icon reneco close braindead');
             } else {
-                $(pictoElement).addClass('icon small reneco validated');
+                $(pictoElement).addClass('icon small reneco validate');
             }
         },
         addLabelClass : function(){

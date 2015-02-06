@@ -12,6 +12,28 @@
 
 }
 
+@-webkit-keyframes fadein {
+    0%   { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+@-moz-keyframes fadein {
+    0%   { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadein {
+    0%   { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+.red-row {
+    background-color: rgba(153, 3, 3, 0.75);
+    opacity : 0.2;
+    -webkit-animation:  fadein 1s ease-in-out alternate infinite;
+    -moz-animation:  fadein 1s ease-in-out alternate infinite;
+    -o-animation:  fadein 1s ease-in-out alternate infinite;
+    animation:  fadein 1s ease-in-out alternate infinite;
+}
 .grid-list {
 
     .backgrid .sort-caret{

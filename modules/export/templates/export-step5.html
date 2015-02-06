@@ -1,16 +1,29 @@
 <script type="text/template">
-
-	<div class="col-xs-offset-3 col-xs-8">
-	<br><br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button id="btnGetFile" value="pdf" class="btn btn-lg hidden" >Get Pdf File
-    </button>
-    
-    <button id="btnGetFile" value="csv" class="btn btn-lg">Get Csv File
-    </button>
-    
-    <button id="btnGetFile" value="gpx" class="btn btn-lg">Get Gpx File
-    </button>
-    <br><br><br>
+    <br><br>
+	<div class="center">
+        <div class="exp-file hidden">
+            <i class="huge icon reneco pdf_format"></i><br>
+            <br>
+            <label for="pdf">Get PDF File</label><br>
+            <input name="file" id="pdf" type="radio" value="pdf">
+        </div>
+        
+        <div class="exp-file">
+            <i class="huge icon reneco csv_format"></i><br>
+            <br>
+            <label for="csv">Get CSV File</label><br>
+            <input name="file" id="csv" type="radio" value="csv">
+        </div>
+        
+        <div class="exp-file">
+            <i class="huge icon reneco gpx_format"></i><br>
+            <br>
+            <label for="gpx">Get GPX File</label><br>
+            <input name="file" id="gpx" type="radio" value="gpx">
+        </div>
+    </div>
+    <div class="center">
+        <br><br><br><br>
+        <button class="btn" id="export">Export file</button>
     </div>
 </script>

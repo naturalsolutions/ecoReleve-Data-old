@@ -7,9 +7,10 @@ define([
     'radio',
     'utils/datalist',
     'config',
-    'text!modules2/export/templates/export-step5.html'
+    'text!modules2/export/templates/export-step5.html',
+    'sweetAlert',
 
-], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template) {
+], function($, _, Backbone, Marionette, moment, Radio, datalist, config, template, Swal) {
 
     'use strict';
 
@@ -17,7 +18,8 @@ define([
         template: template,
 
         events: {
-            'click #btnGetFile': 'initDatas',
+            'click .exp-file': 'selectFileType',
+            'click #export': 'initFile',
             
         },
         
@@ -29,7 +31,6 @@ define([
             this.filterCriteria = options.filterCriteria;
             this.boxCriteria = options.boxCriteria;
             this.columnCriteria = options.columnCriteria;
-
             
         },
 
@@ -40,24 +41,43 @@ define([
             if ( this.viewName == 'V_Qry_ArgosGSM_lastData_withFirstCaptRelData_GeoCountry' ||
                 this.viewName ==  'V_Qry_VIndiv_MonitoredLostPostReleaseIndividuals_LastStations' ) {
 
-                    $('#btnGetFile').removeClass('hidden');
-
+                this.$el.find('.exp-file').removeClass('hidden');
             }
+
+            this.$el.find('.exp-file:not(.hidden)').first().addClass('active').find('input[type=radio]').prop('checked', true);
         },
 
-        initDatas: function(e){
-        	var type=e.currentTarget.getAttribute("value");
+        selectFileType: function(e){
+            var elem = $(e.currentTarget); 
+            var ctx = this;
+        	ctx.type = elem.find('input[type=radio]').val();
+
+            this.$el.find('.exp-file').each(function(){
+                var radio = $(this).find('input[type=radio]');
+                if(radio.val() == ctx.type){
+                    $(this).addClass('active');
+                    radio.prop('checked', true);
+                }else{
+                    $(this).removeClass('active');
+                    radio.prop('checked', false);
+                }
+            });
+        },
+
+
+
+        initFile: function(){
             this.datas= {
-                type_export: type,
+                type_export: this.type,
                 viewName: this.viewName,
                 filters: this.filterCriteria,
                 bbox: this.boxCriteria,
                 columns: this.columnCriteria
             }
-            this.getPdfFile(type);
+            this.getFile(this.type);
         },
 
-        getPdfFile: function(type) {
+        getFile: function(type) {
 
             var that=this;
             var route = config.coreUrl + "/views/filter/" + this.viewName + "/export";
@@ -69,6 +89,7 @@ define([
                 type:'POST',
                 context: this,
             }).done(function(data){
+
                 var url = URL.createObjectURL(new Blob([data], {'type':'application/'+type}));
                 var link = document.createElement('a');
                 link.href = url;
@@ -76,12 +97,29 @@ define([
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
+                Swal(
+                    {
+                      title: "Well done!",
+                      text: 'A window will shows up',
+                      type: 'success',
+                      showCancelButton: false,
+                      confirmButtonText: "OK",
+                      closeOnConfirm: true,
+                    }
+                );
             }).fail(function(msg){
-                console.log(msg);
+                Swal(
+                    {
+                      title: "An error occured",
+                      text: '',
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonColor: 'rgb(147, 14, 14)',
+                      confirmButtonText: "OK",
+                      closeOnConfirm: true,
+                    }
+                );
             });
-
-
         },
 
         

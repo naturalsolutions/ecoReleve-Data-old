@@ -49,13 +49,34 @@ define([
                 previewTemplate: previewTemplate,
                 autoQueue: false, // Make sure the files aren't queued until manually added
                 previewsContainer: '#previews', // Define the container to display the previews
-                clickable: '.fileinput-button' // Define the element that should be used as click trigger to select files.
-
+                clickable: '.fileinput-button', // Define the element that should be used as click trigger to select files.
             });
 
 
             //overwrite addFile function to avoid duplicate files
             myDropzone.addFile = function(file) {
+
+            console.log('passed');
+            var ext = file.name.split('.');
+            if (ext[ext.length-1] != "txt") {
+              Swal(
+                  {
+                    title: "Wrong file type",
+                    text: 'The file should be a text file (.txt)',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+
+                    closeOnConfirm: true,
+                   
+                  }
+
+              );
+              return false;
+            }
+            
+
               if (this.files.length) {
                  var _i, _len;
                  for (_i = 0, _len = this.files.length; _i < _len; _i++) {
@@ -89,6 +110,7 @@ define([
               this.emit("addedfile", file);
               this._enqueueThumbnail(file);
               return this.accept(file, (function(_this) {
+                
                 return function(error) {
                   if (error) {
                     file.accepted = false;
@@ -132,7 +154,7 @@ define([
                 document.querySelector('#total-progress').style.opacity = 0;
                 document.querySelector('#total-progress .progress-bar').style.width = 0;
             });
-            
+
             this.errors=false;
             myDropzone.on('error', function(file){
                 this.errors=true;
@@ -144,8 +166,9 @@ define([
                 $(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-success');
             });
 
-            myDropzone.on('complete', function(file) {
+            myDropzone.on('queuecomplete', function(file) {
                 console.log('complete');
+                console.log(this.errors);
                 if(!this.errors){
                     Swal(
                         {
@@ -165,6 +188,7 @@ define([
                           type: 'error',
                           showCancelButton: false,
                           confirmButtonText: "OK",
+                          confirmButtonColor: 'rgb(147, 14, 14)',
                           closeOnConfirm: true,
                         }
                     );

@@ -50,12 +50,16 @@ define([
         
         
         deleteFilter: function(e){
+            var elem=$(e.target).parent('.filter-row');
+            //console.log($('#export-filter-list').find('.filter-row'));
+            var index = ($('.filter-row').index($(elem)));
+            //var index= nodeList.indexOf(e.target.parentNode);
+            //console.log(this.filterList);
 
-            var nodeList = Array.prototype.slice.call( document.getElementById('export-filter-list').children );
-            var index= nodeList.indexOf(e.target.parentNode);
+            //var nodeList = Array.prototype.slice.call( document.getElementById('export-filter-list').children );
+            //var index= nodeList.indexOf(e.target.parentNode);
             this.filterList.splice(index, 1);
-            console.log(this.filterList);
-            $(e.target).parent().remove();
+            $(e.target).parent('.filter-row').remove();
 
         },
 
@@ -82,6 +86,7 @@ define([
             }).done(function(data){
                 var fieldsList = [];
                 var exportFieldsList =[];
+                $("#export-view-fields").append('<option value="choose">Add a filter</option>');
                 for (var i = 0; i < data.length; i++) {
                     var optionItem = "<option type='" + data[i].type + "'>" + data[i].name + "</option>";
                     $("#export-view-fields").append(optionItem);
@@ -101,6 +106,11 @@ define([
             * Set options per type
             *
             **/
+            var filter = $("#export-view-fields option:selected").val();
+            if(filter == 'choose'){
+                return;
+            }
+
             var fieldName = $("#export-view-fields option:selected").text();
             //var fieldId = fieldName.replace("@", "-");
             var typeField, operatorsOptions;
@@ -108,7 +118,7 @@ define([
             switch(type){
                 case "string": 
                     typeField="Text";
-                    operatorsOptions= ['Not Like', 'Like'];
+                    operatorsOptions= ['Not Like', 'Like', 'Contains'];
                     break;
                 case "DATETIME":
                     typeField="Date";
@@ -143,8 +153,7 @@ define([
             }).render();
 
 
-
-
+            $("#export-view-fields").val('choose');
 
 
 
@@ -152,7 +161,6 @@ define([
             this.filterList.push(form);
 
             form.on('Operator:change', function(form, titleEditor, extra) {
-                  console.log(':: Value changed to "' + titleEditor.getValue() + '".');
             });
 
 
@@ -174,7 +182,6 @@ define([
             
             for (var i = 0; i < this.filterList.length; i++) {
                 var currentForm=this.filterList[i];
-                //console.log(currentForm.getValue());
                 if(!currentForm.validate()){
                     this.filterInfosList.filters.push(currentForm.getValue());
                 }
@@ -215,7 +222,6 @@ define([
             var currentForm;
             for (var i = 0; i < this.filterList.length; i++) {
                 currentForm=this.filterList[i];
-                //console.log(currentForm.getValue());
                 if(!currentForm.validate()){
                     this.filterInfosList.filters.push(currentForm.getValue());
                 }
@@ -227,7 +233,6 @@ define([
             * Call
             *
             **/
-            console.log(this.filterInfosList);
             
 
             var viewUrl = config.coreUrl + "/views/filter/" + this.viewName + "/count" ;

@@ -48,7 +48,6 @@ define([
 
             this.boxCriteria=[-180, -90, 180, 90];
             this.validateBox();
-            console.log(this.boxCriteria);
             this.columnCriteria;
             this.geoJson;
 
