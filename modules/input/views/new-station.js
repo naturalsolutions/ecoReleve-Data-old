@@ -33,10 +33,11 @@ define([
         onShow : function(){
             var datefield = $("input[name='Date_']");
             var self = this;
-            $(datefield).attr('placeholder' ,'jj/mm/aaaa hh:mm:ss').attr('data-date-format','DD/MM/YYYY HH:mm:ss');
+            $(datefield).attr('placeholder' ,'jj/mm/aaaa HH:mm:ss');
             $('#dateTimePicker').datetimepicker({
                 defaultDate:""
             }); 
+            $('#dateTimePicker').data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
             $('#dateTimePicker').on('dp.show', function(e) {
                 $(datefield).val('');    
             });
