@@ -2,6 +2,7 @@ var ecoReleveData = (function(){
     'use strict';
 
     var bower = '../../bower_components/';
+    var ns_modules = '../../ns_modules/'; //dev versions
     require.config({
         baseUrl: 'js/lib',
         config: {
@@ -101,8 +102,17 @@ var ecoReleveData = (function(){
             filter: '../../filter',
             stepper: '../../Stepper',
             step: '../../stepper/lyt-step',
-            ns_modules: '../../ns_modules',
 
+            ns_modules_com: ns_modules+'ns_com',
+            ns_modules_map: ns_modules+'ns_map',
+
+            ns_modules_grid: ns_modules+'ns_grid',
+
+
+            /*
+            ns_modules_filter: ns_modules+'ns_filter',
+            ns_modules_stepper: ns_modules+'Stepper',
+            */
 
             /*=============================
             =            Bower            =

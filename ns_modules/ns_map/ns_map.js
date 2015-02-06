@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'marionette',
-    'text!ns_modules/tpl-map.html',
+    'text!./tpl-map.html',
     'L',
     'leaflet_cluster',
     'leaflet_google',
@@ -18,11 +18,12 @@ define([
         className: 'map-view',
 
         events: {
-          'click #reset' : 'resetAll',
+          'click #reset' : 'resetTest',
         },
         bbox : true,
 
         resetTest: function(){
+          console.log('reset');
           this.interaction('resetAll');
         },
 
@@ -232,7 +233,7 @@ define([
 
             
 
-              return new L.DivIcon({ html: '<span>' + childCount + '</span>', className: 'marker-cluster' + c, iconSize: new L.Point(size, size) });
+              return new L.DivIcon({ html: '<span>' + childCount + '|0</span>', className: 'marker-cluster' + c, iconSize: new L.Point(size, size) });
             },
           });
 
@@ -311,11 +312,11 @@ define([
               childCount-=nbContains;
 
               if (contains) {
-                var iconC = new L.DivIcon({ html: '<span>' + childCount + ' : ' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
+                var iconC = new L.DivIcon({ html: '<span>' + childCount + '|' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
                 c.setIcon(iconC);
               }
               else{
-                var icon = new L.DivIcon({ html: '<span>' + childCount + ' : ' + nbContains +'</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
+                var icon = new L.DivIcon({ html: '<span>' + childCount + '|' + nbContains +'</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
                 c.setIcon(icon);
               };
             }
@@ -332,10 +333,10 @@ define([
 
           //check if you must change cluster style for all cluster or for none
           if(all){
-            var iconC = new L.DivIcon({ html: '<span>0 : ' + childCount +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
+            var iconC = new L.DivIcon({ html: '<span>0|' + childCount +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
             c.setIcon(iconC);
           }else{
-            var icon = new L.DivIcon({ html: '<span>' + childCount + ' : 0</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
+            var icon = new L.DivIcon({ html: '<span>' + childCount + '|0</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
             c.setIcon(icon);
           }
           
@@ -351,11 +352,6 @@ define([
           };
           return;
         },
-  
-
-
-
-
 
         addBBox: function(markers){
           var ctx = this;
@@ -379,10 +375,6 @@ define([
             });
           };
 
-
-
-          
-
           this.map.on("boxzoomend", function(e) {
             var bbox=[];  
             for(var key in  markers._featureGroup._layers){
@@ -403,7 +395,6 @@ define([
                     if(marker.__parent){
                         ctx.updateClusterParents(marker, []);                             
                     }
-
                   }
               };
             };
@@ -412,9 +403,7 @@ define([
         },
 
 
-
         /*==========  updateMarkerIcon  ==========*/
-        
         selectOne: function(id){
           var marker;
             marker=this.dict[id];
@@ -451,7 +440,7 @@ define([
           var marker = this.dict[id];
 
           if(this.lastFocused && this.lastFocused != marker){
-            this.updateMarkerIcon(this.lastFocused);
+            this.changeIcon(this.lastFocused);
           }
           this.lastFocused = marker;
           marker.setIcon(this.focusedIcon);
@@ -460,14 +449,14 @@ define([
           this.map.panTo(center);
           var ctx = this;
 
+          var zoom = 18;
+
           if(zoom){
             setTimeout(function(){
               ctx.map.setZoom(zoom);
              }, 1000);          
           };
-
         },
-
 
         /*==========  resetMarkers :: reset a list of markers  ==========*/
         resetAll: function(){
@@ -479,7 +468,6 @@ define([
           };
           
           if(this.cluster){
-
             var cluster;
             for (var i = this.firstLvl.length - 1; i >= 0; i--) {
               cluster = this.firstLvl[i];
@@ -517,6 +505,7 @@ define([
           };
         },
 
+        
         popup: function(id){
           var marker = this.dict[id];
           marker.openPopup();

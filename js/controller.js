@@ -41,9 +41,13 @@ define([
     ''+module+'/validate/rfid/layouts/lyt-rfid',
     
     'stepper/lyt-demo',
+    //'ns_modules_grid/demo/lyt-demo',
+    
     'grid/lyt-demo',
+    
     'filter/lyt-demo',
-    'ns_modules/demo-map',
+    
+    'ns_modules_map/demo/demo-map',
     
 
     //'modules/transmitter/layouts/transmitter-list'

@@ -31,6 +31,7 @@ define([
             this.filterCriteria = options.filterCriteria;
             this.boxCriteria = options.boxCriteria;
             this.columnCriteria = options.columnCriteria;
+
             
         },
 
@@ -42,6 +43,10 @@ define([
                 this.viewName ==  'V_Qry_VIndiv_MonitoredLostPostReleaseIndividuals_LastStations' ) {
 
                 this.$el.find('.exp-file').removeClass('hidden');
+                this.typeFile = 'pdf';
+            }else{
+                this.typeFile = 'csv';
+
             }
 
             this.$el.find('.exp-file:not(.hidden)').first().addClass('active').find('input[type=radio]').prop('checked', true);
@@ -50,11 +55,15 @@ define([
         selectFileType: function(e){
             var elem = $(e.currentTarget); 
             var ctx = this;
-        	ctx.type = elem.find('input[type=radio]').val();
+            console.log(elem);
+        	ctx.typeFile = elem.find('input[type=radio]').val();
+            console.log(ctx.typeFile);
+
+
 
             this.$el.find('.exp-file').each(function(){
                 var radio = $(this).find('input[type=radio]');
-                if(radio.val() == ctx.type){
+                if(radio.val() == ctx.typeFile){
                     $(this).addClass('active');
                     radio.prop('checked', true);
                 }else{
@@ -68,19 +77,22 @@ define([
 
         initFile: function(){
             this.datas= {
-                type_export: this.type,
+                type_export: this.typeFile,
                 viewName: this.viewName,
                 filters: this.filterCriteria,
                 bbox: this.boxCriteria,
                 columns: this.columnCriteria
             }
-            this.getFile(this.type);
+            this.getFile(this.typeFile);
+            console.log(this.datas);
         },
 
         getFile: function(type) {
 
             var that=this;
             var route = config.coreUrl + "/views/filter/" + this.viewName + "/export";
+
+            console.log(this.datas);
 
             $.ajax({
                 url: route,

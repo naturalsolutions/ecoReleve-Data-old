@@ -5,8 +5,8 @@ define([
     'marionette',
     'radio',
     'config',
-    'text!grid/tpl-demo.html',
-    'grid/model-grid',
+    'text!./tpl-demo.html',
+    'ns_modules_grid/model-grid',
 
 ], function($, _, Backbone, Marionette, 
     Radio, config, tpl, NSGrid) {
@@ -20,12 +20,10 @@ define([
 
         initialize: function(){
             // this.cols=["DATE", "StaID", "StaName"];
-
             //this.colGene = new colGene({url : 'rfid/getFields', paginable: true});
         },
 
         onRender: function(){
-
             this.grid= new NSGrid({
                 url: config.coreUrl + 'rfid/',
                 pageSize: 25,
@@ -35,9 +33,6 @@ define([
             this.$el.find('#grid').html(this.grid.displayGrid());
             this.$el.find('#paginator').html(this.grid.displayPaginator());
         },
-
-
-
 
         onShow: function(){
 

@@ -27,10 +27,12 @@ define([
             'click #clearAll-btn': 'clearAll',
         },
 
-
-
-
         initialize: function(options) {
+            if(options.com){
+              this.com = options.com;   
+              this.com.addModule(this);
+            }
+
             this.radio = Radio.channel('gsm-detail');
             this.radio.comply('updateGrid', this.updateGrid, this);
             this.radio.comply('import', this.importChecked, this);
@@ -49,9 +51,45 @@ define([
 
             this.locations = new Locations();
         },
+
+        /*=======================================
+        =            Strat Demo Code            =
+        =======================================*/
+        
+        action: function(action, ids){
+            console.log('passed');
+          switch(action){
+            case 'focus':
+              this.focusOnMap(ids);
+              break;
+            case 'selection':
+              //this.selectOne(ids);
+              break;
+            case 'selectionMultiple':
+              //this.selectMultiple(ids);
+              break;
+            case 'resetAll':
+              this.clearAll();
+              break;
+            default:
+              console.log('verify the action name');
+              break;
+          }
+        },
+
+        interaction: function(action, id){
+          if(this.com){
+            this.com.action(action, id);                    
+          }else{
+            this.action(action, id);
+          }
+        },
+        
+        /*-----  End of En Demo Code  ------*/
+
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
-                decimals: 3,
+                decimals: 5,
                 orderSeparator: ' ',
             });
 
@@ -61,8 +99,6 @@ define([
                 editable: false,
                 renderable: false,
                 cell: 'string',
-                
-
             }, {
                 name: 'date',
                 label: 'DATE',
@@ -73,15 +109,11 @@ define([
                 name: 'lat',
                 label: 'LAT',
                 cell: myCell,
-                
-
             }, {
                 editable: false,
                 name: 'lon',
                 label: 'LON',
                 cell: myCell,
-               
-
             }, {
                 editable: false,
                 name: 'ele',
@@ -89,22 +121,16 @@ define([
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
                 }),
-                
-
             }, {
                 editable: false,
                 name: 'dist',
                 label: 'DIST (km)',
                 cell: myCell,
-                
-
             }, {
                 editable: false,
                 name: 'speed',
                 label: 'SPEED (km/h)',
                 cell: myCell,
-              
-
             }, {
                 editable: true,
                 name: 'import',
@@ -211,6 +237,7 @@ define([
             if($(e.target).is('td')) {
                 var tr = $(e.target).parent();
                 var id = tr.find('td').first().text();
+                this.interaction('focus', id);
                 Radio.channel('gsm-detail').command('focus', id);
             }
         },

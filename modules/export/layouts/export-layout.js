@@ -116,8 +116,6 @@ define([
 
         prevStep: function(){
             
-
-
             $('#importWizard').wizard('previous');
             this.$el.find('#btnNext').removeClass('finished').find( 'span'
                         ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');

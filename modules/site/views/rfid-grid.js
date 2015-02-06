@@ -70,7 +70,7 @@ define([
                 url: config.coreUrl + 'monitoredSite/',
                 pageSize : 24,
                 pagingServerSide : true,
-                });
+            });
             
             $('#grid').html(this.grid.displayGrid());
             $('#paginator').append(this.grid.displayPaginator());
