@@ -11,6 +11,7 @@ define([
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
              Backbone.history.navigate('#import/gpx');
+             $('#stepper-header').html('IMPORT > GPX')
         },
         displayPrev: function() {
 
