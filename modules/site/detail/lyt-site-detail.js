@@ -27,7 +27,13 @@ define([
         initialize: function(options){
             this.id = options.id;
             this.model = new Site({id: this.id});
-
+            $.ajax({
+                url: config.coreUrl+ '/monitoredSite/detail/'+this.id+ '/geoJSON',
+                success: function(data) {
+                    console.log(data)
+                }
+                
+            });
         },
 
         onRender: function(){

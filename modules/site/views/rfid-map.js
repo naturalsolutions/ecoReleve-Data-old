@@ -114,7 +114,7 @@ define([
                var feature = ctx.map.forEachFeatureAtPixel(evt.pixel,
                  function(feature, layer) {
                   if(feature.values_.features.length == 1){
-                    var id=feature.values_.features[0].values_['TGeo_pk_id'];
+                    var id=feature.values_.features[0].values_['id'];
                     Radio.channel('route').command('site:detail', id);
                   }                                
                });                                                         
