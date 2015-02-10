@@ -191,24 +191,27 @@ define([
                 }
                 // refrech view
                 this.generateNavBarProtos();
+                // if form to add == active protocol => update current proto instances UI
+                if(selectedProtocolName == this.selectedProtoName){
+                    this.updateInstanceDetails(selectedProtocolName);
+                }
             }
+
+            
+
         },
         genInterfaceForCurrentProto: function(pkList, protocolName){
             this.formsRegion.empty();
             $('#formsContainer').text('');
             $('#idProtosContainer .pagination').text('');
-
             var content ='';
             for(var i=0;i<pkList.length;i++){
                 var idProto = pkList[i];
                 content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol" idProto="'+
                              idProto +'" name ="'+ protocolName+ '">' + (i+1) ;
-
                 if(idProto == 0)  {
                     content += '<i class="reneco icon small close deleteProInstance"></i>';
                 }            
-
-
                 content +=  '</a></div></div>';
             }
             $('#formsIdList').html('');
@@ -228,6 +231,10 @@ define([
                 mySwiper2.swipeNext()
             });
             //$('.swiper-slide').css('height','50px');
+            //activate fist element
+            var firstTab = $('#formsIdList').find('div.onglet a')[0];
+            $('a[pkProtocol="'+  +'"]').click();
+            $(firstTab).click();
         },
         getProtoByPkId : function(e){
 
@@ -316,14 +323,9 @@ define([
         },
         updateFormUI : function(){
             // time picker
-            $('.timePicker').datetimepicker({
-                pickDate: false,                
-                useMinutes: true,              
-                useSeconds: false,               
-                minuteStepping:1,
-                use24hours: true,
-                format: 'HH:mm'    
+            $('.timePicker').datetimepicker({ 
             });
+            $('.timePicker').data('DateTimePicker').format('HH:mm');
             // append options to select control 'user list' to display full name other then id
             var selectFields = $('select[user_list="username_list"]');
             var nbFields =  selectFields.length;
@@ -364,17 +366,33 @@ define([
         },
         successState : function(obj){
             var protoId = obj.id;
+            var activOnglet  = $('#tabProtsUl div.onglet.active');
             //<i class="icon small reneco validated"></i>
             // display picto for selected ongle
-            var element = $('#tabProtsUl div.onglet.active').find('i')[0];
+            var element = $(activOnglet).find('i')[0];
             $(element).removeClass('edit');
             $(element).addClass('icon small reneco validate');
+            // disable delete icon if protocol is stored to ovoid deleting it
+            var delelem = $(activOnglet).find('i.deleteProt')[0];
+            $(delelem).removeClass('close');
+
             // update id protocol 
             var protoOnglet = $('#idProtosContainer div.onglet.active').find('a')[0];
             $(protoOnglet).attr('idproto', protoId);
             $('form input').attr('disabled', 'disabled');
             $('form textarea').attr('disabled', 'disabled');
             $('form select').attr('disabled', 'disabled');
+            // disable delete icon if protocol is stored to ovoid deleting it
+            delelem = $(protoOnglet).find('i.deleteProInstance')[0];
+            $(delelem).removeClass('close');
+            //update instance id in  this.activeProtcolsObj[key].PK_data
+            var tabProtocol = this.activeProtcolsObj[this.selectedProtoName].PK_data;
+            for (var i = tabProtocol.length - 1; i >= 0; i--) {
+                if(tabProtocol[i] === 0 ){
+                    tabProtocol[i] = parseInt(protoId);
+                    return;
+                }
+            };
         },
         editState : function(){
             var element = $('#tabProtsUl div.onglet.active').find('i')[0];

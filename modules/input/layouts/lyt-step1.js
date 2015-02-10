@@ -20,13 +20,14 @@ define([
         datachanged_radio: function(e){
             var target= $(e.target);
             var val=$(target).attr('value');
-            this.model.set(this.name + '_' + target.attr('name') , val);
+            this.updateModel(val);
+            /*this.model.set(this.name + '_' + target.attr('name') , val);
             // init all other model attributes
             for(var key in this.model.attributes) {
                 if(key != 'start_stationtype'){
                     this.model.set(key,null);
                 }
-            }
+            }*/
         },
         selectMode : function(e){
             $('div.manual-tile').removeClass('select');
@@ -39,9 +40,18 @@ define([
                 var radioElements = $(e.target).find('input[type="radio"]');
                 var radio =  $(radioElements)[0];
                 $(radio).attr('checked','checked').prop('checked',true);
-
+                var val = $(radio).attr('value');
+                this.updateModel(val);
                 //e.preventDefault();
-                $(radio).click();
+                //$(radio).click();
+            }
+        }, 
+        updateModel : function(value){
+            this.model.set('start_stationtype' , value);
+            for(var key in this.model.attributes) {
+                if(key != 'start_stationtype'){
+                    this.model.set(key,null);
+                }
             }
         }
     });

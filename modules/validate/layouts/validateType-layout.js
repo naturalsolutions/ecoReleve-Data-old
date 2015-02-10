@@ -14,12 +14,12 @@ define([
         template: template,
 
         events: {
-            'click table.backgrid tbody tr': 'showDetail'
+            'click table.backgrid tbody tr :not(.btn)': 'showDetail'
         },
 
         initialize: function(options) {
             this.type=options.type;
-
+            var self = this;
             console.log(this.type)
             var Data = Backbone.Collection.extend({
                 url: config.coreUrl + 'dataGsm/unchecked/list',
@@ -32,6 +32,40 @@ define([
                 this.$el.data('model', this.model);
                 return this;
               }
+            });
+
+
+            var ImportCell = Backgrid.Cell.extend({
+                template: _.template('<div style="text-align:center;"><button class="btn">Validate 1/hour</button></div>'),
+                events: {
+                  'click': 'importRow'
+                },
+                importRow: function (e) {
+                  e.preventDefault();
+                  self.auto_valide();
+                },
+                render: function () {
+                  this.$el.html(this.template());
+                  this.delegateEvents();
+                  return this;
+                }
+            });
+
+            var ImportAllCell = Backgrid.HeaderCell.extend({
+                template: _.template('<button class="btn btn-success">Validate ALL 1/hour</button>'),
+                events: {
+                  'click': 'importAllRow'
+                },
+                importAllRow: function (e) {
+                  e.preventDefault();
+                  
+                  self.auto_valide_ALL();
+                },
+                render: function () {
+                  this.$el.html(this.template());
+                  this.delegateEvents();
+                  return this;
+                }
             });
 
             var columns = [{
@@ -48,7 +82,9 @@ define([
                 editable: false,
                 formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
                     fromRaw: function (rawValue, model) {
-                            if (rawValue==null) rawValue='WARNING ==> No Individual attached !';
+                            if (rawValue==null) {
+                                rawValue='WARNING ==> No Individual attached !';
+                            }
                          return rawValue;
                       }
                 }),
@@ -74,6 +110,12 @@ define([
                 editable: false,
                 cell: 'String'
               
+            }, {
+                name: 'Import',
+                label: 'Import',
+                editable: false,
+                cell: ImportCell,
+                headerCell: ImportAllCell
             }];
 
             // Initialize a new Grid instance
@@ -95,10 +137,22 @@ define([
             $('#main-region').removeClass('obscur');
         },
         showDetail: function(evt) {
+            if ($(evt.target).is('button')) {
+                return
+            }
             var model = $(evt.target).parent().data('model'); 
             var ind_id=model.attributes.ind_id;
             var ptt=model.attributes.platform_;
             Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id);
+        },
+
+        auto_valide: function () {
+            console.log('import click ! ')
+
+        },
+
+        auto_valide_ALL: function () {
+            console.log('import ALLL click ! ')
         },
 
 
