@@ -55,8 +55,6 @@ define([
             
             this.mapRegion.show(map);
 
-            
-
             //map.addCollection(collection);
 
             Radio.channel('import').command('initGrid');
@@ -67,7 +65,6 @@ define([
             });
 
             this.gridRegion.show(mygrid);
-                
         },
         setFieldActivity : function(e){
             var currentFieldVal = $(e.target).val();

@@ -25,8 +25,6 @@ define([
             //*Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
             //Radio.channel('import-gpx').comply('updateMap', this.updateMap, this);
 
-            console.log(this.coll);
-
             var features = {
                 'features': [], 
                 'type': 'FeatureCollection'
@@ -51,8 +49,6 @@ define([
             });
 
             this.features = features;
-            console.log(features);
-
 
         },
         
