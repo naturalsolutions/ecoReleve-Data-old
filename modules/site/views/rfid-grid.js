@@ -31,35 +31,43 @@ define([
 
             this.cols = [{
                 editable: false,
-                name: 'TGeo_pk_id',
-                label: 'TGeo_pk_id',
+                name: 'id',
+                label: 'id',
                 cell: 'string',
                 renderable: false,
             },{
                 editable: false,
-                name: 'Type',
-                label: 'Type',
+                name: 'type',
+                label: 'type',
                 cell: 'string',
             },{
                 editable: false,
-                name: 'Monitored_site',
-                label: 'Monitored_site',
+                name: 'name',
+                label: 'name',
                 cell: 'string',
             },{
                 editable: false,
-                name: 'LAT',
-                label: 'LAT',
+                name: 'lat',
+                label: 'lat',
                 cell: 'string',
             },{
                 editable: false,
-                name: 'LON',
-                label: 'LON',
+                name: 'lon',
+                label: 'lon',
                 cell: 'string',
             },{
                 editable: false,
                 name: 'Active',
-                label: 'Active',
+                label: 'Status',
                 cell: 'string',
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (rawValue == true) {
+                                rawValue = 'Active';
+                            } else rawValue = 'Inactive'
+                         return rawValue;
+                      }
+                }),
                 renderable: true
             }
             ];

@@ -40,10 +40,10 @@ define([
             this.filtersList={
                 
                 Type: "String",
-                Monitored_site: "String",
+                Name: "String",
                 LAT: "DECIMAL(9, 5)",
                 LON: "DECIMAL(9, 5)",
-                Atcive: "String",
+                Status: "String",
             };
 
 

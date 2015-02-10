@@ -28,13 +28,13 @@ define([
             {
                 editable: false,
                 label: 'Begin-Date',
-                name: 'begin',
+                name: 'begin_date',
                 cell: 'string',
             },
             {
                 editable: false,
                 label: 'End-Date',
-                name: 'end',
+                name: 'end_date',
                 cell: 'string',
             },
             {
@@ -45,7 +45,7 @@ define([
             },
             {
                 editable: false,
-                label: 'LNG',
+                label: 'LON',
                 name: 'lon',
                 cell: 'string',
             },
