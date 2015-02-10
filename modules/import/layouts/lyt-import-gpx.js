@@ -74,6 +74,8 @@ define([
             else
                 this.type = 'gpx';
             this.model = new Backbone.Model(); 
+
+
         },
         init_GSM_stepper : function() {
             
@@ -158,6 +160,12 @@ define([
             $('body').addClass('home-page full-height');
             $('#stepper-header').html('IMPORT');
             $('#main-region').addClass('full-height obscur');
+
+            /*==========  test  ==========*/
+            
+            this.init_GSM_stepper();
+            this.type= 'gpx';
+            this.nextStepper();
          },
         onDestroy : function () {
 

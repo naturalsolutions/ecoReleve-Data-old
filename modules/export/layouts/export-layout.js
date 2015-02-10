@@ -82,7 +82,6 @@ define([
         },
         initBox: function(args){
             this.boxCriteria=args.box;
-            console.log(this.boxCriteria);
         },
 
         onBeforeDestroy: function() {
@@ -98,7 +97,7 @@ define([
                 var wiz = $('#importWizard').data('wizard');
                 if(target != 5 ){
                     self.$el.find('#btnNext').removeClass('finished').find( 'span'
-                        ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
+                        ).html('Next').parent().find('.icon').removeClass('import').addClass('rightarrow');
                 }
             });
 
@@ -119,7 +118,7 @@ define([
             
             $('#importWizard').wizard('previous');
             this.$el.find('#btnNext').removeClass('finished').find( 'span'
-                        ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
+                        ).html('Next').parent().find('.icon').removeClass('import').addClass('rightarrow');
             if($('#step1').hasClass('active')){
                 $('#name-view').remove();    
             }
@@ -182,7 +181,7 @@ define([
                     this.step = 5;
 
                     this.$el.find('#btnNext').addClass('finished').find( 'span'
-                        ).html('Complete').parent().find('.icon').removeClass('rightarrow').addClass('validated');
+                        ).html('Export').parent().find('.icon').removeClass('rightarrow').addClass('import');
                         $('#btnNext').removeAttr('disabled');
                     break;
 
@@ -210,12 +209,9 @@ define([
                 },
                 function(isConfirm){
                       if (isConfirm) {
-                       
                         $('.steps >li:first').trigger("click");
-                        
                       } else {
                         Radio.channel('route').command('home');
-                            
                       }
             });
                         

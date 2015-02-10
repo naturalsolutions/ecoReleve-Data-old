@@ -17,15 +17,7 @@ define([
         template: tpl,
         className: 'map-view',
 
-        events: {
-          'click #reset' : 'resetTest',
-        },
         bbox : true,
-
-        resetTest: function(){
-          console.log('reset');
-          this.interaction('resetAll');
-        },
 
         initialize: function(options) {
             //check if there is a communicator
@@ -40,18 +32,13 @@ define([
             this.popup = options.popup;
             this.dict={}; //list of markers
             this.selectedMarkers = {}; // list of selected markers
+            this.url = options.url;
+            this.geoJson = options.geoJson;
+
+
 
             this.initIcons();
-            //local or url furnished
-            if(options.url){
-              this.requestGeoJson(options.url);
-            }else{
-              if (this.cluster){
-                this.initClusters(options.geoJson);
-              }else{
-                this.initLayer(options.geoJson);
-              }
-            }
+
         },
 
         action: function(action, ids){
@@ -108,8 +95,20 @@ define([
           });
         
         },
+        init: function(){
+          //local or url furnished
+          if(this.url){
+            this.requestGeoJson(this.url);
+          }else{
+            if (this.cluster){
+              this.initClusters(this.geoJson);
+            }else{
+              this.initLayer(this.geoJson);
+            }
+          }
+        },
         /*==========  initMap  ==========*/
-        initMap: function( center, geoJsonLayer, markers){
+        initMap: function(center, geoJsonLayer, markers){
             this.map = new L.Map('map', {
               center: center,
               zoom: 3,
@@ -177,7 +176,7 @@ define([
                 return marker;
               },
           });
-          this.initMap(center, geoJsonLayer, markers );
+          this.initMap(center, geoJsonLayer, markers);
 
         },
 

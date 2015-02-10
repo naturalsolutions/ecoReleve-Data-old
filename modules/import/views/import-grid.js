@@ -8,8 +8,11 @@ define([
     'marionette',
     'moment',
     'radio',
-    'text!modules2/import/templates/import-grid.html'
-], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template) {
+    'text!modules2/import/templates/import-grid.html',
+    'text!modules2/import/_gpx/templates/options-list.html'
+
+
+], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template, optList) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
@@ -17,16 +20,18 @@ define([
         events: {
             'click .backgrid-container tbody tr': 'updateMap',
             'click #btnSelectionGrid' : 'clearSelectedRows',
-            'click table.backgrid td.editor' : 'cellToEdit'
+            'click table.backgrid td.editor' : 'cellToEdit',
         },
         cellToEdit : function(e) {
-             var input = $(e.target).find('input')[0];
-             $(input).attr('list','import-activity');
+             var input = $(e.target);
+
+             //$(input).attr('list','import-activity');
              
         },
         initialize: function(options) {
             this.radio = Radio.channel('import-gpx');
             this.collection = options.collections; 
+            this.com = options.com;
          //var Locations = PageableCollection.extend({
                 //url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked?format=json',
               //  mode: 'client',
@@ -86,6 +91,16 @@ define([
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5
             });
+
+            var optionsList = $.parseHTML(optList);
+
+            var option=[];
+            for (var i = 0; i < optionsList.length; i++) {
+                option[0]=$(optionsList[i]).attr('value');
+                option[1]=$(optionsList[i]).attr('value');
+                optionsList[i] = option;
+                option=[];
+            };
             var columns = [{
                 editable: true,
                 name: "import",
@@ -108,7 +123,7 @@ define([
                 name: "waypointTime",
                 label: "Date",
                 editable: false,
-                cell: Backgrid.DatetimeCell  //"Date"
+                cell: Backgrid.DatetimeCell
             }, {
                 editable: false,
                 name: "latitude",
@@ -123,7 +138,9 @@ define([
                 editable: true,
                 name: "fieldActivity",
                 label: "Field Activity",
-                cell: "string"
+                cell: Backgrid.SelectCell.extend({
+                  optionValues: optionsList
+                })
             },
             ];
 

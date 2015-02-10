@@ -9,8 +9,9 @@ define([
     'collections/waypoints',
     'modules2/import/views/import-map',
     'modules2/import/views/import-grid',
+    'ns_modules_com',
 
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid) {
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid, Com) {
 
     'use strict';
 
@@ -18,12 +19,15 @@ define([
         /*===================================================
         =            Layout Stepper Orchestrator            =
         ===================================================*/
+        className: 'importGPX',
+
         events : {
-            'change #importFieldActivity' : 'setFieldActivity'
+            'change #importFieldActivity' : 'setFieldActivity',
+            'click #resetFieldActivity' : 'resetFieldActivity',
         },
         regions: {
             gridRegion: '#gridContainer',
-            mapRegin : '#mapContainer'
+            mapRegion : '#mapContainer'
         },
         feedTpl: function(){
             
@@ -32,21 +36,60 @@ define([
             this.parseOneTpl(this.template);
         },
         onShow: function(){
-        
-            var map = new Map();
-                this.mapRegin.show(map);
-                var collection = this.model.get('data_FileContent') ; 
-                map.addCollection(collection);
-                Radio.channel('import').command('initGrid');
-                var mygrid = new Grid({collections : collection});
-                this.gridRegion.show(mygrid);
+            var collection = this.model.get('data_FileContent') ;
+
+            this.com = new Com();
+
+
+            var myCell = Backgrid.NumberCell.extend({
+                decimals: 5,
+                orderSeparator: ' ',
+            });
+
+
+            var map = new Map({
+                com: this.com,
+                collection: collection
+            });
+
+            
+            this.mapRegion.show(map);
+
+            
+
+            //map.addCollection(collection);
+
+            Radio.channel('import').command('initGrid');
+
+            var mygrid = new Grid({
+                collections : collection,
+                com: this.com,
+            });
+
+            this.gridRegion.show(mygrid);
                 
         },
         setFieldActivity : function(e){
             var currentFieldVal = $(e.target).val();
+            this.$el.find('#locations tr').each(function(){
+                $(this).find('select').val(currentFieldVal);
+            });
             var collection = this.model.get('data_FileContent') ; 
              collection.each(function(model) {
-                model.set('fieldActivity',currentFieldVal); 
+                model.set('fieldActivity',currentFieldVal);
+            });
+        },
+
+
+        resetFieldActivity : function(e){
+            console.log('passed');
+            this.$el.find('#importFieldActivity').val('');
+            this.$el.find('#locations tr').each(function(){
+                $(this).find('select').val('');
+            });
+            var collection = this.model.get('data_FileContent') ; 
+             collection.each(function(model) {
+                model.set('fieldActivity','');
             });
         }
     });

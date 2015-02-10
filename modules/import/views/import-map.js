@@ -1,19 +1,74 @@
 define([
-    'ol3',
     'config',
     'radio',
-    'modules2/map/views/basemap'
-], function(ol, config, Radio, BaseMap) {
+    'ns_modules_map/ns_map',
+    'text!modules2/import/templates/import-gpx-map.html',
+
+], function(config, Radio, NsMap, tpl) {
 
     'use strict';
 
-    return BaseMap.extend({
+    return Marionette.LayoutView.extend({
+        template: tpl,
 
-        initialize: function() {
+
+        
+        regions: {
+            rg_map: '#rg_map',
+        },
+        
+
+        initialize: function(options) {
+            this.com = options.com;
+            this.coll = options.collection;
+
             //*Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
-            Radio.channel('import-gpx').comply('updateMap', this.updateMap, this);
+            //Radio.channel('import-gpx').comply('updateMap', this.updateMap, this);
+
+            console.log(this.coll);
+
+            var features = {
+                'features': [], 
+                'type': 'FeatureCollection'
+            };
+
+            var feature, attr;
+            this.collection.each(function(m){
+                attr = m.attributes;
+                feature = {
+                    'type': 'Feature',
+                    'id': attr.id,
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [attr.longitude, attr.latitude],
+                    }, 
+                    'properties': {
+                        'date': '2014-10-23 12:39:29'
+                    }, 
+                    
+                };
+                features.features.push(feature);
+            });
+
+            this.features = features;
+            console.log(features);
+
+
+        },
+        
+        onShow: function(){
+            this.map = new NsMap({
+                cluster: true,
+                popup: false,
+                geoJson: this.features,
+                com : this.com,
+            });
+            this.rg_map.show(this.map);
+            this.map.init();
         },
 
+
+        /*
         onShow: function() {
             BaseMap.prototype.onShow.apply(this, []);
             this.interaction = new ol.interaction.Select({
@@ -40,7 +95,7 @@ define([
                   });
               if (feature) {
                 console.log(feature);
-                //console.log("feature : " + feature.values['id']);
+                //console.log('feature : ' + feature.values['id']);
                 var geometry = feature.getGeometry();
                 var coord = geometry.getCoordinates();
                 var prop = feature.getProperties();
@@ -78,5 +133,6 @@ define([
             this.moveCenter(center);
             //this.map.getView().setZoom(8);
         }
+        */
     });
 });

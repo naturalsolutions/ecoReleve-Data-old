@@ -7,15 +7,14 @@ define([
 
     return StepperOrchestrator.extend({
 
+
         /*==========  Next / Prev  ==========*/
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
              Backbone.history.navigate('#import/gpx');
         },
         displayPrev: function() {
-
             $('#btnPrev').show();
-
         },
 
       
