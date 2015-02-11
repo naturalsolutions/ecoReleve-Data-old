@@ -15,16 +15,27 @@ define([
 
     return Marionette.ItemView.extend({
         template: tpl,
-        className: 'map-view',
 
         bbox : true,
 
+<<<<<<< HEAD
+=======
+        resetTest: function(){
+          this.interaction('resetAll');
+        },
+
+>>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
         initialize: function(options) {
             //check if there is a communicator
+            console.log(this.$el)
+
             if(options.com){
               this.com = options.com;   
               this.com.addModule(this);
             }
+            this.url=options.url;
+            this.geoJson=options.geoJson;
+            this.zoom = options.zoom || 2;
 
             this.bbox = options.bbox || this.bbox;
             this.click = options.click;
@@ -38,7 +49,24 @@ define([
 
 
             this.initIcons();
+<<<<<<< HEAD
 
+=======
+            //local or url furnished
+            
+        },
+
+        init: function(){
+          if(this.url){
+            this.requestGeoJson(this.url);
+          }else{
+            if (this.cluster){
+              this.initClusters(this.geoJson);
+            }else{
+              this.initLayer(this.geoJson);
+            }
+          }
+>>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
         },
 
         action: function(action, ids){
@@ -110,9 +138,15 @@ define([
           }
         },
         /*==========  initMap  ==========*/
+<<<<<<< HEAD
         initMap: function(center, geoJsonLayer, markers){
+=======
+        initMap: function( center, geoJsonLayer, markers){
+            console.log('passed')
+            console.log(this.$el);
+>>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
             this.map = new L.Map('map', {
-              center: center,
+              center: center ,
               zoom: 3,
               minZoom: 2,
               //inertia: true,
@@ -124,11 +158,14 @@ define([
               reuseTiles: true
             });
 
-            markers.addLayer(geoJsonLayer);
+            if(geoJsonLayer){
+              markers.addLayer(geoJsonLayer);
+            }
             this.map.addLayer(googleLayer);
-            this.map.addLayer(markers);
-
-            this.map.setZoom(2);
+            if(markers){
+             this.map.addLayer(markers);
+            }      
+            this.map.setZoom(this.zoom);
 
             if(this.bbox){
               this.addBBox(markers);
@@ -153,33 +190,38 @@ define([
         initLayer: function(geoJson){
           var marker;
           var ctx = this;
-          var center = new L.LatLng(
-            geoJson.features[0].geometry.coordinates[1],
-            geoJson.features[0].geometry.coordinates[0]
-          );
-          var markers = new L.FeatureGroup();
+          if(geoJson){
+            var center = new L.LatLng(
+            geoJson.geometry.coordinates[1],
+            geoJson.geometry.coordinates[0]
+            );
+            var markers = new L.FeatureGroup();
 
-          var parents=[];
-          var geoJsonLayer = L.geoJson(geoJson, {
-              // onEachFeature: function (feature, layer) {
-              // },
-              pointToLayer: function(feature, latlng) {
-                marker = L.marker(latlng, {icon: ctx.icon});
-                marker.checked=false;
-                marker.bindPopup('<b>ID : '+feature.id+'</b><br />');
+            var parents=[];
+            var geoJsonLayer = L.geoJson(geoJson, {
+                // onEachFeature: function (feature, layer) {
+                // },
+                pointToLayer: function(feature, latlng) {
+                  marker = L.marker(latlng, {icon: ctx.icon});
+                  marker.checked=false;
+                  marker.bindPopup('<b>ID : '+feature.id+'</b><br />');
 
 
-                ctx.dict[feature.id] = marker;
-                marker.on('click', function(){
-                  console.log('click');
-                  ctx.interaction('selection', feature.id);
-                  //ctx.interaction('popup', feature.id);
+                  ctx.dict[feature.id] = marker;
+                  marker.on('click', function(){
+                    ctx.interaction('selection', feature.id);
+                    //ctx.interaction('popup', feature.id);
 
-                })
-                return marker;
-              },
-          });
-          this.initMap(center, geoJsonLayer, markers);
+
+                  })
+                  return marker;
+                },
+            });
+          } else {
+            var center = new L.LatLng(0,0);
+          }
+
+          this.initMap(center, geoJsonLayer, markers );
 
         },
 
@@ -272,9 +314,6 @@ define([
           });
           this.initMap(center, geoJsonLayer, markers);
         },
-
-
-
 
         /*==========  updateClusterParents :: display selection inner cluster  ==========*/
         updateClusterParents: function(m, parents){
@@ -454,7 +493,7 @@ define([
           this.map.panTo(center);
           var ctx = this;
 
-          var zoom = 18;
+          
 
           if(zoom){
             setTimeout(function(){
@@ -496,6 +535,7 @@ define([
             }
             m.addTo(this.map);
           }
+          return m;
         },
 
         /*==========  updateMarkerPos  ==========*/
@@ -503,6 +543,8 @@ define([
           var marker = this.dict[id];
           var latlng = new L.latLng(lat, lng);
           marker.setLatLng(latlng);
+
+          
           if(zoom){
             this.focus(id, zoom);            
           }else{
@@ -510,7 +552,6 @@ define([
           };
         },
 
-        
         popup: function(id){
           var marker = this.dict[id];
           marker.openPopup();

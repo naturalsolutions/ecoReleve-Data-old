@@ -16,7 +16,7 @@ define([
                 LON : { type: 'Text', title:'longitude', editorClass : 'form-control',validators: ['required'] },
                 Region : { type: 'Select', options: [''], editorClass : 'form-control',validators: [] },
                 FieldActivity_Name: { type: 'Select', options: [''], title:'field activity', editorClass : 'form-control', validators: ['required']},
-                Date_: { type: 'Text', title:'date' , editorClass : 'form-control',validators: ['required']}, //,validators: ['required']
+                Date_: { type: 'Text', title:'date' , editorClass : 'form-control',validators: ['required'] }, //,validators: ['required']
                 //time_:{ type: 'Text', title:'time', editorClass : 'form-control'},
                 FieldWorker1: { type: 'Select', options: [''] , title:'field worker 1', editorClass : 'form-control fiedworker' ,validators: ['required']},  //type: 'Select' , title:'field Worker 1', options: this.usersList , required : true
                 FieldWorker2: { type: 'Select', options: [''], title:'field worker 2' , editorClass : 'form-control fiedworker'},  

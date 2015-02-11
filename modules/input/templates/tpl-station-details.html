@@ -41,7 +41,7 @@
             <div class="col-sm-8" id=''>
                   <label>place</label>
                   <div>
-                        <select  name="stPlace"  class="blackFont form-control">
+                        <select  name="stPlace"  class="blackFont form-control editField">
                               <option></option>
                         </select>
 
@@ -54,14 +54,14 @@
       </div>
       <br>
       <div class="row" >
-            <div class="col-xs-4" id=''>
+            <div class="col-xs-5" id=''>
                   <label>accuracy(m)</label>
-                  <div><input name="stAccuracy" class="blackFont form-control" type="number"></div>
+                  <div><input name="stAccuracy" class="blackFont form-control editField" type="number"></div>
             </div>
-            <div class="col-xs-8" id=''>
-                        <label>distance from observer</label>
+            <div class="col-xs-7" id=''>
+                        <label>distance from obs</label>
                   <div>
-                        <select id="stDistFromObs" class="blackFont form-control">
+                        <select id="stDistFromObs" class="blackFont form-control editField" name="stDistance">
                               <option value="NULL"></option>
                               <option value="1000004">&lt;100m</option>
                               <option value="1000005">100m&lt; x &lt;500m</option>
@@ -101,7 +101,7 @@
             <div class="col-sm-10">
                   <label>field activity</label>
                   <div>
-                        <select  name="st_FieldActivity_Name" class="blackFont form-control">
+                        <select  name="st_FieldActivity_Name" class="blackFont form-control editField">
                               <option></option>
                         </select>
                   </div>
@@ -114,29 +114,29 @@
             </div>
             <div class="col-sm-10">
                   <label>field worker 1</label>
-                  <select  class="blackFont form-control fieldworker" name="detailsStFW1">
+                  <select  class="blackFont form-control fieldworker editField" name="detailsStFW1">
                         <option></option>
                   </select>
                   <label>field worker 2</label>
-                        <select  class="blackFont form-control fieldworker" name="detailsStFW2">
+                        <select  class="blackFont form-control fieldworker editField" name="detailsStFW2">
                           <option></option>
                         </select>
                   <label>field worker 3</label>
-                        <select  class="blackFont form-control fieldworker" name="detailsStFW3">
+                        <select  class="blackFont form-control fieldworker editField" name="detailsStFW3">
                           <option></option>
                         </select>
 
                   <label>field worker 4</label>
-                        <select class="blackFont form-control fieldworker" name="detailsStFW4">
+                        <select class="blackFont form-control fieldworker editField" name="detailsStFW4">
                           <option></option>
                         </select>
 
                   <label>field worker 5</label>
-                        <select  class="blackFont form-control fieldworker" name="detailsStFW5">
+                        <select  class="blackFont form-control fieldworker editField" name="detailsStFW5">
                           <option></option>
                         </select>
                   <label>total</label>
-                        <input id="stDtailsNbFW" class="blackFont form-control">
+                        <input id="stDtailsNbFW" class="blackFont form-control editField" name="detailsStFWTotal">
             </div>
       </div>
       </div>

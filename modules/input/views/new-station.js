@@ -16,8 +16,10 @@ define([
     'utils/getFieldActivity',
     'utils/getRegions',
     'utils/getSitesTypes',
+    'utils/datetime',
+    'dateTimePicker'
 ], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template,
-    BbForms, Station, config,getUsers, getFieldActivity,getRegions,getSitesTypes) {
+    BbForms, Station, config,getUsers, getFieldActivity,getRegions,getSitesTypes,datetime) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
@@ -28,22 +30,23 @@ define([
                 template: _.template(template)
             }).render();
             this.el =  this.form.el;
-            //this.form.model.on('change', this.form.render, this);
+            this.radio = Radio.channel('input');
         },
         onShow : function(){
-            var datefield = $("input[name='Date_']");
             var self = this;
-            $(datefield).attr('placeholder' ,'jj/mm/aaaa HH:mm:ss');
-            $('#dateTimePicker').datetimepicker({
+            var datefield = $("input[name='Date_']");
+            $(datefield).attr('placeholder', config.dateLabel);
+            $(datefield).datetimepicker({
                 defaultDate:""
-            }); 
-            $('#dateTimePicker').data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
-            $('#dateTimePicker').on('dp.show', function(e) {
-                $(datefield).val('');    
             });
-            $('#dateTimePicker').on('dp.dp.change', function(e) {
-                self.checkDate();
+            $(datefield).data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
+            $(datefield).on('dp.show', function(e) {
+                 $(this).val('');
             });
+            $(datefield).on('dp.change', function(e) {
+                 self.checkDate();
+            });           
+            
             this.generateSelectLists();
         },
         onBeforeDestroy: function() {
@@ -68,9 +71,8 @@ define([
                alert('Please input a valid date');
                $(datefield).val('');
             } else {
-               $(datefield).change();
+               this.radio.command('changeDate');
             }
         }
-        
     });
 });

@@ -128,7 +128,7 @@ define([
 				});
 			}
 			
-			if(this.file) {
+			/*if(this.file) {
 				var self = this;
 				var deferreds = [];
 				var filePath ='./modules/input/data/' + this.file;
@@ -140,7 +140,7 @@ define([
 					}
 					self.showForm();
 				}));
-			}
+			}*/
         },
         showForm: function () {
             this.BBForm = new this.BackboneFormsModel({ model: this.model });
@@ -175,9 +175,9 @@ define([
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: 'http://192.168.1.199/Thesaurus/App_WebServices/wsTTopic.asmx',
+                    wsUrl: 'http://192.168.1.199/ThesaurusCore/ThesaurusREADServices.svc/json',
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
-                    webservices: 'initTreeByIdWLanguageWithoutDeprecated',  
+                    webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
                     startId: startId 
                 });
@@ -260,8 +260,8 @@ define([
                         self.modelurl = url + newId;
                     }
                  },
-                 error:function() {
-
+                 error:function(request, status, error) {
+                    alert('error in saving data');
                  }
                 });
             }
