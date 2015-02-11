@@ -12,7 +12,8 @@ define([
     'utils/getFieldActivity',
     'utils/getRegions',
     'utils/getSitesTypes',
-    'utils/getSitesNames'
+    'utils/getSitesNames',
+    'dateTimePicker'
 ], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template,getUsers, getFieldActivity,getRegions,getSitesTypes,getSitesNames) {
 
     "use strict";
@@ -42,7 +43,8 @@ define([
             endDate : 'input[name="allSt-endDate"]',
             stationField :'#st-station',
             indivId : 'input[name="allSt-indivId"]',
-            fieldworker :'input[name="allSt-fieldWorker"]'
+            fieldworker :'input[name="allSt-fieldWorker"]',
+            datePicker : 'input.pickerDate'
         
         },
         initialize: function(options) {
@@ -100,6 +102,17 @@ define([
                 self.getIndivId();
             });
             this.generateSelectLists();
+            var self = this;
+
+            $(this.ui.datePicker).datetimepicker({
+                defaultDate:""
+            });
+            $(this.ui.datePicker).each(function() {
+                $(this).data('DateTimePicker').format('DD/MM/YYYY');
+            });
+            $(this.ui.datePicker).on('dp.show', function(e) {
+                 $(this).val('');
+            });          
         },
 
         onDestroy: function(evt) {

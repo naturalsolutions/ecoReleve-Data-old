@@ -31,7 +31,8 @@ define([
             'click .onglet a': 'activeOnglet',
             'change .indivNumber' : 'updateTotalIndivNumber',
             'click .deleteProt' : 'deleteProtocol',
-            'click .deleteProInstance' : 'deleteProtInstance'
+            'click .deleteProInstance' : 'deleteProtInstance',
+            'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
@@ -196,9 +197,6 @@ define([
                     this.updateInstanceDetails(selectedProtocolName);
                 }
             }
-
-            
-
         },
         genInterfaceForCurrentProto: function(pkList, protocolName){
             this.formsRegion.empty();
@@ -246,13 +244,11 @@ define([
             }
         },
         nextStation : function(){
-
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId + '/next';
             this.getStationDetails(url);
             $(this.ui.addProto).val('');
-
         },
         prevStation:function(){
             var currentStation = this.model.get('station_position');
@@ -323,9 +319,9 @@ define([
         },
         updateFormUI : function(){
             // time picker
-            $('.timePicker').datetimepicker({ 
+            /*$('.timePicker').datetimepicker({ 
             });
-            $('.timePicker').data('DateTimePicker').format('HH:mm');
+            $('.timePicker').data('DateTimePicker').format('HH:mm');*/
             // append options to select control 'user list' to display full name other then id
             var selectFields = $('select[user_list="username_list"]');
             var nbFields =  selectFields.length;
@@ -350,12 +346,10 @@ define([
             }*/
 
         },
-
         activeOnglet: function(e) {
             $(e.target).parents('.swiper-wrapper').find('.onglet.active').removeClass('active');
             $(e.target).parent().addClass('active');
         }, 
-
         nextOK: function() {
             return true;
         },
@@ -449,6 +443,13 @@ define([
             var protocolName = $(e.target).parent().attr('name');
             this.deleteProtocol(e);
             this.updateInstanceDetails(protocolName);
+        },
+        updateStationData : function(e){
+            var value = $(e.target).val();
+            var fieldName = $(e.target).attr('name');
+            if (value){
+                alert(fieldName + ' ' + value);
+            }
         }
     });
 });

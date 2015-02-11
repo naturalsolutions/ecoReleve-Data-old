@@ -8,18 +8,21 @@ define([
     'stepper/level1-demo',
     'stepper/lyt-step',
     'modules2/input/views/new-station',
-    'modules2/input/views/input-map',
+    //'modules2/input/views/input-map',   //Map,
     'collections/waypoints',
     'models/position',
     'models/station',
     'modules2/input/views/input-grid',
     'modules2/input/views/input-stations-filter',
     'modules2/input/views/input-stations-grid',
-    'utils/getSitesNames'
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Map,Waypoints,Position,Station, Grid,FilterView, GridView, getSitesNames) {
+    'utils/getSitesNames',
+    'ns_modules_map/ns_map',
+    'dateTimePicker'
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker) {
 
     'use strict';
     return Step.extend({
+        className: 'map-view',
         events : {
             'change input[type=radio][name="position"]' :'updateStationType',
             'click #getPosition' : 'getCurrentPosition',
@@ -29,15 +32,36 @@ define([
             'click #addFieldWorkerInput' : 'addInput',
             'click #removeFieldWorkerInput' : 'removeInput',
             'change select.fiedworker' : 'checkFWName',
-            'change input[name="Precision"]' : 'checkAccuracyValue'
+            'change input[name="Precision"]' : 'checkAccuracyValue',
+
+            'change #dateTimePicker input' : 'alerte',
+
+
+
+            'click .bootstrap-datetimepicker-widget' : 'updateDateField'
         },
         regions: {
             leftRegion : '#inputStLeft',
             rightRegion : '#inputStRight'
         },
+
+        alerte: function(){
+            alert();
+        },  
+
+        /*
+        updateDateField : function(){
+            $('input[name="Date_"]').click();
+        },
+
+        */
+
         onShow: function(){
+       
             this.radio = Radio.channel('input');
             this.radio.comply('generateStation', this.generateStation, this);
+            this.radio.comply('movePoint', this.movePoint, this);
+            this.radio.comply('changeDate', this.updateDate, this);
 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
@@ -48,13 +72,24 @@ define([
                 this.leftRegion.show(stationForm);
                 // get stored values
                 this.feedTpl();
-                var map = new Map();
-                this.rightRegion.show(map);
+                
+                this.map = new NsMap({
+                    cluster: true,
+                    popup: true,
+                    zoom : 8,
+                    ///url: config.coreUrl+'/individuals/stations?id=3',
+                    geoJson : {"features": [{"properties": {"date": 1193220000.0}, 'id': 1, "geometry": {"coordinates": [-3.96,33.06 ], "type": "Point"}, "type": "Feature"}], "type": "FeatureCollection"}
+                });
+                this.rightRegion.show(this.map);
+                this.map.init();
+                //var marker = L.marker([20, 20]).addTo(this.map);
+
                 // init map
-                var position = new Position();
-                map.addModel(position);
+               /* var position = new Position();
+                map.addModel(position);*/
                 this.updateStationType(stationType);
             } else if(stationType =='imported'){
+
                 var lastImportedStations = new Waypoints();
                 lastImportedStations.fetch();
                 this.initModel('import',null);
@@ -122,7 +157,6 @@ define([
             console.log(this.model.attributes);
             console.log('attributes');
              console.log(this.stepAttributes);
-
         },
         updateStationType : function(value){
             if(value == "new"){
@@ -241,8 +275,15 @@ define([
             pos.set("longitude",longitude);
             pos.set("label","current station");
             pos.set("id","_");
+            //this.map.updateMarkerPos(1, latitude, longitude );
             Radio.channel('input').command('movePoint', pos);
+
                 //position.coords.altitude +"\n";
+        },
+        movePoint : function(position){
+            var latitude  =position.get("latitude");
+            var longitude = position.get("longitude");
+            this.map.updateMarkerPos(1, latitude, longitude );
         },
         erreurPosition : function(error){
             var info = "Erreur lors de la géolocalisation : ";
@@ -284,6 +325,7 @@ define([
                     this.model.set('station_LON',longitude);
                     //this.getPosModel(latitude,longitude);
                     Radio.channel('input').command('movePoint', position);
+                    this.map.updateMarkerPos(1, latitude, longitude );
                 }
            } else {
                 this.model.set('station_LAT',null);
@@ -339,8 +381,8 @@ define([
             });
             return result;
         },
-        generateStation : function(model) {
-             var stationType = this.model.get('start_stationtype');
+        generateStation : function(model){
+            var stationType = this.model.get('start_stationtype');
             if (stationType =='imported') {
                 var utm = model.get('UTM20');
                 if(!utm){
@@ -368,7 +410,7 @@ define([
                    model.set('NbFieldWorker',''); 
                 }
             }
-            this.model.set('station_position',model ); 
+            this.model.set('station_position',model); 
         },
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
@@ -429,6 +471,12 @@ define([
            if(value < 0 ){
                 alert('please input a valid value (>0) ');
                 $(element).val('');
+            }
+        },
+        updateDate : function(){
+            var dateVal =$("input[name='Date_']").val();
+            if (dateVal){
+                this.model.set('station_Date_' , dateVal);
             }
         }
     });

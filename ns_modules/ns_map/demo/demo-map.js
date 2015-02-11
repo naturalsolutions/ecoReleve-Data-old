@@ -60,7 +60,7 @@ define([
         },
         onShow: function(){
           this.rg_map.show(new NsMap({
-            url: config.coreUrl+'dataGsm/278/unchecked/68602?format=geojson',
+            url: config.coreUrl+'/individuals/stations?id=3',
             cluster: true,
             popup: false,
             com : this.com,
