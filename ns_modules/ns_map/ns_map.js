@@ -18,13 +18,7 @@ define([
 
         bbox : true,
 
-<<<<<<< HEAD
-=======
-        resetTest: function(){
-          this.interaction('resetAll');
-        },
 
->>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
         initialize: function(options) {
             //check if there is a communicator
             console.log(this.$el)
@@ -49,10 +43,7 @@ define([
 
 
             this.initIcons();
-<<<<<<< HEAD
 
-=======
-            //local or url furnished
             
         },
 
@@ -66,7 +57,7 @@ define([
               this.initLayer(this.geoJson);
             }
           }
->>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
+
         },
 
         action: function(action, ids){
@@ -125,26 +116,12 @@ define([
           });
         
         },
-        init: function(){
-          //local or url furnished
-          if(this.url){
-            this.requestGeoJson(this.url);
-          }else{
-            if (this.cluster){
-              this.initClusters(this.geoJson);
-            }else{
-              this.initLayer(this.geoJson);
-            }
-          }
-        },
+
+
         /*==========  initMap  ==========*/
-<<<<<<< HEAD
+
         initMap: function(center, geoJsonLayer, markers){
-=======
-        initMap: function( center, geoJsonLayer, markers){
-            console.log('passed')
-            console.log(this.$el);
->>>>>>> b5212de5ba73d6846cd8af869d139531c13edfc8
+
             this.map = new L.Map('map', {
               center: center ,
               zoom: 3,

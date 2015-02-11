@@ -73,13 +73,11 @@ define([
                     } else {
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
-                            console.log(xml);
                             // get waypoints collection
                             var importResulr =  xmlParser.gpxParser(xml);
                             self.waypointList =  importResulr[0];
                             var errosList = importResulr[1];
                             // display parsing message
-                            console.log(self.waypointList)
                             var nbWaypoints = self.waypointList.length;
                             self.model.set(self.name + '_FileContent', self.waypointList);
                             if ((nbWaypoints > 0) && (errosList.length == 0)){
