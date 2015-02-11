@@ -194,6 +194,7 @@ define([
         },
 
         updateGeoJson: function(args){
+          
             var url = config.coreUrl + '/monitoredSite/search_geoJSON';
             $.ajax({
                 url: url,
@@ -206,6 +207,8 @@ define([
             }).fail(function(msg){
                 console.log(msg);
             });
+
+
         },
 
         updateMapLayer: function(geoJson){

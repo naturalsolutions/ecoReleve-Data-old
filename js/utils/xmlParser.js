@@ -76,7 +76,7 @@ define([
 							waypoint.set("waypointTime", dateTimeStr);
 							waypoint.set("time", time);
 							waypoint.set("fieldActivity", '');
-							waypoint.set("import", true);
+							waypoint.set("import", false);
 							waypointList.add(waypoint);
 						} 
 						else {

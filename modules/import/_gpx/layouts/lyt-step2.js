@@ -73,6 +73,7 @@ define([
                     } else {
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
+                            console.log(xml);
                             // get waypoints collection
                             var importResulr =  xmlParser.gpxParser(xml);
                             self.waypointList =  importResulr[0];

@@ -66,6 +66,8 @@ define([
 
         interaction: function(action, id){
           if(this.com){
+            console.log(this.com);
+
             this.com.action(action, id);                    
           }else{
             this.action(action, id);
@@ -169,6 +171,7 @@ define([
 
                 ctx.dict[feature.id] = marker;
                 marker.on('click', function(){
+                  console.log('click');
                   ctx.interaction('selection', feature.id);
                   //ctx.interaction('popup', feature.id);
 
@@ -260,9 +263,9 @@ define([
 
                 ctx.dict[feature.id] = marker;
                 marker.on('click', function(){
-                  ctx.interaction('selection', [feature.id]);
+                  console.log('click');
+                  ctx.interaction('selection', feature.id);
                   //ctx.interaction('popup', feature.id);
-
                 })
                 return marker;
               },
@@ -375,7 +378,7 @@ define([
           };
 
           this.map.on("boxzoomend", function(e) {
-            var bbox=[];  
+            var bbox=[], childIds=[];  
             for(var key in  markers._featureGroup._layers){
               marker =  markers._featureGroup._layers[key];
               if (e.boxZoomBounds.contains(marker._latlng) /*&& !ctx.selectedMarkers[key]*/) {
@@ -384,10 +387,13 @@ define([
                     bbox.push(marker.feature.id);
                   }else{
                     childs = marker.getAllChildMarkers();
+
                     ctx.updateAllClusters(marker, true);
+
                     for (var i = childs.length - 1; i >= 0; i--) {
                       childs[i].checked = true;
                       ctx.selectedMarkers[childs[i].feature.id] = childs[i];
+                      bbox.push(childs[i].feature.id);
 
                       ctx.changeIcon(childs[i]);
                     };

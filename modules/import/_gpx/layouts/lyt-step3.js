@@ -46,26 +46,20 @@ define([
                 orderSeparator: ' ',
             });
 
-
             var map = new Map({
                 com: this.com,
                 collection: collection
             });
-
-            
             this.mapRegion.show(map);
-
-            //map.addCollection(collection);
-
             Radio.channel('import').command('initGrid');
 
             var mygrid = new Grid({
                 collections : collection,
                 com: this.com,
             });
-
             this.gridRegion.show(mygrid);
         },
+        
         setFieldActivity : function(e){
             var currentFieldVal = $(e.target).val();
             this.$el.find('#locations tr').each(function(){
@@ -77,9 +71,7 @@ define([
             });
         },
 
-
         resetFieldActivity : function(e){
-            console.log('passed');
             this.$el.find('#importFieldActivity').val('');
             this.$el.find('#locations tr').each(function(){
                 $(this).find('select').val('');

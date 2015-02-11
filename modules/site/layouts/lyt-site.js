@@ -38,12 +38,11 @@ define([
             this.datas;
 
             this.filtersList={
-                
-                Type: "String",
-                Name: "String",
+                type: "Select",
+                name: "Select",
                 LAT: "DECIMAL(9, 5)",
                 LON: "DECIMAL(9, 5)",
-                Status: "String",
+                Status: "Select",
             };
 
 
@@ -59,6 +58,9 @@ define([
                 url: config.coreUrl + 'monitoredSite/',
             });
 
+            this.filters.feed('type');
+            this.filters.feed('name');
+            this.filters.feedOpt('Status', ['Active', 'Inactive'])
         },
 
         displayGrid: function(){

@@ -22,9 +22,6 @@ define([
             this.com = options.com;
             this.coll = options.collection;
 
-            //*Radio.channel('gsm-detail').comply('moveCenter', this.moveCenter, this);
-            //Radio.channel('import-gpx').comply('updateMap', this.updateMap, this);
-
             var features = {
                 'features': [], 
                 'type': 'FeatureCollection'
@@ -32,6 +29,7 @@ define([
 
             var feature, attr;
             this.collection.each(function(m){
+
                 attr = m.attributes;
                 feature = {
                     'type': 'Feature',

@@ -10,9 +10,7 @@ define([
     'use strict';
 
     return Step.extend({
-        /*===================================================
-        =            Layout Stepper Orchestrator            =
-        ===================================================*/
+
 
         onShow: function(){
             var msg = this.model.get('ajax_msg') ; 

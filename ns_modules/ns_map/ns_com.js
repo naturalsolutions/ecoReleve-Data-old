@@ -60,6 +60,8 @@ define([
             },
 
             action: function(action, ids){
+
+                console.log(action, ids);
                 for (var i = 0; i < this.components.length; i++) {
                     this.components[i].action(action, ids);
                 };

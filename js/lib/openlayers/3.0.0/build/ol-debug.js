@@ -93511,7 +93511,6 @@ ol.source.Cluster.prototype.createCluster_ = function(features) {
   });
 
 
-  console.log(features);
   ol.coordinate.scale(centroid, 1 / length);
 
   var cluster = new ol.Feature(new ol.geom.Point(centroid));

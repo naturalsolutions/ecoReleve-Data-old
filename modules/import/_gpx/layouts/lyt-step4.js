@@ -72,6 +72,7 @@ define([
             return result;
         },
         onShow: function(){
+
             this.getUsersList();
         },
         generateDatalist : function(data){

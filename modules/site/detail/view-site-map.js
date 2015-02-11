@@ -20,27 +20,22 @@ define([
         initialize: function(options) {
             this.model = options.model;
             this.id= options.id;
-            this.model.bind('change', this.initMap, this);
+            //this.model.bind('change', this.initMap, this);
+            this.initGeoJson();
         },
 
         initGeoJson: function(){
 
-            var url = config.coreUrl+'/monitoredSite/search_geoJSON';
+            var url = config.coreUrl+'/monitoredSite/detail/'+this.id+ '/geoJSON';
 
             $.ajax({
                 url: url,
                 contentType:'application/json',
                 type:'GET',
                 context: this,
-                data: {
-                    page: 1,
-                    per_page: 20,
-                    criteria: null,
-                    offset: 0,
-                    order_by: '[]',
-                },
             }).done(function(datas){
                 this.geoJson= datas;
+                console.log(datas)
                 this.initMap();
             }).fail(function(msg){
                 console.log(msg);
@@ -54,39 +49,25 @@ define([
 
 
 
+            var infos = this.geoJson;
 
-            var infos = this.model.attributes.positions;
-            console.log(this.model);
+            console.log(infos)
+
+
             for (var i = 0; i < infos.length; i++) {
-                console.log(infos[i]['end'])
-                if(!infos[i]['end']){
+                if(!infos[i]['properties']['end']){
                     activePos.features.push({
                         'type':'Feature',
-                        'geometry':{
-                            'type':'Point',
-                            'coordinates': [ 
-                                infos[i]['lon'],
-                                infos[i]['lat']
-                            ]
-                        },
+                        'geometry': infos[i].geometry
                     });
                 }
                 else{
                     oldPos.features.push({
                         'type':'Feature',
-                        'geometry':{
-                            'type':'Point',
-                            'coordinates': [ 
-                                infos[i]['lon'],
-                                infos[i]['lat']
-                            ]
-                        },
+                        'geometry':infos[i].geometry
                     });
                 }
             };
-
-
-
 
             /*========================================
             =            Active Positions            =

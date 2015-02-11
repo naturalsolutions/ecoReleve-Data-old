@@ -2,11 +2,13 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'config',
     'radio',
     'bbForms',
     'text!filter/tpl-filters.html',
 
-], function($, _, Backbone, Radio, BbForms, tpl){
+
+], function($, _, Backbone, config, Radio, BbForms, tpl){
     'use strict';
     return Backbone.Model.extend({
 
@@ -58,44 +60,15 @@ define([
         },
 
         initFilters: function(data){
-            var key;
-            for(key in data){
+            var form;
+            for(var key in data){
 
-                var form;
-                var type=data[key];
-                var fieldName = key;
-                var schm={};
+                 form = this.initFilter(data, key);
 
+                $('#filters').append(form.el).append('<br>');
 
-                if(type!='0'){
-                    schm['Column'] = {type: 'Hidden', title: null, value: fieldName};    
-
-                    schm['Operator'] = {type : 'Select', title: null, options: this.getOpOptions(type), editorClass: 'form-control' };
-
-                    schm['Value'] = {
-                        type : this.getFieldType(type),
-                        title : fieldName,
-                        editorClass: 'form-control filter', 
-                        options: [{  
-                            dateFormat: 'd/m/yyyy',
-                            defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
-                        }] };
-                    
-
-                    form = new BbForms({
-                        template: _.template(tpl),
-                        schema: schm,
-                        data: {
-                          Column: fieldName,
-                        },
-                        templateData: {filterName: key}
-                    }).render();
-                    $('#filters').append(form.el).append('<br>');
-
-
-
-                    this.forms.push(form);
-                }
+                this.forms.push(form);
+                
             };
 
                 /*
@@ -107,9 +80,49 @@ define([
 
         },
 
-
         displayFilter: function(){
 
+        },
+
+
+        initFilter: function(data, key){
+            var form;
+            var type=data[key];
+            var fieldName = key;
+            var classe ='';
+            if(fieldName == 'Status') classe = 'hidden';
+
+            var md = Backbone.Model.extend({
+                    schema : {
+                        Column : {type: 'Hidden', title: null, value: fieldName},
+                        Operator : {type : 'Select', title: null, options: this.getOpOptions(type),editorClass: 'form-control '+classe,
+                         },
+                            
+                        Value : {
+                            type : this.getFieldType(type),
+                            title : fieldName,
+                            editorClass: 'form-control filter', 
+                            options: this.getValueOptions(type)
+                        }
+                    },
+                    defaults: {
+                        Column : fieldName,
+                    }  
+            });
+
+
+            var mod = new md();
+
+            form = new BbForms({
+                template: _.template(tpl),
+                model: mod,
+                data: {
+                  Column: key,
+                },
+                templateData: {filterName: key}
+            }).render();
+
+            return form;
         },
 
         /*
@@ -120,15 +133,39 @@ define([
         },
         */
 
+
+        getValueOptions: function(type){
+            var valueOptions;
+            switch(type){
+                case "Select": 
+                    return valueOptions = [];
+                    break;
+                case "DATETIME":
+                    return valueOptions = [{
+                        dateFormat: 'd/m/yyyy',
+                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
+                        }];
+                    break;
+                default:
+                    return valueOptions = '';
+                    break;
+            }
+        },
+
         getOpOptions: function(type){
             var operatorsOptions;
             switch(type){
                 case "String": 
-                    return operatorsOptions= ['Not Like', 'Like'];
+                    return operatorsOptions= ['Is', 'Is not', 'Contains'];
+                    break;
+                case "Select": 
+                    return operatorsOptions= ['Is', 'Is not'];
                     break;
                 case "DATETIME":
                     return operatorsOptions= ['<', '>', '=', '<>', '<=', '>='];
                     break;
+                case "Checkboxes":
+                    return operatorsOptions= ['='];
                 default:
                     return operatorsOptions= ['<', '>', '=', '<>', '<=', '>='];
                     break;
@@ -141,8 +178,14 @@ define([
                 case "String": 
                     return typeField="Text";
                     break;
+                case 'Select': 
+                    return typeField='Select';
+                    break;
                 case "DATETIME":
                     return typeField="BackboneDatepicker"; //DateTime
+                    break;
+                case 'Checkboxes':
+                    return typeField="Checkboxes";
                     break;
                 default:
                     return typeField="Number";
@@ -152,11 +195,25 @@ define([
 
         update: function(){
             var filters= [];
-            var currentForm;
+            var currentForm, value;
             for (var i = 0; i < this.forms.length; i++) {
                 currentForm=this.forms[i];
+                console.log(currentForm.getValue());
                 if(!currentForm.validate() && currentForm.getValue().Value){
-                    filters.push(currentForm.getValue());
+
+                    value = currentForm.getValue();
+
+                    /*
+                    if(currentForm.getValue().Value.length == 2){
+                        return false;
+                    }else{ 
+                        (currentForm.getValue().Value[0] == 'Active')? value['Value'] = true : value['Value'] = false;
+                    }*/
+
+                    filters.push(value);
+                    
+
+
                     currentForm.$el.find('input.filter').addClass('active');
                 }else{
                     currentForm.$el.find('input.filter').removeClass('active')
@@ -164,8 +221,30 @@ define([
                 };
             };
             this.radio.command(this.channel+':grid:update', { filters : filters });
+
+            console.log(filters);
         },
 
+
+        feed: function(type){
+            $.ajax({
+                url: config.coreUrl+'monitoredSite/'+type,
+                context: this,
+            }).done(function( data ) {
+                this.feedOpt(type, data);
+            }).fail(function( msg ) {
+                console.log(msg);
+            });
+        },
+
+        feedOpt: function(type, list){
+            var optTpl;
+            $('#'+type+' select[name=Value]').append('<option value=""></option>');
+            for (var i = 0; i < list.length; i++) {
+                optTpl = '<option value="'+list[i]+'">'+list[i]+'</option>';
+                $('#'+type+' select[name=Value]').append(optTpl);
+            };
+        },
 
 
         /*
@@ -180,3 +259,4 @@ define([
 
     });
 });
+
