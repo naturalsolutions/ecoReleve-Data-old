@@ -529,3 +529,9 @@ table.fancytree-ext-table tbody tr.fancytree-selected {
 }
 body {
 }
+.fancytreeview{
+  max-height:300px;
+  position: absolute;
+  top : 55px;
+  overflow: auto;
+}

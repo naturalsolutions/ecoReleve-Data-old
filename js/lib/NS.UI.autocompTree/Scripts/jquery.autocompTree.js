@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 *   Plugin autocompTree 1.0
 *   Permet l'affichage d'un autocomplete de donnée organisée en arbre
 *   Dépendance :
@@ -26,7 +26,7 @@
             //URL des webservices
             wsUrl: 'http://' + window.location.hostname + '/Thesaurus/App_WebServices/wsTTopic.asmx',
             //Webservices pour un affichage en arborescence
-            webservices: 'initTreeByIdWLanguageWithoutDeprecated',
+            webservices: 'fastInitForCompleteTree',
             //si l'affichage est différent de la valeur renvoyée
             display: {
                 isDisplayDifferent: false,
@@ -35,9 +35,9 @@
                 //Nom des paramètres a récupéré dans les noeuds de l'arbre
                 //Si isDisplayDifferent = false -> la valeur sera displayValueName
                 //Affichage
-                displayValueName: 'fullpathTranslated',
+                displayValueName: 'title',
                 //Valeur cachée
-                storedValueName: 'fullpath'
+                storedValueName: 'fullpathTranslated'
             },
             //Si l'arbre utilise un langage différent
             language: {
@@ -73,9 +73,9 @@
                 //Information à envoyer 
                 var dataToSend = '';
                 if (parametres.language.hasLanguage) {
-                    dataToSend = "{'id':'" + parametres.startId + "', language: '" + parametres.language.lng + "'}"
+                    dataToSend = '{"StartNodeID":"' + parametres.startId + '", "lng": "' + parametres.language.lng + '"}';
                 } else {
-                    dataToSend = "{'id':'" + parametres.startId + "'}"
+                    dataToSend = '{"StartNodeID":"' + parametres.startId + '"}'
                 }
 
                 _self.each(function () {
@@ -85,7 +85,7 @@
                     var htmlInsert = '';
                     //Si isDisplayDifferent = true on crée un input hidden afin de stocker la valeur 
                     if (parametres.display.isDisplayDifferent) {
-                        //htmlInsert = '<input type="hidden" id="' + $me.attr("name") + parametres.display.suffixeId + '" name="' + $me.attr("name") + parametres.display.suffixeId + '" runat="server" enabled="true"/>'
+                        htmlInsert = '<input type="hidden" id="' + $me.attr("name") + parametres.display.suffixeId + '" name="' + $me.attr("name") + parametres.display.suffixeId + '" runat="server" enabled="true"/>'
                     }
                     //Div qui sera le conteneur du treeview
                     htmlInsert += '<div class="fancytreeview" id="treeView' + $me.attr('id') + '" style="display:none"></div>';
@@ -111,7 +111,7 @@
                         source: {
                             type: "POST",
                             url: parametres.wsUrl + "/" + parametres.webservices,
-                            datatype: 'json',
+                            datatype: 'jsonp',
                             contentType: "application/json; charset=utf-8",
                             data: dataToSend
                         },
@@ -147,8 +147,9 @@
                         activate: function (event, data) {
                             var tree = $("#treeView" + $me.attr("id")).fancytree('getTree');
                             if (parametres.display.isDisplayDifferent) {
+                                console.log(data.node.data);
                                 $me.val(data.node.data[parametres.display.displayValueName]);
-                                $('#' + $me.attr('id') + parametres.display.suffixeId).val(data.node.data[parametres.display.storedValueName]);
+                                $('[name=' + $me.attr('name') + parametres.display.suffixeId + ']').val(data.node.data[parametres.display.storedValueName]);
                                 $("#treeView" + $me.attr("id")).css('display', 'none');
                                 tree.activateKey(false);
                                 //On désactive le pseudo blur afin qu'il ne s'éxécute plus si l'arbre a disparu et que le vrai focus n'est plus l'input
@@ -178,7 +179,7 @@
                         });
                         var treeContainer = $("#treeView" + $me.attr("id"));
                         treeContainer.css('display', 'block').css('width', $me.outerWidth() - 2).css('border', 'solid 1px').css('z-index', '100');
-                        treeContainer.css({top: $(this).outerHeight() });
+                        treeContainer.css({top: $(this).outerHeight() + 20 });
                         //Fonction qui permet d'effectuer un "blur" sur l'ensemble des éléments (input et arbre)
                         $(document).delegate("body", "click", function (event) {                            
                             if (!$(event.target).is("#" + $me.attr("id") + ",span[class^=fancytree], div[id^=treeView], ul")) {

@@ -14,7 +14,9 @@ define([
         template: template,
         events : {
             'change input[name="stAccuracy"]' : 'checkAccuracyValue',
-            'change .fieldworker' : 'checkFWName'
+            'change .fieldworker' : 'checkFWName',
+            'change .editField' : 'updateStationData',
+            'change .indivNumber' : 'updateTotalIndivNumber',
         },
         ui : {
             fieldActivity : 'select[name="st_FieldActivity_Name"]',
@@ -25,9 +27,9 @@ define([
             this.generateSelectLists();
             this.checkSiteNameDisplay();
             this.getUsersList();
+            this.radio = Radio.channel('froms');
         },
         onBeforeDestroy: function() {
-         
         },
         generateSelectLists : function(){
             var fieldList = getFieldActivity.getElements('theme/list');
@@ -84,6 +86,76 @@ define([
                 }
             });
             $("#stDtailsNbFW").val(nbFW);
+            this.model.set('NbFieldWorker',parseInt(nbFW));
+        },
+        updateTotalIndivNumber : function(){
+            var total = 0;
+            $('.indivNumber').each(function(){
+                var number = parseInt($(this).val());
+                if(number){
+                    total += number;
+                }
+            });
+            $('input[name="Nb_Total"]').val(total);
+            this.model.set('NbFieldWorker',parseInt(total));
+        },
+        updateStationData : function(e){
+            var value = $(e.target).val();
+            var fieldName = $(e.target).attr('name');
+            if (value){
+                switch(fieldName){
+                    case 'stPlace':
+                        this.model.set('Place',value);
+                        break;
+                    case 'stAccuracy':
+                        this.model.set('Precision',value);
+                        break;
+                    case 'stDistance':
+                        this.model.set('Name_DistanceFromObs',value);
+                        break;
+                    case 'st_FieldActivity_Name':
+                        this.model.set('FieldActivity_Name',value);
+                        break;
+                    case 'detailsStFW1':
+                        this.model.set('FieldWorker1',parseInt(value));
+                        break;
+                     case 'detailsStFW2':
+                        this.model.set('FieldWorker2',parseInt(value));
+                        break;
+                    case 'detailsStFW3':
+                        this.model.set('FieldWorker3',parseInt(value));
+                        break;
+                    case 'detailsStFW4':
+                        this.model.set('FieldWorker4',parseInt(value));
+                        break;
+                    case 'detailsStFW5':
+                        this.model.set('FieldWorker5',parseInt(value));
+                        break;
+                    case 'detailsStFWTotal':
+                        this.model.set('NbFieldWorker',parseInt(value));
+                        break;
+                    default:
+                        break;
+                }
+                this.radio.command('updateStation', {model: this.model});
+
+
+                /*$.ajax({
+                    url: config.coreUrl +'station/addStation/insert',
+                    context: this,
+                    data: this.model.attributes,
+                    type:'POST',
+                    success: function(data){
+                    console.log(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                    alert('error in updating current station value(s)');
+                }
+                });*/
+                
+            }
         }
     });
 });

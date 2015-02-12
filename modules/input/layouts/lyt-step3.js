@@ -29,10 +29,9 @@ define([
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
             'click .onglet a': 'activeOnglet',
-            'change .indivNumber' : 'updateTotalIndivNumber',
             'click .deleteProt' : 'deleteProtocol',
             'click .deleteProInstance' : 'deleteProtInstance',
-            'change .editField' : 'updateStationData'
+            //'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
@@ -60,6 +59,7 @@ define([
             this.radio.comply('updateForm', this.updateFormUI, this);
             this.radio.comply('successCommitForm', this.successState, this);
             this.radio.comply('editState', this.editState, this);
+            this.radio.comply('updateStation', this.updateSation, this);
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -118,7 +118,62 @@ define([
             this.formsRegion.empty();
             $('#formsContainer').text('');
             var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
-            this.formView = new NsFormsModule({
+            // extend NsForms Module to replace thesaurus fields values by 'fullpath' values stored in hidden fields
+            var NsForm = NsFormsModule.extend({
+                butClickSave: function (e) {
+                    var errors = this.BBForm.commit();         
+                    var changedAttr = this.BBForm.model.changed;
+                    if(!errors){  
+                        var self = this;   
+                        //replace thesaurus fields values by 'fullpath' values stored in hidden fields
+                        $('input.autocompTree').each(function() {
+                            // get fullpath value 
+                            var fieldName = $(this).attr('name');
+                            var hiddenFieldName = fieldName + '_value';
+                            var fullpathValue = $('input[name="' + hiddenFieldName + '"]').val();
+                            self.model.set(fieldName,fullpathValue);
+                        });
+                        
+                        var staId = this.model.get('FK_TSta_ID');
+                        if(staId){
+                            this.model.set('FK_TSta_ID', parseInt(staId));
+                        }
+                        for (var attr in this.model.attributes) {
+                           var val = this.model.get(attr);
+                           if (Array.isArray(val) ){
+                                if (val[0] == 'true' && val.length == 0)
+                                    this.model.set(attr,1)
+                           }                
+                       }
+                        var self = this;
+                        this.model.save([],{
+                         dataType:"text",
+                         success:function(model, response) {
+                            console.log('success' + response);
+                            self.displayMode = 'display';
+                            self.displaybuttons();
+                            self.radio.command('successCommitForm', {id: response});
+                            // update this.modelurl  if we create a new instance of protocol
+                            var tab = self.modelurl.split('/');
+                            var ln = tab.length;
+                            var newId = parseInt(response);
+                            var currentProtoId = parseInt(tab[ln - 1]);
+                            if (currentProtoId ===0){
+                                var url ='';
+                                for (var i=0; i<(ln -1);i++){
+                                    url += tab[i] +'/';
+                                }
+                                self.modelurl = url + newId;
+                            }
+                         },
+                         error:function(request, status, error) {
+                            alert('error in saving data');
+                         }
+                        });
+                    }
+                }
+            });
+            this.formView = new NsForm({
                 modelurl : url,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons',
@@ -359,6 +414,7 @@ define([
             return userName;
         },
         successState : function(obj){
+            var test =this.formView;
             var protoId = obj.id;
             var activOnglet  = $('#tabProtsUl div.onglet.active');
             //<i class="icon small reneco validated"></i>
@@ -388,23 +444,28 @@ define([
                 }
             };
         },
-        editState : function(){
+        editState : function(resp){
+            var self = this;
             var element = $('#tabProtsUl div.onglet.active').find('i')[0];
             $(element).removeClass('validated');
             $(element).addClass('edit');
             $('form input').removeAttr('disabled');
             $('form textarea').removeAttr('disabled');
             $('form select').removeAttr('disabled');
-        },
-        updateTotalIndivNumber : function(){
-            var total = 0;
-            $('.indivNumber').each(function(){
-                var number = parseInt($(this).val());
-                if(number){
-                    total += number;
-                }
+            // for thesaurus fields, replace fullpath value by terminal value and set hidden field with fullpath val
+            $('input.autocompTree').each(function() {
+                // get fullpath value 
+                var fieldName = $(this).attr('name');
+                var fullpathValue = resp.model.get(fieldName);
+                var hiddenFieldName = fieldName + '_value';
+                $('input[name="' + hiddenFieldName + '"]').attr('value', fullpathValue);
+                /*alert(fullpathValue);
+                $('input[name="' + hiddenFieldName + '"]').val(fullpathValue);*/
+                // get terminal value and display it 
+                var tab = fullpathValue.split('>');
+                var terminalVl = tab[tab.length - 1];
+                $(this).val(terminalVl);
             });
-            $('input[name="Nb_Total"]').val(total);
         },
         updateFormforVG : function(){
             $('form#Vertebrate_group').find('div.col-sm-4').each(function(){
@@ -444,12 +505,83 @@ define([
             this.deleteProtocol(e);
             this.updateInstanceDetails(protocolName);
         },
+        updateSation : function(model){
+            $.ajax({
+                url: config.coreUrl +'station/addStation/insert',
+                context: this,
+                data: this.model.attributes,
+                type:'POST',
+                success: function(data){
+                    console.log(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                //alert(xhr.status);
+                //alert(thrownError);
+                alert('error in updating current station value(s)');
+                }
+            });
+
+        }
+        /*,
         updateStationData : function(e){
             var value = $(e.target).val();
             var fieldName = $(e.target).attr('name');
+            var stationModel = this.model.get('station_position');
             if (value){
+                switch(fieldName){
+                    case 'stPlace':
+                        stationModel.set('Place',value);
+                        break;
+                    case 'stAccuracy':
+                        stationModel.set('Precision',value);
+                        break;
+                    case 'stDistance':
+                        stationModel.set('Name_DistanceFromObs',value);
+                        break;
+                    case 'st_FieldActivity_Name':
+                        stationModel.set('FieldActivity_Name',value);
+                        break;
+                    case 'detailsStFW1':
+                        stationModel.set('FieldWorker1',parseInt(value));
+                        break;
+                     case 'detailsStFW2':
+                        stationModel.set('FieldWorker2',parseInt(value));
+                        break;
+                    case 'detailsStFW3':
+                        stationModel.set('FieldWorker3',parseInt(value));
+                        break;
+                    case 'detailsStFW4':
+                        stationModel.set('FieldWorker4',parseInt(value));
+                        break;
+                    case 'detailsStFW5':
+                        stationModel.set('FieldWorker5',parseInt(value));
+                        break;
+                    case 'detailsStFWTotal':
+                        stationModel.set('NbFieldWorker',parseInt(value));
+                        break;
+                    default:
+                        break;
+                }
+
                 alert(fieldName + ' ' + value);
+                console.log(stationModel);
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/insert',
+                    context: this,
+                    data: this.model.attributes,
+                    type:'POST',
+                    success: function(data){
+                    console.log(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                    alert('error in updating current station value(s)');
+                }
+                });
+            
             }
         }
+        }*/
     });
 });

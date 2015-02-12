@@ -121,6 +121,10 @@ define([
 						this.model.url = this.modelurl;
 						//this.model.trigger('change');
 						this.showForm();
+                        if(data && (! _.isEmpty(data))){
+                            this.radio.command('editState',{model: this.model});
+                        }
+
 					},
 					error: function (data) {
 						alert('error Getting Fields for current protocol ');
@@ -179,6 +183,12 @@ define([
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
+                    display: {
+                        isDisplayDifferent: true,
+                        suffixeId: '_value',
+                        displayValueName: 'value',
+                        storedValueName: 'fullpathTranslated'
+                    },
                     startId: startId 
                 });
                 // set current valua after applying autocompTree
@@ -228,6 +238,7 @@ define([
             var changedAttr = this.BBForm.model.changed;
             if(!errors){     
                 //this.model.set('id', null);
+                
                 var staId = this.model.get('FK_TSta_ID');
                 if(staId){
                     this.model.set('FK_TSta_ID', parseInt(staId));
@@ -270,7 +281,7 @@ define([
             e.preventDefault();
             this.displayMode = 'edit';
             this.initModel();
-            this.radio.command('editState');
+            
         },
 
         butClickClear: function (e) {
