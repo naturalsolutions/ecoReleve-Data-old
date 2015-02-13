@@ -30,7 +30,7 @@ define([
             this.url=options.url;
             this.geoJson=options.geoJson;
             this.zoom = options.zoom || 2;
-
+            this.selection = true;
             this.bbox = options.bbox || this.bbox;
             this.click = options.click;
             this.cluster = options.cluster;
@@ -39,7 +39,9 @@ define([
             this.selectedMarkers = {}; // list of selected markers
             this.url = options.url;
             this.geoJson = options.geoJson;
-
+            if(options.selection){
+              this.selection = options.selection;
+            }
 
 
             this.initIcons();
@@ -134,15 +136,30 @@ define([
               updateWhenIdle: true,
               reuseTiles: true
             });
-
+            var markerArray = [];
             if(geoJsonLayer){
               markers.addLayer(geoJsonLayer);
+              // get markers coordinates
+              
+              for(var index in geoJsonLayer._layers) { 
+                  var lat = geoJsonLayer._layers[index]._latlng.lat; 
+                  var lng = geoJsonLayer._layers[index]._latlng.lng;
+                  markerArray.push(L.marker([lat, lng]));
+
+              }
             }
             this.map.addLayer(googleLayer);
             if(markers){
              this.map.addLayer(markers);
             }      
-            this.map.setZoom(this.zoom);
+            //this.map.setZoom(this.zoom);
+            if (markerArray.length >1){
+              var group = L.featureGroup(markerArray);
+            this.map.fitBounds(group.getBounds());
+            } else {
+              this.map.setZoom(this.zoom);
+            }
+            
 
             if(this.bbox){
               this.addBBox(markers);
@@ -426,6 +443,7 @@ define([
 
         /*==========  updateMarkerIcon  ==========*/
         selectOne: function(id){
+          if(this.selection){
           var marker;
             marker=this.dict[id];
             marker.checked=!marker.checked;
@@ -436,6 +454,7 @@ define([
             };
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
+          }
         },
 
         avoidDoublon: function(id, marker){
@@ -444,6 +463,7 @@ define([
         },
 
         selectMultiple: function(ids){
+          if(this.selection){
           var marker;
           for (var i = 0; i < ids.length; i++) {            
             marker=this.dict[ids[i]];
@@ -454,6 +474,7 @@ define([
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
           };
+          }
         },
 
         /*==========  focusMarker :: focus & zoom on a point  ==========*/

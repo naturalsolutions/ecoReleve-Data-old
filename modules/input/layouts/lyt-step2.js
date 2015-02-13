@@ -17,8 +17,10 @@ define([
     'modules2/input/views/input-stations-grid',
     'utils/getSitesNames',
     'ns_modules_map/ns_map',
-    'dateTimePicker'
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker) {
+    'dateTimePicker',
+     'ns_modules_com',
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,
+    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com) {
 
     'use strict';
     return Step.extend({
@@ -65,7 +67,6 @@ define([
 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
-                //console.log(this.stepAttributes);
                 var stationForm = new StationView();
                 var formModel = stationForm.form.model;
                 this.initModel(stationType,stationForm);
@@ -89,18 +90,60 @@ define([
                 map.addModel(position);*/
                 this.updateStationType(stationType);
             } else if(stationType =='imported'){
-
+                $('#btnNext').addClass('disabled');
                 var lastImportedStations = new Waypoints();
                 lastImportedStations.fetch();
                 this.initModel('import',null);
                 var ln = lastImportedStations.length;
                 if (ln > 0){
+                    /*
                     var mygrid = new Grid({collections : lastImportedStations});
                     this.leftRegion.show(mygrid);
+                    */
+
+                    this.com = new Com();
+                    var mygrid = new Grid({
+                        collections : lastImportedStations,
+                        com: this.com,
+                    });
+                    this.leftRegion.show(mygrid);
+
                     // display map
-                    var map = new Map();
-                    this.rightRegion.show(map);
-                    map.addCollection(lastImportedStations);
+                    var features = {
+                        'features': [], 
+                        'type': 'FeatureCollection'
+                    };
+                    var feature, attr;
+                    lastImportedStations.each(function(m){
+
+                        attr = m.attributes;
+                        feature = {
+                            'type': 'Feature',
+                            'id': attr.PK,
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [attr.LON,attr.LAT],
+                            }, 
+                            'properties': {
+                                'date': '2014-10-23 12:39:29'
+                            }, 
+                            
+                        };
+                        features.features.push(feature);
+                    });
+
+                    this.features = features;
+                    this.map = new NsMap({
+                        com: this.com,
+                        cluster: true,
+                        popup: true,
+                        selection :false,
+                        geoJson: this.features
+                    });
+
+                    this.rightRegion.show(this.map);
+                    this.map.init();
+                    //map.addCollection(lastImportedStations);
                 } else {
                     // no stored waypoints
                     $('#inputStLeft').html('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
@@ -129,7 +172,6 @@ define([
                             required = (validators.indexOf('required')!=-1) ;
                         }
                         obj.required = required;
-                        console.log(obj);
                         // set value in global model if not done
                         var fieldVal = this.model.get(obj.name); 
                         if(!fieldVal){
@@ -152,11 +194,6 @@ define([
                     this.model.set('station_position', null);
                 }
             }
-            // get attributes from this.model to set fields values (form model)
-            console.log('global model');
-            console.log(this.model.attributes);
-            console.log('attributes');
-             console.log(this.stepAttributes);
         },
         updateStationType : function(value){
             if(value == "new"){
@@ -169,7 +206,6 @@ define([
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'  || field.name =='id_site'){
                         field.required = false;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON'){
                         field.required = true;
@@ -186,7 +222,6 @@ define([
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'){
                         field.required = true;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='id_site' || field.name =='station_Precision' ){
                         field.required = false;
@@ -202,7 +237,6 @@ define([
                     var field = this.stepAttributes[key];
                     if(field.name =='station_id_site' || field.name =='station_name_site'){
                         field.required = true;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='station_Region' || field.name =='station_Precision' ){
                         field.required = false;
@@ -315,7 +349,6 @@ define([
                 var longitude = parseFloat($('input[name="LON"]').val());
                 // if the 2 values are inputed update map location
                 if(latitude && longitude){
-                    console.log("longitude: "+ longitude + " , latitude: "+ latitude);
                     var position = new Position();
                     position.set("latitude",latitude);
                     position.set("longitude",longitude);
@@ -349,7 +382,6 @@ define([
                     station.set(attrName, this.model.get(attribute));
                 }
             }
-            console.log(station);
             var url= config.coreUrl +'station/addStation/insert';
            
             $.ajax({
