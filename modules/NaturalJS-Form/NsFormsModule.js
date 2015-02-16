@@ -43,10 +43,6 @@ define([
                 return values;
                 },
             });
-            
-
-
-
 
             this.radio = Radio.channel('froms');
 

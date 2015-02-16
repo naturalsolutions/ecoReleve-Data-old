@@ -374,6 +374,24 @@ define([
         },
         updateFormUI : function(){
             // time picker
+            //$(datefield).attr('placeholder', config.dateLabel);
+            var self = this;
+            $('.timePicker').datetimepicker({
+                defaultDate:""
+            });
+            $('.timePicker').each(function(){
+                $(this).data('DateTimePicker').format('HH:mm');
+            });
+            //$(datefield).data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
+            $('.timePicker').on('dp.show', function(e) {
+                 $(this).val('');
+                 $(this).attr('placeholder','HH:mm');
+            });
+            $('.timePicker').on('dp.change', function(e) {
+                self.checkTime(e);
+            });
+
+
             /*$('.timePicker').datetimepicker({ 
             });
             $('.timePicker').data('DateTimePicker').format('HH:mm');*/
@@ -414,7 +432,6 @@ define([
             return userName;
         },
         successState : function(obj){
-            var test =this.formView;
             var protoId = obj.id;
             var activOnglet  = $('#tabProtsUl div.onglet.active');
             //<i class="icon small reneco validated"></i>
@@ -505,11 +522,14 @@ define([
             this.deleteProtocol(e);
             this.updateInstanceDetails(protocolName);
         },
-        updateSation : function(model){
+        updateSation : function(obj){
+            var model = obj.model ; 
+            var data = model.changed;
+            data.PK = model.get('PK');
             $.ajax({
                 url: config.coreUrl +'station/addStation/insert',
                 context: this,
-                data: this.model.attributes,
+                data: data,
                 type:'POST',
                 success: function(data){
                     console.log(data);
@@ -520,7 +540,26 @@ define([
                 alert('error in updating current station value(s)');
                 }
             });
-
+        },
+        checkTime : function(e){
+            var time = $(e.target).val();
+            var error = false;
+            if(time){
+                var tab = time.split(':');
+                if(tab.length> 0){
+                    var heure = tab[0];
+                    var minutes = tab[1];
+                    if(parseInt(heure) > 24 || (parseInt(minutes) > 59)) {
+                        error = true;
+                    }
+                } else {
+                    error = true;
+                }
+                if(error){
+                    alert('Please input a valid time');
+                    $(e.target).val('');
+                }
+            }
         }
         /*,
         updateStationData : function(e){

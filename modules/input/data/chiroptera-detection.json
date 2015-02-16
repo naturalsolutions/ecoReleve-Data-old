@@ -26,10 +26,10 @@
     },
     "Time": {
       "validators": ["required"],
-      "type": "Time",
+      "type": "Text",
       "title": "Time",
       "editorAttrs": { "placeholder":"HH:MM" },
-      "editorClass": "required"
+      "editorClass": "required timePicker"
     },
     "File_name": {
       "validators": [
