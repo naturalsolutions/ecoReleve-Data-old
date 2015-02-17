@@ -155,12 +155,14 @@ define([
                 this.leftRegion.show(new FilterView());
                 this.rightRegion.show(new GridView());
                 if (stationType =='old') {
+                    //$('#allSt-Monitored').addClass('masqued');
                     $('#allSt-Monitored').addClass('masqued');
-                    $('#stMonitoredSiteName').addClass('masqued');
-                    $('#st-station').removeClass('masqued');
+                    //$('#st-station').removeClass('masqued');
+                    $('#allSt-SitesNameCont').addClass('masqued');
                 } else {
-                    $('#stMonitoredSiteName').removeClass('masqued');
-                    $('#st-station').addClass('masqued');
+                    //$('#stMonitoredSiteName').removeClass('masqued');
+                    //$('#st-station').addClass('masqued');
+                    $('.allSt-name').addClass('masqued');
                 }
             }
         },
@@ -377,7 +379,7 @@ define([
         nextOK: function(){
             var result = false; 
             var stationType = this.model.get('start_stationtype');
-            if (stationType =='imported' || stationType =='old') {
+            if (stationType =='imported' || stationType =='old' || stationType =='monitoredSite') {
                 return true;
             }
             // create a station model from stored data in global model
@@ -451,6 +453,7 @@ define([
                    model.set('NbFieldWorker',''); 
                 }
             }
+            //monitoredSite
             this.model.set('station_position',model); 
         },
         addInput : function(){

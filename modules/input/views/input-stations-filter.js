@@ -54,7 +54,7 @@ define([
 
             this.filter =  {
                 PK : {Operator: '=' , Value: null },  
-                Name : {Operator: '=' , Value: null },    
+                Name : {Operator: 'Is' , Value: null },    
                 siteName : {Operator: '=' ,Value: null  },    
                 beginDate: {Operator: '>=' ,Value: null  },    
                 endDate: {Operator: '<=' ,Value: null  },    
@@ -135,11 +135,11 @@ define([
         update: function(e) {
             var input = $(e.target);
             var id =  $(input).attr('id');
-            if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op')){
+            if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op') && (id!='allSt-Name-op')){
                 var name = $(input).attr('name').split('-')[1];
                 var value = e.target.value;
                 if (!value){ value =null;}
-                if(name !='fieldWorker' && name !='Name' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
+                if(name !='fieldWorker' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
                     this.filter[name].Value = value;
                 } else if(name =='fieldWorker') {
                     this.filter[name].Value = parseInt(value); 
