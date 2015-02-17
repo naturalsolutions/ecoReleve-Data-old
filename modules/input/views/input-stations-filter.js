@@ -35,7 +35,8 @@ define([
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
-            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName'
+            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName',
+            'click #allSt-filter-btn' : 'filterQuery'
 
         },
         ui: {
@@ -84,6 +85,7 @@ define([
             this.$el.find('input').prop('disabled', false);
         },
         onShow: function(evt) {
+
             this.$el.parent().addClass('no-padding');
             var height=$(window).height();
             height -= $('#header-region').height();
@@ -95,8 +97,8 @@ define([
             this.$el.find('.panel-heading').css({'border-radius':'0px'});
 
             this.$el.find('.panel-body').css({'background-color' : 'white'});
-            $('.dateTimePicker').datetimepicker({
-            }); 
+            /*$('.dateTimePicker').datetimepicker({
+            }); */
             var self = this;
             $(this.ui.indivId).change( function() {  
                 self.getIndivId();
@@ -111,8 +113,15 @@ define([
                 $(this).data('DateTimePicker').format('DD/MM/YYYY');
             });
             $(this.ui.datePicker).on('dp.show', function(e) {
-                 $(this).val('');
-            });          
+                $(this).val('');
+                var name = $(this).attr('name').split('-')[1];
+                self.filter[name].Value = null; 
+            });  
+            $(this.ui.datePicker).on('dp.change', function(e) {
+                var name = $(this).attr('name').split('-')[1];
+                var value = $(this).val() || null;
+                self.filter[name].Value = value; 
+            });        
         },
 
         onDestroy: function(evt) {
@@ -149,6 +158,9 @@ define([
                 //alert(fieldName);
                 this.filter[fieldName].Operator = operator; 
             }
+            this.updateGrid();
+        },
+        filterQuery : function(){
             this.updateGrid();
         },
         getIndivId : function(){

@@ -150,9 +150,18 @@ define([
                 }
 
             } else {
+                // from existed stations/monitored sites
                 this.initModel('old',null);
                 this.leftRegion.show(new FilterView());
                 this.rightRegion.show(new GridView());
+                if (stationType =='old') {
+                    $('#allSt-Monitored').addClass('masqued');
+                    $('#stMonitoredSiteName').addClass('masqued');
+                    $('#st-station').removeClass('masqued');
+                } else {
+                    $('#stMonitoredSiteName').removeClass('masqued');
+                    $('#st-station').addClass('masqued');
+                }
             }
         },
         initModel: function(type,formView){

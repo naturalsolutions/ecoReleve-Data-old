@@ -11,8 +11,6 @@ define([
         /*==========  Next / Prev  ==========*/
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
-            
-            console.log('onShow');
             //this.radio = Radio.channel('route');
             this.radio = Radio.channel('input');
             this.radio.comply('navigateNextStep', this.nextStep, this);
