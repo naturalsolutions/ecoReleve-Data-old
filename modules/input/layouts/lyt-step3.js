@@ -92,7 +92,7 @@ define([
             }
         },
         getProtocolsList : function(idStation){
-            var url= config.coreUrl + 'station/'+ idStation + '/protocol';
+            var url= config.coreUrl + 'station/'+ idStation + '/protocol';  
             var listElement = $(this.ui.protosList);
             $.ajax({
                 url:url,
@@ -376,16 +376,19 @@ define([
             // time picker
             //$(datefield).attr('placeholder', config.dateLabel);
             var self = this;
-            $('.timePicker').datetimepicker({
-                defaultDate:""
-            });
+            /*$('.timePicker').datetimepicker({
+                //defaultDate:""
+            });*/
             $('.timePicker').each(function(){
+                var currentVal =  $(this).val();
+                $(this).datetimepicker({});
                 $(this).data('DateTimePicker').format('HH:mm');
+                $(this).val(currentVal);
             });
             //$(datefield).data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
             $('.timePicker').on('dp.show', function(e) {
-                 $(this).val('');
-                 $(this).attr('placeholder','HH:mm');
+                /* $(this).val('');
+                 $(this).attr('placeholder','HH:mm');*/
             });
             $('.timePicker').on('dp.change', function(e) {
                 self.checkTime(e);
@@ -498,7 +501,6 @@ define([
                     this.splice(index,1)
                 }
             };
-
             var protocolName = $(e.target).parent().attr('name');
             // find protocol instance and remove it
              if(protocolName){
@@ -523,6 +525,7 @@ define([
             this.updateInstanceDetails(protocolName);
         },
         updateSation : function(obj){
+            var self = this;
             var model = obj.model ; 
             var data = model.changed;
             data.PK = model.get('PK');
@@ -535,9 +538,11 @@ define([
                     console.log(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                //alert(xhr.status);
-                //alert(thrownError);
                 alert('error in updating current station value(s)');
+                }
+            }).done(function(){
+                if(data.FieldActivity_Name){
+                    self.getProtocolsList(data.PK);
                 }
             });
         },
@@ -561,66 +566,5 @@ define([
                 }
             }
         }
-        /*,
-        updateStationData : function(e){
-            var value = $(e.target).val();
-            var fieldName = $(e.target).attr('name');
-            var stationModel = this.model.get('station_position');
-            if (value){
-                switch(fieldName){
-                    case 'stPlace':
-                        stationModel.set('Place',value);
-                        break;
-                    case 'stAccuracy':
-                        stationModel.set('Precision',value);
-                        break;
-                    case 'stDistance':
-                        stationModel.set('Name_DistanceFromObs',value);
-                        break;
-                    case 'st_FieldActivity_Name':
-                        stationModel.set('FieldActivity_Name',value);
-                        break;
-                    case 'detailsStFW1':
-                        stationModel.set('FieldWorker1',parseInt(value));
-                        break;
-                     case 'detailsStFW2':
-                        stationModel.set('FieldWorker2',parseInt(value));
-                        break;
-                    case 'detailsStFW3':
-                        stationModel.set('FieldWorker3',parseInt(value));
-                        break;
-                    case 'detailsStFW4':
-                        stationModel.set('FieldWorker4',parseInt(value));
-                        break;
-                    case 'detailsStFW5':
-                        stationModel.set('FieldWorker5',parseInt(value));
-                        break;
-                    case 'detailsStFWTotal':
-                        stationModel.set('NbFieldWorker',parseInt(value));
-                        break;
-                    default:
-                        break;
-                }
-
-                alert(fieldName + ' ' + value);
-                console.log(stationModel);
-                $.ajax({
-                    url: config.coreUrl +'station/addStation/insert',
-                    context: this,
-                    data: this.model.attributes,
-                    type:'POST',
-                    success: function(data){
-                    console.log(data);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                    //alert(xhr.status);
-                    //alert(thrownError);
-                    alert('error in updating current station value(s)');
-                }
-                });
-            
-            }
-        }
-        }*/
     });
 });

@@ -46,7 +46,6 @@ define([
             $(datefield).on('dp.change', function(e) {
                  self.checkDate();
             });           
-            
             this.generateSelectLists();
         },
         onBeforeDestroy: function() {

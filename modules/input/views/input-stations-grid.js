@@ -79,11 +79,13 @@ define([
                     }
                     collection.sortCriteria = (Object.keys(sortCriteria).length > 0) ? sortCriteria : {'PK': 'desc'};
                     collection.fetch({reset: true, success : function(resp){ 
-                       console.log(resp);
                         }});
                 },
             });
-
+            var myCell = Backgrid.NumberCell.extend({
+                decimals: 5
+            });
+            
             var columns = [{
                 name: 'PK',
                 label: 'ID',
@@ -108,13 +110,13 @@ define([
                 name: 'LAT',
                 label: 'Lat',
                 editable: false,
-                cell: 'number',
+                cell: myCell,
                 headerCell: myHeaderCell
             }, {
                 name: 'LON',
                 label: 'Lon',
                 editable: false,
-                cell: 'number',
+                cell: myCell,
                 headerCell: myHeaderCell
             }, {
                 name: 'FieldActivity_Name',
@@ -129,7 +131,6 @@ define([
                 cell: 'string',
                 headerCell: myHeaderCell
             }];
-            console.log(stations);
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
@@ -148,7 +149,6 @@ define([
         
             //$('#stationsGridContainer').css('height','90%');
         },
-
         update: function(args) {
             var that=this;
             this.grid.collection.searchCriteria = args.filter;
@@ -157,27 +157,15 @@ define([
             this.grid.collection.fetch({reset: true, success:function(){
                that.$el.find('#stations-count').html(that.grid.collection.state.totalRecords+' stations');
             }
-
             });
-            console.log(this.grid.collection);
-            //$('#stationsGridContainer').css('height','90%');
         },
-
-        onShow: function() {
-            
+        onShow: function() { 
             this.$el.parent().addClass('no-padding');
             $('#main-panel').css({'padding-top': '0'});
             this.$el.addClass('grid');
-            //var height = $(window).height();
-            //height -= $('#header-region').height() + $('#main-panel').outerHeight();
-            //this.$el.find('#grid-row').height(height);
-            //height = $(window).height();
-           // this.$el.height(height-$('#header-region').height());
             $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
-            //$('div.backgrid-paginator').css('margin-top','50px;');
         },
-
         onDestroy: function(){
             $('#main-panel').css('padding-top', '20');
             this.grid.remove();
@@ -188,7 +176,6 @@ define([
             delete this.grid.columns;
             delete this.grid;
         },
-
         detail: function(evt) {
             var row = $(evt.currentTarget);
             var id = parseInt($(row).find(':first-child').text());
