@@ -36,7 +36,8 @@ define([
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
             'change select[name="allSt-monitoredSiteType"]' :'updateSiteName',
-            'click #allSt-filter-btn' : 'filterQuery'
+            'click #allSt-filter-btn' : 'filterQuery',
+            'click #allSt-clear-btn' : 'clearFilter'
 
         },
         ui: {
@@ -73,7 +74,7 @@ define([
         catch: function(evt) {
             evt.preventDefault();
         },
-        clear: function(evt) {
+        clearFilter: function(evt) {
             evt.preventDefault();
             evt.stopPropagation();
             this.clearForm();
@@ -82,7 +83,7 @@ define([
         },
         clearForm: function() {
             this.$el.find('form').trigger('reset');
-            this.$el.find('input').prop('disabled', false);
+            this.$el.find('input').prop('value', '');
         },
         onShow: function(evt) {
 

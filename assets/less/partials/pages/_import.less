@@ -27,6 +27,62 @@
 	}
 
 }
+/*
+#FileInput::-webkit-file-upload-button {
+  visibility: hidden;
+}
+#FileInput::before {
+  content: 'Select a file';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+#FileInput:hover::before {
+  border-color: black;
+}
+#FileInput:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+*/
+#FileInput {
+  visibility: hidden;
+  width: 0;
+  position: relative;
+  padding-bottom: 1em;
+}
+#FileInput::before {
+  content: 'Select a file';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  visibility: visible;
+  position: absolute;
+
+}
+#FileInput:hover::before {
+  border-color: black;
+}
+#FileInput:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
 
 /* .success{
 	min-height: 500px;
