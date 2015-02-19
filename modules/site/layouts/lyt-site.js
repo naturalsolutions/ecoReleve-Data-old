@@ -44,8 +44,6 @@ define([
                 LON: "DECIMAL(9, 5)",
                 Status: "Select",
             };
-
-
         },
         onShow: function(){
             //this.initFilters();

@@ -109,7 +109,51 @@ define([
           this.initMap();
         },
 
+        google: function(){
+          var CustomGMap = L.Google.extend({
+            _initMapObject: function() {
+              if (!this._ready) return;
+              this._google_center = new google.maps.LatLng(0, 0);
+              var map = new google.maps.Map(this._container, {
+                center: this._google_center,
+                zoom: 0,
+                tilt: 0,
+                mapTypeId: google.maps.MapTypeId[this._type],
+                disableDefaultUI: true,
+                keyboardShortcuts: false,
+                draggable: false,
+                scaleControl: true,
+                disableDoubleClickZoom: true,
+                scrollwheel: false,
+                streetViewControl: false,
+                styles: this.options.mapOptions.styles,
+                backgroundColor: this.options.mapOptions.backgroundColor
+              });
+
+              var _this = this;
+              this._reposition = google.maps.event.addListenerOnce(map, 'center_changed',
+                function() { _this.onReposition(); });
+              this._google = map;
+
+              google.maps.event.addListenerOnce(map, 'idle',
+                function() { _this._checkZoomLevels(); });
+              //Reporting that map-object was initialized.
+              this.fire('MapObjectInitialized', { mapObject: map });
+            },
+          })
+
+          var googleLayer = new CustomGMap('HYBRID', {unloadInvisibleTiles: true,
+            updateWhenIdle: true,
+            reuseTiles: true
+          });
+          
+          this.map.addLayer(googleLayer);
+        },
+
         initMap: function(){
+
+
+
             this.map = new L.Map(this.elem, {
               center: this.center ,
               zoom: 3,
@@ -119,17 +163,32 @@ define([
               keyboard: false //fix scroll window
             });
 
-            var googleLayer = new L.Google('HYBRID', {unloadInvisibleTiles: true,
-              updateWhenIdle: true,
-              reuseTiles: true
-            });
+
+            var markerArray = [];
+            var geoJsonLayer = this.geoJsonLayers[0];
+            if(geoJsonLayer){
+              for(var index in geoJsonLayer._layers) { 
+                  var lat = geoJsonLayer._layers[index]._latlng.lat; 
+                  var lng = geoJsonLayer._layers[index]._latlng.lng;
+                  markerArray.push(L.marker([lat, lng]));
+              }
+            }
+            
+            if (markerArray.length >1){
+              var group = L.featureGroup(markerArray);
+            this.map.fitBounds(group.getBounds());
+            } else {
+              this.map.setZoom(this.zoom);
+            }
+
+
+
+
+            this.google();
 
             if(this.legend){
               this.addCtrl(tpl_legend);              
             };
-
-            this.map.addLayer(googleLayer);
-            this.map.setZoom(this.zoom);
 
             if(this.markersLayer){
               this.addMarkersLayer2Map();              
@@ -226,7 +285,7 @@ define([
           }
         },
 
-        setGeoJsonLayer: function(geoJson, condition){
+        setGeoJsonLayer: function(geoJson){
           this.setCenter(geoJson);
           var marker, prop;
           var ctx = this;
@@ -239,7 +298,7 @@ define([
                 var infos = '';
                 if(!feature.id)
                 feature.id = i;
-                if(condition){
+                if(feature.checked){
                   marker = L.marker(latlng, {icon: ctx.focusedIcon});
                 }else{
                   marker = L.marker(latlng, {icon: ctx.icon});
