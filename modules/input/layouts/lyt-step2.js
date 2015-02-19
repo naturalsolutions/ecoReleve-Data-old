@@ -18,9 +18,10 @@ define([
     'utils/getSitesNames',
     'ns_modules_map/ns_map',
     'dateTimePicker',
-     'ns_modules_com',
+    'ns_modules_com',
+    'collections/monitoredsites',
 ], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,
-    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com) {
+    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites) {
 
     'use strict';
     return Step.extend({
@@ -35,22 +36,13 @@ define([
             'click #removeFieldWorkerInput' : 'removeInput',
             'change select.fiedworker' : 'checkFWName',
             'change input[name="Precision"]' : 'checkAccuracyValue',
-
-            'change #dateTimePicker input' : 'alerte',
-
-
-
+            'focusout input[name="Date_"]':'checkDateField',
             'click .bootstrap-datetimepicker-widget' : 'updateDateField'
         },
         regions: {
             leftRegion : '#inputStLeft',
             rightRegion : '#inputStRight'
         },
-
-        alerte: function(){
-            alert();
-        },  
-
         /*
         updateDateField : function(){
             $('input[name="Date_"]').click();
@@ -64,7 +56,8 @@ define([
             this.radio.comply('generateStation', this.generateStation, this);
             this.radio.comply('movePoint', this.movePoint, this);
             this.radio.comply('changeDate', this.updateDate, this);
-
+            this.sites = new MonitoredSites();
+            this.listenTo(this.sites, 'reset', this.updateName); 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
                 var stationForm = new StationView();
@@ -290,6 +283,9 @@ define([
             if(target.attr('name') =='id_site'){
                 this.updateSiteName(val);
             }
+            if(target.attr('name') =='name_site'){
+                this.updateSitePos();
+            }
         },
         datachanged_text: function(e){
             var target= $(e.target);
@@ -299,11 +295,11 @@ define([
                 this.model.set(this.name + '_' + target.attr('name')  , val);
             }
         },
-        updateSiteName : function(siteType){
-            var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
+        /*updateSiteName : function(siteType){
+            /*var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
             $('select[name="name_site"]').html('<option></option>');
             $('select[name="name_site"]').append(sitesNames);
-        },
+        },*/
         getCurrentPosition : function(){
             if(navigator.geolocation) {
                 var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);
@@ -521,7 +517,79 @@ define([
             var dateVal =$("input[name='Date_']").val();
             if (dateVal){
                 this.model.set('station_Date_' , dateVal);
+                this.loadMonitoredSites(dateVal);
+            }
+
+        },        
+        loadMonitoredSites: function(date) {
+            var that=this;
+            $.ajax({
+                context: this,
+                url: config.coreUrl + 'rfid/byDate',
+                data: {'date' :date} ,
+            }).done( function(data) {
+                var test = data;
+                that.sites.reset(data['siteName_type']);
+                that.sites.typeList=data['siteType'];
+                var html=[]; 
+                that.sites.typeList.forEach( function(type) {
+                    html.push ("<option value='"+ type +"'>"+ type + "</option>");
+                });
+                html.sort();
+                var content = '<option></option>' + html.join(' ');
+
+                $('#stMonitoredSiteType').html(content);
+            });
+        },
+        updateSitePos: function(e) {
+
+            var type =  $('#stMonitoredSiteType').val();
+            var name = $('#stMonitoredSiteName').val();
+            if(type && name) {
+                var monitoredSite = this.sites.findWhere({
+                    type: type,
+                    name: name
+                });
+                var position = monitoredSite.get('positions');
+                console.log(position);
+                var lat = position.lat;
+                var lon = position.lon;
+                this.map.updateMarkerPos(1, lat, lon);
+                //Radio.channel('input').command('siteTypeChanged', this.sites);
+                //Radio.channel('rfid').command('addOverlay', [lon, lat]);
+            }
+        },
+        updateSiteName: function(e) {
+            var html=[]; 
+            var type = $('#stMonitoredSiteType').val();
+            if(type !== '') {
+                _.each(this.sites.where({type:type}), function(site) {
+                    html.push ('<option>' + site.get('name') + '</option>');
+                });
+            }
+            else {
+                this.sites.forEach( function(site) {
+                    html.push ('<option>' + site.get('name') + '</option>');
+                });
+            }
+            html.sort();
+            var content = '<option></option>' + html.join(' ');
+            $('#stMonitoredSiteName').html(content);
+        },
+        checkDateField : function(e){
+            var dateValue = $(e.target).val();
+            var siteType = $('#stMonitoredSiteType');
+            var siteName = $('#stMonitoredSiteName'); 
+            if(!dateValue){
+                $(siteType).val('');
+                $(siteType).attr('disabled','disabled');
+                $(siteName).val('');
+                $(siteName).attr('disabled','disabled');
+            } else {
+                $(siteType).removeAttr('disabled');
+                $(siteName).removeAttr('disabled');
             }
         }
+
     });
 });

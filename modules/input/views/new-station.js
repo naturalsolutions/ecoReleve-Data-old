@@ -16,8 +16,7 @@ define([
     'utils/getFieldActivity',
     'utils/getRegions',
     'utils/getSitesTypes',
-    'utils/datetime',
-    'dateTimePicker'
+    'dateTimePicker',
 ], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template,
     BbForms, Station, config,getUsers, getFieldActivity,getRegions,getSitesTypes,datetime) {
     'use strict';
@@ -36,6 +35,8 @@ define([
             var self = this;
             var datefield = $("input[name='Date_']");
             $(datefield).attr('placeholder', config.dateLabel);
+            $('#stMonitoredSiteType').attr('disabled','disabled');
+            $('#stMonitoredSiteName').attr('disabled','disabled');
             $(datefield).datetimepicker({
                 defaultDate:""
             });
@@ -58,19 +59,27 @@ define([
             $('select[name="FieldActivity_Name"]').append(fieldList);
             var regionList = getRegions.getElements('station/area');
             $('select[name="Region"]').append(regionList);
-            var sites  = getSitesTypes.getElements('monitoredSite/type');
-            $('select[name="id_site"]').append(sites);
+            /*var sites  = getSitesTypes.getElements('monitoredSite/type');
+            $('select[name="id_site"]').append(sites);*/
         },
         checkDate: function(){
+            var siteType = $('#stMonitoredSiteType');
+            var siteName = $('#stMonitoredSiteName');
             var datefield = $("input[name='Date_']");
             //var date = $(datefield).val();
-            var date = moment($(datefield).val() , "DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
+            var date = moment($(datefield).val(),"DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
             var now = moment();
             if (now < date) {
                alert('Please input a valid date');
                $(datefield).val('');
+               $(siteType).attr('disabled','disabled');
+               $(siteName).attr('disabled','disabled');
             } else {
-               this.radio.command('changeDate');
+                if(date){
+                    $(siteType).removeAttr('disabled');
+                    $(siteName).removeAttr('disabled');
+                }
+                this.radio.command('changeDate');
             }
         }
     });
