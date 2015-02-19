@@ -79,6 +79,7 @@ define([
                     $(siteType).removeAttr('disabled');
                     $(siteName).removeAttr('disabled');
                 }
+                
                 this.radio.command('changeDate');
             }
         }

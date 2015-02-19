@@ -239,7 +239,7 @@ define([
                 $('#stCoordinates').addClass('masqued');
                 for(var key in this.stepAttributes) {
                     var field = this.stepAttributes[key];
-                    if(field.name =='station_id_site' || field.name =='station_name_site'){
+                    if(field.name =='station_id_site' || field.name =='station_type_site'){
                         field.required = true;
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='station_Region' || field.name =='station_Precision' ){
@@ -280,10 +280,10 @@ define([
             var target= $(e.target);
             var val=target.val();
             this.model.set(this.name + '_' + target.attr('name') , val);
-            if(target.attr('name') =='id_site'){
+            if(target.attr('name') =='type_site'){
                 this.updateSiteName(val);
             }
-            if(target.attr('name') =='name_site'){
+            if(target.attr('name') =='id_site'){
                 this.updateSitePos();
             }
         },
@@ -443,7 +443,7 @@ define([
                 if(id){
                    model.unset('UTM'); 
                 }
-                model.set('name_site','');
+                model.set('id_site','');
                 var fieldWorkersNumber = model.get('NbFieldWorker');
                 if(!fieldWorkersNumber){
                    model.set('NbFieldWorker',''); 
@@ -544,7 +544,7 @@ define([
         updateSitePos: function(e) {
 
             var type =  $('#stMonitoredSiteType').val();
-            var name = $('#stMonitoredSiteName').val();
+            var name = $('#stMonitoredSiteName option:selected').text();
             if(type && name) {
                 var monitoredSite = this.sites.findWhere({
                     type: type,
@@ -554,7 +554,8 @@ define([
                 console.log(position);
                 var lat = position.lat;
                 var lon = position.lon;
-                this.map.updateMarkerPos(1, lat, lon);
+                console.log('lat  '+lat+'  long '+lon);
+                this.map.updateMarkerPos(1, lat, lon );
                 //Radio.channel('input').command('siteTypeChanged', this.sites);
                 //Radio.channel('rfid').command('addOverlay', [lon, lat]);
             }
@@ -564,16 +565,16 @@ define([
             var type = $('#stMonitoredSiteType').val();
             if(type !== '') {
                 _.each(this.sites.where({type:type}), function(site) {
-                    html.push ('<option>' + site.get('name') + '</option>');
+                    html.push ('<option value="' + site.get('id_site') +'">' + site.get('name') + '</option>');
                 });
             }
             else {
                 this.sites.forEach( function(site) {
-                    html.push ('<option>' + site.get('name') + '</option>');
+                    html.push ('<option value="' + site.get('id_site') +'">' + site.get('name') + '</option>');
                 });
             }
             html.sort();
-            var content = '<option></option>' + html.join(' ');
+            var content = '<option value=""></option>' + html.join(' ');
             $('#stMonitoredSiteName').html(content);
         },
         checkDateField : function(e){

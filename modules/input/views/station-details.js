@@ -39,7 +39,7 @@ define([
         },
         checkSiteNameDisplay: function(){
             // mask name site row if value is null
-            var siteName = this.model.get('name_site');
+            var siteName = this.model.get('id_site');
             if(!siteName){
                 $('#stNameSite').addClass('masqued');
             }
