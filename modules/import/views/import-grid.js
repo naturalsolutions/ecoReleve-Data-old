@@ -108,19 +108,22 @@ define([
         },
 
 
-        action: function(action, ids){
+        action: function(action, params){
           switch(action){
             case 'focus':
-              this.hilight(ids);
+              this.hilight(params);
               break;
             case 'selection':
-              this.selectOne(ids);
+              this.selectOne(params);
               break;
             case 'selectionMultiple':
-              this.selectMultiple(ids);
+              this.selectMultiple(params);
               break;
             case 'resetAll':
                this.clearAll();
+              break;
+            case 'filter':
+               this.filter(params);
               break;
             default:
               console.log('verify the action name');
@@ -197,6 +200,13 @@ define([
                 var id = tr.find('td').first().text();
                 this.interaction('focus', id);
             }
+        },
+
+        filter: function(coll){
+            console.log(coll);
+            this.grid.collection = coll;
+            this.grid.body.collection = coll;
+            this.grid.body.refresh();
         },
 
 

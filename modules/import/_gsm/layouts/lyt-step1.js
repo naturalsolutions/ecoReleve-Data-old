@@ -56,7 +56,7 @@ define([
             //overwrite addFile function to avoid duplicate files
             myDropzone.addFile = function(file) {
 
-            console.log('passed');
+            console.log(file);
             var ext = file.name.split('.');
             if (ext[ext.length-1] != "txt") {
               Swal(
@@ -132,6 +132,7 @@ define([
 
             myDropzone.on('addedfile', function(file) {
               // Hookup the start button
+              console.log('strat');
               file.previewElement.querySelector('.start').onclick = function() { myDropzone.enqueueFile(file); };
             });
 
@@ -166,9 +167,10 @@ define([
                 $(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-success');
             });
 
-            myDropzone.on('queuecomplete', function(file) {
-                console.log('complete');
-                console.log(this.errors);
+            myDropzone.on('queuecomplete', function(file) {+
+
+
+                console.log(myDropzone);
                 if(!this.errors){
                     Swal(
                         {

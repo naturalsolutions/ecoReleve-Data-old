@@ -33,6 +33,7 @@ define([
             // Store the private instance id.
             this._instanceID = getNewInstanceID();
             this.components= [];
+            this.motherColl = new Backbone.Collection();
             // Return this object reference.
             return( this );
  
@@ -55,17 +56,37 @@ define([
                 return( this._instanceID );
             },
 
+            setMotherColl: function(coll){
+                this.motherColl = coll;
+            },
+
+            getMotherColl: function(){
+                return this.motherColl;
+            },
+
+            updateMotherColl: function(ids){
+                for (var i = ids.length - 1; i >= 0; i--) {
+                    this.motherColl.where({id : ids[i]}, function(m){
+                        m.attributes.import = true; 
+                    });
+                    
+                };
+            },
+
             addModule: function(m){
                 this.components.push(m);
             },
 
+
+
             action: function(action, ids){
+                if(action === 'selection' || action === 'selection'){
+                    this.updateMotherColl(ids);
+                }
                 for (var i = 0; i < this.components.length; i++) {
                     this.components[i].action(action, ids);
                 };
             },
-
- 
         };
  
  

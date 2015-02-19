@@ -215,6 +215,8 @@ define([
             var model_id=feature['id'];
             var models=[];
             var i=0, position=1;
+
+            
             this.grid.collection.fullCollection.each(function(model){
                 i++;
                 if (model.id==model_id) {

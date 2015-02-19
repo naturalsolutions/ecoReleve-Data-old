@@ -6,9 +6,9 @@ define([
     'text!./tpl-map.html',
     'L',
     'leaflet_cluster',
-    'leaflet_google',
+    'text!./tpl-legend.html',
 
-], function($, _, Backbone , Marionette, tpl, L, cluster
+], function($, _, Backbone , Marionette, tpl, L, cluster, tpl_legend
     ) {
 
     'use strict';
@@ -16,12 +16,25 @@ define([
     return Marionette.ItemView.extend({
         template: tpl,
 
-        bbox : true,
+        selection: false,
+        bbox : false,
+        legend : false,
+        popup: false,
+        zoom: 3,
+        geoJsonLayers: [],
 
+        onBeforeDestroy: function(){
+          this.map.remove();
+          console.log('detroy map');
+        },
+
+        destroy: function(){
+          this.map.remove();
+          console.log('detroy map');
+        },
 
         initialize: function(options) {
             //check if there is a communicator
-            console.log(this.$el)
 
             if(options.com){
               this.com = options.com;   
@@ -29,22 +42,58 @@ define([
             }
             this.url=options.url;
             this.geoJson=options.geoJson;
-            this.zoom = options.zoom || 2;
+            this.zoom = options.zoom;
 
+
+            this.elem = options.element;
             this.bbox = options.bbox || this.bbox;
-            this.click = options.click;
             this.cluster = options.cluster;
             this.popup = options.popup;
+            this.legend = options.legend;
+
+
+            this.selection = options.selection;
+
             this.dict={}; //list of markers
             this.selectedMarkers = {}; // list of selected markers
             this.url = options.url;
             this.geoJson = options.geoJson;
 
-
-
             this.initIcons();
+        },
 
-            
+        action: function(action, params){
+          switch(action){
+            case 'focus':
+              this.focus(params);
+              break;
+            case 'selection':
+              this.selectOne(params);
+              break;
+            case 'selectionMultiple':
+              this.selectMultiple(params);
+              break;
+            case 'popup':
+              //this.popup(params);
+              break;
+            case 'resetAll':
+              this.resetAll();
+              break;
+            case 'filter':
+              this.filter(params);
+              break;
+            default:
+              console.log('verify the action name');
+              break;
+          };
+        },
+
+        interaction: function(action, id){
+          if(this.com){
+            this.com.action(action, id);                    
+          }else{
+            this.action(action, id);
+          };
         },
 
         init: function(){
@@ -55,44 +104,70 @@ define([
               this.initClusters(this.geoJson);
             }else{
               this.initLayer(this.geoJson);
+            };
+          };
+          this.initMap();
+        },
+
+        initMap: function(){
+            this.map = new L.Map(this.elem, {
+              center: this.center ,
+              zoom: 3,
+              minZoom: 2,
+              inertia: false,
+              zoomAnimation: true,
+              keyboard: false //fix scroll window
+            });
+
+            var googleLayer = new L.Google('HYBRID', {unloadInvisibleTiles: true,
+              updateWhenIdle: true,
+              reuseTiles: true
+            });
+
+            if(this.legend){
+              this.addCtrl(tpl_legend);              
+            };
+
+            this.map.addLayer(googleLayer);
+            this.map.setZoom(this.zoom);
+
+            if(this.markersLayer){
+              this.addMarkersLayer2Map();              
             }
-          }
-
         },
 
-        action: function(action, ids){
-          switch(action){
-            case 'focus':
-              this.focus(ids);
-              break;
-            case 'selection':
-              this.selectOne(ids);
-              break;
-            case 'selectionMultiple':
-              this.selectMultiple(ids);
-              break;
-            case 'popup':
-              this.popup(ids);
-              break;
-            case 'resetAll':
-              this.resetAll();
-              break;
-            default:
-              console.log('verify the action name');
-              break;
-          }
+        addMarkersLayer2Map: function(){
+          if(this.geoJsonLayers.length != 0){
+            for (var i = 0; i < this.geoJsonLayers.length; i++) {
+              this.markersLayer.addLayer(this.geoJsonLayers[i]);
+            };
+          };
+
+          this.map.addLayer(this.markersLayer);   
+          
+          if(this.bbox){
+            this.addBBox(this.markersLayer);
+          };
         },
 
-        interaction: function(action, id){
-          if(this.com){
-            console.log(this.com);
-
-            this.com.action(action, id);                    
-          }else{
-            this.action(action, id);
-          }
+        resize: function(){
+          //todo: should be a better way
+          this.map._onResize();
         },
-        /*==========  requestGeoJson if not furnished  ==========*/
+
+        addCtrl: function(legend){
+          var MyControl = L.Control.extend({
+              options: {
+                  position: 'topright'
+              },
+              onAdd: function (map) {
+                  var lg = $.parseHTML(legend);
+                  return lg[0];
+              }
+          });
+          this.map.addControl(new MyControl());
+        },
+
         requestGeoJson: function(url){
           var criterias = {
               page: 1,
@@ -117,39 +192,6 @@ define([
         
         },
 
-
-        /*==========  initMap  ==========*/
-
-        initMap: function(center, geoJsonLayer, markers){
-
-            this.map = new L.Map('map', {
-              center: center ,
-              zoom: 3,
-              minZoom: 2,
-              //inertia: true,
-              zoomAnimation: true,
-            });
-
-            var googleLayer = new L.Google('HYBRID', {unloadInvisibleTiles: true,
-              updateWhenIdle: true,
-              reuseTiles: true
-            });
-
-            if(geoJsonLayer){
-              markers.addLayer(geoJsonLayer);
-            }
-            this.map.addLayer(googleLayer);
-            if(markers){
-             this.map.addLayer(markers);
-            }      
-            this.map.setZoom(this.zoom);
-
-            if(this.bbox){
-              this.addBBox(markers);
-            }
-
-        },
-        /*==========  initIcons  ==========*/
         initIcons: function(){
           this.focusedIcon = new L.DivIcon({className: 'custom-marker focus'});
           this.selectedIcon = new L.DivIcon({className: 'custom-marker selected'});
@@ -164,47 +206,73 @@ define([
           };
         },
 
-        initLayer: function(geoJson){
-          var marker;
-          var ctx = this;
-          if(geoJson){
-            var center = new L.LatLng(
-            geoJson.geometry.coordinates[1],
-            geoJson.geometry.coordinates[0]
+        setCenter: function(geoJson){
+          if(!geoJson){
+            this.center = new L.LatLng(0,0);
+          }else{
+            this.center = new L.LatLng(
+              geoJson.features[0].geometry.coordinates[1],
+              geoJson.features[0].geometry.coordinates[0]
             );
-            var markers = new L.FeatureGroup();
-
-            var parents=[];
-            var geoJsonLayer = L.geoJson(geoJson, {
-                // onEachFeature: function (feature, layer) {
-                // },
-                pointToLayer: function(feature, latlng) {
-                  marker = L.marker(latlng, {icon: ctx.icon});
-                  marker.checked=false;
-                  marker.bindPopup('<b>ID : '+feature.id+'</b><br />');
-
-
-                  ctx.dict[feature.id] = marker;
-                  marker.on('click', function(){
-                    ctx.interaction('selection', feature.id);
-                    //ctx.interaction('popup', feature.id);
-
-
-                  })
-                  return marker;
-                },
-            });
-          } else {
-            var center = new L.LatLng(0,0);
           }
+        },
 
-          this.initMap(center, geoJsonLayer, markers );
+        initLayer: function(geoJson){
+          if(geoJson){
+            this.markersLayer = new L.FeatureGroup();
+            this.setGeoJsonLayer(geoJson);
+          }else{
+            this.setCenter();
+          }
+        },
 
+        setGeoJsonLayer: function(geoJson, condition){
+          this.setCenter(geoJson);
+          var marker, prop;
+          var ctx = this;
+          var i =0;
+          var geoJsonLayer = L.geoJson(geoJson, {
+              // onEachFeature: function (feature, layer) {
+              // },
+              pointToLayer: function(feature, latlng) {
+                i++;
+                var infos = '';
+                if(!feature.id)
+                feature.id = i;
+                if(condition){
+                  marker = L.marker(latlng, {icon: ctx.focusedIcon});
+                }else{
+                  marker = L.marker(latlng, {icon: ctx.icon});
+                };
+
+                marker.checked=false;
+
+                if(ctx.popup){
+                  prop = feature.properties;
+                  for(var p in prop){
+                    infos +='<b>'+p+' : '+prop[p]+'</b><br />';
+                  };
+                  marker.bindPopup(infos);
+                }
+
+                ctx.dict[feature.id] = marker;
+
+                marker.on('click', function(e){
+                  if(this.selection){
+                    this.interaction('selection', feature.id);
+                  }  
+                }, ctx);
+
+                return marker;
+              },
+          });
+          this.geoJsonLayers.push(geoJsonLayer);
         },
 
 
-        defaultClusterStyle: function(childCount){
-          var classe = ' marker-cluster-';
+        getClusterIcon: function(cluster, contains, nbContains){
+          var childCount = cluster.getChildCount();
+          var classe = 'marker-cluster marker-cluster-';
           var size = 30;
           if (childCount < 10) {
             size+=5;
@@ -219,77 +287,53 @@ define([
             size+= 35;
             classe += 'large';
           }
-          return {size : size, classe : classe};
+
+          if(!contains && nbContains != 0){
+            return new L.DivIcon({ html: '<span>'+childCount+'</span>', className: classe, iconSize: new L.Point(size, size) });
+          };
+
+          if(contains){
+            classe +=' marker-cluster-contains';
+          };
+
+          return new L.DivIcon({ 
+            html: '<span>' + nbContains + '/' + childCount +'</span>', 
+            className: classe, 
+            iconSize: new L.Point(size, size) 
+          });
+
         },
 
-        /*==========  initClusters  ==========*/
+
         initClusters: function(geoJson){
           var firstLvl= true;
           this.firstLvl= [];
           var ctx= this;
           var CustomMarkerClusterGroup = L.MarkerClusterGroup.extend({
             _defaultIconCreateFunction: function (cluster, contains) {
+              //push on firstLvl
               if(firstLvl){
                 ctx.firstLvl.push(cluster);
               }
-
-              var childCount = cluster.getChildCount();
-
-              var c = ' marker-cluster-';
-              if(contains) c+=' marker-cluster-contains';
-              var size;
-              if (childCount < 10) {
-                size= 35;
-                c += 'small';
-              } else if (childCount < 100) {
-                size = 45;
-                c += 'medium';
-              } else if (childCount < 1000) {
-                size = 55;
-                c += 'medium-lg';
-              } else {
-                size = 65;
-                c += 'large';
-              }
-
-            
-
-              return new L.DivIcon({ html: '<span>' + childCount + '|0</span>', className: 'marker-cluster' + c, iconSize: new L.Point(size, size) });
+              if(ctx.selection){
+                return ctx.getClusterIcon(cluster, false, 0);
+              }else{
+                return ctx.getClusterIcon(cluster);
+              };
+              
             },
           });
 
-          var markers = new CustomMarkerClusterGroup({
+          this.markersLayer = new CustomMarkerClusterGroup({
               disableClusteringAtZoom : 18,
               maxClusterRadius: 100,
-              polygonOptions: {color: "rgb(51, 153, 204)", weight: 3},
+              polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });
 
-          var marker;
-          var center = new L.LatLng(
-            geoJson.features[0].geometry.coordinates[1],
-            geoJson.features[0].geometry.coordinates[0]
-          );
-          var parents=[];
-          var geoJsonLayer = L.geoJson(geoJson, {
-              // onEachFeature: function (feature, layer) {
-              // },
-              pointToLayer: function(feature, latlng) {
-                marker = L.marker(latlng, {icon: ctx.icon});
-                marker.checked=false;
-                if(ctx.popup)
-                  marker.bindPopup('<b>ID : '+feature.id+'</b><br />');
+          this.setGeoJsonLayer(geoJson);
 
+          //return [this.geoJsonLayers, this.markersLayer];
 
-                ctx.dict[feature.id] = marker;
-                marker.on('click', function(){
-                  console.log('click');
-                  ctx.interaction('selection', feature.id);
-                  //ctx.interaction('popup', feature.id);
-                })
-                return marker;
-              },
-          });
-          this.initMap(center, geoJsonLayer, markers);
         },
 
         /*==========  updateClusterParents :: display selection inner cluster  ==========*/
@@ -303,18 +347,11 @@ define([
 
               this.updateClusterParents(m.__parent, parents);
 
-              
-
               var childMarkers = c.getAllChildMarkers();
               var childCount = c.getChildCount();
 
-
-              var style = this.defaultClusterStyle(childCount);
-
-
               var nbContains=0; 
               var contains=false;
-
 
               for (var i = 0; i < childMarkers.length; i++) {
                 if(childMarkers[i].checked){
@@ -327,39 +364,12 @@ define([
                 }
               };
 
-              childCount-=nbContains;
-
-              if (contains) {
-                var iconC = new L.DivIcon({ html: '<span>' + childCount + '|' + nbContains +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
-                c.setIcon(iconC);
-              }
-              else{
-                var icon = new L.DivIcon({ html: '<span>' + childCount + '|' + nbContains +'</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
-                c.setIcon(icon);
-              };
+              var icon = this.getClusterIcon(c, contains, nbContains);
+              c.setIcon(icon);
             }
           }
         },
-
-
-
-        //updateClusterChilds
-        updateClusterStyle: function(c, all){
-          var childCount = c.getChildCount();
-
-          var style = this.defaultClusterStyle(childCount);
-
-          //check if you must change cluster style for all cluster or for none
-          if(all){
-            var iconC = new L.DivIcon({ html: '<span>0|' + childCount +'</span>', className: 'marker-cluster marker-cluster-contains' + style.classe, iconSize: new L.Point(style.size, style.size) });
-            c.setIcon(iconC);
-          }else{
-            var icon = new L.DivIcon({ html: '<span>' + childCount + '|0</span>', className: 'marker-cluster' + style.classe, iconSize: new L.Point(style.size, style.size) });
-            c.setIcon(icon);
-          }
-          
-        },
-
+        /** recursive */
         updateAllClusters: function(c, all){
           var childClusters = c._childClusters;
           this.updateClusterStyle(c, all);
@@ -369,6 +379,18 @@ define([
             this.updateAllClusters(childClusters[i], all);
           };
           return;
+        },
+
+        //updateClusterChilds :: check if you must change cluster style for all cluster or for none
+        updateClusterStyle: function(c, all){
+          var childCount = c.getChildCount();
+          var icon;
+          if(all){
+            icon = this.getClusterIcon(c, true, childCount);
+          }else{
+            icon = this.getClusterIcon(c, false, 0);
+          }
+          c.setIcon(icon);
         },
 
         addBBox: function(markers){
@@ -393,7 +415,8 @@ define([
             });
           };
 
-          this.map.on("boxzoomend", function(e) {
+          this.map.on('boxzoomend', function(e) {
+
             var bbox=[], childIds=[];  
             for(var key in  markers._featureGroup._layers){
               marker =  markers._featureGroup._layers[key];
@@ -414,17 +437,19 @@ define([
                       ctx.changeIcon(childs[i]);
                     };
                     if(marker.__parent){
-                        ctx.updateClusterParents(marker, []);                             
+                        ctx.updateClusterParents(marker, []);              
                     }
                   }
               };
             };
-            ctx.com.action('selectionMultiple', bbox);
+            ctx.interaction('selectionMultiple', bbox);
+            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
         },
 
 
-        /*==========  updateMarkerIcon  ==========*/
+
+
         selectOne: function(id){
           var marker;
             marker=this.dict[id];
@@ -442,6 +467,7 @@ define([
           if(!this.selectedMarkers[id])
             this.selectedMarkers[id] = marker;
         },
+
 
         selectMultiple: function(ids){
           var marker;
@@ -470,8 +496,6 @@ define([
           this.map.panTo(center);
           var ctx = this;
 
-          
-
           if(zoom){
             setTimeout(function(){
               ctx.map.setZoom(zoom);
@@ -487,14 +511,12 @@ define([
               marker.checked=!marker.checked;
               this.changeIcon(marker);
           };
-          
           if(this.cluster){
             var cluster;
             for (var i = this.firstLvl.length - 1; i >= 0; i--) {
               cluster = this.firstLvl[i];
               this.updateAllClusters(cluster, false);
             };
-          
           };
           this.selectedMarkers={};
         },
@@ -521,7 +543,6 @@ define([
           var latlng = new L.latLng(lat, lng);
           marker.setLatLng(latlng);
 
-          
           if(zoom){
             this.focus(id, zoom);            
           }else{
@@ -529,10 +550,69 @@ define([
           };
         },
 
+
+        /*
         popup: function(id){
           var marker = this.dict[id];
           marker.openPopup();
+        },*/
+
+        //convert a collection to a feature collection (geoJson)
+        coll2GeoJson: function(coll){
+            var features = {
+                'features': [], 
+                'type': 'FeatureCollection'
+            };
+            var feature, attr;
+            coll.each(function(m){
+                attr = m.attributes;
+                feature = {
+                    'type': 'Feature',
+                    'id': attr.id,
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [attr.longitude, attr.latitude],
+                    }, 
+                    'properties': {
+                        'date': '2014-10-23 12:39:29'
+                    },
+                };
+                features.features.push(feature);
+            });
+            return features;
         },
 
+        //apply filters on the map from a collection
+        filter: function(param){
+          var geoJson, coll;
+          if(coll instanceof Backbone.Collection){
+            geoJson = this.coll2GeoJson(coll);
+            coll = param;
+            if(coll.length){
+              this.updateLayers(geoJson);
+              var checkedMarkers = [];
+              for (var i = coll.models.length - 1; i >= 0; i--) {
+                //todo : generic term (import)
+                if(coll.models[i].attributes.import)
+                  checkedMarkers.push(coll.models[i].attributes.id);
+              };
+              //todo : amelioration
+              this.selectMultiple(checkedMarkers);
+            }
+          }else{
+            this.updateLayers(geoJson);
+          };
+        },
+
+        updateLayers: function(geoJson){
+          this.map.removeLayer(this.markersLayer);
+          this.geoJsonLayers = [];
+          this.initClusters(geoJson);
+          this.addMarkersLayer2Map();
+
+          if(this.bbox){
+            this.addBBox(this.markersLayer);
+          };
+        },
     });
 });

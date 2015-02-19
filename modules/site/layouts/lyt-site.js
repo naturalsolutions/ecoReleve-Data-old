@@ -60,7 +60,7 @@ define([
 
             this.filters.feed('type');
             this.filters.feed('name');
-            this.filters.feedOpt('Status', ['Active', 'Inactive'])
+            this.filters.feedOpt('Status', ['Active', 'Inactive']);
         },
 
         displayGrid: function(){

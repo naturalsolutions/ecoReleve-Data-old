@@ -22,7 +22,7 @@ define([
         template: tpl,
 
         regions: {
-            
+            leftRegion
         },
 
         initialize: function(){

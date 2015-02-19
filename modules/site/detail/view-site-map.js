@@ -51,7 +51,6 @@ define([
 
             var infos = this.geoJson;
 
-            console.log(infos)
 
 
             for (var i = 0; i < infos.length; i++) {
@@ -68,6 +67,9 @@ define([
                     });
                 }
             };
+
+
+
 
             /*========================================
             =            Active Positions            =

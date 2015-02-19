@@ -10,8 +10,9 @@ define([
     'modules2/import/views/import-map',
     'modules2/import/views/import-grid',
     'ns_modules_com',
+    'filter/model-filter',
 
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid, Com) {
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map ,Grid, Com, NSFilter) {
 
     'use strict';
 
@@ -24,6 +25,7 @@ define([
         events : {
             'change #importFieldActivity' : 'setFieldActivity',
             'click #resetFieldActivity' : 'resetFieldActivity',
+            'click button#filter' : 'filter',
         },
         regions: {
             gridRegion: '#gridContainer',
@@ -46,18 +48,37 @@ define([
                 orderSeparator: ' ',
             });
 
-            var map = new Map({
+            this.map = new Map({
                 com: this.com,
                 collection: collection
             });
-            this.mapRegion.show(map);
+            this.mapRegion.show(this.map);
             Radio.channel('import').command('initGrid');
 
-            var mygrid = new Grid({
+            this.grid = new Grid({
                 collections : collection,
                 com: this.com,
             });
-            this.gridRegion.show(mygrid);
+            this.gridRegion.show(this.grid);
+
+            this.filtersList={
+                name : "String",
+                latitude: "Number",
+                waypointTime: "DATETIME",
+
+            };
+            this.filters = new NSFilter({
+                filters: this.filtersList,
+                channel: 'modules',
+                com: this.com,
+                clientSide: true,
+            });
+
+            this.com.setMotherColl(collection);
+        },
+
+        filter: function(){
+            this.filters.update();
         },
         
         setFieldActivity : function(e){

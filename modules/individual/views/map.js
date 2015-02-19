@@ -9,13 +9,18 @@ define([
     'utils/datalist',
     'utils/map',
     'config',
-    'text!templates/map.html'
-], function($, _, Backbone, Marionette, Moment, Radio, Point, datalist, map, config, template) {
+    'text!modules2/individual/templates/tpl-map.html',
+    'ns_modules_map/ns_map',
+
+], function($, _, Backbone, Marionette, Moment, Radio, Point, datalist, map, config, tpl, NsMap) {
 
     'use strict';
 
+
+
     return Marionette.ItemView.extend({
-        template: template,
+        template: tpl,
+        className: 'full-height',
 
         events: {
             'resize window' : 'updateSize',
@@ -28,6 +33,8 @@ define([
             $('#main-panel').css('padding', '0');
             $(window).on('resize', $.proxy(this, 'updateSize'));
 
+
+
         },
 
         showDetail: function() {
@@ -37,7 +44,6 @@ define([
         onDestroy: function() {
             $('#main-panel').removeClass('no-padding');
             $(window).off('resize', $.proxy(this, 'updateSize'));
-            this.map_view.remove();
         },
 
         updateSize: function() {
@@ -49,33 +55,26 @@ define([
             }
         },
 
+        initMap: function(geoJson){
+            this.map = new NsMap({
+                cluster: true,
+                geoJson: geoJson,
+                zoom: 3,
+                element: 'map',
+            });
+            this.map.init();
+        },
+
         onShow: function() {
-            var mapUrl = config.coreUrl + '/individuals/stations?id=' +this.indivId ;
-            var point = new Point({
-                    latitude: 34,
-                    longitude: 44,
-                    label: ''
+            $.ajax({
+                url: config.coreUrl + '/individuals/stations?id=' +this.indivId,
+                context: this,
+            }).done(function( data ) {
+                console.log(data);
+                this.initMap(data);
+            }).fail(function( msg ) {
+                console.log(msg);
             });
-            var mapView = map.init('bird', this.$el.find('#map'), point);
-            this.map_view = mapView;
-            var url = config.coreUrl + 'individuals/stations?id=' + this.indivId;
-            this.map_view.loadGeoJSON(url, 'Positions', 'individual');
-            /*app.utils.timlineLayer(mapUrl, mapView, function(nbFeatures) {
-                if (nbFeatures > 10){
-                app.utils.animatedLayer(nbFeatures, mapUrl, mapView);
-                } else {
-                    $('#animationDiv').addClass('masqued');
-                    $('#map').css('height',windowHeigth-50);
-                }
-            });
-            $('#dateSlider').slider().on('slideStop', function() {
-                    // get range of date and update layer
-                    var interval = $('#dateSlider').data('slider').getValue();
-                    _this.updateTimeLineLayer(interval);
-            });
-            // update the size of animation div (map legend) by modifying span values
-            this.updateAnimationDivWidth(windowWidth);
-            */
         },
     });
 });

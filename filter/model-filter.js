@@ -5,10 +5,11 @@ define([
     'config',
     'radio',
     'bbForms',
+    'moment',
     'text!filter/tpl-filters.html',
 
 
-], function($, _, Backbone, config, Radio, BbForms, tpl){
+], function($, _, Backbone, config, Radio, BbForms, moment, tpl){
     'use strict';
     return Backbone.Model.extend({
 
@@ -20,7 +21,9 @@ define([
         initialize: function(options){
             this.channel= options.channel;
             this.radio=Radio.channel(this.channel);
+            this.clientSide = options.clientSide;
 
+            this.com = options.com;
             this.url = options.url;
 
             this.datas={};
@@ -70,19 +73,19 @@ define([
                 this.forms.push(form);
                 
             };
-
                 /*
                 $('#filters #dateTimePicker').each(function(){
                     $(this).datetimepicker();
                 });*/
                 //$('#filters').load('filter/tpl-filters.html');
-
-
         },
 
         displayFilter: function(){
 
         },
+
+
+
 
 
         initFilter: function(data, key){
@@ -198,17 +201,9 @@ define([
             var currentForm, value;
             for (var i = 0; i < this.forms.length; i++) {
                 currentForm=this.forms[i];
-                console.log(currentForm.getValue());
                 if(!currentForm.validate() && currentForm.getValue().Value){
 
                     value = currentForm.getValue();
-
-                    /*
-                    if(currentForm.getValue().Value.length == 2){
-                        return false;
-                    }else{ 
-                        (currentForm.getValue().Value[0] == 'Active')? value['Value'] = true : value['Value'] = false;
-                    }*/
 
                     filters.push(value);
                     
@@ -222,8 +217,13 @@ define([
             };
             this.radio.command(this.channel+':grid:update', { filters : filters });
 
-            console.log(filters);
+            if(this.clientSide){
+                this.clientFilter(filters)
+            }
         },
+
+
+
 
 
         feed: function(type){
@@ -247,6 +247,51 @@ define([
         },
 
 
+        clientFilter: function(filters){
+            var tmp = this.com.getMotherColl();
+            var mod = [];
+            var filter;
+            var col, op, val;
+            var result = [];
+            var ctx = this;
+            
+
+            var pass, rx, objVal;
+            if(filters.length){
+                var coll = _.clone(tmp);
+                _.filter(coll.models, function(obj){
+                    pass = true;
+
+                    for (var i = filters.length - 1; i >= 0; i--) {
+                        if(pass){
+                            filter = filters[i];
+                            console.log(obj);
+                            col = filter['Column'];
+                            op = filter['Operator'];
+                            val = filter['Value'];
+
+                            objVal = obj.attributes[col];
+
+                            //date
+                            if(moment.isMoment(val)){
+                                pass = ctx.testDate(val, op, objVal);                
+                            }else{
+                                pass = ctx.testMatch(val, op, objVal);
+                            };
+                        }
+                    };
+                    if(pass){
+                        mod.push(obj);
+                    };
+                });
+                coll.reset(mod);
+                this.com.action('filter', coll);
+            }else{
+                this.com.action('filter', tmp);                
+            }
+        },
+
+
         /*
         reset: function(){
             $('#filters').find('select').each(function(){
@@ -256,6 +301,116 @@ define([
                 $(this).reload();
             });
         },*/
+
+
+        testMatch : function(val, op, objVal){
+            var rx;
+            switch(op.toLowerCase()){
+                case 'is':
+                    val = val.toUpperCase();
+                    rx = new RegExp('^'+val+'$');
+                    if(!rx.test(objVal.toUpperCase())){
+                       return false;
+                    };
+                    break;
+                case 'is not':
+                    val = val.toUpperCase();
+                    rx = new RegExp('^(^'+val+')$'); //todo : not sure
+                    if(!rx.test(objVal.toUpperCase())){
+                       return false;
+                    };
+                    break;
+                case 'contains':
+                    val = val.toUpperCase();
+                    rx = new RegExp(val);
+                    if(!rx.test(objVal.toUpperCase())){
+                       return false;
+                    };
+                    break;
+                case '=':
+                    if(!(objVal == val)){
+                        return false;
+                    };
+                    break;
+                case '<>':
+                    if(!(objVal != val)){
+                        return false;
+                    };
+                    break;
+                case '>':
+                    if(!(objVal > val)){
+                        return false;
+                    };
+                    break;
+                case '<':
+                    if(!(objVal < val)){
+                        return false;
+                    };
+                    break;
+                case '>=':
+                    if(!(objVal >= val)){
+                        return false;
+                    };
+                    break;
+                case '<=':
+                    if(!(objVal <= val)){
+                        return false;
+                    };
+                    break;
+                default:
+                    console.warn('wrong opperator');
+                    return false;
+                    break;
+            };
+            return true;
+        },
+
+        testDate: function(val, op, objVal){
+            var dateA = moment(val);
+            var dateB = moment(objVal);
+
+            switch(op.toLowerCase()){
+                case '=':
+                    if(!(dateB.isSame(dateA))){
+                        return false;
+                    };
+                    break;
+                case '!=':
+                    if(dateB.isSame(dateA)){
+                        return false;
+                    };
+                    break;
+                case '>':
+                    if(!(dateA.isAfter(dateB))){
+                        return false;
+                    };
+                    break;
+                case '<':
+                    if(!(dateA.isBefore(dateB))){
+                        return false;
+                    };
+                    break;
+                //todo : verify those 2
+                case '>=':
+                    if(!(dateA.isAfter(dateB)) || !(dateB.isSame(dateA))){
+                        return false;
+                    };
+                    break;
+                case '<=':
+                    if(!(dateA.isBefore(dateB)) || !(dateB.isSame(dateA))){
+                        return false;
+                    };
+                    break;
+                default:
+                    console.log('wrong opperator');
+                    return false;
+                    break;
+
+            };
+            return true;
+
+        },
+
 
     });
 });

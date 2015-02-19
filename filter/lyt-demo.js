@@ -8,6 +8,7 @@ define([
     'text!filter/tpl-demo.html',
     'filter/model-filter',
     'grid/model-grid',
+    
    
 
 ], function($, _, Backbone, Marionette, Radio,

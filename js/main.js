@@ -56,7 +56,6 @@ var ecoReleveData = (function(){
                 deps:['backbone'],
                 exports: 'backboneLocalstorage'
             },
-
             fancytree :  {
                 deps:['jquery','jquery_ui']
             },
@@ -66,13 +65,15 @@ var ecoReleveData = (function(){
             swiper : {
                 deps:['jquery']
             },
-
             leaflet_cluster : {
                 deps:['L'],
             },
             leaflet_google : {
                 deps:['L'],
-            }
+            },
+            backgridSelect_all : {
+                deps:['backgrid']
+            },
 
         },
         paths: {
@@ -134,7 +135,7 @@ var ecoReleveData = (function(){
             jquery_ui: bower+'jquery-ui/jquery-ui.min',
 
 
-            L: bower+'leaflet/dist/leaflet',
+            L: bower+'leaflet/dist/leaflet-src',
             leaflet_cluster: bower+'leaflet.markercluster/dist/leaflet.markercluster',
             leaflet_google: bower+'leaflet-plugins/layer/tile/Google',
 

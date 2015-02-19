@@ -48,25 +48,30 @@ define([
         },
 
         updateSize: function(type) {
-            //$(window).trigger('resize');
+            $(window).trigger('resize');
+            this.main.currentView.map.resize();
+
+
+
+
             if(type === 'hide'){
                 $("#showIndivDetails").removeClass('masqued');
-                // this.main.$el.removeClass('col-lg-7');
-                // this.main.$el.addClass('col-lg-12');
-                // this.main.$el.removeClass('col-md-6');
-                // this.main.$el.addClass('col-md-12');
-                // this.main.$el.removeClass('col-sm-6');
-                // this.main.$el.addClass('col-sm-12');
-                // this.main.$el.addClass('col-xs-12');
+                this.main.$el.removeClass('col-lg-7');
+                this.main.$el.addClass('col-lg-12');
+                this.main.$el.removeClass('col-md-6');
+                this.main.$el.addClass('col-md-12');
+                this.main.$el.removeClass('col-sm-6');
+                this.main.$el.addClass('col-sm-12');
+                this.main.$el.addClass('col-xs-12');
             } else {
                 $("#showIndivDetails").addClass('masqued');
-                // this.main.$el.removeClass('col-lg-12');
-                // this.main.$el.addClass('col-lg-7');
-                // this.main.$el.removeClass('col-md-12');
-                // this.main.$el.addClass('col-md-6');
-                // this.main.$el.removeClass('col-sm-12');
-                // this.main.$el.addClass('col-sm-6');
-                // this.main.$el.addClass('hidden-xs');
+                this.main.$el.removeClass('col-lg-12');
+                this.main.$el.addClass('col-lg-7');
+                this.main.$el.removeClass('col-md-12');
+                this.main.$el.addClass('col-md-6');
+                this.main.$el.removeClass('col-sm-12');
+                this.main.$el.addClass('col-sm-6');
+                this.main.$el.addClass('hidden-xs');
 
             }
             $(window).trigger('resize');
