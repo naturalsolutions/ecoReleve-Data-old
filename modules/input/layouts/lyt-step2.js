@@ -17,8 +17,11 @@ define([
     'modules2/input/views/input-stations-grid',
     'utils/getSitesNames',
     'ns_modules_map/ns_map',
-    'dateTimePicker'
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker) {
+    'dateTimePicker',
+    'ns_modules_com',
+    'collections/monitoredsites',
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,
+    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites) {
 
     'use strict';
     return Step.extend({
@@ -33,22 +36,13 @@ define([
             'click #removeFieldWorkerInput' : 'removeInput',
             'change select.fiedworker' : 'checkFWName',
             'change input[name="Precision"]' : 'checkAccuracyValue',
-
-            'change #dateTimePicker input' : 'alerte',
-
-
-
+            'focusout input[name="Date_"]':'checkDateField',
             'click .bootstrap-datetimepicker-widget' : 'updateDateField'
         },
         regions: {
             leftRegion : '#inputStLeft',
             rightRegion : '#inputStRight'
         },
-
-        alerte: function(){
-            alert();
-        },  
-
         /*
         updateDateField : function(){
             $('input[name="Date_"]').click();
@@ -62,10 +56,10 @@ define([
             this.radio.comply('generateStation', this.generateStation, this);
             this.radio.comply('movePoint', this.movePoint, this);
             this.radio.comply('changeDate', this.updateDate, this);
-
+            this.sites = new MonitoredSites();
+            this.listenTo(this.sites, 'reset', this.updateName); 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
-                //console.log(this.stepAttributes);
                 var stationForm = new StationView();
                 var formModel = stationForm.form.model;
                 this.initModel(stationType,stationForm);
@@ -77,39 +71,92 @@ define([
                     cluster: true,
                     popup: true,
                     zoom : 8,
+                    element: 'map',
                     ///url: config.coreUrl+'/individuals/stations?id=3',
                     geoJson : {"features": [{"properties": {"date": 1193220000.0}, 'id': 1, "geometry": {"coordinates": [-3.96,33.06 ], "type": "Point"}, "type": "Feature"}], "type": "FeatureCollection"}
                 });
                 this.rightRegion.show(this.map);
                 this.map.init();
-                //var marker = L.marker([20, 20]).addTo(this.map);
 
                 // init map
                /* var position = new Position();
                 map.addModel(position);*/
                 this.updateStationType(stationType);
             } else if(stationType =='imported'){
-
+                $('#btnNext').addClass('disabled');
                 var lastImportedStations = new Waypoints();
                 lastImportedStations.fetch();
                 this.initModel('import',null);
                 var ln = lastImportedStations.length;
                 if (ln > 0){
+                    /*
                     var mygrid = new Grid({collections : lastImportedStations});
                     this.leftRegion.show(mygrid);
+                    */
+
+                    this.com = new Com();
+                    var mygrid = new Grid({
+                        collections : lastImportedStations,
+                        com: this.com,
+                    });
+                    this.leftRegion.show(mygrid);
+
                     // display map
-                    var map = new Map();
-                    this.rightRegion.show(map);
-                    map.addCollection(lastImportedStations);
+                    var features = {
+                        'features': [], 
+                        'type': 'FeatureCollection'
+                    };
+                    var feature, attr;
+                    lastImportedStations.each(function(m){
+
+                        attr = m.attributes;
+                        feature = {
+                            'type': 'Feature',
+                            'id': attr.PK,
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [attr.LON,attr.LAT],
+                            }, 
+                            'properties': {
+                                'date': '2014-10-23 12:39:29'
+                            }, 
+                            
+                        };
+                        features.features.push(feature);
+                    });
+
+                    this.features = features;
+                    this.map = new NsMap({
+                        com: this.com,
+                        cluster: true,
+                        popup: true,
+                        selection :false,
+                        geoJson: this.features
+                    });
+
+                    this.rightRegion.show(this.map);
+                    this.map.init();
+                    //map.addCollection(lastImportedStations);
                 } else {
                     // no stored waypoints
                     $('#inputStLeft').html('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
                 }
 
             } else {
+                // from existed stations/monitored sites
                 this.initModel('old',null);
                 this.leftRegion.show(new FilterView());
                 this.rightRegion.show(new GridView());
+                if (stationType =='old') {
+                    //$('#allSt-Monitored').addClass('masqued');
+                    $('#allSt-Monitored').addClass('masqued');
+                    //$('#st-station').removeClass('masqued');
+                    $('#allSt-SitesNameCont').addClass('masqued');
+                } else {
+                    //$('#stMonitoredSiteName').removeClass('masqued');
+                    //$('#st-station').addClass('masqued');
+                    $('.allSt-name').addClass('masqued');
+                }
             }
         },
         initModel: function(type,formView){
@@ -129,7 +176,6 @@ define([
                             required = (validators.indexOf('required')!=-1) ;
                         }
                         obj.required = required;
-                        console.log(obj);
                         // set value in global model if not done
                         var fieldVal = this.model.get(obj.name); 
                         if(!fieldVal){
@@ -152,11 +198,6 @@ define([
                     this.model.set('station_position', null);
                 }
             }
-            // get attributes from this.model to set fields values (form model)
-            console.log('global model');
-            console.log(this.model.attributes);
-            console.log('attributes');
-             console.log(this.stepAttributes);
         },
         updateStationType : function(value){
             if(value == "new"){
@@ -169,7 +210,6 @@ define([
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'  || field.name =='id_site'){
                         field.required = false;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON'){
                         field.required = true;
@@ -186,7 +226,6 @@ define([
                     var field = this.stepAttributes[key];
                     if(field.name =='station_Region'){
                         field.required = true;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='id_site' || field.name =='station_Precision' ){
                         field.required = false;
@@ -200,9 +239,8 @@ define([
                 $('#stCoordinates').addClass('masqued');
                 for(var key in this.stepAttributes) {
                     var field = this.stepAttributes[key];
-                    if(field.name =='station_id_site' || field.name =='station_name_site'){
+                    if(field.name =='station_id_site' || field.name =='station_type_site'){
                         field.required = true;
-                        console.log(field);
                     }
                     if(field.name =='station_LAT' || field.name =='station_LON' || field.name =='station_Region' || field.name =='station_Precision' ){
                         field.required = false;
@@ -242,8 +280,11 @@ define([
             var target= $(e.target);
             var val=target.val();
             this.model.set(this.name + '_' + target.attr('name') , val);
-            if(target.attr('name') =='id_site'){
+            if(target.attr('name') =='type_site'){
                 this.updateSiteName(val);
+            }
+            if(target.attr('name') =='id_site'){
+                this.updateSitePos();
             }
         },
         datachanged_text: function(e){
@@ -254,11 +295,11 @@ define([
                 this.model.set(this.name + '_' + target.attr('name')  , val);
             }
         },
-        updateSiteName : function(siteType){
-            var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
+        /*updateSiteName : function(siteType){
+            /*var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
             $('select[name="name_site"]').html('<option></option>');
             $('select[name="name_site"]').append(sitesNames);
-        },
+        },*/
         getCurrentPosition : function(){
             if(navigator.geolocation) {
                 var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);
@@ -315,7 +356,6 @@ define([
                 var longitude = parseFloat($('input[name="LON"]').val());
                 // if the 2 values are inputed update map location
                 if(latitude && longitude){
-                    console.log("longitude: "+ longitude + " , latitude: "+ latitude);
                     var position = new Position();
                     position.set("latitude",latitude);
                     position.set("longitude",longitude);
@@ -335,7 +375,7 @@ define([
         nextOK: function(){
             var result = false; 
             var stationType = this.model.get('start_stationtype');
-            if (stationType =='imported' || stationType =='old') {
+            if (stationType =='imported' || stationType =='old' || stationType =='monitoredSite') {
                 return true;
             }
             // create a station model from stored data in global model
@@ -349,7 +389,6 @@ define([
                     station.set(attrName, this.model.get(attribute));
                 }
             }
-            console.log(station);
             var url= config.coreUrl +'station/addStation/insert';
            
             $.ajax({
@@ -404,12 +443,13 @@ define([
                 if(id){
                    model.unset('UTM'); 
                 }
-                model.set('name_site','');
+                model.set('id_site','');
                 var fieldWorkersNumber = model.get('NbFieldWorker');
                 if(!fieldWorkersNumber){
                    model.set('NbFieldWorker',''); 
                 }
             }
+            //monitoredSite
             this.model.set('station_position',model); 
         },
         addInput : function(){
@@ -477,7 +517,80 @@ define([
             var dateVal =$("input[name='Date_']").val();
             if (dateVal){
                 this.model.set('station_Date_' , dateVal);
+                this.loadMonitoredSites(dateVal);
+            }
+
+        },        
+        loadMonitoredSites: function(date) {
+            var that=this;
+            $.ajax({
+                context: this,
+                url: config.coreUrl + 'rfid/byDate',
+                data: {'date' :date} ,
+            }).done( function(data) {
+                var test = data;
+                that.sites.reset(data['siteName_type']);
+                that.sites.typeList=data['siteType'];
+                var html=[]; 
+                that.sites.typeList.forEach( function(type) {
+                    html.push ("<option value='"+ type +"'>"+ type + "</option>");
+                });
+                html.sort();
+                var content = '<option></option>' + html.join(' ');
+
+                $('#stMonitoredSiteType').html(content);
+            });
+        },
+        updateSitePos: function(e) {
+
+            var type =  $('#stMonitoredSiteType').val();
+            var name = $('#stMonitoredSiteName option:selected').text();
+            if(type && name) {
+                var monitoredSite = this.sites.findWhere({
+                    type: type,
+                    name: name
+                });
+                var position = monitoredSite.get('positions');
+                console.log(position);
+                var lat = position.lat;
+                var lon = position.lon;
+                console.log('lat  '+lat+'  long '+lon);
+                this.map.updateMarkerPos(1, lat, lon );
+                //Radio.channel('input').command('siteTypeChanged', this.sites);
+                //Radio.channel('rfid').command('addOverlay', [lon, lat]);
+            }
+        },
+        updateSiteName: function(e) {
+            var html=[]; 
+            var type = $('#stMonitoredSiteType').val();
+            if(type !== '') {
+                _.each(this.sites.where({type:type}), function(site) {
+                    html.push ('<option value="' + site.get('id_site') +'">' + site.get('name') + '</option>');
+                });
+            }
+            else {
+                this.sites.forEach( function(site) {
+                    html.push ('<option value="' + site.get('id_site') +'">' + site.get('name') + '</option>');
+                });
+            }
+            html.sort();
+            var content = '<option value=""></option>' + html.join(' ');
+            $('#stMonitoredSiteName').html(content);
+        },
+        checkDateField : function(e){
+            var dateValue = $(e.target).val();
+            var siteType = $('#stMonitoredSiteType');
+            var siteName = $('#stMonitoredSiteName'); 
+            if(!dateValue){
+                $(siteType).val('');
+                $(siteType).attr('disabled','disabled');
+                $(siteName).val('');
+                $(siteName).attr('disabled','disabled');
+            } else {
+                $(siteType).removeAttr('disabled');
+                $(siteName).removeAttr('disabled');
             }
         }
+
     });
 });

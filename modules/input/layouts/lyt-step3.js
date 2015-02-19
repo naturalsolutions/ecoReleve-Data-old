@@ -29,10 +29,9 @@ define([
             'click .arrow-right-station' :'nextStation',
             'click .arrow-left-station' :'prevStation',
             'click .onglet a': 'activeOnglet',
-            'change .indivNumber' : 'updateTotalIndivNumber',
             'click .deleteProt' : 'deleteProtocol',
             'click .deleteProInstance' : 'deleteProtInstance',
-            'change .editField' : 'updateStationData'
+            //'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
         regions: {
@@ -60,6 +59,7 @@ define([
             this.radio.comply('updateForm', this.updateFormUI, this);
             this.radio.comply('successCommitForm', this.successState, this);
             this.radio.comply('editState', this.editState, this);
+            this.radio.comply('updateStation', this.updateSation, this);
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -92,7 +92,7 @@ define([
             }
         },
         getProtocolsList : function(idStation){
-            var url= config.coreUrl + 'station/'+ idStation + '/protocol';
+            var url= config.coreUrl + 'station/'+ idStation + '/protocol';  
             var listElement = $(this.ui.protosList);
             $.ajax({
                 url:url,
@@ -118,7 +118,62 @@ define([
             this.formsRegion.empty();
             $('#formsContainer').text('');
             var url= config.coreUrl +'station/'+ this.idStation + '/protocol/' + protoName + '/' + id ;
-            this.formView = new NsFormsModule({
+            // extend NsForms Module to replace thesaurus fields values by 'fullpath' values stored in hidden fields
+            var NsForm = NsFormsModule.extend({
+                butClickSave: function (e) {
+                    var errors = this.BBForm.commit();         
+                    var changedAttr = this.BBForm.model.changed;
+                    if(!errors){  
+                        var self = this;   
+                        //replace thesaurus fields values by 'fullpath' values stored in hidden fields
+                        $('input.autocompTree').each(function() {
+                            // get fullpath value 
+                            var fieldName = $(this).attr('name');
+                            var hiddenFieldName = fieldName + '_value';
+                            var fullpathValue = $('input[name="' + hiddenFieldName + '"]').val();
+                            self.model.set(fieldName,fullpathValue);
+                        });
+                        
+                        var staId = this.model.get('FK_TSta_ID');
+                        if(staId){
+                            this.model.set('FK_TSta_ID', parseInt(staId));
+                        }
+                        for (var attr in this.model.attributes) {
+                           var val = this.model.get(attr);
+                           if (Array.isArray(val) ){
+                                if (val[0] == 'true' && val.length == 0)
+                                    this.model.set(attr,1)
+                           }                
+                       }
+                        var self = this;
+                        this.model.save([],{
+                         dataType:"text",
+                         success:function(model, response) {
+                            console.log('success' + response);
+                            self.displayMode = 'display';
+                            self.displaybuttons();
+                            self.radio.command('successCommitForm', {id: response});
+                            // update this.modelurl  if we create a new instance of protocol
+                            var tab = self.modelurl.split('/');
+                            var ln = tab.length;
+                            var newId = parseInt(response);
+                            var currentProtoId = parseInt(tab[ln - 1]);
+                            if (currentProtoId ===0){
+                                var url ='';
+                                for (var i=0; i<(ln -1);i++){
+                                    url += tab[i] +'/';
+                                }
+                                self.modelurl = url + newId;
+                            }
+                         },
+                         error:function(request, status, error) {
+                            alert('error in saving data');
+                         }
+                        });
+                    }
+                }
+            });
+            this.formView = new NsForm({
                 modelurl : url,
                 formRegion :'formsContainer',
                 buttonRegion : 'formButtons',
@@ -319,6 +374,27 @@ define([
         },
         updateFormUI : function(){
             // time picker
+            //$(datefield).attr('placeholder', config.dateLabel);
+            var self = this;
+            /*$('.timePicker').datetimepicker({
+                //defaultDate:""
+            });*/
+            $('.timePicker').each(function(){
+                var currentVal =  $(this).val();
+                $(this).datetimepicker({});
+                $(this).data('DateTimePicker').format('HH:mm');
+                $(this).val(currentVal);
+            });
+            //$(datefield).data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
+            $('.timePicker').on('dp.show', function(e) {
+                /* $(this).val('');
+                 $(this).attr('placeholder','HH:mm');*/
+            });
+            $('.timePicker').on('dp.change', function(e) {
+                self.checkTime(e);
+            });
+
+
             /*$('.timePicker').datetimepicker({ 
             });
             $('.timePicker').data('DateTimePicker').format('HH:mm');*/
@@ -388,23 +464,28 @@ define([
                 }
             };
         },
-        editState : function(){
+        editState : function(resp){
+            var self = this;
             var element = $('#tabProtsUl div.onglet.active').find('i')[0];
             $(element).removeClass('validated');
             $(element).addClass('edit');
             $('form input').removeAttr('disabled');
             $('form textarea').removeAttr('disabled');
             $('form select').removeAttr('disabled');
-        },
-        updateTotalIndivNumber : function(){
-            var total = 0;
-            $('.indivNumber').each(function(){
-                var number = parseInt($(this).val());
-                if(number){
-                    total += number;
-                }
+            // for thesaurus fields, replace fullpath value by terminal value and set hidden field with fullpath val
+            $('input.autocompTree').each(function() {
+                // get fullpath value 
+                var fieldName = $(this).attr('name');
+                var fullpathValue = resp.model.get(fieldName);
+                var hiddenFieldName = fieldName + '_value';
+                $('input[name="' + hiddenFieldName + '"]').attr('value', fullpathValue);
+                /*alert(fullpathValue);
+                $('input[name="' + hiddenFieldName + '"]').val(fullpathValue);*/
+                // get terminal value and display it 
+                var tab = fullpathValue.split('>');
+                var terminalVl = tab[tab.length - 1];
+                $(this).val(terminalVl);
             });
-            $('input[name="Nb_Total"]').val(total);
         },
         updateFormforVG : function(){
             $('form#Vertebrate_group').find('div.col-sm-4').each(function(){
@@ -420,7 +501,6 @@ define([
                     this.splice(index,1)
                 }
             };
-
             var protocolName = $(e.target).parent().attr('name');
             // find protocol instance and remove it
              if(protocolName){
@@ -444,11 +524,46 @@ define([
             this.deleteProtocol(e);
             this.updateInstanceDetails(protocolName);
         },
-        updateStationData : function(e){
-            var value = $(e.target).val();
-            var fieldName = $(e.target).attr('name');
-            if (value){
-                alert(fieldName + ' ' + value);
+        updateSation : function(obj){
+            var self = this;
+            var model = obj.model ; 
+            var data = model.changed;
+            data.PK = model.get('PK');
+            $.ajax({
+                url: config.coreUrl +'station/addStation/insert',
+                context: this,
+                data: data,
+                type:'POST',
+                success: function(data){
+                    console.log(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                alert('error in updating current station value(s)');
+                }
+            }).done(function(){
+                if(data.FieldActivity_Name){
+                    self.getProtocolsList(data.PK);
+                }
+            });
+        },
+        checkTime : function(e){
+            var time = $(e.target).val();
+            var error = false;
+            if(time){
+                var tab = time.split(':');
+                if(tab.length> 0){
+                    var heure = tab[0];
+                    var minutes = tab[1];
+                    if(parseInt(heure) > 24 || (parseInt(minutes) > 59)) {
+                        error = true;
+                    }
+                } else {
+                    error = true;
+                }
+                if(error){
+                    alert('Please input a valid time');
+                    $(e.target).val('');
+                }
             }
         }
     });

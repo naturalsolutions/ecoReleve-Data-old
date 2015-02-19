@@ -24,14 +24,14 @@ define([
                 FieldWorker4: { type: 'Select', options: [''] , title:'field worker 4' , editorClass : 'form-control fiedworker' },
                 FieldWorker5: { type: 'Select', options: [''] , title:'field worker 5' , editorClass : 'form-control fiedworker' },
                 NbFieldWorker : {type: 'Number' , title:'field workers number', editorClass : 'form-control', validators: ['required'], 'editorAttrs': { "min": "1" }},
-                id_site : { type: 'Select', options: [''], title:'id site', editorClass : 'form-control', validators: []},
-                name_site : { type: 'Text', title:'name site', editorClass : 'form-control', validators: []},
+                type_site : { type: 'Select', options: [''], title:'id site', editorClass : 'form-control', validators: []},
+                id_site : { type: 'Text', title:'name site', editorClass : 'form-control', validators: []},
                 Precision : { type: 'Number', title:'id site', editorClass : 'form-control', validators: ['required']}
             },
             defaults: {
                 FieldWorker4: '',
                 FieldWorker5: '',
-                name_site :'',
+                type_site :'',
                 id_site : null
             },
             verboseName : "station"

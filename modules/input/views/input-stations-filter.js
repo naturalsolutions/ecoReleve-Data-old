@@ -35,7 +35,9 @@ define([
             'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
-            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName'
+            'change select[name="allSt-monitoredSiteType"]' :'updateSiteName',
+            'click #allSt-filter-btn' : 'filterQuery',
+            'click #allSt-clear-btn' : 'clearFilter'
 
         },
         ui: {
@@ -53,7 +55,7 @@ define([
 
             this.filter =  {
                 PK : {Operator: '=' , Value: null },  
-                Name : {Operator: '=' , Value: null },    
+                Name : {Operator: 'Is' , Value: null },    
                 siteName : {Operator: '=' ,Value: null  },    
                 beginDate: {Operator: '>=' ,Value: null  },    
                 endDate: {Operator: '<=' ,Value: null  },    
@@ -72,7 +74,7 @@ define([
         catch: function(evt) {
             evt.preventDefault();
         },
-        clear: function(evt) {
+        clearFilter: function(evt) {
             evt.preventDefault();
             evt.stopPropagation();
             this.clearForm();
@@ -81,9 +83,10 @@ define([
         },
         clearForm: function() {
             this.$el.find('form').trigger('reset');
-            this.$el.find('input').prop('disabled', false);
+            this.$el.find('input').prop('value', '');
         },
         onShow: function(evt) {
+
             this.$el.parent().addClass('no-padding');
             var height=$(window).height();
             height -= $('#header-region').height();
@@ -95,8 +98,8 @@ define([
             this.$el.find('.panel-heading').css({'border-radius':'0px'});
 
             this.$el.find('.panel-body').css({'background-color' : 'white'});
-            $('.dateTimePicker').datetimepicker({
-            }); 
+            /*$('.dateTimePicker').datetimepicker({
+            }); */
             var self = this;
             $(this.ui.indivId).change( function() {  
                 self.getIndivId();
@@ -111,8 +114,15 @@ define([
                 $(this).data('DateTimePicker').format('DD/MM/YYYY');
             });
             $(this.ui.datePicker).on('dp.show', function(e) {
-                 $(this).val('');
-            });          
+                $(this).val('');
+                var name = $(this).attr('name').split('-')[1];
+                self.filter[name].Value = null; 
+            });  
+            $(this.ui.datePicker).on('dp.change', function(e) {
+                var name = $(this).attr('name').split('-')[1];
+                var value = $(this).val() || null;
+                self.filter[name].Value = value; 
+            });        
         },
 
         onDestroy: function(evt) {
@@ -126,11 +136,11 @@ define([
         update: function(e) {
             var input = $(e.target);
             var id =  $(input).attr('id');
-            if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op')){
+            if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op') && (id!='allSt-Name-op')){
                 var name = $(input).attr('name').split('-')[1];
                 var value = e.target.value;
                 if (!value){ value =null;}
-                if(name !='fieldWorker' && name !='Name' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
+                if(name !='fieldWorker' && name !='siteName' && name !='PK'){   // for this field we need to get worker id from datalist
                     this.filter[name].Value = value;
                 } else if(name =='fieldWorker') {
                     this.filter[name].Value = parseInt(value); 
@@ -149,6 +159,9 @@ define([
                 //alert(fieldName);
                 this.filter[fieldName].Operator = operator; 
             }
+            this.updateGrid();
+        },
+        filterQuery : function(){
             this.updateGrid();
         },
         getIndivId : function(){

@@ -9,24 +9,36 @@
     <form role="form">
         <fieldset>
             <legend>station</legend>
-            <div class="col-xs-6">
+            <span class="col-xs-3">
                 <label >Id</label>
                 <input name="allSt-PK" class="form-control"  type="text" />
-            </div>
-            <div id="stationType" class='col-xs-6'>
-                <div class="radio-inline">
-                      <label><input type="radio" name="all-stationType" value ="Name" checked>Station name</label>
-                </div>
-                <div class="radio-inline">
-                      <label><input type="radio" name="all-stationType" value ="siteName">Site name</label>
-                </div>
+            </span>
+            <span class="col-xs-6" id="allSt-Monitored">
+                    <label>Monitored site type</label><br/>
+                    <select name="allSt-monitoredSiteType" class="form-control">
+                        <option></option>
+                    </select>
+            </span>
+            <span class="col-xs-2 allSt-name">  
+                <label >Name</label>  
+                <select id="allSt-Name-op" class="form-control" >
+                    <option>Is</option>
+                    <option>Is not</option>
+                    <option>Contains</option>
+                </select>
+            </span>
+            <span id="stationType" class='col-xs-6 allSt-name'>
+                <label></label>
                 <input name="allSt-Name" id ="st-station" class="form-control" type="text"/>
-                <select class="form-control masqued" id="stMonitoredSiteName" name='allSt-siteName'/>
-            </div> 
+            </span> 
+            <span class='col-xs-6' id='allSt-SitesNameCont'>
+                <label >Name</label>  
+                <select class="form-control" id="stMonitoredSiteName" name='allSt-siteName'/>
+            </span>
         </fieldset>
         <fieldset>
             <legend>date</legend>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <select id="allSt-beginDate-op" class="form-control" >
                                 <option>=</option>
                                 <option>&lt;</option>
@@ -35,65 +47,59 @@
                                 <option>&gt;=</option>
                 </select>
             </div>
-            <div class="input-group date col-xs-9 ">
+            <div class=" date col-xs-5 ">
                         <!--<span class="input-group-addon">
                             <span class="glyphicon-calendar glyphicon"></span>
                          </span>-->
                          <input type="text" name="allSt-beginDate" class="form-control pickerDate" type="text" placeholder="dd/mm/yyyy">
             </div>
-            <br/>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                     <select id="allSt-endDate-op" class="form-control">
                                 <option>&lt;</option>
                                 <option>&lt;=</option>
                     </select>
             </div>
-            <div class="input-group date  col-xs-9 dateTimePicker">
+            <div class="col-xs-5 ">
                          <input type="text" name="allSt-endDate" class="form-control pickerDate" type="text" placeholder="dd/mm/yyyy">
             </div>
          </fieldset>
          <fieldset>
             <legend>field caracteristics</legend>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <label>Fieldworker</label><br/>
                     <select name="allSt-fieldWorker" class="form-control">
                         <option></option>
                     </select>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <label>Field activity</label><br/>
                     <select name="allSt-fieldActivity" class="form-control">
                         <option></option>
                     </select>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <label>Region</label><br/>
                     <select name="allSt-region" class="form-control">
                         <option></option>
                     </select>
                 </div>
-                <div class="col-xs-6">
-                    <label>Monitored site type</label><br/>
-                    <select name="allSt-monitoredSiteType" class="form-control">
-                        <option></option>
-                    </select>
-                </div>
+
         </fieldset>
          <fieldset>
             <legend>Coordinates</legend>
-            <div class="col-xs-6">
+            <div class="col-xs-3">
                 <label >min lat</label>
                 <input name="allSt-minLat" class="form-control  coords coord-min"  type="text" />
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-3">
                 <label>min lon</label>
                 <input name="allSt-minLon" class="form-control coords coord-min" type="text" />
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-3">
                 <label>max lat</label>
                 <input name="allSt-maxLat" type="text" class="form-control coords coord-max"/>
             </div>
-             <div class="col-xs-6">
+             <div class="col-xs-3">
                 <label>max lon</label>
                 <input name="allSt-maxLon" type="text" class="form-control coords coord-max"/>
             </div>
@@ -104,6 +110,19 @@
                 <input class="form-control pickerInput required" name="allSt-indivId" type="text">
                 <span class="input-group-addon picker"><span class="glyphicon-plus"></span></span> 
             </div>
+        </div>
+        <div class="allSt-btn-group">
+            <button id="allSt-clear-btn"  
+                    class="small btn btn-labeled">
+                     CLEAR
+            </button> 
+            <button id="allSt-filter-btn" type="submit"
+                    class="small btn btn-labeled btn-success pull-right">
+                     FILTER
+                <span class="btn-label">
+                    <i class="icon reneco search "/>
+                </span>
+            </button>
         </div>
     </form>
     </div>

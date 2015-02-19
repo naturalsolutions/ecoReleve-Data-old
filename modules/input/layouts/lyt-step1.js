@@ -21,13 +21,6 @@ define([
             var target= $(e.target);
             var val=$(target).attr('value');
             this.updateModel(val);
-            /*this.model.set(this.name + '_' + target.attr('name') , val);
-            // init all other model attributes
-            for(var key in this.model.attributes) {
-                if(key != 'start_stationtype'){
-                    this.model.set(key,null);
-                }
-            }*/
         },
         selectMode : function(e){
             $('div.manual-tile').removeClass('select');
@@ -42,8 +35,6 @@ define([
                 $(radio).attr('checked','checked').prop('checked',true);
                 var val = $(radio).attr('value');
                 this.updateModel(val);
-                //e.preventDefault();
-                //$(radio).click();
             }
         }, 
         updateModel : function(value){
@@ -53,6 +44,9 @@ define([
                     this.model.set(key,null);
                 }
             }
+        },
+        onShow: function(){
+            $('#btnNext').removeClass('disabled');
         }
     });
 

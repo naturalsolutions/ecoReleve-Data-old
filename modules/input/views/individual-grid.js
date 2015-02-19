@@ -18,7 +18,8 @@ define([
         template: template,
 
         events :{
-            'click tbody > tr': 'detail'
+            'click tbody > tr': 'detail',
+            'dblclick tbody > tr' : 'navigate'
         },
 
         initialize: function(options) {
@@ -183,6 +184,10 @@ define([
             Radio.channel('input').command('indivId', {id: id});
             $('table.backgrid tr').removeClass('backgrid-selected-row');
             $(row).addClass('backgrid-selected-row');
+        },
+        navigate : function(evt){
+            this.detail(evt);
+            this.radio.command('filterMask');
         }
     });
 });

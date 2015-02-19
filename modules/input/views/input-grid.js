@@ -15,7 +15,7 @@ define([
         template : template,
         //className:'detailsInputPanel',
         events: {
-            'click .backgrid-container tbody tr': 'updateMap'
+            'click .backgrid-container tbody tr': 'focus'
         },
         initialize: function(options) {
             this.radio = Radio.channel('input');
@@ -27,6 +27,11 @@ define([
                     pageSize: 20
                 }
             });
+            this.com = options.com;
+            if(options.com){
+              this.com = options.com;   
+              this.com.addModule(this);
+            }
             this.locations = new Locations();
             // add each model of the view collection to the pageableCollection
             var self = this;
@@ -40,7 +45,6 @@ define([
 
         updateMap: function(evt) {
             if($(evt.target).is("td")) {
-
                 var tr = $(evt.target).parent();
                 var id = tr.find('td').first().text();
                 var idNumber = Number(id);
@@ -54,7 +58,6 @@ define([
                 $('#btnNext').removeClass('disabled');
             }
         },
-
         onShow: function() {
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5
@@ -98,6 +101,89 @@ define([
             });
 
             this.$el.append(this.paginator.render().el);
+        },
+        action: function(action, ids){
+          switch(action){
+            case 'focus':
+              this.hilight(ids);
+              break;
+            case 'selection':
+              this.selectOne(ids);
+              break;
+            case 'selectionMultiple':
+              this.selectMultiple(ids);
+              break;
+            case 'resetAll':
+               this.clearAll();
+              break;
+            default:
+              console.log('verify the action name');
+              break;
+          }
+        },
+        interaction: function(action, id){
+          if(this.com){
+            this.com.action(action, id);                    
+          }else{
+            this.action(action, id);
+          }
+        },
+
+        hilight: function(){
+            console.log('passed');
+        },
+
+        clearAll: function(){
+            var coll = new Backbone.Collection();
+            coll.reset(this.grid.collection.models);
+            for (var i = coll.models.length - 1; i >= 0; i--) {
+                coll.models[i].attributes.import = false;
+            };
+            //to do : iterrate only on checked elements list of (imports == true)
+        },
+
+        selectOne: function(id){
+            var model_id = id;
+            var coll = new Backbone.Collection();
+            coll.reset(this.grid.collection.models);
+
+            model_id = parseInt(model_id);
+            var mod = coll.findWhere({id : model_id});
+        },
+
+        selectMultiple: function(ids){
+            var model_ids = ids, self = this, mod;
+
+            for (var i = 0; i < model_ids.length; i++) {
+                mod = this.grid.collection.findWhere({id : model_ids[i]});
+                mod.set('import', true);
+                mod.trigger("backgrid:select", mod, true);
+            };
+        },
+
+        checkSelect: function(e){
+            var id = $(e.target).parent().parent().find('td').html();
+            this.interaction('selection', id);
+        },
+        checkSelectAll: function(e){
+            var ids = _.pluck(this.grid.collection.models, 'id');
+            if(!$(e.target).is(':checked')){
+                this.interaction('resetAll', ids);
+            }else{
+                this.interaction('selectionMultiple', ids);
+            }
+        },
+
+        focus: function(e) {
+            if($(e.target).is('td')) {
+                var tr = $(e.target).parent();
+                var id = tr.find('td').first().text();
+                this.interaction('focus', id);
+                var idNumber = Number(id);
+                var currentModel = this.locations.findWhere({PK: idNumber});
+                Radio.channel('input').command('generateStation', currentModel);
+                $('#btnNext').removeClass('disabled');
+            }
         },
     });
 });

@@ -21,6 +21,7 @@ define([
         legend : false,
         popup: false,
         zoom: 3,
+        fitBounds: false,
         geoJsonLayers: [],
 
         onBeforeDestroy: function(){
@@ -33,7 +34,35 @@ define([
           console.log('detroy map');
         },
 
+        unlockError: function(){
+          L.LatLng = function (lat, lng, alt) { // (Number, Number, Number)
+            lat = parseFloat(lat);
+            lng = parseFloat(lng);
+
+            if (isNaN(lat) || isNaN(lng)) {
+              //mjaouen
+              console.warn('Invalid LatLng object: (' + lat + ', ' + lng + ')');
+            }
+
+            this.lat = lat;
+            this.lng = lng;
+
+            if (alt !== undefined) {
+              this.alt = parseFloat(alt);
+            }
+          };
+
+          L.extend(L.LatLng, {
+            DEG_TO_RAD: Math.PI / 180,
+            RAD_TO_DEG: 180 / Math.PI,
+            MAX_MARGIN: 1.0E-9 // max margin of error for the "equals" check
+          });
+        },
+
         initialize: function(options) {
+
+
+            this.unlockError();
             //check if there is a communicator
 
             if(options.com){
@@ -42,6 +71,7 @@ define([
             }
             this.url=options.url;
             this.geoJson=options.geoJson;
+
             this.zoom = options.zoom;
 
 
@@ -174,14 +204,12 @@ define([
               }
             }
             
-            if (markerArray.length >1){
+            if (markerArray.length >1 && this.fiBounds){
               var group = L.featureGroup(markerArray);
             this.map.fitBounds(group.getBounds());
             } else {
               this.map.setZoom(this.zoom);
             }
-
-
 
 
             this.google();
@@ -250,6 +278,7 @@ define([
           });
         
         },
+
 
         initIcons: function(){
           this.focusedIcon = new L.DivIcon({className: 'custom-marker focus'});
@@ -510,6 +539,7 @@ define([
 
 
         selectOne: function(id){
+          if(this.selection){
           var marker;
             marker=this.dict[id];
             marker.checked=!marker.checked;
@@ -520,6 +550,7 @@ define([
             };
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
+          }
         },
 
         avoidDoublon: function(id, marker){
@@ -529,6 +560,7 @@ define([
 
 
         selectMultiple: function(ids){
+          if(this.selection){
           var marker;
           for (var i = 0; i < ids.length; i++) {            
             marker=this.dict[ids[i]];
@@ -539,6 +571,7 @@ define([
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
           };
+          }
         },
 
         /*==========  focusMarker :: focus & zoom on a point  ==========*/
@@ -633,7 +666,7 @@ define([
                         'coordinates': [attr.longitude, attr.latitude],
                     }, 
                     'properties': {
-                        'date': '2014-10-23 12:39:29'
+                      //todo
                     },
                 };
                 features.features.push(feature);

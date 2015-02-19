@@ -40,6 +40,8 @@ define([
         },
         initialize: function(){
             this.model = new Backbone.Model();
+            this.radio = Radio.channel('individual');
+            this.radio.comply('filterMask', this.filterMask, this);
         },
 
         onRender: function(){

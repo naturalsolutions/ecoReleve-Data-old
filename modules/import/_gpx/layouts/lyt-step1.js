@@ -34,7 +34,7 @@ define([
             radio.prop('checked',true).attr('checked','checked');
       
 
-            if (radio.val() == 'gps-gpx')  
+            if (radio.val() == 'gpx')  
                 $('#info-GPX').show();
             else 
                 $('#info-GPX').hide();
