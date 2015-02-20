@@ -8,11 +8,9 @@ define([
     'utils/datalist',
     'config',
     'text!modules2/export/templates/export-step3.html',
-    'ol3',
     'models/point',
     'bbForms',
-], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template,
- ol, Point, BbForms) {
+], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template, Point, BbForms) {
 
     'use strict';
 

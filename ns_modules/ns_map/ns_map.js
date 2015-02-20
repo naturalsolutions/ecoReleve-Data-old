@@ -15,6 +15,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: tpl,
+        className: 'full-height',
 
         selection: false,
         bbox : false,
@@ -40,7 +41,6 @@ define([
             lng = parseFloat(lng);
 
             if (isNaN(lat) || isNaN(lng)) {
-              //mjaouen
               console.warn('Invalid LatLng object: (' + lat + ', ' + lng + ')');
             }
 

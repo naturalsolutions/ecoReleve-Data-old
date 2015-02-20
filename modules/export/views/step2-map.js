@@ -8,12 +8,10 @@ define([
     'utils/datalist',
     'config',
     'text!modules2/export/templates/export-step2-map.html',
-    'ol3',
     'models/point',
     'bbForms',
     'ns_modules_map/ns_map',
-], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template,
- ol, Point, BbForms, NsMap) {
+], function($, _, Backbone , Marionette, moment, Radio, datalist, config, template, Point, BbForms, NsMap) {
 
     'use strict';
 

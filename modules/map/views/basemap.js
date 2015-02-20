@@ -3,7 +3,6 @@ define([
 	'underscore',
     'backbone',
     'marionette',
-    'ol3',
     'radio',
     'config',
     'text!modules2/map/templates/map.html'

@@ -11,9 +11,8 @@ define([
     'bbForms',
     'models/export_filter',
     'text!modules2/export/tools/tpl-filters.html',
-    'ol3'
 ], function($, _, Backbone , Marionette, moment, Radio,
- datalist, config, template, BbForms, FilterModel, tplFilters, ol) {
+ datalist, config, template, BbForms, FilterModel, tplFilters) {
 
     'use strict';
 

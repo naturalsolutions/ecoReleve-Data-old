@@ -1,7 +1,6 @@
 define([
 	'backbone',
 	'google',
-	'openlayers',
 	'radio',
 	'models/point'
 ], function(Backbone, GoogleMapsLoader, OpenLayers, Radio, Point) {

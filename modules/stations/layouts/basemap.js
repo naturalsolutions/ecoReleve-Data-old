@@ -1,7 +1,6 @@
 define([
     'jquery',
     'marionette',
-    'ol3',
     'radio',
     'config',
     'text!modules2/stations/templates/map.html'

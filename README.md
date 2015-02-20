@@ -40,8 +40,6 @@ Technologie used
 ------------
 -[PhoneGap] (http://phonegap.com/)
 
--[OpenLayers] (http://ol3js.org/)
-
 -[Backbonejs](http://backbonejs.org/)
 
 -[Boostrap] (http://getbootstrap.com/)

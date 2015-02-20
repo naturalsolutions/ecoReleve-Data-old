@@ -32,12 +32,15 @@ var ecoReleveData = (function(){
                 deps:['jquery','bootstrap'],
                 exports: 'Fuelux'
             },
+            /*
             ol3: {
                 exports: 'ol'
             },
             openlayers: {
                 exports: 'OpenLayers'
-            },
+            },*/
+
+
             sha1: {
                 exports: 'sha1'
             },
@@ -135,7 +138,7 @@ var ecoReleveData = (function(){
             jquery_ui: bower+'jquery-ui/jquery-ui.min',
 
 
-            L: bower+'leaflet/dist/leaflet-src',
+            L: bower+'leaflet/dist/leaflet',
             leaflet_cluster: bower+'leaflet.markercluster/dist/leaflet.markercluster',
             leaflet_google: bower+'leaflet-plugins/layer/tile/Google',
 
@@ -153,8 +156,8 @@ var ecoReleveData = (function(){
             backgridSelect_all:'../../bower_components/backgrid-select-all/backgrid-select-all',
 
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
-            openlayers: 'openlayers/openlayers',
-            ol3: 'openlayers/3.0.0/build/ol-debug',
+            //openlayers: 'openlayers/openlayers',
+            //ol3: 'openlayers/3.0.0/build/ol-debug',
             sha1: 'sha1/sha1',
             localforage: 'localforage/localforage-0.9.2',
             jquery: 'jquery/jquery-1.11.1',

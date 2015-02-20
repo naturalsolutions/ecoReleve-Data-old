@@ -5,15 +5,13 @@ define([
     'marionette',
     'config',
     'radio',
-    'ol3',
     'text!modules2/validate/gsm/templates/tpl-map.html',
     'L',
     'leaflet_cluster',
     'leaflet_google',
 
 
-], function($, _, Backbone , Marionette, config, Radio,
-    ol, tpl, L, cluster
+], function($, _, Backbone , Marionette, config, Radio, tpl, L, cluster
     ) {
 
     'use strict';

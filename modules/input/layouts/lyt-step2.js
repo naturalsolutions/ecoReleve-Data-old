@@ -25,7 +25,7 @@ define([
 
     'use strict';
     return Step.extend({
-        className: 'map-view',
+        className: 'map-view full-height',
         events : {
             'change input[type=radio][name="position"]' :'updateStationType',
             'click #getPosition' : 'getCurrentPosition',

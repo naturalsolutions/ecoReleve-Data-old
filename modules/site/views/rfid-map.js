@@ -5,12 +5,10 @@ define([
     'marionette',
     'config',
     'radio',
-    'ol3',
     'ns_modules_map/ns_map',
 
 
-], function($, _, Backbone , Marionette, config, Radio,
-    ol, NsMap
+], function($, _, Backbone , Marionette, config, Radio, NsMap
     ) {
 
     'use strict';
