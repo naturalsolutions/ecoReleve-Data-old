@@ -7,8 +7,9 @@ define([
     'utils/getFieldActivity',
     'utils/getItems',
     'models/station',
-    'utils/getUsers'
-], function($,Marionette, Radio, config,template,getFieldActivity,getItems,Station,getUsers) {
+    'utils/getUsers',
+     'sweetAlert',
+], function($,Marionette, Radio, config,template,getFieldActivity,getItems,Station,getUsers,Swal) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
@@ -47,7 +48,16 @@ define([
         checkAccuracyValue : function(){
             var value = parseInt($(this.ui.accuracy).val());
            if(value < 0 ){
-                alert('please input a valid value (>0) ');
+                //alert('please input a valid value (>0) ');
+                Swal({
+                    title: "Error in value",
+                    text: 'Please input a valid value (>0).',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                });
                 $(this.ui.accuracy).val('');
            }
 
@@ -75,7 +85,16 @@ define([
                 var selectedValue = $(this).val();
                 if ($(this).attr('name') != fieldName){
                     if (selectedName && (selectedValue == selectedName)){
-                        alert('this name is already selected, please select another name');
+                        Swal({
+                            title: "Error in name value",
+                            text: 'This name is already selected, please select another name.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
+                        //alert('this name is already selected, please select another name');
                         $(selectedField).val('');
                     } else {
                         //this.updateUser();

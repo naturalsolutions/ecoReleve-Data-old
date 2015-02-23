@@ -74,7 +74,16 @@ define([
             var date = moment($(datefield).val(),"DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
             var now = moment();
             if (now < date) {
-               alert('Please input a valid date');
+               //alert('Please input a valid date');
+               Swal({
+                title: "Error in date value",
+                text: 'Please input a valid date.',
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonColor: 'rgb(147, 14, 14)',
+                confirmButtonText: "OK",
+                closeOnConfirm: true,
+                });
                $(datefield).val('');
                $(siteType).attr('disabled','disabled');
                $(siteName).attr('disabled','disabled');
@@ -83,7 +92,6 @@ define([
                     $(siteType).removeAttr('disabled');
                     $(siteName).removeAttr('disabled');
                 }
-                
                 this.radio.command('changeDate');
             }
         }

@@ -7,9 +7,10 @@ define([
     'stepper/level1-demo',
     'stepper/lyt-step',
     'collections/waypoints',
-    'utils/xmlParser'
+    'utils/xmlParser',
+    'sweetAlert',
 
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,xmlParser) {
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,xmlParser,Swal) {
 
     'use strict';
 
@@ -69,7 +70,16 @@ define([
                     fileType = fileType.toUpperCase();
                     if (fileType != 'GPX') {
                         this.model.set(this.name + '_FileName', "");
-                        alert('File type is not supported. Please select a "gpx" file');
+                        //alert('File type is not supported. Please select a "gpx" file');
+                        Swal({
+                            title: "File type is not supported",
+                            text: 'Please select a "gpx" file',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
                     } else {
                         reader.onload = function(e, fileName) {
                             xml = e.target.result;
@@ -103,7 +113,16 @@ define([
                     reader.readAsText(selected_file);
                     
                 } catch (e) {
-                    alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
+                    //alert('File API is not supported by this version of browser. Please update your browser and check again, or use another browser');
+                    Swal({
+                            title: "File API is not supported by this version of browser",
+                            text: 'Please update your browser and check again, or use another browser',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
                     this.model.set(this.name + '_FileName', "");
                 }
                 return loading;

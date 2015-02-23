@@ -13,8 +13,11 @@ define([
     'utils/getRegions',
     'utils/getSitesTypes',
     'utils/getSitesNames',
-    'dateTimePicker'
-], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template,getUsers, getFieldActivity,getRegions,getSitesTypes,getSitesNames) {
+    'sweetAlert',
+    'dateTimePicker',
+
+], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template,getUsers, 
+    getFieldActivity,getRegions,getSitesTypes,getSitesNames,Swal) {
 
     "use strict";
 
@@ -224,14 +227,32 @@ define([
         checkVal : function(e){
             var value = parseFloat($(e.target).val());
             if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
-                alert('please input a valid value.');
+                //alert('please input a valid value.');
+                 Swal({
+                    title: 'Error value',
+                    text: 'Please input a valid value.',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                });
                 $(e.target).val('');
             }
         },
         checkMaxVal : function(e){
             var value = parseFloat($(e.target).val());
             if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
-                alert('please input a valid value.');
+                //alert('please input a valid value.');
+                Swal({
+                    title: 'Error value',
+                    text: 'Please input a valid value.',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                });
                 $(e.target).val('');
             }
         },

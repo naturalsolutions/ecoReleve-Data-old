@@ -12,8 +12,9 @@ define([
     'utils/getProtocolsList',
     'swiper',
     'models/station',
-    'utils/getUsers'
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station,getUsers) {
+    'utils/getUsers',
+     'sweetAlert',
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station,getUsers,Swal) {
 
     'use strict';
 
@@ -103,7 +104,16 @@ define([
                     this.generateNavBarProtos();
                 },
                 error: function(data){
-                    alert('error in loading protocols');
+                    //alert('error in loading protocols');
+                    Swal({
+                        title: "Error in loading protocols",
+                        //text: 'Please input a valid value (>0).',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                    });
                 }
             }).done(function(){
                 var element = $(listElement).find('div.swiper-slide:first a');
@@ -167,7 +177,16 @@ define([
                             }
                          },
                          error:function(request, status, error) {
-                            alert('error in saving data');
+                            //alert('error in saving data');
+                            Swal({
+                                title: "Error in saving data",
+                                //text: 'Please input a valid value (>0).',
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: 'rgb(147, 14, 14)',
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true,
+                            });
                          }
                         });
                     }
@@ -335,7 +354,16 @@ define([
                     this.addViews();
                 },
                 error: function(data){
-                    alert('error in loading station data');
+                    //alert('error in loading station data');
+                    Swal({
+                        title: "Error in loading station data",
+                        //text: 'Please input a valid value (>0).',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                    });
                 }
             }).done(function(){
                
@@ -538,7 +566,16 @@ define([
                     console.log(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                alert('error in updating current station value(s)');
+                //alert('error in updating current station value(s)');
+                    Swal({
+                        title: "Error in updating current station value(s)",
+                        //text: 'Please input a valid value (>0).',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                    });
                 }
             }).done(function(){
                 if(data.FieldActivity_Name){
@@ -561,7 +598,16 @@ define([
                     error = true;
                 }
                 if(error){
-                    alert('Please input a valid time');
+                    //alert('Please input a valid time');
+                    Swal({
+                        title: "Error value",
+                        text: 'Please input a valid time',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                    });
                     $(e.target).val('');
                 }
             }
