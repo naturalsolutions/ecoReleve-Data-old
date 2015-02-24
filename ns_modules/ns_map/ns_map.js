@@ -625,7 +625,13 @@ define([
               m.setIcon(icon);
             }
             m.addTo(this.map);
-          }
+          };
+
+          console.log(this.lastMarker);
+          if(this.lastMarker){
+            this.map.removeLayer(this.lastMarker);
+          };
+          this.lastMarker = m;
           return m;
         },
 
@@ -706,5 +712,8 @@ define([
             this.addBBox(this.markersLayer);
           };
         },
+
+
+        
     });
 });

@@ -23,6 +23,8 @@ define([
     ''+module+'/stations/layouts/basemap',
     ''+module+'/site/layouts/lyt-site',
     ''+module+'/site/detail/lyt-site-detail',
+    ''+module+'/site/create/lyt-create',
+
 
 
     ''+module+'/import/_rfid/layouts/lyt-stepOrchestrator',
@@ -56,7 +58,7 @@ define([
     ArgosDetailLayout, IndivLayout, IndivDetailLayout, Rfid_Layout,
     GSMListLayout, TransmitterLayout, ImportLayout, InputLayout, ExportLayout, Stations, 
 
-    Lyt_Site_Main, Lyt_Site_Detail ,
+    Lyt_Site_Main, Lyt_Site_Detail, Lyt_Site_Create,
 
 
     Import_RFID_lyt,
@@ -429,6 +431,17 @@ define([
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new Lyt_Site_Detail({
+                    id: id,
+                }));
+            }, this); 
+        },
+
+
+        site_create: function(id){
+            var route = 'site/create'
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                this.mainRegion.show(new Lyt_Site_Create({
                     id: id,
                 }));
             }, this); 

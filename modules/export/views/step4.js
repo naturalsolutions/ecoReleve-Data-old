@@ -20,6 +20,7 @@ define([
 
         events: {
             'click button#validateColumns' : 'validateColumns',
+            'click button#selectAll': 'selectAll',
         },
 
 
@@ -85,6 +86,13 @@ define([
           this.radio.command('columns-update', { columns: list });
           this.validateStep();
         },
+
+        selectAll: function(){
+        	console.log(this.$el.find('#Columns input[type=checkbox]'));
+        	this.$el.find('#Columns input[type=checkbox]').each(function(){
+        		$(this).attr('checked', true);
+        	});
+        },	
 
         validateStep: function(){
           $('.btn-next').removeAttr('disabled');

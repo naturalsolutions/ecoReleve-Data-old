@@ -96,21 +96,21 @@ define([
             if(fieldName == 'Status') classe = 'hidden';
 
             var md = Backbone.Model.extend({
-                    schema : {
-                        Column : {type: 'Hidden', title: null, value: fieldName},
-                        Operator : {type : 'Select', title: null, options: this.getOpOptions(type),editorClass: 'form-control '+classe,
-                         },
-                            
-                        Value : {
-                            type : this.getFieldType(type),
-                            title : fieldName,
-                            editorClass: 'form-control filter', 
-                            options: this.getValueOptions(type)
-                        }
-                    },
-                    defaults: {
-                        Column : fieldName,
-                    }  
+                schema : {
+                    Column : {type: 'Hidden', title: null, value: fieldName},
+                    Operator : {type : 'Select', title: null, options: this.getOpOptions(type),editorClass: 'form-control '+classe,
+                     },
+                        
+                    Value : {
+                        type : this.getFieldType(type),
+                        title : fieldName,
+                        editorClass: 'form-control filter', 
+                        options: this.getValueOptions(type)
+                    }
+                },
+                defaults: {
+                    Column : fieldName,
+                }  
             });
 
 

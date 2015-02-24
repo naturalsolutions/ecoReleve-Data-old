@@ -20,9 +20,11 @@ define([
 
 
             'site(/)' : 'site',
-            'site/:id(/)' : 'site_detail',
-            'site/add(/)' : 'site_add',
             'site/deploy(/)' : 'site_deploy',
+            'site/add(/)' : 'site_add',
+            'site/create(/)' : 'site_create',
+            'site/:id(/)' : 'site_detail',
+
 
 
             'demo_stepper(/)' : 'demo_stepper',
