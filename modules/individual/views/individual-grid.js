@@ -156,6 +156,7 @@ define([
         update: function(args) {
             var that=this;
             console.log(args.filter);
+            this.filter = args.filter;
             this.grid.collection.searchCriteria = args.filter;
             // Go to page 1
             this.grid.collection.state.currentPage = 1;
@@ -181,7 +182,6 @@ define([
             $('#paginator').html(this.paginator.render().el);
             $('#gridContainer').append(this.grid.render().el);
         },
-
         onDestroy: function(){
             $('#main-panel').css('padding-top', '20');
             this.grid.remove();
@@ -192,11 +192,13 @@ define([
             delete this.grid.columns;
             delete this.grid;
         },
-
         detail: function(evt) {
             var row = $(evt.currentTarget);
             var id = $(row).find(':first-child').text()
-            Radio.channel('route').trigger('indiv:detail', {id: id});
+            Radio.channel('route').trigger('indiv:detail', {id: id, filter : this.filter});
+            console.log('-->');
+            console.log(this.filter);
+            // 
         }
     });
 });

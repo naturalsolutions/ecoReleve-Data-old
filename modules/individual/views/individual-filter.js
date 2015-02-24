@@ -7,8 +7,9 @@ define([
     'utils/datalist',
     'utils/forms',
     'config',
-    'text!modules2/individual/templates/individual-filter.html'
-], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template) {
+    'text!modules2/individual/templates/individual-filter.html',
+     'sweetAlert',
+], function($, _, Backbone, Marionette, Radio, datalist, forms, config, template,Swal) {
 
     "use strict";
 
@@ -255,7 +256,15 @@ define([
             if (!jQuery.isEmptyObject(params)){
                 this.addModalWindow(params);
             } else {
-                alert("Please input criterias to save.");
+                Swal({
+                    title: "Criterias error",
+                    text: 'Please input criterias to save.',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                });
             }
         },
 
@@ -268,7 +277,15 @@ define([
                 searchItem.query = JSON.stringify(params);
                 this.criterias.push(searchItem);
                 localStorage.setItem('indivFilterStoredCriterias',JSON.stringify(this.criterias));
-                alert("Search criterias saved.");
+                Swal({
+                    title: "Saving criterias",
+                    text: 'Search criterias are saved.',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#5cb85c',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                });
                 this.updateSaved();
             }
         },

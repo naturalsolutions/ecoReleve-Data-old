@@ -11,8 +11,8 @@ define([
     'modules2/import/views/import-grid',
     'ns_modules_com',
     'filter/model-filter',
-
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map ,Grid, Com, NSFilter) {
+    'sweetAlert',
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map ,Grid, Com, NSFilter,Swal) {
 
     'use strict';
 
@@ -101,6 +101,23 @@ define([
              collection.each(function(model) {
                 model.set('fieldActivity','');
             });
+        },
+        nextOK: function(){
+            var collection =this.model.get('data_FileContent').where({import: true});
+            if(collection.length == 0){
+            Swal({
+                title: "No waypoints selected",
+                text: 'Please select at least one waypoint to import.',
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonColor: 'rgb(147, 14, 14)',
+                confirmButtonText: "OK",
+                closeOnConfirm: true,
+            });
+                return false;
+            } else {
+                 return true;
+            }
         }
     });
 

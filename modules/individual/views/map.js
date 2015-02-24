@@ -17,7 +17,6 @@ define([
     'use strict';
 
 
-
     return Marionette.ItemView.extend({
         template: tpl,
         className: 'full-height',
@@ -32,8 +31,6 @@ define([
             this.indivId = options.indivId;
             $('#main-panel').css('padding', '0');
             $(window).on('resize', $.proxy(this, 'updateSize'));
-
-
 
         },
 
@@ -66,15 +63,32 @@ define([
         },
 
         onShow: function() {
-            $.ajax({
-                url: config.coreUrl + '/individuals/stations?id=' +this.indivId,
-                context: this,
-            }).done(function( data ) {
-                console.log(data);
-                this.initMap(data);
-            }).fail(function( msg ) {
-                console.log(msg);
-            });
+        	this.getData(this.indivId);
+        },
+
+        getData: function(id){
+        	$.ajax({
+        	    url: config.coreUrl + '/individuals/stations?id=' +id,
+        	    context: this,
+        	}).done(function( data ) {
+        	    console.log(data);
+        	    this.initMap(data);
+        	}).fail(function( msg ) {
+        	    console.log(msg);
+        	});
+        },
+
+        update: function(id){
+        	$.ajax({
+        	    url: config.coreUrl + '/individuals/stations?id=' +id,
+        	    context: this,
+        	}).done(function( data ) {
+        	    this.map.updateLayers(data);
+        	    
+        	}).fail(function( msg ) {
+        	    console.log(msg);
+        	});
+        	
         },
     });
 });

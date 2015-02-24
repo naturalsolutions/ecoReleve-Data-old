@@ -18,14 +18,19 @@ define([
             left: '#left-panel',
             main: '#main-panel'
         },
-
         onShow: function() {
-            var currentFilter = JSON.parse(sessionStorage.getItem('individual:currentFilter')) || null;
+            var storedFilter = sessionStorage.getItem('individual:currentFilter') || null;
+             var currentFilter;
+            if(storedFilter!="undefined"){
+                currentFilter = JSON.parse(storedFilter) ;
+            } else {
+                currentFilter = null;
+            }
+            
             this.left.show(new FilterView({currentFilter:currentFilter}));
             console.log(currentFilter);
             this.main.show(new GridView({currentFilter:currentFilter}));
         },
-
         onBeforeDestroy: function() {
             Radio.channel('individual').reset();
         }
