@@ -20,8 +20,9 @@ define([
     'dateTimePicker',
     'ns_modules_com',
     'collections/monitoredsites',
+    'sweetAlert',
 ], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,
-    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites) {
+    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites,Swal) {
 
     'use strict';
     return Step.extend({
@@ -43,13 +44,6 @@ define([
             leftRegion : '#inputStLeft',
             rightRegion : '#inputStRight'
         },
-        /*
-        updateDateField : function(){
-            $('input[name="Date_"]').click();
-        },
-
-        */
-
         onShow: function(){
        
             this.radio = Radio.channel('input');
@@ -295,16 +289,23 @@ define([
                 this.model.set(this.name + '_' + target.attr('name')  , val);
             }
         },
-        /*updateSiteName : function(siteType){
-            /*var sitesNames  = getSitesNames.getElements('monitoredSite/name', siteType);
-            $('select[name="name_site"]').html('<option></option>');
-            $('select[name="name_site"]').append(sitesNames);
-        },*/
         getCurrentPosition : function(){
             if(navigator.geolocation) {
                 var loc = navigator.geolocation.getCurrentPosition(this.myPosition,this.erreurPosition);
             } else {
-                alert("Ce navigateur ne supporte pas la géolocalisation");
+                //alert("Ce navigateur ne supporte pas la géolocalisation");
+                Swal(
+                    {
+                        title: "Wrong file type",
+                        text: 'The browser dont support geolocalization API',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+
+                        closeOnConfirm: true,
+                       
+                 });
             }
         },
         myPosition : function(position){
@@ -348,7 +349,16 @@ define([
 
            var value = parseFloat($(e.target).val());
             if((isNaN(value)) || ((value > 180.0) || (value < -180.0))){
-                alert('please input a valid value.');
+                //alert('please input a valid value.');
+                Swal({
+                    title: "Wrong value",
+                    text: 'Please input a valid value',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: 'rgb(147, 14, 14)',
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                  });
                 $(e.target).val('');
             }
            else if(value!= 'NULL'){
@@ -407,15 +417,42 @@ define([
                         this.model.set('station_position', station);
                         result = true;
                     } else if (data==null) {
-                        alert('this station is already saved, please modify date or coordinates');
+                        //alert('this station is already saved, please modify date or coordinates');
+                        Swal({
+                            title: "Wrong values",
+                            text: 'This station is already saved, please modify date or coordinates.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
                     } 
 
                     else {
-                        alert('error in creating new station');
+                        //alert('error in creating new station');
+                        Swal({
+                            title: "Wrong values",
+                            text: 'Error in creating new station.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
                     }
                 },
                 error: function(data){
-                    alert('error in creating new station');
+                    //alert('error in creating new station');
+                    Swal({
+                            title: "Wrong values",
+                            text: 'Error in creating new station.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                    });
                 }
             });
             return result;
@@ -492,7 +529,16 @@ define([
                 var selectedValue = $(this).val();
                 if ($(this).attr('name') != fieldName){
                     if (selectedName && (selectedValue == selectedName)){
-                        alert('this name is already selected, please select another name');
+                        //alert('this name is already selected, please select another name');
+                        Swal({
+                            title: "Wrong name",
+                            text: 'This name is already selected, please select another name.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
                         $(selectedField).val('');
                     }
                 }
@@ -509,7 +555,8 @@ define([
             var element = $('input[name="Precision"]');
             var value = parseInt($(element).val());
            if(value < 0 ){
-                alert('please input a valid value (>0) ');
+                //alert('please input a valid value (>0) ');
+                
                 $(element).val('');
             }
         },
@@ -556,8 +603,6 @@ define([
                 var lon = position.lon;
                 console.log('lat  '+lat+'  long '+lon);
                 this.map.updateMarkerPos(1, lat, lon );
-                //Radio.channel('input').command('siteTypeChanged', this.sites);
-                //Radio.channel('rfid').command('addOverlay', [lon, lat]);
             }
         },
         updateSiteName: function(e) {
