@@ -30,6 +30,9 @@ define([
               render: function() {
                 ModelRow.__super__.render.apply(this, arguments);
                 this.$el.data('model', this.model);
+                if (this.model.attributes.ind_id == null) {
+                    this.el.classList.add('red-row');
+                }
                 return this;
               }
             });
@@ -102,13 +105,29 @@ define([
                 name: 'begin_date',
                 label: 'Begin date',
                 editable: false,
-                cell: 'String'
+                cell: 'String',
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (rawValue==null) {
+                                rawValue='Row data between : '+model.attributes.min_date; ;
+                            }
+                         return rawValue;
+                      }
+                }),
               
             }, {
                 name: 'end_date',
                 label: 'End date',
                 editable: false,
-                cell: 'String'
+                cell: 'String',
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (model.attributes.begin_date==null) {
+                                rawValue='to '+model.attributes.max_date; ;
+                            }
+                         return rawValue;
+                      }
+                }),
               
             }, {
                 name: 'Import',
