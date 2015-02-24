@@ -96,7 +96,7 @@ define([
             this.main.show(this.map);
 
 
-            $("#showIndivDetails").html('<span class="ID rotate">ID : '+this.indiv+'</span>');
+            $("#showIndivDetails").html('<span class="glyphicon glyphicon-chevron-right big"></span><span class="ID rotate">ID : '+this.indiv+'</span>');
             //replace Pastis by header size
         },
         onRender: function(){
@@ -128,7 +128,7 @@ define([
                         model: new Individual({id: id})
                     }));
                     self.map.update(id);
-                    $("#showIndivDetails").html('<span class="ID rotate">ID : '+ id +'</span>');
+                    $("#showIndivDetails").html('<span class="glyphicon glyphicon-chevron-right big"></span><span class="ID rotate">ID : '+id+'</span>');
                     Backbone.history.navigate('individual/' + id);  //{trigger: true}*/
                 },
                 error: function(data){
