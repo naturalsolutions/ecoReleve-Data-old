@@ -54,6 +54,7 @@ define([
             this.listenTo(this.sites, 'reset', this.updateName); 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
+                $('#btnPrev').css('display','');
                 var stationForm = new StationView();
                 var formModel = stationForm.form.model;
                 this.initModel(stationType,stationForm);
@@ -75,6 +76,7 @@ define([
                 // init map
                /* var position = new Position();
                 map.addModel(position);*/
+
                
             } else if(stationType =='imported'){
                 $('#btnNext').addClass('disabled');
@@ -148,8 +150,6 @@ define([
                     //$('#st-station').removeClass('masqued');
                     $('#allSt-SitesNameCont').addClass('masqued');
                 } else {
-                    //$('#stMonitoredSiteName').removeClass('masqued');
-                    //$('#st-station').addClass('masqued');
                     $('.allSt-name').addClass('masqued');
                 }
             }

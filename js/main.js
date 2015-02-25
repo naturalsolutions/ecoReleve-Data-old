@@ -77,6 +77,9 @@ var ecoReleveData = (function(){
             backgridSelect_all : {
                 deps:['backgrid']
             },
+            simplePagination : {
+                deps:['jquery']
+            }
 
         },
         paths: {
@@ -165,7 +168,7 @@ var ecoReleveData = (function(){
 
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             nicescroll:'nicescroll/jquery.nicescroll',
-
+            simplePagination : 'simplePagination/jquery.simplePagination',
 
             /*===============================
             =            NS Libs            =

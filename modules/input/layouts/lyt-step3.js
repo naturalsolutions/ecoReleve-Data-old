@@ -13,8 +13,10 @@ define([
     'swiper',
     'models/station',
     'utils/getUsers',
-     'sweetAlert',
-], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,Swiper,Station,getUsers,Swal) {
+    'sweetAlert',
+    'simplePagination'
+], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationDetails,NsFormsModule,getProtocolsList,
+    Swiper,Station,getUsers,Swal,simplePagination) {
 
     'use strict';
 
@@ -43,9 +45,7 @@ define([
             addProto : 'select[name="add-protocol"]',
              protosList : '#tabProtsUl'
         },
-        feedTpl: function(){
-            
-        },
+
         initModel: function(myTpl){
             this.parseOneTpl(this.template);
             this.activeProtcolsObj = [];
@@ -100,8 +100,16 @@ define([
                 context:this,
                 type:'GET',
                 success: function(data){
-                    this.activeProtcolsObj = data;
-                    this.generateNavBarProtos();
+                    if(!_.isEmpty(data)){
+                         this.activeProtcolsObj = data;
+                        this.generateNavBarProtos();
+                    }
+                    else {
+                        $('#protosListContainer').text('');
+                        $('#formsContainer').text('');
+                        this.formsRegion.empty();
+                    }
+
                 },
                 error: function(data){
                     //alert('error in loading protocols');
@@ -115,12 +123,14 @@ define([
                         closeOnConfirm: true,
                     });
                 }
-            }).done(function(){
-                var element = $(listElement).find('div.swiper-slide:first a');
-                this.updateForm(null, element );
-                $(listElement).find('div.swiper-slide').removeClass('swiper-slide-active');
-                $(listElement).find('div.swiper-slide:first').addClass('swiper-slide-active');
-                $('.swiper-slide-active').find('.onglet').addClass('active');
+            }).done(function(data){
+                 if(!_.isEmpty(data)){
+                    var element = $(listElement).find('div.swiper-slide:first a');
+                    this.updateForm(null, element );
+                    $(listElement).find('div.swiper-slide').removeClass('swiper-slide-active');
+                    $(listElement).find('div.swiper-slide:first').addClass('swiper-slide-active');
+                    $('.swiper-slide-active').find('.onglet').addClass('active');
+                }
             });
         },
         getProtocol: function(protoName, id){
@@ -154,7 +164,7 @@ define([
                                 if (val[0] == 'true' && val.length == 0)
                                     this.model.set(attr,1)
                            }                
-                       }
+                        }
                         var self = this;
                         this.model.save([],{
                          dataType:"text",
@@ -239,14 +249,15 @@ define([
                 slidesPerView: 4
             });
             $('#proto_name-left').on('click', function(e){
-                e.preventDefault()
-                mySwiper1.swipePrev()
+                e.preventDefault();
+                mySwiper1.swipePrev();
             });
             $('#proto_name-right').on('click', function(e){
-                e.preventDefault()
-                mySwiper1.swipeNext()
+                e.preventDefault();
+                mySwiper1.swipeNext();
             });
             //$('.swiper-slide').css('height','50px');
+
         },
         addForm : function(){
             var selectedProtocolName = $(this.ui.addProto).val();
@@ -276,8 +287,9 @@ define([
             this.formsRegion.empty();
             $('#formsContainer').text('');
             $('#idProtosContainer .pagination').text('');
-            var content ='';
-            for(var i=0;i<pkList.length;i++){
+            var content =''; 
+            var nbInstances = pkList.length;
+            for(var i=0;i<nbInstances;i++){
                 var idProto = pkList[i];
                 content +=  '<div class="swiper-slide"><div class="onglet"><a class="pkProtocol" idProto="'+
                              idProto +'" name ="'+ protocolName+ '">' + (i+1) ;
@@ -287,6 +299,27 @@ define([
                 content +=  '</a></div></div>';
             }
             $('#formsIdList').html('');
+
+            //$('#idProtosContainer').append('<div id="simplePage"></div>');
+            var self = this;
+            $('#formsIdList').pagination({
+                //items: nbInstances,
+                itemsOnPage: 5,
+                pages :nbInstances, 
+                cssStyle: 'light-theme',
+                hrefTextPrefix: '',
+                currentPage: 1,
+                 onPageClick: function(pageNumber, event){
+                    event.preventDefault();
+                    self.getProtoByPkId2(pageNumber);
+                }
+            });
+            this.getProtoByPkId2(1);
+            /*var firstElem =  $('#formsIdList').find('li')[0];
+            // $('#formsIdList > ul > li:first');
+            $(firstElem).click();*/
+             
+            /*
             $('#formsIdList').append(content);
             // swiper
             var mySwiper2 = new Swiper('#proto_id',{
@@ -306,7 +339,7 @@ define([
             //activate fist element
             var firstTab = $('#formsIdList').find('div.onglet a')[0];
             $('a[pkProtocol="'+  +'"]').click();
-            $(firstTab).click();
+            $(firstTab).click();*/
         },
         getProtoByPkId : function(e){
 
@@ -315,6 +348,14 @@ define([
                 this.getProtocol(this.selectedProtoName, pkId);
                 // store pkId to save proto
                 this.selectedProtoId = pkId;
+            }
+        },
+        getProtoByPkId2 : function(id){
+
+            if(id || id===0){
+                this.getProtocol(this.selectedProtoName, id);
+                // store pkId to save proto
+                this.selectedProtoId = id;
             }
         },
         nextStation : function(){
@@ -349,7 +390,6 @@ define([
                             //this.model.set(key, data[key]);
                         }
                     }
-
                     this.model.set('station_position',station);
                     this.addViews();
                 },
@@ -507,20 +547,19 @@ define([
                 var fullpathValue = resp.model.get(fieldName);
                 var hiddenFieldName = fieldName + '_value';
                 $('input[name="' + hiddenFieldName + '"]').attr('value', fullpathValue);
-                /*alert(fullpathValue);
-                $('input[name="' + hiddenFieldName + '"]').val(fullpathValue);*/
-                // get terminal value and display it 
-                var tab = fullpathValue.split('>');
-                var terminalVl = tab[tab.length - 1];
-                $(this).val(terminalVl);
+                if(fullpathValue){
+                    var tab = fullpathValue.split('>');
+                    var terminalVl = tab[tab.length - 1];
+                    $(this).val(terminalVl);
+                }
             });
         },
-        updateFormforVG : function(){
+        /*updateFormforVG : function(){
             $('form#Vertebrate_group').find('div.col-sm-4').each(function(){
                 $(this).removeClass('col-sm-4');
                 $(this).addClass('col-sm-3');
             });
-        },
+        },*/
         deleteProtocol : function(e){
             // TO MOVE
             Array.prototype.unset = function(val){
@@ -532,7 +571,6 @@ define([
             var protocolName = $(e.target).parent().attr('name');
             // find protocol instance and remove it
              if(protocolName){
-                var exists = false;
                 for(var key in this.activeProtcolsObj) {
                     if(key == protocolName){
                         var tabProtos = this.activeProtcolsObj[key].PK_data;
