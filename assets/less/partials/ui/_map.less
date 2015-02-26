@@ -61,35 +61,42 @@
 	border-radius: 50%;
 	border: 2px solid white;
 	text-align: center;
-	font-size: 12px;
 	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	span{
+		font-size: 11px!important;
+		line-height: auto; 
+	}
 }
 
 @m-size-sm: 35px;
 @fz: 5px;
+@blue1 : rgba(51, 153, 204, 0.8);
+@blue2: rgba(41, 124, 166, 0.8);
+@blue3: rgba(32, 96, 128, 0.8);
+@blue4: rgba(22, 67, 89, 0.8);
 .marker-cluster-small {
-	background-color: rgba(42, 126, 162, 0.8);
+	background-color: @blue1;
 	span{
 		line-height: @m-size-sm - @fz;
 	}
 }
 @m-size-md: 45px;
 .marker-cluster-medium{
-	background-color: rgba(33, 99, 132, 0.8);
+	background-color: @blue2;
 	span{
 		line-height: @m-size-md - @fz;
 	}
 }
 @m-size-md-lg: 55px;
 .marker-cluster-medium-lg{
-	background-color: rgba(24, 71, 95, 0.8);
+	background-color: @blue3;
 	span{
 		line-height: @m-size-md-lg - @fz;
 	}
 }
 @m-size-lg: 65px;
 .marker-cluster-large{
-	background-color: rgba(24, 71, 95, 0.8);
+	background-color: @blue4;
 	span{
 		line-height: @m-size-lg - @fz;
 	}
@@ -106,7 +113,7 @@
 	border-radius: 50%;
 	width: 5px;
 	height: 5px;
-	border: 1px solid white;
+	border: 2px solid white;
 	text-align: center;
 	background: rgba(51, 153, 204, 1);
 	&.selected{

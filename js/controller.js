@@ -294,6 +294,10 @@ define([
                         this.mainRegion.show(new ValidateLayoutRFID({
                         }));
                         break;
+                    case 'argos':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        break;
                     default:
                         this.validate();
                 };
@@ -304,6 +308,14 @@ define([
             this.checkLogin(function() {
                 switch(type) {
                     case 'gsm':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateGSMDetailLayout({
+                            type : type,
+                            gsmID : id,
+                            id_ind: id_ind
+                        }));
+                        break;
+                    case 'argos':
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateGSMDetailLayout({
                             type : type,

@@ -20,10 +20,28 @@ define([
         initialize: function(options) {
             this.type=options.type;
             var self = this;
-            console.log(this.type)
-            var Data = Backbone.Collection.extend({
+
+            console.log(this.type);
+            switch(this.type){
+                case 'gsm':
+                    var Data = Backbone.Collection.extend({
+                        url: config.coreUrl + 'dataGsm/unchecked/list',
+                    });
+                    break;
+                case 'argos':
+                    var Data = Backbone.Collection.extend({
+                        url: config.sensorUrl + 'argos/unchecked/list',
+                    });
+                    break;
+                default:
+                    console.warn('type error');
+                    break;
+            };
+
+/*            var Data = Backbone.Collection.extend({
                 url: config.coreUrl + 'dataGsm/unchecked/list',
             });
+*/
 
             this.datas = new Data();
             var ModelRow = Backgrid.Row.extend({

@@ -8,8 +8,9 @@ define([
     'backbone.paginator',
     'backgrid.paginator',
     'grid/model-col-generator',
+    'backgridSelect_all',
 
-], function($, _, Backbone, config, Radio, Backgrid, PageColl, Paginator, colGene){
+], function($, _, Backbone, config, Radio, Backgrid, PageColl, Paginator, colGene, BgSelectAll){
     'use strict';
     return Backbone.Model.extend({
 

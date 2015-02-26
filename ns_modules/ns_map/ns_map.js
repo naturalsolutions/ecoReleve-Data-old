@@ -7,6 +7,7 @@ define([
     'L',
     'leaflet_cluster',
     'text!./tpl-legend.html',
+    'leaflet_google',
 
 ], function($, _, Backbone , Marionette, tpl, L, cluster, tpl_legend
     ) {
@@ -36,16 +37,20 @@ define([
         },
 
         unlockError: function(){
+          
+          
           L.LatLng = function (lat, lng, alt) { // (Number, Number, Number)
             lat = parseFloat(lat);
             lng = parseFloat(lng);
 
             if (isNaN(lat) || isNaN(lng)) {
               console.warn('Invalid LatLng object: (' + lat + ', ' + lng + ')');
+              this.lat = 90;
+              this.lng = 180;
+            }else{
+              this.lat = lat;
+              this.lng = lng;
             }
-
-            this.lat = lat;
-            this.lng = lng;
 
             if (alt !== undefined) {
               this.alt = parseFloat(alt);
@@ -57,6 +62,58 @@ define([
             RAD_TO_DEG: 180 / Math.PI,
             MAX_MARGIN: 1.0E-9 // max margin of error for the "equals" check
           });
+
+          L.LatLng.prototype = {
+            equals: function (obj) { // (LatLng) -> Boolean
+              if (!obj) { return false; }
+
+              obj = L.latLng(obj);
+
+              var margin = Math.max(
+                      Math.abs(this.lat - obj.lat),
+                      Math.abs(this.lng - obj.lng));
+
+              return margin <= L.LatLng.MAX_MARGIN;
+            },
+
+            toString: function (precision) { // (Number) -> String
+              return 'LatLng(' +
+                      L.Util.formatNum(this.lat, precision) + ', ' +
+                      L.Util.formatNum(this.lng, precision) + ')';
+            },
+
+            // Haversine distance formula, see http://en.wikipedia.org/wiki/Haversine_formula
+            // TODO move to projection code, LatLng shouldn't know about Earth
+            distanceTo: function (other) { // (LatLng) -> Number
+              other = L.latLng(other);
+
+              var R = 6378137, // earth radius in meters
+                  d2r = L.LatLng.DEG_TO_RAD,
+                  dLat = (other.lat - this.lat) * d2r,
+                  dLon = (other.lng - this.lng) * d2r,
+                  lat1 = this.lat * d2r,
+                  lat2 = other.lat * d2r,
+                  sin1 = Math.sin(dLat / 2),
+                  sin2 = Math.sin(dLon / 2);
+
+              var a = sin1 * sin1 + sin2 * sin2 * Math.cos(lat1) * Math.cos(lat2);
+
+              return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            },
+
+            wrap: function (a, b) { // (Number, Number) -> LatLng
+              var lng = this.lng;
+
+              a = a || -180;
+              b = b ||  180;
+
+              lng = (lng + b) % (b - a) + (lng < a || lng === b ? b : a);
+
+              return new L.LatLng(this.lat, lng);
+            }
+          };
+
+
         },
 
         initialize: function(options) {
@@ -385,7 +442,7 @@ define([
           };
 
           return new L.DivIcon({ 
-            html: '<span>' + nbContains + '/' + childCount +'</span>', 
+            html: '<span>' + nbContains + ' / ' + childCount +'</span>', 
             className: classe, 
             iconSize: new L.Point(size, size) 
           });
@@ -655,7 +712,7 @@ define([
           marker.openPopup();
         },*/
 
-        //convert a collection to a feature collection (geoJson)
+        //convert a BB collection to a feature collection (geoJson)
         coll2GeoJson: function(coll){
             var features = {
                 'features': [], 

@@ -24,49 +24,93 @@ define([
             'click .backgrid-container tbody tr': 'focusOnMap',
             'click td input[type=checkbox]':'updateMap',
             'click #1pH-btn': 'perhour',
-            'click #clearAll-btn': 'clearAll',
+            'click #clearAll-btn': 'clear',
         },
 
         initialize: function(options) {
+            this.type=options.type;
+            console.log(Backgrid.Extension);
+
+            Backgrid.Extension.SelectRowCell.prototype.initialize = function(options){
+                    this.column = options.column;
+                    if (!(this.column instanceof Backgrid.Column)) {
+                      this.column = new Backgrid.Column(this.column);
+                    }
+
+                    var column = this.column, model = this.model, $el = this.$el;
+                    this.listenTo(column, "change:renderable", function (column, renderable) {
+                      $el.toggleClass("renderable", renderable);
+                    });
+
+                    if (Backgrid.callByNeed(column.renderable(), column, model)) $el.addClass("renderable");
+
+                    this.listenTo(model, "backgrid:select", function (model, selected) {
+
+                      this.$el.find("input[type=checkbox]").prop("checked", selected).change();
+                    });
+
+                    this.listenTo(model, "backgrid:focus", function (model, focus) {
+                        if(focus){
+                            this.$el.parent().addClass('focus');
+                        }else{
+                            this.$el.parent().removeClass('focus');
+                        };
+                    });
+                };
+
+
+
+
             if(options.com){
               this.com = options.com;   
               this.com.addModule(this);
             }
 
+            /*
             this.radio = Radio.channel('gsm-detail');
             this.radio.comply('updateGrid', this.updateGrid, this);
             this.radio.comply('import', this.importChecked, this);
+            */
 
             this.gsmID = options.gsmID;
             this.pageSize = 25;
 
+            if(this.type == 'gsm'){
+              var url = config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
+            }else{
+              var url = config.sensorUrl+ '/argos/' +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
+            };
+
             var Locations = PageableCollection.extend({
-                url: config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked/'+options.id_ind+'?format=json',
+                url: url,
                 mode: 'client',
                 state:{
                     pageSize: 25
                 },
-                    
             });
 
             this.locations = new Locations();
+
+
+
+
+
+
         },
 
         /*=======================================
         =            Strat Demo Code            =
         =======================================*/
         
-        action: function(action, ids){
-            console.log('passed');
+        action: function(action, id){
           switch(action){
             case 'focus':
-              this.focusOnMap(ids);
               break;
             case 'selection':
-              //this.selectOne(ids);
+              this.selectOne(id);
               break;
             case 'selectionMultiple':
-              //this.selectMultiple(ids);
+              this.selectMultiple(id);
               break;
             case 'resetAll':
               this.clearAll();
@@ -153,16 +197,27 @@ define([
             // Initialize a new Paginator instance
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: this.locations,
-                
             });
 
+
             this.$el.find('#paginator').append(this.paginator.render().el);
-           /* var height = $(window).height() -
-                $('#header-region').height() - this.paginator.$el.height() -
-                $('#info-container').outerHeight();
-            this.$el.height(height);*/
-            this.locations.fetch({reset: true});
+
+
+            var ctx = this;
+            this.locations.fetch({reset: true, success : function(){
+                ctx.clone();
+            }});
+
             this.$el.find('.select-all-header-cell>input').css('display','none');
+
+        },
+
+        clone: function(){
+            this.origin  = this.grid.collection.fullCollection.clone();
+        },
+
+        clear: function(){
+            this.interaction('resetAll');
         },
 
         clearAll: function(){
@@ -171,43 +226,89 @@ define([
                 models[i].trigger("backgrid:selected", models[i], false);
                 models[i].trigger("backgrid:select", models[i], false);
             };
-            this.radio.command('clearAllMap', models);
         },
 
+
+
         perhour: function() {
+            this.interaction('resetAll');
+            
             var self=this;
 
-            this.grid.collection.fullCollection.sortBy('date');
-            var col0=this.grid.collection.fullCollection.at(0);
-
+            var col0=this.origin.at(0);
             var date=new moment(col0.get('date'));
 
-            this.grid.collection.fullCollection.each(function (model,i) {
+            var ids =[];
+            var i =0;
+            this.origin.each(function (model,i) {
+                i++;
                 var currentDate=new moment(model.get('date'));
                 var diff=(date-currentDate)/(1000*60*60);
                 if (i==0) diff=2;        
-                if (!self.grid.collection.get(model.cid)) {
+                if (!self.grid.collection.get(model.id)) {
                     if(diff>1) {
-                        model.trigger("backgrid:selected", model, true);
                         date=currentDate;
+                        ids.push(model.id);
                     }                    
                 }
                 else {
                     if(diff>1) {
-                        model.trigger("backgrid:select", model, true);
                         date=currentDate;
+                        ids.push(model.id);
                     }                    
                 }
             });
 
+            this.interaction('selectionMultiple', ids);
+        },
 
-            var models=this.grid.getSelectedModels();
+        selectMultiple: function(ids){
+            var model_ids = ids, self = this, mod;
 
-            this.radio.command('selectOneByHour', models);
+            for (var i = 0; i < model_ids.length; i++) {
+                mod = this.grid.collection.fullCollection.findWhere({id : model_ids[i]});
+                mod.set('checked', true);
+                mod.trigger("backgrid:select", mod, true);
+                mod.trigger("backgrid:selected", mod, true);
+            };
+        },
+
+
+        selectOne: function(id){
+            var model_id = id;
+            var coll = new Backbone.Collection();
+            coll.reset(this.grid.collection.fullCollection.models);
+            model_id = parseInt(model_id);
+            var mod = coll.findWhere({id : model_id});
+
+            if(mod.get('checked')){
+                mod.set('checked',false);
+                mod.trigger("backgrid:select", mod, false);
+                mod.trigger("backgrid:selected", mod, false);
+            }else{
+                mod.set('checked',true);
+                mod.trigger("backgrid:select", mod, true);
+                mod.trigger("backgrid:selected", mod, true);
+            }
+
+            var position = coll.indexOf(mod);
+
+            var page=Math.ceil(position/25);
+            this.locations.getPage(page);
+
+            console.log(this.locations.getPage(page));
+
+            mod.trigger("backgrid:focus", mod, true);
+            if(this.lastFocused && this.lastFocused!=mod)
+            this.lastFocused.trigger("backgrid:focus", this.lastFocused, false);
+
+            this.lastFocused = mod;
+
         },
 
 
         updateGrid: function(marker) {
+
             var self=this;
             var checked=marker['checked'];
 
@@ -219,31 +320,42 @@ define([
             
             this.grid.collection.fullCollection.each(function(model){
                 i++;
+
                 if (model.id==model_id) {
                     model.trigger("backgrid:select", model, checked);
                     position=i;
                  }               
                  if (!self.grid.collection.get(model.id)) {
                         if (model.id == model_id)
-                        model.trigger("backgrid:selected", model, checked);                   
+                        model.trigger("backgrid:selected", model, checked);
                 }
             });
+
             var page=Math.ceil(position/25);
             self.locations.getPage(page);
         },
+
         updateMap: function(e){
                 var tr = $(e.target).parent().parent();
                 var id = tr.find('td').first().text();
-                Radio.channel('gsm-detail').command('updateMap', id);
+                this.interaction('selection', id);
         },
-
 
         focusOnMap: function(e) {
             if($(e.target).is('td')) {
                 var tr = $(e.target).parent();
                 var id = tr.find('td').first().text();
+                id = parseInt(id);
+
                 this.interaction('focus', id);
-                Radio.channel('gsm-detail').command('focus', id);
+
+                var mod = this.grid.collection.fullCollection.findWhere({id : id});
+
+                mod.trigger("backgrid:focus", mod, true);
+                if(this.lastFocused && this.lastFocused!=mod)
+                this.lastFocused.trigger("backgrid:focus", this.lastFocused, false);
+
+                this.lastFocused = mod;
             }
         },
 
@@ -255,23 +367,17 @@ define([
                 var model=checkedLocations[i];
                 var location= model.get('id');
                 importList.push(location);
-            }
-            console.log(importList);
-            console.log(ind_id);
+            };
+
             $.ajax({
                 url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/import',
                 contentType: 'application/json',
                 type: 'POST',
                 data:JSON.stringify({data: importList, id_ind: ind_id})
             });
-   
         },
 
-
-        
         onDestroy: function() {
-           /* $('body').css('background-color', 'white');*/
-           /* this.radio.stopComplying('loaded');*/
             this.grid.remove();
             this.grid.stopListening();
             this.grid.collection.reset();

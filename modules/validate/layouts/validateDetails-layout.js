@@ -22,12 +22,10 @@ define([
         },
 
         initialize: function(options) {
-            this.radio = Radio.channel('gsm-detail');
             this.gsmID = options.gsmID;
         },
 
         onBeforeDestroy: function() {
-            this.radio.reset();
         },
 
         onShow: function() {
