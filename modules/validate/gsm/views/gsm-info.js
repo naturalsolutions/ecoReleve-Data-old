@@ -25,12 +25,16 @@ define([
 
         },
 
-        initialize: function(){
-            console.log(this.model.attributes.ptt);
+        initialize: function(options){
+            this.type = options.type;
             
-            this.model.urlRoot=config.coreUrl+'dataGsm/'+this.model.attributes.ptt+'/details',
+            if(this.type == 'gsm'){
+                this.model.urlRoot=config.coreUrl+'dataGsm/'+this.model.attributes.ptt+'/details';
+            }else{
+                this.model.urlRoot=config.sensorUrl+'argos/'+this.model.attributes.ptt+'/details';
+            };
+
             this.model.fetch();
-            console.log(this.model);
         },
 
         onShow: function() {

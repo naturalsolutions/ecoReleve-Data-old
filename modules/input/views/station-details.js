@@ -170,7 +170,6 @@ define([
         createAutocompTree : function(e){
             //var startId = $(e.target).attr('startId');
             var elementsList = $('.autocompTree_st');
-            console.log('elementsList',elementsList);
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
                 var startId = $(elementsList[i]).attr('startId');

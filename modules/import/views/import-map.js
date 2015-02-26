@@ -23,8 +23,6 @@ define([
             this.com = options.com;
             this.coll = options.collection;
             this.toGeoJson(this.collection);
-
-
         },
 
         toGeoJson: function(coll){

@@ -11,7 +11,6 @@ define([
     'text!modules2/import/templates/import-grid.html',
     'text!modules2/import/_gpx/templates/options-list.html'
 
-
 ], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template, optList) {
     'use strict';
     return Marionette.ItemView.extend({
@@ -26,7 +25,6 @@ define([
         },
 
         all : false,
-
 
         initialize: function(options) {
             this.radio = Radio.channel('import-gpx');
@@ -104,9 +102,7 @@ define([
             });
 
             this.$el.find("#locations").append(this.grid.render().el);
-
         },
-
 
         action: function(action, params){
           switch(action){
@@ -138,8 +134,6 @@ define([
             this.action(action, id);
           }
         },
-
-
 
         hilight: function(){
             console.log('passed');
@@ -185,6 +179,7 @@ define([
             var id = $(e.target).parent().parent().find('td').html();
             this.interaction('selection', id);
         },
+
         checkSelectAll: function(e){
             var ids = _.pluck(this.grid.collection.models, 'id');
             if(!$(e.target).is(':checked')){
@@ -209,6 +204,7 @@ define([
             this.grid.body.refresh();
         },
 
+        
 
     });
 });

@@ -46,7 +46,6 @@ define([
             };
         },
         onShow: function(){
-            //this.initFilters();
             $('#main-region').addClass('full-height');
             this.mapView= new ViewMap();
             this.gridView= new ViewGrid();
@@ -88,24 +87,24 @@ define([
             this.filters.update();
         },
 
-        // today: function(){
-        //     var filters=[];
-        //     var today = new Date();
-        //     today.setHours(00);
-        //     today.setMinutes(00);
-        //     today.setSeconds(01);
-        //     filters.push({"Column":"begin_date","Operator":">","Value": today});
-        //     today.setHours(23);
-        //     today.setMinutes(59);
-        //     today.setSeconds(59);
-        //     filters.push({"Column":"end_date","Operator":"<","Value": today});
+/*        today: function(){
+            var filters=[];
+            var today = new Date();
+            today.setHours(00);
+            today.setMinutes(00);
+            today.setSeconds(01);
+            filters.push({"Column":"begin_date","Operator":">","Value": today});
+            today.setHours(23);
+            today.setMinutes(59);
+            today.setSeconds(59);
+            filters.push({"Column":"end_date","Operator":"<","Value": today});
 
-        //     console.log(filters);
+            console.log(filters);
 
-        //     this.grid.update(filters);
-        //     this.mapView.update(filters);
+            this.grid.update(filters);
+            this.mapView.update(filters);
 
-        // },
+        },*/
 
         reset: function(){
             this.filters.reset();
