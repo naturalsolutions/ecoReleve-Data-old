@@ -10,8 +10,6 @@ define([
     'use strict';
 
     return Step.extend({
-
-
         onShow: function(){
             var msg = this.model.get('ajax_msg') ; 
             $('#importResponseMsg').text(msg); 

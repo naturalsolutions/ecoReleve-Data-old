@@ -162,7 +162,8 @@ define([
         },
 
         individualDetail: function(args) {
-            var layout = new IndivDetailLayout({indiv:args.id});
+            var filter = args.filter || null;
+            var layout = new IndivDetailLayout({indiv:args.id, filter : filter});
             this.mainRegion.show(layout);
             Backbone.history.navigate('individual/' + args.id);
         },

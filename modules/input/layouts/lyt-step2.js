@@ -54,13 +54,14 @@ define([
             this.listenTo(this.sites, 'reset', this.updateName); 
             var stationType = this.model.get('start_stationtype');
             if(stationType =='new' ||  stationType =='newSc' ||  stationType =='newSt'){
+                $('#btnPrev').css('display','');
                 var stationForm = new StationView();
                 var formModel = stationForm.form.model;
                 this.initModel(stationType,stationForm);
                 this.leftRegion.show(stationForm);
                 // get stored values
                 this.feedTpl();
-                
+                this.updateStationType(stationType);
                 this.map = new NsMap({
                     cluster: true,
                     popup: true,
@@ -75,7 +76,8 @@ define([
                 // init map
                /* var position = new Position();
                 map.addModel(position);*/
-                this.updateStationType(stationType);
+
+               
             } else if(stationType =='imported'){
                 $('#btnNext').addClass('disabled');
                 var lastImportedStations = new Waypoints();
@@ -125,7 +127,8 @@ define([
                         cluster: true,
                         popup: true,
                         selection :false,
-                        geoJson: this.features
+                        geoJson: this.features,
+                        element: 'map'
                     });
 
                     this.rightRegion.show(this.map);
@@ -147,8 +150,6 @@ define([
                     //$('#st-station').removeClass('masqued');
                     $('#allSt-SitesNameCont').addClass('masqued');
                 } else {
-                    //$('#stMonitoredSiteName').removeClass('masqued');
-                    //$('#st-station').addClass('masqued');
                     $('.allSt-name').addClass('masqued');
                 }
             }
@@ -280,6 +281,15 @@ define([
             if(target.attr('name') =='id_site'){
                 this.updateSitePos();
             }
+            if(target.attr('name') =='Region'){
+                this.updateRegionPos(e);
+            }
+        },
+        updateRegionPos : function(e){
+            var target= $(e.target).find('option:selected')[0];
+            var latitude=parseFloat($(target).attr('lat'));
+            var longitude = parseFloat($(target).attr('lon'));
+            this.map.updateMarkerPos(1, latitude, longitude );
         },
         datachanged_text: function(e){
             var target= $(e.target);

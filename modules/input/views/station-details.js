@@ -18,6 +18,8 @@ define([
             'change .fieldworker' : 'checkFWName',
             'change .editField' : 'updateStationData',
             'change .indivNumber' : 'updateTotalIndivNumber',
+            'focusout #stPlace' : 'updateStationData',
+            'click #treeViewstPlace ul li'  : 'updatePlace',
         },
         ui : {
             fieldActivity : 'select[name="st_FieldActivity_Name"]',
@@ -29,6 +31,7 @@ define([
             this.checkSiteNameDisplay();
             this.getUsersList();
             this.radio = Radio.channel('froms');
+            this.createAutocompTree();
         },
         onBeforeDestroy: function() {
         },
@@ -157,23 +160,36 @@ define([
                         break;
                 }
                 this.radio.command('updateStation', {model: this.model});
-
-
-                /*$.ajax({
-                    url: config.coreUrl +'station/addStation/insert',
-                    context: this,
-                    data: this.model.attributes,
-                    type:'POST',
-                    success: function(data){
-                    console.log(data);
+            }
+        },
+        updatePlace : function(){
+            var place = $('#stPlace').val();
+            this.model.set('Place',place);
+            this.radio.command('updateStation', {model: this.model});
+        },
+        createAutocompTree : function(e){
+            //var startId = $(e.target).attr('startId');
+            var elementsList = $('.autocompTree_st');
+            for(var i=0;i<elementsList.length;i++){
+                //$(e.target).autocompTree({
+                var startId = $(elementsList[i]).attr('startId');
+                // get current value
+                var currentVal = $(elementsList[i]).val();
+                $(elementsList[i]).autocompTree({
+                    wsUrl: 'http://192.168.1.199/ThesaurusCore/ThesaurusREADServices.svc/json',
+                    //display: {displayValueName:'value', storedValueName: 'fullpath'},
+                    webservices: 'fastInitForCompleteTree',  
+                    language: {hasLanguage:true, lng:"en"},
+                    display: {
+                        isDisplayDifferent: true,
+                        suffixeId: '_value',
+                        displayValueName: 'value',
+                        storedValueName: 'value'
                     },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                    //alert(xhr.status);
-                    //alert(thrownError);
-                    alert('error in updating current station value(s)');
-                }
-                });*/
-                
+                    startId: startId 
+                });
+                // set current valua after applying autocompTree
+                $(elementsList[i]).val(currentVal);
             }
         }
     });

@@ -17,8 +17,9 @@ define([
     'utils/getRegions',
     'utils/getSitesTypes',
     'dateTimePicker',
+    'sweetAlert',
 ], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, template,
-    BbForms, Station, config,getUsers, getFieldActivity,getRegions,getSitesTypes,datetime) {
+    BbForms, Station, config,getUsers, getFieldActivity,getRegions,getSitesTypes,datetime,Swal) {
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
@@ -61,7 +62,7 @@ define([
             $('select[name^="FieldWorker"]').append(content);
             var fieldList = getFieldActivity.getElements('theme/list');
             $('select[name="FieldActivity_Name"]').append(fieldList);
-            var regionList = getRegions.getElements('station/area');
+            var regionList = getRegions.getElements('station/area_coord',true);
             $('select[name="Region"]').append(regionList);
             /*var sites  = getSitesTypes.getElements('monitoredSite/type');
             $('select[name="id_site"]').append(sites);*/

@@ -25,13 +25,17 @@ define([
             'change': 'render'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.model.fetch();
             this.radio = Radio.channel('individual');
             this.radio.comply('loaded', this.completeCard, this);
+            this.filter = options.filter || null;
         },
 
         backToSearch: function() {
+            if(this.filter){
+                sessionStorage.setItem('individual:currentFilter', JSON.stringify(this.filter));
+            }
             Radio.channel('route').command('individual');
         },
 

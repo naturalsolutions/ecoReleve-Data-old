@@ -11,8 +11,8 @@ define([
     'modules2/import/views/import-grid',
     'config',
     'utils/getUsers',
-
-], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid,config,getUsers) {
+    'sweetAlert',
+], function($, _, Backbone, Marionette, Radio, View1, Step, Waypoints,Map,Grid,config,getUsers,Swal) {
 
     'use strict';
 
@@ -21,11 +21,12 @@ define([
         events : {
             'change .fiedWrk' : 'checkFWName'
         },
+        show : function(){
+           // $('#btnNext').addClass('masqued');
+        },
        importFile: function(){
             // create a new collection for models to import
             var filteredCollection  = new Waypoints(this.model.get('data_FileContent').where({import: true}));
-            console.log(filteredCollection);
-
             var fieldWorkersNumber = this.model.get(this.name + '_import-fwnb');
             var user1 = this.model.get(this.name + '_importWorker1');
             var self = this;
@@ -62,11 +63,37 @@ define([
                     storedCollection.save();
                     console.log(storedCollection);
                     var msg = resp.response;
+                    var message = resp.response;
+                    var nb = msg.substring(0,1);
+                    if(nb =="0"){
+                        message = 'Selected waypoint(s) are already imported';
+                    }
                     this.model.set('ajax_msg', msg) ; 
                     result = true; 
+                    Swal({
+                        title: "Loading data",
+                        text: message,
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: 'green',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                      },
+                        function(isConfirm){
+                            Radio.channel('route').command('home');   
+                    });
+                    //$('#btnNext').removeClass('masqued');
                 },
                 error: function(data){
-                    alert('error sending gpx collection');
+                    Swal({
+                        title: "Loading data error",
+                        text: 'Error sending gpx data to the server.',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true
+                    });
                 }
             });
             return result;
@@ -93,7 +120,16 @@ define([
                 var selectedValue = $(this).val();
                 if ($(this).attr('name') != fieldName){
                     if (selectedName && (selectedValue == selectedName)){
-                        alert('this name is already selected, please select another name');
+                        Swal({
+                            title: "Name error",
+                            text: 'This name is already selected, please select another name.',
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: 'rgb(147, 14, 14)',
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                        });
+
                         $(selectedField).val('');
                     }
                 }
@@ -109,6 +145,10 @@ define([
             $(".fiedWrk").each(function() {
                 $(this).append(content);
             });
+        },
+         nextOK: function(){
+           var returnVal = this.importFile();
+           return returnVal;
         }
     });
 

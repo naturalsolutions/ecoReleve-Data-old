@@ -5,9 +5,10 @@ define([
     'models/individual',
     'modules2/individual/views/detail',
     'modules2/individual/views/map',
-    'text!modules2/individual/templates/detail-layout.html'
+    'text!modules2/individual/templates/detail-layout.html',
+     'sweetAlert',
 ], function(Marionette, Radio, config, Individual, DetailView,
-    MapView, template) {
+    MapView, template,Swal) {
 
     'use strict';
 
@@ -19,11 +20,14 @@ define([
             detail: '#detail-panel',
             main: '#main-panel'
         },
-
+        events : {
+            'click .arrow-right-indiv' :'changeIndiv',
+            'click .arrow-left-indiv' :'changeIndiv',
+        },
         initialize: function(options) {
             this.radio = Radio.channel('individual');
             this.indiv = options.indiv;
-
+            this.filter = options.filter;
         },
 
         hideDetail: function() {
@@ -50,9 +54,6 @@ define([
         updateSize: function(type) {
             $(window).trigger('resize');
             this.main.currentView.map.resize();
-
-
-
 
             if(type === 'hide'){
                 $("#showIndivDetails").removeClass('masqued');
@@ -82,23 +83,21 @@ define([
         },
 
         onShow: function() {
+            var filter = this.filter || null;
             this.listenTo(this.radio, 'hide-detail', this.hideDetail);
             this.listenTo(this.radio, 'show-detail', this.showDetail);
-
-
             this.detail.show(new DetailView( {
-                model: new Individual({id: this.indiv})
+                model: new Individual({id: this.indiv}),
+                filter : filter 
             }));
-            this.main.show(new MapView({
+            this.map = new MapView({
                 indivId: this.indiv
-            }));
-            $("#showIndivDetails").append('<span class="ID rotate">ID : '+this.indiv+'</span>');
+            });
+            this.main.show(this.map);
 
 
+            $("#showIndivDetails").html('<span class="glyphicon glyphicon-chevron-right big"></span><span class="ID rotate">ID : '+this.indiv+'</span>');
             //replace Pastis by header size
-
-
-
         },
         onRender: function(){
 /*            $(document).ready(
@@ -111,6 +110,39 @@ define([
                 $('#detail-panel, #main-panel').css({ height: $(window).innerHeight()-$('header').height() });
             });
         },
-
+        changeIndiv : function(e){
+            var elem =$(e.target);
+            var navigation = $(elem).attr('nav');
+            var currentId = parseInt(this.indiv);
+            var url =config.coreUrl+'/individual/'+ currentId+ '/' + navigation;
+            var self = this;
+            $.ajax({
+                url:url,
+                context:this,
+                type:'GET',
+                dataType:'json',
+                success: function(resp){
+                    var id = resp.id;
+                    self.indiv = id;
+                    self.detail.show(new DetailView( {
+                        model: new Individual({id: id})
+                    }));
+                    self.map.update(id);
+                    $("#showIndivDetails").html('<span class="glyphicon glyphicon-chevron-right big"></span><span class="ID rotate">ID : '+id+'</span>');
+                    Backbone.history.navigate('individual/' + id);  //{trigger: true}*/
+                },
+                error: function(data){
+                    Swal({
+                        title: "Change individual",
+                        text: 'Error to navigate to another individual.',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true
+                    });
+                }
+            });
+        }
     });
 });
