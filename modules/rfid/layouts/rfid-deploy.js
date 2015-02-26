@@ -12,8 +12,10 @@ define([
     'utils/datalist',
     'utils/datetime',
     'text!modules2/rfid/templates/rfid-deploy.html',
-    'dateTimePicker'
-], function(_, $, Backbone, Marionette, moment, Radio, config, MonitoredSites, Map, MonitoredSite, datalist, datetime, template) {
+    'sweetAlert',
+    'dateTimePicker',
+], function(_, $, Backbone, Marionette, moment, Radio, config, MonitoredSites, Map, MonitoredSite, 
+    datalist, datetime, template,Swal) {
 
     'use strict';
 
@@ -80,22 +82,24 @@ define([
         },
 
         updateType: function(e) {
+
             var that=this;
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'rfid/byDate',
                 data: {'date' :this.ui.begin.val()} ,
             }).done( function(data) {
-                
+
                 that.sites.reset(data['siteName_type']);
                 that.sites.typeList=data['siteType'];
-                var html=''; 
+                var html=[]; 
                 that.sites.typeList.forEach( function(type) {
-                    html += '<option class="option_list">' + type + '</option>';
+                    html.push ("<option value='"+ type +"'>"+ type + "</option>");
                 });
-                that.ui.typeList.html(html);
+                html.sort();
+                var content = '<option></option>' + html.join(' ');
+                that.ui.type.html(content);
             });
-            
         },
 
         updateMap: function(e) {
@@ -117,20 +121,22 @@ define([
         },
 
         updateName: function(e) {
-            var html = '';
+
+            var html=[]; 
             var type = this.ui.type.val();
             if(type !== '') {
-                console.log('in uoName');
                 _.each(this.sites.where({type:type}), function(site) {
-                    html += '<option>' + site.get('name') + '</option>';
+                    html.push ('<option>' + site.get('name') + '</option>');
                 });
             }
             else {
                 this.sites.forEach( function(site) {
-                    html += '<option>' + site.get('name') + '</option>';
+                    html.push ('<option>' + site.get('name') + '</option>');
                 });
             }
-            this.ui.nameList.html(html);
+            html.sort();
+            var content = '<option> </option>' + html.join(' ');
+            this.ui.name.html(content);
         },
 
         clearErrors: function() {

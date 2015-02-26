@@ -34,6 +34,7 @@ define([
             'click .onglet a': 'activeOnglet',
             'click .deleteProt' : 'deleteProtocol',
             'click .deleteProInstance' : 'deleteProtInstance',
+            'change .indivNumber' : 'updateTotalIndiv'
             //'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
@@ -211,8 +212,32 @@ define([
             });
         },
         getProtocols : function(){
-            var protocols  = getProtocolsList.getElements('protocols/list');
-            $('select[name="add-protocol"]').append(protocols);
+            // server call
+            //var protocols  = getProtocolsList.getElements('protocols/list');
+            var self = this;
+            $.getJSON( './modules/input/data/protocols_summary.json', function(data) {
+                // object to store protocols properties (id, name, relations)
+                var html = [];
+                self.protocolsSummary  = data;
+                for (var i=0;i<data.length;i++){
+                    var protocolLabel = data[i].label;
+                    html.push('<option>' + protocolLabel +'</option>');
+                }
+                html.sort();
+                var content = html.join('');
+                $('select[name="add-protocol"]').append(content);
+              /*$.each( data, function( key, val ) {
+                items.push( "<li id='" + key + "'>" + val + "</li>" );
+              });
+             
+              $( "<ul/>", {
+                "class": "my-new-list",
+                html: items.join( "" )
+              }).appendTo( "body" );*/
+            });
+            // load protocols from json 
+            // TODO : update file ...
+            //$('select[name="add-protocol"]').append(protocols);
         },
         updateFieldActivity : function(e){
             /*var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
@@ -620,6 +645,13 @@ define([
                     self.getProtocolsList(data.PK);
                 }
             });
+        },
+        updateTotalIndiv : function (e){
+            var total = 0;
+            $('form input.indivNumber').each(function(key,value) {
+                total += parseInt($(this).val());
+            });
+            alert(total);
         },
         checkTime : function(e){
             var time = $(e.target).val();

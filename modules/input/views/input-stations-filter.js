@@ -35,12 +35,13 @@ define([
             'change coord-min' : 'checkMinVal',
             'change coord-max' : 'checkMaxVal',
             'change input[name="allSt-beginDate"]' : 'update',
-            'change  div.dateTimePicker' : 'updateDate',
+            //'change  div.dateTimePicker' : 'updateDate',
             'change #allSt-beginDate-op' : 'updateBeginDateOp',
             'change #allSt-endDate-op' : 'updateEndDateOp',
             'change select[name="allSt-monitoredSiteType"]' :'updateSiteName',
             'click #allSt-filter-btn' : 'filterQuery',
-            'click #allSt-clear-btn' : 'clearFilter'
+            'click #allSt-clear-btn' : 'clearFilter',
+            'focusout input.pickerDate':'updateDate',
 
         },
         ui: {
@@ -60,8 +61,8 @@ define([
                 PK : {Operator: '=' , Value: null },  
                 Name : {Operator: 'Is' , Value: null },    
                 siteName : {Operator: '=' ,Value: null  },    
-                beginDate: {Operator: '>=' ,Value: null  },    
-                endDate: {Operator: '<=' ,Value: null  },    
+                beginDate: {Operator: '=' ,Value: null  },    
+                endDate: {Operator: '<' ,Value: null  },    
                 fieldWorker : {Operator: '=' ,Value: null  },    
                 fieldActivity: {Operator: '=' ,Value: null  },  
                 monitoredSiteType : {Operator: '=' ,Value: null  },    
@@ -108,7 +109,6 @@ define([
                 self.getIndivId();
             });
             this.generateSelectLists();
-            var self = this;
 
             $(this.ui.datePicker).datetimepicker({
                 defaultDate:""
@@ -125,6 +125,7 @@ define([
                 var name = $(this).attr('name').split('-')[1];
                 var value = $(this).val() || null;
                 self.filter[name].Value = value; 
+                self.updateGrid();
             });        
         },
 
@@ -174,13 +175,14 @@ define([
             this.updateGrid();
         },
         updateDate: function(e){
-            var input = $(e.target).find('input');
+            var input = $(e.target);
             var name = $(input).attr('name').split('-')[1];
             var value = $(input).val();
-            this.filter[name].Value = value;
+            this.filter[name].Value = value || null;
             if(name =='beginDate'){
                 var operator = $('#allSt-beginDate-op option:selected').text();
                 this.filter.beginDate.Operator = operator;
+
             }
             if(name =='endDate'){
                 var operator = $('#allSt-endDate-op option:selected').text();

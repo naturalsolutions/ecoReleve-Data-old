@@ -688,6 +688,8 @@ define([
             this.map.removeLayer(this.lastMarker);
           };
           this.lastMarker = m;
+          var center = m.getLatLng();
+          this.map.panTo(center);
           return m;
         },
 
