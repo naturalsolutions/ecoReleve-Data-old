@@ -239,7 +239,6 @@ define([
 
         initMap: function(){
 
-          this.unlockError();
 
             this.map = new L.Map(this.elem, {
               center: this.center ,
