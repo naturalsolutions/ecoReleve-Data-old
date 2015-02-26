@@ -259,10 +259,10 @@ define([
             console.log(importList);
             console.log(ind_id);
             $.ajax({
-                url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/import',
+                url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/'+ind_id+'/import',
                 contentType: 'application/json',
                 type: 'POST',
-                data:JSON.stringify({data: importList, id_ind: ind_id})
+                data:JSON.stringify({data:importList})
             });
    
         },
