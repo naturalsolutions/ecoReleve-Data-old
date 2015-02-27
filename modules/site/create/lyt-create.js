@@ -27,8 +27,6 @@ define([
         majMap: function(e){
             var lat = this.$el.find('#field-lat input').val();
             var lng = this.$el.find('#field-lng input').val();
-            console.log(lat)
-            console.log(lng)
 
             if(lat && lng){
                 this.map.addMarker(false, lat, lng);
@@ -42,7 +40,7 @@ define([
 
         onShow: function(){
             var ctx = this;
-            var md = Backbone.Model.extend({
+            var MD = Backbone.Model.extend({
                 schema : {
                     name : {type: 'Text', validators: ['required'], editorClass: 'form-control', title: 'Name'},
 
@@ -58,22 +56,21 @@ define([
                         precision: {type: 'Number', validators: ['required'], editorClass: 'form-control'},
                         begin_date: {type: 'BackboneDatepicker', validators: ['required'], options: [{
                         dateFormat: 'd/m/yyyy',
-                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
+                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear()
                         }]}, //DTP
                         end_date: {type: 'BackboneDatepicker', options: [{
                         dateFormat: 'd/m/yyyy',
-                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear() 
+                        defaultValue: new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear()
                         }]}, //DTP
-                        
+
                     }},
                 },
             });
-            var mod = new md();
+            var mod = new MD();
             this.form = new BbForms({
                 model: mod,
             }).render();
             $('#form').append(this.form.el).append('<br>');
-
 
 
             $('#form #dateTimePicker').each(function(){
@@ -103,14 +100,14 @@ define([
                 var mySite = new Backbone.Model(site);
 
                 mySite.url= config.coreUrl+'monitoredSite/newSite';
-                
+
                 var ctx = this;
                 mySite.save({
                     error: function(model, response, options){
                         ctx.$el.find('#error').html('An error occured');
                     },
                     success: function (model, response, options) {
-                        console.log(this)
+                        console.log(this);
                     }
                 });
             }
@@ -118,6 +115,3 @@ define([
 
     });
 });
-
-
-

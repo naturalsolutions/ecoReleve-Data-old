@@ -22,7 +22,6 @@ define([
         },
         events: {
             'click #import-btn': 'import_checked',
-
         },
 
         initialize: function(options){

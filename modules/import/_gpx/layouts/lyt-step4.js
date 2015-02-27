@@ -57,6 +57,7 @@ define([
                 dataType:'json',
                 async: false,
                 success: function(resp){
+                    var typeAlert = 'success';
                     var storedCollection = new Waypoints();
                     storedCollection.fetch();
                     storedCollection.reset(resp.data);
@@ -67,13 +68,14 @@ define([
                     var nb = msg.substring(0,1);
                     if(nb =="0"){
                         message = 'Selected waypoint(s) are already imported';
+                        typeAlert ='warning';
                     }
                     this.model.set('ajax_msg', msg) ; 
                     result = true; 
                     Swal({
                         title: "Loading data",
                         text: message,
-                        type: 'success',
+                        type: typeAlert,
                         showCancelButton: false,
                         confirmButtonColor: 'green',
                         confirmButtonText: "OK",
@@ -96,7 +98,7 @@ define([
                     });
                 }
             });
-            return result;
+            return false;
         },
         onShow: function(){
 
