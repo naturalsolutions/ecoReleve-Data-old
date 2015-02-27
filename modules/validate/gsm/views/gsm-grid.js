@@ -62,7 +62,7 @@ define([
 
 
             if(options.com){
-              this.com = options.com;   
+              this.com = options.com;
               this.com.addModule(this);
             }
 
@@ -101,7 +101,7 @@ define([
         /*=======================================
         =            Strat Demo Code            =
         =======================================*/
-        
+
         action: function(action, id){
           switch(action){
             case 'focus':
@@ -123,17 +123,19 @@ define([
 
         interaction: function(action, id){
           if(this.com){
-            this.com.action(action, id);                    
+            this.com.action(action, id);
           }else{
             this.action(action, id);
           }
         },
-        
+
         /*-----  End of En Demo Code  ------*/
 
         onShow: function() {
-          
-        
+            $('#import-btn').on('click', function(){
+                this.importChecked();
+            });
+
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5,
                 orderSeparator: ' ',
@@ -225,14 +227,14 @@ define([
             for (var i = 0; i < models.length; i++) {
                 models[i].trigger("backgrid:selected", models[i], false);
                 models[i].trigger("backgrid:select", models[i], false);
-            };
+            }
         },
 
 
 
         perhour: function() {
             this.interaction('resetAll');
-            
+
             var self=this;
 
             var col0=this.origin.at(0);
@@ -244,18 +246,18 @@ define([
                 i++;
                 var currentDate=new moment(model.get('date'));
                 var diff=(date-currentDate)/(1000*60*60);
-                if (i==0) diff=2;        
+                if (i==0) diff=2;
                 if (!self.grid.collection.get(model.id)) {
                     if(diff>1) {
                         date=currentDate;
                         ids.push(model.id);
-                    }                    
+                    }
                 }
                 else {
                     if(diff>1) {
                         date=currentDate;
                         ids.push(model.id);
-                    }                    
+                    }
                 }
             });
 
@@ -317,14 +319,14 @@ define([
             var models=[];
             var i=0, position=1;
 
-            
+
             this.grid.collection.fullCollection.each(function(model){
                 i++;
 
                 if (model.id==model_id) {
                     model.trigger("backgrid:select", model, checked);
                     position=i;
-                 }               
+                 }
                  if (!self.grid.collection.get(model.id)) {
                         if (model.id == model_id)
                         model.trigger("backgrid:selected", model, checked);
@@ -362,6 +364,7 @@ define([
         importChecked : function(ind_id) {
             var importList = [];
             var checkedLocations=this.grid.getSelectedModels();
+            console.log(checkedLocations);
             var i;
             for (i in checkedLocations){
                 var model=checkedLocations[i];
@@ -386,6 +389,6 @@ define([
             delete this.grid.columns;
             delete this.grid;
         },
-        
+
     });
 });

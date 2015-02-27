@@ -37,8 +37,8 @@ define([
         },
 
         unlockError: function(){
-          
-          
+
+
           L.LatLng = function (lat, lng, alt) { // (Number, Number, Number)
             lat = parseFloat(lat);
             lng = parseFloat(lng);
@@ -123,7 +123,7 @@ define([
             //check if there is a communicator
 
             if(options.com){
-              this.com = options.com;   
+              this.com = options.com;
               this.com.addModule(this);
             }
             this.url=options.url;
@@ -172,15 +172,15 @@ define([
             default:
               console.log('verify the action name');
               break;
-          };
+          }
         },
 
         interaction: function(action, id){
           if(this.com){
-            this.com.action(action, id);                    
+            this.com.action(action, id);
           }else{
             this.action(action, id);
-          };
+          }
         },
 
         init: function(){
@@ -191,8 +191,8 @@ define([
               this.initClusters(this.geoJson);
             }else{
               this.initLayer(this.geoJson);
-            };
-          };
+            }
+          }
           this.initMap();
         },
 
@@ -227,13 +227,13 @@ define([
               //Reporting that map-object was initialized.
               this.fire('MapObjectInitialized', { mapObject: map });
             },
-          })
+          });
 
           var googleLayer = new CustomGMap('HYBRID', {unloadInvisibleTiles: true,
             updateWhenIdle: true,
             reuseTiles: true
           });
-          
+
           this.map.addLayer(googleLayer);
         },
 
@@ -253,13 +253,13 @@ define([
             var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
             if(geoJsonLayer){
-              for(var index in geoJsonLayer._layers) { 
-                  var lat = geoJsonLayer._layers[index]._latlng.lat; 
+              for(var index in geoJsonLayer._layers) {
+                  var lat = geoJsonLayer._layers[index]._latlng.lat;
                   var lng = geoJsonLayer._layers[index]._latlng.lng;
                   markerArray.push(L.marker([lat, lng]));
               }
             }
-            
+
             if (markerArray.length >1 && this.fiBounds){
               var group = L.featureGroup(markerArray);
             this.map.fitBounds(group.getBounds());
@@ -271,26 +271,26 @@ define([
             this.google();
 
             if(this.legend){
-              this.addCtrl(tpl_legend);              
-            };
+              this.addCtrl(tpl_legend);
+            }
 
             if(this.markersLayer){
-              this.addMarkersLayer2Map();              
+              this.addMarkersLayer2Map();
             }
         },
 
         addMarkersLayer2Map: function(){
-          if(this.geoJsonLayers.length != 0){
+          if(this.geoJsonLayers.length !== 0){
             for (var i = 0; i < this.geoJsonLayers.length; i++) {
               this.markersLayer.addLayer(this.geoJsonLayers[i]);
-            };
-          };
+            }
+          }
 
-          this.map.addLayer(this.markersLayer);   
-          
+          this.map.addLayer(this.markersLayer);
+
           if(this.bbox){
             this.addBBox(this.markersLayer);
-          };
+          }
         },
 
         resize: function(){
@@ -324,7 +324,7 @@ define([
           var jqxhr = $.getJSON( url, function(criterias){
           }).done(function(geoJson) {
               if (ctx.cluster){
-                ctx.initClusters(geoJson)
+                ctx.initClusters(geoJson);
               }else{
                 ctx.initLayer(geoJson);
               }
@@ -332,7 +332,7 @@ define([
           .fail(function(msg) {
               console.log( msg );
           });
-        
+
         },
 
 
@@ -347,7 +347,7 @@ define([
             m.setIcon(this.selectedIcon);
           }else{
             m.setIcon(this.icon);
-          };
+          }
         },
 
         setCenter: function(geoJson){
@@ -387,7 +387,7 @@ define([
                   marker = L.marker(latlng, {icon: ctx.focusedIcon});
                 }else{
                   marker = L.marker(latlng, {icon: ctx.icon});
-                };
+                }
 
                 marker.checked=false;
 
@@ -395,7 +395,7 @@ define([
                   prop = feature.properties;
                   for(var p in prop){
                     infos +='<b>'+p+' : '+prop[p]+'</b><br />';
-                  };
+                  }
                   marker.bindPopup(infos);
                 }
 
@@ -404,7 +404,7 @@ define([
                 marker.on('click', function(e){
                   if(this.selection){
                     this.interaction('selection', feature.id);
-                  }  
+                  }
                 }, ctx);
 
                 return marker;
@@ -432,18 +432,18 @@ define([
             classe += 'large';
           }
 
-          if(!contains && nbContains != 0){
+          if(!contains && nbContains !== 0){
             return new L.DivIcon({ html: '<span>'+childCount+'</span>', className: classe, iconSize: new L.Point(size, size) });
-          };
+          }
 
           if(contains){
             classe +=' marker-cluster-contains';
-          };
+          }
 
-          return new L.DivIcon({ 
-            html: '<span>' + nbContains + ' / ' + childCount +'</span>', 
-            className: classe, 
-            iconSize: new L.Point(size, size) 
+          return new L.DivIcon({
+            html: '<span>' + nbContains + ' / ' + childCount +'</span>',
+            className: classe,
+            iconSize: new L.Point(size, size)
           });
 
         },
@@ -463,8 +463,8 @@ define([
                 return ctx.getClusterIcon(cluster, false, 0);
               }else{
                 return ctx.getClusterIcon(cluster);
-              };
-              
+              }
+
             },
           });
 
@@ -494,7 +494,7 @@ define([
               var childMarkers = c.getAllChildMarkers();
               var childCount = c.getChildCount();
 
-              var nbContains=0; 
+              var nbContains=0;
               var contains=false;
 
               for (var i = 0; i < childMarkers.length; i++) {
@@ -502,11 +502,11 @@ define([
                   nbContains++;
                   contains=true;
                 }else{
-                  if(nbContains==0){
+                  if(nbContains===0){
                     contains=false;
                   }
                 }
-              };
+              }
 
               var icon = this.getClusterIcon(c, contains, nbContains);
               c.setIcon(icon);
@@ -521,7 +521,7 @@ define([
           for (var i = childClusters.length - 1; i >= 0; i--) {
             this.updateClusterStyle(childClusters[i], all);
             this.updateAllClusters(childClusters[i], all);
-          };
+          }
           return;
         },
 
@@ -542,7 +542,7 @@ define([
 
           var marker, childs;
 
-          this.map.boxZoom['_onMouseUp'] = function(e){
+          this.map.boxZoom.onMouseUp = function(e){
             this._finish();
 
             var map = this._map,
@@ -561,7 +561,7 @@ define([
 
           this.map.on('boxzoomend', function(e) {
 
-            var bbox=[], childIds=[];  
+            var bbox=[], childIds=[];
             for(var key in  markers._featureGroup._layers){
               marker =  markers._featureGroup._layers[key];
               if (e.boxZoomBounds.contains(marker._latlng) /*&& !ctx.selectedMarkers[key]*/) {
@@ -579,13 +579,13 @@ define([
                       bbox.push(childs[i].feature.id);
 
                       ctx.changeIcon(childs[i]);
-                    };
+                    }
                     if(marker.__parent){
-                        ctx.updateClusterParents(marker, []);              
+                        ctx.updateClusterParents(marker, []);
                     }
                   }
-              };
-            };
+              }
+            }
             ctx.interaction('selectionMultiple', bbox);
             $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
@@ -603,7 +603,7 @@ define([
               this.selectedMarkers[id]=marker;
             }else{
               delete(this.selectedMarkers[id]);
-            };
+            }
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
           }
@@ -618,15 +618,15 @@ define([
         selectMultiple: function(ids){
           if(this.selection){
           var marker;
-          for (var i = 0; i < ids.length; i++) {            
+          for (var i = 0; i < ids.length; i++) {
             marker=this.dict[ids[i]];
             marker.checked = true;
 
             this.avoidDoublon(ids[i], marker);
-            
+
             this.changeIcon(marker);
             this.updateClusterParents(marker, []);
-          };
+          }
           }
         },
 
@@ -647,8 +647,8 @@ define([
           if(zoom){
             setTimeout(function(){
               ctx.map.setZoom(zoom);
-             }, 1000);          
-          };
+             }, 1000);
+          }
         },
 
         /*==========  resetMarkers :: reset a list of markers  ==========*/
@@ -658,14 +658,14 @@ define([
               marker = this.selectedMarkers[key];
               marker.checked=!marker.checked;
               this.changeIcon(marker);
-          };
+          }
           if(this.cluster){
             var cluster;
             for (var i = this.firstLvl.length - 1; i >= 0; i--) {
               cluster = this.firstLvl[i];
               this.updateAllClusters(cluster, false);
-            };
-          };
+            }
+          }
           this.selectedMarkers={};
         },
 
@@ -673,7 +673,7 @@ define([
           if(m){
             m.addTo(this.map);
           }else{
-            var m = new L.marker([lat, lng]);
+            m = new L.marker([lat, lng]);
             if(popup){
               m.bindPopup(popup);
             }
@@ -681,12 +681,12 @@ define([
               m.setIcon(icon);
             }
             m.addTo(this.map);
-          };
+          }
 
           console.log(this.lastMarker);
           if(this.lastMarker){
             this.map.removeLayer(this.lastMarker);
-          };
+          }
           this.lastMarker = m;
           return m;
         },
@@ -698,10 +698,10 @@ define([
           marker.setLatLng(latlng);
 
           if(zoom){
-            this.focus(id, zoom);            
+            this.focus(id, zoom);
           }else{
-            this.focus(id, false);            
-          };
+            this.focus(id, false);
+          }
         },
 
 
@@ -714,7 +714,7 @@ define([
         //convert a BB collection to a feature collection (geoJson)
         coll2GeoJson: function(coll){
             var features = {
-                'features': [], 
+                'features': [],
                 'type': 'FeatureCollection'
             };
             var feature, attr;
@@ -726,7 +726,7 @@ define([
                     'geometry': {
                         'type': 'Point',
                         'coordinates': [attr.longitude, attr.latitude],
-                    }, 
+                    },
                     'properties': {
                       //todo
                     },
@@ -749,13 +749,13 @@ define([
                 //todo : generic term (import)
                 if(coll.models[i].attributes.import)
                   checkedMarkers.push(coll.models[i].attributes.id);
-              };
+              }
               //todo : amelioration
               this.selectMultiple(checkedMarkers);
             }
           }else{
             this.updateLayers(geoJson);
-          };
+          }
         },
 
         updateLayers: function(geoJson){
@@ -766,10 +766,10 @@ define([
 
           if(this.bbox){
             this.addBBox(this.markersLayer);
-          };
+          }
         },
 
 
-        
+
     });
 });

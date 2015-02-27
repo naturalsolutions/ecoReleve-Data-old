@@ -4,8 +4,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
 
-
-
     grunt.initConfig({
         less: {
           dist: {
@@ -18,6 +16,9 @@ module.exports = function(grunt) {
               compress: false,
               sourceMap: true,
               sourceMapFilename: 'assets/css/styles.css.map',
+
+
+
               sourceMapURL: 'styles.css.map'
 
             }
@@ -37,9 +38,14 @@ module.exports = function(grunt) {
                   livereload: true,
                 },
             },
+            js: {
+                files: ['modules/**'],
+                options: {
+                  livereload: true,
+                },
+            },
         }
     });
 
     grunt.registerTask('default', 'watch');
 };
-

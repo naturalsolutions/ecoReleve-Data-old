@@ -19,11 +19,16 @@ define([
             'click #argosTile' : 'argos',
         },
 
-        initialize: function() {
 
+        initialize: function() {
+               
         },
 
         onRender: function(){
+
+            
+
+
             $('body').addClass('home-page').addClass('full-height');
             $('#main-region').addClass('obscur full-height');
         },
@@ -32,6 +37,7 @@ define([
             $('body').removeClass('validate').removeClass('full-height');
             $('#main-region').removeClass('obscur');
         },
+
 
         gsm: function(){
             Radio.channel('route').command('validate:type', 'gsm');
@@ -42,6 +48,8 @@ define([
         argos: function(){
             Radio.channel('route').command('validate:type', 'argos');
             
+
+
 
             /*
             var Proto_Model = Backbone.Model.extend({
