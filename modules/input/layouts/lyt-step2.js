@@ -68,10 +68,11 @@ define([
                     zoom : 8,
                     element: 'map',
                     ///url: config.coreUrl+'/individuals/stations?id=3',
-                    geoJson : {"features": [{"properties": {"date": 1193220000.0}, 'id': 1, "geometry": {"coordinates": [-3.96,33.06 ], "type": "Point"}, "type": "Feature"}], "type": "FeatureCollection"}
+                    //geoJson : {"features": [{"properties": {"date": 1193220000.0}, 'id': 1, "geometry": {"coordinates": [-3.96,33.06 ], "type": "Point"}, "type": "Feature"}], "type": "FeatureCollection"}
                 });
                 this.rightRegion.show(this.map);
                 this.map.init();
+                this.map.addMarker(false, 33.06, -3.96);
 
                 // init map
                /* var position = new Position();
@@ -289,7 +290,8 @@ define([
             var target= $(e.target).find('option:selected')[0];
             var latitude=parseFloat($(target).attr('lat'));
             var longitude = parseFloat($(target).attr('lon'));
-            this.map.updateMarkerPos(1, latitude, longitude );
+            //this.map.updateMarkerPos(1, latitude, longitude );
+            this.map.addMarker(false, latitude, longitude );
         },
         datachanged_text: function(e){
             var target= $(e.target);
@@ -335,7 +337,8 @@ define([
         movePoint : function(position){
             var latitude  =position.get("latitude");
             var longitude = position.get("longitude");
-            this.map.updateMarkerPos(1, latitude, longitude );
+            //this.map.updateMarkerPos(1, latitude, longitude );
+            this.map.addMarker(false, latitude, longitude );
         },
         erreurPosition : function(error){
             var info = "Erreur lors de la géolocalisation : ";
@@ -385,7 +388,8 @@ define([
                     this.model.set('station_LON',longitude);
                     //this.getPosModel(latitude,longitude);
                     Radio.channel('input').command('movePoint', position);
-                    this.map.updateMarkerPos(1, latitude, longitude );
+                    //this.map.updateMarkerPos(1, latitude, longitude );
+                    this.map.addMarker(false, latitude, longitude );
                 }
            } else {
                 this.model.set('station_LAT',null);
@@ -608,11 +612,11 @@ define([
                     name: name
                 });
                 var position = monitoredSite.get('positions');
-                console.log(position);
                 var lat = position.lat;
                 var lon = position.lon;
-                console.log('lat  '+lat+'  long '+lon);
-                this.map.updateMarkerPos(1, lat, lon );
+                //console.log('lat  '+lat+'  long '+lon);
+                //this.map.updateMarkerPos(1, lat, lon );
+                this.map.addMarker(false, lat, lon );
             }
         },
         updateSiteName: function(e) {
