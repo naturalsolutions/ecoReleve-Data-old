@@ -63,7 +63,7 @@ define([
                 },
                 importRow: function (e) {
                   e.preventDefault();
-                  self.auto_valide();
+                  self.auto_valide(e);
                 },
                 render: function () {
                   this.$el.html(this.template());
@@ -80,7 +80,7 @@ define([
                 importAllRow: function (e) {
                   e.preventDefault();
                   
-                  self.auto_valide_ALL();
+                  self.auto_valide_ALL(e);
                 },
                 render: function () {
                   this.$el.html(this.template());
@@ -183,13 +183,30 @@ define([
             Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id);
         },
 
-        auto_valide: function () {
+        auto_valide: function (evt) {
             console.log('import click ! ')
+            var model = $(evt.target).parent().parent().parent().data('model'); 
+            var ind_id=model.attributes.ind_id;
+            var ptt=model.attributes.platform_;
+
+            $.ajax({
+                url:config.coreUrl+'dataGsm/' + ptt + '/unchecked/'+ind_id+'/import/auto',
+                contentType: 'application/json',
+                type: 'POST',
+                
+            });
 
         },
 
         auto_valide_ALL: function () {
             console.log('import ALLL click ! ')
+            $.ajax({
+                url:config.coreUrl+'dataGsm/unchecked/importAll/auto',
+                contentType: 'application/json',
+                type: 'POST',
+                
+            });
+
         },
 
 
