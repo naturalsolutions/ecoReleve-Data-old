@@ -1,5 +1,5 @@
-<form>
-	<div class="col-xs-12"><h3 id="input-station-title">New station</h3></div>
+<form id="newStForm">
+	<!--<div class="col-xs-12"><h3 id="input-station-title">New station</h3></div>
 	<div class="clear"></div>
 		<!--<div id="stationType">
 			<div class="radio-inline">
@@ -15,31 +15,18 @@
 
 	<fieldset>
 		<legend>identification</legend>
-	    <div class='col-xs-6'>
+	    <div class='col-xs-5'>
 	    	<label>station name*</label>
 	    	<div data-editors="Name"></div>
 	    	<div id='error-Name' class='error'></div>
 	    </div>
-
-	    <div class='col-xs-6 masqued'>
-	    	<label>id</label>
-	    	<div data-editors="PK"></div>
-	    	<div id='error-PK' class='error'></div>
-	    </div>
+	    <div class='col-xs-5'>
+	    	<label>date*</label>
+	    	<div class="input-group date" data-editors="Date_">
+            </div>
+	    	<div id='error-Date_' class='error'></div>
+		</div>
 	</fieldset>
-  	<fieldset>
-	  	<legend>date</legend>
-	  	<div>
-	  		<div class='col-xs-10'>
-		    	<label>date*</label>
-
-		    	<div class="input-group date" data-editors="Date_">
-	
-	            </div>
-		    	<div id='error-Date_' class='error'></div>
-		    </div>
-	  	</div>
- 	</fieldset>
 	<fieldset>
 		<legend>location</legend>
 

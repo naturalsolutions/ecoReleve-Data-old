@@ -48,8 +48,9 @@ define([
         },
 
         initModel: function(myTpl){
-            this.parseOneTpl(this.template);
-            this.activeProtcolsObj = [];
+            //this.parseOneTpl(this.template);
+            this.activeProtcolsObj = []; 
+            this.protosToRemove = [];
         },
         onShow: function(){
             var content = getUsers.getElements('user');
@@ -102,7 +103,7 @@ define([
                 type:'GET',
                 success: function(data){
                     if(!_.isEmpty(data)){
-                         this.activeProtcolsObj = data;
+                        this.activeProtcolsObj = data;
                         this.generateNavBarProtos();
                     }
                     else {
@@ -110,7 +111,6 @@ define([
                         $('#formsContainer').text('');
                         this.formsRegion.empty();
                     }
-
                 },
                 error: function(data){
                     //alert('error in loading protocols');
@@ -125,12 +125,14 @@ define([
                     });
                 }
             }).done(function(data){
-                 if(!_.isEmpty(data)){
+                if(!_.isEmpty(data)){
                     var element = $(listElement).find('div.swiper-slide:first a');
                     this.updateForm(null, element );
                     $(listElement).find('div.swiper-slide').removeClass('swiper-slide-active');
                     $(listElement).find('div.swiper-slide:first').addClass('swiper-slide-active');
                     $('.swiper-slide-active').find('.onglet').addClass('active');
+                    // update protocols that we can add by integrating unicity constraints
+                    // (if protocol can be used only 1 time and its already inserted, we remove it from list)
                 }
             });
         },
@@ -168,8 +170,8 @@ define([
                         }
                         var self = this;
                         this.model.save([],{
-                         dataType:"text",
-                         success:function(model, response) {
+                        dataType:"text",
+                        success:function(model, response) {
                             console.log('success' + response);
                             self.displayMode = 'display';
                             self.displaybuttons();
@@ -187,7 +189,7 @@ define([
                                 self.modelurl = url + newId;
                             }
                          },
-                         error:function(request, status, error) {
+                        error:function(request, status, error) {
                             //alert('error in saving data');
                             Swal({
                                 title: "Error in saving data",
@@ -213,42 +215,53 @@ define([
         },
         getProtocols : function(){
             // server call
-            //var protocols  = getProtocolsList.getElements('protocols/list');
+            /*var protocols  = getProtocolsList.getElements('protocols/list');
+            $('select[name="add-protocol"]').append(protocols);*/
+            // load protocols from json 
+            // TODO : update file ...
             var self = this;
             $.getJSON( './modules/input/data/protocols_summary.json', function(data) {
                 // object to store protocols properties (id, name, relations)
                 var html = [];
+                self.protosToAdd = [];
                 self.protocolsSummary  = data;
+                self.uniqProtoInstances = []; // used to have protocols that can be instanciated only 1 time per station
                 for (var i=0;i<data.length;i++){
                     var protocolLabel = data[i].label;
-                    html.push('<option>' + protocolLabel +'</option>');
+                    //html.push('<option>' + protocolLabel +'</option>');
+                    self.protosToAdd.push(protocolLabel);
+                    if(data[i].isOneInstance =="true"){
+                        self.uniqProtoInstances.push(protocolLabel);
+                    }
                 }
-                html.sort();
-                var content = html.join('');
-                $('select[name="add-protocol"]').append(content);
-              /*$.each( data, function( key, val ) {
-                items.push( "<li id='" + key + "'>" + val + "</li>" );
-              });
-             
-              $( "<ul/>", {
-                "class": "my-new-list",
-                html: items.join( "" )
-              }).appendTo( "body" );*/
+                //html.sort();
+                //var content = html.join('');
+                self.generateSelectProtoContent(self.protosToAdd);
+                //$(self.ui.addProto).append(content);
             });
-            // load protocols from json 
-            // TODO : update file ...
-            //$('select[name="add-protocol"]').append(protocols);
         },
-        updateFieldActivity : function(e){
-            /*var value = $( 'select[name="st_FieldActivity_Name"] option:selected').text();
-            this.getProtocolsList(value);*/
+        generateSelectProtoContent: function(list, listToRemove){
+            // get difference between arrays
+            var diff = [];
+            if(listToRemove){
+                var diff = $(list).not(listToRemove).get();
+            } else {
+                diff = list;
+            }
+            diff.sort();
+            var html = '<option></option>';
+            for (var i=0;i<diff.length;i++){
+                html += '<option>' + diff[i]+ '</option>';
+            }
+           $(this.ui.addProto).html(html);
         },
         generateNavBarProtos : function(){
             // generate interface with list content
             $('.pagination.protocol').html('');
             var htmlContent ='';
+
             for(var key in this.activeProtcolsObj) {
-                var tm = key;
+                
                 var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
                 htmlContent +=  '<div class="swiper-slide"><div class="onglet"><a name="'+ key ;
                 htmlContent += '"><span><i></i></span>' + key ;
@@ -259,12 +272,18 @@ define([
                     // one instance, check if it is new instance to add del btn
                     var protoId = this.activeProtcolsObj[key].PK_data[0];
                     if(protoId == 0){
-                        htmlContent += '<i class="reneco icon small close deleteProt"></i>'
+                        htmlContent += '<i class="reneco icon small close deleteProt"></i>';
                     }
                 }
 
-                 htmlContent += '</a></div></div>';
+                htmlContent += '</a></div></div>';
+                // update list of protocols that we cant re-use for current station
+                this.updateAddProtocolsList(key, this.uniqProtoInstances);
             }
+            // remove duplicated elements from tab
+            this.protosToRemove = this.cleanArray(this.protosToRemove);
+             // update select control content to remove uniq instances protocols added to UI
+            this.generateSelectProtoContent(this.protosToAdd,this.protosToRemove);
             $(this.ui.protosList).html('');
             $(this.ui.protosList).append(htmlContent);
             
@@ -282,7 +301,15 @@ define([
                 mySwiper1.swipeNext();
             });
             //$('.swiper-slide').css('height','50px');
+        },
+        updateAddProtocolsList : function(protoName, singleProtos){
 
+            for(var i=0;i<singleProtos.length;i++){
+                if(singleProtos[i] == protoName){
+                    this.protosToRemove.push(protoName);
+                    return;
+                }
+            }
         },
         addForm : function(){
             var selectedProtocolName = $(this.ui.addProto).val();
@@ -336,46 +363,12 @@ define([
                 currentPage: 1,
                  onPageClick: function(pageNumber, event){
                     event.preventDefault();
-                    self.getProtoByPkId2(pageNumber);
+                    self.getProtoByPkId(pageNumber);
                 }
             });
-            this.getProtoByPkId2(1);
-            /*var firstElem =  $('#formsIdList').find('li')[0];
-            // $('#formsIdList > ul > li:first');
-            $(firstElem).click();*/
-             
-            /*
-            $('#formsIdList').append(content);
-            // swiper
-            var mySwiper2 = new Swiper('#proto_id',{
-                //pagination: '.pagination',
-                //paginationClickable: true,
-                slidesPerView: 8
-            });
-            $('#proto_id-left').on('click', function(e){
-                e.preventDefault()
-                mySwiper2.swipePrev()
-            });
-            $('#proto_id-right').on('click', function(e){
-                e.preventDefault()
-                mySwiper2.swipeNext()
-            });
-            //$('.swiper-slide').css('height','50px');
-            //activate fist element
-            var firstTab = $('#formsIdList').find('div.onglet a')[0];
-            $('a[pkProtocol="'+  +'"]').click();
-            $(firstTab).click();*/
+            this.getProtoByPkId(1);
         },
-        getProtoByPkId : function(e){
-
-            var pkId = parseInt($(e.target).attr('idProto'));
-            if(pkId || pkId===0){
-                this.getProtocol(this.selectedProtoName, pkId);
-                // store pkId to save proto
-                this.selectedProtoId = pkId;
-            }
-        },
-        getProtoByPkId2 : function(id){
+        getProtoByPkId : function(id){
 
             if(id || id===0){
                 this.getProtocol(this.selectedProtoName, id);
@@ -388,19 +381,20 @@ define([
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId + '/next';
             this.getStationDetails(url);
-            $(this.ui.addProto).val('');
+            //$(this.ui.addProto).val('');
         },
         prevStation:function(){
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
             var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
             this.getStationDetails(url);
-            $(this.ui.addProto).val('');
+            //$(this.ui.addProto).val('');
         },
         getStationDetails : function(url){
             $.ajax({
                 url:url,
                 context:this,
+                async : false,
                 type:'GET',
                 success: function(data){
                     var station = new Station(data);
@@ -435,6 +429,7 @@ define([
             });
         },
         addViews : function(){
+            this.protosToRemove = [];
             var stationModel = this.model.get('station_position');
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
@@ -586,29 +581,50 @@ define([
             });
         },*/
         deleteProtocol : function(e){
-            // TO MOVE
+            var self = this;
+            swal({
+              title: "Are you sure to delete it?",
+              text: "",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes, delete it!",
+              cancelButtonText: "No, cancel !",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                    var protocolName = $(e.target).parent().attr('name');
+                    // find protocol instance and remove it
+                     if(protocolName){
+                        for(var key in self.activeProtcolsObj) {
+                            if(key == protocolName){
+                                var tabProtos = self.activeProtcolsObj[key].PK_data;
+                                tabProtos.unset(0);
+                                if(tabProtos.length ==0){
+                                    // delete key entry
+                                    delete self.activeProtcolsObj[key];
+                                }
+                            } 
+                        }
+                        // update select control content for protocols list to add
+                        self.protosToRemove.unset(protocolName);
+                        self.generateSelectProtoContent(self.protosToAdd, self.listToRemove);
+                    }
+                    // refrech view
+                    self.generateNavBarProtos();
+                swal("Deleted!", "", "success");
+              } else {
+                    swal("Cancelled", "", "error");
+              }
+            });
             Array.prototype.unset = function(val){
                 var index = this.indexOf(val)
                 if(index > -1){
                     this.splice(index,1)
                 }
             };
-            var protocolName = $(e.target).parent().attr('name');
-            // find protocol instance and remove it
-             if(protocolName){
-                for(var key in this.activeProtcolsObj) {
-                    if(key == protocolName){
-                        var tabProtos = this.activeProtcolsObj[key].PK_data;
-                        tabProtos.unset(0);
-                        if(tabProtos.length ==0){
-                            // delete key entry
-                            delete this.activeProtcolsObj[key];
-                        }
-                    } 
-                }
-            }
-            // refrech view
-            this.generateNavBarProtos();
         },
         deleteProtInstance : function(e){
             var protocolName = $(e.target).parent().attr('name');
@@ -681,6 +697,16 @@ define([
                     $(e.target).val('');
                 }
             }
+        },
+        cleanArray : function(array) {
+          var i, j, len = array.length, out = [], obj = {};
+          for (i = 0; i < len; i++) {
+            obj[array[i]] = 0;
+          }
+          for (j in obj) {
+            out.push(j);
+          }
+          return out;
         }
     });
 });

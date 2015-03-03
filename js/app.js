@@ -42,6 +42,5 @@ define([
         Backbone.history.start();
     })
 
-
     return newApp;
 });

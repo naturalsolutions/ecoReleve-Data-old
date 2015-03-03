@@ -5,8 +5,9 @@ define([
     'marionette',
     'radio',
     'stepper/level1-demo',
-    'stepper/lyt-step'
-], function($, _, Backbone, Marionette, Radio, View1,Step) {
+    'stepper/lyt-step',
+    'collections/waypoints',
+], function($, _, Backbone, Marionette, Radio, View1,Step,Waypoints) {
 
     'use strict';
 
@@ -47,6 +48,14 @@ define([
         },
         onShow: function(){
             $('#btnNext').removeClass('disabled');
+            $('#stepper-header').text('Station type');
+            // if there is not imported stations disable concerned option
+            var lastImportedStations = new Waypoints();
+            lastImportedStations.fetch();
+            var ln = lastImportedStations.length;
+            if (ln == 0){
+                $('input#st2').attr('disabled','disabled');
+            }
         }
     });
 

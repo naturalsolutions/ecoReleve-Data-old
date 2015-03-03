@@ -21,6 +21,8 @@ define([
 
         onShow: function() {
             this.userRegion.show(new UserView());
+            var radio = Radio.channel('route');
+            radio.comply('route:header', this.updateHeader, this);
 
         },
 
@@ -31,6 +33,16 @@ define([
 
         onRender: function(){
 
+        },
+        updateHeader : function(obj){
+            var route = obj.route;
+            var txt;
+            if(route!='home'){
+                txt = ' > ' + route;
+            }else{
+                txt ='';
+            }
+            $('#header-module-name').text(txt);
         }
     });
 });

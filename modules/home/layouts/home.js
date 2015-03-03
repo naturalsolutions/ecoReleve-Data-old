@@ -18,7 +18,7 @@ define([
             'click #argosTile': 'argos',
             'click #gsmTile': 'gsm',
             'click #indivTile': 'individual',
-            'click #stationsTile': 'stations',
+            //'click #stationsTile': 'stations',
             'click #transmitterTile': 'transmitter',
             'click #monitoredSiteTile' : 'monitoredSite',
             'click #manualTile' : 'dataEntry',

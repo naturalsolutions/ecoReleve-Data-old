@@ -139,6 +139,7 @@ define([
                     // no stored waypoints
                     $('#inputStLeft').html('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
                 }
+                $('#stepper-header').text('Last imported station(s)');
 
             } else {
                 // from existed stations/monitored sites
@@ -153,6 +154,7 @@ define([
                 } else {
                     $('.allSt-name').addClass('masqued');
                 }
+                $('#stepper-header').text('old stations');
             }
         },
         initModel: function(type,formView){
@@ -211,7 +213,8 @@ define([
                         field.required = true;
                     }
                 }
-                $('#input-station-title').text('New station with coordinates');
+                //$('#input-station-title').text('New station with coordinates');
+                $('#stepper-header').text('New station with coordinates');
 
             } else if(value == "newSc"){
                 $('#stRegion').removeClass('masqued');
@@ -227,7 +230,8 @@ define([
                         field.required = false;
                     }
                 }
-                $('#input-station-title').text('New station without coordinates');
+                //$('#input-station-title').text('New station without coordinates');
+                $('#stepper-header').text('New station without coordinates');
             }
             else {
                 $('#stMonitoredSite').removeClass('masqued');
@@ -242,7 +246,8 @@ define([
                         field.required = false;
                     }
                 }
-                $('#input-station-title').text('New station from monitored site');
+                //$('#input-station-title').text('New station from monitored site');
+                $('#stepper-header').text('New station from monitored site');
             }
         },
         feedTpl: function(){

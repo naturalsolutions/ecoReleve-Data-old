@@ -91,6 +91,8 @@ define([
                 this.monitoredSite);
             radio.comply('rfid', this.rfid, this);
             radio.comply('stations', this.stations, this);
+             /*==========  input (manuel entry)  ==========*/
+             //radio.comply('input', this.inputData, this);
             this.listenTo(radio, 'input', this.inputData);
 
             /*==========  Home  ==========*/
@@ -121,19 +123,20 @@ define([
             radio.comply('validate:type', this.validate_type, this);
             radio.comply('validate_type_id', this.validate_type_id, this);
             this.radio = radio ;
-
         },
 
         stations: function(){
             var stations = new Stations();
             this.mainRegion.show(stations);
             Backbone.history.navigate('map');
+            this.radio.command('route:header', {route:'Stations'});
         },
 
         argos: function() {
             var argosLayout = new ArgosLayout();
             this.mainRegion.show(argosLayout);
             Backbone.history.navigate('argos');
+            this.radio.command('route:header', {route:'Argos'});
         },
 
         argos_detail: function(obj) {
@@ -145,10 +148,8 @@ define([
             else {
                 this.login('argos');
             }
+            this.radio.command('route:header', {route:'Argos'});
         },
-
-
-
 
         individual: function(page) {
             if(Number(page)){
@@ -159,6 +160,7 @@ define([
                 this.mainRegion.show(layout);
                 Backbone.history.navigate('individual');
             }
+            this.radio.command('route:header', {route:'Individual'});
         },
 
         individualDetail: function(args) {
@@ -166,20 +168,27 @@ define([
             var layout = new IndivDetailLayout({indiv:args.id, filter : filter});
             this.mainRegion.show(layout);
             Backbone.history.navigate('individual/' + args.id);
+            this.radio.command('route:header', {route:'Individual'});
         },
 
 
-
-
         inputData : function() {
-            var layout = new InputLayout();
+            /*var layout = new InputLayout();
             this.mainRegion.show(layout);
-            Backbone.history.navigate('input');
+            Backbone.history.navigate('input');*/
+            var route = 'input'
+            this.checkLogin(function() {
+                Backbone.history.navigate(route);
+                this.mainRegion.show(new InputLayout());
+            }, this); 
+            this.radio.command('route:header', {route:'Manual entry'});
+
         },
 		monitoredSite: function() {
             var layout = new MonitoredSiteLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('monitored_site');
+            this.radio.command('route:header', {route:'Monitored site'});
         },
 
         insertHeader: function() {
@@ -188,18 +197,18 @@ define([
             }
         },
 
-
-
         rfid: function() {
             var layout = new RfidLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('rfid');
+            this.radio.command('route:header', {route:'RFID'});
         },
 
         transmitter: function() {
             var layout = new TransmitterLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('transmitter');
+             this.radio.command('route:header', {route:'objects'});
         },
 
 
@@ -270,6 +279,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new HomeLayout());
             }, this);
+            this.radio.command('route:header', {route:'home'});
         },
         
 
@@ -281,6 +291,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ValidateLayout());
             }, this);
+            this.radio.command('route:header', {route:'Validate'});
         },
         validate_type: function(type){
             var route = 'validate/'+type;
@@ -303,6 +314,7 @@ define([
                         this.validate();
                 };
             }, this);
+            this.radio.command('route:header', {route:'Validate'});
         },
         validate_type_id: function(type, id, id_ind){
             var route = 'validate/'+ type +'/'+ id+'/'+ id_ind;
@@ -332,7 +344,8 @@ define([
                     default:
                         this.validate();
                 };
-            }, this);  
+            }, this); 
+            this.radio.command('route:header', {route:'Validate'}); 
         },
 
 
@@ -346,6 +359,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ExportLayout());
             }, this); 
+            this.radio.command('route:header', {route:'Export'});
         },
 
         /*==========  Filtes Imports  ==========*/
@@ -356,6 +370,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ImportLayout());
             }, this); 
+            this.radio.command('route:header', {route:'Manual import'});
         },
 
         import_gsm: function() {
@@ -372,6 +387,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
+            this.radio.command('route:header', {route:'Manual import'});
         },
 
         import_rfid: function() {
@@ -388,6 +404,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
+            this.radio.command('route:header', {route:'Manual import'});
         },
 
          import_gpx: function() {
@@ -404,6 +421,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
+            this.radio.command('route:header', {route:'Manual import'});
         },
 
 
@@ -415,6 +433,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new Lyt_Site_Main());
             }, this); 
+            this.radio.command('route:header', {route:'Monitored sites'});
         },
 
         site_add: function(){
@@ -425,6 +444,7 @@ define([
                 this.mainRegion.show(lyt);
                 lyt.showAdd();
             }, this);
+            this.radio.command('route:header', {route:'Monitored sites'});
         },
 
         site_deploy: function(){
@@ -437,6 +457,7 @@ define([
                 this.mainRegion.show(lyt);
                 lyt.showDeploy();
             }, this);
+            this.radio.command('route:header', {route:'Monitored sites'});
         },
         
         site_detail: function(id){
@@ -447,6 +468,7 @@ define([
                     id: id,
                 }));
             }, this); 
+            this.radio.command('route:header', {route:'Monitored sites'});
         },
 
 
@@ -458,6 +480,7 @@ define([
                     id: id,
                 }));
             }, this); 
+            this.radio.command('route:header', {route:'Monitored sites'});
         },
         
         /*==========  Demo  ==========*/

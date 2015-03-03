@@ -127,6 +127,7 @@ define([
 					}
 				});
 			}
+            return false;
 			
 			/*if(this.file) {
 				var self = this;
@@ -219,8 +220,7 @@ define([
                 $('#' + this.buttonRegion).find('#NsFormModuleSave').attr('style', 'display:none');
                 $('#' + this.buttonRegion).find('#NsFormModuleClear').attr('style', 'display:none');
                 $('#' + this.buttonRegion).find('#NsFormModuleEdit').attr('style', 'display:');
-            }
-            
+            } 
            // $('#' + this.buttonRegion).on('click #NsFormModuleSave', this.butClickSave);
             $('#NsFormModuleSave').click($.proxy(this.butClickSave, this));
             $('#NsFormModuleEdit').click($.proxy(this.butClickEdit, this));
@@ -272,12 +272,13 @@ define([
                  }
                 });
             }
+            return false;
         },
         butClickEdit: function (e) {
             e.preventDefault();
             this.displayMode = 'edit';
             this.initModel();
-            
+            return false;
         },
 
         butClickClear: function (e) {
