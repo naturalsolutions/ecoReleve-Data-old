@@ -21,8 +21,9 @@ define([
     'ns_modules_com',
     'collections/monitoredsites',
     'sweetAlert',
+    'utils/getFieldActivity',
 ], function($, _, Backbone, Marionette, Radio, config, View1, Step, StationView,Waypoints,
-    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites,Swal) {
+    Position,Station, Grid,FilterView, GridView, getSitesNames,NsMap,dateTimePicker,Com,MonitoredSites,Swal,getFieldActivity) {
 
     'use strict';
     return Step.extend({
@@ -38,14 +39,15 @@ define([
             'change select.fiedworker' : 'checkFWName',
             'change input[name="Precision"]' : 'checkAccuracyValue',
             'focusout input[name="Date_"]':'checkDateField',
-            'click .bootstrap-datetimepicker-widget' : 'updateDateField'
+            'click .bootstrap-datetimepicker-widget' : 'updateDateField',
+            'change #impfieldActivity' : 'updateStationFA'
         },
         regions: {
             leftRegion : '#inputStLeft',
             rightRegion : '#inputStRight'
         },
         onShow: function(){
-       
+            $('.step-grid').css('width','98%');
             this.radio = Radio.channel('input');
             this.radio.comply('generateStation', this.generateStation, this);
             this.radio.comply('movePoint', this.movePoint, this);
@@ -81,10 +83,10 @@ define([
                
             } else if(stationType =='imported'){
                 $('#btnNext').addClass('disabled');
-                var lastImportedStations = new Waypoints();
-                lastImportedStations.fetch();
+                this.lastImportedStations = new Waypoints();
+                this.lastImportedStations.fetch();
                 this.initModel('import',null);
-                var ln = lastImportedStations.length;
+                var ln = this.lastImportedStations.length;
                 if (ln > 0){
                     /*
                     var mygrid = new Grid({collections : lastImportedStations});
@@ -93,7 +95,7 @@ define([
 
                     this.com = new Com();
                     var mygrid = new Grid({
-                        collections : lastImportedStations,
+                        collections : this.lastImportedStations,
                         com: this.com,
                     });
                     this.leftRegion.show(mygrid);
@@ -104,7 +106,7 @@ define([
                         'type': 'FeatureCollection'
                     };
                     var feature, attr;
-                    lastImportedStations.each(function(m){
+                    this.lastImportedStations.each(function(m){
 
                         attr = m.attributes;
                         feature = {
@@ -139,7 +141,7 @@ define([
                     // no stored waypoints
                     $('#inputStLeft').html('<h4> there is not stored imported waypoints, please use import module to do that. </h4>');
                 }
-                $('#stepper-header').text('Last imported station(s)');
+                $('#stepper-header span').text('Last imported station(s)');
 
             } else {
                 // from existed stations/monitored sites
@@ -154,7 +156,7 @@ define([
                 } else {
                     $('.allSt-name').addClass('masqued');
                 }
-                $('#stepper-header').text('old stations');
+                $('#stepper-header span').text('old stations');
             }
         },
         initModel: function(type,formView){
@@ -214,7 +216,7 @@ define([
                     }
                 }
                 //$('#input-station-title').text('New station with coordinates');
-                $('#stepper-header').text('New station with coordinates');
+                $('#stepper-header span').text('New station with coordinates');
 
             } else if(value == "newSc"){
                 $('#stRegion').removeClass('masqued');
@@ -231,7 +233,7 @@ define([
                     }
                 }
                 //$('#input-station-title').text('New station without coordinates');
-                $('#stepper-header').text('New station without coordinates');
+                $('#stepper-header span').text('New station without coordinates');
             }
             else {
                 $('#stMonitoredSite').removeClass('masqued');
@@ -247,7 +249,7 @@ define([
                     }
                 }
                 //$('#input-station-title').text('New station from monitored site');
-                $('#stepper-header').text('New station from monitored site');
+                $('#stepper-header span').text('New station from monitored site');
             }
         },
         feedTpl: function(){
@@ -504,9 +506,67 @@ define([
                 if(!fieldWorkersNumber){
                    model.set('NbFieldWorker',''); 
                 }
+                // check if fieldactivity value exists, if not we need to input it before navigate to next step
+                if(!model.get('FieldActivity_Name')){
+                    // display field activity container
+                    $('#inputImpStFieldContainer').removeClass('masqued');
+                        if ( $('#impfieldActivity option').length == 1) {
+                            var fieldList = getFieldActivity.getElements('theme/list');
+                            $('#impfieldActivity').append(fieldList);
+                        }
+                        // init values
+                        $('#impfieldActivity').val('');
+                        $('#inputImpStFieldContainer p').text('');
+                        $('#btnNext').addClass('disabled');
+                } else {
+                    $('#inputImpStFieldContainer').addClass('masqued');
+                    // activate next step
+                    $('#btnNext').removeClass('disabled');
+                }
             }
             //monitoredSite
             this.model.set('station_position',model); 
+        },
+        updateStationFA : function(){
+            var selectedVal = $('#impfieldActivity option:selected').text();
+            if(selectedVal){
+                var selectedStation = this.model.get('station_position');
+                selectedStation.set('FieldActivity_Name',selectedVal);
+                // update station on the server
+                var data = {}
+                data.FieldActivity_Name = selectedVal;
+                data.PK = selectedStation.get('PK');
+                $.ajax({
+                    url: config.coreUrl +'station/addStation/insert',
+                    context: this,
+                    data: data,
+                    type:'POST',
+                    success: function(){
+                        $('#inputImpStFieldContainer p').text('Field activity is updated. You can navigate to next step');
+                        $('#btnNext').removeClass('disabled');
+                        //this.lastImportedStations.save();
+                        var station = this.lastImportedStations.where({PK: data.PK})[0];
+                        station.set('FieldActivity_Name',selectedVal);
+                        station.save();
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        //alert('error in updating current station value(s)');
+                        Swal({
+                                title: "Error in updating current station value(s)",
+                                //text: 'Please input a valid value (>0).',
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: 'rgb(147, 14, 14)',
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true,
+                         });
+                    }
+                });
+            } else {
+                $('#inputImpStFieldContainer p').text('');
+                $('#btnNext').addClass('disabled');
+            }
         },
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag

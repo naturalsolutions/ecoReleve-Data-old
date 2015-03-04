@@ -12,7 +12,7 @@ define([
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
              Backbone.history.navigate('#import/gpx');
-             $('#stepper-header').html('IMPORT > GPX')
+             $('#stepper-header span').html('Import > Gpx')
         },
         displayPrev: function() {
             $('#btnPrev').show();

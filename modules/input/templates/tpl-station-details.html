@@ -2,18 +2,17 @@
 <script type="text/template">
 <div id="stationPanel">
       <div class="wrapper">
-      <br>
-      <div class="row" >
+ 
             <div class="col-sm-2">
                   <a class="arrow-left-station glyphicon pointer  glyphicon-chevron-left" ></a> 
             </div>
             <div class="col-sm-8">
-                   <h3>Station: <%= Name %></h3>
+                   <h3 id="stDetailsTitle">Station: <%= Name %></h3>
             </div>
             <div class="col-sm-2">
                   <a class="arrow-right-station glyphicon pointer glyphicon-chevron-right" ></a>
             </div>
-      </div>
+
       <!--<div class="row" >
             <label>id : </label><span id='stId'><%= PK %></span>
       </div>-->
@@ -73,9 +72,6 @@
             </div>
 
       </div>
-
-      <br>
-      <br/>
       <div class="row" id="stNameSite" >
             <div class="col-sm-3">
                   <i class="icon small reneco site" id="icon-age"></i> 
@@ -85,17 +81,15 @@
                   <div><%= id_site %></div>
             </div>
       </div>
-      <br>
       <div class="row" >
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                   <i class="icon small reneco time" id="icon-age"></i> 
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                   <label>time</label>
                   <div><%= Date_ %></div>
             </div>
       </div>
-      <br>
       <div class="row" >
             <div class="col-sm-2">
                   <i class="icon small reneco fieldactivity" id="icon-age"></i> 
@@ -109,7 +103,6 @@
                   </div>
             </div>
       </div>
-      <br>
       <div class="row" >
             <div class="col-sm-2">
                   <i class="icon small reneco users" id="icon-age"></i> 

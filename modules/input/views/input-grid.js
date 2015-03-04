@@ -182,7 +182,6 @@ define([
                 var idNumber = Number(id);
                 var currentModel = this.locations.findWhere({PK: idNumber});
                 Radio.channel('input').command('generateStation', currentModel);
-                $('#btnNext').removeClass('disabled');
             }
         },
     });

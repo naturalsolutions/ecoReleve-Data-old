@@ -31,6 +31,7 @@ define([
     'modules2/import/_gsm/layouts/lyt-step1',
 
     'text!modules2/import/_gsm/templates/tpl-step1.html',
+    'sweetAlert'
 
 ], function($, _, Backbone, Marionette, Radio, tpl_step1, 
 
@@ -44,7 +45,8 @@ define([
 
         /*GSM*/
     GSM_StepperOrchestrator, GSM_Step2, 
-    GSM_tpl_step2
+    GSM_tpl_step2,
+    Swal
 
 
     ) {
@@ -63,7 +65,8 @@ define([
 
         events: {
             'click #radio-tile': 'checkRadio',
-            'click #nextStepper': 'nextStepper'
+            'click #nextStepper': 'nextStepper',
+            'click .closeStepper' : 'closeStepper'
         },
 
         initialize : function(options){
@@ -156,7 +159,7 @@ define([
 
         onShow : function (){
             $('body').addClass('home-page full-height');
-            $('#stepper-header').html('IMPORT');
+            $('#stepper-header span').html('Import');
             $('#main-region').addClass('full-height obscur');
          },
         onDestroy : function () {
@@ -205,6 +208,24 @@ define([
 
                
         },
+        closeStepper : function(){
+            Swal({
+              title: "Are you sure to exit?",
+              text: "",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes",
+              cancelButtonText: "No, cancel !",
+              closeOnConfirm: true,
+              closeOnCancel: true
+            },
+            function(isConfirm){
+               if (isConfirm) {
+                 Radio.channel('route').command('home');  
+               } 
+            });
+        }
         
     });
 });

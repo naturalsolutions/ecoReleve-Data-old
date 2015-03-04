@@ -13,7 +13,7 @@ define([
 
             Backbone.history.navigate('#import/gsm');
         	console.log('orchestraor show');
-            $('#stepper-header').html('IMPORT > GSM')
+            $('#stepper-header span').html('Import > GSM')
         	$('#btnPrev').show();
         },
 

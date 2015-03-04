@@ -15,9 +15,10 @@ define([
     'text!modules2/input/templates/tpl-step2.html',
     'text!modules2/input/templates/tpl-step3.html',
     'text!modules2/input/templates/tpl-step4.html',
-     'modules2/input/layouts/individual-list'
-
-], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step1, Step2, Step3, Step4, tpl, tpl_step1, tpl_step2, tpl_step3,tpl_step4,IndivFilter) {
+    'modules2/input/layouts/individual-list',
+    'sweetAlert'
+], function($, _, Backbone, Marionette, Radio, StepperOrchestrator, Step1, Step2, Step3, Step4, tpl,
+            tpl_step1, tpl_step2, tpl_step3,tpl_step4,IndivFilter,Swal) {
 
     'use strict';
 
@@ -36,7 +37,8 @@ define([
         events : {
             'click span.picker': 'filterIndivShow',
             'click button.filterClose' : 'filterMask',
-            'click button.filterCancel' :'filterCancel'
+            'click button.filterCancel' :'filterCancel',
+            'click .closeStepper' : 'closeStepper'
         },
         initialize: function(){
             this.model = new Backbone.Model();
@@ -85,10 +87,11 @@ define([
         },
         onShow : function(){
             // add indiv window container
-            $('#stepper-header').html('MANUAL ENTRY');
+            $('#stepper-header span').html('Manual entry');
             
             $('#stepper').append('<div id="indivFilter" class="stepper-modal"></div>');
             $('#stepper').parent().addClass('step-grid');
+            $('.step-grid').css('width','98%');
         },
         filterIndivShow : function(e){
             $(e.target).parent().parent().parent().find('input').addClass('target');
@@ -109,6 +112,25 @@ define([
         filterCancel : function(){
             $('input.pickerInput').val('');
             this.filterMask();
+        },
+        closeStepper : function(){
+            Swal({
+              title: "Are you sure to exit?",
+              text: "",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes",
+              cancelButtonText: "No, cancel !",
+              closeOnConfirm: true,
+              closeOnCancel: true
+            },
+            function(isConfirm){
+               if (isConfirm) {
+                 Radio.channel('route').command('home');  
+               } 
+            });
         }
+
     });
 });

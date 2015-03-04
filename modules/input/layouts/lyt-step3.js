@@ -34,7 +34,8 @@ define([
             'click .onglet a': 'activeOnglet',
             'click .deleteProt' : 'deleteProtocol',
             'click .deleteProInstance' : 'deleteProtInstance',
-            'change .indivNumber' : 'updateTotalIndiv'
+            'change .indivNumber' : 'updateTotalIndiv',
+            'change input[type="number"]' : 'checkNumberVal'
             //'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
@@ -63,6 +64,7 @@ define([
             this.radio.comply('successCommitForm', this.successState, this);
             this.radio.comply('editState', this.editState, this);
             this.radio.comply('updateStation', this.updateSation, this);
+            $('.step-grid').css('width','98%');
         },
         updateForm : function(e,element){
             var selectedProtoName;
@@ -665,9 +667,12 @@ define([
         updateTotalIndiv : function (e){
             var total = 0;
             $('form input.indivNumber').each(function(key,value) {
-                total += parseInt($(this).val());
+                if($(this).val()){
+                    var val = parseInt($(this).val());
+                    total += val;
+                }
             });
-            alert(total);
+            $('input[name="Nb_Total"]').val(total);
         },
         checkTime : function(e){
             var time = $(e.target).val();
@@ -707,6 +712,15 @@ define([
             out.push(j);
           }
           return out;
+        },
+        checkNumberVal : function(e){
+            var val = $(e.target).val();
+            if(val){
+                var intVal = parseInt(val);
+                if(intVal < 0 ){
+                    $(e.target).val('');
+                }
+            }
         }
     });
 });
