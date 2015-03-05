@@ -310,6 +310,10 @@ define([
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateLayoutType({type : type}));
                         break;
+                    case 'gps':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        break;
                     default:
                         this.validate();
                 };
@@ -329,6 +333,14 @@ define([
                         }));
                         break;
                     case 'argos':
+                        Backbone.history.navigate(route);
+                        this.mainRegion.show(new ValidateGSMDetailLayout({
+                            type : type,
+                            gsmID : id,
+                            id_ind: id_ind
+                        }));
+                        break;
+                    case 'gps':
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateGSMDetailLayout({
                             type : type,

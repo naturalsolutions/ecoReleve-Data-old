@@ -4,8 +4,9 @@ define([
     'marionette',
     'radio',
     'config',
+    'sweetAlert',
     'text!modules2/validate/templates/tpl-validateType.html'
-], function($, _, Marionette, Radio, config, template) {
+], function($, _, Marionette, Radio, config,Swal, template) {
 
     'use strict';
 
@@ -24,24 +25,27 @@ define([
             console.log(this.type);
             switch(this.type){
                 case 'gsm':
-                    var Data = Backbone.Collection.extend({
-                        url: config.coreUrl + 'dataGsm/unchecked/list',
-                    });
+                    
+                    this.type_url = config.coreUrl+'dataGsm/';
                     break;
                 case 'argos':
-                    var Data = Backbone.Collection.extend({
-                        url: config.sensorUrl + 'argos/unchecked/list',
-                    });
+                   
+                    this.type_url = config.sensorUrl+'argos/';
+
+                    break;
+                case 'gps':
+                
+                    this.type_url = config.sensorUrl+'gps/';
                     break;
                 default:
                     console.warn('type error');
                     break;
             };
 
-/*            var Data = Backbone.Collection.extend({
-                url: config.coreUrl + 'dataGsm/unchecked/list',
-            });
-*/
+
+             var Data = Backbone.Collection.extend({
+                        url: this.type_url + 'unchecked/list',
+                    });
 
             this.datas = new Data();
             var ModelRow = Backgrid.Row.extend({
@@ -62,8 +66,61 @@ define([
                   'click': 'importRow'
                 },
                 importRow: function (e) {
-                  e.preventDefault();
-                  self.auto_valide(e);
+                    e.preventDefault();
+                  //self.auto_valide(e);
+                    var ctx = this;
+                    var ind_id=this.model.attributes.ind_id;
+                    var ptt=this.model.attributes.platform_;
+
+                    $.when(this.auto_valide(ptt,ind_id)).then(function(data) {
+                        ctx.import_success(e,data)
+                    },function(data){
+                        ctx.import_error(e,data);
+                    });
+
+                },
+                auto_valide: function (ptt, ind_id) {
+                    return $.ajax({
+                        url: self.type_url + ptt + '/unchecked/'+ind_id+'/import/auto',
+                        contentType: 'application/json',
+                        type: 'POST',
+                
+                    });
+
+                },
+                deleteRow: function (e) {
+                    e.preventDefault();
+                    this.model.collection.remove(this.model);
+                },
+                import_error: function(e,data) {
+                    
+                    Swal({
+                        title: "Error",
+                        text: data,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true,
+                        }
+                    );
+                },
+
+                import_success: function(e,data) {
+                    var ctx = this;
+                    Swal({
+                        title: "Success",
+                        text: data,
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: 'green',
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true,
+                        },
+                        function(isConfirm) {
+                            ctx.deleteRow(e);
+                        }
+                    );
                 },
                 render: function () {
                   this.$el.html(this.template());
@@ -79,8 +136,68 @@ define([
                 },
                 importAllRow: function (e) {
                   e.preventDefault();
+                  var ctx = this;
+                  //self.auto_valide_ALL(e);
+                  Swal({
+                        title: "Warning !",
+                        text: 'this proccess might take a long time',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: 'green',
+                        confirmButtonText: "Ok",
+                        cancelButtonText: "Cancel",
+                        closeOnConfirm: true,
+                        closeOnCancell: true
+                        },
+                        function(isConfirm) {
+                            ctx.auto_valide_ALL(e);
+                        }
+                    );
                   
-                  self.auto_valide_ALL(e);
+                },
+                auto_valide_ALL: function (e) {
+                    var ctx = this;
+                    var ajax_call = $.ajax({
+                        url:self.type_url +'unchecked/importAll/auto',
+                        contentType: 'application/json',
+                        type: 'POST',           
+                    });
+
+                    $.when(ajax_call).then(function(data) {
+                        ctx.import_success(e,data)
+                    },function(data){
+                        ctx.import_error(e,data);
+                    });
+
+                    
+                },
+                import_error: function(e,data) {       
+                    Swal({
+                        title: "Error",
+                        text: data,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                        }
+                    );
+                },
+                import_success: function(e,data) {
+                    var ctx = this;
+                    Swal({
+                        title: "Success",
+                        text: data,
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: 'green',
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true,
+                        },
+                        function(isConfirm) {
+                           // TODO refresh GRID //
+                        }
+                    );
                 },
                 render: function () {
                   this.$el.html(this.template());
@@ -166,10 +283,14 @@ define([
         },
 
         onShow: function(){
-            this.$el.find('#list').append(this.grid.render().el);
             $('body').addClass('home-page full-height');
             $('#main-region').addClass('obscur full-height');
         },
+
+        onRender: function () {
+            this.$el.find('#list').append(this.grid.render().el);
+        },
+
         onDestroy: function() {
             $('#main-region').removeClass('obscur');
         },
@@ -190,9 +311,13 @@ define([
             var ptt=model.attributes.platform_;
 
             $.ajax({
-                url:config.coreUrl+'dataGsm/' + ptt + '/unchecked/'+ind_id+'/import/auto',
+                url: this.type_url + ptt + '/unchecked/'+ind_id+'/import/auto',
                 contentType: 'application/json',
                 type: 'POST',
+                context : this,
+                success: function (data) {
+                    return true;
+                }
                 
             });
 
@@ -201,9 +326,10 @@ define([
         auto_valide_ALL: function () {
             console.log('import ALLL click ! ')
             $.ajax({
-                url:config.coreUrl+'dataGsm/unchecked/importAll/auto',
+                url:this.type_url +'unchecked/importAll/auto',
                 contentType: 'application/json',
                 type: 'POST',
+                context : this
                 
             });
 

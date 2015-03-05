@@ -29,8 +29,27 @@ define([
 
         initialize: function(options) {
             this.type=options.type;
-            console.log(Backgrid.Extension);
+            console.log(this.type);
+            switch(this.type){
+                case 'gsm':
+                    
+                    this.type_url = config.coreUrl+'dataGsm/';
+                    break;
+                case 'argos':
+                   
+                    this.type_url = config.sensorUrl+'argos/';
 
+                    break;
+                case 'gps':
+                
+                    this.type_url = config.sensorUrl+'gps/';
+                    break;
+                default:
+                    console.warn('type error');
+                    break;
+            };
+
+            Radio.channel('gsm-detail').comply('import',this.importChecked,this);
             Backgrid.Extension.SelectRowCell.prototype.initialize = function(options){
                     this.column = options.column;
                     if (!(this.column instanceof Backgrid.Column)) {
@@ -91,54 +110,10 @@ define([
 
             this.locations = new Locations();
 
-
-
-
-
-
-        },
-
-        /*=======================================
-        =            Strat Demo Code            =
-        =======================================*/
-
-        action: function(action, id){
-          switch(action){
-            case 'focus':
-              break;
-            case 'selection':
-              this.selectOne(id);
-              break;
-            case 'selectionMultiple':
-              this.selectMultiple(id);
-              break;
-            case 'resetAll':
-              this.clearAll();
-              break;
-            default:
-              console.log('verify the action name');
-              break;
-          }
-        },
-
-        interaction: function(action, id){
-          if(this.com){
-            this.com.action(action, id);
-          }else{
-            this.action(action, id);
-          }
-        },
-
-        /*-----  End of En Demo Code  ------*/
-
-        onShow: function() {
-            $('#import-btn').on('click', function(){
-                this.importChecked();
-            });
-
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5,
                 orderSeparator: ' ',
+
             });
 
             var columns = [{
@@ -179,6 +154,14 @@ define([
                 name: 'speed',
                 label: 'SPEED (km/h)',
                 cell: myCell,
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (rawValue=='NaN') {
+                                rawValue=0;
+                            }
+                         return rawValue;
+                      }
+                }),
             }, {
                 editable: true,
                 name: 'import',
@@ -194,24 +177,65 @@ define([
                 collection: this.locations
             });
 
-            this.$el.find('#locations').append(this.grid.render().el);
-
             // Initialize a new Paginator instance
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: this.locations,
             });
-
-
-            this.$el.find('#paginator').append(this.paginator.render().el);
-
 
             var ctx = this;
             this.locations.fetch({reset: true, success : function(){
                 ctx.clone();
             }});
 
+        },
+
+        /*=======================================
+        =            Strat Demo Code            =
+        =======================================*/
+
+        action: function(action, id){
+          switch(action){
+            case 'focus':
+              break;
+            case 'selection':
+              this.selectOne(id);
+              break;
+            case 'selectionMultiple':
+              this.selectMultiple(id);
+              break;
+            case 'resetAll':
+              this.clearAll();
+              break;
+            default:
+              console.log('verify the action name');
+              break;
+          }
+        },
+
+        interaction: function(action, id){
+          if(this.com){
+            this.com.action(action, id);
+          }else{
+            this.action(action, id);
+          }
+        },
+
+        /*-----  End of En Demo Code  ------*/
+
+        onShow: function() {
+            $('#import-btn').on('click', function(){
+                this.importChecked();
+            });
+            this.$el.find('#locations').append(this.grid.render().el);
+            this.$el.find('#paginator').append(this.paginator.render().el);
+
             this.$el.find('.select-all-header-cell>input').css('display','none');
 
+        },
+
+        onRender: function() {
+            
+            
         },
 
         clone: function(){
@@ -373,7 +397,7 @@ define([
             };
 
             $.ajax({
-                url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/'+ind_id+'/import',
+                url:this.type_url + this.gsmID + '/unchecked/'+ind_id+'/import',
                 contentType: 'application/json',
                 type: 'POST',
                 data:JSON.stringify({data:importList})

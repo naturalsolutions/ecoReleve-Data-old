@@ -17,6 +17,7 @@ define([
             'click #gsm' : 'gsm',
             'click #rfid' : 'rfid',
             'click #argosTile' : 'argos',
+            'click #gpsTile' : 'gps',
         },
 
 
@@ -45,11 +46,12 @@ define([
         rfid: function(){
             Radio.channel('route').command('validate:type', 'rfid');
         },
+        gps: function(){
+            console.log('clik in gps');
+            Radio.channel('route').command('validate:type', 'gps');
+        },
         argos: function(){
             Radio.channel('route').command('validate:type', 'argos');
-            
-
-
 
             /*
             var Proto_Model = Backbone.Model.extend({
@@ -93,5 +95,6 @@ define([
                 }
             })*/
         },
+
     });
 });

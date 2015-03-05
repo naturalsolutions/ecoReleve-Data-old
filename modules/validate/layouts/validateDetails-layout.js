@@ -33,5 +33,8 @@ define([
             this.grid.show(new Grid({gsmID:this.gsmID}));
             this.map.show(new Map({gsmID:this.gsmID}));
         },
+        onRender : function() {
+            
+        }
     });
 });
