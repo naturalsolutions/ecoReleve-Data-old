@@ -36,13 +36,20 @@ define([
         },
         updateHeader : function(obj){
             var route = obj.route;
+            if (obj.route_url) {
+                var route_url = obj.route_url;
+            }
+            else {
+                var route_url = route;
+            }
             var txt;
             if(route!='home'){
-                txt = ' > ' + route;
+                txt = ' |&nbsp; ' + route;
             }else{
                 txt ='';
             }
-            $('#header-module-name').text(txt);
+            $('#header-module-name').html(txt);
+            $('#header-module-name').attr('href','#'+route_url.toLowerCase());
         }
     });
 });

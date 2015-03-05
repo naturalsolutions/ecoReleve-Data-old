@@ -20,7 +20,7 @@ define([
             mapRegion: "#map-container"
         },
         initialize: function() {
-            this.map2 = new BaseMap();
+            this.map2 = new Map();
             DeployRFID.prototype.initialize.apply(this, arguments);
         },
 

@@ -265,7 +265,6 @@ define([
                     for (var i = filters.length - 1; i >= 0; i--) {
                         if(pass){
                             filter = filters[i];
-                            console.log(obj);
                             col = filter['Column'];
                             op = filter['Operator'];
                             val = filter['Value'];

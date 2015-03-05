@@ -1,12 +1,30 @@
 <script type="text/template">
     <!-- Brand and toggle get grouped for better mobile display -->
     <nav class="navbar" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-            	<i class="small reneco relevesmall icon reneco bird2"></i>
-            	 <span>ecoRelev&eacute;</span><span id="header-module-name"></span>
-            </a>
+        <div class="navbar-header" >
+            <div class="bnt-group">
+                <a class="navbar-brand" href="#" style="padding:15px 10px;">
+                	<i class="glyphicon glyphicon-home"></i>
+                	 <span>&nbsp;&nbsp;ecoRelev&eacute;</span>
+                </a>
+                <a class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style = "background: #2ecc40; padding-top:15px; padding-right:8px; padding-left:8px; height:50px ">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+                </a> <div class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;"><a href="#" id="header-module-name" style="vertical-align:middle;"></a></div>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#import">Manual import</a></li>
+                    <li><a href="#">Manual entry</a></li>
+                    <li><a href="#validate">Validate</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#individual">Individual</a></li>
+                    <li><a href="#site">Monitored Sites</a></li>
+
+                </ul>
+           
+            </div>
+
         </div>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">

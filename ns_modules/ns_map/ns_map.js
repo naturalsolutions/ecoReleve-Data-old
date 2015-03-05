@@ -741,23 +741,31 @@ define([
         //apply filters on the map from a collection
         filter: function(param){
           var geoJson, coll;
-          if(coll instanceof Backbone.Collection){
-            geoJson = this.coll2GeoJson(coll);
-            coll = param;
+          coll = _.clone(param);
+          console.log(coll);
+          //if(coll instanceof Backbone.Collection){
+          geoJson = this.coll2GeoJson(coll);
+          coll = param;
             if(coll.length){
+              console.log('lenght');
               this.updateLayers(geoJson);
-              var checkedMarkers = [];
-              for (var i = coll.models.length - 1; i >= 0; i--) {
-                //todo : generic term (import)
-                if(coll.models[i].attributes.import)
-                  checkedMarkers.push(coll.models[i].attributes.id);
-              }
-              //todo : amelioration
-              this.selectMultiple(checkedMarkers);
+            }else{
+              console.log('empty');
+              this.map.removeLayer(this.markersLayer);
+              this.geoJsonLayers = [];
             }
+            var checkedMarkers = [];
+            for (var i = coll.models.length - 1; i >= 0; i--) {
+              //todo : generic term (import)
+              if(coll.models[i].attributes.import)
+                checkedMarkers.push(coll.models[i].attributes.id);
+            }
+            //todo : amelioration
+            this.selectMultiple(checkedMarkers);
+          /*
           }else{
             this.updateLayers(geoJson);
-          }
+          }*/
         },
 
         updateLayers: function(geoJson){

@@ -382,7 +382,7 @@ define([
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ImportLayout());
             }, this); 
-            this.radio.command('route:header', {route:'Manual import'});
+            this.radio.command('route:header', {route:'Manual import', route_url:route});
         },
 
         import_gsm: function() {
