@@ -109,9 +109,13 @@ define([
                         this.generateNavBarProtos();
                     }
                     else {
-                        $('#protosListContainer').text('');
-                        $('#formsContainer').text('');
+                        //$('#protosListContainer').text('');
+                        $('#tabProtsUl').text('');
                         this.formsRegion.empty();
+                        // bug, empty method dont work
+                        $('#formsContainer').html('');
+                        this.activeProtcolsObj = {};
+                        $('#NsFormButton').addClass('masqued');
                     }
                 },
                 error: function(data){
@@ -262,46 +266,54 @@ define([
             $('.pagination.protocol').html('');
             var htmlContent ='';
 
-            for(var key in this.activeProtcolsObj) {
-                
-                var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
-                htmlContent +=  '<div class="swiper-slide"><div class="onglet"><a name="'+ key ;
-                htmlContent += '"><span><i></i></span>' + key ;
-                if(nbProtoInstances > 1){
-                    htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
-                }
-                else {
-                    // one instance, check if it is new instance to add del btn
-                    var protoId = this.activeProtcolsObj[key].PK_data[0];
-                    if(protoId == 0){
-                        htmlContent += '<i class="reneco icon small close deleteProt"></i>';
-                    }
-                }
+            if(_.isEmpty(this.activeProtcolsObj)){
+                 this.formsRegion.empty();
+                $('#formsContainer').html('');
+                $('#NsFormButton').addClass('masqued');
 
-                htmlContent += '</a></div></div>';
-                // update list of protocols that we cant re-use for current station
-                this.updateAddProtocolsList(key, this.uniqProtoInstances);
+            } else {
+                $('#NsFormButton').removeClass('masqued');
             }
-            // remove duplicated elements from tab
-            this.protosToRemove = this.cleanArray(this.protosToRemove);
-             // update select control content to remove uniq instances protocols added to UI
-            this.generateSelectProtoContent(this.protosToAdd,this.protosToRemove);
-            $(this.ui.protosList).html('');
-            $(this.ui.protosList).append(htmlContent);
+                for(var key in this.activeProtcolsObj) {
+                        var nbProtoInstances = this.activeProtcolsObj[key].PK_data.length;
+                        htmlContent +=  '<div class="swiper-slide"><div class="onglet"><a name="'+ key ;
+                        htmlContent += '"><span><i></i></span>' + key ;
+                        if(nbProtoInstances > 1){
+                            htmlContent += '<span class="badge">' + nbProtoInstances + '</span>';
+                        }
+                        else {
+                            // one instance, check if it is new instance to add del btn
+                            var protoId = this.activeProtcolsObj[key].PK_data[0];
+                            if(protoId == 0){
+                                htmlContent += '<i class="reneco icon small close deleteProt"></i>';
+                            }
+                        }
+                        htmlContent += '</a></div></div>';
+                        // update list of protocols that we cant re-use for current station
+                        this.updateAddProtocolsList(key, this.uniqProtoInstances);
+                 }
+                // remove duplicated elements from tab
+                this.protosToRemove = this.cleanArray(this.protosToRemove);
+                 // update select control content to remove uniq instances protocols added to UI
+                this.generateSelectProtoContent(this.protosToAdd,this.protosToRemove);
+                //$(this.ui.protosList).html('');
+                $(this.ui.protosList).html(htmlContent);
+                
+                var mySwiper1 = new Swiper('#proto_name',{
+                    //pagination: '.pagination-protocols',
+                    //paginationClickable: true,
+                    slidesPerView: 4
+                });
+                $('#proto_name-left').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper1.swipePrev();
+                });
+                $('#proto_name-right').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper1.swipeNext();
+                });
             
-            var mySwiper1 = new Swiper('#proto_name',{
-                //pagination: '.pagination-protocols',
-                //paginationClickable: true,
-                slidesPerView: 4
-            });
-            $('#proto_name-left').on('click', function(e){
-                e.preventDefault();
-                mySwiper1.swipePrev();
-            });
-            $('#proto_name-right').on('click', function(e){
-                e.preventDefault();
-                mySwiper1.swipeNext();
-            });
+
             //$('.swiper-slide').css('height','50px');
         },
         updateAddProtocolsList : function(protoName, singleProtos){
@@ -371,7 +383,6 @@ define([
             this.getProtoByPkId(1);
         },
         getProtoByPkId : function(id){
-
             if(id || id===0){
                 this.getProtocol(this.selectedProtoName, id);
                 // store pkId to save proto
@@ -592,8 +603,8 @@ define([
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "Yes, delete it!",
               cancelButtonText: "No, cancel !",
-              closeOnConfirm: false,
-              closeOnCancel: false
+              closeOnConfirm: true,
+              closeOnCancel: true
             },
             function(isConfirm){
               if (isConfirm) {
@@ -616,9 +627,9 @@ define([
                     }
                     // refrech view
                     self.generateNavBarProtos();
-                swal("Deleted!", "", "success");
+                //swal("Deleted!", "", "success");
               } else {
-                    swal("Cancelled", "", "error");
+                   // swal("Cancelled", "", "error");
               }
             });
             Array.prototype.unset = function(val){
