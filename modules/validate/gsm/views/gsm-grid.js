@@ -12,7 +12,8 @@ define([
     'config',
     'text!modules2/validate/gsm/templates/gsm-grid.html',
     'backgridSelect_all',
-], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, datalist, config, template, backgridSelect_all) {
+    'sweetAlert',
+], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio, datalist, config, template, backgridSelect_all,Swal) {
 
     'use strict';
 
@@ -95,11 +96,11 @@ define([
             this.pageSize = 25;
 
             if(this.type == 'gsm'){
-              var url = config.coreUrl + 'dataGsm/' + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
+              var url = this.type_url + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
             }else{
-              var url = config.sensorUrl+ '/argos/' +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
+              var url = this.type_url +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
             };
-
+          
             var Locations = PageableCollection.extend({
                 url: url,
                 mode: 'client',
@@ -400,7 +401,35 @@ define([
                 url:this.type_url + this.gsmID + '/unchecked/'+ind_id+'/import',
                 contentType: 'application/json',
                 type: 'POST',
-                data:JSON.stringify({data:importList})
+                data:JSON.stringify({data:importList}),
+                success : function(data) {
+                    Swal({
+                        title: "Success",
+                        text: data,
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: 'green',
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true,
+                        },
+                        function(isConfirm) {
+                            
+                        }
+                    );
+                },
+                error : function(data) {
+                    
+                    Swal({
+                        title: "Error",
+                        text: data.responseText,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: 'rgb(147, 14, 14)',
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true,
+                        }
+                    );
+                }
             });
         },
 

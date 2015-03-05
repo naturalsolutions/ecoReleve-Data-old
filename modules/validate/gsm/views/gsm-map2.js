@@ -24,13 +24,31 @@ define([
         initialize: function(options) {
             this.type = options.type;
             this.init=true;
-            console.log(options);
+            console.log(this.type);
             this.gsmID=options.gsmID;
             this.id_ind=options.id_ind;
-            this.initGeoJson();
-            this.com = options.com;
+           
             
+            switch(this.type){
+                case 'gsm':
+                    
+                    this.type_url = config.coreUrl+'dataGsm/';
+                    break;
+                case 'argos':
+                   
+                    this.type_url = config.sensorUrl+'argos/';
 
+                    break;
+                case 'gps':
+                
+                    this.type_url = config.sensorUrl+'gps/';
+                    break;
+                default:
+                    console.warn('type error');
+                    break;
+            };
+             this.initGeoJson();
+             this.com = options.com;
             /*
             Radio.channel('gsm-detail').comply('selectOneByHour', this.selectOneByHour, this);
             Radio.channel('gsm-detail').comply('clearAllMap', this.clearAll, this);
@@ -40,9 +58,9 @@ define([
 
         initGeoJson: function(){
             if(this.type == 'gsm'){
-              var url = config.coreUrl+ 'dataGsm/' +this.gsmID+ '/unchecked/'+this.id_ind+'?format=geojson';
+              var url = this.type_url +this.gsmID+ '/unchecked/'+this.id_ind+'?format=geojson';
             }else{
-              var url = config.sensorUrl+ '/argos/' +this.gsmID+ '/unchecked/'+this.id_ind+'/geo';              
+              var url = this.type_url +this.gsmID+ '/unchecked/'+this.id_ind+'/geo';              
             };
             
             $.ajax({

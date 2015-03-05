@@ -93,10 +93,10 @@ define([
                     this.model.collection.remove(this.model);
                 },
                 import_error: function(e,data) {
-                    
+                    console.log(data);
                     Swal({
                         title: "Error",
-                        text: data,
+                        text: data.responseText,
                         type: 'error',
                         showCancelButton: false,
                         confirmButtonColor: 'rgb(147, 14, 14)',
