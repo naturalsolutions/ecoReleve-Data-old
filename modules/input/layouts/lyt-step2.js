@@ -463,11 +463,11 @@ define([
                         });
                     }
                 },
-                error: function(data){
+                error: function(data, textStatus, jqXHR){
                     //alert('error in creating new station');
                     Swal({
                             title: "Wrong values",
-                            text: 'Error in creating new station.',
+                            text: 'Error in creating new station. ' + data.responseText,
                             type: 'error',
                             showCancelButton: false,
                             confirmButtonColor: 'rgb(147, 14, 14)',
@@ -548,6 +548,7 @@ define([
                         var station = this.lastImportedStations.where({PK: data.PK})[0];
                         station.set('FieldActivity_Name',selectedVal);
                         station.save();
+
 
                     },
                     error: function (xhr, ajaxOptions, thrownError) {

@@ -32,8 +32,42 @@ define([
             this.getUsersList();
             this.radio = Radio.channel('froms');
             this.createAutocompTree();
+            //replace user id by user name
+             var fieldActivity = this.model.get('FieldActivity_Name');
+            $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
+            var place = this.model.get('Place');
+            if(place){
+                $('select[name="stPlace"]').val(place);
+            }
+            var accuracy = this.model.get('Precision');
+            $('input[name="stAccuracy"]').val(accuracy);
+            var distFromObs = this.model.get('Name_DistanceFromObs');
+            $('#stDistFromObs').val(distFromObs);
+            this.updateUsers();
+        },
+        updateUsers : function(){
+            for(var i=1;i<6;i++){
+                var user = this.model.get('FieldWorker'+ i); 
+                if(this.isInt(user)){
+                $('select[name="detailsStFW' + i + '"]').val(user);
+                } else {
+                    $('select[name="detailsStFW' + i + '"] option').each(function () {
+                        if ($(this).html() == user) {
+                            $(this).attr("selected", "selected");
+                            return;
+                        }
+                    });
+               }
+            }
         },
         onBeforeDestroy: function() {
+        },
+        isInt : function (value){
+          if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+              return true;
+          } else {
+              return false;
+          }
         },
         generateSelectLists : function(){
             var fieldList = getFieldActivity.getElements('theme/list');

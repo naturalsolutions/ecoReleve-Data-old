@@ -1,17 +1,17 @@
 <script type="text/template">
     <div class="panel panel-default">
-        <div class="panel-heading top-level">
+        <!--<div class="panel-heading top-level">
             <h1 class="panel-title">
                 Select station(s)
             </h1>
-        </div>
+        </div> -->
     <div id="filter-collapse" class="panel-collapse collapse in">
     <form role="form">
         <fieldset>
-            <legend>station</legend>
+            <legend>Select station(s)</legend>
             <span class="col-xs-3">
                 <label >Id</label>
-                <input name="allSt-PK" class="form-control"  type="text" />
+                <input name="allSt-PK" class="form-control"  type="text" id="PK"/>
             </span>
             <span class="col-xs-6" id="allSt-Monitored">
                     <label>Monitored site type</label><br/>
@@ -40,11 +40,11 @@
             <legend>date</legend>
             <div class="col-xs-1">
                 <select id="allSt-beginDate-op" class="form-control" >
-                                <option>=</option>
-                                <option>&lt;</option>
-                                <option>&lt;=</option>
-                                <option>&gt;</option>
-                                <option>&gt;=</option>
+                    <option>=</option>
+                    <option>&lt;</option>
+                    <option>&lt;=</option>
+                    <option>&gt;</option>
+                    <option>&gt;=</option>
                 </select>
             </div>
             <div class=" date col-xs-5 ">
@@ -112,16 +112,17 @@
             </div>
         </div>
         <div class="allSt-btn-group">
-            <button id="allSt-clear-btn"  
-                    class="small btn btn-labeled">
-                     CLEAR
-            </button> 
+            <!-- -->
             <button id="allSt-filter-btn" type="submit"
                     class="small btn btn-labeled btn-success pull-right">
                      FILTER
                 <span class="btn-label">
                     <i class="icon reneco search "/>
                 </span>
+            </button>
+            <button id="allSt-clear-btn"  
+                    class="small btn btn-labeled">
+                     CLEAR
             </button>
         </div>
     </form>

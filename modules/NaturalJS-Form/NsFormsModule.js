@@ -152,7 +152,12 @@ define([
             }
 			// format fields to have bootstrap style
             $(formContent).find('fieldset>div').addClass('col-sm-3');
-			$(formContent).find('input[type="text"]').addClass('form-control');
+            $(formContent).find('.wideField').each(function() {
+                var divContainer =  $( this ).parent().parent().parent();
+                $(divContainer).removeClass('col-sm-3');
+                $(divContainer).addClass('col-sm-6');
+            });
+            $(formContent).find('input[type="text"]').addClass('form-control');
 			$(formContent).find('input[type="number"]').addClass('form-control');
             $(formContent).find('select').addClass('form-control');
             $(formContent).find('textarea').addClass('form-control');

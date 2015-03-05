@@ -312,9 +312,16 @@ define([
                     e.preventDefault();
                     mySwiper1.swipeNext();
                 });
-            
 
-            //$('.swiper-slide').css('height','50px');
+                // activate first protocol display in active protocols obj
+                var firstProtoName, firstProtoId;  
+                for (var key in this.activeProtcolsObj) {
+                    firstProtoName = key;
+                    firstProtoId = this.activeProtcolsObj[key].PK_data[0];
+                    this.getProtocol(firstProtoName,firstProtoId)
+                    // to exit 
+                    return false;
+                }
         },
         updateAddProtocolsList : function(protoName, singleProtos){
 
@@ -447,21 +454,23 @@ define([
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
             // set stored values of 'select' fields 
-            var fieldActivity = stationModel.get('FieldActivity_Name');
+            /*var fieldActivity = stationModel.get('FieldActivity_Name');
             $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
             var place = stationModel.get('Place');
             $('select[name="stPlace"]').val(place);
             var accuracy = stationModel.get('Precision');
             $('input[name="stAccuracy"]').val(accuracy);
             var distFromObs = stationModel.get('Name_DistanceFromObs');
-            $('#stDistFromObs').val(distFromObs);
+            $('#stDistFromObs').val(distFromObs);*/
             //replace user id by user name
-            var user = stationModel.get('FieldWorker1');
+            /*var user = stationModel.get('FieldWorker1');
             if(this.isInt(user)){
                 // get user name from masqued select control
                 var userName = this.getUserName(user);
                 $('#stObsVal').text(userName);
-            }
+            } else{
+                $('#stFW1').val(user);
+            }*/
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
             //this.getProtocols();

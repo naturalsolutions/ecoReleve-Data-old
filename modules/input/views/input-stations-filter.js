@@ -42,6 +42,7 @@ define([
             'click #allSt-filter-btn' : 'filterQuery',
             'click #allSt-clear-btn' : 'clearFilter',
             'focusout input.pickerDate':'updateDate',
+            'keyup input' : 'updateSearch'
 
         },
         ui: {
@@ -56,7 +57,7 @@ define([
         initialize: function(options) {
             this.radio = Radio.channel('input');
             this.radio.comply('indivId', this.updateIndivId, this);   
-
+            
             this.filter =  {
                 PK : {Operator: '=' , Value: null },  
                 Name : {Operator: 'Is' , Value: null },    
@@ -73,16 +74,24 @@ define([
                 maxLon: {Operator: '<=' ,Value: null },    
                 indivId: {Operator: '=' ,Value: null  }  
             };
-
         },
         catch: function(evt) {
             evt.preventDefault();
         },
+        updateSearch : function(e) { 
+            e.preventDefault();
+            e.stopPropagation();
+            if(e.keyCode == 13) {
+                this.update(e);
+                return false;
+            }
+        },
         clearFilter: function(evt) {
-            evt.preventDefault();
-            evt.stopPropagation();
             this.clearForm();
-            this.filter = {};
+            // init this.filter values
+            for(var key in this.filter){
+                this.filter[key].Value = null;
+            }
             this.updateGrid();
         },
         clearForm: function() {
@@ -138,6 +147,8 @@ define([
    
         },
         update: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             var input = $(e.target);
             var id =  $(input).attr('id');
             if(id!='allSt-beginDate-op' && (id!='allSt-endDate-op') && (id!='allSt-Name-op')){
