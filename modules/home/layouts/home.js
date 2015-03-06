@@ -54,7 +54,7 @@ define([
 
         automatic_import: function() {
             this.radio.trigger('automatic_import');
-
+        },
         
         stations: function(){
             this.radio.command('stations');

@@ -158,9 +158,9 @@ define([
             else{
                 var layout = new IndivLayout();
                 this.mainRegion.show(layout);
-                Backbone.history.navigate('individual');
+                Backbone.history.navigate('individuals');
             }
-            this.radio.command('route:header', {route:'Individual'});
+            this.radio.command('route:header', {route:'Individuals', route_url: 'individual'});
         },
 
         individualDetail: function(args) {
@@ -168,7 +168,7 @@ define([
             var layout = new IndivDetailLayout({indiv:args.id, filter : filter});
             this.mainRegion.show(layout);
             Backbone.history.navigate('individual/' + args.id);
-            this.radio.command('route:header', {route:'Individual'});
+            this.radio.command('route:header', {route:'Individuals', route_url: 'individual'});
         },
 
 
