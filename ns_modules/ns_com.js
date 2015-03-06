@@ -97,5 +97,4 @@ define([
         return( Com );
  
  
-    }
-);
+});

@@ -153,7 +153,7 @@ define([
         },
 
         updateMap: function(params){
-            this.radio.command(this.channel+':map:update', { params : params });
+            //this.radio.command(this.channel+':map:update', { params : params });
         },
         
         initCollectionPaginableClient:function(){
@@ -217,11 +217,9 @@ define([
 
 
         displayPaginator: function(){
-            console.log(this.collection);
             this.paginator = new Backgrid.Extension.Paginator({
                 collection: this.collection
             });
-            console.log(this.paginator);
             return this.paginator.render().el
         },
 

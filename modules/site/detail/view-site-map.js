@@ -43,7 +43,7 @@ define([
 
             var oldPos = {'type':'FeatureCollection', 'features': []};
             var infos = geoJson;
-            console.log(infos);
+
             for (var i = 0; i < infos.length; i++) {
                 console.log('passed');
                 if(!infos[i]['properties']['end']){
@@ -66,7 +66,8 @@ define([
             this.map = new NsMap({
                 geoJson: activePos,
                 zoom: 10,
-                element : 'map',
+                element : 'mapDetail',
+                selection: true,
             });
             var ctx = this;
             this.map.init();

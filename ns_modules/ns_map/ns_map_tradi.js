@@ -12,63 +12,11 @@ define([
 ], function($, _, Backbone , Marionette, tpl, L, cluster, tpl_legend
     ) {
 
-    'use strict';  
-    // I am the internal, static counter for the number of Coms
-    // that have been created in the system. This is used to
-    // power the unique identifier of each instance.
-    var instanceCount = 0;
+    'use strict';
 
-
-    // I get the next instance ID.
-    var getNewInstanceID = function(){
-
-        // Precrement the instance count in order to generate the
-        // next value instance ID.
-        return( ++instanceCount );
-
-    };
-
-
-    function Map(options){
-      console.log('Proto'); 
-
-        // Store the private instance id.
-        this._instanceID = getNewInstanceID();
-        this.unlockError();
-        //check if there is a communicator
-
-        if(options.com){
-          this.com = options.com;
-          this.com.addModule(this);
-        }
-        this.url=options.url;
-        this.geoJson=options.geoJson;
-
-        this.geoJsonLayers = [];
-
-        this.zoom = options.zoom;
-
-        this.elem = options.element;
-        this.bbox = options.bbox || this.bbox;
-        this.cluster = options.cluster;
-        this.popup = options.popup;
-        this.legend = options.legend;
-
-
-        this.selection = options.selection;
-
-        this.dict={}; //list of markers
-        this.selectedMarkers = {}; // list of selected markers
-        this.url = options.url;
-        this.geoJson = options.geoJson;
-
-        this.initIcons();
-        // Return this object reference.
-        return( this );
-    
-    }
-
-    Map.prototype = {
+    return Marionette.ItemView.extend({
+        template: tpl,
+        className: 'full-height',
 
         selection: false,
         bbox : false,
@@ -310,7 +258,7 @@ define([
               for(var index in geoJsonLayer._layers) {
                   var lat = geoJsonLayer._layers[index]._latlng.lat;
                   var lng = geoJsonLayer._layers[index]._latlng.lng;
-                  markerArray.push( new L.marker([lat, lng]));
+                  markerArray.push(L.marker([lat, lng]));
               }
             }
 
@@ -429,7 +377,7 @@ define([
           var marker, prop;
           var ctx = this;
           var i =0;
-          var geoJsonLayer = new L.geoJson(geoJson, {
+          var geoJsonLayer = L.geoJson(geoJson, {
               // onEachFeature: function (feature, layer) {
               // },
               pointToLayer: function(feature, latlng) {
@@ -438,9 +386,9 @@ define([
                 if(!feature.id)
                 feature.id = i;
                 if(feature.checked){
-                  marker = new L.marker(latlng, {icon: ctx.focusedIcon});
+                  marker = L.marker(latlng, {icon: ctx.focusedIcon});
                 }else{
-                  marker = new L.marker(latlng, {icon: ctx.icon});
+                  marker = L.marker(latlng, {icon: ctx.icon});
                 }
 
                 marker.checked=false;
@@ -834,6 +782,6 @@ define([
         },
 
 
-  }
-  return( Map );
+
+    });
 });
