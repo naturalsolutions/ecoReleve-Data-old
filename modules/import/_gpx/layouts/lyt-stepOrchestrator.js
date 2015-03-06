@@ -12,7 +12,8 @@ define([
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
              Backbone.history.navigate('#import/gpx');
-             $('#stepper-header span').html('Import > Gpx')
+             $('#stepper-header span').html('Import > Gpx');
+             Radio.channel('route').command('route:header', {route:'Manual import',child_route: 'GPX', route_url:'import'});
         },
         displayPrev: function() {
             $('#btnPrev').show();

@@ -14,7 +14,8 @@ define([
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
             Backbone.history.navigate('#import/rfid');
         	console.log('orchestraor show');
-            $('#stepper-header span').html('Import > RFID')
+            $('#stepper-header span').html('Import > RFID');
+            Radio.channel('route').command('route:header', {route:'Manual import',child_route: 'RFID', route_url:'import'});
         	$('#btnPrev').show();
 
         },

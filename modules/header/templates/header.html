@@ -1,26 +1,37 @@
 <script type="text/template">
     <!-- Brand and toggle get grouped for better mobile display -->
     <nav class="navbar" role="navigation">
-        <div class="navbar-header" >
-            <div class="bnt-group">
+        <div class="navbar-header" style = "display: inline-block" >
+            <div style = "display: inline-block">
                 <a class="navbar-brand" href="#" style="padding:15px 10px;">
                 	<i class="glyphicon glyphicon-home"></i>
                 	 <span>&nbsp;&nbsp;ecoRelev&eacute;</span>
                 </a>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style = "background: #2ecc40; padding-top:15px; padding-right:8px; padding-left:8px; height:50px ">
                 <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-                </a> <div class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;"><a href="#" id="header-module-name" style="vertical-align:middle;"></a></div>
+                </a> 
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="#import">Manual import</a></li>
-                    <li><a href="#">Manual entry</a></li>
-                    <li><a href="#validate">Validate</a></li>
+                    <li><a href="#import"><i class="medium icon reneco import" style="color:black;"></i>&nbsp;Manual import</a></li>
+                    <li><a href="#input"><i class="medium icon reneco entrykey" style="color:black;"></i>&nbsp;Manual entry</a></li>
+                    <li><a href="#validate"><i class="medium icon reneco validate" style="color:black;"></i>&nbsp;Validate</a></li>
                     <li class="divider"></li>
-                    <li><a href="#individual">Individual</a></li>
-                    <li><a href="#site">Monitored Sites</a></li>
-
+                    <li><a href="#individual"><i class="medium icon reneco individuals" style="color:black;"></i>&nbsp;Individuals</a></li>
+                    <li><a href="#site"><i class="medium icon reneco sites" style="color:black;"></i>&nbsp;Monitored Sites</a></li>
+                    <li><a href="#transmitter"><i class="medium icon reneco sensors" style="color:black;"></i>&nbsp;Objects</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#export"><i class="medium icon reneco export" style="color:black;"></i>&nbsp;Export</a></li>
                 </ul>
-           
+            </div>
+            <div class="btn-group" style = "display: inline-block">
+                 <div class="header-module " style="font-size: 1.5rem;vertical-align:middle; display: inline-block;">
+                    <a href="#" id="header-module-name" style="vertical-align:middle;"></a>
+                    <div id = "header-parent-module" class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;"></div>
+                </div>
+            </div>
+             <div class="btn-group" style = "display: inline-block">
+                 <div class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;">
+                    <a href="#" id="header-child-module-name" style="vertical-align:middle;"></a>
+                </div>
             </div>
 
         </div>
