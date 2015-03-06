@@ -9,7 +9,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container-fluid',
+        className: 'full-height',
         template: template,
 
         regions: {

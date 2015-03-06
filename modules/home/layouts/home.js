@@ -54,7 +54,6 @@ define([
 
         automatic_import: function() {
             this.radio.trigger('automatic_import');
-        },
 
         
         stations: function(){
@@ -76,22 +75,7 @@ define([
         transmitter: function() {
             this.radio.trigger('transmitter');
         },
-        import: function(e) {
-
-            var ct = $(e.target);
-            $('.sub-tile').addClass('active');
-            $(document).mouseup(function (e)
-            {
-                var container = $('.sub-tile');
-
-                if (!container.is(e.target) // if the target of the click isn't the container...
-                    && container.has(e.target).length === 0) // ... nor a descendant of the container
-                {
-                    container.removeClass('active');
-                }
-            });
-            //$('.sub-tile').on('mouseleave', function() {
-
+        import: function() {
             this.radio.trigger('import');
         },
         dataEntry : function() {

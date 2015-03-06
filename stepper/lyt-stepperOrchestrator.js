@@ -44,7 +44,7 @@ define([
 
         onDestroy: function(){
             $('body').removeClass('home-page');
-            $('#main-region').removeClass('full-height obscur');
+            $('#main-region').removeClass('obscur');
         },
 
         initialize: function(options){

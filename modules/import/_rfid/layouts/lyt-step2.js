@@ -56,7 +56,7 @@ define([
         
         },
         importFile: function(event) {
-            var self = this;
+            console.log('importFile')
          /*   event.stopPropagation();
             event.preventDefault();*/
             this.clear();
@@ -93,101 +93,43 @@ define([
                         contentType: false
                     }).done(function(data) {
                         $('#btnNext').removeAttr('disabled');
-                        $('.sweet-alert').append('<a href="#validate/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to validate</button></a>');
-                        $('.sweet-alert button').on('click',function(){
-                            $('.sweet-validate').remove();
-                        });
+                         
                         self.ui.progressBar.css({'background-color':'green'})
-                        swal(
-                            {
-                              title: 'Well done !',
-                              text: data.responseText,
-                              type: 'success',
-                              showCancelButton: true,
-                              confirmButtonColor: 'green',
-                              confirmButtonText: 'New import',
-                              cancelButtonColor: 'blue',
-                              cancelButtonText: 'Finish',
-                                
-                              closeOnConfirm: true,
-                             
-                            },
-                            function(isConfirm){
-                               
-                                self.ui.progress.hide();
-                                if (isConfirm){
-                                    Radio.channel('route').trigger('import');
-                                } else {
-                                    Radio.channel('route').command('home');
+                        
+                        Radio.channel('rfid').command('showValidate',{});
 
-                                }
-                                
-                            });
 
                     }).fail( function(data) {
                         
+                        console.log(data)
                         $('#btnNext').attr('disabled');
                         if (data.status == 500 || data.status == 510  ) {
                             var type = 'warning';
                             self.ui.progressBar.css({'background-color':'rgb(218, 146, 15)'})
                             var color = 'rgb(218, 146, 15)';
-                            var displayCancel = true;
-
-                            if (data.status == 500) {
-                                $('.sweet-alert').append('<a href="#validate/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to validate</button></a>');
-                                $('.sweet-alert button').on('click',function(){
-                                    $('.sweet-validate').remove();
-                                });
-                                var confirmText = 'Finish';
-                                var cancelText = 'Select another file';
-                                var swal_choice = function(isConfirm) {
-                                    if (isConfirm) {
-                                        Radio.channel('route').command('home');
-                                    }                               
-                                };
-                            } else {
-                                var confirmText = 'Deploy RFID decoder';
-                                var cancelText = 'Return';
-                                var swal_choice = function(isConfirm) {
-                                    self.parent.toStep(0)
-                                    if (isConfirm) {
-                                        var prevStep = self.parent.steps[0];                                                                      
-                                        prevStep.deployRFID();
-                                    }                               
-                                };
-                            }
                         }
                         else {
                             var type = 'error';
                             self.ui.progressBar.css({'background-color':'rgb(147, 14, 14)'})
                             var color = 'rgb(147, 14, 14)';
-                            var displayCancel=false;
-                            var confirmText = 'OK';
-                            }
 
-                         
+                         }
                         swal(
                             {
                               title: "Warning ",
                               text: data.responseText,
                               type: type,
-                              showCancelButton: displayCancel,
+                              showCancelButton: false,
                               confirmButtonColor: color,
-                              confirmButtonText: confirmText,
-                              cancelButtonColor: 'blue',
-                              cancelButtonText: cancelText,
-                                
+                              confirmButtonText: "OK",
+                
                               closeOnConfirm: true,
                              
                             },
                             function(isConfirm){
-                                swal_choice(isConfirm);
                                 self.ui.progress.hide();
-                                
                             }
-
                         );
-
                     });
                 };
 
