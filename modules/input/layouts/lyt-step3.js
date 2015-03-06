@@ -35,7 +35,8 @@ define([
             'click .deleteProt' : 'deleteProtocol',
             'click .deleteProInstance' : 'deleteProtInstance',
             'change .indivNumber' : 'updateTotalIndiv',
-            'change input[type="number"]' : 'checkNumberVal'
+            'change input[type="number"]' : 'checkNumberVal',
+            'focusout input.oneRequired' : 'updateFieldsConstraints'
             //'change .editField' : 'updateStationData'
             //'click #NsFormModuleSave', 'showEditBtn'
         },
@@ -453,24 +454,6 @@ define([
             var stationModel = this.model.get('station_position');
             var stationView = new StationDetails({model:stationModel});
             this.stationRegion.show(stationView);
-            // set stored values of 'select' fields 
-            /*var fieldActivity = stationModel.get('FieldActivity_Name');
-            $('select[name="st_FieldActivity_Name"]').val(fieldActivity);
-            var place = stationModel.get('Place');
-            $('select[name="stPlace"]').val(place);
-            var accuracy = stationModel.get('Precision');
-            $('input[name="stAccuracy"]').val(accuracy);
-            var distFromObs = stationModel.get('Name_DistanceFromObs');
-            $('#stDistFromObs').val(distFromObs);*/
-            //replace user id by user name
-            /*var user = stationModel.get('FieldWorker1');
-            if(this.isInt(user)){
-                // get user name from masqued select control
-                var userName = this.getUserName(user);
-                $('#stObsVal').text(userName);
-            } else{
-                $('#stFW1').val(user);
-            }*/
             this.idStation = stationModel.get('PK');
             this.getProtocolsList(this.idStation);
             //this.getProtocols();
@@ -693,6 +676,29 @@ define([
                 }
             });
             $('input[name="Nb_Total"]').val(total);
+        },
+        updateFieldsConstraints : function(e){
+            // only one field having class 'oneRequired' is required. If one is inputed, move  'required constraints in form model'
+            var self = this;
+            var oneInputed = false;
+            $('.oneRequired').each(function() {
+                if($(this).val()){
+                    return (oneInputed = true);
+                }
+            });
+            // set the constraint in the form model
+            $('.oneRequired').each(function() {
+                var fieldName = $(this).attr('name');
+                var test = self;
+                if(oneInputed){
+                    self.formView.BBForm.schema[fieldName].validators = [];
+                    self.formView.BBForm.fields[fieldName].schema.validators = [];
+ 
+                } else {
+                    self.formView.BBForm.schema[fieldName].validators = ["required"];
+                    self.formView.BBForm.fields[fieldName].schema.validators = ["required"];
+                }
+            });
         },
         checkTime : function(e){
             var time = $(e.target).val();

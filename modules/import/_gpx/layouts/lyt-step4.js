@@ -73,7 +73,7 @@ define([
                     this.model.set('ajax_msg', msg) ; 
                     result = true; 
                     Swal({
-                        title: "Loading data",
+                        title: "Importing data",
                         text: message,
                         type: typeAlert,
                         showCancelButton: false,
