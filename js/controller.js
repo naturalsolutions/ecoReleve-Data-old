@@ -82,7 +82,7 @@ define([
             this.listenTo(radio, 'logout', this.logout);
             this.listenTo(radio, 'login', this.login);
             this.listenTo(radio, 'login:success', this.login);
-            this.listenTo(radio, 'argos', this.argos);
+            this.listenTo(radio, 'automatic_import', this.automatic_import);
             radio.on('show:argos:detail', this.argos_detail);
             radio.on('transmitter', this.transmitter, this);
             radio.comply('individual', this.individual, this);
@@ -92,7 +92,7 @@ define([
             radio.comply('rfid', this.rfid, this);
             radio.comply('stations', this.stations, this);
              /*==========  input (manuel entry)  ==========*/
-             //radio.comply('input', this.inputData, this);
+            radio.comply('input', this.inputData, this);
             this.listenTo(radio, 'input', this.inputData);
 
             /*==========  Home  ==========*/
@@ -132,11 +132,11 @@ define([
             this.radio.command('route:header', {route:'Stations'});
         },
 
-        argos: function() {
+        automatic_import: function() {
             var argosLayout = new ArgosLayout();
             this.mainRegion.show(argosLayout);
-            Backbone.history.navigate('argos');
-            this.radio.command('route:header', {route:'Argos'});
+            Backbone.history.navigate('Automatic import');
+            this.radio.command('route:header', {route:'Automatic import', route_url:'automatic_import'});
         },
 
         argos_detail: function(obj) {
@@ -148,7 +148,7 @@ define([
             else {
                 this.login('argos');
             }
-            this.radio.command('route:header', {route:'Argos'});
+            //this.radio.command('route:header', {route:'Argos'});
         },
 
         individual: function(page) {
@@ -158,9 +158,9 @@ define([
             else{
                 var layout = new IndivLayout();
                 this.mainRegion.show(layout);
-                Backbone.history.navigate('individual');
+                Backbone.history.navigate('individuals');
             }
-            this.radio.command('route:header', {route:'Individual'});
+            this.radio.command('route:header', {route:'Individuals', route_url: 'individual'});
         },
 
         individualDetail: function(args) {
@@ -168,7 +168,7 @@ define([
             var layout = new IndivDetailLayout({indiv:args.id, filter : filter});
             this.mainRegion.show(layout);
             Backbone.history.navigate('individual/' + args.id);
-            this.radio.command('route:header', {route:'Individual'});
+            this.radio.command('route:header', {route:'Individuals', route_url: 'individual'});
         },
 
 
@@ -178,17 +178,17 @@ define([
             Backbone.history.navigate('input');*/
             var route = 'input'
             this.checkLogin(function() {
-                Backbone.history.navigate(route);
                 this.mainRegion.show(new InputLayout());
             }, this); 
-            this.radio.command('route:header', {route:'Manual entry'});
+            Backbone.history.navigate(route);
+            this.radio.command('route:header', {route:'Manual entry', route_url:'input'});
 
         },
 		monitoredSite: function() {
             var layout = new MonitoredSiteLayout();
             this.mainRegion.show(layout);
             Backbone.history.navigate('monitored_site');
-            this.radio.command('route:header', {route:'Monitored site'});
+            this.radio.command('route:header', {route:'Monitored site', route_url:'site'});
         },
 
         insertHeader: function() {
@@ -287,6 +287,7 @@ define([
         
         validate: function(){
             var route = 'validate/';
+            console.log('Validate')
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ValidateLayout());
@@ -295,13 +296,16 @@ define([
         },
         validate_type: function(type){
             var route = 'validate/'+type;
+            var type_name = {'gsm':'GSM', 'rfid': 'RFID', 'argos':'Argos (Argos)','gps': 'Argos (GPS)'};
             this.checkLogin(function() {
                 switch(type) {
                     case 'gsm':
+                        type_name = 'GSM';
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateLayoutType({type : type}));
                         break;
                     case 'rfid':
+                        type_name = 'RFID';                       
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateLayoutRFID({
                         }));
@@ -309,18 +313,22 @@ define([
                     case 'argos':
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        type_name = 'Argos (Argos)';
                         break;
                     case 'gps':
+                        type_name = 'Argos (GPS)';
                         Backbone.history.navigate(route);
                         this.mainRegion.show(new ValidateLayoutType({type : type}));
+                        
                         break;
                     default:
                         this.validate();
                 };
             }, this);
-            this.radio.command('route:header', {route:'Validate'});
+            this.radio.command('route:header', {route:'Validate', child_route:type_name[type]});
         },
         validate_type_id: function(type, id, id_ind){
+            var type_name = {'gsm':'GSM', 'rfid': 'RFID', 'argos':'Argos (Argos)','gps': 'Argos (GPS)'};
             var route = 'validate/'+ type +'/'+ id+'/'+ id_ind;
             this.checkLogin(function() {
                 switch(type) {
@@ -357,7 +365,7 @@ define([
                         this.validate();
                 };
             }, this); 
-            this.radio.command('route:header', {route:'Validate'}); 
+            this.radio.command('route:header', {route:'Validate', child_route:type_name[type],child_route_url: type}); 
         },
 
 
@@ -399,7 +407,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
-            this.radio.command('route:header', {route:'Manual import'});
+            this.radio.command('route:header', {route:'Manual import', child_route: 'GSM', route_url:'import'});
         },
 
         import_rfid: function() {
@@ -416,7 +424,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
-            this.radio.command('route:header', {route:'Manual import'});
+            this.radio.command('route:header', {route:'Manual import',child_route: 'RFID', route_url:'import'});
         },
 
          import_gpx: function() {
@@ -433,7 +441,7 @@ define([
                 importLayout.nextStepper();
 
             }, this); 
-            this.radio.command('route:header', {route:'Manual import'});
+            this.radio.command('route:header', {route:'Manual import',child_route: 'GPX', route_url:'import'});
         },
 
 

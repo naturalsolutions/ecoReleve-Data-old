@@ -13,7 +13,8 @@ define([
 
             Backbone.history.navigate('#import/gsm');
         	console.log('orchestraor show');
-            $('#stepper-header span').html('Import > GSM')
+            $('#stepper-header span').html('Import > GSM');
+            Radio.channel('route').command('route:header', {route:'Manual import',child_route: 'GSM', route_url:'import'});
         	$('#btnPrev').show();
         },
 

@@ -13,8 +13,9 @@ define([
         	'validate/:type/:id/:ind_ind(/)' : 'validate_type_id',
 
             'export(/)' : 'export',
-
+            'automatic_import(/)':'automatic_import',
         	'import(/)' : 'import',
+            'import/gpx(/)' : 'import_gpx',
             'import/gsm(/)' : 'import_gsm',
             'import/rfid(/)' : 'import_rfid',
 
@@ -24,14 +25,13 @@ define([
             'site/add(/)' : 'site_add',
             'site/create(/)' : 'site_create',
             'site/:id(/)' : 'site_detail',
-
+            'input(/)': 'inputData',
 
 
             'demo_stepper(/)' : 'demo_stepper',
             'demo_grid(/)' : 'demo_grid',
             'demo_filter(/)' : 'demo_filter',
             'demo_map(/)' : 'demo_map',
-
 
 
             '*route(/:page)': 'login'

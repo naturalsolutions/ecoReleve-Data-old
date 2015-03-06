@@ -1,10 +1,14 @@
 define([
+    'underscore',
     'marionette',
     'radio',
     'views/user',
     'nicescroll',
-    'text!modules2/header/templates/header.html'
-], function(Marionette, Radio, UserView, nicescroll, template) {
+    'text!modules2/header/templates/header.html',
+    'text!modules2/header/templates/tpl-dropmenu-import.html',
+    'text!modules2/header/templates/tpl-dropmenu-validate.html',
+    
+], function(_,Marionette, Radio, UserView, nicescroll, template, tpl_import, tpl_validate) {
 
     'use strict';
 
@@ -35,6 +39,7 @@ define([
 
         },
         updateHeader : function(obj){
+            var templates = {'Validate':tpl_validate, 'Manual import':tpl_import };
             var route = obj.route;
             if (obj.route_url) {
                 var route_url = obj.route_url;
@@ -48,8 +53,22 @@ define([
             }else{
                 txt ='';
             }
+            $('#header-parent-module').empty();
+            $('#header-child-module-name').empty();
             $('#header-module-name').html(txt);
             $('#header-module-name').attr('href','#'+route_url.toLowerCase());
+
+            if (obj.child_route) {
+                $('#header-child-module-name').html(' |&nbsp; ' + obj.child_route);
+                if (obj.child_route_url) {
+                    $('#header-child-module-name').attr('href','#'+route_url.toLowerCase()+'/'+obj.child_route_url);
+                }
+                
+            }
+            if (templates[route]) {
+
+                $('#header-parent-module').append(templates[route]);
+            }
         }
     });
 });

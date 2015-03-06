@@ -15,7 +15,7 @@ define([
             tiles: '#tiles'
         },
         events: {
-            'click #argosTile': 'argos',
+            'click #argosTile': 'automatic_import',
             'click #gsmTile': 'gsm',
             'click #indivTile': 'individual',
             //'click #stationsTile': 'stations',
@@ -52,10 +52,9 @@ define([
             $('body').removeClass('home-page');
         },
 
-        argos: function() {
-            //this.radio.trigger('argos');
+        automatic_import: function() {
+            this.radio.trigger('automatic_import');
         },
-
         
         stations: function(){
             this.radio.command('stations');
