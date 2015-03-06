@@ -13,6 +13,8 @@ define([
     return Marionette.ItemView.extend({
         template: template,
 
+        className: 'full-height grid container-fluid',
+
         events :{
             'click tbody > tr': 'detail',
             'click #btn-export': 'exportGrid'
@@ -73,11 +75,13 @@ define([
         },
 
         onShow: function() {
+            /*
             var margin = 20;
             this.$el.css('margin-top', margin + 'px');
             var height = $(window).height();
             height -= $('#header-region').height() + margin;
             this.$el.height(height);
+            */
         },
 
         onRender: function() {

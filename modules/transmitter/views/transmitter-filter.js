@@ -15,6 +15,8 @@ define([
     return Marionette.ItemView.extend({
         template: template,
 
+        className: 'full-height filter-bg-image',
+
         events: {
             'click #clear-btn' : 'clear',
             'change input': 'update',
