@@ -214,4 +214,41 @@ h2.panel-title {
 }
 
 
-
+.wrapper-menu{
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 5px -5px 10px 0px rgba(0, 0, 0, 0.25);
+    background-color: #f9f9f9;
+    text-align: center;
+    .vertical-center-content{
+        display: inline-block;
+        vertical-align: middle;
+        width: 99%!important;
+    }
+    .vertical-center-fix{
+        height: 100%;
+        width: 0px!important;
+        visibility: hidden;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .wrapper-tile{
+        display: inline-block!important;
+        margin: 0px 5px;
+        cursor: pointer;
+        line-height: 1.5;
+        width: 150px;
+        height: 150px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 3px;
+        color: white;
+        overflow: hidden;
+        &:hover{
+            transition: .3s background;
+            //background: rgba(0,0,0,0.9);
+        }
+        .inner{
+            //padding: 10px;
+        }
+    }
+}

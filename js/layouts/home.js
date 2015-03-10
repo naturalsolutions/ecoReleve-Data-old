@@ -16,7 +16,7 @@ define([
         },
 
         events: {
-            'click #argosTile': 'argos',
+            // 'click #argosTile': 'argos',
             'click #gsmTile': 'gsm',
             'click #indivTile': 'individual',
             'click #rfidTile': 'rfid',
@@ -42,9 +42,9 @@ define([
             $('body').removeClass('home-page');
         },
 
-        argos: function() {
-            Radio.channel('route').trigger('argos');
-        },
+        // argos: function() {
+        //     Radio.channel('route').trigger('argos');
+        // },
 
         gsm: function() {
             Radio.channel('route').command('gsm');

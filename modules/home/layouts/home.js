@@ -15,7 +15,7 @@ define([
             tiles: '#tiles'
         },
         events: {
-            'click #argosTile': 'automatic_import',
+            //'click #argosTile': 'automatic_import',
             'click #gsmTile': 'gsm',
             'click #indivTile': 'individual',
             //'click #stationsTile': 'stations',
