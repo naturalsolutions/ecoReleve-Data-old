@@ -65,7 +65,6 @@ define([
             this.radio.comply('successCommitForm', this.successState, this);
             this.radio.comply('editState', this.editState, this);
             this.radio.comply('updateStation', this.updateSation, this);
-            $('.step-grid').css('width','98%');
         },
         updateForm : function(e,element){
             var selectedProtoName;

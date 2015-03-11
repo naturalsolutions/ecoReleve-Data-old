@@ -222,6 +222,7 @@ define([
         
 
         login: function(route, page) {
+
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'security/has_access'
@@ -254,6 +255,9 @@ define([
         
 
         checkLogin: function(callback, ctx, args){
+            this.insertHeader();
+            callback.apply(ctx, args);
+            /*
             var ajax=$.ajax({
                 context: this,
                 url: config.coreUrl + 'security/has_access'
@@ -265,6 +269,7 @@ define([
                 this.headerRegion.empty();
                 this.mainRegion.show(new LoginView());
             });
+            */
         },
 
         checkRights: function(){

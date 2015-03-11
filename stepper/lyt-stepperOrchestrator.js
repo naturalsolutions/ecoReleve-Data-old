@@ -162,12 +162,12 @@ define([
 
                 //this.$el.find('#btnNext').attr( 'disabled', 'disabled');
                 this.$el.find('#btnNext').addClass('finished').find( 'span'
-                    ).html('Complete').parent().find('.icon').removeClass('rightarrow').addClass('validated');
+                    ).html('Finish').parent().find('.icon').removeClass('rightarrow').addClass('validate');
 
             }
             else {
                  this.$el.find('#btnNext').removeClass('finished').find( 'span'
-                    ).html('Next').parent().find('.icon').removeClass('validated').addClass('rightarrow');
+                    ).html('Next').parent().find('.icon').removeClass('validate').addClass('rightarrow');
             }
 
             this.displayPrev(this.currentStep);

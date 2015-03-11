@@ -11,7 +11,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container ',
+        className: 'full-height',
         template: template,
 
         events: {
@@ -283,8 +283,7 @@ define([
         },
 
         onShow: function(){
-            $('body').addClass('home-page full-height');
-            $('#main-region').addClass('obscur full-height');
+
         },
 
         onRender: function () {
