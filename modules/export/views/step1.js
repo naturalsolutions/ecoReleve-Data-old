@@ -21,6 +21,8 @@ define([
             'click #export-themes li': 'getViewsList',
             'click #exportViewsList': 'enableNext',
         },
+        className: 'full-height',
+
         initialize: function(options) {
         	this.radio = Radio.channel('exp');
         },

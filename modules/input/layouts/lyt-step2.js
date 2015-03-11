@@ -47,7 +47,6 @@ define([
             rightRegion : '#inputStRight'
         },
         onShow: function(){
-            $('.step-grid').css('width','98%');
             this.radio = Radio.channel('input');
             this.radio.comply('generateStation', this.generateStation, this);
             this.radio.comply('movePoint', this.movePoint, this);

@@ -26,10 +26,6 @@ define([
         },
 
         onRender: function(){
-
-            
-
-
             $('body').addClass('home-page').addClass('full-height');
             $('#main-region').addClass('obscur full-height');
         },
