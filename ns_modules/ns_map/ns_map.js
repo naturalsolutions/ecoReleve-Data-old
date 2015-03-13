@@ -22,7 +22,7 @@ define([
         bbox : false,
         legend : false,
         popup: false,
-        zoom: 3,
+        zoom: 10,
         fitBounds: false,
         geoJsonLayers: [],
 
@@ -131,14 +131,14 @@ define([
 
             this.geoJsonLayers = [];
 
-            this.zoom = options.zoom;
+            this.zoom = options.zoom || this.zoom;
             console.log(this);
 
             this.elem = options.element;
             this.bbox = options.bbox || this.bbox;
             this.cluster = options.cluster;
             this.popup = options.popup;
-            this.legend = options.legend;
+            this.legend = options.legend || this.legend;
 
 
             this.selection = options.selection;
@@ -244,14 +244,16 @@ define([
 
             this.map = new L.Map(this.elem, {
               center: this.center ,
-              zoom: 3,
+              zoom: this.zoom,
               minZoom: 2,
               inertia: false,
               zoomAnimation: true,
-              keyboard: false //fix scroll window
+              keyboard: false, //fix scroll window
+              attributionControl: false,
             });
 
 
+            /*
             var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
             if(geoJsonLayer){
@@ -262,12 +264,10 @@ define([
               }
             }
 
-            if (markerArray.length >1 && this.fiBounds){
+            if (markerArray.length >1){
               var group = L.featureGroup(markerArray);
-            this.map.fitBounds(group.getBounds());
-            } else {
-              this.map.setZoom(this.zoom);
-            }
+              this.map.fitBounds(group.getBounds());
+            }*/
 
 
             this.google();
@@ -284,11 +284,22 @@ define([
         addMarkersLayer2Map: function(){
           if(this.geoJsonLayers.length !== 0){
             for (var i = 0; i < this.geoJsonLayers.length; i++) {
-              this.markersLayer.addLayer(this.geoJsonLayers[i]);
+              this.markersLayer.addLayers(this.geoJsonLayers[i]);
+              for (var j = 0; j < this.geoJsonLayers[i].length; j++) {
+                delete this.geoJsonLayers[i][j];
+              };
+              this.geoJsonLayers[i].length = 0;
+              this.geoJsonLayers[i] = [];
+              delete this.geoJsonLayers[i];
+              this.geoJsonLayers.length = 0;
+              this.geoJsonLayers = [];
+              delete this.geoJsonLayers;
             }
           }
 
           this.map.addLayer(this.markersLayer);
+
+
 
           if(this.bbox){
             this.addBBox(this.markersLayer);
@@ -353,7 +364,7 @@ define([
         },
 
         setCenter: function(geoJson){
-          if(!geoJson){
+          if(!geoJson.features.length || !geoJson){
             this.center = new L.LatLng(0,0);
           }else{
             this.center = new L.LatLng(
@@ -373,10 +384,51 @@ define([
         },
 
         setGeoJsonLayer: function(geoJson){
+          console.log('passed');
           this.setCenter(geoJson);
           var marker, prop;
           var ctx = this;
           var i =0;
+
+          var markerList = [];
+
+          var features = geoJson.features;
+          var feature, latlng;
+
+          for (var j = 0; j < features.length; j++) {
+            feature = features[i];
+            latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+            i++;
+            var infos = '';
+            if(!feature.id)
+            feature.id = i;
+            if(feature.checked){
+              marker = L.marker(latlng, {icon: ctx.focusedIcon});
+            }else{
+              marker = L.marker(latlng, {icon: ctx.icon});
+            }
+
+            marker.checked=false;
+
+            if(ctx.popup){
+              prop = feature.properties;
+              for(var p in prop){
+                infos +='<b>'+p+' : '+prop[p]+'</b><br />';
+              }
+              marker.bindPopup(infos);
+            }
+
+            ctx.dict[feature.id] = marker;
+
+            marker.on('click', function(e){
+              if(this.selection){
+                this.interaction('selection', feature.id);
+              }
+            }, ctx);
+            markerList.push(marker);
+          }
+
+          /*
           var geoJsonLayer = L.geoJson(geoJson, {
               // onEachFeature: function (feature, layer) {
               // },
@@ -411,8 +463,9 @@ define([
 
                 return marker;
               },
-          });
-          this.geoJsonLayers.push(geoJsonLayer);
+          });*/
+          this.geoJsonLayers.push(markerList);
+
         },
 
 
@@ -471,7 +524,7 @@ define([
           });
 
           this.markersLayer = new CustomMarkerClusterGroup({
-              disableClusteringAtZoom : 18,
+              disableClusteringAtZoom : 12, //2km
               maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });

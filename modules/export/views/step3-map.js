@@ -67,7 +67,6 @@ define([
                 selection: true,
                 bbox: true,
                 geoJson: geoJson,
-                zoom: 3,
                 element : 'map-step3',
             });
 
