@@ -210,7 +210,6 @@ define([
 
         getbuttonhtml: function () {
             this.displaybuttons();
-            console.log(this.template);
             return this.template;
         },
 
@@ -255,7 +254,6 @@ define([
                 this.model.save([],{
                  dataType:"text",
                  success:function(model, response) {
-                    console.log('success' + response);
                     self.displayMode = 'display';
                     self.displaybuttons();
                     self.radio.command('successCommitForm', {id: response});

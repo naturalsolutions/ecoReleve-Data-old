@@ -34,7 +34,7 @@ define([
             }).done(function(datas){
                 this.initMap(datas);
             }).fail(function(msg){
-                console.log(msg);
+                console.error(msg);
             });
         },
 
@@ -44,9 +44,7 @@ define([
             var infos = geoJson;
 
             for (var i = 0; i < infos.length; i++) {
-                console.log('passed');
                 if(!infos[i]['properties']['end']){
-                    console.log(infos[i].geometry)
                     activePos.features.push({
                         'type':'Feature',
                         'checked' : true,

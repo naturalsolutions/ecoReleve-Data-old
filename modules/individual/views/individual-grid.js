@@ -37,7 +37,6 @@ define([
                 queryParams: {
                     offset: function() {return (this.state.currentPage - 1) * this.state.pageSize;},
                     criteria: function() {
-                        console.log(this.searchCriteria);
                         return JSON.stringify(this.searchCriteria);},
                     order_by: function() {
                         var criteria = [];
@@ -125,7 +124,6 @@ define([
             }, ];
 
 
-            console.log(individuals);
 
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
@@ -133,7 +131,6 @@ define([
                 collection: individuals,
             });
             var that=this;
-            console.log(options.currentFilter);
             individuals.searchCriteria = options.currentFilter || {};
             individuals.fetch( {reset: true,   success : function(resp){ 
                         that.$el.find('#indiv-count').html(individuals.state.totalRecords+' individuals');
@@ -155,7 +152,6 @@ define([
 
         update: function(args) {
             var that=this;
-            console.log(args.filter);
             this.filter = args.filter;
             this.grid.collection.searchCriteria = args.filter;
             // Go to page 1
@@ -196,8 +192,6 @@ define([
             var row = $(evt.currentTarget);
             var id = $(row).find(':first-child').text()
             Radio.channel('route').trigger('indiv:detail', {id: id, filter : this.filter});
-            console.log('-->');
-            console.log(this.filter);
             // 
         }
     });

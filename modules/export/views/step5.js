@@ -55,9 +55,7 @@ define([
         selectFileType: function(e){
             var elem = $(e.currentTarget); 
             var ctx = this;
-            console.log(elem);
         	ctx.typeFile = elem.find('input[type=radio]').val();
-            console.log(ctx.typeFile);
 
 
 
@@ -84,15 +82,12 @@ define([
                 columns: this.columnCriteria
             }
             this.getFile(this.typeFile);
-            console.log(this.datas);
         },
 
         getFile: function(type) {
 
             var that=this;
             var route = config.coreUrl + "/views/filter/" + this.viewName + "/export";
-
-            console.log(this.datas);
 
             $.ajax({
                 url: route,

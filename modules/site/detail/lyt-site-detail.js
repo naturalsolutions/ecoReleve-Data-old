@@ -31,7 +31,6 @@ define([
             $.ajax({
                 url: config.coreUrl+ '/monitoredSite/detail/'+this.id+ '/geoJSON',
                 success: function(data) {
-                    console.log(data)
                 }
                 
             });*/

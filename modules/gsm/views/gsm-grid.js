@@ -50,14 +50,11 @@ define([
             var self=this;
             var checked=obj['checked'];
             var model_id=obj['id'];
-            console.log('detail :' + model_id+' :'+checked);
-            console.log(this.grid.collection.fullCollection.length);
             var models=[];
             this.grid.collection.fullCollection.each(function(model){
                 
                 if (model.id==model_id) {
                     model.trigger("backgrid:select", model, checked);
-                    console.log(model);
                  }               
                  if (!self.grid.collection.get(model.id)) {
                         if (model.id == model_id)
@@ -86,7 +83,6 @@ define([
                 var checked=true;
                 this.checkHour=checked;
             }
-            console.log(this.checkHour);
             this.grid.collection.fullCollection.sortBy('date');
             var col0=this.grid.collection.fullCollection.at(0);
             var date=new Date(col0.get('date'));
@@ -208,7 +204,6 @@ define([
                 var location= model.get('id');
                 importList.push(location);
             }
-            console.log(importList);
             $.ajax({
                 url:config.coreUrl+'dataGsm/' + this.gsmID + '/unchecked/import',
                 data: JSON.stringify({data: importList, id_ind: ind_id})

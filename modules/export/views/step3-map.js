@@ -57,7 +57,7 @@ define([
           }).done(function(data){
               this.initMap(data);
           }).fail(function(msg){
-              console.log(msg);
+              console.error(msg);
           });
         },
 

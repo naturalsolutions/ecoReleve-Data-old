@@ -144,7 +144,6 @@ define([
 
         updateSaved: function() {
             
-            console.log(this.criterias.length);
             if (this.criterias.length === 0 ) {
                 this.$el.find("#indivSavedSearch").html("<p class='text-center'>No saved criterias</p>");
             } else {

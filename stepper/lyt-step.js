@@ -110,8 +110,6 @@ define([
         },
 
         onShow: function(){
-            /*console.log('step1');
-            console.log(this.$el);*/
         },
 
         onRender: function(){

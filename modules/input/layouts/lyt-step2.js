@@ -679,7 +679,6 @@ define([
                 var position = monitoredSite.get('positions');
                 var lat = position.lat;
                 var lon = position.lon;
-                //console.log('lat  '+lat+'  long '+lon);
                 //this.map.updateMarkerPos(1, lat, lon );
                 this.map.addMarker(false, lat, lon );
             }

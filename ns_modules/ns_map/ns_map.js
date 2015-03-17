@@ -28,12 +28,12 @@ define([
 
         onBeforeDestroy: function(){
           this.map.remove();
-          console.warn('detroy map');
+          console.info('detroy map');
         },
 
         destroy: function(){
           this.map.remove();
-          console.warn('detroy map');
+          console.info('detroy map');
         },
 
         unlockError: function(){
@@ -171,7 +171,7 @@ define([
               this.filter(params);
               break;
             default:
-              console.error('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },

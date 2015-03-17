@@ -30,7 +30,6 @@ define([
 
         initialize: function(options) {
             this.type=options.type;
-            console.log(this.type);
             switch(this.type){
                 case 'gsm':
                     
@@ -208,7 +207,7 @@ define([
               this.clearAll();
               break;
             default:
-              console.log('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },
@@ -323,7 +322,6 @@ define([
             var page=Math.ceil(position/25);
             this.locations.getPage(page);
 
-            console.log(this.locations.getPage(page));
 
             mod.trigger("backgrid:focus", mod, true);
             if(this.lastFocused && this.lastFocused!=mod)
@@ -389,7 +387,6 @@ define([
         importChecked : function(ind_id) {
             var importList = [];
             var checkedLocations=this.grid.getSelectedModels();
-            console.log(checkedLocations);
             var i;
             for (i in checkedLocations){
                 var model=checkedLocations[i];

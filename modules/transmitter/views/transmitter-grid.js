@@ -93,14 +93,12 @@ define([
         },
 
         detail: function(evt) {
-            console.log( 'ppasd');
             var row = $(evt.currentTarget);
             var id = $(row).find(':first-child').text()
             Radio.channel('route').trigger('transmitter:detail', {id: id});
         },
 
         exportGrid: function() {
-            console.log('export');
             $.ajax({
                 url: config.coreUrl + 'transmitter/export',
                 data: JSON.stringify({criteria:this.filter}),

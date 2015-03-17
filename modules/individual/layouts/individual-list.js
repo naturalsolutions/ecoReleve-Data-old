@@ -28,7 +28,6 @@ define([
             }
             
             this.left.show(new FilterView({currentFilter:currentFilter}));
-            console.log(currentFilter);
             this.main.show(new GridView({currentFilter:currentFilter}));
         },
         onBeforeDestroy: function() {

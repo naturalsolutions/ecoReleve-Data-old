@@ -111,10 +111,8 @@ define([
                     name: name
                 });
                 var position = monitoredSite.get('positions');
-                console.log(position);
                 var lat = position.lat;
                 var lon = position.lon;
-                console.log('lat  '+lat+'  long '+lon);
                 Radio.channel('rfid').command('moveCenter', [lon, lat]);
                 Radio.channel('rfid').command('addOverlay', [lon, lat]);
             }
@@ -326,17 +324,14 @@ define([
             var valid = true;
 
             if(this.ui.type.val() === '') {
-                console.log(this.ui.type.val());
                 this.setError('#group-type');
                 valid = false;
             }
             if(this.ui.name.val() === '') {
-                console.log(this.ui.name.val());
                 this.setError('#group-name');
                 valid = false;
             }
             if( !datetime.isValid(this.ui.begin.val()) ) {
-                console.log(this.ui.begin.val());
 
                 this.setError('#group-begin', 'Invalid format');
                 valid = false;

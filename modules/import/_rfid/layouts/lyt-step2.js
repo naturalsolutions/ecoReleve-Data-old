@@ -56,7 +56,6 @@ define([
         
         },
         importFile: function(event) {
-            console.log('importFile')
          /*   event.stopPropagation();
             event.preventDefault();*/
             this.clear();
@@ -69,7 +68,6 @@ define([
                 var file = $('#input-file').get(0).files[0] || null;
                 var url = config.coreUrl + 'rfid/import';
                 var data = new FormData();
-                console.log($(this.ui.modInput));
                 var self = this;
 
                 reader.onprogress = function(data) {
@@ -82,9 +80,7 @@ define([
 
                 reader.onload = function(e, fileName) {
                     data.append('data', e.target.result);
-                    console.log(self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
                     data.append('module', self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
-                    console.log(data)
                     $.ajax({
                         type: 'POST',
                         url: url,
@@ -101,7 +97,7 @@ define([
 
                     }).fail( function(data) {
                         
-                        console.log(data)
+                        console.error(data);
                         $('#btnNext').attr('disabled');
                         if (data.status == 500 || data.status == 510  ) {
                             var type = 'warning';

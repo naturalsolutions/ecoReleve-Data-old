@@ -40,7 +40,6 @@ define([
             });  
         },
         updateGrid: function(id) {
-            //console.log('detail' + id);
         },
 
         updateMap: function(evt) {
@@ -49,7 +48,6 @@ define([
                 var id = tr.find('td').first().text();
                 var idNumber = Number(id);
                 var currentModel = this.locations.findWhere({PK: idNumber});
-                console.log(currentModel);
                 // unselect rows and select clicked row
                 $('table.backgrid tr').removeClass('backgrid-selected-row');
                 $(tr).addClass('backgrid-selected-row');
@@ -117,7 +115,7 @@ define([
                this.clearAll();
               break;
             default:
-              console.log('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },
@@ -130,7 +128,6 @@ define([
         },
 
         hilight: function(){
-            console.log('passed');
         },
 
         clearAll: function(){

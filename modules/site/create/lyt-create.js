@@ -74,7 +74,6 @@ define([
 
 
             $('#form #dateTimePicker').each(function(){
-                console.log($(this));
                 $(this).datetimepicker();
             });
 
@@ -94,7 +93,6 @@ define([
 
 
             if(!this.form.validate()){
-                console.log(this.form.getValue());
 
                 var site = this.form.getValue();
                 var mySite = new Backbone.Model(site);
@@ -107,7 +105,6 @@ define([
                         ctx.$el.find('#error').html('An error occured');
                     },
                     success: function (model, response, options) {
-                        console.log(this);
                     }
                 });
             }

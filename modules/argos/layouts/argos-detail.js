@@ -195,7 +195,6 @@ define([
             $(window).bind('resize', function() {
                 dataContainer = $("#main")[0];
                  argosContentWidth = dataContainer.clientWidth;
-                 console.log("argosContentWidth: " + argosContentWidth);
                  //var mapContainerSize;
                 if (argosContentWidth < 1300){
                 //mapContainerSize = argosContentWidth - 700;
@@ -214,7 +213,6 @@ define([
             /*$(window).bind('resize', function() {
                 dataContainer = $("#main")[0];
                 argosContentWidth = dataContainer.clientWidth;
-                console.log ("argosContentWidth : " + argosContentWidth );
                 //widthargosContent = widthDataContainer;
                 //$('#allDataContent').css('width', widthargosContent + 'px');
 

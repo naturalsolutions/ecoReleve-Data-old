@@ -149,13 +149,6 @@ define([
             this.check();
             this.styleNav();
 
-            if (this.currentStep-1>=0) {
-                /*var changed_attr = this.steps[this.currentStep-1].stepAttributes[0].name;
-                console.log(this.steps[this.currentStep-1]);
-                console.log(changed_attr);
-                console.log(this.model.get(changed_attr));*/
-                //this.$el.find('#stepper-header').html(this.model.get(changed_attr).toUpperCase()); 
-            }
 
             if (this.currentStep==this.steps.length-1){
 
@@ -241,7 +234,7 @@ define([
             this.steps[this.currentStep].datachanged_select(e);
         },
         infos: function(){
-            console.log(this.model);
+            console.info(this.model);
         },
 
         changeStep : function(e){
