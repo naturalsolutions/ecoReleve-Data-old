@@ -23,6 +23,7 @@ define([
             'click #filter-query-btn': 'check',
             'click #filter-delete': 'deleteFilter'
         },
+        className: 'full-height',
 
         initialize: function(options) {
             this.radio = Radio.channel('exp');

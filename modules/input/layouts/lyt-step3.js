@@ -150,7 +150,7 @@ define([
             // extend NsForms Module to replace thesaurus fields values by 'fullpath' values stored in hidden fields
             var NsForm = NsFormsModule.extend({
                 butClickSave: function (e) {
-                    var errors = this.BBForm.commit();         
+                    var errors = this.BBForm.commit();
                     var changedAttr = this.BBForm.model.changed;
                     if(!errors){  
                         var self = this;   

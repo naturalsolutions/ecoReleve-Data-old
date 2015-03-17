@@ -18,13 +18,34 @@ div.error {
 #newStForm {
 margin-top: -1em;
 }
-.manual-tile{
+
+
+.tile-inside-container{
+	text-align: center;
+}
+.tile-inside{
+	display: inline-block;
+	min-height: 300px;
+	width: 250px;
 	background: rgba(0,0,0,0.5);
 	border-radius: 3px;
+	vertical-align: top;
+	color: white;
+	margin: 10px;
+	padding: 10px;
+	cursor: pointer;
+	.radio{
+		text-align: left;
+	}
+}
+
+
+.manual-tle{
 	padding: 20px;
 	margin: 20px 50px;
 	color: white;
-	height: 300px;
+	min-height: 300px;
+	min-width: 200px;
 	transition: .3s all;
 	&:hover{
 		background: rgba(0,0,0,0.7)

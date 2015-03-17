@@ -120,33 +120,30 @@ define([
 
 
             this.unlockError();
-            //check if there is a communicator
 
+            //check if there is a communicator
             if(options.com){
               this.com = options.com;
               this.com.addModule(this);
             }
+
             this.url=options.url;
             this.geoJson=options.geoJson;
 
-            this.geoJsonLayers = [];
+            this.elem = options.element || 'map';
 
             this.zoom = options.zoom || this.zoom;
-
-            this.elem = options.element;
             this.bbox = options.bbox || this.bbox;
-            this.cluster = options.cluster;
-            this.popup = options.popup;
+            this.cluster = options.cluster || this.cluster;
+            this.popup = options.popup || this.popup;
             this.legend = options.legend || this.legend;
+            this.selection = options.selection || this.selection;
 
-
-            this.selection = options.selection;
 
             this.dict={}; //list of markers
             this.selectedMarkers = {}; // list of selected markers
-            this.url = options.url;
-            this.geoJson = options.geoJson;
 
+            this.geoJsonLayers = [];
             this.initIcons();
         },
 
@@ -162,7 +159,7 @@ define([
               this.selectMultiple(params);
               break;
             case 'popup':
-              //this.popup(params);
+              //this.popup(params); //useless on click
               break;
             case 'resetAll':
               this.resetAll();
@@ -240,7 +237,6 @@ define([
 
         initMap: function(){
 
-
             this.map = new L.Map(this.elem, {
               center: this.center ,
               zoom: this.zoom,
@@ -251,8 +247,6 @@ define([
               attributionControl: false,
             });
 
-
-            
             var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
             if(geoJsonLayer){
@@ -267,7 +261,6 @@ define([
               var group = L.featureGroup(markerArray);
               this.map.fitBounds(group.getBounds());
             }
-
 
             this.google();
 
@@ -297,8 +290,6 @@ define([
           }
 
           this.map.addLayer(this.markersLayer);
-
-
 
           if(this.bbox){
             this.addBBox(this.markersLayer);
@@ -342,6 +333,7 @@ define([
               }
           })
           .fail(function(msg) {
+            console.error(msg);
           });
 
         },
