@@ -72,7 +72,6 @@ define([
                 ctx.model.set(name, val);
             });
             $(tpl).find('select').each(function(){
-                console.log('select detect')
 
                 var name= ctx.name+'_' + this.name;
                 //$(this).attr('StepperModelName', name);
