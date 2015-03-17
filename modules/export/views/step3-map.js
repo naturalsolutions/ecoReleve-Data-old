@@ -64,8 +64,8 @@ define([
         initMap: function(geoJson){
             this.ns = new NsMap({
                 cluster: true,
-                selection: true,
                 bbox: true,
+                area: true,
                 geoJson: geoJson,
                 element : 'map-step3',
             });

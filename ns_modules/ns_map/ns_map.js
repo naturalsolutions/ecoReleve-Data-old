@@ -253,7 +253,7 @@ define([
             });
 
 
-            /*
+            
             var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
             if(geoJsonLayer){
@@ -267,7 +267,7 @@ define([
             if (markerArray.length >1){
               var group = L.featureGroup(markerArray);
               this.map.fitBounds(group.getBounds());
-            }*/
+            }
 
 
             this.google();

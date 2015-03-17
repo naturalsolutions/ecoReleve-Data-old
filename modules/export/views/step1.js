@@ -50,11 +50,10 @@ define([
 
         //obsolete : remplace by datalist.fill()
         getItemList: function(isDatalist){
-            var element= $('#export-themes');
-            $('#export-themes').empty();
+            var element= this.$el.find('#export-themes');
+            element.empty();
 
             var url = config.coreUrl + '/theme/list?export=yes';
-
             $.ajax({
                 url: url,
                 dataType: "json",
@@ -86,24 +85,20 @@ define([
 
             var url = config.coreUrl + "/views/list?id_theme=" + id;
 
-            if (id !== "") {
-                $.ajax({
-                    url: url,
-                    dataType: "text",
-                    context: this,
-                }).done(function(data){
-                    $('#export-views').empty();
-                    var xmlDoc = $.parseXML(data),
-                    $xml = $(xmlDoc),
-                    $views = $xml.find("view");
-
-                    $views.each(function() {
-                        $('<li id="exportViewsList" class="list-group-item" value=\"' + $(this).attr('id') + '\">' + $(this).text() + '</li>').appendTo('#export-views');
-                    });
-                }).fail(function(msg){
-                        alert("error loading views, please check connexion to webservice");
-                });
-            }
+            $.ajax({
+                url: url,
+                dataType: "json",
+                context: this,
+            }).done(function(data){
+                $('#export-views').empty();
+                var view;
+                for (var i = 0; i < data.length; i++) {
+                    view = data[i];
+                    $('<li id="exportViewsList" class="list-group-item" value=\"' + view.relation + '\">' + view.caption + '</li>').appendTo('#export-views');
+                };
+            }).fail(function(msg){
+                alert("error loading views, please check connexion to webservice");
+            });
         },
 
 

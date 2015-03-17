@@ -1,7 +1,4 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
     'marionette',
     'radio',
     'models/export_filter',
@@ -21,7 +18,7 @@ define([
 
 
 
-], function($, _, Backbone, Marionette, Radio, model, template, 
+], function(Marionette, Radio, model, template, 
     Step1, Step2_Filters, Step2_Map, Step3_Map, Step4_Columns, Step4_Preview, Step5) {
 
     'use strict';

@@ -18,6 +18,7 @@ define([
 	''+module+'/import/layouts/lyt-import-gpx',
     ''+module+'/input/layouts/lyt-input',
     ''+module+'/export/layouts/export-layout',
+    //''+module+'/exportv2/lyt-export',
     
 
     ''+module+'/stations/layouts/basemap',
@@ -550,12 +551,6 @@ define([
                 var lyt = new DemoMap()
                 this.mainRegion.show(lyt);
             }, this);
-        },        
-
-
-
-
-
-
+        },
     });
 });

@@ -1,12 +1,9 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
     'marionette',
     'radio',
     'views/graph',
     'config',
-    'text!modules2/argos/templates/argos_detail.html'
+    'text!../templates/argos_detail.html'
 ], function($, _, Backbone, Marionette, Radio, GraphView, config, template) {
 
     'use strict';
