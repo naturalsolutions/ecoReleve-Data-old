@@ -206,11 +206,11 @@ define([
             var elementsList = $('.autocompTree_st');
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
-                var startId = $(elementsList[i]).attr('startId');
+                var startId = parseInt($(elementsList[i]).attr('startId')) + 204081;
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: 'http://192.168.1.199/ThesaurusCore/ThesaurusREADServices.svc/json',
+                    wsUrl: 'http://ecwp-dbm/ThesaurusCore/ThesaurusREADServices.svc/json',
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},

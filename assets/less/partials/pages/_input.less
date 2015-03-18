@@ -27,16 +27,28 @@ margin-top: -1em;
 	display: inline-block;
 	min-height: 300px;
 	width: 250px;
-	background: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.7);
 	border-radius: 3px;
 	vertical-align: top;
 	color: white;
-	margin: 10px;
+	margin: 2%;
 	padding: 10px;
 	cursor: pointer;
+	&.smile{
+		min-height: 250px;
+		width: 200px;
+	}
 	.radio{
 		text-align: left;
 	}
+	&:hover{
+		background: rgba(0,0,0,0.9);
+	}
+}
+
+.echapment{
+	height: 100%;
+	overflow: auto;
 }
 
 
@@ -53,12 +65,9 @@ margin-top: -1em;
 	i:not(.huge){
 		font-size: 25px;
 	}
+
 }
 .manual-tile-import{
-	background: rgba(0,0,0,0.7);
-	border-radius: 3px;
-	padding: 20px;
-	margin: 20px 20px;
 	text-align: center;
 	color: white;
 	height: 250px;
@@ -80,17 +89,14 @@ margin-top: -1em;
 
 		}
 	}
-
-	&:hover{
-		background: rgba(0,0,0,0.9);
-	}
 	i:not(.huge){
 		font-size: 25px;
 	}
 	&.disable{
 		opacity: .6;
 		&:hover{
-			background: rgba(0,0,0,0.7);
+			//background: rgba(0,0,0,0.7);
+			cursor: not-allowed;
 		}
 	}
 }

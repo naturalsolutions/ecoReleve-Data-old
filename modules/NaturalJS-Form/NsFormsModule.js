@@ -177,7 +177,7 @@ define([
             var elementsList = $('.autocompTree');
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
-                var startId = $(elementsList[i]).attr('startId') + 204081;
+                var startId = parseInt($(elementsList[i]).attr('startId')) + 204081;
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
