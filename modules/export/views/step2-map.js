@@ -87,6 +87,7 @@ define([
             this.map = new NsMap({
                 cluster: true,
                 zoom: 3,
+                area: true,
                 geoJson: geoJson,
                 element: 'map',
             });

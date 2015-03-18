@@ -64,7 +64,6 @@ define([
         initMap: function(geoJson){
             this.ns = new NsMap({
                 cluster: true,
-                bbox: true,
                 area: true,
                 zoom: 3,
                 geoJson: geoJson,
@@ -75,6 +74,7 @@ define([
 
             var ctx = this;
             $(this.ns).on('ns_bbox_end', function(e, bbox){
+              console.log(bbox);
               ctx.boxCriteria=[
                 bbox._northEast.lng,
                 bbox._northEast.lat,

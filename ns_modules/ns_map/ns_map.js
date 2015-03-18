@@ -20,6 +20,7 @@ define([
 
         selection: false,
         bbox : false,
+        area: false,
         legend : false,
         popup: false,
         zoom: 10,
@@ -134,6 +135,7 @@ define([
 
             this.zoom = options.zoom || this.zoom;
             this.bbox = options.bbox || this.bbox;
+            this.area = options.area || this.area;
             this.cluster = options.cluster || this.cluster;
             this.popup = options.popup || this.popup;
             this.legend = options.legend || this.legend;
@@ -238,8 +240,6 @@ define([
         initMap: function(){
 
             this.map = new L.Map(this.elem, {
-
-              
               center: this.center ,
               zoom: this.zoom,
               minZoom: 2,
@@ -284,6 +284,10 @@ define([
           }
 
           this.map.addLayer(this.markersLayer);
+
+          if(this.area){
+            this.addArea();
+          }
 
           if(this.bbox){
             this.addBBox(this.markersLayer);
@@ -402,52 +406,18 @@ define([
               marker.bindPopup(infos);
             }
 
+            marker.feature = feature;
+
             ctx.dict[feature.id] = marker;
 
             marker.on('click', function(e){
-              if(this.selection){
-                this.interaction('selection', feature.id);
+              if(ctx.selection){
+                ctx.interaction('selection', this.feature.id);
               }
-            }, ctx);
+            });
             markerList.push(marker);
           }
 
-          /*
-          var geoJsonLayer = L.geoJson(geoJson, {
-              // onEachFeature: function (feature, layer) {
-              // },
-              pointToLayer: function(feature, latlng) {
-                i++;
-                var infos = '';
-                if(!feature.id)
-                feature.id = i;
-                if(feature.checked){
-                  marker = L.marker(latlng, {icon: ctx.focusedIcon});
-                }else{
-                  marker = L.marker(latlng, {icon: ctx.icon});
-                }
-
-                marker.checked=false;
-
-                if(ctx.popup){
-                  prop = feature.properties;
-                  for(var p in prop){
-                    infos +='<b>'+p+' : '+prop[p]+'</b><br />';
-                  }
-                  marker.bindPopup(infos);
-                }
-
-                ctx.dict[feature.id] = marker;
-
-                marker.on('click', function(e){
-                  if(this.selection){
-                    this.interaction('selection', feature.id);
-                  }
-                }, ctx);
-
-                return marker;
-              },
-          });*/
           this.geoJsonLayers.push(markerList);
 
         },
@@ -626,12 +596,34 @@ define([
               }
             }
             ctx.interaction('selectionMultiple', bbox);
-            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
         },
 
 
+        addArea: function(){
+          var ctx = this;
 
+          this.map.boxZoom.onMouseUp = function(e){
+            this._finish();
+
+            var map = this._map,
+                layerPoint = map.mouseEventToLayerPoint(e);
+
+            if (this._startLayerPoint.equals(layerPoint)) { return; }
+
+            var bounds = new L.LatLngBounds(
+                    map.layerPointToLatLng(this._startLayerPoint),
+                    map.layerPointToLatLng(layerPoint));
+
+            map.fire('boxzoomend', {
+              boxZoomBounds: bounds
+            });
+          };
+
+          this.map.on('boxzoomend', function(e) {
+            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
+          });
+        },
 
         selectOne: function(id){
           if(this.selection){
@@ -692,20 +684,7 @@ define([
 
         /*==========  resetMarkers :: reset a list of markers  ==========*/
         resetAll: function(){
-          var marker;
-          for (var key in this.selectedMarkers) {
-              marker = this.selectedMarkers[key];
-              marker.checked=!marker.checked;
-              this.changeIcon(marker);
-          }
-          if(this.cluster){
-            var cluster;
-            for (var i = this.firstLvl.length - 1; i >= 0; i--) {
-              cluster = this.firstLvl[i];
-              this.updateAllClusters(cluster, false);
-            }
-          }
-          this.selectedMarkers={};
+          this.updateLayers(this.geoJson);
         },
 
         addMarker: function(m, lat, lng, popup, icon){
