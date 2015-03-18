@@ -238,6 +238,8 @@ define([
         initMap: function(){
 
             this.map = new L.Map(this.elem, {
+
+              
               center: this.center ,
               zoom: this.zoom,
               minZoom: 2,
@@ -247,18 +249,10 @@ define([
               attributionControl: false,
             });
 
-            var markerArray = [];
-            var geoJsonLayer = this.geoJsonLayers[0];
-            if(geoJsonLayer){
-              for(var index in geoJsonLayer._layers) {
-                  var lat = geoJsonLayer._layers[index]._latlng.lat;
-                  var lng = geoJsonLayer._layers[index]._latlng.lng;
-                  markerArray.push(L.marker([lat, lng]));
-              }
-            }
 
-            if (markerArray.length >1){
-              var group = L.featureGroup(markerArray);
+            var geoJsonLayer = this.geoJsonLayers[0];
+            if (geoJsonLayer.length >1 && this.fitBounds){ 
+              var group = L.featureGroup(geoJsonLayer);
               this.map.fitBounds(group.getBounds());
             }
 
@@ -354,6 +348,7 @@ define([
         },
 
         setCenter: function(geoJson){
+          //this.center = new L.LatLng(33.046081, -3.995497);return true;
           if(!geoJson){
             this.center = new L.LatLng(0,0);
           }else{

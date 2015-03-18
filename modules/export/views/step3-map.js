@@ -66,6 +66,7 @@ define([
                 cluster: true,
                 bbox: true,
                 area: true,
+                zoom: 3,
                 geoJson: geoJson,
                 element : 'map-step3',
             });

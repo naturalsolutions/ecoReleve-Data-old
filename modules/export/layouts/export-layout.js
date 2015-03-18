@@ -43,9 +43,9 @@ define([
         },
 
         events: {
+            'click .finished' : 'finish',
             'click button.btn-next' : 'nextStep',
             'click button.btn-prev' : 'prevStep',
-            'click .finished' : 'finish'
         },
 
 
@@ -122,6 +122,9 @@ define([
         },
 
         nextStep: function(){
+            if(this.finished){
+                return false;
+            }
 
             $('#importWizard').wizard('next');
             var step = $('#importWizard').wizard('selectedItem').step;
@@ -168,12 +171,13 @@ define([
 
                     break;
                 case 5:
-                    this.step_5_Container.show( new Step5({
+                    this.lastStep = new Step5({
                         viewName:this.viewName,
                         filterCriteria: this.filters_coll,
                         boxCriteria: this.boxCriteria,
                         columnCriteria: this.columnCriteria
-                    }));
+                    });
+                    this.step_5_Container.show( this.lastStep);
 
                     this.step = 5;
 
@@ -190,28 +194,11 @@ define([
         },
 
         finish: function() {
-           
-            var self = this;
-            sweetAlert({
+           this.finished = true;
+           this.lastStep.initFile();
+           this.finished = false;
 
-                title: "Refaire une exportation ? ",
-                text: "",
-                type: "success",
-                showCancelButton: true,
-                confirmButtonColor: "green",
-                confirmButtonText: "Oui",
-                cancelButtonText: "Non (retour écran principal)",
-                closeOnConfirm: true,
-                closeOnCancel: true
-                },
-                function(isConfirm){
-                      if (isConfirm) {
-                        $('.steps >li:first').trigger("click");
-                      } else {
-                        Radio.channel('route').command('home');
-                      }
-            });
-                        
+
 
         },
 
