@@ -222,16 +222,24 @@ define([
                 }
                 else {
                     if(equip.end_date === null) {
+
+
+
                         this.ui.type.prop('disabled', true);
-                        this.ui.type.prop('value', site.type);
+                        this.ui.type.append(new Option(site.type, site.type));
+
                         this.ui.name.prop('disabled', true);
-                        this.ui.name.prop('value', site.name);
+                        this.ui.name.append(new Option(site.name, site.name));
+
                         this.ui.begin.prop('disabled', true);
-                        this.ui.begin.prop('value', datetime.loadAndFormat(equip.begin_date));
+                        this.ui.begin.attr('value', datetime.loadAndFormat(equip.begin_date));
+                        
                         this.ui.end.prop('disabled', false);
                         this.ui.end.prop('value', null);
+                        
                         this.ui.btn.prop('disabled', false);
                         this.ui.btn.text('Remove');
+                        
                         this.action = 'remove';
                         this.updateMap();
                     }

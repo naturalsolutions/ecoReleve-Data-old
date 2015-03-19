@@ -30,43 +30,45 @@ define([
 
         onBeforeDestroy: function(){
           this.map.remove();
-          console.info('detroy map');
+          console.log('detroy map');
         },
 
         destroy: function(){
           this.map.remove();
-          console.info('detroy map');
+          console.log('detroy map');
         },
+
+
 
         initialize: function(options) {
 
 
-            //check if there is a communicator
-            if(options.com){
-              this.com = options.com;
-              this.com.addModule(this);
-            }
+          //check if there is a communicator
+          if(options.com){
+            this.com = options.com;
+            this.com.addModule(this);
+          }
 
-            this.url=options.url;
-            this.geoJson=options.geoJson;
+          this.url=options.url;
+          this.geoJson=options.geoJson;
 
-            this.elem = options.element || 'map';
+          this.elem = options.element || 'map';
 
-            this.zoom = options.zoom || this.zoom;
-            this.disableClustring = options.disableClustring || this.disableClustring;
-            this.bbox = options.bbox || this.bbox;
-            this.area = options.area || this.area;
-            this.cluster = options.cluster || this.cluster;
-            this.popup = options.popup || this.popup;
-            this.legend = options.legend || this.legend;
-            this.selection = options.selection || this.selection;
+          this.zoom = options.zoom || this.zoom;
+          this.disableClustring = options.disableClustring || this.disableClustring;
+          this.bbox = options.bbox || this.bbox;
+          this.area = options.area || this.area;
+          this.cluster = options.cluster || this.cluster;
+          this.popup = options.popup || this.popup;
+          this.legend = options.legend || this.legend;
+          this.selection = options.selection || this.selection;
 
 
-            this.dict={}; //list of markers
-            this.selectedMarkers = {}; // list of selected markers
+          this.dict={}; //list of markers
+          this.selectedMarkers = {}; // list of selected markers
 
-            this.geoJsonLayers = [];
-            this.initIcons();
+          this.geoJsonLayers = [];
+          this.initIcons();
         },
 
         action: function(action, params){
@@ -81,7 +83,7 @@ define([
               this.selectMultiple(params);
               break;
             case 'popup':
-              //this.popup(params); //useless on click
+              //this.popup(params);
               break;
             case 'resetAll':
               this.resetAll();
@@ -90,7 +92,7 @@ define([
               this.filter(params);
               break;
             default:
-              console.warn('verify the action name');
+              console.log('verify the action name');
               break;
           }
         },
@@ -159,6 +161,7 @@ define([
 
         initMap: function(){
 
+
             this.map = new L.Map(this.elem, {
               center: this.center ,
               zoom: this.zoom,
@@ -169,12 +172,22 @@ define([
               attributionControl: false,
             });
 
+
             /*
+            var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
-            if (geoJsonLayer.length >1 && this.fitBounds){ 
-              var group = L.featureGroup(geoJsonLayer);
+            if(geoJsonLayer){
+              for(var index in geoJsonLayer._layers) {
+                  var lat = geoJsonLayer._layers[index]._latlng.lat;
+                  var lng = geoJsonLayer._layers[index]._latlng.lng;
+                  markerArray.push(L.marker([lat, lng]));
+              }
+            }
+            if (markerArray.length >1){
+              var group = L.featureGroup(markerArray);
               this.map.fitBounds(group.getBounds());
             }*/
+
 
             this.google();
 
@@ -232,6 +245,9 @@ define([
           this.map.addControl(new MyControl());
         },
 
+
+
+
         requestGeoJson: function(url){
           var criterias = {
               page: 1,
@@ -251,7 +267,7 @@ define([
               }
           })
           .fail(function(msg) {
-            console.error(msg);
+              console.log( msg );
           });
 
         },
@@ -291,7 +307,6 @@ define([
             this.setCenter();
           }
         },
-
 
         setGeoJsonLayer: function(geoJson){
           this.setCenter(geoJson);
@@ -409,7 +424,6 @@ define([
               maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });
-
           this.setGeoJsonLayer(geoJson);
 
           //return [this.geoJsonLayers, this.markersLayer];
@@ -523,9 +537,9 @@ define([
               }
             }
             ctx.interaction('selectionMultiple', bbox);
+            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
         },
-
 
         addArea: function(){
           var ctx = this;
@@ -551,6 +565,7 @@ define([
             $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
         },
+
 
         selectOne: function(id){
           if(this.selection){
@@ -602,8 +617,6 @@ define([
           this.map.panTo(center);
           var ctx = this;
 
-
-          //Todo update zoom vs current zoom
           if(zoom){
             setTimeout(function(){
               ctx.map.setZoom(zoom);

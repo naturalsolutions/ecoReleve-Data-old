@@ -17,10 +17,13 @@ define([
         events: {
 
         },
+
+        onDestroy: function(){
+            this.map.destroy();
+        },
+
         initialize: function(options) {
-            this.model = options.model;
             this.id= options.id;
-            this.model.bind('change', this.initMap, this);
             this.initGeoJson();
         },
 
@@ -39,6 +42,7 @@ define([
         },
 
         initMap: function(geoJson){
+
             var activePos = {'type':'FeatureCollection', 'features': []};
 
             var infos = geoJson;
@@ -62,12 +66,13 @@ define([
                 }
             };
 
+
             this.map = new NsMap({
                 geoJson: activePos,
                 zoom: 9,
                 element : 'mapDetail',
                 popup: true,
-                cluster: false,
+                cluster: true,
             });
             var ctx = this;
             this.map.init();
