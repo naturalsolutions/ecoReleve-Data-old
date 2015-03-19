@@ -232,7 +232,7 @@ define([
                         this.ui.name.append(new Option(site.name, site.name));
 
                         this.ui.begin.prop('disabled', true);
-                        this.ui.begin.attr('value', datetime.loadAndFormat(equip.begin_date));
+                        this.ui.begin.prop('value', datetime.loadAndFormat(equip.begin_date));
                         
                         this.ui.end.prop('disabled', false);
                         this.ui.end.prop('value', null);
