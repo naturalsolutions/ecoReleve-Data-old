@@ -86,7 +86,6 @@ define([
                     if(nbProtoInstances==1){
                         var idProto = pk_list[0];
                         $('#formsIdList ul').html('');
-                        console.log(idProto);
                         this.getProtocol(protoName,idProto);
                         this.selectedProtoId = idProto;   
                         $('#idProtosContainer').addClass('masqued');
@@ -144,7 +143,6 @@ define([
             });
         },
         getProtocol: function(protoName, id){
-                        console.log(id);
             var idProto = protoName.replace(/ /g,"_");
             this.formsRegion.empty();
             $('#formsContainer').text('');
@@ -319,7 +317,6 @@ define([
                 for (var key in this.activeProtcolsObj) {
                     firstProtoName = key;
                     firstProtoId = this.activeProtcolsObj[key].PK_data[0];
-                    console.log(firstProtoId);
 
                     this.getProtocol(firstProtoName,firstProtoId)
                     // to exit 
@@ -375,7 +372,6 @@ define([
                 content +=  '</a></div></div>';
             }
             $('#formsIdList').html('');
-            console.log(pkList);
             //$('#idProtosContainer').append('<div id="simplePage"></div>');
             this.pkList = pkList;
             var self = this;
