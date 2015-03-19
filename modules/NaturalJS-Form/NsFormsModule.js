@@ -6,8 +6,9 @@ define([
    'bbForms',
   'text!modules2/NaturalJS-Form/NsFormsModule.html',
   'autocompTree',
-   'radio'
-], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree,Radio ) {
+   'radio',
+   'config'
+], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree,Radio, config ) {
     return Marionette.ItemView.extend({
         BBForm: null,
         modelurl: null,
@@ -177,11 +178,11 @@ define([
             var elementsList = $('.autocompTree');
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
-                var startId = $(elementsList[i]).attr('startId');
+                var startId = parseInt($(elementsList[i]).attr('startId')) + 204081;
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: 'http://192.168.1.199/ThesaurusCore/ThesaurusREADServices.svc/json',
+                    wsUrl: config.serverUrl+'/ThesaurusREADServices.svc/json',
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
