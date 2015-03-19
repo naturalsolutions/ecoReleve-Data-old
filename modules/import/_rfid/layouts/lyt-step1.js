@@ -84,8 +84,8 @@ define([
 
         },
         deployRFID: function(){
-           Radio.channel('route').command('site:deploy');
-           Radio.channel('route').command('route:header',{route:'Manual import',child_route: 'RFID', route_url:'import'});
+           Radio.channel('route').command('site:deploy',{back_module:'import:rfid'});
+           Radio.channel('route').command('route:header',{route:'Manual import',child_route: 'RFID', route_url:'import', child_route_url:'rfid'});
             
         }
     });

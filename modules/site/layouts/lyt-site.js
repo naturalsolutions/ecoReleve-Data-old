@@ -115,7 +115,7 @@ define([
         },
         deploy: function(){
 
-            this.radio.command('site:deploy');
+            this.radio.command('site:deploy',{back_module:'site'});
         },
 
         detail: function(evt) {

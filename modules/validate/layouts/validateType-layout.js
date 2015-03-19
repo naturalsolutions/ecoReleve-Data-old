@@ -32,10 +32,6 @@ define([
                     this.type_url = config.sensorUrl+'argos/';
 
                     break;
-                case 'gps':
-                
-                    this.type_url = config.sensorUrl+'gps/';
-                    break;
                 default:
                     console.warn('type error');
                     break;
