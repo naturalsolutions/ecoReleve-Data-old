@@ -70,7 +70,7 @@ define([
                     var ctx = this;
                     var ind_id=this.model.attributes.ind_id;
                     var ptt=this.model.attributes.platform_;
-
+                    console.log(this.model);
                     $.when(this.auto_valide(ptt,ind_id)).then(function(data) {
                         ctx.import_success(e,data)
                     },function(data){
@@ -79,6 +79,7 @@ define([
 
                 },
                 auto_valide: function (ptt, ind_id) {
+
                     return $.ajax({
                         url: self.type_url + ptt + '/unchecked/'+ind_id+'/import/auto',
                         contentType: 'application/json',
@@ -206,13 +207,13 @@ define([
 
             var columns = [{
                 name: 'platform_',
-                label: 'GSM ID',
+                label: 'Transmitter',
                 editable: false,
                 cell: Backgrid.IntegerCell.extend({
                     orderSeparator: ''
                 }),
                 
-            }, {
+            },{
                 name: 'ind_id',
                 label: 'Individual ID',
                 editable: false,

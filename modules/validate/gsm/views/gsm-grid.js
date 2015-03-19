@@ -40,10 +40,7 @@ define([
                     this.type_url = config.sensorUrl+'argos/';
 
                     break;
-                case 'gps':
-                
-                    this.type_url = config.sensorUrl+'gps/';
-                    break;
+
                 default:
                     console.warn('type error');
                     break;
@@ -162,6 +159,22 @@ define([
                          return rawValue;
                       }
                 }),
+            },{
+                name: 'type_',
+                label: 'Type',
+                editable: false,
+                formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
+                    fromRaw: function (rawValue, model) {
+                            if (rawValue=='arg') {
+                                rawValue='Argos';
+                            }
+                            else {
+                                rawValue = 'GPS'
+                            }
+                         return rawValue;
+                      }
+                }),
+                cell: 'string'
             }, {
                 editable: true,
                 name: 'import',
