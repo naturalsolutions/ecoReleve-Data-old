@@ -223,11 +223,11 @@ define([
                 else {
                     if(equip.end_date === null) {
 
-
-
                         this.ui.type.prop('disabled', true);
+                        this.ui.type.find('option').remove().end();
                         this.ui.type.append(new Option(site.type, site.type));
 
+                        this.ui.name.find('option').remove().end();
                         this.ui.name.prop('disabled', true);
                         this.ui.name.append(new Option(site.name, site.name));
 
