@@ -34,13 +34,11 @@ define([
         },
 
         initialize: function(){
-            console.log("init rfid val")
             this.type='rfid';
 
             var MyRow = Backgrid.Row.extend({
                 render: function () {
                     MyRow.__super__.render.apply(this, arguments);
-                    console.log(this.model)
                     if (this.model.get('site_type') == null ) {
                       this.el.classList.add('red-row');
                     }
@@ -89,7 +87,6 @@ define([
                     fromRaw: function (rawValue, model) {
                             if (rawValue==null) {
                                 rawValue = '/!\\ Warning /!\\';
-                                console.log(this.el)
                             };
                          return rawValue;
                     }

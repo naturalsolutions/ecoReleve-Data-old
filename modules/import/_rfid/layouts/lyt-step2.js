@@ -95,8 +95,29 @@ define([
                         $('#btnNext').removeAttr('disabled');
                          
                         self.ui.progressBar.css({'background-color':'green'})
+                        swal(
+                            {
+                              title: "Succes",
+                              text: data,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: "Import new RFID",
+                              cancelButtonText: "Go to Validate",
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                                self.ui.progress.hide();
+                                if (isConfirm) {
+                                    Radio.channel('route').command('import:rfid',{});
+                                }
+                                else {
+                                    Radio.channel('route').command('validate:type','rfid');
+                                }
+                            }
+                        );
                         
-                        Radio.channel('rfid').command('showValidate',{});
 
 
                     }).fail( function(data) {
