@@ -60,10 +60,8 @@ define([
 
             if (obj.child_route) {
                 $('#header-child-module-name').html(' |&nbsp; ' + obj.child_route);
-                if (obj.child_route_url) {
-                    $('#header-child-module-name').attr('href','#'+route_url.toLowerCase()+'/'+obj.child_route_url);
-                }
-                
+                $('#header-child-module-name').attr('href','#'+route_url.toLowerCase()+'/'+obj.child_route.toLowerCase());
+               
             }
             if (templates[route]) {
 

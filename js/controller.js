@@ -469,12 +469,12 @@ define([
             this.radio.command('route:header', {route:'Monitored sites'});
         },
 
-        site_deploy: function(){
+        site_deploy: function(back_module){
             var route = 'site/deploy/';
 
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
-                var lyt = new Rfid_Layout()
+                var lyt = new Rfid_Layout(back_module);
                 this.mainRegion.show(lyt);
                 lyt.showDeploy();
             }, this);

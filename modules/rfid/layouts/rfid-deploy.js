@@ -47,12 +47,12 @@ define([
             btn: '#btn-action'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.sites = new MonitoredSites();
             this.action = '';
             var that=this;
             this.listenTo(this.sites, 'reset', this.updateName);           
-
+            this.back_module = options.back_module;
             // Get the RFID modules.
             datalist.fill( {
                 url: config.coreUrl + 'rfid/identifier'
@@ -242,6 +242,9 @@ define([
                         
                         this.action = 'remove';
                         this.updateMap();
+                        $('#input-end').datetimepicker({
+                            defaultDate:""
+                        });
                     }
                     else {
                         this.enableAll();
@@ -255,6 +258,7 @@ define([
         },
 
        pose : function (evt) {
+            var self = this;
              evt.preventDefault();
             if ( this.isValid() ) {
                 evt.stopPropagation();
@@ -271,10 +275,11 @@ define([
                         action: this.action
                     }
                 }).done( function(data) {
-                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to import RFID</button></a>');
+                   /* $('.sweet-validate').remove();
+                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Return to import RFID</button></a>');
                     $('.sweet-alert button').on('click',function(){
                             $('.sweet-validate').remove();
-                        });
+                        });*/
                     Swal({
                               title: 'Well done !',
                               text: data.responseText,
@@ -294,7 +299,8 @@ define([
                                 if (isConfirm){
                                    
                                 } else {
-                                    Radio.channel('route').trigger('import');
+                                    console.log(self.back_module)
+                                    Radio.channel('route').command(self.back_module);
                                }
                                 });
                     $('form').trigger('reset');

@@ -29,7 +29,8 @@ define([
             'click #add'      : 'showAdd',
             'click #validate' : 'showValidate'
         },
-        initialize: function() {
+        initialize: function(options) {
+            this.options = options;
              Radio.channel('rfid').comply('showValidate', this.showValidate, this);
         },
         onShow: function() {
@@ -37,7 +38,7 @@ define([
         },
 
         showDeploy: function() {
-            this.mainRegion.show(new DeployView());
+            this.mainRegion.show(new DeployView(this.options));
             //Backbone.history.navigate('rfid_deploy');
         },
 
