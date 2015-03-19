@@ -387,37 +387,39 @@ define([
 
           for (var j = 0; j < features.length; j++) {
             feature = features[i];
-            latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
-            i++;
-            var infos = '';
-            if(!feature.id)
-            feature.id = i;
-            if(feature.checked){
-              marker = L.marker(latlng, {icon: ctx.focusedIcon});
-            }else{
-              marker = L.marker(latlng, {icon: ctx.icon});
-            }
-
-            marker.checked=false;
-
-            if(ctx.popup){
-              prop = feature.properties;
-              for(var p in prop){
-                infos +='<b>'+p+' : '+prop[p]+'</b><br />';
+            if(!feature.lat || !feature.lng){
+              latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+              i++;
+              var infos = '';
+              if(!feature.id)
+              feature.id = i;
+              if(feature.checked){
+                marker = L.marker(latlng, {icon: ctx.focusedIcon});
+              }else{
+                marker = L.marker(latlng, {icon: ctx.icon});
               }
-              marker.bindPopup(infos);
-            }
 
-            marker.feature = feature;
+              marker.checked=false;
 
-            ctx.dict[feature.id] = marker;
-
-            marker.on('click', function(e){
-              if(ctx.selection){
-                ctx.interaction('selection', this.feature.id);
+              if(ctx.popup){
+                prop = feature.properties;
+                for(var p in prop){
+                  infos +='<b>'+p+' : '+prop[p]+'</b><br />';
+                }
+                marker.bindPopup(infos);
               }
-            });
-            markerList.push(marker);
+
+              marker.feature = feature;
+
+              ctx.dict[feature.id] = marker;
+
+              marker.on('click', function(e){
+                if(ctx.selection){
+                  ctx.interaction('selection', this.feature.id);
+                }
+              });
+              markerList.push(marker);
+            }
           }
 
           this.geoJsonLayers.push(markerList);
