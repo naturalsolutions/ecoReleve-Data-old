@@ -23,6 +23,7 @@ define([
             'click #filter-query-btn': 'check',
             'click #filter-delete': 'deleteFilter'
         },
+        className: 'full-height',
 
         initialize: function(options) {
             this.radio = Radio.channel('exp');
@@ -50,10 +51,8 @@ define([
         
         deleteFilter: function(e){
             var elem=$(e.target).parent('.filter-row');
-            //console.log($('#export-filter-list').find('.filter-row'));
             var index = ($('.filter-row').index($(elem)));
             //var index= nodeList.indexOf(e.target.parentNode);
-            //console.log(this.filterList);
 
             //var nodeList = Array.prototype.slice.call( document.getElementById('export-filter-list').children );
             //var index= nodeList.indexOf(e.target.parentNode);
@@ -245,7 +244,7 @@ define([
                 $('#geo-query-result').html(count);
                 this.validate();
             }).fail(function(msg){
-                console.log(msg);
+                console.error(msg);
             });
 
 

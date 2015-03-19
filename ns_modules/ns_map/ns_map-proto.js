@@ -78,12 +78,12 @@ define([
 
         onBeforeDestroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
         destroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
         unlockError: function(){
@@ -182,7 +182,6 @@ define([
             this.geoJsonLayers = [];
 
             this.zoom = options.zoom;
-            console.log(this);
 
             this.elem = options.element;
             this.bbox = options.bbox || this.bbox;
@@ -222,7 +221,7 @@ define([
               this.filter(params);
               break;
             default:
-              console.log('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },
@@ -382,7 +381,7 @@ define([
               }
           })
           .fail(function(msg) {
-              console.log( msg );
+              console.error( msg );
           });
 
         },
@@ -735,7 +734,6 @@ define([
             m.addTo(this.map);
           }
 
-          console.log(this.lastMarker);
           if(this.lastMarker){
             this.map.removeLayer(this.lastMarker);
           }
@@ -794,15 +792,12 @@ define([
         filter: function(param){
           var geoJson, coll;
           coll = _.clone(param);
-          console.log(coll);
           //if(coll instanceof Backbone.Collection){
           geoJson = this.coll2GeoJson(coll);
           coll = param;
             if(coll.length){
-              console.log('lenght');
               this.updateLayers(geoJson);
             }else{
-              console.log('empty');
               this.map.removeLayer(this.markersLayer);
               this.geoJsonLayers = [];
             }

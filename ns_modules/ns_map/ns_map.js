@@ -20,20 +20,21 @@ define([
 
         selection: false,
         bbox : false,
+        area: false,
         legend : false,
         popup: false,
-        zoom: 3,
+        zoom: 10,
         fitBounds: false,
         geoJsonLayers: [],
 
         onBeforeDestroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
         destroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
         unlockError: function(){
@@ -120,34 +121,31 @@ define([
 
 
             this.unlockError();
-            //check if there is a communicator
 
+            //check if there is a communicator
             if(options.com){
               this.com = options.com;
               this.com.addModule(this);
             }
+
             this.url=options.url;
             this.geoJson=options.geoJson;
 
-            this.geoJsonLayers = [];
+            this.elem = options.element || 'map';
 
-            this.zoom = options.zoom;
-            console.log(this);
-
-            this.elem = options.element;
+            this.zoom = options.zoom || this.zoom;
             this.bbox = options.bbox || this.bbox;
-            this.cluster = options.cluster;
-            this.popup = options.popup;
-            this.legend = options.legend;
+            this.area = options.area || this.area;
+            this.cluster = options.cluster || this.cluster;
+            this.popup = options.popup || this.popup;
+            this.legend = options.legend || this.legend;
+            this.selection = options.selection || this.selection;
 
-
-            this.selection = options.selection;
 
             this.dict={}; //list of markers
             this.selectedMarkers = {}; // list of selected markers
-            this.url = options.url;
-            this.geoJson = options.geoJson;
 
+            this.geoJsonLayers = [];
             this.initIcons();
         },
 
@@ -163,7 +161,7 @@ define([
               this.selectMultiple(params);
               break;
             case 'popup':
-              //this.popup(params);
+              //this.popup(params); //useless on click
               break;
             case 'resetAll':
               this.resetAll();
@@ -172,7 +170,7 @@ define([
               this.filter(params);
               break;
             default:
-              console.log('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },
@@ -241,34 +239,22 @@ define([
 
         initMap: function(){
 
-
             this.map = new L.Map(this.elem, {
               center: this.center ,
-              zoom: 3,
+              zoom: this.zoom,
               minZoom: 2,
               inertia: false,
               zoomAnimation: true,
-              keyboard: false //fix scroll window
+              keyboard: false, //fix scroll window
+              attributionControl: false,
             });
 
 
-            var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
-            if(geoJsonLayer){
-              for(var index in geoJsonLayer._layers) {
-                  var lat = geoJsonLayer._layers[index]._latlng.lat;
-                  var lng = geoJsonLayer._layers[index]._latlng.lng;
-                  markerArray.push(L.marker([lat, lng]));
-              }
+            if (geoJsonLayer.length >1 && this.fitBounds){ 
+              var group = L.featureGroup(geoJsonLayer);
+              this.map.fitBounds(group.getBounds());
             }
-
-            if (markerArray.length >1 && this.fiBounds){
-              var group = L.featureGroup(markerArray);
-            this.map.fitBounds(group.getBounds());
-            } else {
-              this.map.setZoom(this.zoom);
-            }
-
 
             this.google();
 
@@ -284,11 +270,24 @@ define([
         addMarkersLayer2Map: function(){
           if(this.geoJsonLayers.length !== 0){
             for (var i = 0; i < this.geoJsonLayers.length; i++) {
-              this.markersLayer.addLayer(this.geoJsonLayers[i]);
+              this.markersLayer.addLayers(this.geoJsonLayers[i]);
+              for (var j = 0; j < this.geoJsonLayers[i].length; j++) {
+                delete this.geoJsonLayers[i][j];
+              };
+              this.geoJsonLayers[i].length = 0;
+              this.geoJsonLayers[i] = [];
+              delete this.geoJsonLayers[i];
+              this.geoJsonLayers.length = 0;
+              this.geoJsonLayers = [];
+              delete this.geoJsonLayers;
             }
           }
 
           this.map.addLayer(this.markersLayer);
+
+          if(this.area){
+            this.addArea();
+          }
 
           if(this.bbox){
             this.addBBox(this.markersLayer);
@@ -332,7 +331,7 @@ define([
               }
           })
           .fail(function(msg) {
-              console.log( msg );
+            console.error(msg);
           });
 
         },
@@ -353,6 +352,7 @@ define([
         },
 
         setCenter: function(geoJson){
+          //this.center = new L.LatLng(33.046081, -3.995497);return true;
           if(!geoJson){
             this.center = new L.LatLng(0,0);
           }else{
@@ -377,42 +377,49 @@ define([
           var marker, prop;
           var ctx = this;
           var i =0;
-          var geoJsonLayer = L.geoJson(geoJson, {
-              // onEachFeature: function (feature, layer) {
-              // },
-              pointToLayer: function(feature, latlng) {
-                i++;
-                var infos = '';
-                if(!feature.id)
-                feature.id = i;
-                if(feature.checked){
-                  marker = L.marker(latlng, {icon: ctx.focusedIcon});
-                }else{
-                  marker = L.marker(latlng, {icon: ctx.icon});
-                }
 
-                marker.checked=false;
+          var markerList = [];
 
-                if(ctx.popup){
-                  prop = feature.properties;
-                  for(var p in prop){
-                    infos +='<b>'+p+' : '+prop[p]+'</b><br />';
-                  }
-                  marker.bindPopup(infos);
-                }
+          var features = geoJson.features;
+          var feature, latlng;
 
-                ctx.dict[feature.id] = marker;
+          for (var j = 0; j < features.length; j++) {
+            feature = features[i];
+            latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+            i++;
+            var infos = '';
+            if(!feature.id)
+            feature.id = i;
+            if(feature.checked){
+              marker = L.marker(latlng, {icon: ctx.focusedIcon});
+            }else{
+              marker = L.marker(latlng, {icon: ctx.icon});
+            }
 
-                marker.on('click', function(e){
-                  if(this.selection){
-                    this.interaction('selection', feature.id);
-                  }
-                }, ctx);
+            marker.checked=false;
 
-                return marker;
-              },
-          });
-          this.geoJsonLayers.push(geoJsonLayer);
+            if(ctx.popup){
+              prop = feature.properties;
+              for(var p in prop){
+                infos +='<b>'+p+' : '+prop[p]+'</b><br />';
+              }
+              marker.bindPopup(infos);
+            }
+
+            marker.feature = feature;
+
+            ctx.dict[feature.id] = marker;
+
+            marker.on('click', function(e){
+              if(ctx.selection){
+                ctx.interaction('selection', this.feature.id);
+              }
+            });
+            markerList.push(marker);
+          }
+
+          this.geoJsonLayers.push(markerList);
+
         },
 
 
@@ -471,7 +478,7 @@ define([
           });
 
           this.markersLayer = new CustomMarkerClusterGroup({
-              disableClusteringAtZoom : 18,
+              disableClusteringAtZoom : 12, //2km
               maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });
@@ -589,12 +596,34 @@ define([
               }
             }
             ctx.interaction('selectionMultiple', bbox);
-            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
           });
         },
 
 
+        addArea: function(){
+          var ctx = this;
 
+          this.map.boxZoom.onMouseUp = function(e){
+            this._finish();
+
+            var map = this._map,
+                layerPoint = map.mouseEventToLayerPoint(e);
+
+            if (this._startLayerPoint.equals(layerPoint)) { return; }
+
+            var bounds = new L.LatLngBounds(
+                    map.layerPointToLatLng(this._startLayerPoint),
+                    map.layerPointToLatLng(layerPoint));
+
+            map.fire('boxzoomend', {
+              boxZoomBounds: bounds
+            });
+          };
+
+          this.map.on('boxzoomend', function(e) {
+            $(ctx).trigger('ns_bbox_end', e.boxZoomBounds);
+          });
+        },
 
         selectOne: function(id){
           if(this.selection){
@@ -655,20 +684,7 @@ define([
 
         /*==========  resetMarkers :: reset a list of markers  ==========*/
         resetAll: function(){
-          var marker;
-          for (var key in this.selectedMarkers) {
-              marker = this.selectedMarkers[key];
-              marker.checked=!marker.checked;
-              this.changeIcon(marker);
-          }
-          if(this.cluster){
-            var cluster;
-            for (var i = this.firstLvl.length - 1; i >= 0; i--) {
-              cluster = this.firstLvl[i];
-              this.updateAllClusters(cluster, false);
-            }
-          }
-          this.selectedMarkers={};
+          this.updateLayers(this.geoJson);
         },
 
         addMarker: function(m, lat, lng, popup, icon){
@@ -685,7 +701,6 @@ define([
             m.addTo(this.map);
           }
 
-          console.log(this.lastMarker);
           if(this.lastMarker){
             this.map.removeLayer(this.lastMarker);
           }
@@ -744,15 +759,12 @@ define([
         filter: function(param){
           var geoJson, coll;
           coll = _.clone(param);
-          console.log(coll);
           //if(coll instanceof Backbone.Collection){
           geoJson = this.coll2GeoJson(coll);
           coll = param;
             if(coll.length){
-              console.log('lenght');
               this.updateLayers(geoJson);
             }else{
-              console.log('empty');
               this.map.removeLayer(this.markersLayer);
               this.geoJsonLayers = [];
             }

@@ -32,7 +32,6 @@ define([
                 $(window).keyup(function (e) {
                     var code = (e.keyCode ? e.keyCode : e.which);
                     if (code === 9) {
-                        console.log('tab key up')
                         $('.step-content').trigger('click');
                     }
                 });

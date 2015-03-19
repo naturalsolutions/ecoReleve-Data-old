@@ -57,17 +57,16 @@ define([
           }).done(function(data){
               this.initMap(data);
           }).fail(function(msg){
-              console.log(msg);
+              console.error(msg);
           });
         },
 
         initMap: function(geoJson){
             this.ns = new NsMap({
                 cluster: true,
-                selection: true,
-                bbox: true,
-                geoJson: geoJson,
+                area: true,
                 zoom: 3,
+                geoJson: geoJson,
                 element : 'map-step3',
             });
 
@@ -75,6 +74,7 @@ define([
 
             var ctx = this;
             $(this.ns).on('ns_bbox_end', function(e, bbox){
+              console.log(bbox);
               ctx.boxCriteria=[
                 bbox._northEast.lng,
                 bbox._northEast.lat,

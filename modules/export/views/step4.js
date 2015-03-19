@@ -88,7 +88,6 @@ define([
         },
 
         selectAll: function(){
-        	console.log(this.$el.find('#Columns input[type=checkbox]'));
         	this.$el.find('#Columns input[type=checkbox]').each(function(){
         		$(this).attr('checked', true);
         	});

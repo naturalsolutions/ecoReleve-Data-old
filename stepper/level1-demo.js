@@ -42,17 +42,14 @@ define([
                 model: user
             }).render();
 
-            console.log(form);
 
 
             this.$el.find('#form').append(form.el);
 
             this.form=form;
-            console.log('first');
         },
 
         validate: function(){
-            console.log(this.form.validate());
         },
     });
 });

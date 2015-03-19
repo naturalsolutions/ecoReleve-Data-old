@@ -72,7 +72,6 @@ define([
         initialize : function(options){
             if (options.type) {
                 this.type = options.type;
-                console.log(this.type)
             }
             else
                 this.type = 'gpx';

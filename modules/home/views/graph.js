@@ -62,8 +62,8 @@ define([
                     var day_ = d[2];
                     localStorage.setItem("ecoreleveChartDay", day_);
                     this.chart = new Chart(canvas[0].getContext('2d')).Line(gData,  {scaleShowLabels: false});
-                }).fail( function(data) {
-                    console.log("error in loading data");
+                }).fail( function(msg) {
+                    console.error(msg);
                 });
             }
         },

@@ -150,7 +150,7 @@ define([
             // extend NsForms Module to replace thesaurus fields values by 'fullpath' values stored in hidden fields
             var NsForm = NsFormsModule.extend({
                 butClickSave: function (e) {
-                    var errors = this.BBForm.commit();         
+                    var errors = this.BBForm.commit();
                     var changedAttr = this.BBForm.model.changed;
                     if(!errors){  
                         var self = this;   
@@ -178,7 +178,6 @@ define([
                         this.model.save([],{
                         dataType:"text",
                         success:function(model, response) {
-                            console.log('success' + response);
                             self.displayMode = 'display';
                             self.displaybuttons();
                             self.radio.command('successCommitForm', {id: response});
@@ -646,7 +645,6 @@ define([
                 data: data,
                 type:'POST',
                 success: function(data){
-                    console.log(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                 //alert('error in updating current station value(s)');

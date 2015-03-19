@@ -33,7 +33,6 @@ define([
         elemIndex:0,
 
         onDestroy: function(){
-            console.log('destroy');
             this.contents=this.$el.html();
         },
 
@@ -91,7 +90,6 @@ define([
             this.elemIndex=0;
             this.view1=new View1();
             this.main.show(this.view1, {preventDestroy: true});
-            console.log('two');
             this.parseOneTpl(this.template);
             this.feedTpl();
         },

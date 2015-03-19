@@ -13,7 +13,6 @@ define([
         onShow: function(){
             StepperOrchestrator.prototype.onShow.apply(this, arguments);
             Backbone.history.navigate('#import/rfid');
-        	console.log('orchestraor show');
             $('#stepper-header span').html('Import > RFID');
             Radio.channel('route').command('route:header', {route:'Manual import',child_route: 'RFID', route_url:'import'});
         	$('#btnPrev').show();
@@ -40,7 +39,6 @@ define([
         }, 
       
         finish: function() {
-        	console.log('finish')
         	var currentStep = this.steps[this.currentStep];
         	currentStep.importFile();
             

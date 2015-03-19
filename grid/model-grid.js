@@ -153,7 +153,7 @@ define([
         },
 
         updateMap: function(params){
-            //this.radio.command(this.channel+':map:update', { params : params });
+            this.radio.command(this.channel+':map:update', { params : params });
         },
         
         initCollectionPaginableClient:function(){

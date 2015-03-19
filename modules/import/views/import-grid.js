@@ -122,7 +122,7 @@ define([
                this.filter(params);
               break;
             default:
-              console.log('verify the action name');
+              console.warn('verify the action name');
               break;
           }
         },
@@ -136,7 +136,6 @@ define([
         },
 
         hilight: function(){
-            console.log('passed');
         },
 
         clearAll: function(){
@@ -198,7 +197,6 @@ define([
         },
 
         filter: function(coll){
-            console.log(coll);
             this.grid.collection = coll;
             this.grid.body.collection = coll;
             this.grid.body.refresh();

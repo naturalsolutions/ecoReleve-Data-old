@@ -156,7 +156,6 @@ define([
             });
         },
         validate: function() {
-            console.log(this.frequency)
             var self = this;
             $.ajax({
                 url: config.coreUrl + 'rfid/validate',

@@ -63,11 +63,9 @@ define([
         },
 
         login: function(elt) {
-            console.log('login');
             elt.preventDefault();
             elt.stopPropagation();
             var user = this.collection.findWhere({fullname: $('#username').val()});
-            console.log(user);
             var url = config.coreUrl + 'security/login';
             if (user) {
                 $.ajax({

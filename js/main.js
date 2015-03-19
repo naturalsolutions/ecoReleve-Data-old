@@ -32,15 +32,6 @@ var ecoReleveData = (function(){
                 deps:['jquery','bootstrap'],
                 exports: 'Fuelux'
             },
-            /*
-            ol3: {
-                exports: 'ol'
-            },
-            openlayers: {
-                exports: 'OpenLayers'
-            },*/
-
-
             sha1: {
                 exports: 'sha1'
             },
@@ -101,6 +92,8 @@ var ecoReleveData = (function(){
             text: '../tools/text',
             views: '../views',
 
+
+            customRegion: '../region',
             /*===============================
             =            Modules            =
             ===============================*/
@@ -114,11 +107,11 @@ var ecoReleveData = (function(){
             ns_modules_map: ns_modules+'ns_map',
 
             ns_modules_grid: ns_modules+'ns_grid',
+            ns_modules_stepper: ns_modules+'ns_stepper',
 
 
             /*
             ns_modules_filter: ns_modules+'ns_filter',
-            ns_modules_stepper: ns_modules+'Stepper',
             */
 
             /*=============================
@@ -159,12 +152,9 @@ var ecoReleveData = (function(){
             backgridSelect_all:'../../bower_components/backgrid-select-all/backgrid-select-all',
 
             backboneLocalstorage : 'backbone.localstorage/backbone.localStorage-min',
-            //openlayers: 'openlayers/openlayers',
-            //ol3: 'openlayers/3.0.0/build/ol-debug',
             sha1: 'sha1/sha1',
             localforage: 'localforage/localforage-0.9.2',
             jquery: 'jquery/jquery-1.11.1',
-            //jquery_ui: 'jquery-ui/1.11.1/jquery-ui',
 
             localforagebackbone: 'localforage.backbone/0.4.0/localforage.backbone',
             nicescroll:'nicescroll/jquery.nicescroll',
