@@ -121,7 +121,7 @@ define([
         initialize: function(options) {
 
 
-            this.unlockError();
+            //this.unlockError();
 
             //check if there is a communicator
             if(options.com){
@@ -385,9 +385,10 @@ define([
           var features = geoJson.features;
           var feature, latlng;
 
+
           for (var j = 0; j < features.length; j++) {
-            feature = features[i];
-            if(!feature.lat || !feature.lng){
+            feature = features[j];
+            if(feature.geometry.coordinates[1] != null && feature.geometry.coordinates[0] != null){
               latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
               i++;
               var infos = '';
@@ -419,6 +420,8 @@ define([
                 }
               });
               markerList.push(marker);
+            }else{
+              //console.log(feature);
             }
           }
 
