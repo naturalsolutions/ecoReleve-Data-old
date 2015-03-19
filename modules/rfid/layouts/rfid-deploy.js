@@ -308,7 +308,7 @@ define([
                 }).fail( function(data) {
                    Swal({
                               title: 'Error',
-                              text: data.responseText,
+                              text: data,
                               type: 'error',
                               showCancelButton: false,
                               confirmButtonColor: 'green',
