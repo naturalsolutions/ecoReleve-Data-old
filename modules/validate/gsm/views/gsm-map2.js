@@ -90,8 +90,9 @@ define([
                 legend : true,
                 bbox: true,
                 selection : true,
+                disableClustring: 17,
                 element: 'map',
-                com: this.com,             
+                com: this.com,
             });
             //this.rg_map.show(this.map);
             this.map.init();
@@ -103,7 +104,6 @@ define([
           }else{
             marker.setIcon(this.icon);
           }
-
         },
 
         updateGrid: function(marker){

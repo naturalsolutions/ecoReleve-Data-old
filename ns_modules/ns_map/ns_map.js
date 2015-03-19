@@ -26,6 +26,7 @@ define([
         zoom: 10,
         fitBounds: false,
         geoJsonLayers: [],
+        disableClustring : 18,
 
         onBeforeDestroy: function(){
           this.map.remove();
@@ -134,6 +135,7 @@ define([
             this.elem = options.element || 'map';
 
             this.zoom = options.zoom || this.zoom;
+            this.disableClustring = options.disableClustring || this.disableClustring;
             this.bbox = options.bbox || this.bbox;
             this.area = options.area || this.area;
             this.cluster = options.cluster || this.cluster;
@@ -478,7 +480,7 @@ define([
           });
 
           this.markersLayer = new CustomMarkerClusterGroup({
-              disableClusteringAtZoom : 12, //2km
+              disableClusteringAtZoom : this.disableClustring, //2km
               maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });
@@ -675,6 +677,8 @@ define([
           this.map.panTo(center);
           var ctx = this;
 
+
+          //Todo update zoom vs current zoom
           if(zoom){
             setTimeout(function(){
               ctx.map.setZoom(zoom);
