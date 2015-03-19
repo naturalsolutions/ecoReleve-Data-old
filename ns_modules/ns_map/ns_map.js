@@ -251,14 +251,12 @@ define([
               attributionControl: false,
             });
 
-
-
+            /*
             var geoJsonLayer = this.geoJsonLayers[0];
-            if (geoJsonLayer.length && this.fitBounds){ 
+            if (geoJsonLayer.length >1 && this.fitBounds){ 
               var group = L.featureGroup(geoJsonLayer);
               this.map.fitBounds(group.getBounds());
-            }
-            
+            }*/
 
             this.google();
 
