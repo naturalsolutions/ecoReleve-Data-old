@@ -40,6 +40,7 @@ define([
 
         initialize: function(options) {
 
+
             //check if there is a communicator
             if(options.com){
               this.com = options.com;

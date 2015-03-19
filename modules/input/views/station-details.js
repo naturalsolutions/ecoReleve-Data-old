@@ -210,7 +210,7 @@ define([
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: 'http://ecwp-dbm/ThesaurusCore/ThesaurusREADServices.svc/json',
+                    wsUrl: config.serverUrl+'/ThesaurusREADServices.svc/json',
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
