@@ -26,9 +26,6 @@ define([
         events: {
             'click #btn-action': 'pose',
             'focus input': 'clearErrors',
-            'input #input-mod': 'updateForm',
-            'input #input-type': 'updateName',
-            'input #input-name': 'updateMap',
             'change #input-mod': 'updateForm',
             'change #input-type': 'updateName',
             'change #input-name': 'updateMap',
