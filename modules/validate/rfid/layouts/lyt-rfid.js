@@ -164,7 +164,7 @@ define([
                     Swal({
 
                               title: 'Well done !',
-                              text: data.responseText,
+                              text: data,
                               type: 'success',
                               showCancelButton: true,
                               confirmButtonColor: 'green',
