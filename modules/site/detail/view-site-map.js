@@ -67,6 +67,7 @@ define([
                 zoom: 9,
                 element : 'mapDetail',
                 popup: true,
+                cluster: false,
             });
             var ctx = this;
             this.map.init();
