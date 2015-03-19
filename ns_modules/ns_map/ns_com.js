@@ -61,7 +61,6 @@ define([
 
             action: function(action, params){
                 
-                console.log(action, params);
                 for (var i = 0; i < this.components.length; i++) {
                     this.components[i].action(action, params);
                 };

@@ -24,8 +24,8 @@ define([
 
         initialize: function(options) {
             this.channel='modules';
-              this.radio = Radio.channel(this.channel);
-                this.radio.comply(this.channel+':map:update', this.updateGeoJson, this);
+            this.radio = Radio.channel(this.channel);
+            this.radio.comply(this.channel+':map:update', this.updateGeoJson, this);
             this.initGeoJson();
 
 
@@ -49,7 +49,7 @@ define([
             }).done(function(datas){
                 this.initMap(datas);
             }).fail(function(msg){
-                console.log(msg);
+                console.error(msg);
             });
         },
 
@@ -76,7 +76,7 @@ define([
             }).done(function(geoJson){
                 this.map.updateLayers(geoJson);
             }).fail(function(msg){
-                console.log(msg);
+                console.warn(msg);
             });
         },
     });

@@ -1570,7 +1570,8 @@ Form.editors.Number = Form.editors.Text.extend({
     if( event.charCode != undefined ) {
       newVal = newVal + String.fromCharCode(event.charCode);
     }
-    console.log('regex number');
+
+    //todo mjaouen
     var numeric = /^-?[0-9]*\.?[0-9]*?$/.test(newVal);
 
     if (numeric) {

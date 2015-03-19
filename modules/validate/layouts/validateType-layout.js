@@ -11,7 +11,7 @@ define([
     'use strict';
 
     return Marionette.LayoutView.extend({
-        className: 'container ',
+        className: 'full-height',
         template: template,
 
         events: {
@@ -22,7 +22,6 @@ define([
             this.type=options.type;
             var self = this;
 
-            console.log(this.type);
             switch(this.type){
                 case 'gsm':
                     
@@ -93,7 +92,6 @@ define([
                     this.model.collection.remove(this.model);
                 },
                 import_error: function(e,data) {
-                    console.log(data);
                     Swal({
                         title: "Error",
                         text: data.responseText,
@@ -283,8 +281,7 @@ define([
         },
 
         onShow: function(){
-            $('body').addClass('home-page full-height');
-            $('#main-region').addClass('obscur full-height');
+
         },
 
         onRender: function () {
@@ -305,7 +302,6 @@ define([
         },
 
         auto_valide: function (evt) {
-            console.log('import click ! ')
             var model = $(evt.target).parent().parent().parent().data('model'); 
             var ind_id=model.attributes.ind_id;
             var ptt=model.attributes.platform_;
@@ -324,7 +320,6 @@ define([
         },
 
         auto_valide_ALL: function () {
-            console.log('import ALLL click ! ')
             $.ajax({
                 url:this.type_url +'unchecked/importAll/auto',
                 contentType: 'application/json',

@@ -47,7 +47,6 @@ define([
             rightRegion : '#inputStRight'
         },
         onShow: function(){
-            $('.step-grid').css('width','98%');
             this.radio = Radio.channel('input');
             this.radio.comply('generateStation', this.generateStation, this);
             this.radio.comply('movePoint', this.movePoint, this);
@@ -65,12 +64,9 @@ define([
                 this.feedTpl();
                 this.updateStationType(stationType);
                 this.map = new NsMap({
-                    cluster: true,
                     popup: true,
                     zoom : 8,
                     element: 'map',
-                    ///url: config.coreUrl+'/individuals/stations?id=3',
-                    //geoJson : {"features": [{"properties": {"date": 1193220000.0}, 'id': 1, "geometry": {"coordinates": [-3.96,33.06 ], "type": "Point"}, "type": "Feature"}], "type": "FeatureCollection"}
                 });
                 this.rightRegion.show(this.map);
                 this.map.init();
@@ -680,7 +676,6 @@ define([
                 var position = monitoredSite.get('positions');
                 var lat = position.lat;
                 var lon = position.lon;
-                //console.log('lat  '+lat+'  long '+lon);
                 //this.map.updateMarkerPos(1, lat, lon );
                 this.map.addMarker(false, lat, lon );
             }

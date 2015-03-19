@@ -23,7 +23,6 @@ define([
             //this.sync("read", this, options);
             this.sync('read', this, {
                 success: function(){
-                    console.log('collection loaded!');
                 }
             });
         },

@@ -62,7 +62,6 @@ define([
                     storedCollection.fetch();
                     storedCollection.reset(resp.data);
                     storedCollection.save();
-                    console.log(storedCollection);
                     var msg = resp.response;
                     var message = resp.response;
                     var nb = msg.substring(0,1);

@@ -66,7 +66,6 @@ define([
 
         },
         updateGrid: function(id) {
-            //console.log('detail' + id);
         },
 
         updateMap: function(evt) {
@@ -74,7 +73,6 @@ define([
                 var tr = $(evt.target).parent();
                 var id = tr.find('td').first().text();
                 var currentModel = this.locations.findWhere({id: Number(id)});
-                console.log(currentModel);
                 Radio.channel('import-gpx').command('updateMap', currentModel);
                 // unselect rows and select clicked row
                 $('table.backgrid tr').removeClass('backgrid-selected-row');

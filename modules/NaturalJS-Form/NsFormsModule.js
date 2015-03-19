@@ -182,7 +182,7 @@ define([
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: config.serverUrl+'/ThesaurusREADServices.svc/json',
+                    wsUrl: config.serverUrl+'/ThesaurusREADServices.svc/json',					
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
@@ -211,7 +211,6 @@ define([
 
         getbuttonhtml: function () {
             this.displaybuttons();
-            console.log(this.template);
             return this.template;
         },
 
@@ -256,7 +255,6 @@ define([
                 this.model.save([],{
                  dataType:"text",
                  success:function(model, response) {
-                    console.log('success' + response);
                     self.displayMode = 'display';
                     self.displaybuttons();
                     self.radio.command('successCommitForm', {id: response});

@@ -19,7 +19,6 @@ define([
             'import/gsm(/)' : 'import_gsm',
             'import/rfid(/)' : 'import_rfid',
 
-
             'site(/)' : 'site',
             'site/deploy(/)' : 'site_deploy',
             'site/add(/)' : 'site_add',
@@ -27,12 +26,10 @@ define([
             'site/:id(/)' : 'site_detail',
             'input(/)': 'inputData',
 
-
             'demo_stepper(/)' : 'demo_stepper',
             'demo_grid(/)' : 'demo_grid',
             'demo_filter(/)' : 'demo_filter',
             'demo_map(/)' : 'demo_map',
-
 
             '*route(/:page)': 'login'
         }

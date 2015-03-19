@@ -57,7 +57,7 @@ define([
         /*===================================================
         =            Layout Stepper Orchestrator            =
         ===================================================*/
-        className:'container full-height',
+        className:'full-height',
         template: tpl_step1,
         regions: {
             stepperRegion : '#stepper',
@@ -72,7 +72,6 @@ define([
         initialize : function(options){
             if (options.type) {
                 this.type = options.type;
-                console.log(this.type)
             }
             else
                 this.type = 'gpx';

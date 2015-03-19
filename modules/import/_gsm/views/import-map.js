@@ -39,8 +39,6 @@ define([
                     return feature;
                   });
               if (feature) {
-                console.log(feature);
-                //console.log("feature : " + feature.values['id']);
                 var geometry = feature.getGeometry();
                 var coord = geometry.getCoordinates();
                 var prop = feature.getProperties();

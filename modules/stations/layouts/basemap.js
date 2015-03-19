@@ -68,7 +68,6 @@ define([
         moveCenter: function(newCenter) {
             
            // this.addOverlay(newCenter);
-           console.log(newCenter);
             this.map.getView().setCenter(ol.proj.transform(newCenter, 'EPSG:4326', 'EPSG:3857'));
         },
         addCollection : function(collection){

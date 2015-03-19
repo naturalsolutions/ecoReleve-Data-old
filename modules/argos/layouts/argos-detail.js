@@ -1,12 +1,9 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
     'marionette',
     'radio',
     'views/graph',
     'config',
-    'text!modules2/argos/templates/argos_detail.html'
+    'text!../templates/argos_detail.html'
 ], function($, _, Backbone, Marionette, Radio, GraphView, config, template) {
 
     'use strict';
@@ -198,7 +195,6 @@ define([
             $(window).bind('resize', function() {
                 dataContainer = $("#main")[0];
                  argosContentWidth = dataContainer.clientWidth;
-                 console.log("argosContentWidth: " + argosContentWidth);
                  //var mapContainerSize;
                 if (argosContentWidth < 1300){
                 //mapContainerSize = argosContentWidth - 700;
@@ -217,7 +213,6 @@ define([
             /*$(window).bind('resize', function() {
                 dataContainer = $("#main")[0];
                 argosContentWidth = dataContainer.clientWidth;
-                console.log ("argosContentWidth : " + argosContentWidth );
                 //widthargosContent = widthDataContainer;
                 //$('#allDataContent').css('width', widthargosContent + 'px');
 

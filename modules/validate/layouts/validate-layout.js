@@ -26,10 +26,6 @@ define([
         },
 
         onRender: function(){
-
-            
-
-
             $('body').addClass('home-page').addClass('full-height');
             $('#main-region').addClass('obscur full-height');
         },
@@ -47,7 +43,6 @@ define([
             Radio.channel('route').command('validate:type', 'rfid');
         },
         gps: function(){
-            console.log('clik in gps');
             Radio.channel('route').command('validate:type', 'gps');
         },
         argos: function(){
@@ -63,10 +58,7 @@ define([
                 
             });
             var self = this;
-            console.log('model created');
             model.fetch({success: function(data) {
-                console.log(data);
-                console.log(data.attributes['PK'])
                 self.id_sta = data.attributes['PK'];
                
             }});
@@ -81,7 +73,6 @@ define([
 
                 });
 
-                console.log(model);
                 model.save();
 
             });*/
@@ -91,7 +82,6 @@ define([
            /* $.ajax({
                 url:config.coreUrl + 'station/250179/protocol/Biometry/35968',
                 success : function(data){
-                    console.log(data);
                 }
             })*/
         },

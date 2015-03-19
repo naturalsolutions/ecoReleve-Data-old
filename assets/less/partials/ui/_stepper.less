@@ -1,10 +1,10 @@
 
 div.fuelux{
 	height: 100%;
+	padding: 10px 0px;
 	& .wizard{
-		height: 90%;
+		height: 100%;
 		overflow:  hidden;
-		padding-bottom: 5%;
 		border: none;
 		box-shadow: 15px -15px 20px -5px rgba(39, 38, 38, 0.5);
 		& .stepper-header {
@@ -16,7 +16,7 @@ div.fuelux{
 					}
 		.step-content.export{
 			z-index: 1000;
-			height: calc(~"100% - 92px");
+			height: calc(~"100% - 46px");
 		}
 		.grid {
 			.container-fluid {
@@ -36,15 +36,19 @@ div.fuelux{
 		}
 	}
 	& .actions{
-		position: relative;
-		height: 10%;
+		// position: relative;
+		// height: 10%;
 
-		//bottom: -90px;
+		// //bottom: -90px;
+
 		button.btn-custom{
 			position: absolute;
+			height: 100%;
+			width: 150px;
 			bottom: 0;
 			overflow: hidden;
-			background: #5cb85c;
+			transition: background .3s;
+			background: rgba(92,184,92,0.3);
 			color: white;
 			border: none;
 			padding: 0px;
@@ -52,16 +56,28 @@ div.fuelux{
 			border-radius: 3px;
 			text-transform: uppercase;
 			&:hover{
-				background: #449d44;
+				background: rgba(68,157,68,0.5);
 				color: white!important;
 			}
 			&:focus{
-				background: #449d44;
+				background: rgba(68,157,68,0.5);
 				color: white!important;
+			}
+			&:disabled {
+				  cursor: not-allowed!important;
 			}
 			&.btn-next{
 				right: 0;
+				i{
+					float: right!important;
+				}
+				&.finished{
+					span.ctrl{
+						padding: 10px;
+					}
+				}
 			}
+
 
 			@fz: 25px;
 			i.action-picto{
@@ -90,10 +106,14 @@ div.fuelux{
 		margin-left: 0px!important;
 		height: 46px;
 		width: 100%!important;
+		overflow: hidden;
+		.chevron{
+
+		}
 	}
 	.step-content{
 		z-index: 1000;
-		height: 98%;	
+		height: calc(~"100% - 46px");
 		padding: 1%!important;
 		//overflow: auto;
 		//padding-top:2%!important; //ul height
@@ -104,8 +124,7 @@ div.fuelux{
 			height: 100%;
 			div.wrapper{
 				padding: 10px;
-			}	
-
+			}
 		}
 	}
 	

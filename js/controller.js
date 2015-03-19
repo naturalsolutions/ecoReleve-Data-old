@@ -18,6 +18,7 @@ define([
 	''+module+'/import/layouts/lyt-import-gpx',
     ''+module+'/input/layouts/lyt-input',
     ''+module+'/export/layouts/export-layout',
+    //''+module+'/exportv2/lyt-export',
     
 
     ''+module+'/stations/layouts/basemap',
@@ -222,6 +223,7 @@ define([
         
 
         login: function(route, page) {
+
             $.ajax({
                 context: this,
                 url: config.coreUrl + 'security/has_access'
@@ -254,6 +256,9 @@ define([
         
 
         checkLogin: function(callback, ctx, args){
+            // this.insertHeader();
+            // callback.apply(ctx, args);
+            
             var ajax=$.ajax({
                 context: this,
                 url: config.coreUrl + 'security/has_access'
@@ -265,6 +270,7 @@ define([
                 this.headerRegion.empty();
                 this.mainRegion.show(new LoginView());
             });
+            
         },
 
         checkRights: function(){
@@ -287,7 +293,6 @@ define([
         
         validate: function(){
             var route = 'validate/';
-            console.log('Validate')
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
                 this.mainRegion.show(new ValidateLayout());
@@ -394,7 +399,6 @@ define([
         },
 
         import_gsm: function() {
-            console.log('controller')
             var type = 'gsm';
             var route = 'import/' + type;
             this.checkLogin(function() {
@@ -411,7 +415,6 @@ define([
         },
 
         import_rfid: function() {
-            console.log('controller')
             var type = 'rfid';
             var route = 'import/' + type;
             this.checkLogin(function() {
@@ -428,7 +431,6 @@ define([
         },
 
          import_gpx: function() {
-            console.log('controller')
             var type = 'gpx';
             var route = 'import/' + type;
             this.checkLogin(function() {
@@ -469,7 +471,6 @@ define([
 
         site_deploy: function(){
             var route = 'site/deploy/';
-            console.log('deploy');
 
             this.checkLogin(function() {
                 Backbone.history.navigate(route);
@@ -545,12 +546,6 @@ define([
                 var lyt = new DemoMap()
                 this.mainRegion.show(lyt);
             }, this);
-        },        
-
-
-
-
-
-
+        },
     });
 });

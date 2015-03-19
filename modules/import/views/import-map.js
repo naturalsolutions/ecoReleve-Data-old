@@ -67,7 +67,6 @@ define([
         },
 
         onRender: function(){
-              console.log($('#map'));
               $('#map').parent().html(legend);
         },
 
