@@ -17,6 +17,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: tpl,
+        className: 'full-height',
         events: {
 
         },

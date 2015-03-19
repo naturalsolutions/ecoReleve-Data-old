@@ -8,7 +8,7 @@ define([
     'bootstrap_slider',
     'grid/model-grid',
     'backgrid',
-    'modules2/import/_rfid/layouts/deploy-modal',
+    ''+module+'/rfid/layouts/rfid-deploy',
     'sweetAlert',
     'stepper/lyt-step',
     'text!modules2/import/_rfid/templates/tpl-step1.html',
@@ -84,9 +84,8 @@ define([
 
         },
         deployRFID: function(){
-            $('#rfid-Modal').modal('show');
-            this.deploy_rfid = new DeployRFID();
-            this.modal.show(this.deploy_rfid);
+           Radio.channel('route').command('site:deploy');
+           Radio.channel('route').command('route:header',{route:'Manual import',child_route: 'RFID', route_url:'import'});
             
         }
     });
