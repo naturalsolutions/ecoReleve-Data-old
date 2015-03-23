@@ -34,15 +34,17 @@ define([
                 case 'gsm':
                     
                     this.type_url = config.coreUrl+'dataGsm/';
+                    this.showTypeCol = false;
                     break;
                 case 'argos':
                    
                     this.type_url = config.sensorUrl+'argos/';
-
+                    this.showTypeCol = true;
                     break;
 
                 default:
                     console.warn('type error');
+                    this.showTypeCol = true;
                     break;
             };
 
@@ -162,6 +164,7 @@ define([
             },{
                 name: 'type_',
                 label: 'Type',
+                renderable : this.showTypeCol,
                 editable: false,
                 formatter: _.extend({}, Backgrid.CellFormatter.prototype, {
                     fromRaw: function (rawValue, model) {
