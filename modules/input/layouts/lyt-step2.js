@@ -38,9 +38,10 @@ define([
             'click #removeFieldWorkerInput' : 'removeInput',
             'change select.fiedworker' : 'checkFWName',
             'change input[name="Precision"]' : 'checkAccuracyValue',
-            'focusout input[name="Date_"]':'checkDateField',
-            'click .bootstrap-datetimepicker-widget' : 'updateDateField',
-            'change #impfieldActivity' : 'updateStationFA'
+            //'focusout input[name="Date_"]':'checkDateField',
+            //'click .bootstrap-datetimepicker-widget' : 'updateDateField',
+            'change #impfieldActivity' : 'updateStationFA',
+            'change td.select-cell.editable' : 'updateStation'
         },
         regions: {
             leftRegion : '#inputStLeft',
@@ -489,30 +490,31 @@ define([
                 if(!fieldWorker5){
                    model.set('FieldWorker5',''); 
                 }
-                var id = model.get('id');
+                /*var id = model.get('id');
                 if(id){
                    model.unset('id'); 
                 }
                 var utm = model.get('UTM');
                 if(id){
                    model.unset('UTM'); 
-                }
+                }*/
                 model.set('id_site','');
                 var fieldWorkersNumber = model.get('NbFieldWorker');
                 if(!fieldWorkersNumber){
                    model.set('NbFieldWorker',''); 
                 }
                 // check if fieldactivity value exists, if not we need to input it before navigate to next step
+                $('#inputImpStFieldContainer p').text('');
                 if(!model.get('FieldActivity_Name')){
                     // display field activity container
                     $('#inputImpStFieldContainer').removeClass('masqued');
-                        if ( $('#impfieldActivity option').length == 1) {
+                       /* if ( $('#impfieldActivity option').length == 1) {
                             var fieldList = getFieldActivity.getElements('theme/list');
                             $('#impfieldActivity').append(fieldList);
                         }
                         // init values
                         $('#impfieldActivity').val('');
-                        $('#inputImpStFieldContainer p').text('');
+                        $('#inputImpStFieldContainer p').text('');*/
                         $('#btnNext').addClass('disabled');
                 } else {
                     $('#inputImpStFieldContainer').addClass('masqued');
@@ -523,8 +525,8 @@ define([
             //monitoredSite
             this.model.set('station_position',model); 
         },
-        updateStationFA : function(){
-            var selectedVal = $('#impfieldActivity option:selected').text();
+        updateStation : function(e){
+            var selectedVal = $(e.target).val();
             if(selectedVal){
                 var selectedStation = this.model.get('station_position');
                 selectedStation.set('FieldActivity_Name',selectedVal);
@@ -532,6 +534,7 @@ define([
                 var data = {}
                 data.FieldActivity_Name = selectedVal;
                 data.PK = selectedStation.get('PK');
+                var test = this.lastImportedStations;
                 $.ajax({
                     url: config.coreUrl +'station/addStation/insert',
                     context: this,
@@ -543,9 +546,10 @@ define([
                         //this.lastImportedStations.save();
                         var station = this.lastImportedStations.where({PK: data.PK})[0];
                         station.set('FieldActivity_Name',selectedVal);
-                        station.save();
-
-
+                        var id = station.get('id');
+                        if (id){
+                          station.save();  
+                        }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         //alert('error in updating current station value(s)');
@@ -561,9 +565,10 @@ define([
                     }
                 });
             } else {
-                $('#inputImpStFieldContainer p').text('');
                 $('#btnNext').addClass('disabled');
+                 $('#inputImpStFieldContainer p').text('');
             }
+          // Radio.channel('input').command('grid:updateFieldActivity', e);
         },
         addInput : function(){
             // get actual number of inserted fields stored in "fieldset#station-fieldWorkers" tag
@@ -642,7 +647,6 @@ define([
                 this.model.set('station_Date_' , dateVal);
                 this.loadMonitoredSites(dateVal);
             }
-
         },        
         loadMonitoredSites: function(date) {
             var that=this;
@@ -696,7 +700,7 @@ define([
             html.sort();
             var content = '<option value=""></option>' + html.join(' ');
             $('#stMonitoredSiteName').html(content);
-        },
+        }/*,
         checkDateField : function(e){
             var dateValue = $(e.target).val();
             var siteType = $('#stMonitoredSiteType');
@@ -710,7 +714,7 @@ define([
                 $(siteType).removeAttr('disabled');
                 $(siteName).removeAttr('disabled');
             }
-        }
+        }*/
 
     });
 });
