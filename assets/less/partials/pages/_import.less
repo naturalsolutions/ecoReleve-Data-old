@@ -29,6 +29,10 @@ p#importGpxMsg {
 		opacity: 1;
 	}
 }
+.trSelected {
+  background: #4d4d4d;
+}
+
 /*
 #FileInput::-webkit-file-upload-button {
   visibility: hidden;
@@ -55,6 +59,7 @@ p#importGpxMsg {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 */
+/*
 #FileInput {
   visibility: hidden;
   width: 0;
@@ -65,12 +70,22 @@ p#importGpxMsg {
   content: 'Select a file';
   display: inline-block;
   background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: -ms-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: -o-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+
   border: 1px solid #999;
   border-radius: 3px;
   padding: 5px 8px;
   outline: none;
   white-space: nowrap;
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+
   cursor: pointer;
   text-shadow: 1px 1px #fff;
   font-weight: 700;
@@ -84,7 +99,12 @@ p#importGpxMsg {
 }
 #FileInput:active::before {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-}
+  background: -webkit-linear-gradient(top, #e3e3e3, #F9F9F9);
+  background: -moz-linear-gradient(top, #e3e3e3, #F9F9F9);
+  background: -ms-linear-gradient(top, #e3e3e3, #F9F9F9);
+  background: -o-linear-gradient(top, #e3e3e3, #F9F9F9);
+  background: linear-gradient(top, #e3e3e3, #F9F9F9);
+}*/
 
 /* .success{
 	min-height: 500px;
