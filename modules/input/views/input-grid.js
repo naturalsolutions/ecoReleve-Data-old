@@ -8,8 +8,9 @@ define([
     'marionette',
     'moment',
     'radio',
-    'text!modules2/input/templates/input-grid.html'
-], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio,template) {
+    'text!modules2/input/templates/input-grid.html',
+    'text!modules2/import/_gpx/templates/options-list.html'
+], function($, _, Backbone, PageableCollection, Backgrid, Paginator, Marionette, moment, Radio,template,optList) {
     'use strict';
     return Marionette.ItemView.extend({
         template : template,
@@ -57,6 +58,16 @@ define([
             }
         },
         onShow: function() {
+            var optionsList = $.parseHTML(optList);
+
+            var option=[];
+            for (var i = 0; i < optionsList.length; i++) {
+                option[0]=$(optionsList[i]).attr('value');
+                option[1]=$(optionsList[i]).attr('value');
+                optionsList[i] = option;
+                option=[];
+            };
+
             var myCell = Backgrid.NumberCell.extend({
                 decimals: 5
             });
@@ -86,7 +97,15 @@ define([
                 name: "LON",
                 label: "LON",
                 cell: myCell
-            }];
+            },  {
+                editable: true,
+                name: "FieldActivity_Name",
+                label: "Field Activity",
+                cell: Backgrid.SelectCell.extend({
+                    optionValues: optionsList               
+                 })
+            }
+            ];
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
@@ -99,6 +118,7 @@ define([
             });
 
             this.$el.append(this.paginator.render().el);
+            Radio.channel('input').comply('grid:updateFieldActivity', this.updateFieldActivity, this);
         },
         action: function(action, ids){
           switch(action){
@@ -175,11 +195,30 @@ define([
             if($(e.target).is('td')) {
                 var tr = $(e.target).parent();
                 var id = tr.find('td').first().text();
+                //var idNumber = Number(id);
+                //var currentModel = this.locations.findWhere({PK: idNumber});
+                // style selected
+                // 1- remove selected style for all childs
+                $(tr).parent().find('tr').each(function( ) {
+                    $(this).removeClass('trSelected');
+
+                });
+                $(tr).addClass('trSelected');
+                //Radio.channel('input').command('generateStation', currentModel);
+                this.updateModel(id);
                 this.interaction('focus', id);
-                var idNumber = Number(id);
-                var currentModel = this.locations.findWhere({PK: idNumber});
-                Radio.channel('input').command('generateStation', currentModel);
             }
         },
+        updateFieldActivity : function(e){
+            var td = $(e.target).parent();
+            var id = $(td).parent().find('td').first().text();
+            this.updateModel(id);
+            
+        },
+        updateModel : function(id){
+            var idNumber = Number(id);
+            var currentModel = this.locations.findWhere({PK: idNumber});
+            Radio.channel('input').command('generateStation', currentModel);
+        }
     });
 });

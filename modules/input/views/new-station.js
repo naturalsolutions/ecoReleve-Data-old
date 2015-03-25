@@ -23,6 +23,9 @@ define([
     'use strict';
     return Marionette.ItemView.extend({
         template: template,
+        events : {
+            'focusout input[name="Date_"]':'checkDate',
+        },
         initialize: function(options) {
             var station = new Station();
             this.form = new BbForms({
@@ -39,19 +42,19 @@ define([
             $('#stMonitoredSiteType').attr('disabled','disabled');
             $('#stMonitoredSiteName').attr('disabled','disabled');
             $(datefield).datetimepicker({
-                defaultDate:""
+                defaultDate:"",
+                maxDate : new Date()
             });
 
             $(datefield).data('DateTimePicker').format('DD/MM/YYYY HH:mm:ss');
-
-
             
             $(datefield).on('dp.show', function(e) {
-                 $(this).val('');
+                $(this).val('');
             });
             $(datefield).on('dp.change', function(e) {
                  self.checkDate();
-            });           
+            });   
+        
             this.generateSelectLists();
         },
         onBeforeDestroy: function() {
@@ -71,8 +74,8 @@ define([
             var siteType = $('#stMonitoredSiteType');
             var siteName = $('#stMonitoredSiteName');
             var datefield = $("input[name='Date_']");
-            //var date = $(datefield).val();
-            var date = moment($(datefield).val(),"DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
+            var date = $(datefield).val();
+            /*var date = moment($(datefield).val(),"DD/MM/YYYY HH:mm:ss");    //28/01/2015 15:02:28
             var now = moment();
             if (now < date) {
                //alert('Please input a valid date');
@@ -88,13 +91,14 @@ define([
                $(datefield).val('');
                $(siteType).attr('disabled','disabled');
                $(siteName).attr('disabled','disabled');
-            } else {
+            } else {*/
                 if(date){
                     $(siteType).removeAttr('disabled');
                     $(siteName).removeAttr('disabled');
-                }
+                //}
                 this.radio.command('changeDate');
             }
+            //}
         }
     });
 });
