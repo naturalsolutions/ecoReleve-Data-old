@@ -30,19 +30,15 @@ define([
 
         onBeforeDestroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
         destroy: function(){
           this.map.remove();
-          console.log('detroy map');
+          console.info('detroy map');
         },
 
-
-
         initialize: function(options) {
-
-
           //check if there is a communicator
           if(options.com){
             this.com = options.com;
@@ -88,11 +84,14 @@ define([
             case 'resetAll':
               this.resetAll();
               break;
+            case 'selectAll':
+              this.selectAll();
+              break;
             case 'filter':
               this.filter(params);
               break;
             default:
-              console.log('verify the action name');
+              console.error('verify the action name');
               break;
           }
         },
@@ -173,6 +172,9 @@ define([
             });
 
 
+
+
+
             /*
             var markerArray = [];
             var geoJsonLayer = this.geoJsonLayers[0];
@@ -217,6 +219,7 @@ define([
           }
 
           this.map.addLayer(this.markersLayer);
+
 
           if(this.area){
             this.addArea();
@@ -267,7 +270,7 @@ define([
               }
           })
           .fail(function(msg) {
-              console.log( msg );
+              console.error( msg );
           });
 
         },
@@ -424,13 +427,18 @@ define([
               maxClusterRadius: 100,
               polygonOptions: {color: "rgb(51, 153, 204)", weight: 2},
           });
+
+
+
+
+
           this.setGeoJsonLayer(geoJson);
 
           //return [this.geoJsonLayers, this.markersLayer];
 
         },
 
-        /*==========  updateClusterParents :: display selection inner cluster  ==========*/
+        /*==========  updateClusterParents :: display selection inner cluster from childs to parents ==========*/
         updateClusterParents: function(m, parents){
           if(this.cluster){
             var c=m.__parent;
@@ -463,15 +471,25 @@ define([
             }
           }
         },
-        /** recursive */
+        /** from parent to child */
         updateAllClusters: function(c, all){
-          var childClusters = c._childClusters;
-          this.updateClusterStyle(c, all);
 
+          this.updateClusterStyle(c, all);
+          var childs = c.getAllChildMarkers();
+
+          for (var i = childs.length - 1; i >= 0; i--) {
+            childs[i].checked = true;
+            this.selectedMarkers[childs[i].feature.id] = childs[i];
+            this.changeIcon(childs[i]);
+          }
+
+          var childClusters = c._childClusters;
           for (var i = childClusters.length - 1; i >= 0; i--) {
             this.updateClusterStyle(childClusters[i], all);
             this.updateAllClusters(childClusters[i], all);
+
           }
+
           return;
         },
 
@@ -521,6 +539,7 @@ define([
                   }else{
                     childs = marker.getAllChildMarkers();
 
+                    //bad functionName
                     ctx.updateAllClusters(marker, true);
 
                     for (var i = childs.length - 1; i >= 0; i--) {
@@ -588,6 +607,9 @@ define([
         },
 
 
+
+
+        //from child to parent
         selectMultiple: function(ids){
           if(this.selection){
           var marker;
@@ -625,9 +647,7 @@ define([
         },
 
         /*==========  resetMarkers :: reset a list of markers  ==========*/
-        resetAll: function(){
-          this.updateLayers(this.geoJson);
-        },
+
 
         addMarker: function(m, lat, lng, popup, icon){
           if(m){
@@ -665,6 +685,32 @@ define([
           }
         },
 
+
+        resetAll: function(){
+          this.updateLayers(this.geoJson);
+        },
+
+        selectAll: function(){
+          var firstProp, layers = this.markersLayer._featureGroup._layers;
+          
+          //get the first layer (marker cluster)
+          for(var key in layers) {
+              if(layers.hasOwnProperty(key)) {
+                  firstProp = layers[key];
+                  break;
+              }
+          }
+
+          //get the top parent from a marker or a cluster
+          while(firstProp.__parent){
+            firstProp = firstProp.__parent;
+          }
+
+          this.topParent = firstProp;
+
+
+          this.updateAllClusters(firstProp, true);
+        },
 
         /*
         popup: function(id){
