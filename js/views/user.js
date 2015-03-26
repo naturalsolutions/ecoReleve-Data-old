@@ -23,7 +23,7 @@ define([
             }).done( function(data) {
                 this.model.set(data);
             });
-        },
+		},
 
         serializeData: function() {
             return {fullname: this.model.get("fullname")};

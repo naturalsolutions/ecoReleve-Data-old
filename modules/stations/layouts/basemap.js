@@ -1,5 +1,5 @@
 define([
-    'jquery',
+	'jquery',
     'marionette',
     'radio',
     'config',
@@ -17,8 +17,8 @@ define([
             var mapDefault = config.mapDefault;
             var layers = [];
            
-            layers[0] = new ol.layer.Group({ layers: [ new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'sat'}) }), new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'hyb'}) }) ] });
-            layers[1] = new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'sat'}) });
+			layers[0] = new ol.layer.Group({ layers: [ new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'sat'}) }), new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'hyb'}) }) ] });
+			layers[1] = new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'sat'}) });
             layers[2] = new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'osm'}) });
             /*layers[3] = new ol.layer.Tile({ source: new ol.source.OSM() });*/
             this.map = new ol.Map({
@@ -107,7 +107,7 @@ define([
             this.map.addLayer(vectorLayer);
             var extent = vectorSource.getExtent();
             this.map.getView().fitExtent(extent, this.map.getSize());
-        },
+		},
         switchLayer : function(){
             var checkedLayer = parseInt($('#layerswitcher input[name=layer]:checked').val());
             var layers =  this.map.getLayers().getArray();
