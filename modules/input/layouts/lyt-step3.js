@@ -431,7 +431,8 @@ define([
             var ln = collection.length;
             var currentOrderVal;
             if (ln == 1){
-                alert('You don\'t have next or prev record');
+                //alert('You don\'t have next or prev record');
+                this.sweetAlert('navigation','warning','You don\'t have next or prev station for filtred data');
             } else {
                 for (var i=0;i<ln; i++){
                     if(collection.models[i].get('PK') == stId){
@@ -452,7 +453,7 @@ define([
                 var firstPage = collection.state.firstPage
                  // for next
                 if (((order=='next') && (currentPage == lastPage)) || ((order=='prev') && (currentPage == firstPage))) {
-                    alert('You don\'t have next or prev record');
+                    this.sweetAlert('navigation','warning','You don\'t have next or prev station for filtred data');
                 }
                 else {
                     // 
@@ -473,7 +474,7 @@ define([
                             self.getStationDetails(url);
                         },
                         error: function (collection, response, options) {
-                            console.log('error in fetching collection');
+                            this.sweetAlert('updationg station','error','Error in loading station from server');
                         }
                     });
                 }
