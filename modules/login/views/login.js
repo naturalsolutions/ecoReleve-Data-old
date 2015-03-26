@@ -6,9 +6,8 @@ define([
     'marionette',
     'radio',
     'sha1',
-    'collections/users',
     'text!modules2/login/templates/login.html'
-], function($, _, Backbone, config, Marionette, Radio, sha1, Users, template) {
+], function($, _, Backbone, config, Marionette, Radio, sha1, template) {
 
     'use strict';
 
@@ -44,14 +43,14 @@ define([
             $('#username').trigger('focus');
             $('body').addClass('login-page');
 
-            jQuery.ajax({
+/*            jQuery.ajax({
                 url: '//freegeoip.net/json/', 
                 type: 'POST', 
                 dataType: 'jsonp',
                 success: function(location) {
                         $('body').addClass(location.country_code);
                 }
-            });
+            });*/
         },
 
         checkUsername: function() {
@@ -96,7 +95,6 @@ define([
         },
 
         onDestroy: function(){
-            
             $('body').removeClass('login-page');
         },
 

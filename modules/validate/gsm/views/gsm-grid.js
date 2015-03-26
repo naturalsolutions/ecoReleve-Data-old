@@ -25,7 +25,7 @@ define([
             'click .backgrid-container tbody tr': 'focusOnMap',
             'click td input[type=checkbox]':'updateMap',
             'click #1pH-btn': 'perhour',
-            'click #clearAll-btn': 'clear',
+            'click #clearAll-btn': 'selectOrUnselectAll',
         },
 
         initialize: function(options) {
@@ -220,7 +220,10 @@ define([
               this.selectMultiple(id);
               break;
             case 'resetAll':
-              this.clearAll();
+              this._resetAll();
+              break;
+            case 'selectAll':
+              this._selectAll();
               break;
             default:
               console.warn('verify the action name');
@@ -251,30 +254,58 @@ define([
 
         onRender: function() {
             
-            
         },
 
         clone: function(){
             this.origin  = this.grid.collection.fullCollection.clone();
         },
 
-        clear: function(){
-            this.interaction('resetAll');
-        },
-
-        clearAll: function(){
-            var models=this.grid.getSelectedModels();
-            for (var i = 0; i < models.length; i++) {
-                models[i].trigger("backgrid:selected", models[i], false);
-                models[i].trigger("backgrid:select", models[i], false);
+        selectOrUnselectAll: function(e){
+            var btn = $(e.target);
+            if(btn.hasClass('all')){
+                this.interaction('resetAll');
+                $('#clearAll-btn>span:first').html('Select All');
+                btn.removeClass('all');
+            }else{
+                this.interaction('selectAll');
+                $('#clearAll-btn>span:first').html('Unselect All');
+                btn.addClass('all');
             }
         },
 
 
 
+        _resetAll: function(){
+            var collection = this.grid.collection;
+            collection.each(function (model) {
+              model.trigger("backgrid:select", model, false);
+            });
+            
+            collection.fullCollection.each(function (model) {
+              if (!collection.get(model.cid)) {
+                model.trigger("backgrid:selected", model, false);
+              }
+            });
+        },
+
+
+        _selectAll: function(){
+            var collection = this.grid.collection;
+            collection.each(function (model) {
+              model.trigger("backgrid:select", model, true);
+            });
+            
+            collection.fullCollection.each(function (model) {
+              if (!collection.get(model.cid)) {
+                model.trigger("backgrid:selected", model, true);
+              }
+            });
+        },
+
+
         perhour: function() {
             this.interaction('resetAll');
-
+            console.log()
             var self=this;
 
             var col0=this.origin.at(0);
@@ -322,6 +353,8 @@ define([
             coll.reset(this.grid.collection.fullCollection.models);
             model_id = parseInt(model_id);
             var mod = coll.findWhere({id : model_id});
+
+            this.grid.collection.fullCollection.trigger("backgrid:select-all", this.grid.collection.fullCollection, true );
 
             if(mod.get('checked')){
                 mod.set('checked',false);

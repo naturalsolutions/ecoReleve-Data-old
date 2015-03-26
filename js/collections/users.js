@@ -28,6 +28,7 @@ define([
         },
 
         loadFromDB: function(url) {
+            
             url = config.coreUrl + url;
             $.ajax({
                 context: this,

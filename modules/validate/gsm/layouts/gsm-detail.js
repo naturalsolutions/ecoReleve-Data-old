@@ -1,15 +1,15 @@
 define([
-    'marionette',
-    'radio',
-    'config',
-    'backbone',
-    'models/individual',
-    'modules2/validate/gsm/views/gsm-grid',
-    'modules2/validate/gsm/views/gsm-info',
-    'modules2/validate/gsm/views/gsm-map2',
-    'text!modules2/validate/gsm/templates/gsm.html',
-    'sweetAlert',
-    'ns_modules_com',
+	'marionette',
+	'radio',
+	'config',
+	'backbone',
+	'models/individual',
+	'modules2/validate/gsm/views/gsm-grid',
+	'modules2/validate/gsm/views/gsm-info',
+	'modules2/validate/gsm/views/gsm-map2',
+	'text!modules2/validate/gsm/templates/gsm.html',
+	'sweetAlert',
+	'ns_modules_com',
 ], function(Marionette, Radio, config,Backbone,Individual, Grid, Info,
     Map, template, Swal, Com) {
 
@@ -32,7 +32,7 @@ define([
         initialize: function(options) {
             this.type=options.type;
             var self=this;
-            this.radio = Radio.channel('gsm-detail');
+			this.radio = Radio.channel('gsm-detail');
             //this.radio.comply('validate', this.validate, this);
             this.gsmID = options.gsmID;
             this.id_ind=options.id_ind;
