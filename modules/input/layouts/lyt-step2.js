@@ -143,8 +143,8 @@ define([
             } else {
                 // from existed stations/monitored sites
                 this.initModel('old',null);
-                this.leftRegion.show(new FilterView());
-                this.rightRegion.show(new GridView());
+                this.leftRegion.show(new FilterView({model: this.model}));
+                this.rightRegion.show(new GridView({model: this.model}));
                 if (stationType =='old') {
                     //$('#allSt-Monitored').addClass('masqued');
                     $('#allSt-Monitored').addClass('masqued');
