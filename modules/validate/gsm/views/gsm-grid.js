@@ -274,6 +274,7 @@ define([
         },
 
 
+
         _resetAll: function(){
             var collection = this.grid.collection;
             collection.each(function (model) {
