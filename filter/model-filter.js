@@ -104,7 +104,7 @@ define([
                     Value : {
                         type : this.getFieldType(type),
                         title : fieldName,
-                        editorClass: 'form-control filter col-xs-4', 
+                        editorClass: 'form-control filter', 
                         options: this.getValueOptions(type)
                     }
                 },
