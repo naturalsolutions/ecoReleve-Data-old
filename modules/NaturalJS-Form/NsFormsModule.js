@@ -296,7 +296,12 @@ define([
         },
 
         butClickClear: function (e) {
-            this.displaybuttons();
+            //this.displaybuttons();
+            var formContent = this.BBForm.el;
+            $(formContent).find('input').val('');
+            $(formContent).find('select').val('');
+            $(formContent).find('textarea').val('');
+            $(formContent).find('input[type="checkbox"]').attr('checked', false);
             //this.displayMode = 'edit';
             //initModel();
             // TODO gérer l'appel AJAX

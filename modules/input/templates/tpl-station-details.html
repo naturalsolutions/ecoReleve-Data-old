@@ -1,39 +1,77 @@
 
 <script type="text/template">
 <div id="stationPanel">
-      <div class="wrapper">
+      <!--<div class="wrapper">
  
             <div class="col-sm-2">
                   <a class="arrow-left-station glyphicon pointer  glyphicon-chevron-left" ></a> 
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                    <h3 id="stDetailsTitle">Station: <%= Name %></h3>
             </div>
             <div class="col-sm-2">
                   <a class="arrow-right-station glyphicon pointer glyphicon-chevron-right" ></a>
             </div>
+            <div class="col-sm-2">
+              <button id="filter-btn" type="submit" class="small btn btn-labeled btn-success pull-right">
+                Edit
+                <span class="btn-label">
+                     <i class="icon reneco edit "></i>
+                </span>
+             </button>
 
+            </div> -->
       <!--<div class="row" >
             <label>id : </label><span id='stId'><%= PK %></span>
       </div>-->
+
+
+
+
+     <div class="separator" id="stationHeader">
+            <span>
+            <span  class="navigation">    
+                <a class="arrow-left-station glyphicon pointer  glyphicon-triangle-left" nav="prev"></a> 
+            </span>    
+                <!--<span> change station </span>-->
+            <span  class="navigation">    
+                <a class="arrow-right-station glyphicon pointer glyphicon-triangle-right" nav="next"></a>
+            </span> 
+            </span>
+           
+            <button id="editSt-btn" type="submit" class="small btn btn-labeled btn-success pull-right">
+                Edit
+                <span class="btn-label">
+                     <i class="icon reneco edit "></i>
+                </span>
+             </button>
+
+      </div>
+
+      <div class="row stationName separator" >
+
+         <h3 id="stDetailsTitle">Station: <%= Name %></h3>
+
+      </div>
+
       <br>
-      <div class="row" >
-            <div class="col-sm-3" id='stId'>
-                  <label>id</label>
+      <div class="row separator" >
+            <div class="col-sm-4" id=''>
+               <label>id</label>
                   <div><%= PK %></div>
             </div>
-            <div class="col-sm-3" id=''>
-                  <label>lat</label>
+            <div class="col-sm-4" id=''>
+                  <label>latitude</label>
                   <div><%= LAT %></div>
             </div>
-            <div class="col-sm-3" id=''>
-                        <label>lon</label>
+            <div class="col-sm-4" id=''>
+                        <label>longitude</label>
                   <div><%= LON %></div>
             </div>
-            <div class="col-sm-3" id=''>
+            <!--<div class="col-sm-4" id=''>
                <label>elev</label>
                   <div>_</div>
-            </div>
+            </div> -->
       </div>
       <br>
       <div class="row" >
@@ -44,11 +82,7 @@
             <div class="col-sm-8" id=''>
                   <label>place</label>
                   <div>
-                        <!--<select  name="stPlace"  class="blackFont form-control editField">
-                              <option></option>
-                        </select>  -->
-                        <input class='autocompTree_st blackFont form-control editField' name='stPlace' startId='1000265' type='text' id='stPlace'>
-
+                      <input class='autocompTree_st blackFont form-control editField' disabled name='stPlace' startId='1000265' type='text' id='stPlace'>
                   </div> 
                   
             </div>
@@ -57,12 +91,12 @@
       <div class="row" >
             <div class="col-xs-5" id=''>
                   <label>accuracy(m)</label>
-                  <div><input name="stAccuracy" class="blackFont form-control editField" type="number"></div>
+                  <div><input name="stAccuracy" class="blackFont form-control editField" disabled type="number"></div>
             </div>
             <div class="col-xs-7" id=''>
                         <label>distance from obs</label>
                   <div>
-                        <select id="stDistFromObs" class="blackFont form-control editField" name="stDistance">
+                        <select id="stDistFromObs" class="blackFont form-control editField" disabled name="stDistance">
                               <option value="NULL"></option>
                               <option value="1000004">&lt;100m</option>
                               <option value="1000005">100m&lt; x &lt;500m</option>
@@ -97,7 +131,7 @@
             <div class="col-sm-10">
                   <label>field activity</label>
                   <div>
-                        <select  name="st_FieldActivity_Name" class="blackFont form-control editField">
+                        <select  name="st_FieldActivity_Name" disabled class="blackFont form-control editField">
                               <option></option>
                         </select>
                   </div>
@@ -154,44 +188,4 @@
       </div>
 </div>
 </script>
-            <!--
-            <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion3" href="#collapseThree" class="collapsed">
-                        Field workers
-                        <i class="glyphicon pull-right"></i>
-                        </a>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <label>field worker 1</label>
-                              <select  class="blackFont form-control fieldworker editField" name="detailsStFW1" >
-                                    <option></option>
-                              </select>
-                              <label>field worker 2</label>
-                                    <select  class="blackFont form-control fieldworker editField" name="detailsStFW2">
-                                      <option></option>
-                                    </select>
-                              <label>field worker 3</label>
-                                    <select  class="blackFont form-control fieldworker editField" name="detailsStFW3">
-                                      <option></option>
-                                    </select>
 
-                              <label>field worker 4</label>
-                                    <select class="blackFont form-control fieldworker editField" name="detailsStFW4">
-                                      <option></option>
-                                    </select>
-
-                              <label>field worker 5</label>
-                                    <select  class="blackFont form-control fieldworker editField" name="detailsStFW5">
-                                      <option></option>
-                                    </select>
-                              <label>total</label>
-                                    <input id="stDtailsNbFW" class="blackFont form-control editField" name="detailsStFWTotal">
-                        </div>
-                    </div>
-                </div>
-            </div>  -->

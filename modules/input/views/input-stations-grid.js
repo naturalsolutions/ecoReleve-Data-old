@@ -93,7 +93,8 @@ define([
                 cell: Backgrid.IntegerCell.extend({
                   orderSeparator: ''
                 }),
-                headerCell: myHeaderCell
+                headerCell: myHeaderCell,
+                renderable: false
             }, {
                 name: 'Name',
                 label: 'Name',
@@ -130,7 +131,15 @@ define([
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
-            }];
+            },{
+                name: 'FieldWorker2',
+                label: 'field worker 2',
+                editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
+            }
+
+            ];
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,

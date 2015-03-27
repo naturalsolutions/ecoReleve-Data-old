@@ -68,7 +68,7 @@ define([
 
                  form = this.initFilter(data, key);
 
-                $('#filters').append(form.el).append('<br>');
+                $('#filters').append(form.el);
 
                 this.forms.push(form);
                 
@@ -104,7 +104,7 @@ define([
                     Value : {
                         type : this.getFieldType(type),
                         title : fieldName,
-                        editorClass: 'form-control filter', 
+                        editorClass: 'form-control filter col-xs-4', 
                         options: this.getValueOptions(type)
                     }
                 },
