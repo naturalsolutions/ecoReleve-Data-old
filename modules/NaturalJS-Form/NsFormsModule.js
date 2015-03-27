@@ -83,11 +83,15 @@ define([
                 this.initModel();
             }
         },
-        initModel: function () {
+        initModel: function (mode) {
             //Initialisation du model et sema depuis l'url
+            var dipsMode = 'display';
+            if(mode){
+                dipsMode = mode;
+            }
             this.model = new Backbone.Model();
-           
             var url = this.modelurl   ;
+            var protoType = this.getProtocolType(url);
             /*if (!this.isNew) {
                 url += this.id;
             }
@@ -119,7 +123,13 @@ define([
 						//this.model.trigger('change');
 						this.showForm();
                         if(data && (! _.isEmpty(data))){
-                            this.radio.command('editState',{model: this.model});
+                           this.radio.command('editState',{model: this.model});
+                          
+                        }
+                        if((dipsMode == 'display') && protoType =='old'){
+                            this.displayState();
+                            this.displayMode = 'display';
+                           this.displaybuttons();
                         }
 
 					},
@@ -281,7 +291,7 @@ define([
         butClickEdit: function (e) {
             e.preventDefault();
             this.displayMode = 'edit';
-            this.initModel();
+            this.initModel('edit');
             return false;
         },
 
@@ -291,6 +301,19 @@ define([
             //initModel();
             // TODO gérer l'appel AJAX
         },
+        displayState : function(){
+            var formContent = this.BBForm.el;
+            $(formContent).find('input').attr('disabled','disabled');
+            $(formContent).find('select').attr('disabled','disabled');
+            $(formContent).find('textarea').attr('disabled','disabled');
+        },
+        getProtocolType : function(url){
+            var typeProtocol = 'new';
+            var tab = url.split('/');
+            var id = tab[tab.length -1];
+            if (parseInt(id) != 0 ) typeProtocol = 'old';
+            return typeProtocol;
+        }
     });
 
 });

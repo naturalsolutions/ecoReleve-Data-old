@@ -23,11 +23,11 @@ define([
             'click tbody > tr': 'detail',
             'dblclick tbody > tr' : 'navigate'
         },
-
         initialize: function(options) {
+            console.log(' global model :' );
+            console.log(this.model);
             this.radio = Radio.channel('input');
             this.radio.comply('updateStationsGrid', this.update, this);
-
             var Stations = PageableCollection.extend({
                 sortCriteria: {'PK':'desc'},
                 url: config.coreUrl + 'search/station',
@@ -137,9 +137,13 @@ define([
                 collection: stations,
             });
             var that=this;
-            stations.searchCriteria = {};
+            var searchCriteria ={};
+            var oldStations = this.model.get('oldStations');
+            if(oldStations){searchCriteria = oldStations.searchCriteria || {}; }
+            stations.searchCriteria = searchCriteria;
             stations.fetch( {reset: true,   success : function(resp){ 
                         that.$el.find('#stations-count').html(stations.state.totalRecords+' stations');
+                        that.model.set('oldStations', that.grid.collection);
                         }
             } );
 
@@ -156,8 +160,10 @@ define([
             this.grid.collection.state.currentPage = 1;
             this.grid.collection.fetch({reset: true, success:function(){
                that.$el.find('#stations-count').html(that.grid.collection.state.totalRecords+' stations');
+               that.model.set('oldStations' , that.grid.collection);
             }
             });
+            
         },
         onShow: function() { 
             this.$el.parent().addClass('no-padding');
