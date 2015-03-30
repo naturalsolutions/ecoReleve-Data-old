@@ -20,6 +20,7 @@ define([
             'change .indivNumber' : 'updateTotalIndivNumber',
             'focusout #stPlace' : 'updateStationData',
             'click #treeViewstPlace ul li'  : 'updatePlace',
+            'click #editSt-btn' :'editStation'
         },
         ui : {
             fieldActivity : 'select[name="st_FieldActivity_Name"]',
@@ -225,6 +226,15 @@ define([
                 // set current valua after applying autocompTree
                 $(elementsList[i]).val(currentVal);
             }
+        },
+        editStation : function(){
+        	$( '.editField' ).each(function() {
+				if($( this ).attr('disabled')){
+					$( this ).removeAttr('disabled');
+				} else {
+					$( this ).attr('disabled','disabled');
+				}
+			});
         }
     });
 });

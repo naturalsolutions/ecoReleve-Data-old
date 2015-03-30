@@ -68,7 +68,7 @@ define([
 
                  form = this.initFilter(data, key);
 
-                $('#filters').append(form.el).append('<br>');
+                $('#filters').append(form.el);
 
                 this.forms.push(form);
                 

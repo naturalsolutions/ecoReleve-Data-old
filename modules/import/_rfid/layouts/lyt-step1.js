@@ -36,9 +36,47 @@ define([
         initModel: function() {
  
             this.radio = Radio.channel('rfid_pose');
-
+            
+            var columns = [{
+                name: 'PK_obj',
+                label: 'ID',
+                editable: false,
+                renderable : false,
+                cell: Backgrid.IntegerCell.extend({
+                  orderSeparator: ''
+                }),
+                
+            },{
+                name: 'identifier',
+                label: 'Identifier',
+                editable: false,
+                cell: 'string',
+                
+            }, {
+                name: 'begin_date',
+                label: 'Begin date',
+                editable: false,
+                cell: 'String',
+              
+            }, {
+                name: 'end_date',
+                label: 'End date',
+                editable: false,
+                cell: 'String',
+              
+            }, {
+                name: 'Name',
+                label: 'Site Name',
+                editable: false,
+                cell: 'string',
+            }, {
+                name: 'name_Type',
+                label: 'Site Type',
+                editable: false,
+                cell: 'string',
+            }];
              this.grid= new NSGrid({
-               
+                columns: columns,
                 channel: 'rfid_pose',
                 url: config.coreUrl + 'rfid/pose/',
                 pageSize : 20,

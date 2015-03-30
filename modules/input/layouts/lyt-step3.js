@@ -217,6 +217,7 @@ define([
                 stationId : this.idStation,
                 id : idProto
             });
+
         },
         getProtocols : function(){
             // server call
@@ -400,16 +401,85 @@ define([
         nextStation : function(){
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
-            var url= config.coreUrl + 'station/'+ currentStationId + '/next';
-            this.getStationDetails(url);
-            //$(this.ui.addProto).val('');
+            var oldstations = this.model.get('oldStations');
+            if(oldstations){
+                this.getNextInCollection(oldstations, currentStationId,'prev');
+            }else{
+                
+                var url= config.coreUrl + 'station/'+ currentStationId + '/next';
+                this.getStationDetails(url);
+            }
         },
         prevStation:function(){
             var currentStation = this.model.get('station_position');
             var currentStationId = currentStation.get('PK');
-            var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
-            this.getStationDetails(url);
+            var oldstations = this.model.get('oldStations');
+            if(oldstations){
+                this.getNextInCollection(oldstations, currentStationId,'next');
+            }else{
+                var url= config.coreUrl + 'station/'+ currentStationId  + '/prev';
+                this.getStationDetails(url);
+            }
             //$(this.ui.addProto).val('');
+        },
+        getNextInCollection : function(collection, stId, order){
+            //get order of current model in station to select next one
+            var newId, increment = 1 ;
+            var self = this;
+            var url= config.coreUrl + 'station/';
+            if(order=='prev'){increment = -1;}
+            var ln = collection.length;
+            var currentOrderVal;
+            if (ln == 1){
+                //alert('You don\'t have next or prev record');
+                this.sweetAlert('navigation','warning','You don\'t have next or prev station for filtred data');
+            } else {
+                for (var i=0;i<ln; i++){
+                    if(collection.models[i].get('PK') == stId){
+                        currentOrderVal = i;
+                        break;
+                    }
+                }
+            }
+           
+            if (((order =='next') && (currentOrderVal < (ln -1))) || ((order =='prev') && (currentOrderVal >0))){
+                var nextPkId = collection.models[currentOrderVal + increment].get('PK');
+                url += nextPkId;
+                self.getStationDetails(url);
+            } else {
+                // fetch collection with nex page if possible, we need to check pages number, current page if it not the last one
+                var currentPage =  collection.state.currentPage;
+                var lastPage = collection.state.lastPage;
+                var firstPage = collection.state.firstPage
+                 // for next
+                if (((order=='next') && (currentPage == lastPage)) || ((order=='prev') && (currentPage == firstPage))) {
+                    this.sweetAlert('navigation','warning','You don\'t have next or prev station for filtred data');
+                }
+                else {
+                    // 
+                    collection.state.currentPage += increment;
+
+                    collection.fetch({
+                        reset: true,
+                        success: function (collection, response, options) {
+                            // if prev get last model PK else get first model PK in collection
+                            if(order =='prev'){
+                                var ln = collection.length;
+                                newId = collection.models[ln -1].get('PK');
+                            }
+                            else {
+                                 newId = collection.models[0].get('PK');
+                            }
+                            url += newId;
+                            self.getStationDetails(url);
+                        },
+                        error: function (collection, response, options) {
+                            this.sweetAlert('updationg station','error','Error in loading station from server');
+                        }
+                    });
+                }
+            }
+            
         },
         getStationDetails : function(url){
             $.ajax({
@@ -466,12 +536,7 @@ define([
           }
         },
         updateFormUI : function(){
-            // time picker
-            //$(datefield).attr('placeholder', config.dateLabel);
             var self = this;
-            /*$('.timePicker').datetimepicker({
-                //defaultDate:""
-            });*/
             $('.timePicker').each(function(){
                 var currentVal =  $(this).val();
                 $(this).datetimepicker({});
@@ -586,8 +651,14 @@ define([
             });
         },*/
         deleteProtocol : function(e){
+            Array.prototype.unset = function(val){
+                var index = this.indexOf(val)
+                if(index > -1){
+                    this.splice(index,1)
+                }
+            };
             var self = this;
-            swal({
+            /*swal({
               title: "Are you sure to delete it?",
               text: "",
               type: "warning",
@@ -599,7 +670,7 @@ define([
               closeOnCancel: true
             },
             function(isConfirm){
-              if (isConfirm) {
+              //if (isConfirm) {*/
                     var protocolName = $(e.target).parent().attr('name');
                     // find protocol instance and remove it
                      if(protocolName){
@@ -620,16 +691,11 @@ define([
                     // refrech view
                     self.generateNavBarProtos();
                 //swal("Deleted!", "", "success");
-              } else {
+              //} else {
                    // swal("Cancelled", "", "error");
-              }
-            });
-            Array.prototype.unset = function(val){
-                var index = this.indexOf(val)
-                if(index > -1){
-                    this.splice(index,1)
-                }
-            };
+              //}
+            //});
+
         },
         deleteProtInstance : function(e){
             var protocolName = $(e.target).parent().attr('name');
@@ -746,6 +812,18 @@ define([
                     $(e.target).val('');
                 }
             }
+        },
+        sweetAlert : function(title,type,message){
+
+            Swal({
+                title: title,
+                text: message,
+                type: type,
+                showCancelButton: false,
+                confirmButtonColor: 'rgb(147, 14, 14)',
+                confirmButtonText: "OK",
+                closeOnConfirm: true,
+            });
         }
     });
 });

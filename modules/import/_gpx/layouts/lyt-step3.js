@@ -66,7 +66,8 @@ define([
             this.filtersList={
                 name : "String",
                 latitude: "Number",
-                waypointTime: "DATETIME",
+                longitude : "Number",
+                datetime: "DATETIME",
 
             };
             this.filters = new NSFilter({
