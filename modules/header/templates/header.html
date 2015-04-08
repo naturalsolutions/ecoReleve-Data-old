@@ -1,55 +1,74 @@
 <script type="text/template">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <nav class="navbar" role="navigation">
-        <div class="navbar-header" style = "display: inline-block" >
-            <div style = "display: inline-block">
-                <a class="navbar-brand" href="#" style="padding:15px 10px;">
-                	<i class="glyphicon glyphicon-home"></i>
-                	 <span>&nbsp;&nbsp;ecoRelev&eacute;</span>
-                </a>
-                <a class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style = "background: #2ecc40; padding-top:15px; padding-right:8px; padding-left:8px; height:50px ">
-                <span class="caret"></span>
-                </a> 
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#import"><i class="medium icon reneco import" style="color:black;"></i>&nbsp;Manual import</a></li>
-                    <li><a href="#input"><i class="medium icon reneco entrykey" style="color:black;"></i>&nbsp;Manual entry</a></li>
-                    <li><a href="#validate"><i class="medium icon reneco validate" style="color:black;"></i>&nbsp;Validate</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#individual"><i class="medium icon reneco individuals" style="color:black;"></i>&nbsp;Individuals</a></li>
-                    <li><a href="#site"><i class="medium icon reneco sites" style="color:black;"></i>&nbsp;Monitored Sites</a></li>
-                    <li><a href="#transmitter"><i class="medium icon reneco sensors" style="color:black;"></i>&nbsp;Objects</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#export"><i class="medium icon reneco export" style="color:black;"></i>&nbsp;Export</a></li>
-                </ul>
-            </div>
-            <div class="btn-group" style = "display: inline-block">
-                 <div class="header-module " style="font-size: 1.5rem;vertical-align:middle; display: inline-block;">
-                    <a href="#" id="header-module-name" style="vertical-align:middle;"></a>
-                    <div id = "header-parent-module" class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;"></div>
-                </div>
-            </div>
-             <div class="btn-group" style = "display: inline-block">
-                 <div class="header-module" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;">
-                    <a href="#" id="header-child-module-name" style="vertical-align:middle;"></a>
-                </div>
-            </div>
 
-        </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
+<nav class="navbar">
+	<div class="">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#" style="padding:15px 10px;">
+			<i class="glyphicon glyphicon-home"></i>
+			<span>&nbsp;&nbsp;ecoReleve</span>
+		</a>
+	</div>
 
-                <li >
-                    <a><i class="reneco user icon"></i>
-                        <span id="user"></span>
-                    </a>
-                </li>
-                <li id="logout"><a>Logout</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
+	<!-- Collect the nav links, forms, and other content for toggling -->
 
-    </nav>
-    <div id="breadcrumbs">
-    </div>
+
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav">
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#import"><i class="medium icon reneco import" style="color:black;"></i>&nbsp;Manual import</a></li>
+				<li><a href="#input"><i class="medium icon reneco entrykey" style="color:black;"></i>&nbsp;Manual entry</a></li>
+				<li><a href="#validate"><i class="medium icon reneco validate" style="color:black;"></i>&nbsp;Validate</a></li>
+				<li class="divider"></li>
+				<li><a href="#individual"><i class="medium icon reneco individuals" style="color:black;"></i>&nbsp;Individuals</a></li>
+				<li><a href="#site"><i class="medium icon reneco sites" style="color:black;"></i>&nbsp;Monitored Sites</a></li>
+				<li><a href="#transmitter"><i class="medium icon reneco sensors" style="color:black;"></i>&nbsp;Objects</a></li>
+				<li class="divider"></li>
+				<li><a href="#export"><i class="medium icon reneco export" style="color:black;"></i>&nbsp;Export</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#" id="header-module-name" style="vertical-align:middle;"></a>
+			
+		</li>
+		<li id = "header-parent-module" class="header-module dropdown" style="font-size: 1.5rem;vertical-align:middle; display: inline-block;"></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li id="header-loader" class="hidden">
+				<a>
+					<svg width="50" height="10">
+						<rect x="0" y="0" rx="3" ry="3">
+							<animate attributeName="width" values="0;10;10;10;0" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="height" values="0;10;10;10;0" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="x" values="5;0;0;0;5" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="y" values="5;0;0;0;5" dur="1000ms" repeatCount="indefinite"/>
+						</rect>
+						<rect x="15" y="0" rx="3" ry="3">
+							<animate attributeName="width" values="0;10;10;10;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="height" values="0;10;10;10;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="x" values="20;15;15;15;20" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+							<animate attributeName="y" values="5;0;0;0;5" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+						</rect>
+						<rect x="30" y="0" rx="3" ry="3">
+						<animate attributeName="width" values="0;10;10;10;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+						<animate attributeName="height" values="0;10;10;10;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+						<animate attributeName="x" values="35;30;30;30;35" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+						<animate attributeName="y" values="5;0;0;0;5" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+						</rect>
+					</svg>
+				</a>
+			</li>
+			<li>
+				<a><i class="reneco user icon"></i>
+					<span id="user"></span>
+				</a>
+			</li>
+			<li id="logout"><a>Logout&nbsp;&nbsp;<i class="glyphicon glyphicon-log-out"></i></a></li>
+		</ul>
+	</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
 </script>

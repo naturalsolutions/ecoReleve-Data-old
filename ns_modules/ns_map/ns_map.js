@@ -770,8 +770,27 @@ define([
 				}*/
 			},
 
+			initErrorWarning: function(msg){
+				$('#'+this.elem).before('<div class="map-error"><div class="msg col-sm-8">'+msg+'</div></div>');
+			},
+
+			errorWarning: function(msg){
+				$('.map-error').fadeIn();
+				$('.map-error .msg').html(msg);
+			},
+
 			updateLayers: function(geoJson){
-				this.map.removeLayer(this.markersLayer);
+				if(geoJson == false){
+					this.errorWarning('<i>There is too much datas to display on the map. <br /> Please be more specific in your filters.</i>');
+					if(this.markersLayer){
+						this.map.removeLayer(this.markersLayer);
+					}
+					return false;
+				}
+				$('.map-error').fadeOut('slow');
+				if(this.markersLayer){
+					this.map.removeLayer(this.markersLayer);
+				}
 				this.geoJsonLayers = [];
 				this.initClusters(geoJson);
 				this.addMarkersLayer2Map();
