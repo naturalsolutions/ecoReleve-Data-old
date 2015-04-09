@@ -41,7 +41,7 @@ Contributing
 ------------
 
 We're using the [git flow from github](http://scottchacon.com/2011/08/31/github-flow.html), please submit your pull-requests.
-see [procedure] (https://github.com/gerald13/ecoReleve-Data/blob/premire-contrib-gege/Docs/ProcedurePriseEnMain.odt) to add your contributions
+see [procedure](https://github.com/gerald13/ecoReleve-Data/blob/premire-contrib-gege/Docs/ProcedurePriseEnMain.odt) to add your contributions
 
 Technologie used
 ------------
