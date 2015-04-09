@@ -37,6 +37,10 @@ Installation
 3. Make the folder available through your web server
 4. Allow directory browsing on the folder **modules/input/data/**
 
+Contributing
+------------
+
+We're using the [git flow from github](http://scottchacon.com/2011/08/31/github-flow.html), please submit your pull-requests.
 
 Technologie used
 ------------
