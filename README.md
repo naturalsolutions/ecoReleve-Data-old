@@ -22,8 +22,9 @@ Installation
 ------------
 1. Clone the reposirory
 2. Run **bower install**
-3. Make the folder available through your web server
-4. Allow directory browsing on the folder **modules/input/data/**
+3. `cp js/config.js{.default,}`
+4. Make the folder available through your web server
+5. Allow directory browsing on the folder **modules/input/data/**
 
 Technologie used
 ------------
