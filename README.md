@@ -9,7 +9,7 @@ To address this issue, we have starting an ambitious open source effort based on
 ![ecoReleve](https://raw.github.com/NaturalSolutions/ecoReleve-Data/master/Logo/logo-LABS_DATA.jpg)
 
 We provide Software for Field Worker: that actually run the data collection and data entries
-
+=> Why open source => RF
 
 ![ecoReleve](https://static.squarespace.com/static/519a7bc0e4b08ccdf8f31445/t/53c9549ae4b0a11d417c1d12/1405703324816/?format=1000w)
 
@@ -37,11 +37,33 @@ Installation
 3. Make the folder available through your web server
 4. Allow directory browsing on the folder **modules/input/data/**
 
+
+=> Installation of dependencies => installation miniconda, bower instal, configuration IIS (en particulier le reverse proxy à la con), etc.
+=> MJ
+
 Contributing
 ------------
 
 We're using the [git flow from github](http://scottchacon.com/2011/08/31/github-flow.html), please submit your pull-requests.
 See [procedure](https://github.com/gerald13/ecoReleve-Data/blob/premire-contrib-gege/Docs/ProcedurePriseEnMain.odt) to add your contributions.
+
+
+1. Initialization of repository on local machine 
+	=> création d'un compte github, => GT
+	=> fork, branch création => KT
+	=> création du dépôt en local => KT
+	=> Ressources: liens vers commandes github, reference vers procédure d'installation => MJ
+2. How to contribute
+	=> workflow => RF
+	
+3. Coding rules/documentation 
+	=> convention de nommage,bonnes pratiques, etc. => RF
+	=> commentaire => GT
+	
+
+
+
+
 
 Technologie used
 ------------
