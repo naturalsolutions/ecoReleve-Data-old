@@ -29,14 +29,9 @@ define([
 
 	''+module+'/import/_rfid/layouts/lyt-stepOrchestrator',
 
-
-
 	''+module+'/validate/layouts/validate-layout',
 	''+module+'/validate/layouts/validateType-layout',
 	''+module+'/validate/gsm/layouts/gsm-detail',
-	
-
-
 
 
 	/*Validate Section (Modules)*/
@@ -513,7 +508,7 @@ define([
 				var lyt = new DemoStepper()
 				this.mainRegion.show(lyt);
 			}, this);
-		},        
+		},
 
 
 		//grid
@@ -524,7 +519,7 @@ define([
 				var lyt = new DemoGrid()
 				this.mainRegion.show(lyt);
 			}, this);
-		},  
+		},
 
 
 		//filter
@@ -535,7 +530,7 @@ define([
 				var lyt = new Demofilter()
 				this.mainRegion.show(lyt);
 			}, this);
-		},        
+		},
 
 		//demo
 		demo_map: function(){

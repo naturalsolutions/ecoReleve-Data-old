@@ -1,136 +1,101 @@
-body.login-page{
-  opacity: 0;
+.login-page{
+	background: #000;
+	color: white;
+
+	text-align: center;
+	background: url(../img/bg-login.jpg) center center no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+
+	.loginForm{
+		position: absolute;
+		padding: 25px 50px;
+		height: 500px;
+		width: 400px;
+		background: rgba(0,0,0,0.7);
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		font-size: 15px;
+
+		h1{
+			font-weight: bold;
+			margin: 0px;
+			padding: 25px;
+		}
+		h2{
+			font-size: 15px;
+			font-weight: 300;
+		}
+		.help-block{
+			transition: all .5s ease;
+			margin: 0px;
+			background: #e7332a;
+			color: white;
+			padding-left: 15px;
+			line-height: 50px;
+			text-align: left;
+		}
+		.hidden{
+			display: none;
+		}
+		#username{
+			background: transparent;
+			color: white;
+			box-shadow: none;
+			border: none;
+			height: 55px;
+			border-radius: 0px;
+		}
+		#password{
+			background: transparent;
+			color: white;
+			box-shadow: none;
+			border: none;
+			height: 55px;
+			border-radius: 0px;
+		}
+		button[type="submit"]{
+			margin-top: 20px;
+			background: white;
+			border: none;
+			box-shadow: 0px;
+			border-radius: 2px;
+			color: #0a73ba;
+		}
+		.form-group{
+			margin: 0px;
+		}
+		.wrapper{
+			border: 1px solid white;
+			border-radius: 2px;
+		}
+
+		::-webkit-input-placeholder { /* WebKit browsers */
+			color: white;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color: white;
+			opacity:  1;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color: white;
+			opacity:  1;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10+ */
+			color: white;
+		}
+		.ui-menu-item{
+			text-align: left;
+		}
+	}
+	.rotate3d{
+		transition: all .3s ease;
+		transform: perspective( 1000px ) rotateY( 90deg );
+	}
 }
-
-
-body.login-page{
-    transition: all 0.2s linear;
-    opacity: 1;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    background: url(../img/bg-login.jpg);
-    //background: rgba(0, 0, 0, 0.85);
-    background-size: cover;
-    background-attachment: fixed;
-
-    /* countries */
-    &.FR{
-        background-size: cover;
-        background-attachment: fixed;
-    }
-    &.MA{
-        background-size: cover;
-        background-attachment: fixed;
-    }
-    h1{
-        display: block;
-        min-height: 100px;
-        color: white;
-        margin: 25px;
-        text-align: center;
-        font-weight: bold;
-        //background: url(../img/reneco.png) no-repeat center;
-        margin: 0px 50px;  
-    }
-    h2{
-        color: white;
-        text-align: center;
-        font-weight: 300;
-        margin: 0px;
-        font-size: 15px;
-        padding: 10px;
-    }
-
-    .login-form{
-        position: absolute;
-        height: 400px;
-        margin: auto;
-        top:0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding-top: 25px;
-        padding-bottom: 25px;
-        /* background: -webkit-linear-gradient(@login_bluec, @login_blued, @login_blued); For Safari 5.1 to 6.0
-        background: -o-linear-gradient(@login_bluec, @login_blued, @login_blued); For Opera 11.1 to 12.0
-        background: -moz-linear-gradient(@login_bluec, @login_blued, @login_blued); For Firefox 3.6 to 15
-        background: linear-gradient(@login_bluec, @login_blued, @login_blued);  *//* Standard syntax */
-        background: rgba(0,0,0,0.7);
-
-        form{
-            padding: 0px 25px;
-        }
-
-        .form-group{
-            margin: 0px;
-        }
-        
-        div.wrapper{
-            //width: 70%;
-            border: 1px solid white;
-            border-radius: 2px;
-            input{
-                background: transparent;
-                color: white;
-                
-                box-shadow: none;
-                border: none;
-                height: 55px;
-                border-radius: 0px;
-            }
-            input:-webkit-autofill {
-                -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
-                -webkit-text-fill-color: #333;
-            }
-            input:-webkit-autofill:focus {
-                -webkit-box-shadow: 0 0 0 50px white inset;
-                -webkit-text-fill-color: #333;
-            }
-            .help-block{
-                transition:all .5s ease;
-                margin: 0px;
-                background: @red-h;
-                color: white;
-                padding-left: 15px;
-                line-height: 50px;
-            }
-            
-        }
-
-        ::-webkit-input-placeholder { /* WebKit browsers */
-            color:    white;
-        }
-        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-           color:    white;
-           opacity:  1;
-        }
-        ::-moz-placeholder { /* Mozilla Firefox 19+ */
-           color:    white;
-           opacity:  1;
-        }
-        :-ms-input-placeholder { /* Internet Explorer 10+ */
-           color:    white;
-        }
-
-        .btn-primary{
-            //width: 70%;
-            margin-top: 20px;
-            background: white;
-            border: none;
-            box-shadow: 0px;
-            border-radius: 2px;
-            color: @blue-d;
-        }
-
-
-    }
-    .rotate3d{
-        transition: all .3s ease;
-        transform: perspective( 1000px ) rotateY( 90deg );
-    }
-}
-
 
 
