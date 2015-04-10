@@ -100,7 +100,7 @@ define([
 				}).done( function() {
 
 
-					$('.login-form').addClass('rotate3d');
+					$('.loginForm').addClass('rotate3d');
 					setTimeout(function() {
 						Radio.channel('route').trigger('login:success');
 					},500);
@@ -127,9 +127,9 @@ define([
 
 
 		shake: function(){
-			$('.login-form').addClass('animated shake');
+			$('.loginForm').addClass('animated shake');
 			setTimeout(function() {
-				$('.login-form').removeClass('animated shake');
+				$('.loginForm').removeClass('animated shake');
 			},1000);
 		}
 	});
