@@ -1,5 +1,5 @@
 header{
-	z-index: 1000!important;
+	z-index: 10000000000!important;
 	background: @vert1;
 	color: white;
 	position: absolute;
@@ -8,6 +8,9 @@ header{
 		border-radius: 0px;
 		border: 0px;
 		border: none;
+		.navbar-brand{
+			padding: 15px 20px!important;
+		}
 	}
 
 	a{
@@ -21,16 +24,30 @@ header{
 	span{
 		vertical-align: top;
 	}
-	a:hover{
-		background: @vert2!important;
-		color: white;
-		&:focus{
+	a{
+		&:hover, &:focus, &:visited{
 			color: white;
+			background: @vert2!important;
 		}
+	}
+
+	.dropdown-menu > li > a{
+		color: #333333;
 	}
 
 	.navbar {
 		margin-bottom: 0;
+	}
+	svg{
+		rect { fill: white; }
+	}
+
+
+	.nav .open > a{
+		background: @vert2!important;
+		&:visited, &:hover, &:focus{
+			background: @vert2!important;
+		}
 	}
 }
 

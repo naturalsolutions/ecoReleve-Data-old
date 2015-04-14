@@ -14,14 +14,15 @@ We provide Software for Field Worker: that actually run the data collection and 
 ![ecoReleve](https://static.squarespace.com/static/519a7bc0e4b08ccdf8f31445/t/53c9549ae4b0a11d417c1d12/1405703324816/?format=1000w)
 
 Video 
-=======
+------------
 
 [![ecoReleve ScreenCast ](https://i.ytimg.com/vi/joLoP7Q4YY4/mqdefault.jpg)](https://www.youtube.com/watch?v=joLoP7Q4YY4)
 
 Demo 
 ------------
 
-###**[Online demo here] (http://vps98188.ovh.net/ecoReleve)**
+###**[Online demo here] (http://92.222.217.165/ecorelevedemo/ )**
+password  : demo13
 
 
 Installation
@@ -30,7 +31,12 @@ Installation
 2. Run **bower install**
 3. Make the folder available through your web server
 4. Allow directory browsing on the folder **modules/input/data/**
->>>>>>> requirejs-integration
+
+Contributing
+------------
+
+We're using the [git flow from github](http://scottchacon.com/2011/08/31/github-flow.html), please submit your pull-requests.
+See [procedure](https://github.com/gerald13/ecoReleve-Data/blob/premire-contrib-gege/Docs/ProcedurePriseEnMain.odt) to add your contributions.
 
 Technologie used
 ------------
