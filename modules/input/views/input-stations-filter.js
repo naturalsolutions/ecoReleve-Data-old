@@ -84,17 +84,17 @@ define([
         },
         onShow: function(evt) {
             
-            this.$el.parent().addClass('no-padding');
-            var height=$(window).height();
-            height -= $('#header-region').height();
-            this.$el.height(height);
-            $('#left-panel').css('padding-top', '0');
-            this.$el.addClass('filter-bg-image');
+            // this.$el.parent().addClass('no-padding');
+            // var height=$(window).height();
+            // height -= $('#header-region').height();
+            // this.$el.height(height);
+            // $('#left-panel').css('padding-top', '0');
+            // this.$el.addClass('filter-bg-image');
 
-            this.$el.find('.panel').css({'background-color' : 'rgba(0,0,0,0)', 'border':'none'});
-            this.$el.find('.panel-heading').css({'border-radius':'0px'});
+            // this.$el.find('.panel').css({'background-color' : 'rgba(0,0,0,0)', 'border':'none'});
+            // this.$el.find('.panel-heading').css({'border-radius':'0px'});
 
-            this.$el.find('.panel-body').css({'background-color' : 'white'});
+            // this.$el.find('.panel-body').css({'background-color' : 'white'});
             /*$('.dateTimePicker').datetimepicker({
             }); */
             var self = this;
