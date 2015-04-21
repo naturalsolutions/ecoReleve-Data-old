@@ -122,18 +122,24 @@ define([
                         $('#btnNext').attr('disabled');
                         if (data.status == 500 || data.status == 510  ) {
                             var type = 'warning';
+                            var title = "Warning !"
                             self.ui.progressBar.css({'background-color':'rgb(218, 146, 15)'})
                             var color = 'rgb(218, 146, 15)';
                         }
                         else {
                             var type = 'error';
+                            var title = "Error !"
                             self.ui.progressBar.css({'background-color':'rgb(147, 14, 14)'})
                             var color = 'rgb(147, 14, 14)';
+                            
 
+                         }
+                         if (data.responseText.length > 100) {
+                         	data.responseText = 'An error occured, please contact an admninstrator';
                          }
                         swal(
                             {
-                              title: "Warning ",
+                              title: title,
                               text: data.responseText,
                               type: type,
                               showCancelButton: false,
