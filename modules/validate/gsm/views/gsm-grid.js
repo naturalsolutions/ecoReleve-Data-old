@@ -32,14 +32,13 @@ define([
 		initialize: function(options) {
 			this.type=options.type;
 			this.ind_id = options.id_ind;
+
 			switch(this.type){
 				case 'gsm':
-					
 					this.type_url = config.coreUrl+'dataGsm/';
 					this.showTypeCol = false;
 					break;
 				case 'argos':
-				   
 					this.type_url = config.sensorUrl+'argos/';
 					this.showTypeCol = true;
 					break;
@@ -54,19 +53,21 @@ define([
 			Backgrid.Extension.SelectRowCell.prototype.initialize = function(options){
 					this.column = options.column;
 					if (!(this.column instanceof Backgrid.Column)) {
-					  this.column = new Backgrid.Column(this.column);
+
+						this.column = new Backgrid.Column(this.column);
 					}
 
 					var column = this.column, model = this.model, $el = this.$el;
 					this.listenTo(column, "change:renderable", function (column, renderable) {
-					  $el.toggleClass("renderable", renderable);
+
+						$el.toggleClass("renderable", renderable);
 					});
 
 					if (Backgrid.callByNeed(column.renderable(), column, model)) $el.addClass("renderable");
 
 					this.listenTo(model, "backgrid:select", function (model, selected) {
+						this.$el.find("input[type=checkbox]").prop("checked", selected).change();
 
-					  this.$el.find("input[type=checkbox]").prop("checked", selected).change();
 					});
 
 					this.listenTo(model, "backgrid:focus", function (model, focus) {
@@ -82,8 +83,9 @@ define([
 
 
 			if(options.com){
-			  this.com = options.com;
-			  this.com.addModule(this);
+
+				this.com = options.com;
+				this.com.addModule(this);
 			}
 
 			/*
@@ -96,11 +98,11 @@ define([
 			this.pageSize = 25;
 
 			if(this.type == 'gsm'){
-			  var url = this.type_url + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
+
+				var url = this.type_url + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
 			}else{
-			  var url = this.type_url +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
+				var url = this.type_url +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
 			};
-		  
 			var Locations = PageableCollection.extend({
 				url: url,
 				mode: 'client',
@@ -161,7 +163,9 @@ define([
 								rawValue=0;
 							}
 						 return rawValue;
-					  }
+
+					}
+
 				}),
 			},{
 				name: 'type_',
@@ -177,7 +181,9 @@ define([
 								rawValue = 'GPS'
 							}
 						 return rawValue;
-					  }
+
+					}
+
 				}),
 				cell: 'string'
 			}, {
@@ -212,36 +218,36 @@ define([
 		=======================================*/
 
 		action: function(action, id){
-		  switch(action){
+			switch(action){
 			case 'focus':
-			  break;
+				break;
 			case 'selection':
-			  this.selectOne(id);
-			  break;
+				this.selectOne(id);
+				break;
 			case 'selectionMultiple':
-			  this.selectMultiple(id);
-			  break;
+				this.selectMultiple(id);
+				break;
 			case 'resetAll':
-			  this._resetAll();
-			  break;
+				this._resetAll();
+				break;
 			case 'selectAll':
-			  this._selectAll();
-			  break;
+				this._selectAll();
+				break;
 			default:
-			  console.warn('verify the action name');
-			  break;
-		  }
+				console.warn('verify the action name');
+				break;
+			}
 		},
 
 		interaction: function(action, id){
-		  if(this.com){
+			if(this.com){
 			this.com.action(action, id);
-		  }else{
+			}else{
 			this.action(action, id);
-		  }
+			}
 		},
 
-		/*-----  End of En Demo Code  ------*/
+		/*-----	End of En Demo Code	------*/
 
 		onShow: function() {
 			$('#import-btn').on('click', function(){
@@ -259,7 +265,9 @@ define([
 		},
 
 		clone: function(){
-			this.origin  = this.grid.collection.fullCollection.clone();
+
+			this.origin	= this.grid.collection.fullCollection.clone();
+
 		},
 
 		selectOrUnselectAll: function(e){
@@ -280,13 +288,14 @@ define([
 		_resetAll: function(){
 			var collection = this.grid.collection;
 			collection.each(function (model) {
-			  model.trigger("backgrid:select", model, false);
+
+				model.trigger("backgrid:select", model, false);
 			});
 			
 			collection.fullCollection.each(function (model) {
-			  if (!collection.get(model.cid)) {
+				if (!collection.get(model.cid)) {
 				model.trigger("backgrid:selected", model, false);
-			  }
+				}
 			});
 		},
 
@@ -294,13 +303,14 @@ define([
 		_selectAll: function(){
 			var collection = this.grid.collection;
 			collection.each(function (model) {
-			  model.trigger("backgrid:select", model, true);
+				model.trigger("backgrid:select", model, true);
 			});
 			
 			collection.fullCollection.each(function (model) {
-			  if (!collection.get(model.cid)) {
+				if (!collection.get(model.cid)) {
 				model.trigger("backgrid:selected", model, true);
-			  }
+				}
+
 			});
 		},
 

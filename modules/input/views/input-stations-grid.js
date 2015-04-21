@@ -18,7 +18,7 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-        className: 'full-height',
+        className: 'full-height col-xs-12',
         events :{
             'click tbody > tr': 'detail',
             'dblclick tbody > tr' : 'navigate'
@@ -175,9 +175,6 @@ define([
             
         },
         onShow: function() { 
-            this.$el.parent().addClass('no-padding');
-            $('#main-panel').css({'padding-top': '0'});
-            this.$el.addClass('grid');
             $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
         },

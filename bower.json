@@ -39,7 +39,8 @@
     "less": "~2.3.0",
     "bootstrap": "~3.3.2",
     "RenecoFonts": "https://github.com/NaturalSolutions/RenecoFonts.git",
-    "sweetalert": "~0.4.2"
+    "sweetalert": "~0.4.2",
+    "jqueryui": "~1.11.4"
   },
   "resolutions": {
     "moment": ">=2.8.0",

@@ -32,6 +32,7 @@
 		width: 100%;
 
 	}
+
 }
 
 .map.controls-custom{
@@ -41,13 +42,6 @@
 		z-index: 1000;
 	}
 }
-
-
-
-/*================================
-=            LeafFlet            =
-================================*/
-
 
 
 .leaflet-map-pane{
@@ -129,6 +123,8 @@
 
 
 
+
+
 .ns_map, #map{
 		//height: 600px;
 		width: 100%;
@@ -139,6 +135,27 @@
 		width: 100%;
 		z-index: 1 !important;
 		overflow: hidden !important;
+
+
+}
+
+.map-error{
+	color: white;
+	background: rgba(0,0,0,0.5);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 10;
+	cursor: not-allowed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.msg{
+		border: 1px dashed white;
+		padding: 25px;
+		background: rgba(0,0,0,.5);
+		text-align: center;
+	}
 }
 
 //legend
