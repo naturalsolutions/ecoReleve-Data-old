@@ -117,7 +117,6 @@ define([
 			var myCell = Backgrid.NumberCell.extend({
 				decimals: 5,
 				orderSeparator: ' ',
-
 			});
 
 			var columns = [{
@@ -301,12 +300,14 @@ define([
 		_selectAll: function(){
 			var collection = this.grid.collection;
 			collection.each(function (model) {
+				model.set('checked',true);
 				model.trigger("backgrid:select", model, true);
 			});
 			
 			collection.fullCollection.each(function (model) {
 				if (!collection.get(model.cid)) {
-				model.trigger("backgrid:selected", model, true);
+					model.set('checked',true);
+					model.trigger("backgrid:selected", model, true);
 				}
 
 			});
@@ -315,7 +316,6 @@ define([
 
 		perhour: function() {
 			this.interaction('resetAll');
-			console.log()
 			var self=this;
 
 			var col0=this.origin.at(0);

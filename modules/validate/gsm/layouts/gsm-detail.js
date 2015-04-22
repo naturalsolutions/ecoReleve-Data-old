@@ -27,6 +27,7 @@ define([
 
 		events: {
 			'click #back' : 'back',
+
 			'click .arrow-right-indiv' :'changeTransmitter',
 			'click .arrow-left-indiv' :'changeTransmitter'
 		},
@@ -38,6 +39,7 @@ define([
 			//this.radio.comply('validate', this.validate, this);
 			this.gsmID = options.gsmID;
 			this.id_ind=options.id_ind;
+
 			this.coll = options.collection;
 
 			if (!this.coll) {
@@ -47,7 +49,7 @@ define([
 					this.type_url = config.coreUrl+'dataGsm/';
 					break;
 				case 'argos':
-				   
+
 					this.type_url = config.sensorUrl+'argos/';
 
 					break;
@@ -74,6 +76,7 @@ define([
 		getIndex: function() {
 			var currentModel = this.coll.findWhere({ind_id : this.id_ind, platform_ : this.gsmID});
 			this.currentIndex = this.coll.indexOf(currentModel);
+
 		},
 
 		onBeforeDestroy: function() {
@@ -86,6 +89,7 @@ define([
 		onShow: function() {
 			$('body').addClass('full-height').addClass('no-scroll');
 			$('#main-region').addClass('full-height').addClass('grey-back').addClass('no-scroll');
+
 			var self=this;
 			this.info.show(new Info({
 				model: new Individual({
@@ -124,6 +128,7 @@ define([
 			Radio.channel('route').command('validate:type', this.type);
 		},
 
+
 		changeTransmitter : function(e){
 
 			if (e){
@@ -152,6 +157,7 @@ define([
 			}
 			
 		}
+
 
 	});
 });

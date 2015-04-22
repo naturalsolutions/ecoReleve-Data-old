@@ -27,10 +27,15 @@ define([
 		events : {
 			'click #tabProtsUl a' : 'updateForm',
 			'change select[name="st_FieldActivity_Name"]' : 'updateFieldActivity',
-			'click i.add'  : 'addForm',
+
+
+
 			'click a.pkProtocol' : 'getProtoByPkId',
 			'click .arrow-right-station' :'nextStation',
 			'click .arrow-left-station' :'prevStation',
+
+			'click #addInstance'  : 'addForm',
+
 			'click .onglet a': 'activeOnglet',
 			'click .deleteProt' : 'deleteProtocol',
 			'click .deleteProInstance' : 'deleteProtInstance',
@@ -368,9 +373,7 @@ define([
 
 		genInterfaceForCurrentProto: function(pkList, protocolName){
 			this.formsRegion.empty();
-
-			console.log('passed');
-
+			
 			$('#formsContainer').text('');
 			$('#idProtosContainer .pagination').text('');
 
@@ -835,6 +838,18 @@ define([
 				}
 			}
 		},
+
+
+
+
+
+
+
+
+
+
+
+
 		sweetAlert : function(title,type,message){
 
 			Swal({
