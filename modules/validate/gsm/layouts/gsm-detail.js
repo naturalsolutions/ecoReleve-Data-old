@@ -11,81 +11,81 @@ define([
 	'sweetAlert',
 	'ns_modules_com',
 ], function(Marionette, Radio, config,Backbone,Individual, Grid, Info,
-    Map, template, Swal, Com) {
+	Map, template, Swal, Com) {
 
-    'use strict';
+	'use strict';
 
-    return Marionette.LayoutView.extend({
-        className: 'container-fluid no-padding full-height',
-        template: template,
+	return Marionette.LayoutView.extend({
+		className: 'container-fluid no-padding full-height',
+		template: template,
 
-        regions: {
-            grid: '#grid-container',
-            info: '#info-container',
-            map: '#map-container',
-        },
+		regions: {
+			grid: '#grid-container',
+			info: '#info-container',
+			map: '#map-container',
+		},
 
-        events: {
-            'click #back' : 'back',
-        },
+		events: {
+			'click #back' : 'back',
+		},
 
-        initialize: function(options) {
-            this.type=options.type;
-            var self=this;
+		initialize: function(options) {
+			this.type=options.type;
+			var self=this;
 			this.radio = Radio.channel('gsm-detail');
-            //this.radio.comply('validate', this.validate, this);
-            this.gsmID = options.gsmID;
-            this.id_ind=options.id_ind;
-        },
+			//this.radio.comply('validate', this.validate, this);
+			this.gsmID = options.gsmID;
+			this.id_ind=options.id_ind;
+		},
 
-        onBeforeDestroy: function() {
-            this.radio.reset();
-            $('#main-region').removeClass('grey-back').removeClass('no-scroll');
-            $('body').removeClass('no-scroll');
-            
-        },
+		onBeforeDestroy: function() {
+			this.radio.reset();
+			$('#main-region').removeClass('grey-back').removeClass('no-scroll');
+			$('body').removeClass('no-scroll');
+			
+		},
 
-        onShow: function() {
-            $('body').addClass('full-height').addClass('no-scroll');
-            $('#main-region').addClass('full-height').addClass('grey-back').addClass('no-scroll');
+		onShow: function() {
+			$('body').addClass('full-height').addClass('no-scroll');
+			$('#main-region').addClass('full-height').addClass('grey-back').addClass('no-scroll');
 
-            var self=this;
-            this.info.show(new Info({
-                model: new Individual({
-                   ptt:self.gsmID,
-                   id:self.id_ind,
-                   last_observation: null,
-                   duration: null,
-                   indivNbObs:null,
-                   breeding_ring: null,
-                   release_ring : null,
-                   begin_date: null,
-                   end_date: null,
-                   chip_code: null
-                }),
-                type: this.type,
-            }));
+			var self=this;
+			this.info.show(new Info({
+				model: new Individual({
+				   ptt:self.gsmID,
+				   id:self.id_ind,
+				   last_observation: null,
+				   duration: null,
+				   indivNbObs:null,
+				   breeding_ring: null,
+				   release_ring : null,
+				   begin_date: null,
+				   end_date: null,
+				   chip_code: null
+				}),
+				type: this.type,
+			}));
 
-            this.com = new Com();
+			this.com = new Com();
 
-            this.grid.show(new Grid({
-                type: this.type,
-                com: this.com,
-                gsmID:this.gsmID,
-                id_ind:self.id_ind,
-            }));
-            this.map.show(new Map({
-                type: this.type,
-                com: this.com,
-                gsmID:this.gsmID,
-                id_ind:self.id_ind
-            }));
-        },
+			this.grid.show(new Grid({
+				type: this.type,
+				com: this.com,
+				gsmID:this.gsmID,
+				id_ind:self.id_ind,
+			}));
+			this.map.show(new Map({
+				type: this.type,
+				com: this.com,
+				gsmID:this.gsmID,
+				id_ind:self.id_ind
+			}));
+		},
 
-        back: function(){
-            Radio.channel('route').command('validate:type', this.type);
-        },
+		back: function(){
+			Radio.channel('route').command('validate:type', this.type);
+		},
 
 
-    });
+	});
 });
