@@ -26,10 +26,14 @@ define([
 			'click td input[type=checkbox]':'updateMap',
 			'click #1pH-btn': 'perhour',
 			'click #clearAll-btn': 'selectOrUnselectAll',
+			'click #import-btn' : 'importChecked'
 		},
 
 		initialize: function(options) {
 			this.type=options.type;
+			this.ind_id = options.id_ind;
+			this.parent = options.parent;
+
 			switch(this.type){
 				case 'gsm':
 					this.type_url = config.coreUrl+'dataGsm/';
@@ -50,19 +54,21 @@ define([
 			Backgrid.Extension.SelectRowCell.prototype.initialize = function(options){
 					this.column = options.column;
 					if (!(this.column instanceof Backgrid.Column)) {
+
 						this.column = new Backgrid.Column(this.column);
 					}
 
 					var column = this.column, model = this.model, $el = this.$el;
 					this.listenTo(column, "change:renderable", function (column, renderable) {
+
 						$el.toggleClass("renderable", renderable);
 					});
 
 					if (Backgrid.callByNeed(column.renderable(), column, model)) $el.addClass("renderable");
 
 					this.listenTo(model, "backgrid:select", function (model, selected) {
-
 						this.$el.find("input[type=checkbox]").prop("checked", selected).change();
+
 					});
 
 					this.listenTo(model, "backgrid:focus", function (model, focus) {
@@ -78,6 +84,7 @@ define([
 
 
 			if(options.com){
+
 				this.com = options.com;
 				this.com.addModule(this);
 			}
@@ -92,6 +99,7 @@ define([
 			this.pageSize = 25;
 
 			if(this.type == 'gsm'){
+
 				var url = this.type_url + this.gsmID + '/unchecked/'+options.id_ind+'?format=json';
 			}else{
 				var url = this.type_url +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
@@ -155,7 +163,9 @@ define([
 								rawValue=0;
 							}
 						 return rawValue;
-						}
+
+					}
+
 				}),
 			},{
 				name: 'type_',
@@ -171,7 +181,9 @@ define([
 								rawValue = 'GPS'
 							}
 						 return rawValue;
-						}
+
+					}
+
 				}),
 				cell: 'string'
 			}, {
@@ -202,7 +214,7 @@ define([
 		},
 
 		/*=======================================
-		=			Strat Demo Code			=
+		=            Strat Demo Code            =
 		=======================================*/
 
 		action: function(action, id){
@@ -238,9 +250,6 @@ define([
 		/*-----	End of En Demo Code	------*/
 
 		onShow: function() {
-			$('#import-btn').on('click', function(){
-				this.importChecked();
-			});
 			this.$el.find('#locations').append(this.grid.render().el);
 			this.$el.find('#paginator').append(this.paginator.render().el);
 
@@ -253,7 +262,9 @@ define([
 		},
 
 		clone: function(){
+
 			this.origin	= this.grid.collection.fullCollection.clone();
+
 		},
 
 		selectOrUnselectAll: function(e){
@@ -274,6 +285,7 @@ define([
 		_resetAll: function(){
 			var collection = this.grid.collection;
 			collection.each(function (model) {
+
 				model.trigger("backgrid:select", model, false);
 			});
 			
@@ -297,6 +309,7 @@ define([
 					model.set('checked',true);
 					model.trigger("backgrid:selected", model, true);
 				}
+
 			});
 		},
 
@@ -430,10 +443,13 @@ define([
 			}
 		},
 
-		importChecked : function(ind_id) {
+		importChecked : function() {
+			var self = this;
 			var importList = [];
 			var checkedLocations=this.grid.getSelectedModels();
 			var i;
+			var url = this.type_url + this.gsmID + '/unchecked/'+this.ind_id+'/import';
+
 			for (i in checkedLocations){
 				var model=checkedLocations[i];
 				var location= model.get('id');
@@ -441,7 +457,7 @@ define([
 			};
 
 			$.ajax({
-				url:this.type_url + this.gsmID + '/unchecked/'+ind_id+'/import',
+				url : url,
 				contentType: 'application/json',
 				type: 'POST',
 				data:JSON.stringify({data:importList}),
@@ -450,14 +466,23 @@ define([
 						title: "Success",
 						text: data,
 						type: 'success',
-						showCancelButton: false,
+						showCancelButton: true,
 						confirmButtonColor: 'green',
-						confirmButtonText: "Ok",
+						confirmButtonText: "Next individual",
+						cancelButtonColor: 'grey',
+						cancelButtonText: "Return to Validate",
 						closeOnConfirm: true,
+						closeOnCancel: true,
 						},
 						function(isConfirm) {
-							
+							if(isConfirm){
+								self.parent.changeTransmitter();
+							}
+							else {
+								Backbone.history.history.back();
+							}
 						}
+						
 					);
 				},
 				error : function(data) {
