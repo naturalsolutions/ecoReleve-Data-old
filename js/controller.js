@@ -326,7 +326,7 @@ define([
 			}, this);
 			this.radio.command('route:header', {route:'Validate', child_route:type_name[type]});
 		},
-		validate_type_id: function(type, id, id_ind){
+		validate_type_id: function(type, id, id_ind, coll){
 			var type_name = {'gsm':'GSM', 'rfid': 'RFID', 'argos':'Argos (Argos)','gps': 'Argos (GPS)'};
 			var route = 'validate/'+ type +'/'+ id+'/'+ id_ind;
 			this.checkLogin(function() {
@@ -336,7 +336,8 @@ define([
 						this.mainRegion.show(new ValidateGSMDetailLayout({
 							type : type,
 							gsmID : id,
-							id_ind: id_ind
+							id_ind: id_ind,
+							collection : coll
 						}));
 						break;
 					case 'argos':
@@ -344,7 +345,8 @@ define([
 						this.mainRegion.show(new ValidateGSMDetailLayout({
 							type : type,
 							gsmID : id,
-							id_ind: id_ind
+							id_ind: id_ind,
+							collection : coll
 						}));
 						break;
 					case 'gps':
@@ -352,7 +354,8 @@ define([
 						this.mainRegion.show(new ValidateGSMDetailLayout({
 							type : type,
 							gsmID : id,
-							id_ind: id_ind
+							id_ind: id_ind,
+							collection : coll
 						}));
 						break;
 					case 'rfid':

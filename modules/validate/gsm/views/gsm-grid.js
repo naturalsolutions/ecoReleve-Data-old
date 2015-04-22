@@ -32,6 +32,7 @@ define([
 		initialize: function(options) {
 			this.type=options.type;
 			this.ind_id = options.id_ind;
+			this.parent = options.parent;
 
 			switch(this.type){
 				case 'gsm':
@@ -250,9 +251,6 @@ define([
 		/*-----	End of En Demo Code	------*/
 
 		onShow: function() {
-			$('#import-btn').on('click', function(){
-				this.importChecked();
-			});
 			this.$el.find('#locations').append(this.grid.render().el);
 			this.$el.find('#paginator').append(this.paginator.render().el);
 
@@ -446,6 +444,7 @@ define([
 		},
 
 		importChecked : function() {
+			var self = this;
 			var importList = [];
 			var checkedLocations=this.grid.getSelectedModels();
 			var i;
@@ -467,14 +466,23 @@ define([
 						title: "Success",
 						text: data,
 						type: 'success',
-						showCancelButton: false,
+						showCancelButton: true,
 						confirmButtonColor: 'green',
-						confirmButtonText: "Ok",
+						confirmButtonText: "Next individual",
+						cancelButtonColor: 'grey',
+						cancelButtonText: "Return to Validate",
 						closeOnConfirm: true,
+						closeOnCancel: true,
 						},
 						function(isConfirm) {
-							
+							if(isConfirm){
+								self.parent.changeTransmitter();
+							}
+							else {
+								Backbone.history.history.back();
+							}
 						}
+						
 					);
 				},
 				error : function(data) {

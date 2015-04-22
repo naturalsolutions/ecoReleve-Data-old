@@ -66,7 +66,7 @@ define([
 					var ctx = this;
 					var ind_id=this.model.attributes.ind_id;
 					var ptt=this.model.attributes.platform_;
-					console.log(this.model);
+
 					$.when(this.auto_valide(ptt,ind_id)).then(function(data) {
 						ctx.import_success(e,data)
 					},function(data){
@@ -295,7 +295,8 @@ define([
 			var model = $(evt.target).parent().data('model'); 
 			var ind_id=model.attributes.ind_id;
 			var ptt=model.attributes.platform_;
-			Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id);
+			var collection = this.datas;
+			Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id, collection);
 		},
 
 		auto_valide: function (evt) {
