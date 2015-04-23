@@ -5,142 +5,155 @@
 	    <span id="back">
 	        <i class="icon reneco leftarrow circle white align-center"></i><span class="white"> &nbsp;</span>
 	    </span>
-	    <span class="pull-right">
+	    <!-- <span class="pull-right">
 	    <br>
 	    	<a class="white" href="#import">
 	    		<i class="fa fa-3x icon reneco import"></i>&nbsp;&nbsp;
 	    		Back to import file page</a></span>
-	    <span>
+	    <span> -->
+	   	<span class="pull-right medium">
+	   			<br>	
                 <a class="arrow-left-indiv glyphicon pointer  glyphicon-chevron-left" nav="prev" ></a> 
                 <span>change individual/transmitter</span>
                 <a class="arrow-right-indiv glyphicon pointer glyphicon-chevron-right" nav="next"></a>
-            </span>
+        </span>
 	    <br><br>
 	</div>
-	<br>
-	<div class="row" id="birdInfosDiv" style = "color: rgb(114, 199, 86);">
-		<div class="col-sm-6" >
-			<div class="medium">
-			<i class="icon small reneco white bird"></i>
-
-			Individual ID : <span class="medium"><%= id %> </span>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<div class="medium">
-				<i class="icon small reneco white emitters"></i>
-
-				Transmitter identifier : 
-				
-				<span  class="medium"> <%= ptt %></span>
-			</div>
-		</div>
-	</div>
-	<br>
-	<div class="row">
-
-		<div id="species" class="col-sm-3"> Species : 
-			<p id="" ><%= species %></p>
-		</div>
-
-		<div class="col-sm-3">
-			<div>Breeding ring : 
-				<p> 
-					<%= breeding_ring !== null ?  breeding_ring : 'Unknown' %>					
-				</p>
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div>Release ring : 
-				<p> 
-					<%= release_ring !== null ?  release_ring : 'Unknown' %>
-				</p>
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div>Chip code : 
-				<p> 
-					<%= chip_code !== null ?  chip_code : 'Unknown' %>
-				</p>
-			</div>
-		</div>
-
-	</div>
+	<div class="panel-group" id="filter-accordion">
+		<div class="panel panel-default" style = "background-color: transparent">
 		
-	</div>
-	<div class="row birdDetailsDiv" id="birdInfosDetails">
-		<div class="col-sm-4">
-			<div id="origin" > Origin : 
+			<div class="panel-heading top-level" id="birdInfosDiv" style = "color: rgb(114, 199, 86);background-color: transparent">
+			<div class="row">
+				<div class="col-sm-6" >
+					<div class="medium">
+					
 				
-				<p id="" >
-					<i class="icon small reneco white <%= origin === 'falco' ?  'falco' : origin == 'wild' ? 'free' : 'elevage' %>"></i>
-					<%= origin !== null ?  origin : 'Unknown' %>
-				</p>
+						<i class="icon small reneco white bird"></i>
+
+						
+					<a data-toggle="collapse" data-parent="#filter-accordion" href="#filter-collapse">
+						Individual ID : <span class="medium"><%= id %> &nbsp</span>
+						<span class="glyphicon glyphicon-chevron-down"></span>
+					</a>
+					</div>
+					
+				</div>
+				<div class="col-sm-6">
+					<div class="medium">
+						<i class="icon small reneco white emitters"></i>
+
+						Transmitter ID : 
+						
+						<span  class="medium"> <%= ptt %></span>
+					</div>
+				</div>
+				</div>
 			</div>
-		</div>
-		<div class="col-sm-4">
-			<div id="sex"> 			
-				Sex : 
-				
-				<p id="" >
-				<i class="icon small reneco white <%= (sex == 'male' || sex == 'female') ? sex : 'sexage' %>" id="icon-sex"></i>	
-				<%= sex !== null ?  sex : 'Unknown' %>
-				</p>
+			<div id="filter-collapse" class="container-fluid panel-collapse collapse" style = "background-color: transparent">
+				<div class="row">
+
+					<div id="species" class="col-sm-3"> Species : 
+						<p id="" ><%= species %></p>
+					</div>
+
+					<div class="col-sm-3">
+						<div>Breeding ring : 
+							<p> 
+								<%= breeding_ring !== null ?  breeding_ring : 'Unknown' %>					
+							</p>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div>Release ring : 
+							<p> 
+								<%= release_ring !== null ?  release_ring : 'Unknown' %>
+							</p>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div>Chip code : 
+							<p> 
+								<%= chip_code !== null ?  chip_code : 'Unknown' %>
+							</p>
+						</div>
+					</div>
+
+				</div>
+					
+				<div class="row birdDetailsDiv" id="birdInfosDetails">
+					<div class="col-sm-4">
+						<div id="origin" > Origin : 
+							
+							<p id="" >
+								<i class="icon small reneco white <%= origin === 'falco' ?  'falco' : origin == 'wild' ? 'free' : 'elevage' %>"></i>
+								<%= origin !== null ?  origin : 'Unknown' %>
+							</p>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div id="sex"> 			
+							Sex : 
+							
+							<p id="" >
+							<i class="icon small reneco white <%= (sex == 'male' || sex == 'female') ? sex : 'sexage' %>" id="icon-sex"></i>	
+							<%= sex !== null ?  sex : 'Unknown' %>
+							</p>
+						</div>
+						
+					</div>
+					<div class="col-sm-4">
+						
+						<div id="age"> Age : 
+						
+							<p id="" > 
+								<i class="icon small reneco white <%= age == 'adult' ? 'bird2' : (age == 'juvenile') ? 'child' : 'unknown'  %>" id="icon-age"></i>
+								<%= age !== null ?  age : 'Unknown' %>
+							</p>
+						</div>			
+					</div>
+					
+				</div>
+				<div class="row birdDetailsRow" id="birdDetailsStatus">
+					<div class="col-sm-4">
+						<div>Survey type : </div>
+						<p id="birdSurveyType" >
+							<%= survey_type !== null ?  survey_type : 'Unknown' %>
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<div>Monitoring status : </div>
+						<p id="birdMonitStatus" >
+							<%= monitoring_status !== null ?  monitoring_status : 'Unknown' %>
+
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<div>Individual status : </div>
+						<p id="birdIndivStatus" >
+							<i class="icon small reneco white <%= (status == 'Dead' || status == 'dead' )? 'dead' : (status == 'alive') ? 'bird' : 'unknown'  %>" id="icon-age"></i>
+
+							<%= status !== null ?  status : 'Unknown' %>
+						</p>
+					</div>
+				</div>
+				<div class="row birdDetailsDiv" id="birdDetailsPosDiv">
+					<div class="col-sm-4">
+						<div>Number of positions : </div>
+						<p id="indivNbObs" ><%= indivNbObs%></p>
+					</div>
+					<div class="col-sm-4">
+						<div>Last observation :</div>
+						<p id="indivLastObs" ><%= last_observation !== null ?  last_observation : 'Unknown' %> </p>
+					</div>
+					<div class="col-sm-4">
+						<div>Individual equipement dates :</div>
+						<span ><%= begin_date !== null ?  begin_date : 'Unknown' %> </span>
+						<br>TO </br>	
+			 			<span ><%= end_date !== null ?  end_date : 'Today' %> </span>
+					</div>
+				</div>
 			</div>
-			
-		</div>
-		<div class="col-sm-4">
-			
-			<div id="age"> Age : 
-			
-				<p id="" > 
-					<i class="icon small reneco white <%= age == 'adult' ? 'bird2' : (age == 'juvenile') ? 'child' : 'unknown'  %>" id="icon-age"></i>
-					<%= age !== null ?  age : 'Unknown' %>
-				</p>
-			</div>			
-		</div>
-		
 	</div>
-	<div class="row birdDetailsRow" id="birdDetailsStatus">
-		<div class="col-sm-4">
-			<div>Survey type : </div>
-			<p id="birdSurveyType" >
-				<%= survey_type !== null ?  survey_type : 'Unknown' %>
-			</p>
-		</div>
-		<div class="col-sm-4">
-			<div>Monitoring status : </div>
-			<p id="birdMonitStatus" >
-				<%= monitoring_status !== null ?  monitoring_status : 'Unknown' %>
-
-			</p>
-		</div>
-		<div class="col-sm-4">
-			<div>Individual status : </div>
-			<p id="birdIndivStatus" >
-				<i class="icon small reneco white <%= (status == 'Dead' || status == 'dead' )? 'dead' : (status == 'alive') ? 'bird' : 'unknown'  %>" id="icon-age"></i>
-
-				<%= status !== null ?  status : 'Unknown' %>
-			</p>
-		</div>
-	</div>
-	<div class="row birdDetailsDiv" id="birdDetailsPosDiv">
-		<div class="col-sm-4">
-			<div>Number of positions : </div>
-			<p id="indivNbObs" ><%= indivNbObs%></p>
-		</div>
-		<div class="col-sm-4">
-			<div>Last observation :</div>
-			<p id="indivLastObs" ><%= last_observation !== null ?  last_observation : 'Unknown' %> </p>
-		</div>
-		<div class="col-sm-4">
-			<div>Individual equipement dates :</div>
-			<span ><%= begin_date !== null ?  begin_date : 'Unknown' %> </span>
-			<br>TO </br>	
- 			<span ><%= end_date !== null ?  end_date : 'Today' %> </span>
-		</div>
-	</div>
-
-
+</div>
 
 </script>
