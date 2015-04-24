@@ -1,5 +1,7 @@
 [ecoReleve](http://naturalsolutions.github.com/ecoReleve/) / ecoRelevé Data
 =========
+
+[![Join the chat at https://gitter.im/NaturalSolutions/ecoReleve-Data](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NaturalSolutions/ecoReleve-Data?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A free and open source biodiversity data entry software
 
 Ecologists have struggled with environmental data management issues for many years now. It has become urgent to focus on building the technological solutions required for a more efficient process of data collection, exchange, and analysis.
