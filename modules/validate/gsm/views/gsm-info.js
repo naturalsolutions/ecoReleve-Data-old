@@ -20,9 +20,6 @@ define([
         modelEvents: {
             'change': 'render'
         },
-        events: {
-            'click #import-btn': 'import_checked',
-        },
 
         initialize: function(options){
             this.type = options.type;
@@ -42,10 +39,7 @@ define([
         serializeData: function(){
             var data = this.model.toJSON();
             return data;
-        },
-        import_checked : function(){
-            Radio.channel('gsm-detail').command('import',this.model.attributes.ind_id);
-        },
+        }
 
     });
 });

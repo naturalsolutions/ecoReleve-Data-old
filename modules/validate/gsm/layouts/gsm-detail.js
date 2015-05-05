@@ -132,7 +132,11 @@ define([
 		changeTransmitter : function(e){
 
 			if (e){
-			var elem =$(e.target);
+				var elem =$(e.target);
+			}
+			else {
+				var currentModel = this.coll.at(this.currentIndex);
+				this.coll.remove(currentModel);
 			}
 			if ((elem && elem.hasClass('glyphicon-chevron-right')) || !e){
 				this.currentIndex++;
