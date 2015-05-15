@@ -97,6 +97,8 @@ define([
 			/*==========  files imports  ==========*/
 			
 			this.listenTo(radio, 'import', this.import);
+			radio.comply('import', this.import, this);            
+
 			radio.comply('import:rfid', this.import_rfid, this);            
 			radio.comply('import:gsm', this.import_gsm, this);
 			radio.comply('import:gpx', this.import_gpx, this);

@@ -43,6 +43,11 @@ define([
 					});
 
 			this.datas = new Data();
+			this.datas.on('remove',function(){
+				if (this.length == 0) {
+					self.allValidatedData();
+					}
+			});
 			var ModelRow = Backgrid.Row.extend({
 			  render: function() {
 				ModelRow.__super__.render.apply(this, arguments);
@@ -60,6 +65,7 @@ define([
 				events: {
 				  'click': 'importRow'
 				},
+
 				importRow: function (e) {
 					e.preventDefault();
 				  //self.auto_valide(e);
@@ -99,11 +105,13 @@ define([
 						closeOnConfirm: true,
 						}
 					);
+
 				},
 
 				import_success: function(e,data) {
+
 					var ctx = this;
-					Swal({
+					new Swal({
 						title: "Success",
 						text: data,
 						type: 'success',
@@ -116,6 +124,7 @@ define([
 							ctx.deleteRow(e);
 						}
 					);
+					return false;
 				},
 				render: function () {
 				  this.$el.html(this.template());
@@ -141,7 +150,7 @@ define([
 						confirmButtonColor: 'green',
 						confirmButtonText: "Ok",
 						cancelButtonText: "Cancel",
-						closeOnConfirm: true,
+						closeOnConfirm: false,
 						closeOnCancell: true
 						},
 						function(isConfirm) {
@@ -164,9 +173,9 @@ define([
 						ctx.import_error(e,data);
 					});
 
-					
 				},
-				import_error: function(e,data) {       
+				import_error: function(e,data) {
+
 					Swal({
 						title: "Error",
 						text: data,
@@ -177,8 +186,10 @@ define([
 						closeOnConfirm: true,
 						}
 					);
+
 				},
 				import_success: function(e,data) {
+					
 					var ctx = this;
 					Swal({
 						title: "Success",
@@ -187,10 +198,17 @@ define([
 						showCancelButton: false,
 						confirmButtonColor: 'green',
 						confirmButtonText: "OK",
-						closeOnConfirm: true,
+						closeOnConfirm: false,
 						},
 						function(isConfirm) {
-						   // TODO refresh GRID //
+							self.datas.fetch({reset: true,
+								success : function(data){
+									if (data.length == 0) {
+										self.allValidatedData();
+									}
+								}
+							});
+
 						}
 					);
 				},
@@ -274,15 +292,20 @@ define([
 				row:ModelRow
 			});
 
-			this.datas.fetch({reset: true});
+			this.datas.fetch({reset: true,
+				success : function(data){
+					if (data.length == 0) {
+						self.allValidatedData();
+					}
+				}});
 		},
 
 		onShow: function(){
-
 		},
 
 		onRender: function () {
 			this.$el.find('#list').append(this.grid.render().el);
+			
 		},
 
 		onDestroy: function() {
@@ -317,16 +340,29 @@ define([
 
 		},
 
-		auto_valide_ALL: function () {
-			$.ajax({
-				url:this.type_url +'unchecked/importAll/auto',
-				contentType: 'application/json',
-				type: 'POST',
-				context : this
-				
-			});
-
-		},
+		allValidatedData : function() {
+			new Swal({
+				title: "Info",
+				text: "All data are validated",
+				type: 'info',
+				showCancelButton: true,
+				confirmButtonColor: 'green',
+				confirmButtonText: "Ok",
+				cancelButtonColor: 'grey',
+				cancelButtonText: "Go to import",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+				},
+				function(isConfirm){
+					if (isConfirm){
+						Radio.channel('route').command('home');
+					}
+					else {
+						Radio.trigger('route').command('import',{});
+					}
+				}
+			);
+		}
 
 
 

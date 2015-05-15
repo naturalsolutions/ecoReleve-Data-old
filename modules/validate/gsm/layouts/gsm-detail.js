@@ -92,9 +92,11 @@ define([
 
 			var self=this;
 			this.info.show(new Info({
+				  parent: self,
 				model: new Individual({
 				   ptt:self.gsmID,
 				   id:self.id_ind,
+
 				   last_observation: null,
 				   duration: null,
 				   indivNbObs:null,
@@ -132,7 +134,11 @@ define([
 		changeTransmitter : function(e){
 
 			if (e){
-			var elem =$(e.target);
+				var elem =$(e.target);
+			}
+			else {
+				var currentModel = this.coll.at(this.currentIndex);
+				this.coll.remove(currentModel);
 			}
 			if ((elem && elem.hasClass('glyphicon-chevron-right')) || !e){
 				this.currentIndex++;

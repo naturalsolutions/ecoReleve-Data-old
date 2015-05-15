@@ -445,6 +445,31 @@ define([
 
 		importChecked : function() {
 			var self = this;
+			var checkedLocations=this.grid.getSelectedModels();
+			Swal ({
+				title: "You're going to validate datas",
+				text: "Your are checked "+checkedLocations.length+" locations. Are you sure to validate them ?",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: 'green',
+				confirmButtonText: "I agree",
+				cancelButtonColor: 'red',
+				cancelButtonText: "Cancel",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+				},
+				function(isConfirm) {
+					if(isConfirm){
+						self.validateChecked();
+					}
+					else {
+					}
+
+			});
+
+		},
+		validateChecked : function() {
+			var self = this;
 			var importList = [];
 			var checkedLocations=this.grid.getSelectedModels();
 			var i;
