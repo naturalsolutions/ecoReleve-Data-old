@@ -92,9 +92,11 @@ define([
 
 			var self=this;
 			this.info.show(new Info({
+				  parent: self,
 				model: new Individual({
 				   ptt:self.gsmID,
 				   id:self.id_ind,
+
 				   last_observation: null,
 				   duration: null,
 				   indivNbObs:null,

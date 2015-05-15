@@ -1,24 +1,23 @@
 <script type="text/template">
 
-	<div class="separator">
-	    <br>
-	    <span id="back">
+	<div class="row" style = "margin-bottom : 2%;">
+		<br>
+	    <div class = "col-md-2" id="back" >
 	        <i class="icon reneco leftarrow circle white align-center"></i><span class="white"> &nbsp;</span>
-	    </span>
-	    <!-- <span class="pull-right">
-	    <br>
-	    	<a class="white" href="#import">
-	    		<i class="fa fa-3x icon reneco import"></i>&nbsp;&nbsp;
-	    		Back to import file page</a></span>
-	    <span> -->
-	   	<span class="pull-right medium">
-	   			<br>	
-                <a class="arrow-left-indiv glyphicon pointer  glyphicon-chevron-left" nav="prev" ></a> 
-                <span>change individual/transmitter</span>
-                <a class="arrow-right-indiv glyphicon pointer glyphicon-chevron-right" nav="next"></a>
-        </span>
+	    </div>
+	    
+	   	<div class="col-md-10">
+
+				<div class="pull-left big"> <%= index %>e / <%= collSize %></div>
+				<div class="pull-right medium">
+	                <a class="arrow-left-indiv glyphicon pointer  glyphicon-chevron-left" nav="prev" ></a> 
+	                <span class = "small">change individual/transmitter</span>
+	                <a class="arrow-right-indiv glyphicon pointer glyphicon-chevron-right" nav="next"></a>
+               	</div>
+        </div>
 	    <br><br>
 	</div>
+	<div class="row-fluid">
 	<div class="panel-group" id="filter-accordion">
 		<div class="panel panel-default" style = "background-color: transparent">
 		
@@ -155,5 +154,7 @@
 			</div>
 	</div>
 </div>
+</div>
+
 
 </script>
