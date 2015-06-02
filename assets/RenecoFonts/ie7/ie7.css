@@ -1,0 +1,393 @@
+.reneco.ring {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe64e;');
+}
+.reneco.marker {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe64f;');
+}
+.reneco.user {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe651;');
+}
+.reneco.users {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe652;');
+}
+.reneco.distance {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe653;');
+}
+.reneco.time {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe655;');
+}
+.reneco.bird {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe656;');
+}
+.reneco.settings {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe657;');
+}
+.reneco.import1 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe658;');
+}
+.reneco.validate {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe659;');
+}
+.reneco.syncing {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65a;');
+}
+.reneco.leftarrow {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65b;');
+}
+.reneco.rightarrow {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65c;');
+}
+.reneco.add {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65d;');
+}
+.reneco.close {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65e;');
+}
+.reneco.checked {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62a;');
+}
+.reneco.search {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe65f;');
+}
+.reneco.search2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61e;');
+}
+.reneco.drag_thin {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62b;');
+}
+.reneco.favorite {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe660;');
+}
+.reneco.timewhite {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe661;');
+}
+.reneco.timeblack {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe662;');
+}
+.reneco.pin {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe663;');
+}
+.reneco.rewind {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe664;');
+}
+.reneco.play {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe665;');
+}
+.reneco.forward {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe666;');
+}
+.reneco.file {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62c;');
+}
+.reneco.folder {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62d;');
+}
+.reneco.cloud {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62e;');
+}
+.reneco.edit {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe669;');
+}
+.reneco.emitters {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe667;');
+}
+.reneco.report {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67c;');
+}
+.reneco.sheet {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe66a;');
+}
+.reneco.sheet2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe66b;');
+}
+.reneco.pin2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe66c;');
+}
+.reneco.female {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe66d;');
+}
+.reneco.male {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe650;');
+}
+.reneco.id {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe66e;');
+}
+.reneco.graph {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe673;');
+}
+.reneco.menu {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe674;');
+}
+.reneco.elevage {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe675;');
+}
+.reneco.free {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe676;');
+}
+.reneco.observation {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe677;');
+}
+.reneco.layers {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe64d;');
+}
+.reneco.selectarea {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe678;');
+}
+.reneco.fit {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67d;');
+}
+.reneco.drag {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe679;');
+}
+.reneco.calendar {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67a;');
+}
+.reneco.satellite {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67b;');
+}
+.reneco.bird2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67e;');
+}
+.reneco.child {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe67f;');
+}
+.reneco.adult {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe680;');
+}
+.reneco.trash {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe681;');
+}
+.reneco.export2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe686;');
+}
+.reneco.import2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe687;');
+}
+.reneco.importsensor2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe689;');
+}
+.reneco.mydata {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe688;');
+}
+.reneco.importsensor {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68a;');
+}
+.reneco.exportsensor {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68b;');
+}
+.reneco.map {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68c;');
+}
+.reneco.ecollectionbig {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68d;');
+}
+.reneco.releve {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68e;');
+}
+.reneco.trackbird {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe68f;');
+}
+.reneco.security {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe690;');
+}
+.reneco.formbuilder {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe637;');
+}
+.reneco.thesaurus {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe691;');
+}
+.reneco.worldbig {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe692;');
+}
+.reneco.worldsmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe693;');
+}
+.reneco.ecorelevesmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe694;');
+}
+.reneco.tracksmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe695;');
+}
+.reneco.thesaurussmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe696;');
+}
+.reneco.formbuildersmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe638;');
+}
+.reneco.ecollectionsmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe607;');
+}
+.reneco.securitysmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe697;');
+}
+.reneco.site {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe698;');
+}
+.reneco.comment {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe699;');
+}
+.reneco.observers {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe69b;');
+}
+.reneco.protocol {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe602;');
+}
+.reneco.individualsmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61f;');
+}
+.reneco.stations {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe670;');
+}
+.reneco.sites {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe671;');
+}
+.reneco.sensors {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe62f;');
+}
+.reneco.pendingsamples {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe605;');
+}
+.reneco.samples {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe606;');
+}
+.reneco.individuals {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe630;');
+}
+.reneco.entrykey {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe632;');
+}
+.reneco.entry {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe631;');
+}
+.reneco.export {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe633;');
+}
+.reneco.import {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe634;');
+}
+.reneco.mydata {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe635;');
+}
+.reneco.sensorimport {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe636;');
+}
+.reneco.write {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe64b;');
+}
+.reneco.validatebig {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe69c;');
+}
+.reneco.info {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe69d;');
+}
+.reneco.back {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe69e;');
+}
+.reneco.exportsmall {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe600;');
+}
+.reneco.view {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe601;');
+}
+.reneco.drag2 {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe603;');
+}
+.reneco.duplicate {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe604;');
+}
+.reneco.csv_format {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60c;');
+}
+.reneco.gsm_format {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe609;');
+}
+.reneco.rfid_format {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe608;');
+}
+.reneco.gpx_format {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60a;');
+}
+.reneco.pdf_format {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60b;');
+}
+.reneco.sexage {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60d;');
+}
+.reneco.give_sell {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60e;');
+}
+.reneco.falco {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe60f;');
+}
+.reneco.ornemental {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe610;');
+}
+.reneco.hunt {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe611;');
+}
+.reneco.cynegetic {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe612;');
+}
+.reneco.rehab {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe613;');
+}
+.reneco.centralised {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe614;');
+}
+.reneco.lost {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe615;');
+}
+.reneco.released {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe616;');
+}
+.reneco.to_release {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe617;');
+}
+.reneco.surplus {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe618;');
+}
+.reneco.captivity {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe619;');
+}
+.reneco.half-natural {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61a;');
+}
+.reneco.retired {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61b;');
+}
+.reneco.egg {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61c;');
+}
+.reneco.non_inseminated {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe61d;');
+}
+.reneco.broken {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe620;');
+}
+.reneco.clear_early {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe621;');
+}
+.reneco.mid {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe622;');
+}
+.reneco.late {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe623;');
+}
+.reneco.dead {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe624;');
+}
+.reneco.juvenile {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe625;');
+}
+.reneco.adulte {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe626;');
+}
+.reneco.bustard {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe627;');
+}
+.reneco.falcon {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe628;');
+}
+.reneco.unknown {
+	*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe629;');
+}

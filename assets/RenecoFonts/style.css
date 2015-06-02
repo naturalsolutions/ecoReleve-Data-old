@@ -1,16 +1,15 @@
-	@font-face {
+@font-face {
 	font-family: 'reneco-font';
-
-	src:url('../fonts/reneco-font/fonts/reneco-font.eot?-vdxyx7');
-	src:url('../fonts/reneco-font/fonts/reneco-font.eot?#iefix-vdxyx7') format('embedded-opentype'),
-		url('../fonts/reneco-font/fonts/reneco-font.woff?-vdxyx7') format('woff'),
-		url('../fonts/reneco-font/fonts/reneco-font.ttf?-vdxyx7') format('truetype'),
-		url('../fonts/reneco-font/fonts/reneco-font.svg?-vdxyx7#reneco-font') format('svg');
+	src:url('fonts/reneco-font.eot?cgixpk');
+	src:url('fonts/reneco-font.eot?#iefixcgixpk') format('embedded-opentype'),
+		url('fonts/reneco-font.woff?cgixpk') format('woff'),
+		url('fonts/reneco-font.ttf?cgixpk') format('truetype'),
+		url('fonts/reneco-font.svg?cgixpk#reneco-font') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
-[class^="reneco."], [class*=" reneco."] {
+[class^="reneco"], [class*=" reneco"] {
 	font-family: 'reneco-font';
 	speak: none;
 	font-style: normal;
@@ -23,7 +22,6 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
 
 .reneco.ring:before {
 	content: "\e64e";
@@ -85,12 +83,20 @@
 	content: "\e65e";
 }
 
+.reneco.checked:before {
+	content: "\e62a";
+}
+
 .reneco.search:before {
 	content: "\e65f";
 }
 
 .reneco.search2:before {
 	content: "\e61e";
+}
+
+.reneco.drag_thin:before {
+	content: "\e62b";
 }
 
 .reneco.favorite:before {
@@ -121,12 +127,24 @@
 	content: "\e666";
 }
 
-.reneco.emitters:before {
-	content: "\e667";
+.reneco.file:before {
+	content: "\e62c";
+}
+
+.reneco.folder:before {
+	content: "\e62d";
+}
+
+.reneco.cloud:before {
+	content: "\e62e";
 }
 
 .reneco.edit:before {
 	content: "\e669";
+}
+
+.reneco.emitters:before {
+	content: "\e667";
 }
 
 .reneco.report:before {
@@ -261,6 +279,10 @@
 	content: "\e690";
 }
 
+.reneco.formbuilder:before {
+	content: "\e637";
+}
+
 .reneco.thesaurus:before {
 	content: "\e691";
 }
@@ -283,6 +305,10 @@
 
 .reneco.thesaurussmall:before {
 	content: "\e696";
+}
+
+.reneco.formbuildersmall:before {
+	content: "\e638";
 }
 
 .reneco.ecollectionsmall:before {
@@ -365,7 +391,7 @@
 	content: "\e64b";
 }
 
-.reneco.validated:before {
+.reneco.validatebig:before {
 	content: "\e69c";
 }
 
@@ -412,3 +438,112 @@
 .reneco.pdf_format:before {
 	content: "\e60b";
 }
+
+.reneco.sexage:before {
+	content: "\e60d";
+}
+
+.reneco.give_sell:before {
+	content: "\e60e";
+}
+
+.reneco.falco:before {
+	content: "\e60f";
+}
+
+.reneco.ornemental:before {
+	content: "\e610";
+}
+
+.reneco.hunt:before {
+	content: "\e611";
+}
+
+.reneco.cynegetic:before {
+	content: "\e612";
+}
+
+.reneco.rehab:before {
+	content: "\e613";
+}
+
+.reneco.centralised:before {
+	content: "\e614";
+}
+
+.reneco.lost:before {
+	content: "\e615";
+}
+
+.reneco.released:before {
+	content: "\e616";
+}
+
+.reneco.to_release:before {
+	content: "\e617";
+}
+
+.reneco.surplus:before {
+	content: "\e618";
+}
+
+.reneco.captivity:before {
+	content: "\e619";
+}
+
+.reneco.half-natural:before {
+	content: "\e61a";
+}
+
+.reneco.retired:before {
+	content: "\e61b";
+}
+
+.reneco.egg:before {
+	content: "\e61c";
+}
+
+.reneco.non_inseminated:before {
+	content: "\e61d";
+}
+
+.reneco.broken:before {
+	content: "\e620";
+}
+
+.reneco.clear_early:before {
+	content: "\e621";
+}
+
+.reneco.mid:before {
+	content: "\e622";
+}
+
+.reneco.late:before {
+	content: "\e623";
+}
+
+.reneco.dead:before {
+	content: "\e624";
+}
+
+.reneco.juvenile:before {
+	content: "\e625";
+}
+
+.reneco.adulte:before {
+	content: "\e626";
+}
+
+.reneco.bustard:before {
+	content: "\e627";
+}
+
+.reneco.falcon:before {
+	content: "\e628";
+}
+
+.reneco.unknown:before {
+	content: "\e629";
+}
+
