@@ -1,6 +1,19 @@
+@selected : orange;
+@classic : rgba(0, 153, 255, 1);
+
+
+/**
+
+	TODO:
+	- conver color to rgba
+	- hsl function to convert color
+
+**/
+
+
 .map-encart{
 	&.right{
-		right: 0;		
+		right: 0;
 	}
 	position: absolute;
 	background: rgba(0, 0, 0, 0.8);
@@ -30,9 +43,7 @@
 		position: absolute;
 		bottom: 50px;
 		width: 100%;
-
 	}
-
 }
 
 .map.controls-custom{
@@ -42,7 +53,6 @@
 		z-index: 1000;
 	}
 }
-
 
 .leaflet-map-pane{
 	z-index: 1000;
@@ -97,9 +107,8 @@
 }
 
 .marker-cluster-contains{
-	background: rgba(255, 0, 0, 0.4);
+	background: orange;
 }
-
 
 .custom-marker{
 	margin-left: 5px;
@@ -111,7 +120,7 @@
 	text-align: center;
 	background: rgba(51, 153, 204, 1);
 	&.selected{
-		background: rgba(255, 0, 0 ,0.8);
+		background: orange;
 		z-index: 1000000!important;
 	}
 	&.focus{
@@ -119,11 +128,6 @@
 		z-index: 10000000!important;
 	}
 }
-
-
-
-
-
 
 .ns_map, #map{
 		//height: 600px;
@@ -135,8 +139,6 @@
 		width: 100%;
 		z-index: 1 !important;
 		overflow: hidden !important;
-
-
 }
 
 .map-error{
