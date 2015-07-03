@@ -25,12 +25,22 @@ define([
 			'click .backgrid-container tbody tr': 'focusOnMap',
 			'click td input[type=checkbox]':'updateMap',
 			'click #1pH-btn': 'perhour',
-			'click #clearAll-btn': 'selectOrUnselectAll',
-			'click #import-btn' : 'importChecked'
+			'click #selectAll-btn': 'selectOrUnselectAll',
+			'click #clearAll-btn': 'unselectAll',
+			'click #import-btn' : 'importChecked',
+			'change #freq' : 'updateFrequency'
 		},
 
 		initialize: function(options) {
 			this.type=options.type;
+			
+			
+			if(this.type == 'gsm'){
+
+				var defaultFrequency = 0
+			}else{
+				var url = this.type_url +this.gsmID+ '/unchecked/'+options.id_ind+'/json?format=json';
+			};
 			this.ind_id = options.id_ind;
 			this.parent = options.parent;
 
@@ -38,18 +48,22 @@ define([
 				case 'gsm':
 					this.type_url = config.coreUrl+'dataGsm/';
 					this.showTypeCol = false;
+					defaultFrequency = 60;
 					break;
 				case 'argos':
 					this.type_url = config.sensorUrl+'argos/';
 					this.showTypeCol = true;
+					// TODO ADD ALL
+					defaultFrequency = 'all';
 					break;
 
 				default:
 					console.warn('type error');
 					this.showTypeCol = true;
 					break;
-			};
 
+			};
+			this.selectedFrequency = options.frequency || defaultFrequency;
 			Radio.channel('gsm-detail').comply('import',this.importChecked,this);
 			Backgrid.Extension.SelectRowCell.prototype.initialize = function(options){
 					this.column = options.column;
@@ -209,6 +223,7 @@ define([
 			var ctx = this;
 			this.locations.fetch({reset: true, success : function(){
 				ctx.clone();
+				ctx.perhour();
 			}});
 
 		},
@@ -254,7 +269,8 @@ define([
 			this.$el.find('#paginator').append(this.paginator.render().el);
 
 			this.$el.find('.select-all-header-cell>input').css('display','none');
-
+			// set selected frequency
+			$('#freq').val(this.selectedFrequency);
 		},
 
 		onRender: function() {
@@ -266,22 +282,12 @@ define([
 			this.origin	= this.grid.collection.fullCollection.clone();
 
 		},
-
 		selectOrUnselectAll: function(e){
-			var btn = $(e.target);
-			if(btn.hasClass('all')){
-				this.interaction('resetAll');
-				$('#clearAll-btn>span:first').html('Select All');
-				btn.removeClass('all');
-			}else{
-				this.interaction('selectAll');
-				$('#clearAll-btn>span:first').html('Unselect All');
-				btn.addClass('all');
-			}
+			this.interaction('selectAll');
 		},
-
-
-
+		unselectAll : function(){
+			this.interaction('resetAll');
+		},
 		_resetAll: function(){
 			var collection = this.grid.collection;
 			collection.each(function (model) {
@@ -313,36 +319,45 @@ define([
 			});
 		},
 
-
+		updateFrequency : function(e){
+			this.selectedFrequency = $(e.target).val();
+			this.perhour();
+		},
 		perhour: function() {
 			this.interaction('resetAll');
 			var self=this;
+			if (self.selectedFrequency !='all'){
+				var curFrequency = parseInt(self.selectedFrequency) ;
+				var col0=this.origin.at(0);
+				var date=new moment(col0.get('date'));
 
-			var col0=this.origin.at(0);
-			var date=new moment(col0.get('date'));
-
-			var ids =[];
-			var i =0;
-			this.origin.each(function (model,i) {
-				i++;
-				var currentDate=new moment(model.get('date'));
-				var diff=(date-currentDate)/(1000*60*60);
-				if (i==0) diff=2;
-				if (!self.grid.collection.get(model.id)) {
-					if(diff>1) {
-						date=currentDate;
-						ids.push(model.id);
+				var ids =[];
+				var i =0;
+				this.origin.each(function (model,i) {
+					i++;
+					var currentDate=new moment(model.get('date'));
+					var diff=(date-currentDate)/(1000*60*self.selectedFrequency);
+					if (i==0) diff=2;
+					if (!self.grid.collection.get(model.id)) {
+						if(diff>1) {
+							date=currentDate;
+							ids.push(model.id);
+						}
 					}
-				}
-				else {
-					if(diff>1) {
-						date=currentDate;
-						ids.push(model.id);
+					else {
+						if(diff>1) {
+							date=currentDate;
+							ids.push(model.id);
+						}
 					}
-				}
-			});
+				});
 
-			this.interaction('selectionMultiple', ids);
+				this.interaction('selectionMultiple', ids);
+
+				} else {
+					// select all
+					this._selectAll();
+				}
 		},
 
 		selectMultiple: function(ids){
@@ -446,7 +461,9 @@ define([
 		importChecked : function() {
 			var self = this;
 			var checkedLocations=this.grid.getSelectedModels();
-			Swal ({
+			// if no selected data
+			if(checkedLocations.length == 0){
+				Swal ({
 				title: "You're going to validate datas",
 				text: "Your are checked "+checkedLocations.length+" locations. Are you sure to validate them ?",
 				type: 'warning',
@@ -464,8 +481,12 @@ define([
 					}
 					else {
 					}
+			    });
+			} else {
+				self.validateChecked();	
+			}
 
-			});
+			
 
 		},
 		validateChecked : function() {
@@ -481,6 +502,7 @@ define([
 				importList.push(location);
 			};
 
+			var navigated = false;
 			$.ajax({
 				url : url,
 				contentType: 'application/json',
@@ -491,24 +513,33 @@ define([
 						title: "Success",
 						text: data,
 						type: 'success',
-						showCancelButton: true,
+						//showCancelButton: true,
 						confirmButtonColor: 'green',
 						confirmButtonText: "Next individual",
-						cancelButtonColor: 'grey',
-						cancelButtonText: "Return to Validate",
+						timer: 2000,
+						//cancelButtonColor: 'grey',
+						//cancelButtonText: "Return to Validate",
 						closeOnConfirm: true,
-						closeOnCancel: true,
+						//closeOnCancel: true,
 						},
 						function(isConfirm) {
 							if(isConfirm){
 								self.parent.changeTransmitter();
+								navigated = true;
+
 							}
-							else {
+							/*else {
 								Backbone.history.history.back();
-							}
+							}*/
 						}
 						
 					);
+					// auto navigation to next individual
+					if(! navigated){
+						self.parent.changeTransmitter();
+					}
+
+
 				},
 				error : function(data) {
 					

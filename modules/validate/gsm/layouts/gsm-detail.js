@@ -39,7 +39,7 @@ define([
 			//this.radio.comply('validate', this.validate, this);
 			this.gsmID = options.gsmID;
 			this.id_ind=options.id_ind;
-
+			this.selectedFrequency = options.frequency;
 			this.coll = options.collection;
 
 			if (!this.coll) {
@@ -113,6 +113,7 @@ define([
 
 			this.grid.show(new Grid({
 				type: this.type,
+				frequency : this.selectedFrequency , 
 				com: this.com,
 				gsmID:this.gsmID,
 				id_ind:self.id_ind,

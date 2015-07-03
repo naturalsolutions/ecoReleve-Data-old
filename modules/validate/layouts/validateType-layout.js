@@ -5,7 +5,8 @@ define([
 	'radio',
 	'config',
 	'sweetAlert',
-	'text!modules2/validate/templates/tpl-validateType.html'
+	'text!modules2/validate/templates/tpl-validateType.html',
+	'jqueryui'
 ], function($, _, Marionette, Radio, config,Swal, template) {
 
 	'use strict';
@@ -15,22 +16,25 @@ define([
 		template: template,
 
 		events: {
-			'click table.backgrid tbody tr :not(.btn)': 'showDetail'
+			'click table.backgrid tbody tr :not(.btn)': 'showDetail',
+			'change #freq' : 'updateSimpleFrequency'
 		},
 
 		initialize: function(options) {
+			// default sample frequency value (mn)
+			
+
 			this.type=options.type;
 			var self = this;
 
 			switch(this.type){
 				case 'gsm':
-					
+					this.selectedFrequency = '60';
 					this.type_url = config.coreUrl+'dataGsm/';
 					break;
 				case 'argos':
-				   
+				   this.selectedFrequency = 'all';
 					this.type_url = config.sensorUrl+'argos/';
-
 					break;
 				default:
 					console.warn('type error');
@@ -59,9 +63,10 @@ define([
 			  }
 			});
 
-
+			var _this = this ;
 			var ImportCell = Backgrid.Cell.extend({
-				template: _.template('<div style="text-align:center;"><button class="btn">Validate 1/hour</button></div>'),
+				template: _.template('<div style="text-align:center;"><button class="btn"><span class="msgBtnValidateOne">Validate, 1/60 mn</span></button></div>'),
+				frequency : self.selectedFrequency,
 				events: {
 				  'click': 'importRow'
 				},
@@ -73,20 +78,20 @@ define([
 					var ind_id=this.model.attributes.ind_id;
 					var ptt=this.model.attributes.platform_;
 
-					$.when(this.auto_valide(ptt,ind_id)).then(function(data) {
+					$.when(this.auto_valide(ptt,ind_id, _this.selectedFrequency)).then(function(data) {
 						ctx.import_success(e,data)
 					},function(data){
 						ctx.import_error(e,data);
 					});
 
 				},
-				auto_valide: function (ptt, ind_id) {
+				auto_valide: function (ptt, ind_id,frequency) {
 
 					return $.ajax({
 						url: self.type_url + ptt + '/unchecked/'+ind_id+'/import/auto',
 						contentType: 'application/json',
 						type: 'POST',
-				
+						data : JSON.stringify({'frequency': frequency})
 					});
 
 				},
@@ -134,7 +139,8 @@ define([
 			});
 
 			var ImportAllCell = Backgrid.HeaderCell.extend({
-				template: _.template('<button class="btn btn-success">Validate ALL 1/hour</button>'),
+				template: _.template('<button class="btn btn-success"><span class="msgBtnValidateAll">Validate all, 1/60 mn</span></button>'),
+				frequency : self.selectedFrequency,
 				events: {
 				  'click': 'importAllRow'
 				},
@@ -157,14 +163,14 @@ define([
 							ctx.auto_valide_ALL(e);
 						}
 					);
-				  
 				},
 				auto_valide_ALL: function (e) {
 					var ctx = this;
 					var ajax_call = $.ajax({
 						url:self.type_url +'unchecked/importAll/auto',
 						contentType: 'application/json',
-						type: 'POST',           
+						type: 'POST',   
+						data : {frequency : _this.selectedFrequency},        
 					});
 
 					$.when(ajax_call).then(function(data) {
@@ -294,32 +300,50 @@ define([
 
 			this.datas.fetch({reset: true,
 				success : function(data){
+					self.updateSimpleFrequency();
 					if (data.length == 0) {
 						self.allValidatedData();
+						
 					}
 				}});
 		},
 
 		onShow: function(){
+			// set default frequency value
+			$('#freq').val(this.selectedFrequency);
 		},
 
 		onRender: function () {
 			this.$el.find('#list').append(this.grid.render().el);
 			
 		},
+		updateSimpleFrequency : function () {
 
+			this.selectedFrequency = $( "#freq" ).val();
+			if (this.selectedFrequency != 'all'){
+				// update btn displayed smg
+				$( ".msgBtnValidateAll").text('Validate all, 1/' + this.selectedFrequency + ' mn');
+				$( ".msgBtnValidateOne").text('Validate, 1/' + this.selectedFrequency + ' mn');
+				
+			}
+			else {
+				$( ".msgBtnValidateAll").text('Validate all');
+				$( ".msgBtnValidateOne").text('Validate');
+			}
+
+		},
 		onDestroy: function() {
 			$('#main-region').removeClass('obscur');
 		},
 		showDetail: function(evt) {
-			if ($(evt.target).is('button')) {
+			if ($(evt.target).is('span')) {
 				return
 			}
 			var model = $(evt.target).parent().data('model'); 
 			var ind_id=model.attributes.ind_id;
 			var ptt=model.attributes.platform_;
 			var collection = this.datas;
-			Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id, collection);
+			Radio.channel('route').command('validate_type_id', this.type, ptt, ind_id, collection, this.selectedFrequency);
 		},
 
 		auto_valide: function (evt) {
@@ -332,6 +356,7 @@ define([
 				contentType: 'application/json',
 				type: 'POST',
 				context : this,
+				data : {frequency : this.selectedFrequency},
 				success: function (data) {
 					return true;
 				}

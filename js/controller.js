@@ -328,7 +328,7 @@ define([
 			}, this);
 			this.radio.command('route:header', {route:'Validate', child_route:type_name[type]});
 		},
-		validate_type_id: function(type, id, id_ind, coll){
+		validate_type_id: function(type, id, id_ind, coll, frequency){
 			var type_name = {'gsm':'GSM', 'rfid': 'RFID', 'argos':'Argos (Argos)','gps': 'Argos (GPS)'};
 			var route = 'validate/'+ type +'/'+ id+'/'+ id_ind;
 			this.checkLogin(function() {
@@ -339,7 +339,8 @@ define([
 							type : type,
 							gsmID : id,
 							id_ind: id_ind,
-							collection : coll
+							collection : coll,
+							frequency :frequency
 						}));
 						break;
 					case 'argos':
@@ -348,7 +349,8 @@ define([
 							type : type,
 							gsmID : id,
 							id_ind: id_ind,
-							collection : coll
+							collection : coll,
+							frequency : frequency
 						}));
 						break;
 					case 'gps':
