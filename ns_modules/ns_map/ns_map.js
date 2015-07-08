@@ -228,13 +228,9 @@ define([
 				if(this.bbox){
 					this.addBBox(this.markersLayer);
 				}
-
-				this.last();
 			},
 
-			last: function(){
-				
-			},
+
 
 			resize: function(){
 				//todo: should be a better way
@@ -804,6 +800,8 @@ define([
 				if(this.bbox){
 					this.addBBox(this.markersLayer);
 				}
+
+
 			},
 
 

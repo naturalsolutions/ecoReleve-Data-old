@@ -268,7 +268,7 @@ define([
 			var ctx = this;
 			this.locations.fetch({reset: true, success : function(){
 				ctx.clone();
-				ctx.perhour();
+				setTimeout(function(){ ctx.perhour();}, 1000);
 			}});
 
 			// set selected frequency
