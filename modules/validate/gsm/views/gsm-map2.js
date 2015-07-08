@@ -84,21 +84,21 @@ define([
 
         initMap: function(datas){
             this.map = new NsMap({
-                cluster: true,
-                popup: false,
-                geoJson: datas,
-                legend : true,
-                bbox: true,
-                selection : true,
-                disableClustring: 17,
-                element: 'map',
-                com: this.com,
+								cluster						: true,
+								popup							: false,
+								geoJson						: datas,
+								legend						: true,
+								bbox							: true,
+								selection					: true,
+								disableClustring	: 17,
+								element						: 'map',
+								com								: this.com,
             });
             //this.rg_map.show(this.map);
             this.map.init();
         },
 
-        setIconMarker: function(marker){    
+        setIconMarker: function(marker){
           if(marker.checked){
             marker.setIcon(this.selectedIcon);
           }else{
@@ -131,6 +131,7 @@ define([
 
           this.setIconMarker(marker);
         },
+
 
         selectOneByHour: function(models){
           var id, marker;

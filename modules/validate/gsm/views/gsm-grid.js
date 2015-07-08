@@ -220,11 +220,6 @@ define([
 				collection: this.locations,
 			});
 
-			var ctx = this;
-			this.locations.fetch({reset: true, success : function(){
-				ctx.clone();
-				ctx.perhour();
-			}});
 
 		},
 
@@ -269,6 +264,13 @@ define([
 			this.$el.find('#paginator').append(this.paginator.render().el);
 
 			this.$el.find('.select-all-header-cell>input').css('display','none');
+
+			var ctx = this;
+			this.locations.fetch({reset: true, success : function(){
+				ctx.clone();
+				ctx.perhour();
+			}});
+
 			// set selected frequency
 			$('#freq').val(this.selectedFrequency);
 		},

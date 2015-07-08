@@ -228,6 +228,12 @@ define([
 				if(this.bbox){
 					this.addBBox(this.markersLayer);
 				}
+
+				this.last();
+			},
+
+			last: function(){
+				
 			},
 
 			resize: function(){

@@ -111,6 +111,14 @@ define([
 
 			this.com = new Com();
 
+
+			this.map.show(new Map({
+				type: this.type,
+				com: this.com,
+				gsmID:this.gsmID,
+				id_ind:self.id_ind
+			}));
+
 			this.grid.show(new Grid({
 				type: this.type,
 				frequency : this.selectedFrequency , 
@@ -118,12 +126,6 @@ define([
 				gsmID:this.gsmID,
 				id_ind:self.id_ind,
 				parent: this
-			}));
-			this.map.show(new Map({
-				type: this.type,
-				com: this.com,
-				gsmID:this.gsmID,
-				id_ind:self.id_ind
 			}));
 		},
 
