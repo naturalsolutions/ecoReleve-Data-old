@@ -44,7 +44,7 @@ define([
 				Place: 'String',
 				LAT: "DECIMAL(9, 5)",
 				LON: "DECIMAL(9, 5)",
-				Creation_date: "DATE",
+				date: "DATETIME",
 			};
 		},
 		onShow: function(){

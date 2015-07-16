@@ -170,7 +170,7 @@ define([
 						url:self.type_url +'unchecked/importAll/auto',
 						contentType: 'application/json',
 						type: 'POST',   
-						data : {frequency : _this.selectedFrequency},        
+						data : JSON.stringify({'frequency' : _this.selectedFrequency}),        
 					});
 
 					$.when(ajax_call).then(function(data) {
