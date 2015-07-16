@@ -37,9 +37,24 @@ define([
 				renderable: false,
 			},{
 				editable: false,
-				name: 'nbFieldWorker',
-				label: 'nbFieldWorker',
-				cell: 'integer',
+				name: 'Name',
+				label: 'Name',
+				cell: 'string',
+			},{
+				editable: false,
+				name: 'LAT',
+				label: 'LAT',
+				cell: 'string',
+			},{
+				editable: false,
+				name: 'LON',
+				label: 'LON',
+				cell: 'string',
+			},{
+				editable: false,
+				name: 'date',
+				label: 'DATE',
+				cell: 'string',
 			},{
 				editable: false,
 				name: 'FieldActivity_Name',
@@ -57,19 +72,9 @@ define([
 				cell: 'string',
 			},{
 				editable: false,
-				name: 'LAT',
-				label: 'LAT',
-				cell: 'string',
-			},{
-				editable: false,
-				name: 'LON',
-				label: 'LON',
-				cell: 'string',
-			},{
-				editable: false,
-				name: 'Creation_date',
-				label: 'Creation_date',
-				cell: 'string',
+				name: 'nbFieldWorker',
+				label: 'nbFieldWorker',
+				cell: 'integer',
 			}
 			];
 
