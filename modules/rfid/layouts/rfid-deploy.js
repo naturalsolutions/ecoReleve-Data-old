@@ -70,6 +70,7 @@ define([
             this.$el.find('#input-begin').attr('placeholder', config.dateLabel);
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
             $('body').addClass('home-page');
+            $('#wizard').css({'background-color': '#f9f9f9'});
             $('#main-region').addClass('obscur full-height');
             this.mapRegion.show(new Map());
 
