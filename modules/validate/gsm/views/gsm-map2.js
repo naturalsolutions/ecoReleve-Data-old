@@ -24,7 +24,6 @@ define([
         initialize: function(options) {
             this.type = options.type;
             this.init=true;
-            console.log(this.type);
             this.gsmID=options.gsmID;
             this.id_ind=options.id_ind;
            
@@ -79,7 +78,7 @@ define([
                 this.geoJson= datas;
                 this.initMap(datas);
             }).fail(function(msg){
-                console.log(msg);
+                console.warn(msg);
             });
         },
 
@@ -91,8 +90,9 @@ define([
                 legend : true,
                 bbox: true,
                 selection : true,
+                disableClustring: 17,
                 element: 'map',
-                com: this.com,             
+                com: this.com,
             });
             //this.rg_map.show(this.map);
             this.map.init();
@@ -104,7 +104,6 @@ define([
           }else{
             marker.setIcon(this.icon);
           }
-
         },
 
         updateGrid: function(marker){

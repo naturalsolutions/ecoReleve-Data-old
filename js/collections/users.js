@@ -23,12 +23,12 @@ define([
             //this.sync("read", this, options);
             this.sync('read', this, {
                 success: function(){
-                    console.log('collection loaded!');
                 }
             });
         },
 
         loadFromDB: function(url) {
+            
             url = config.coreUrl + url;
             $.ajax({
                 context: this,

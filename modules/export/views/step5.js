@@ -16,10 +16,10 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-
+        
         events: {
             'click .exp-file': 'selectFileType',
-            'click #export': 'initFile',
+
             
         },
         
@@ -55,9 +55,7 @@ define([
         selectFileType: function(e){
             var elem = $(e.currentTarget); 
             var ctx = this;
-            console.log(elem);
         	ctx.typeFile = elem.find('input[type=radio]').val();
-            console.log(ctx.typeFile);
 
 
 
@@ -84,15 +82,20 @@ define([
                 columns: this.columnCriteria
             }
             this.getFile(this.typeFile);
-            console.log(this.datas);
         },
 
         getFile: function(type) {
 
             var that=this;
             var route = config.coreUrl + "/views/filter/" + this.viewName + "/export";
+            Swal({
+                showConfirmButton: false,
+                html: true,
+                title: '<br /> <br/> <div id="progress" class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"> 0% </div> </div> <br />', 
+                text: 'please wait a moment in order to download your file (gpx files takes more time to be ready for download)',
 
-            console.log(this.datas);
+            });
+
 
             $.ajax({
                 url: route,
@@ -100,8 +103,20 @@ define([
                 contentType:'application/json',
                 type:'POST',
                 context: this,
-            }).done(function(data){
 
+                xhrFields: {
+                onprogress: function (e) {
+                    if (e.lengthComputable) {
+                        var progress = Math.floor( e.loaded / e.total * 100 ) + '%';
+                        console.info(progress);
+                        $('#progress > div').html(progress);
+                        $('#progress > div').width(progress);
+                        }
+                    }
+                },
+
+
+            }).done(function(data){
                 var url = URL.createObjectURL(new Blob([data], {'type':'application/'+type}));
                 var link = document.createElement('a');
                 link.href = url;
@@ -109,16 +124,31 @@ define([
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                Swal(
-                    {
-                      title: "Well done!",
-                      text: 'A window will shows up',
-                      type: 'success',
-                      showCancelButton: false,
-                      confirmButtonText: "OK",
-                      closeOnConfirm: true,
-                    }
-                );
+                setTimeout(function(){ 
+
+                    Swal({
+                        title: "Success",
+                        text: "Would you like to do an other exportation?",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "green",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No (go to the dashboard)",
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                        },
+                        
+                        function(isConfirm){
+                              if (isConfirm) {
+
+                              } else {
+                                Backbone.history.navigate("", {trigger: true});
+                              }
+                    }   );
+
+
+
+                }, 1000);
             }).fail(function(msg){
                 Swal(
                     {

@@ -18,7 +18,6 @@ define([
         },
         onShow: function() {
             BaseMap.prototype.onShow.apply(this, []);
-           // console.log(this.$el);
             var style =  new ol.style.Style({
               image: new ol.style.Circle({
                 radius: 4,
@@ -75,7 +74,6 @@ define([
                     return feature;
                   });
               if (feature) {
-                //console.log("feature : " + feature.values['id']);
                 var geometry = feature.getGeometry();
                 var coord = geometry.getCoordinates();
                 var prop = feature.getProperties();
@@ -129,8 +127,6 @@ define([
 
             //var feature = source.getFeatures()[0];
             source.clear();
-            //console.log("feature: ");
-            //console.log(feature);
             //this.map.getLayers().item(1).getSource();
              var geometry =  new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
             var ft = new ol.Feature({
@@ -138,13 +134,9 @@ define([
                   label: "position"
             });
             source.addFeature(ft);
-            console.log("geometry : ");
-            console.log(geometry );
             //feature.setGeometry(geometry);
             //this.interaction.getFeatures().clear();
             //this.interaction.getFeatures().push(ft);
-            console.log("feature: ");
-            //console.log(feature);
             var center = [lon, lat];
             this.moveCenter(center);
             this.map.getView().setZoom(14);

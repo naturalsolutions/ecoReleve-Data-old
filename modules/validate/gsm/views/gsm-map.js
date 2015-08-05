@@ -53,9 +53,7 @@ define([
                 
                 this.clear();
                 self.interaction.getFeatures().clear();
-                console.log(e.element);
                 if (self.colorInteraction.getFeatures().remove(e.element)) {
-                    console.log('already checked');
                     Radio.channel('gsm-detail').command('updateGrid', {id:e.element.id_, checked:false});
                 }
                 else Radio.channel('gsm-detail').command('updateGrid', {id:e.element.id_, checked:true});

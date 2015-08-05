@@ -26,9 +26,9 @@ define([
         events: {
             'click #btn-action': 'pose',
             'focus input': 'clearErrors',
-            'input #input-mod': 'updateForm',
-            'input #input-type': 'updateName',
-            'input #input-name': 'updateMap',
+            'change #input-mod': 'updateForm',
+            'change #input-type': 'updateName',
+            'change #input-name': 'updateMap',
             
         },
 
@@ -47,12 +47,12 @@ define([
             btn: '#btn-action'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.sites = new MonitoredSites();
             this.action = '';
             var that=this;
             this.listenTo(this.sites, 'reset', this.updateName);           
-
+            this.back_module = options.back_module;
             // Get the RFID modules.
             datalist.fill( {
                 url: config.coreUrl + 'rfid/identifier'
@@ -70,6 +70,7 @@ define([
             this.$el.find('#input-begin').attr('placeholder', config.dateLabel);
             this.$el.find('#input-end').attr('placeholder', config.dateLabel);
             $('body').addClass('home-page');
+            $('#wizard').css({'background-color': '#f9f9f9'});
             $('#main-region').addClass('obscur full-height');
             this.mapRegion.show(new Map());
 
@@ -111,10 +112,8 @@ define([
                     name: name
                 });
                 var position = monitoredSite.get('positions');
-                console.log(position);
                 var lat = position.lat;
                 var lon = position.lon;
-                console.log('lat  '+lat+'  long '+lon);
                 Radio.channel('rfid').command('moveCenter', [lon, lat]);
                 Radio.channel('rfid').command('addOverlay', [lon, lat]);
             }
@@ -224,18 +223,29 @@ define([
                 }
                 else {
                     if(equip.end_date === null) {
+
                         this.ui.type.prop('disabled', true);
-                        this.ui.type.prop('value', site.type);
+                        this.ui.type.find('option').remove().end();
+                        this.ui.type.append(new Option(site.type, site.type));
+
+                        this.ui.name.find('option').remove().end();
                         this.ui.name.prop('disabled', true);
-                        this.ui.name.prop('value', site.name);
+                        this.ui.name.append(new Option(site.name, site.name));
+
                         this.ui.begin.prop('disabled', true);
                         this.ui.begin.prop('value', datetime.loadAndFormat(equip.begin_date));
+                        
                         this.ui.end.prop('disabled', false);
                         this.ui.end.prop('value', null);
+                        
                         this.ui.btn.prop('disabled', false);
                         this.ui.btn.text('Remove');
+                        
                         this.action = 'remove';
                         this.updateMap();
+                        $('#input-end').datetimepicker({
+                            defaultDate:""
+                        });
                     }
                     else {
                         this.enableAll();
@@ -249,6 +259,7 @@ define([
         },
 
        pose : function (evt) {
+            var self = this;
              evt.preventDefault();
             if ( this.isValid() ) {
                 evt.stopPropagation();
@@ -265,10 +276,11 @@ define([
                         action: this.action
                     }
                 }).done( function(data) {
-                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Go to import RFID</button></a>');
+                   /* $('.sweet-validate').remove();
+                    $('.sweet-alert').append('<a href="#import/rfid" class="sweet-validate"><button  tabindex="3" style="display: inline-block;box-shadow: none; background-color:#5cb85c;">Return to import RFID</button></a>');
                     $('.sweet-alert button').on('click',function(){
                             $('.sweet-validate').remove();
-                        });
+                        });*/
                     Swal({
                               title: 'Well done !',
                               text: data.responseText,
@@ -288,7 +300,8 @@ define([
                                 if (isConfirm){
                                    
                                 } else {
-                                    Radio.channel('route').trigger('import');
+                                    console.log(self.back_module)
+                                    Radio.channel('route').command(self.back_module);
                                }
                                 });
                     $('form').trigger('reset');
@@ -296,7 +309,7 @@ define([
                 }).fail( function(data) {
                    Swal({
                               title: 'Error',
-                              text: data.responseText,
+                              text: data,
                               type: 'error',
                               showCancelButton: false,
                               confirmButtonColor: 'green',
@@ -326,17 +339,14 @@ define([
             var valid = true;
 
             if(this.ui.type.val() === '') {
-                console.log(this.ui.type.val());
                 this.setError('#group-type');
                 valid = false;
             }
             if(this.ui.name.val() === '') {
-                console.log(this.ui.name.val());
                 this.setError('#group-name');
                 valid = false;
             }
             if( !datetime.isValid(this.ui.begin.val()) ) {
-                console.log(this.ui.begin.val());
 
                 this.setError('#group-begin', 'Invalid format');
                 valid = false;

@@ -252,13 +252,14 @@
 .wizard {
 
 	.clearfix;
-
+	
 	//border: 1px solid @navbarBorder;
 	border-radius: @baseBorderRadius;
 	box-shadow: 5px -5px 20px -0px rgba(75,75,75, 0.5);
 	background-color: @tableBackgroundAccent;
 	position: relative;
-	min-height: 48px;
+	width: calc(~"100% - 350px");
+	margin: auto;
 	overflow: hidden;
 
 	> .step-nav {
@@ -369,7 +370,7 @@
 
 	.step-content {
 		border-top: 1px solid #D4D4D4;
-		padding: 10px;
+		//padding: 10px;
 		float: left;
 		width: 100%;
 

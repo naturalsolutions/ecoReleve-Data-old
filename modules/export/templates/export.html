@@ -1,58 +1,57 @@
 <script type="text/template">   
 
 
-<div id="stepper" class="container">
-    <div class="fuelux">
-        <div class="wizard" data-initialize="wizard" id="importWizard">
-            <div class="stepper-header" id = "stepper-header" > EXPORT </div>
-            <ul class="steps">
-                <li data-step="1" class="active"><span class="badge">1</span>Themes & views<span class="chevron"></span></li>
-                <li data-step="2"><span class="badge">2</span>Criteria<span class="chevron"></span></li>
-                <li data-step="3"><span class="badge">3</span>Area<span class="chevron"></span></li>
-                <li data-step="4"><span class="badge">4</span>Column Selection<span class="chevron"></span></li>
-                <li data-step="5"><span class="badge">5</span>File<span class="chevron"></span></li>
-            </ul>
-            
-            <div class="step-content export">
-                <div class="step-pane active sample-pane" data-step="1" id="step1">
-                </div>
+<div id="stepper" class="full-height">
+	<div class="fuelux">
+		<div class="wizard" data-initialize="wizard" id="importWizard">
+			<ul class="steps step-nav">
+				<li data-step="1" class="active"><span class="badge">1</span>Themes & views<span class="chevron"></span></li>
+				<li data-step="2"><span class="badge">2</span>Criteria<span class="chevron"></span></li>
+				<li data-step="3"><span class="badge">3</span>Area<span class="chevron"></span></li>
+				<li data-step="4"><span class="badge">4</span>Column Selection<span class="chevron"></span></li>
+				<li data-step="5"><span class="badge">5</span>File<span class="chevron"></span></li>
+			</ul>
+			
+			<div class="step-content export">
+				<div class="step-pane active sample-pane" data-step="1" id="step1">
+				</div>
 
-                <div class="step-pane sample-pane clearfix full-height" data-step="2" id="step2">
-                    <div id="step2-filters" class="col-xs-6 col-border">
-                    </div>
-                    <div id="step2-map" class="col-xs-6 no-padding full-height">
-                    </div>
-                </div>
+				<div class="step-pane sample-pane clearfix full-height" data-step="2" id="step2">
+					<div id="step2-filters" class="full-height auto-scroll col-sm-6 col-border">
+					</div>
+					<div id="step2-map" class="col-sm-6 no-padding full-height">
+					</div>
+				</div>
 
-                <div class="step-pane active sample-pane" data-step="3" id="step3-map">
+				<div class="step-pane active sample-pane" data-step="3" id="step3-map">
 
-                </div>
+				</div>
 
-                <div class="step-pane sample-pane clearfix" data-step="4" id="step3">
-                    <div id="step4-columns" class="col-xs-4 col-border">
-                    </div>
-                    <div id="step4-preview" class="col-xs-8 no-padding">
-                    </div>
-                </div>
+				<div class="step-pane sample-pane clearfix" data-step="4" id="step3">
+					<div id="step4-columns" class="col-sm-4 col-border">
+					</div>
+					<div id="step4-preview" class="col-sm-8 no-padding">
+					</div>
+				</div>
 
-                <div class="step-pane sample-pane clearfix" data-step="5" id="step5">
-                </div>
-            </div>
-        </div>
+				<div class="step-pane sample-pane clearfix" data-step="5" id="step5">
+				</div>
+			</div>
+		</div>
 
-        <div class="actions">
-            <button class="btn btn-lg btn-prev btn-custom " id="btnPrev">
-            <i class="icon small reneco leftarrow white action-picto"></i>
-            <span class="ctrl">Prev</span>
-            </button>
+		<div class="actions">
+			<button class="btn btn-lg btn-prev btn-custom " id="btnPrev">
+			<i class="icon small reneco leftarrow white action-picto"></i>
+			<span class="ctrl">Prev</span>
+			</button>
 
-            <button class=" pull-right btn btn-lg btn-next btn-custom " id="btnNext">
-            <span class="ctrl">Next</span>
-            <i class="icon small reneco rightarrow white action-picto"></i>
-            </button>
-        </div>
+			<button class=" pull-right btn btn-lg btn-next btn-custom " id="btnNext">
+			<span class="ctrl">Next</span>
+			<i class="icon small reneco rightarrow white action-picto"></i>
+			</button>
+		</div>
 
-    </div> <!-- end-fuel -->
+	</div> <!-- end-fuel -->
 
 
 </div>

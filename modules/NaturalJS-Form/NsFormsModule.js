@@ -6,8 +6,9 @@ define([
    'bbForms',
   'text!modules2/NaturalJS-Form/NsFormsModule.html',
   'autocompTree',
-   'radio'
-], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree,Radio ) {
+   'radio',
+   'config'
+], function ($, _, Backbone, Marionette, BackboneForm, TplForm,AutocompTree,Radio, config ) {
     return Marionette.ItemView.extend({
         BBForm: null,
         modelurl: null,
@@ -82,11 +83,15 @@ define([
                 this.initModel();
             }
         },
-        initModel: function () {
+        initModel: function (mode) {
             //Initialisation du model et sema depuis l'url
+            var dipsMode = 'display';
+            if(mode){
+                dipsMode = mode;
+            }
             this.model = new Backbone.Model();
-           
             var url = this.modelurl   ;
+            var protoType = this.getProtocolType(url);
             /*if (!this.isNew) {
                 url += this.id;
             }
@@ -118,7 +123,13 @@ define([
 						//this.model.trigger('change');
 						this.showForm();
                         if(data && (! _.isEmpty(data))){
-                            this.radio.command('editState',{model: this.model});
+                           this.radio.command('editState',{model: this.model});
+                          
+                        }
+                        if((dipsMode == 'display') && protoType =='old'){
+                            this.displayState();
+                            this.displayMode = 'display';
+                           this.displaybuttons();
                         }
 
 					},
@@ -177,11 +188,11 @@ define([
             var elementsList = $('.autocompTree');
             for(var i=0;i<elementsList.length;i++){
                 //$(e.target).autocompTree({
-                var startId = $(elementsList[i]).attr('startId') + 204081;
+                var startId = parseInt($(elementsList[i]).attr('startId')) + 204081;
                 // get current value
                 var currentVal = $(elementsList[i]).val();
                 $(elementsList[i]).autocompTree({
-                    wsUrl: 'http://192.168.1.199/ThesaurusCore/ThesaurusREADServices.svc/json',
+                    wsUrl: config.serverUrl+'/ThesaurusREADServices.svc/json',					
                     //display: {displayValueName:'value', storedValueName: 'fullpath'},
                     webservices: 'fastInitForCompleteTree',  
                     language: {hasLanguage:true, lng:"en"},
@@ -210,7 +221,6 @@ define([
 
         getbuttonhtml: function () {
             this.displaybuttons();
-            console.log(this.template);
             return this.template;
         },
 
@@ -255,7 +265,6 @@ define([
                 this.model.save([],{
                  dataType:"text",
                  success:function(model, response) {
-                    console.log('success' + response);
                     self.displayMode = 'display';
                     self.displaybuttons();
                     self.radio.command('successCommitForm', {id: response});
@@ -282,16 +291,34 @@ define([
         butClickEdit: function (e) {
             e.preventDefault();
             this.displayMode = 'edit';
-            this.initModel();
+            this.initModel('edit');
             return false;
         },
 
         butClickClear: function (e) {
-            this.displaybuttons();
+            //this.displaybuttons();
+            var formContent = this.BBForm.el;
+            $(formContent).find('input').val('');
+            $(formContent).find('select').val('');
+            $(formContent).find('textarea').val('');
+            $(formContent).find('input[type="checkbox"]').attr('checked', false);
             //this.displayMode = 'edit';
             //initModel();
             // TODO gérer l'appel AJAX
         },
+        displayState : function(){
+            var formContent = this.BBForm.el;
+            $(formContent).find('input').attr('disabled','disabled');
+            $(formContent).find('select').attr('disabled','disabled');
+            $(formContent).find('textarea').attr('disabled','disabled');
+        },
+        getProtocolType : function(url){
+            var typeProtocol = 'new';
+            var tab = url.split('/');
+            var id = tab[tab.length -1];
+            if (parseInt(id) != 0 ) typeProtocol = 'old';
+            return typeProtocol;
+        }
     });
 
 });

@@ -1,10 +1,23 @@
 <script type="text/template">
-	<div class="container no-padding  full-height" style="background-color: #ffffff; border-radius: 4px;">
-		<div id="main-panel"  class="container no-padding full-height" >
-			<div class="" style="height:5%">
-				<legend for="male" style="margin-left: 5%; border-bottom:none;">Select GSM ID / Individual </legend>
+		<div class="grid-list dark full-height" >
+			<br/>
+			<div class="frequency">
+
+				<form>
+				  <label for="freq">Sampling frequency (mn)</label><br/>
+				  <select name="freq" id="freq">
+				    <option>10</option>
+				    <option>15</option>
+				    <option>30</option>
+				    <option selected>60</option>
+				    <option>120</option>
+				    <option>all</option>
+				  </select>
+				</form>
+
+				<!--<div id="frequencySlider"></div>-->
+
 			</div>
-			
 			<div class="grid no-padding full-height" style="height:95%">
 				<div id="list" class="backgrid-container grid-list full-height"></div>
 			</div>

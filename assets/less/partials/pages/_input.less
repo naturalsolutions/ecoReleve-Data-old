@@ -12,19 +12,52 @@ div.error {
 
 .masqued {
 
-   		 display: none;
+		 display: none;
 	}
 
 #newStForm {
 margin-top: -1em;
 }
-.manual-tile{
-	background: rgba(0,0,0,0.5);
+
+
+.tile-inside-container{
+	text-align: center;
+}
+.tile-inside{
+	display: inline-block;
+	min-height: 300px;
+	width: 250px;
+	background: rgba(0,0,0,0.7);
 	border-radius: 3px;
+	vertical-align: top;
+	color: white;
+	margin: 2%;
+	padding: 10px;
+	cursor: pointer;
+	&.smile{
+		min-height: 250px;
+		width: 200px;
+	}
+	.radio{
+		text-align: left;
+	}
+	&:hover{
+		background: rgba(0,0,0,0.9);
+	}
+}
+
+.echapment{
+	height: 100%;
+	overflow: auto;
+}
+
+
+.manual-tle{
 	padding: 20px;
 	margin: 20px 50px;
 	color: white;
-	height: 300px;
+	min-height: 300px;
+	min-width: 200px;
 	transition: .3s all;
 	&:hover{
 		background: rgba(0,0,0,0.7)
@@ -32,12 +65,9 @@ margin-top: -1em;
 	i:not(.huge){
 		font-size: 25px;
 	}
+
 }
 .manual-tile-import{
-	background: rgba(0,0,0,0.7);
-	border-radius: 3px;
-	padding: 20px;
-	margin: 20px 20px;
 	text-align: center;
 	color: white;
 	height: 250px;
@@ -59,17 +89,14 @@ margin-top: -1em;
 
 		}
 	}
-
-	&:hover{
-		background: rgba(0,0,0,0.9);
-	}
 	i:not(.huge){
 		font-size: 25px;
 	}
 	&.disable{
 		opacity: .6;
 		&:hover{
-			background: rgba(0,0,0,0.7);
+			//background: rgba(0,0,0,0.7);
+			cursor: not-allowed;
 		}
 	}
 }
@@ -85,11 +112,11 @@ margin-top: -1em;
 	text-decoration: none;
 }
 #proto_name a:active {
-    text-decoration: none;
+	text-decoration: none;
 }
-#tabProtsUl {
-	background: rgb(223, 223, 223);
-}
+// #tabProtsUl {
+// 	background: rgb(223, 223, 223);
+// }
 /* imported stations */
 #inputImpStFieldContainer {
 	margin-bottom: 1em;	
@@ -111,7 +138,52 @@ margin-top: -1em;
 #allSt-clear-btn{
 	padding: 0.5em;
 }
+/* station details , fielworkers accordion */
+#accordionFW{
+	margin-top: 0.5em;
+}
 
+#accordionFW a {
+	padding: 0px;
+}
+// #accordionFW div.panel-heading {
+// 	padding-left: 0px;
+// }
+
+span.navigation {
+	padding: 0.5em;
+	border-radius: 5px;
+	background-color: rgb(184, 180, 180);
+	margin-left: 0.5em;
+	display: block;
+	float: left;
+}
+span.navigation a {
+  padding-top: 0.5em;
+}
+#stationHeader {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+div.stationName {
+  padding-top: 1em;
+}
+
+#proto_name {
+  width: 65%;
+}
+
+#tabProtsContent {
+	padding: 1em;
+}
+#stContainer {
+	background-color: rgb(230, 230, 230);
+}
+#stationsGridContainer {
+	//margin-left: 1em;
+	margin-top: 1em;
+
+}
 
 /*
 i.icon.reneco.close {
@@ -135,6 +207,8 @@ border-style: solid;
 	float:right;
 }
 */
+
+
 
 
 .input-demo{
@@ -184,6 +258,10 @@ border-style: solid;
 	}
 	.tab-content{
 		padding-top: 50px;
+		fieldset{
+			padding: inherit!important;
+			min-width: inherit!important;
+		}
 	}
 
 
@@ -231,85 +309,31 @@ border-style: solid;
 }
 /* swipe control  */
 
+
+
+/*
 .protocols {
-	height: 50px;
+	height: 4em;
 	position: relative;
 	border-bottom: 1px solid rgb(171, 166, 166);
-	line-height: 50px;
 	width: 100%;
-	display: inline-block;
 
 	&.masqued {
-
-   		 display: none;
+		display: none;
 	}
 	.swiper-container {
 		width: 100%;
-		position: absolute;
-		left: 0px;
 		height: 50px;
-		line-height: 50px;
-		display: inline-block;
 		
-		.arrow-left{
-			position: absolute;
-			left: 0px;
-			height: 50px;
-			width: 40px;
-			z-index: 10;
-			color: #428bca;
-			text-decoration: none;
-			background-color: #f9f9f9;
-			line-height: 50px;
-			display: inline-block;
 
-			.left{
 
-				left: 25%;
-				right: auto;
-				position: absolute;
-				text-align: center;
-				vertical-align: middle;
-				height: 50px;
-				line-height: 50px;
-				
-			}
-
-		}
-
-		.arrow-right {
-			position: absolute;	
-			left: auto;
-			right:	0px;
-			height: 50px;
-			width: 40px;
-			z-index: 10;
-			color: #428bca;
-			text-decoration: none;
-			background-color: #f9f9f9;
-			line-height: 50px;
-			vertical-align: middle;
-			display: inline-block;
-				.right {
-					right: 25%;
-					left: auto;
-					position: absolute;
-					text-align: right;
-					vertical-align: middle;
-					height: 50px;
-					line-height: 50px;
-				}
-
+		.swiper-slide{
+			max-width: 200px;
 		}
 
 		.swiper-wrapper{
 			height: 50px;
-			display: inline-block;
-			line-height: 50px;
-			vertical-align: middle;
-			padding-left: 50px;
-			padding-right: 3%;
-
+			margin-left: 40px;
 
 			.swiper-slide{
 				display: inline-block;
@@ -321,14 +345,11 @@ border-style: solid;
 				margin-left: 2%;
 				margin-right: 2%; 
 
-				min-width: 80px;
-				/* .onglet:hover{
-					border-radius: 5px;
-					background: rgb(189, 189, 189);
-					
-				} */
+
 				.onglet{
+					height: 100%;
 					width:120%;
+					line-height: 50px; 
 					&.active{
 					border-radius: 5px;
 					background: rgb(189, 189, 189);
@@ -349,7 +370,159 @@ border-style: solid;
 	i.icon.reneco.small {
 		font-size: 1.5em;
 	}
+}*/
+
+.swiper{
+	background: #dfdfdf;
+	overflow: hidden;
+	position: relative;
+	height: 200px;
+	.swiper-header{
+		height: 100px;
+		overflow: auto;
+		.simple-pagination{
+			padding-bottom: 0px;
+		}
+	}
+	.arrow{ 
+		float: left;
+		height: 100px;
+		width: 50px;
+		z-index: 10;
+		line-height: 100px;
+		text-align: center;
+		backgorund: rgba(0,0,0,.5);
+		&.arrow-left{
+			left: 0;
+		}
+		&.arrow-right{
+			right: 0;
+		}
+		a.glyphicon{
+			font-size: 35px;
+			line-height: inherit;
+			text-decoration: none;
+			color: rgb(51,51,51);
+			&:hover, &:visited, &:focus{
+				text-decoration: none;
+				color: rgb(51,51,51);
+				lin-height: inherit
+			}
+		}
+	}
+
+
+	//container
+	#protosListContainer.swiper-container {
+		height: 100px;
+		float: left;
+
+		width: calc(~"100% - 105px"); //scrollbar 5px
+		//padding: 0px 50px;
+		padding-top: 20px;
+		overflow: hidden;
+		//wrapper
+		.swiper-wrapper{
+			height: 100%;
+			//slides
+			.swiper-slide {
+				text-align: center;
+				font-size: 18px;
+				height:100%;
+				.onglet{
+					height: 100%;
+					width: 100%;
+					line-height: 100px;
+					background: #eee;
+					border-radius: 5px;
+					position: relative;
+					a{
+						height: 100%;
+						line-height: 100px;
+						display: block;
+						padding: 0px 25px;
+						font-size: 15px;
+						text-decoration: none;	
+						color: rgb(51,51,51);
+						position: relative;
+						&:hover, &:visited, &:focus{
+							font-size: 15px;
+							text-decoration: none;
+							color: rgb(51,51,51);
+						}
+						i.glyphicon{
+							top: 5px;
+							right: 5px;
+							position: absolute;
+						}
+						span.badge{
+							margin-left: 5px;
+						}
+					}
+					&.active{
+						top: -10px;
+						background: rgb(189, 189, 189);
+					}
+				}
+
+				/* Center slide text vertically */
+				// display: -webkit-box;
+				// display: -ms-flexbox;
+				// display: -webkit-flex;
+				// display: flex;
+				// -webkit-box-pack: center;
+				// -ms-flex-pack: center;
+				// -webkit-justify-content: center;
+				// justify-content: center;
+				// -webkit-box-align: center;
+				// -ms-flex-align: center;
+				// -webkit-align-items: center;
+				// align-items: center;
+
+			}
+		}
+	}
 }
+
+.tab-content{
+	height: calc(~"100% - 200px");
+	overflow-y: auto;
+	box-shadow: inset 0px 0px 10px 0px #c0c0c0;
+}
+
+
+h3.break{
+	word-break: break-all;
+}
+div.separator{
+	width: 100%;
+	border-bottom: 1px solid #7b7b7b;
+	clear: both;
+	float: none;
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+
+#stationPanel{
+	select{
+		min-width: inherit!important;
+	}
+	.panel-title a{
+		&>label{
+			cursor: pointer;
+		}
+		cursor: pointer;
+		position: relative;
+		i.glyphicon {
+			position: absolute;
+			top: 5px!important;
+			right: 0px;
+		}
+	}
+}
+
 
 #removeFieldWorkerInput i {
 	float: left;
@@ -377,18 +550,18 @@ margin-top: 1em;
 }
 
 #step-content{
-	overflow: scroll;
+	overflow: auto;
 }
 
 .allSt-btn-group {
 	margin-top: 5em;
 }
-#protosListContainer i.deleteProt {
-	margin-right: 0.5em;
-}
-#tabProtsUl{
-	width: 100% !important;
-}
+// #protosListContainer i.deleteProt {
+// 	margin-right: 0.5em;
+// }
+// #tabProtsUl{
+// 	width: 100% !important;
+// }
 
 
 /* #idProtosContainer, #protosListContainer {

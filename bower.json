@@ -25,7 +25,6 @@
     "eonasdan-bootstrap-datetimepicker": "~4.0.0",
     "seiyria-bootstrap-slider": "~4.0.8",
     "dropzone": "~3.10.2",
-    "sweetalert": "~0.3.1",
     "swiper": "~2.7.0",
     "backbone": "~1.1.2",
     "marionette": "~2.2.2",
@@ -39,7 +38,9 @@
     "leaflet-plugins": "https://github.com/shramov/leaflet-plugins.git#~1.2.1",
     "less": "~2.3.0",
     "bootstrap": "~3.3.2",
-    "RenecoFonts": "https://github.com/NaturalSolutions/RenecoFonts.git"
+    "RenecoFonts": "https://github.com/NaturalSolutions/RenecoFonts.git",
+    "sweetalert": "~0.4.2",
+    "jqueryui": "~1.11.4"
   },
   "resolutions": {
     "moment": ">=2.8.0",

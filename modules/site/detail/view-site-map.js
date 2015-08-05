@@ -17,10 +17,13 @@ define([
         events: {
 
         },
+
+        onDestroy: function(){
+            this.map.destroy();
+        },
+
         initialize: function(options) {
-            this.model = options.model;
             this.id= options.id;
-            //this.model.bind('change', this.initMap, this);
             this.initGeoJson();
         },
 
@@ -34,40 +37,42 @@ define([
             }).done(function(datas){
                 this.initMap(datas);
             }).fail(function(msg){
-                console.log(msg);
+                console.error(msg);
             });
         },
 
         initMap: function(geoJson){
+
             var activePos = {'type':'FeatureCollection', 'features': []};
 
-            var oldPos = {'type':'FeatureCollection', 'features': []};
             var infos = geoJson;
 
             for (var i = 0; i < infos.length; i++) {
-                console.log('passed');
                 if(!infos[i]['properties']['end']){
-                    console.log(infos[i].geometry)
                     activePos.features.push({
                         'type':'Feature',
                         'checked' : true,
-                        'geometry': infos[i].geometry
+                        'geometry': infos[i].geometry,
+                        'properties' : infos[i].properties,
                     });
                 }
                 else{
                     activePos.features.push({
                         'type':'Feature',
                         'checked' : false,
-                        'geometry':infos[i].geometry
+                        'geometry':infos[i].geometry,
+                        'properties' : infos[i].properties,
                     });
                 }
             };
 
+
             this.map = new NsMap({
                 geoJson: activePos,
-                zoom: 10,
+                zoom: 9,
                 element : 'mapDetail',
-                selection: true,
+                popup: true,
+                cluster: true,
             });
             var ctx = this;
             this.map.init();

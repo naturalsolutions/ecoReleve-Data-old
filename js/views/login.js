@@ -44,6 +44,7 @@ define([
             $('#username').trigger('focus');
             $('body').addClass('login-page');
 
+            /*
             jQuery.ajax({
                 url: '//freegeoip.net/json/', 
                 type: 'POST', 
@@ -51,7 +52,7 @@ define([
                 success: function(location) {
                         $('body').addClass(location.country_code);
                 }
-            });
+            });*/
         },
 
         checkUsername: function() {

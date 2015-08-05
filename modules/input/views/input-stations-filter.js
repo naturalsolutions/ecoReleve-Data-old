@@ -58,22 +58,6 @@ define([
             this.radio = Radio.channel('input');
             this.radio.comply('indivId', this.updateIndivId, this);   
             
-            this.filter =  {
-                PK : {Operator: '=' , Value: null },  
-                Name : {Operator: 'Is' , Value: null },    
-                siteName : {Operator: '=' ,Value: null  },    
-                beginDate: {Operator: '=' ,Value: null  },    
-                endDate: {Operator: '<' ,Value: null  },    
-                fieldWorker : {Operator: '=' ,Value: null  },    
-                fieldActivity: {Operator: '=' ,Value: null  },  
-                monitoredSiteType : {Operator: '=' ,Value: null  },    
-                region: {Operator: '=' ,Value: null  },    
-                minLat : {Operator: '>=' ,Value: null  },    
-                maxLat: {Operator: '<=' ,Value: null  },    
-                minLon: {Operator: '>=' ,Value: null  },    
-                maxLon: {Operator: '<=' ,Value: null },    
-                indivId: {Operator: '=' ,Value: null  }  
-            };
         },
         catch: function(evt) {
             evt.preventDefault();
@@ -99,18 +83,18 @@ define([
             this.$el.find('input').prop('value', '');
         },
         onShow: function(evt) {
+            
+            // this.$el.parent().addClass('no-padding');
+            // var height=$(window).height();
+            // height -= $('#header-region').height();
+            // this.$el.height(height);
+            // $('#left-panel').css('padding-top', '0');
+            // this.$el.addClass('filter-bg-image');
 
-            this.$el.parent().addClass('no-padding');
-            var height=$(window).height();
-            height -= $('#header-region').height();
-            this.$el.height(height);
-            $('#left-panel').css('padding-top', '0');
-            this.$el.addClass('filter-bg-image');
+            // this.$el.find('.panel').css({'background-color' : 'rgba(0,0,0,0)', 'border':'none'});
+            // this.$el.find('.panel-heading').css({'border-radius':'0px'});
 
-            this.$el.find('.panel').css({'background-color' : 'rgba(0,0,0,0)', 'border':'none'});
-            this.$el.find('.panel-heading').css({'border-radius':'0px'});
-
-            this.$el.find('.panel-body').css({'background-color' : 'white'});
+            // this.$el.find('.panel-body').css({'background-color' : 'white'});
             /*$('.dateTimePicker').datetimepicker({
             }); */
             var self = this;
@@ -135,7 +119,8 @@ define([
                 var value = $(this).val() || null;
                 self.filter[name].Value = value; 
                 self.updateGrid();
-            });        
+            });
+            this.initForm();        
         },
 
         onDestroy: function(evt) {
@@ -271,6 +256,8 @@ define([
         },
         updateGrid: function(){
             this.radio.command('updateStationsGrid', {filter:this.filter});
+            console.log('filter val : ');
+             console.log(this.filter);
         },
         generateSelectLists : function(){
             var content = getUsers.getElements('user');
@@ -287,6 +274,47 @@ define([
             $('input.pickerInput.target').val(indivId);
             this.filter['indivId'].Value = indivId; 
             this.updateGrid();
+        },
+        initForm : function(){
+            // init filter value
+            this.filter =  {
+                PK : {Operator: '=' , Value: null },  
+                Name : {Operator: 'Is' , Value: null },    
+                siteName : {Operator: '=' ,Value: null  },    
+                beginDate: {Operator: '=' ,Value: null  },    
+                endDate: {Operator: '<' ,Value: null  },    
+                fieldWorker : {Operator: '=' ,Value: null  },    
+                fieldActivity: {Operator: '=' ,Value: null  },  
+                monitoredSiteType : {Operator: '=' ,Value: null  },    
+                region: {Operator: '=' ,Value: null  },    
+                minLat : {Operator: '>=' ,Value: null  },    
+                maxLat: {Operator: '<=' ,Value: null  },    
+                minLon: {Operator: '>=' ,Value: null  },    
+                maxLon: {Operator: '<=' ,Value: null },    
+                indivId: {Operator: '=' ,Value: null  }  
+            };
+        // set storeds vals in the form if exists
+            var oldStations = this.model.get('oldStations');
+            if (oldStations){
+                var searchCriteria = oldStations.searchCriteria ; 
+                console.log('filter params crit');
+                console.log(searchCriteria);
+                if(searchCriteria){
+                    for (var key in searchCriteria){
+                        var element = this.$el.find( "input[name*='" + key +"']" )[0];
+                        if (!element){
+                            element = this.$el.find( "select[name*='" + key +"']" )[0];
+                        }
+                        $(element).val(searchCriteria[key].Value);
+                        if(key == 'beginDate' || key =='endDate'){
+                            var operator =  searchCriteria[key].Operator;
+                            var opElement = this.$el.find( "select[id*='" + key +"-op']" )[0];
+                            $(opElement).val(operator);
+                        }
+                    }
+                }
+
+            }
         }
     });
 });

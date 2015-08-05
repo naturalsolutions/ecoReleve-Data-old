@@ -68,7 +68,6 @@ define([
              Radio.channel('route').command('site:add');
         },
         deploy: function(){
-            console.log("deply")
             Radio.channel('route').command('site:deploy');
         }
     });

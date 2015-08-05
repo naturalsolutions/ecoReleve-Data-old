@@ -8,7 +8,7 @@ define([
     'bootstrap_slider',
     'grid/model-grid',
     'backgrid',
-    'modules2/import/_rfid/layouts/deploy-modal',
+    ''+module+'/rfid/layouts/rfid-deploy',
     'sweetAlert',
     'stepper/lyt-step',
     'text!modules2/import/_rfid/templates/tpl-step1.html',
@@ -36,9 +36,47 @@ define([
         initModel: function() {
  
             this.radio = Radio.channel('rfid_pose');
-
+            
+            var columns = [{
+                name: 'PK_obj',
+                label: 'ID',
+                editable: false,
+                renderable : false,
+                cell: Backgrid.IntegerCell.extend({
+                  orderSeparator: ''
+                }),
+                
+            },{
+                name: 'identifier',
+                label: 'Identifier',
+                editable: false,
+                cell: 'string',
+                
+            }, {
+                name: 'begin_date',
+                label: 'Begin date',
+                editable: false,
+                cell: 'String',
+              
+            }, {
+                name: 'end_date',
+                label: 'End date',
+                editable: false,
+                cell: 'String',
+              
+            }, {
+                name: 'Name',
+                label: 'Site Name',
+                editable: false,
+                cell: 'string',
+            }, {
+                name: 'name_Type',
+                label: 'Site Type',
+                editable: false,
+                cell: 'string',
+            }];
              this.grid= new NSGrid({
-               
+                columns: columns,
                 channel: 'rfid_pose',
                 url: config.coreUrl + 'rfid/pose/',
                 pageSize : 20,
@@ -84,9 +122,8 @@ define([
 
         },
         deployRFID: function(){
-            $('#rfid-Modal').modal('show');
-            this.deploy_rfid = new DeployRFID();
-            this.modal.show(this.deploy_rfid);
+           Radio.channel('route').command('site:deploy',{back_module:'import:rfid'});
+           Radio.channel('route').command('route:header',{route:'Manual import',child_route: 'RFID', route_url:'import', child_route_url:'rfid'});
             
         }
     });

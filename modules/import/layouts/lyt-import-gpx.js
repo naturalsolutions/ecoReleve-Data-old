@@ -1,231 +1,265 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'marionette',
-    'radio',
-    'text!modules2/import/templates/tpl-step1.html',
+	'jquery',
+	'underscore',
+	'backbone',
+	'marionette',
+	'radio',
+	'text!modules2/import/templates/tpl-step1.html',
 
-    /*import GPX */
-    'modules2/import/_gpx/layouts/lyt-stepOrchestrator',
-    'modules2/import/_gpx/layouts/lyt-step2',
-    'modules2/import/_gpx/layouts/lyt-step3',
-    'modules2/import/_gpx/layouts/lyt-step4',
+	/*import GPX */
+	'modules2/import/_gpx/layouts/lyt-stepOrchestrator',
+	'modules2/import/_gpx/layouts/lyt-step2',
+	'modules2/import/_gpx/layouts/lyt-step3',
+	'modules2/import/_gpx/layouts/lyt-step4',
    
-    'text!modules2/import/_gpx/templates/tpl-step2.html',
-    'text!modules2/import/_gpx/templates/tpl-step3.html',
-    'text!modules2/import/_gpx/templates/tpl-step4.html',
+	'text!modules2/import/_gpx/templates/tpl-step2.html',
+	'text!modules2/import/_gpx/templates/tpl-step3.html',
+	'text!modules2/import/_gpx/templates/tpl-step4.html',
 
-    /*import RFID */
-    'modules2/import/_rfid/layouts/lyt-stepOrchestrator', 
-    'modules2/import/_rfid/layouts/lyt-step1',
-    'modules2/import/_rfid/layouts/lyt-step2',
+	/*import RFID */
+	'modules2/import/_rfid/layouts/lyt-stepOrchestrator', 
+	'modules2/import/_rfid/layouts/lyt-step1',
+	'modules2/import/_rfid/layouts/lyt-step2',
 
-    'text!modules2/import/_rfid/templates/tpl-step1.html',
-    'text!modules2/import/_rfid/templates/tpl-step2.html',
+	'text!modules2/import/_rfid/templates/tpl-step1.html',
+	'text!modules2/import/_rfid/templates/tpl-step2.html',
 
 
-    /*import GSM */
+	/*import GSM */
 
-    'modules2/import/_gsm/layouts/lyt-stepOrchestrator', 
-    'modules2/import/_gsm/layouts/lyt-step1',
+	'modules2/import/_gsm/layouts/lyt-stepOrchestrator', 
+	'modules2/import/_gsm/layouts/lyt-step1',
+	'text!modules2/import/_gsm/templates/tpl-step1.html',
 
-    'text!modules2/import/_gsm/templates/tpl-step1.html',
-    'sweetAlert'
+	/*import Argos */
+
+	'modules2/import/_argos/layouts/lyt-stepOrchestrator', 
+	'modules2/import/_argos/layouts/lyt-step1',
+	'text!modules2/import/_argos/templates/tpl-step1.html',
+
+	'sweetAlert'
 
 ], function($, _, Backbone, Marionette, Radio, tpl_step1, 
 
-        /*GPX*/  
-    GPX_StepperOrchestrator, GPX_Step2, GPX_Step3, GPX_Step4, 
-    GPX_tpl_step2, GPX_tpl_step3,GPX_tpl_step4,
+		/*GPX*/  
+	GPX_StepperOrchestrator, GPX_Step2, GPX_Step3, GPX_Step4, 
+	GPX_tpl_step2, GPX_tpl_step3,GPX_tpl_step4,
 
-        /* RFID*/
-    RFID_StepperOrchestrator, RFID_Step2, RFID_Step3,
-    RFID_tpl_step1, RFID_tpl_step2,
+		/* RFID*/
+	RFID_StepperOrchestrator, RFID_Step2, RFID_Step3,
+	RFID_tpl_step1, RFID_tpl_step2,
 
-        /*GSM*/
-    GSM_StepperOrchestrator, GSM_Step2, 
-    GSM_tpl_step2,
-    Swal
+		/*GSM*/
+	GSM_StepperOrchestrator, GSM_Step2, 
+	GSM_tpl_step2,
+
+		/*GSM*/
+	Argos_StepperOrchestrator, Argos_Step2, 
+	Argos_tpl_step2,
+	Swal
 
 
-    ) {
+	) {
 
-    'use strict';
+	'use strict';
 
-    return Marionette.LayoutView.extend({
-        /*===================================================
-        =            Layout Stepper Orchestrator            =
-        ===================================================*/
-        className:'container full-height',
-        template: tpl_step1,
-        regions: {
-            stepperRegion : '#stepper',
-        },
+	return Marionette.LayoutView.extend({
+		/*===================================================
+		=            Layout Stepper Orchestrator            =
+		===================================================*/
+		className:'full-height',
+		template: tpl_step1,
+		regions: {
+			stepperRegion : '#stepper',
+		},
 
-        events: {
-            'click #radio-tile': 'checkRadio',
-            'click #nextStepper': 'nextStepper',
-            'click .closeStepper' : 'closeStepper'
-        },
+		events: {
+			'click #radio-tile': 'checkRadio',
+			'click #nextStepper': 'nextStepper',
+			'click .closeStepper' : 'closeStepper'
+		},
 
-        initialize : function(options){
-            if (options.type) {
-                this.type = options.type;
-                console.log(this.type)
-            }
-            else
-                this.type = 'gpx';
-            this.model = new Backbone.Model(); 
-        },
-        init_GSM_stepper : function() {
-            
+		initialize : function(options){
+			if (options.type) {
+				this.type = options.type;
+			}
+			else
+				this.type = 'gpx';
+			this.model = new Backbone.Model(); 
+		},
 
-            var SecondStep = new GSM_Step2({
-                model: this.model,
-                name: 'Data',
-                tpl: GSM_tpl_step2
-            });
+		init_Argos_stepper : function() {
+			
 
-            this.GSM_steps=[];           
-            this.GSM_steps[0]= SecondStep;
-            this.GSM_stepper = new GSM_StepperOrchestrator({
-                model: this.model,
-                steps: this.GSM_steps
-            });
+			var SecondStep = new Argos_Step2({
+				model: this.model,
+				name: 'Data',
+				tpl: Argos_tpl_step2
+			});
 
-        },
+			this.Argos_steps=[];
+			this.Argos_steps[0]= SecondStep;
+			this.Argos_stepper = new Argos_StepperOrchestrator({
+				model: this.model,
+				steps: this.Argos_steps
+			});
 
-        init_RFID_stepper : function() {
-        
+		},
 
-            var SecondStep = new RFID_Step2({
-                model: this.model,
-                name: "RFID-decoder",
-                tpl: RFID_tpl_step1
-            });
+		init_GSM_stepper : function() {
+			
 
-            var ThirdStep = new RFID_Step3({
-                model: this.model,
-                name: 'Data',
-                tpl: RFID_tpl_step2
-            });
+			var SecondStep = new GSM_Step2({
+				model: this.model,
+				name: 'Data',
+				tpl: GSM_tpl_step2
+			});
 
-            this.RFID_steps=[];           
-            this.RFID_steps[0]= SecondStep;
-            this.RFID_steps[1]= ThirdStep;
+			this.GSM_steps=[];           
+			this.GSM_steps[0]= SecondStep;
+			this.GSM_stepper = new GSM_StepperOrchestrator({
+				model: this.model,
+				steps: this.GSM_steps
+			});
 
-            this.RFID_stepper = new RFID_StepperOrchestrator({
-                model: this.model,
-                steps: this.RFID_steps
-            });
+		},
 
-            
-        },
 
-        init_GPX_stepper : function() {
+
+		init_RFID_stepper : function() {
+		
+
+			var SecondStep = new RFID_Step2({
+				model: this.model,
+				name: "RFID-decoder",
+				tpl: RFID_tpl_step1
+			});
+
+			var ThirdStep = new RFID_Step3({
+				model: this.model,
+				name: 'Data',
+				tpl: RFID_tpl_step2
+			});
+
+			this.RFID_steps=[];           
+			this.RFID_steps[0]= SecondStep;
+			this.RFID_steps[1]= ThirdStep;
+
+			this.RFID_stepper = new RFID_StepperOrchestrator({
+				model: this.model,
+				steps: this.RFID_steps
+			});
+
+			
+		},
+
+		init_GPX_stepper : function() {
    
 
-            var SecondStep = new GPX_Step2({
-                model: this.model,
-                name: 'Data',
-                tpl: GPX_tpl_step2
-            });
+			var SecondStep = new GPX_Step2({
+				model: this.model,
+				name: 'Data',
+				tpl: GPX_tpl_step2
+			});
 
-            var ThirdStep = new GPX_Step3({
-                model: this.model,
-                name: 'Detail',
-                tpl: GPX_tpl_step3
-            });
+			var ThirdStep = new GPX_Step3({
+				model: this.model,
+				name: 'Detail',
+				tpl: GPX_tpl_step3
+			});
 
-            var FourthStep = new GPX_Step4({
-                model: this.model,
-                name: 'Metadata',
-                tpl: GPX_tpl_step4
-            });
+			var FourthStep = new GPX_Step4({
+				model: this.model,
+				name: 'Metadata',
+				tpl: GPX_tpl_step4
+			});
 
-            this.GPX_steps=[];           
-            this.GPX_steps[0]= SecondStep;
-            
-            this.GPX_steps[1]= ThirdStep;
-            this.GPX_steps[2]= FourthStep;
+			this.GPX_steps=[];           
+			this.GPX_steps[0]= SecondStep;
+			
+			this.GPX_steps[1]= ThirdStep;
+			this.GPX_steps[2]= FourthStep;
 
-            this.GPX_stepper = new GPX_StepperOrchestrator({
-                model: this.model,
-                steps: this.GPX_steps
-            });
+			this.GPX_stepper = new GPX_StepperOrchestrator({
+				model: this.model,
+				steps: this.GPX_steps
+			});
 
-        },
+		},
 
-        onShow : function (){
-            $('body').addClass('home-page full-height');
-            $('#stepper-header span').html('Import');
-            $('#main-region').addClass('full-height obscur');
-         },
-        onDestroy : function () {
+		onShow : function (){
+			$('body').addClass('home-page full-height');
+			$('#stepper-header span').html('Import');
+			$('#main-region').addClass('full-height obscur');
+		 },
+		onDestroy : function () {
 
-            $('#main-region').removeClass('obscur');
-        },
+			$('#main-region').removeClass('obscur');
+		},
 
-        onRender : function(){
-        },
+		onRender : function(){
+		},
 
-        checkRadio : function(e) {
+		checkRadio : function(e) {
 
-            this.$el.find('input').each(function(){
-                $(this).prop('checked', false).removeAttr('checked');
-         
-            });
-            var tile = $(e.currentTarget);
-            var radio = tile.find('input');
-            radio.prop('checked',true).attr('checked','checked');
-            this.type = radio.val();
+			this.$el.find('input').each(function(){
+				$(this).prop('checked', false).removeAttr('checked');
+		 
+			});
+			var tile = $(e.currentTarget);
+			var radio = tile.find('input');
+			radio.prop('checked',true).attr('checked','checked');
+			this.type = radio.val();
 
-            if (radio.val() == 'gpx')  
-                $('#info-GPX').show();
-            else 
-                $('#info-GPX').hide(); 
-        },
+			if (radio.val() == 'gpx')  
+				$('#info-GPX').show();
+			else 
+				$('#info-GPX').hide(); 
+		},
 
-        nextStepper : function(){
+		nextStepper : function(){
 
-            switch(this.type) {
-                case 'gpx':
-                    this.init_GPX_stepper();
-                    this.stepperRegion.show( this.GPX_stepper );
-                    break;
-                case 'rfid':
-                    this.init_RFID_stepper();
-                    
-                    this.stepperRegion.show( this.RFID_stepper );
-                    break;
-                case 'gsm':
-                    this.init_GSM_stepper();
-                    this.stepperRegion.show( this.GSM_stepper );
-                
-                    break;
-            };
+			switch(this.type) {
+				case 'gpx':
+					this.init_GPX_stepper();
+					this.stepperRegion.show( this.GPX_stepper );
+					break;
+				case 'rfid':
+					this.init_RFID_stepper();
+					
+					this.stepperRegion.show( this.RFID_stepper );
+					break;
+				case 'gsm':
+					this.init_GSM_stepper();
+					this.stepperRegion.show( this.GSM_stepper );
+					break;
+				case 'argos':
+					this.init_Argos_stepper();
+					this.stepperRegion.show( this.Argos_stepper );
+				
+					break;
+			};
 
-               
-        },
-        closeStepper : function(){
-            Swal({
-              title: "Are you sure to exit?",
-              text: "",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Yes",
-              cancelButtonText: "No, cancel !",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm){
-               if (isConfirm) {
-                 Radio.channel('route').command('home');  
-               } 
-            });
-        }
-        
-    });
+			   
+		},
+		closeStepper : function(){
+			Swal({
+			  title: "Are you sure to exit?",
+			  text: "",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "Yes",
+			  cancelButtonText: "No, cancel !",
+			  closeOnConfirm: true,
+			  closeOnCancel: true
+			},
+			function(isConfirm){
+			   if (isConfirm) {
+				 Radio.channel('route').command('home');  
+			   } 
+			});
+		}
+		
+	});
 });

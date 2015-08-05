@@ -48,11 +48,7 @@ define([
                 orderSeparator: ' ',
             });
 
-            this.map = new Map({
-                com: this.com,
-                collection: collection
-            });
-            this.mapRegion.show(this.map);
+            
             Radio.channel('import').command('initGrid');
 
             this.grid = new Grid({
@@ -61,10 +57,17 @@ define([
             });
             this.gridRegion.show(this.grid);
 
+            this.map = new Map({
+                com: this.com,
+                collection: collection
+            });
+            this.mapRegion.show(this.map);
+            
             this.filtersList={
                 name : "String",
                 latitude: "Number",
-                waypointTime: "DATETIME",
+                longitude : "Number",
+                datetime: "DATETIME",
 
             };
             this.filters = new NSFilter({

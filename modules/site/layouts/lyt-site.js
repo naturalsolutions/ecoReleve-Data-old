@@ -99,7 +99,6 @@ define([
             today.setSeconds(59);
             filters.push({"Column":"end_date","Operator":"<","Value": today});
 
-            console.log(filters);
 
             this.grid.update(filters);
             this.mapView.update(filters);
@@ -112,13 +111,11 @@ define([
 
 
         add: function(){
-            console.log('add');
             this.radio.command('site:add');
         },
         deploy: function(){
-            console.log('deploy');
 
-            this.radio.command('site:deploy');
+            this.radio.command('site:deploy',{back_module:'site'});
         },
 
         detail: function(evt) {

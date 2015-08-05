@@ -1,0 +1,549 @@
+@font-face {
+	font-family: 'reneco-font';
+	src:url('fonts/reneco-font.eot?cgixpk');
+	src:url('fonts/reneco-font.eot?#iefixcgixpk') format('embedded-opentype'),
+		url('fonts/reneco-font.woff?cgixpk') format('woff'),
+		url('fonts/reneco-font.ttf?cgixpk') format('truetype'),
+		url('fonts/reneco-font.svg?cgixpk#reneco-font') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="reneco"], [class*=" reneco"] {
+	font-family: 'reneco-font';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.reneco.ring:before {
+	content: "\e64e";
+}
+
+.reneco.marker:before {
+	content: "\e64f";
+}
+
+.reneco.user:before {
+	content: "\e651";
+}
+
+.reneco.users:before {
+	content: "\e652";
+}
+
+.reneco.distance:before {
+	content: "\e653";
+}
+
+.reneco.time:before {
+	content: "\e655";
+}
+
+.reneco.bird:before {
+	content: "\e656";
+}
+
+.reneco.settings:before {
+	content: "\e657";
+}
+
+.reneco.import1:before {
+	content: "\e658";
+}
+
+.reneco.validate:before {
+	content: "\e659";
+}
+
+.reneco.syncing:before {
+	content: "\e65a";
+}
+
+.reneco.leftarrow:before {
+	content: "\e65b";
+}
+
+.reneco.rightarrow:before {
+	content: "\e65c";
+}
+
+.reneco.add:before {
+	content: "\e65d";
+}
+
+.reneco.close:before {
+	content: "\e65e";
+}
+
+.reneco.checked:before {
+	content: "\e62a";
+}
+
+.reneco.search:before {
+	content: "\e65f";
+}
+
+.reneco.search2:before {
+	content: "\e61e";
+}
+
+.reneco.drag_thin:before {
+	content: "\e62b";
+}
+
+.reneco.favorite:before {
+	content: "\e660";
+}
+
+.reneco.timewhite:before {
+	content: "\e661";
+}
+
+.reneco.timeblack:before {
+	content: "\e662";
+}
+
+.reneco.pin:before {
+	content: "\e663";
+}
+
+.reneco.rewind:before {
+	content: "\e664";
+}
+
+.reneco.play:before {
+	content: "\e665";
+}
+
+.reneco.forward:before {
+	content: "\e666";
+}
+
+.reneco.file:before {
+	content: "\e62c";
+}
+
+.reneco.folder:before {
+	content: "\e62d";
+}
+
+.reneco.cloud:before {
+	content: "\e62e";
+}
+
+.reneco.edit:before {
+	content: "\e669";
+}
+
+.reneco.emitters:before {
+	content: "\e667";
+}
+
+.reneco.report:before {
+	content: "\e67c";
+}
+
+.reneco.sheet:before {
+	content: "\e66a";
+}
+
+.reneco.sheet2:before {
+	content: "\e66b";
+}
+
+.reneco.pin2:before {
+	content: "\e66c";
+}
+
+.reneco.female:before {
+	content: "\e66d";
+}
+
+.reneco.male:before {
+	content: "\e650";
+}
+
+.reneco.id:before {
+	content: "\e66e";
+}
+
+.reneco.graph:before {
+	content: "\e673";
+}
+
+.reneco.menu:before {
+	content: "\e674";
+}
+
+.reneco.elevage:before {
+	content: "\e675";
+}
+
+.reneco.free:before {
+	content: "\e676";
+}
+
+.reneco.observation:before {
+	content: "\e677";
+}
+
+.reneco.layers:before {
+	content: "\e64d";
+}
+
+.reneco.selectarea:before {
+	content: "\e678";
+}
+
+.reneco.fit:before {
+	content: "\e67d";
+}
+
+.reneco.drag:before {
+	content: "\e679";
+}
+
+.reneco.calendar:before {
+	content: "\e67a";
+}
+
+.reneco.satellite:before {
+	content: "\e67b";
+}
+
+.reneco.bird2:before {
+	content: "\e67e";
+}
+
+.reneco.child:before {
+	content: "\e67f";
+}
+
+.reneco.adult:before {
+	content: "\e680";
+}
+
+.reneco.trash:before {
+	content: "\e681";
+}
+
+.reneco.export2:before {
+	content: "\e686";
+}
+
+.reneco.import2:before {
+	content: "\e687";
+}
+
+.reneco.importsensor2:before {
+	content: "\e689";
+}
+
+.reneco.mydata:before {
+	content: "\e688";
+}
+
+.reneco.importsensor:before {
+	content: "\e68a";
+}
+
+.reneco.exportsensor:before {
+	content: "\e68b";
+}
+
+.reneco.map:before {
+	content: "\e68c";
+}
+
+.reneco.ecollectionbig:before {
+	content: "\e68d";
+}
+
+.reneco.releve:before {
+	content: "\e68e";
+}
+
+.reneco.trackbird:before {
+	content: "\e68f";
+}
+
+.reneco.security:before {
+	content: "\e690";
+}
+
+.reneco.formbuilder:before {
+	content: "\e637";
+}
+
+.reneco.thesaurus:before {
+	content: "\e691";
+}
+
+.reneco.worldbig:before {
+	content: "\e692";
+}
+
+.reneco.worldsmall:before {
+	content: "\e693";
+}
+
+.reneco.ecorelevesmall:before {
+	content: "\e694";
+}
+
+.reneco.tracksmall:before {
+	content: "\e695";
+}
+
+.reneco.thesaurussmall:before {
+	content: "\e696";
+}
+
+.reneco.formbuildersmall:before {
+	content: "\e638";
+}
+
+.reneco.ecollectionsmall:before {
+	content: "\e607";
+}
+
+.reneco.securitysmall:before {
+	content: "\e697";
+}
+
+.reneco.site:before {
+	content: "\e698";
+}
+
+.reneco.comment:before {
+	content: "\e699";
+}
+
+.reneco.observers:before {
+	content: "\e69b";
+}
+
+.reneco.protocol:before {
+	content: "\e602";
+}
+
+.reneco.individualsmall:before {
+	content: "\e61f";
+}
+
+.reneco.stations:before {
+	content: "\e670";
+}
+
+.reneco.sites:before {
+	content: "\e671";
+}
+
+.reneco.sensors:before {
+	content: "\e62f";
+}
+
+.reneco.pendingsamples:before {
+	content: "\e605";
+}
+
+.reneco.samples:before {
+	content: "\e606";
+}
+
+.reneco.individuals:before {
+	content: "\e630";
+}
+
+.reneco.entrykey:before {
+	content: "\e632";
+}
+
+.reneco.entry:before {
+	content: "\e631";
+}
+
+.reneco.export:before {
+	content: "\e633";
+}
+
+.reneco.import:before {
+	content: "\e634";
+}
+
+.reneco.mydata:before {
+	content: "\e635";
+}
+
+.reneco.sensorimport:before {
+	content: "\e636";
+}
+
+.reneco.write:before {
+	content: "\e64b";
+}
+
+.reneco.validatebig:before {
+	content: "\e69c";
+}
+
+.reneco.info:before {
+	content: "\e69d";
+}
+
+.reneco.back:before {
+	content: "\e69e";
+}
+
+.reneco.exportsmall:before {
+	content: "\e600";
+}
+
+.reneco.view:before {
+	content: "\e601";
+}
+
+.reneco.drag2:before {
+	content: "\e603";
+}
+
+.reneco.duplicate:before {
+	content: "\e604";
+}
+
+.reneco.csv_format:before {
+	content: "\e60c";
+}
+
+.reneco.gsm_format:before {
+	content: "\e609";
+}
+
+.reneco.rfid_format:before {
+	content: "\e608";
+}
+
+.reneco.gpx_format:before {
+	content: "\e60a";
+}
+
+.reneco.pdf_format:before {
+	content: "\e60b";
+}
+
+.reneco.sexage:before {
+	content: "\e60d";
+}
+
+.reneco.give_sell:before {
+	content: "\e60e";
+}
+
+.reneco.falco:before {
+	content: "\e60f";
+}
+
+.reneco.ornemental:before {
+	content: "\e610";
+}
+
+.reneco.hunt:before {
+	content: "\e611";
+}
+
+.reneco.cynegetic:before {
+	content: "\e612";
+}
+
+.reneco.rehab:before {
+	content: "\e613";
+}
+
+.reneco.centralised:before {
+	content: "\e614";
+}
+
+.reneco.lost:before {
+	content: "\e615";
+}
+
+.reneco.released:before {
+	content: "\e616";
+}
+
+.reneco.to_release:before {
+	content: "\e617";
+}
+
+.reneco.surplus:before {
+	content: "\e618";
+}
+
+.reneco.captivity:before {
+	content: "\e619";
+}
+
+.reneco.half-natural:before {
+	content: "\e61a";
+}
+
+.reneco.retired:before {
+	content: "\e61b";
+}
+
+.reneco.egg:before {
+	content: "\e61c";
+}
+
+.reneco.non_inseminated:before {
+	content: "\e61d";
+}
+
+.reneco.broken:before {
+	content: "\e620";
+}
+
+.reneco.clear_early:before {
+	content: "\e621";
+}
+
+.reneco.mid:before {
+	content: "\e622";
+}
+
+.reneco.late:before {
+	content: "\e623";
+}
+
+.reneco.dead:before {
+	content: "\e624";
+}
+
+.reneco.juvenile:before {
+	content: "\e625";
+}
+
+.reneco.adulte:before {
+	content: "\e626";
+}
+
+.reneco.bustard:before {
+	content: "\e627";
+}
+
+.reneco.falcon:before {
+	content: "\e628";
+}
+
+.reneco.unknown:before {
+	content: "\e629";
+}
+

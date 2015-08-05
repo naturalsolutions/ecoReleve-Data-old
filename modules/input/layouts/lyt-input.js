@@ -90,8 +90,6 @@ define([
             $('#stepper-header span').html('Manual entry');
             
             $('#stepper').append('<div id="indivFilter" class="stepper-modal"></div>');
-            $('#stepper').parent().addClass('step-grid');
-            $('.step-grid').css('width','98%');
         },
         filterIndivShow : function(e){
             $(e.target).parent().parent().parent().find('input').addClass('target');

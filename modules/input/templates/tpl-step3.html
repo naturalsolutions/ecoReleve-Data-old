@@ -1,71 +1,69 @@
  <div>
-	<div id="stContainer"  class="col-xs-3 col-sm-3 col-md-3 col-border full-height" style="overflow: auto; padding-bottom: 3%"> 
-    </div>
-    <div class="col-xs-9 col-md-9 no-padding full-height" style="overflow: auto; padding-bottom: 3%">
-    	<div class="wrapper">
-            <div class="col-xs-4">
-                <h3 id="inputPrLabel">Protocols</h3>                              
-            </div>
-            <div class="col-xs-7">
-                <div id="add-proto">
-                    <select  class="add-protocol form-control" name="add-protocol" placeholder="add a protocol">
-                        <option></option>
-                    </select>
+	<div id="stContainer"  class="scroll-auto col-xs-12 col-md-3 col-border full-height"> 
+	</div>
+	<div class="col-xs-12 col-md-9 full-height no-padding">
 
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <br>
-                <a><i class="icon-action icon mini reneco add"></i></a>
-            </div>
-            <div class="clear"></div>
-            <div class="protocol-container full-height">
-            	<!--<ul class="nav nav-tabs" id="tabProtsUl" name="tabProtsUl">
-            	</ul>
-                <div id="tabProtsUl" name="tabProtsUl"></div>
-                -->
-                <div id="protosListContainer" class="protocols">
-                    <div id="proto_name" class="swiper-container">
-                        <div class="arrow-left" >
-                            <a id="proto_name-left"  class="glyphicon pointer glyphicon-chevron-left left"></a>
-                        </div> 
-                        <div  class="arrow-right" >
-                            <a id="proto_name-right" class="glyphicon pointer glyphicon-chevron-right right" ></a>
-                        </div>
-                        <div class="swiper-wrapper" id="tabProtsUl" name="tabProtsUl">
-                        </div>
-                        <!--<div class="pagination-protocols"></div>-->
-                    </div>
-                </div>
-                
 
-                <!--<div id="formsIdList">
-                    <ul class="nav nav-tabs"></ul>
-                </div>-->
-                <div id="idProtosContainer" class="protocols">
-                    
-                    <div id="proto_id" class="swiper-container">
-                        <!--<div class="arrow-left" >
-                            <a id="proto_name-left"  class="glyphicon pointer glyphicon-chevron-left left"></a>
+	<div class="clearfix swiper">
+		<div class="swiper-header">
 
-                        </div> 
-                        <div  class="arrow-right" >
-                            <a id="proto_name-right" class="glyphicon pointer glyphicon-chevron-right right" ></a>
-                        </div>-->
-                        <div class="swiper-wrapper" id="formsIdList">
 
-                        </div>
-                        <!--<div class="pagination"></div>-->
-                    </div>
-                </div>
-				<div class="tab-content" id="tabProtsContent">
-					<div class="tab-pane active" id="formsContainer"></div>
-					<div id="formButtons"></div>
+			<div class="col-xs-12 addProto clearfix">
+				<div class="pull-right">
+					<div id="add-proto" class="pull-left">
+						<select  class="add-protocol form-control col-xs-11" name="add-protocol" placeholder="add a protocol">
+							<option></option>
+						</select>
+					</div>
+					<button id="addInstance" type="submit" class="small btn btn-labeled btn-success pull-left add">
+						add
+						<span class="btn-label">
+							 <i class="icon reneco add "></i>
+						</span>
+					 </button>
 				</div>
-            </div>
-        </div>
-    </div>
-    <div class='masqued'>
-        <select id='usersList'></select>
-    </div>
+
+			</div>
+			<div class="clear"></div>
+			<br>
+			<div id="formsIdList" class="col-xs-12"></div>
+
+		</div>
+
+
+
+
+
+		<div class="arrow arrow-left" >
+			<a id="proto_name-left"  class="glyphicon pointer glyphicon-chevron-left left"></a>
+		</div> 
+		<div id="protosListContainer" class="swiper-container">
+			<div class="swiper-wrapper" id="tabProtsUl" name="tabProtsUl">
+			</div>
+		</div>
+		<div  class="arrow arrow-right" >
+			<a id="proto_name-right" class="glyphicon pointer glyphicon-chevron-right right" ></a>
+		</div>
+	</div>
+
+
+
+	<div class="clear"></div>
+
+
+	<div class="tab-content" id="tabProtsContent">
+		<div class="tab-pane active" id="formsContainer"></div>
+		<div id="formButtons"></div>
+	</div>
+
+
+
+
+
+
+		</div>
+	</div>
+	<div class='masqued'>
+		<select id='usersList'></select>
+	</div>
 </div>

@@ -56,12 +56,9 @@ define([
         	    type:'POST',
         	    context: this,
         	}).done(function(data){
-        		console.log(data);
         		this.displayGrid(data);
-
-
         	}).fail(function(msg){
-        		console.log(msg);
+        		console.error(msg);
         	});
         },
 

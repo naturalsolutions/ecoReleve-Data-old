@@ -18,16 +18,16 @@ define([
 
     return Marionette.ItemView.extend({
         template: template,
-        className: 'full-height',
+        className: 'full-height col-xs-12',
         events :{
             'click tbody > tr': 'detail',
             'dblclick tbody > tr' : 'navigate'
         },
-
         initialize: function(options) {
+            console.log(' global model :' );
+            console.log(this.model);
             this.radio = Radio.channel('input');
             this.radio.comply('updateStationsGrid', this.update, this);
-
             var Stations = PageableCollection.extend({
                 sortCriteria: {'PK':'desc'},
                 url: config.coreUrl + 'search/station',
@@ -93,7 +93,8 @@ define([
                 cell: Backgrid.IntegerCell.extend({
                   orderSeparator: ''
                 }),
-                headerCell: myHeaderCell
+                headerCell: myHeaderCell,
+                renderable: false
             }, {
                 name: 'Name',
                 label: 'Name',
@@ -130,16 +131,28 @@ define([
                 editable: false,
                 cell: 'string',
                 headerCell: myHeaderCell
-            }];
+            },{
+                name: 'FieldWorker2',
+                label: 'field worker 2',
+                editable: false,
+                cell: 'string',
+                headerCell: myHeaderCell
+            }
+
+            ];
             // Initialize a new Grid instance
             this.grid = new Backgrid.Grid({
                 columns: columns,
                 collection: stations,
             });
             var that=this;
-            stations.searchCriteria = {};
+            var searchCriteria ={};
+            var oldStations = this.model.get('oldStations');
+            if(oldStations){searchCriteria = oldStations.searchCriteria || {}; }
+            stations.searchCriteria = searchCriteria;
             stations.fetch( {reset: true,   success : function(resp){ 
                         that.$el.find('#stations-count').html(stations.state.totalRecords+' stations');
+                        that.model.set('oldStations', that.grid.collection);
                         }
             } );
 
@@ -156,13 +169,12 @@ define([
             this.grid.collection.state.currentPage = 1;
             this.grid.collection.fetch({reset: true, success:function(){
                that.$el.find('#stations-count').html(that.grid.collection.state.totalRecords+' stations');
+               that.model.set('oldStations' , that.grid.collection);
             }
             });
+            
         },
         onShow: function() { 
-            this.$el.parent().addClass('no-padding');
-            $('#main-panel').css({'padding-top': '0'});
-            this.$el.addClass('grid');
             $('#stationsGridContainer').append(this.grid.render().el);
             this.$el.append(this.paginator.render().el);
         },

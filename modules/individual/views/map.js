@@ -71,10 +71,9 @@ define([
         	    url: config.coreUrl + '/individuals/stations?id=' +id,
         	    context: this,
         	}).done(function( data ) {
-        	    console.log(data);
         	    this.initMap(data);
         	}).fail(function( msg ) {
-        	    console.log(msg);
+        	    console.error(msg);
         	});
         },
 
@@ -86,7 +85,7 @@ define([
         	    this.map.updateLayers(data);
         	    
         	}).fail(function( msg ) {
-        	    console.log(msg);
+        	    console.error(msg);
         	});
         	
         },

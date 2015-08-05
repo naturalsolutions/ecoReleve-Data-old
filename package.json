@@ -1,0 +1,26 @@
+{
+	"name": "ecoReleve-Data",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"dependencies": {
+		"grunt": "^0.4.5",
+		"grunt-amd-check": "^0.5.2",
+		"grunt-contrib-less": "^1.0.0",
+		"grunt-contrib-watch": "^0.6.1"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/NaturalSolutions/ecoReleve-Data.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/NaturalSolutions/ecoReleve-Data/issues"
+	},
+	"homepage": "https://github.com/NaturalSolutions/ecoReleve-Data"
+}

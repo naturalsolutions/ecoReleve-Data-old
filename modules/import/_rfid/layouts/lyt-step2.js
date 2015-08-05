@@ -56,7 +56,6 @@ define([
         
         },
         importFile: function(event) {
-            console.log('importFile')
          /*   event.stopPropagation();
             event.preventDefault();*/
             this.clear();
@@ -69,7 +68,6 @@ define([
                 var file = $('#input-file').get(0).files[0] || null;
                 var url = config.coreUrl + 'rfid/import';
                 var data = new FormData();
-                console.log($(this.ui.modInput));
                 var self = this;
 
                 reader.onprogress = function(data) {
@@ -82,9 +80,7 @@ define([
 
                 reader.onload = function(e, fileName) {
                     data.append('data', e.target.result);
-                    console.log(self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
                     data.append('module', self.model.get(self.parent.steps[self.parent.currentStep-1].name+'_RFID_identifer'));
-                    console.log(data)
                     $.ajax({
                         type: 'POST',
                         url: url,
@@ -95,28 +91,55 @@ define([
                         $('#btnNext').removeAttr('disabled');
                          
                         self.ui.progressBar.css({'background-color':'green'})
+                        swal(
+                            {
+                              title: "Succes",
+                              text: data,
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: 'green',
+                              confirmButtonText: "Import new RFID",
+                              cancelButtonText: "Go to Validate",
+                              closeOnConfirm: true,
+                             
+                            },
+                            function(isConfirm){
+                                self.ui.progress.hide();
+                                if (isConfirm) {
+                                    Radio.channel('route').command('import:rfid',{});
+                                }
+                                else {
+                                    Radio.channel('route').command('validate:type','rfid');
+                                }
+                            }
+                        );
                         
-                        Radio.channel('rfid').command('showValidate',{});
 
 
                     }).fail( function(data) {
                         
-                        console.log(data)
+                        console.error(data);
                         $('#btnNext').attr('disabled');
                         if (data.status == 500 || data.status == 510  ) {
                             var type = 'warning';
+                            var title = "Warning !"
                             self.ui.progressBar.css({'background-color':'rgb(218, 146, 15)'})
                             var color = 'rgb(218, 146, 15)';
                         }
                         else {
                             var type = 'error';
+                            var title = "Error !"
                             self.ui.progressBar.css({'background-color':'rgb(147, 14, 14)'})
                             var color = 'rgb(147, 14, 14)';
+                            
 
+                         }
+                         if (data.responseText.length > 100) {
+                         	data.responseText = 'An error occured, please contact an admninstrator';
                          }
                         swal(
                             {
-                              title: "Warning ",
+                              title: title,
                               text: data.responseText,
                               type: type,
                               showCancelButton: false,

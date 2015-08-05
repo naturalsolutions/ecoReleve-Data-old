@@ -3,63 +3,77 @@
 ===================================*/
 
 html{
-    height: 100%;
+	height: 100%;
 }
 
 body{
 	font-family: 'Exo 2', 'sans-serif';
-    height:100%;
+	height:100%;
 }
 
 h1,h2,h3,h4{
 	font-weight: 200;
 }
 a:hover, tr:hover, li:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 
 ::-webkit-scrollbar-thumb {
-    background: #bbb;
-    width: 10px;
-    border: 1px solid #999;
-    margin: 5px;
+	background: #bbb;
+	width: 10px;
+	border: 1px solid #999;
+	margin: 5px;
 }
 ::-webkit-scrollbar{
-    background: #eee;
-    width: 10px;
-    height: 10px;
-    margin: 5px;
-    cursor: pointer;
+	background: #eee;
+	width: 10px;
+	height: 10px;
+	margin: 5px;
+	cursor: pointer;
 }
 
+
+.pull-left{
+	float: left;
+}
+
+
+.list-group-item{
+	&.selected{
+		border: 1px solid @vert1;
+		z-index: 100;
+		background: @vert1;
+		color: white;
+	}
+}
 
 /*==============================================
 =            Full height Section               =
 ==============================================*/
 
 @media screen and (min-width: @screen-sm) {
-    .full-height{
-        position: relative;
-        height: 100%;
-        &.auto{
-            overflow: auto;
-        }
-        &.scroll-auto{
-            overflow: auto;
-        }
-        .container,.container-fluid{
-            height: 100%;
-        }
-    }
-    .scroll-auto{
-                overflow: auto;
-            }
+	.full-height{
+		position: relative;
+		height: 100%;
+		&.auto{
+			overflow: auto;
+		}
+		&.scroll-auto{
+			overflow: auto;
+		}
+		.container,.container-fluid{
+			height: 100%;
+		}
+	}
+	.scroll-auto{
+				overflow: auto;
+			}
 }
 
 
 .overflow-auto{
-    overflow: auto;
+	overflow: auto;
 }
 
 /*-----  End of Full Height Section ------*/
@@ -70,16 +84,16 @@ a:hover, tr:hover, li:hover {
 ===================================*/
 
 .dark{
-    background: #2d2d30;
+	background: #2d2d30;
 
-    color: white;
-    input, select, option{
-        color: black;
-    }
-    button{
-        color: white;
-        margin: 5px;
-    }
+	color: white;
+	input, select, option{
+		color: black;
+	}
+	button{
+		color: white;
+		margin: 5px;
+	}
 }
 
 
@@ -90,10 +104,10 @@ a:hover, tr:hover, li:hover {
 ===============================*/
 
 #main-region{
-    padding-top: 50px;
+	padding-top: 50px;
 }
 .container{
-    padding: 50px 0px;
+	padding: 50px 0px;
 }
 
 /*-----  End of Commons  ------*/
@@ -106,34 +120,34 @@ a:hover, tr:hover, li:hover {
 
 
 .glyphicon{
-    top: 0px;
-    &.pointer{
-        cursor: pointer;
-    }
+	top: 0px;
+	&.pointer{
+		cursor: pointer;
+	}
 }
 
 i.icon.reneco{
-    line-height: inherit!important;
-    &.huge{
-        font-size: 5em;
-    }
-    &.small{
-        font-size: 2.5em;
-    }
-    &.mini{
-        font-size: 1.8em;
-    }
-    &.circle{
-        font-size: 2.5em;
-        border-radius: 100%;
-        border: 5px solid white;
-        padding: 10px;
-        cursor: pointer;
-    }
+	line-height: inherit!important;
+	&.huge{
+		font-size: 5em;
+	}
+	&.small{
+		font-size: 2.5em;
+	}
+	&.mini{
+		font-size: 1.8em;
+	}
+	&.circle{
+		font-size: 2.5em;
+		border-radius: 100%;
+		border: 5px solid white;
+		padding: 10px;
+		cursor: pointer;
+	}
 }
 
 .align-center{
-    vertical-align: middle;
+	vertical-align: middle;
 
 }
 /*-----  End of Icon Fonts  ------*/
@@ -144,11 +158,11 @@ i.icon.reneco{
 =============================*/
 
 .no-padding {
-    padding: 0;
+	padding: 0;
 }
 .clear{
-    clear: both;
-    float: none;
+	clear: both;
+	float: none;
 }
 
 
@@ -169,85 +183,85 @@ i.icon.reneco{
 
 /* Individual search */
 .panel-heading.top-level {
-    background-color:rgb(34, 34, 34);
-    color: white;
+	background-color:rgb(34, 34, 34);
+	color: white;
 }
 
 .panel-heading.top-level > h1 > a,span {
-    font-size: 1.5rem;
-    font-weight: 400;
-    cursor: pointer;
+	font-size: 1.5rem;
+	font-weight: 400;
+	cursor: pointer;
 }
 h2.panel-title {
-    font-weight: 400;
+	font-weight: 400;
 }
 
 
 .glyphicon-remove {
-    float: right;
+	float: right;
 }
 
 #indivSavedSearch {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 #indivSavedSearch li {
-    padding-right: 5%;
+	padding-right: 5%;
 }
 
 
 .indiv-search-label span, .indiv-search-icon span {
-    display: inline-block;
+	display: inline-block;
 }
 
 .indiv-search-label span {
-    width: 80%;
+	width: 80%;
 }
 
 .indiv-search-icon span {
-    width: 20%;
-    padding-right: 5%;
+	width: 20%;
+	padding-right: 5%;
 }
 
 .blackFont {
-    color : black;
+	color : black;
 }
 
 
 .wrapper-menu{
-    border-radius: 4px;
-    // box-shadow: 5px -5px 10px 0px rgba(0, 0, 0, 0.25);
-    // background-color: #f9f9f9;
-    text-align: center;
-    .vertical-center-content{
-        display: inline-block;
-        vertical-align: middle;
-        width: 99%!important;
-    }
-    .vertical-center-fix{
-        height: 100%;
-        width: 0px!important;
-        visibility: hidden;
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .wrapper-tile{
-        display: inline-block!important;
-        margin: 0px 5px;
-        cursor: pointer;
-        line-height: 1.5;
-        width: 150px;
-        height: 150px;
-        //background: rgba(0, 0, 0, 0.7);
-        border-radius: 3px;
-        color: white;
-        overflow: hidden;
-        &:hover{
-            transition: .3s background;
-            //background: rgba(0,0,0,0.9);
-        }
-        .inner{
-            //padding: 10px;
-        }
-    }
+	border-radius: 4px;
+	// box-shadow: 5px -5px 10px 0px rgba(0, 0, 0, 0.25);
+	// background-color: #f9f9f9;
+	text-align: center;
+	.vertical-center-content{
+		display: inline-block;
+		vertical-align: middle;
+		width: 99%!important;
+	}
+	.vertical-center-fix{
+		height: 100%;
+		width: 0px!important;
+		visibility: hidden;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.wrapper-tile{
+		display: inline-block!important;
+		margin: 0px 5px;
+		cursor: pointer;
+		line-height: 1.5;
+		width: 150px;
+		height: 150px;
+		//background: rgba(0, 0, 0, 0.7);
+		border-radius: 3px;
+		color: white;
+		overflow: hidden;
+		&:hover{
+			transition: .3s background;
+			//background: rgba(0,0,0,0.9);
+		}
+		.inner{
+			//padding: 10px;
+		}
+	}
 }

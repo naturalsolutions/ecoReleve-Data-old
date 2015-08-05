@@ -1,4 +1,4 @@
-﻿/*
+/*
 *   Plugin autocompTree 1.0
 *   Permet l'affichage d'un autocomplete de donnée organisée en arbre
 *   Dépendance :
@@ -226,8 +226,11 @@
                                 match = $me.val();
 
                             if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
-                                resetResearch(id);
-                                return;
+                                fancytree.clearFilter();
+                        		treeHtml.fancytree("getRootNode").visit(function (node) {
+                            	node.setExpanded(false);
+                        		});
+                        		return;
                             }
                             n = fancytree.filterNodes(match, false);
                             while (treeHtml.find('.fancytree-submatch:not(.fancytree-expanded)').find('.fancytree-expander').length) {
