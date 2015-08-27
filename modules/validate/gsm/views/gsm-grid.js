@@ -325,6 +325,11 @@ define([
 			this.selectedFrequency = $(e.target).val();
 			this.perhour();
 		},
+
+		date_round : function (date, duration) { 
+			return moment(Math.floor((+date)/(+duration)) * (+duration)); 
+		},
+
 		perhour: function() {
 			this.interaction('resetAll');
 			var self=this;
@@ -333,13 +338,28 @@ define([
 				var col0=this.origin.at(0);
 				var date=new moment(col0.get('date'));
 
+				var groups = this.origin.groupBy(function(model){
+					var curr = new moment(model.get('date'));
+
+					return self.date_round(curr,moment.duration(curFrequency, 'minutes'));
+				});
+				console.log(groups)
 				var ids =[];
 				var i =0;
-				this.origin.each(function (model,i) {
+
+				for (var rangeDate in groups) {
+					var curLength = groups[rangeDate].length;
+					var firstModel = groups[rangeDate][curLength-1];
+					ids.push(firstModel.id);
+				}
+
+				/*this.origin.each(function (model,i) {
 					i++;
 					var currentDate=new moment(model.get('date'));
 					var diff=(date-currentDate)/(1000*60*self.selectedFrequency);
+					//console.log(diff)
 					if (i==0) diff=2;
+
 					if (!self.grid.collection.get(model.id)) {
 						if(diff>1) {
 							date=currentDate;
@@ -353,7 +373,7 @@ define([
 						}
 					}
 				});
-
+*/
 				this.interaction('selectionMultiple', ids);
 
 				} else {
@@ -515,21 +535,20 @@ define([
 						title: "Success",
 						text: data,
 						type: 'success',
-						//showCancelButton: true,
-						confirmButtonColor: 'green',
-						confirmButtonText: "Next individual",
-						timer: 2000,
+						showConfirmButton: false,
+						timer: 3000,
 						//cancelButtonColor: 'grey',
 						//cancelButtonText: "Return to Validate",
 						closeOnConfirm: true,
 						//closeOnCancel: true,
 						},
 						function(isConfirm) {
-							if(isConfirm){
+
 								self.parent.changeTransmitter();
 								navigated = true;
+								console.log('on confirm  nav')
 
-							}
+							
 							/*else {
 								Backbone.history.history.back();
 							}*/
@@ -538,7 +557,17 @@ define([
 					);
 					// auto navigation to next individual
 					if(! navigated){
-						self.parent.changeTransmitter();
+						setTimeout(function(){
+							try {
+								self.parent.changeTransmitter();
+							}catch(e){
+								console.log('navigated')
+								//Backbone.history.navigate( 'validate/'+self.type);
+								Radio.channel('route').command('validate:type', self.type);
+							}
+
+						},3000);
+
 					}
 
 
