@@ -48,9 +48,14 @@ define([
 
 			this.datas = new Data();
 			this.datas.on('remove',function(){
-				if (this.length == 0) {
-					self.allValidatedData();
-					}
+				console.log('REMOVR')
+				console.log(self.datas.length)
+
+				if (self.datas.length == 0) {
+					console.log('length 000000')
+					Radio.channel('route').command('validate:type', self.type);
+
+				}
 			});
 			var ModelRow = Backgrid.Row.extend({
 			  render: function() {
@@ -126,7 +131,12 @@ define([
 						closeOnConfirm: true,
 						},
 						function(isConfirm) {
-							ctx.deleteRow(e);
+							try {
+								ctx.deleteRow(e);
+							}catch(e){
+							Radio.channel('route').command('validate:type', ctx.type);
+
+							}
 						}
 					);
 					return false;
@@ -207,13 +217,15 @@ define([
 						closeOnConfirm: false,
 						},
 						function(isConfirm) {
-							self.datas.fetch({reset: true,
+							/*self.datas.fetch({reset: true,
 								success : function(data){
 									if (data.length == 0) {
 										self.allValidatedData();
 									}
 								}
-							});
+							});*/
+						Radio.channel('route').command('validate:type', self.type);
+
 
 						}
 					);
@@ -303,7 +315,6 @@ define([
 					self.updateSimpleFrequency();
 					if (data.length == 0) {
 						self.allValidatedData();
-						
 					}
 				}});
 		},
@@ -366,9 +377,10 @@ define([
 		},
 
 		allValidatedData : function() {
+			console.log('in allValidatedData');
 			new Swal({
 				title: "Info",
-				text: "All data are validated",
+				text: "No data to validate",
 				type: 'info',
 				showCancelButton: true,
 				confirmButtonColor: 'green',
