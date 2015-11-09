@@ -119,6 +119,7 @@ define([
 
 
 
+						var totalReturned = new Backbone.Collection();
 
 						myDropzone.on('addedfile', function(file) {
 							// Hookup the start button
@@ -146,30 +147,34 @@ define([
 						});
 
 						this.errors=false;
-						myDropzone.on('error', function(file){
+						myDropzone.on('error', function(file,response){
 								this.errors=true;
 								$(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-danger');
 
 						});
 
-						myDropzone.on('success', function(file) {
+						myDropzone.on('success', function(file,response) {
 								$(file.previewElement).find('.progress-bar').removeClass('progress-bar-infos').addClass('progress-bar-success');
+								var resp = response;
+								totalReturned.add(resp);
 						});
 
 						myDropzone.on('queuecomplete', function(file) {
 
-
+							var totalInserted = totalReturned.reduce(function(memo, value) { return memo + value.get("inserted") }, 0);
+							var totalExisting = totalReturned.reduce(function(memo, value) { return memo + value.get("existing") }, 0);
 								if(!this.errors){
+									console.log(file)
 										Swal(
 												{
 													title: "Well done",
-													text: 'File(s) have been correctly imported',
+													text: 'File(s) have been correctly imported\n' + '\t inserted : ' + totalInserted + '\n\t existing : ' + totalExisting,
 													type: 'success',
 													showCancelButton: false,
 													confirmButtonText: "OK",
 													closeOnConfirm: true,
 												}
-										);    
+										);
 								}else{
 										Swal(
 												{
@@ -186,7 +191,6 @@ define([
 								this.errors=false;
 								
 						});
-
 
 						// Setup the buttons for all transfers
 						// The 'add files' button doesn't need to be setup because the config
