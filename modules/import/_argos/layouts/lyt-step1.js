@@ -163,12 +163,17 @@ define([
 
 							var totalInserted = totalReturned.reduce(function(memo, value) { return memo + value.get("inserted") }, 0);
 							var totalExisting = totalReturned.reduce(function(memo, value) { return memo + value.get("existing") }, 0);
+							var totalInsertedEng = totalReturned.reduce(function(memo, value) { return memo + value.get("inserted Engineering") }, 0);
+							var totalExistingEng = totalReturned.reduce(function(memo, value) { return memo + value.get("existing Engineering") }, 0);
 								if(!this.errors){
 									console.log(file)
 										Swal(
 												{
 													title: "Well done",
-													text: 'File(s) have been correctly imported\n' + '\t inserted : ' + totalInserted + '\n\t existing : ' + totalExisting,
+													text: 'File(s) have been correctly imported\n' 
+													+ '\t inserted : ' + totalInserted + '\n\t existing : ' + totalExisting
+													+ '\t inserted engineering: ' + totalInsertedEng + '\n\t existing engineering: ' + totalExistingEng
+													,
 													type: 'success',
 													showCancelButton: false,
 													confirmButtonText: "OK",
