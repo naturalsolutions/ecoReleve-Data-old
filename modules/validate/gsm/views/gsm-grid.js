@@ -353,27 +353,6 @@ define([
 					ids.push(firstModel.id);
 				}
 
-				/*this.origin.each(function (model,i) {
-					i++;
-					var currentDate=new moment(model.get('date'));
-					var diff=(date-currentDate)/(1000*60*self.selectedFrequency);
-					//console.log(diff)
-					if (i==0) diff=2;
-
-					if (!self.grid.collection.get(model.id)) {
-						if(diff>1) {
-							date=currentDate;
-							ids.push(model.id);
-						}
-					}
-					else {
-						if(diff>1) {
-							date=currentDate;
-							ids.push(model.id);
-						}
-					}
-				});
-*/
 				this.interaction('selectionMultiple', ids);
 
 				} else {
